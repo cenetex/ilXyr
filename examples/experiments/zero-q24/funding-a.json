@@ -1,0 +1,11 @@
+{
+  "schema": "ilxyr.funding.v1",
+  "id": "zero.q24.funding.replay-program.v1",
+  "experiment_id": "zero.q24.seed2.cumulative-guard.v1",
+  "funder": {
+    "id": "service://ilxyr/zero-replay-program",
+    "kind": "service"
+  },
+  "compute_credits": 100,
+  "rationale": "Fund the direct test of the cumulative replay authority boundary."
+}

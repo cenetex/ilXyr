@@ -1,0 +1,19 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q24.foundation.v1",
+  "stage": "mathematical_foundation",
+  "actor": {
+    "id": "model://zero/q24/replay-analyst",
+    "kind": "model",
+    "model_ref": "model://zero/q24/composite-baseline-analysis/v1"
+  },
+  "title": "Immutable six-slice cumulative replay functional",
+  "body": "Let b be the arithmetic mean of the six fixed replay-window losses under immutable ZERO.3 and c(theta') the same mean after a candidate update. The authoritative drift is (c(theta') - b) / b. Q2.4 commits exactly when this quantity is finite and no greater than 0.015. The 0.005 reserve to the public 0.02 ceiling covers mismatch between one fixed window per source and the balanced multi-batch public evaluator.",
+  "input_refs": ["zero.q24.hypothesis.v1"],
+  "claims": [
+    "The baseline cannot move as candidates commit or roll back.",
+    "Every replay source participates in every commit decision.",
+    "The threshold is frozen before the diagnostic run and cannot be tuned from its outcome."
+  ],
+  "confidence": 0.93
+}

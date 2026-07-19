@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q24.hypothesis.v1",
+  "stage": "hypothesis",
+  "actor": {
+    "id": "model://zero/q24/research-director",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5.6-sol/2026-07-19"
+  },
+  "title": "Cumulative direct replay authority can close Q2.3's control gap",
+  "body": "A transactional AdamW guard that compares every candidate with an immutable ZERO.3 baseline over all six replay slices can reject cumulative forgetting before the frozen public replay ceiling is exceeded, while preserving a path to the existing quantity gates.",
+  "input_refs": ["zero.q23.seed2.local-guard.no-go.v1"],
+  "claims": [
+    "Q2.3 rejected no candidates because its local one-step delta did not measure cumulative drift.",
+    "An immutable composite baseline is a direct authority signal rather than a first-order proxy."
+  ],
+  "confidence": 0.34
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "zero.q24.forecast.mechanistic.v1",
+  "experiment_id": "zero.q24.seed2.cumulative-guard.v1",
+  "forecaster": {
+    "id": "model://zero/q24/forecaster-mechanistic",
+    "kind": "model",
+    "model_ref": "model://zero/q24/forecast-mechanistic/v1"
+  },
+  "probabilities": {
+    "go": 0.28,
+    "no_go": 0.7,
+    "execution_failure": 0.02
+  },
+  "stake": 10,
+  "rationale": "The guard directly addresses the observed failure mode, but Q2.3 reached the quantity threshold only after cumulative replay had already crossed the public ceiling, so rejection may stop learning too early."
+}

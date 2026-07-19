@@ -1,0 +1,17 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "zero.q24.forecast.empirical.v1",
+  "experiment_id": "zero.q24.seed2.cumulative-guard.v1",
+  "forecaster": {
+    "id": "model://zero/q24/forecaster-empirical",
+    "kind": "model",
+    "model_ref": "model://zero/q24/forecast-q23-trace/v1"
+  },
+  "probabilities": {
+    "go": 0.14,
+    "no_go": 0.83,
+    "execution_failure": 0.03
+  },
+  "stake": 10,
+  "rationale": "A reconstruction of the Q2.3 trace crosses a 1.5% composite proxy near attempt 70, well before the update-200 quantity pass. Candidate selection may improve the path, but the frozen evidence favors no-go."
+}
