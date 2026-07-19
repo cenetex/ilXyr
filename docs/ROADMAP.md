@@ -45,9 +45,13 @@ into a promoted claim.
 - Upstream evidence settled on 2026-07-19: the Solomon replay commit is remote-advertised, Zero
   seeds 1 and 3 are published on `main`, and the aggregate is a family no-go. The failed seeds did
   not touch their disjoint promotion sets; ZERO.3 remains promoted.
-- Next research gate: preregister a new Zero follow-up that addresses the observed faculty/replay
-  conflict. Independently, extract the real q22r shared contract with frozen data hashes and add a
-  Solomon-compatible encoding and verifier; neither task licenses promotion of the failed result.
+- EXP-001 grounds the completed Zero Q2.3 seed-2 local-guard diagnostic. The observer mechanics
+  passed, but the guard accepted all 200 attempts and cumulative replay reached 2.685%; promotion
+  and replication seeds remained sealed.
+- Next research gate: preregister a cumulative direct functional replay budget that addresses the
+  observed accumulation of individually sub-threshold changes. Independently, extract the real
+  q22r shared contract with frozen data hashes and add a Solomon-compatible encoding and verifier;
+  neither task licenses promotion of a failed result.
 - Per-project pipelines remain source harnesses; `ilxyr verify` can replace their evidence ledger
   only after each frozen replay has been registered.
 

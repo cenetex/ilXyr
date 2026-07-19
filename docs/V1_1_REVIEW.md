@@ -1,11 +1,11 @@
 # V1.1 family-onboarding review
 
-- Review date: 2026-07-18; empirical audit updated 2026-07-19
+- Review date: 2026-07-18; empirical audit updated 2026-07-19 after EXP-001
 - Scope: shared-task contracts, retro-registration, Zero and Solomon local harness adapters,
   and the policy-bounded loop-cycle driver
 - Verdict: protocol implementation accepted; the available frozen family evidence is registered.
   Solomon is remotely checkoutable for authorized users but not public, and Zero's completed
-  three-seed result is a grounded family no-go.
+  Q2.2-R family and Q2.3 diagnostic results are grounded no-go evidence.
 
 ## Implemented
 
@@ -84,6 +84,28 @@ The aggregate registration records `completed_seeds=3`, `go_seeds=1`, `no_go_see
 `family_promotion_eligible=0`, and `failed_seed_promotion_evaluations=0`. It produced four
 content-addressed objects across five hash-linked events; `ilxyr verify` passed. This grounds the
 negative family decision, not a ZERO.4 promotion. ZERO.3 remains current.
+
+### EXP-001 — Zero Q2.3 seed 2
+
+The next Zero experiment was preregistered upstream as a transactional AdamW diagnostic with a
+local direct functional replay guard. Its observer stage passed exact learned-state equivalence
+over 200 attempts and calibrated a 0.25% hard band. The first-order drift predictor was
+non-predictive (Pearson 0.0076), so projection remained disabled.
+
+The guarded run at public merge commit `0ab274c577074eaa7d519dc3fda20d8a86acfc63`
+accepted all 200 attempts. Five exceeded the 0.1641% warning band, none exceeded the hard band,
+and the maximum local increase was 0.2013%. Update 200 passed quantity at the frozen 95% minimum
+but replay regressed 2.685%, so the run stopped no-go after its second consecutive full replay
+violation. Promotion and seeds 1 and 3 remained sealed.
+
+`scripts/harness-zero-q23.mjs` verifies the clean commit and eleven source hashes, replays the
+upstream checker against both complete attempt logs, recomputes the decision counts and guard-band
+statistics, proves the observer and guard transaction traces match, and confirms the two full
+evaluations and terminal no-go. The ilXyr registration is deterministic retro evidence with full
+declared seed-2 coverage and no synthetic forecast risk. A fresh full `retro --execute` run
+produced four content-addressed objects across five hash-linked events and passed `ilxyr verify`.
+The experiment guide is
+[`docs/experiments/EXP-001.md`](experiments/EXP-001.md).
 
 ### First q22r shared task
 

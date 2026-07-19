@@ -1,0 +1,68 @@
+{
+  "schema": "ilxyr.retro_registration_spec.v1",
+  "id": "zero.q23.seed2.local-guard.no-go.v1",
+  "claim": "ZERO.4 Q2.3 seed 2 completed under its frozen local functional replay guard: quantity reached the declared threshold, the guard rejected no attempts, cumulative public replay regression reached 2.685%, and the diagnostic was a no-go without promotion or replication-seed access.",
+  "family": "zero",
+  "source": {
+    "repository": "https://github.com/atimics/zero-grounded-literary-lm.git",
+    "commit": "0ab274c577074eaa7d519dc3fda20d8a86acfc63",
+    "artifacts": [
+      { "path": "benchmarks/zero4-q23-v1/contract.json", "sha256": "85121e552c3012be24b51b28b007acc1a52a70ef48dd1b76a40a74f93e54d9dd" },
+      { "path": "benchmarks/zero4-q23-v1/observer-seed2/result.json", "sha256": "25ff0c243e6a1cee9e2ebab565f444dc5818508e1d662658a6fddd47d59edee3" },
+      { "path": "benchmarks/zero4-q23-v1/observer-seed2/optimizer-attempts.jsonl", "sha256": "7a2b06b06ca46c3ecf0b0df57be3d47dce96088a2160742240177b806c232aad" },
+      { "path": "benchmarks/zero4-q23-v1/observer-seed2/events.jsonl", "sha256": "9fbefc50a77afcf596ccc387aa0498a0ab65d155ca4be5599997efffc5d3dfdd" },
+      { "path": "benchmarks/zero4-q23-v1/seed2/RESULTS.md", "sha256": "7486262fd4ee12cc1e2f5d03d1c227e185d98c741e3b5abe5af4050aa1637fa8" },
+      { "path": "benchmarks/zero4-q23-v1/seed2/manifest.json", "sha256": "0a517bd404224c5b3ff586497c9bc5541c895a60d1e3776651e98f52be6cde60" },
+      { "path": "benchmarks/zero4-q23-v1/seed2/selection.json", "sha256": "1b826720bb452e012a9c5b18d8dfba2168e636d18d5266c28b65e321b6b6f552" },
+      { "path": "benchmarks/zero4-q23-v1/seed2/optimizer-attempts.jsonl", "sha256": "a2f4b368e9a674e5b568cc5b68a290f6e34f3825cc7a97d8cc24c7fe5d2e0b70" },
+      { "path": "benchmarks/zero4-q23-v1/seed2/events.jsonl", "sha256": "7a295efb5e248266c3d2fff539f6a027d4149e3ff1fac384041df30fc8b13c89" },
+      { "path": "scripts/check_zero4_q23.mjs", "sha256": "b6b4f8ca4fb4e2374fd3606bff53f9ebe0236b0df568105275dabfe6c96318e2" },
+      { "path": "scripts/train_zero4_q23.mjs", "sha256": "7083a3d64a1192e070c0e62412731bde0da0071b520b7c22dae8efcdafc64d73" }
+    ]
+  },
+  "metrics": [
+    { "name": "observer_mechanics_passed", "unit": "boolean", "description": "Observer mechanics gate encoded as 0 or 1" },
+    { "name": "observer_learned_state_equivalent", "unit": "boolean", "description": "Observer and unguarded learned state were byte-identical, encoded as 0 or 1" },
+    { "name": "first_order_predictive_pearson", "unit": "correlation", "description": "Pearson correlation between first-order drift and realized sentinel replay change" },
+    { "name": "guard_attempts", "unit": "count", "description": "Transactional optimizer attempts" },
+    { "name": "guard_commits", "unit": "count", "description": "Committed transactional optimizer attempts" },
+    { "name": "guard_rejections", "unit": "count", "description": "Rejected transactional optimizer attempts" },
+    { "name": "guard_warning_exceedances", "unit": "count", "description": "Attempts exceeding the observer-calibrated warning band" },
+    { "name": "guard_hard_exceedances", "unit": "count", "description": "Attempts exceeding the frozen hard band" },
+    { "name": "guard_budget", "unit": "ratio", "description": "Frozen per-attempt hard relative replay-probe budget" },
+    { "name": "max_local_replay_probe_increase", "unit": "ratio", "description": "Largest relative local functional replay-probe increase" },
+    { "name": "observer_guard_trace_match", "unit": "boolean", "description": "Observer and guard diagnostics matched for every accepted attempt, encoded as 0 or 1" },
+    { "name": "quantity_operation_rate", "unit": "ratio", "description": "Final public quantity operation rate" },
+    { "name": "quantity_exact_artifact_rate", "unit": "ratio", "description": "Final public exact-artifact rate" },
+    { "name": "public_replay_relative_regression", "unit": "ratio", "description": "Final public replay regression relative to the frozen baseline" },
+    { "name": "seed_passed", "unit": "boolean", "description": "Joint public seed decision encoded as 0 or 1" },
+    { "name": "promotion_evaluations", "unit": "count", "description": "Disjoint promotion evaluations performed" },
+    { "name": "replication_seeds_opened", "unit": "count", "description": "Sealed replication seeds opened after the diagnostic" }
+  ],
+  "seeds": [2],
+  "replay": {
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-zero-q23.mjs",
+      "--repo", "/workspace/zero-grounded-literary-lm",
+      "--repository", "https://github.com/atimics/zero-grounded-literary-lm.git",
+      "--commit", "0ab274c577074eaa7d519dc3fda20d8a86acfc63",
+      "--git", "/usr/bin/git",
+      "--node", "/usr/local/bin/node"
+    ],
+    "timeout_seconds": 300,
+    "network": "open"
+  },
+  "authority": {
+    "level": "deterministic_replay",
+    "scope": {
+      "seeds": [2],
+      "eval_set": "dataset://zero/q23/seed2/public-plus-transaction-trace/v1",
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [],
+      "checker": "checker://ilxyr/zero-q23/v1"
+    }
+  }
+}

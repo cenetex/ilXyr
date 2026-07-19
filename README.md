@@ -10,6 +10,8 @@ methodology, and security gates pass, and records the result in a tamper-evident
 ledger. The research program it serves — the Zero and Solomon model families and the
 certified-gate method — is defined in [docs/PROGRAM.md](docs/PROGRAM.md).
 
+**Experiment guide:** [cenetex.github.io/ilXyr](https://cenetex.github.io/ilXyr/)
+
 This repository is a local V1 vertical slice. It proves the research lifecycle and its autonomous
 policy boundary provider-neutral, before any service or cloud binding.
 
@@ -41,7 +43,7 @@ policy boundary provider-neutral, before any service or cloud binding.
   historical forecast risk.
 - Runs an idempotent propose → forecast → allocate → run → settle cycle inside signed policy.
 - Provides clean-commit metric adapters for Zero q22r seed and multi-seed decisions and the
-  Solomon successor-v2 harness.
+  Solomon successor-v2 harness, plus the Q2.3 transactional-guard diagnostic.
 
 Protected weights are handles, never local paths. The v1 local executor cannot run protected
 weight experiments; those require a future attested executor adapter.
@@ -123,6 +125,8 @@ started without producing a terminal run. `authorize` reports the same decision 
 - `docs/ROADMAP.md`: sequenced milestones from protocol proof through federation.
 - `docs/V1_REVIEW.md`: V1 acceptance review, revisions, and residual limitations.
 - `docs/V1_1_REVIEW.md`: family onboarding implementation review and empirical replay status.
+- `docs/experiments/EXP-001.md`: the first numbered experiment record, including its frozen
+  question, no-go result, replay contract, and next decision boundary.
 - `docs/decisions/`: architectural decision records (ADR 0001–0004).
 
 ## Current non-goals and evidence gaps
@@ -136,6 +140,8 @@ successor-v2 commit is advertised on a remote branch and replays from a fresh ch
 NSRL repository is private, so unauthenticated public checkout is still unavailable. Zero q22r
 seed 2 replays independently from a public hash-pinned model; seeds 1 and 3 have now completed as
 valid no-go results. The grounded family decision is one go and two no-go, so ZERO.4 is not
-promoted and ZERO.3 remains current. The real cross-family q22r contract also remains blocked on
-shared data bindings and a Solomon encoding/verifier. See `docs/V1_1_REVIEW.md` for the exact
-audit.
+promoted and ZERO.3 remains current. EXP-001 now grounds the subsequent Q2.3 seed-2 local-guard
+no-go: 200 accepts, zero rejections, quantity at threshold, and 2.685% replay regression. This is
+retro evidence, not a forecast-risked ilXyr run. The real cross-family q22r contract also remains
+blocked on shared data bindings and a Solomon encoding/verifier. See `docs/V1_1_REVIEW.md` for the
+exact audit.
