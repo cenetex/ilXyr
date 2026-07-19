@@ -28,22 +28,26 @@ in `docs/V1_REVIEW.md`; later phases must preserve these lifecycle and replay in
 
 ## V1.1 — family onboarding and the continuous loop (protocol implemented)
 
-The implementation review is in `docs/V1_1_REVIEW.md`. Protocol mechanics are complete; the
-upstream evidence audit exposed publication gaps rather than silently converting reports into
-grounded claims.
+The implementation review is in `docs/V1_1_REVIEW.md`. Protocol mechanics are complete, and the
+available frozen family results have now been settled without converting a failed family decision
+into a promoted claim.
 
 - Implemented immutable retro-registration with deterministic replay, a dedicated evidence lane,
   explicit `grounded`/`forecast_risked` semantics, and fail-closed terminal runs.
 - Implemented shared task contracts for SHA-256 data/eval bindings, metric and seed contracts,
   family encodings/verifiers, and one designated proposer per family.
 - Implemented Zero q22r and Solomon successor-v2 `local-command` metric adapters. Solomon replayed
-  successfully from a clean local commit; Zero seed 2 now replays from a public, hash-pinned model
-  artifact and registers grounded evidence without claiming three-seed promotion.
+  successfully from a clean remote checkout for authorized NSRL access. Zero seed 2 replays from a
+  public, hash-pinned model artifact, and the completed three-seed aggregate independently registers
+  the grounded one-go/two-no-go family decision.
 - Implemented the idempotent library/CLI cycle: propose → forecast → allocate → run → settle,
   unattended only inside an existing signed epoch budget.
-- Pending upstream evidence: publish the Solomon replay commit, run and publish Zero seeds 1/3,
-  then register the real q22r shared contract with frozen data hashes and a Solomon-compatible
-  encoding and verifier.
+- Upstream evidence settled on 2026-07-19: the Solomon replay commit is remote-advertised, Zero
+  seeds 1 and 3 are published on `main`, and the aggregate is a family no-go. The failed seeds did
+  not touch their disjoint promotion sets; ZERO.3 remains promoted.
+- Next research gate: preregister a new Zero follow-up that addresses the observed faculty/replay
+  conflict. Independently, extract the real q22r shared contract with frozen data hashes and add a
+  Solomon-compatible encoding and verifier; neither task licenses promotion of the failed result.
 - Per-project pipelines remain source harnesses; `ilxyr verify` can replace their evidence ledger
   only after each frozen replay has been registered.
 
@@ -56,7 +60,8 @@ grounded claims.
   computational equivalence as distinct declared targets.
 - Promoted-spine replication requirement (provenance-disjoint independence) and the
   reserved replication budget share; spine claims must be stated on shared task contracts.
-- The Zero→Solomon replication bridge as the first cross-family experiment.
+- The Zero→Solomon replication bridge as the first cross-family experiment, after a Zero family
+  result clears its preregistered multi-seed gate.
 - Forecast closing windows and proper-scoring credit accounting for live experiments.
 - Demotion challenge windows for contradicted promoted claims (deferred sketch in
   ADR 0004).

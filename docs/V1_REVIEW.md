@@ -92,10 +92,11 @@ system, or multi-writer service.
   referenced artifacts and the certificate predicate against recorded evidence, but it does not
   execute arbitrary checkers, authenticate issuers, or produce remote attestations.
 - V1.1 subsequently implemented the loop-cycle driver, family harness adapters,
-  retro-registration, and shared-task contracts. Zero/q22r seed 2 is now grounded from a public,
-  hash-pinned model artifact; family promotion remains blocked on seeds 1 and 3. Replication/spine
-  settlement and the evidence graph remain later work. The replication-contract schema is a
-  decided input contract, not an implemented workflow.
+  retro-registration, and shared-task contracts. Zero/q22r seed 2 is grounded from a public,
+  hash-pinned model artifact; seeds 1 and 3 subsequently completed as no-go results, grounding a
+  one-go/two-no-go family decision rather than promotion. Replication/spine settlement and the
+  evidence graph remain later work. The replication-contract schema is a decided input contract,
+  not an implemented workflow.
 
 ## Verification commands
 
