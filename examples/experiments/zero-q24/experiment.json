@@ -67,7 +67,8 @@
       "--commit", "b7b9d118374eb966821b8e77666926b128f2f36b",
       "--git", "/usr/bin/git",
       "--make", "/usr/bin/make",
-      "--node", "/usr/local/bin/node"
+      "--node", "/usr/local/bin/node",
+      "--harness-sha256", "007329a7fab1e870ddccf9fb1b996657f2538df110dcd79fea8162442a8c46ce"
     ],
     "timeout_seconds": 7200,
     "max_cost_credits": 200,

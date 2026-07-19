@@ -4,8 +4,11 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
 const options = parseArgs(process.argv.slice(2));
+const harnessPath = fs.realpathSync(fileURLToPath(import.meta.url));
+assert(sha256(harnessPath) === options.harnessSha256, "Q2.4 harness digest drifted");
 verifyCleanRepository(options.repo, options.commit, options.git);
 
 const contract = path.join(options.repo, "benchmarks", "zero4-q24-v1", "contract.json");
@@ -19,11 +22,12 @@ for (const file of [contract, checker, path.join(options.repo, "scripts", "train
 }
 if (fs.existsSync(resultPath)) throw new Error("Q2.4 seed-2 result already exists; refusing duplicate execution");
 
+const executionPath = [path.dirname(options.node), "/usr/local/bin", "/usr/bin", "/bin"].join(":");
 const run = spawnSync(options.make, ["zero4-q24-train", "ZERO4_Q24_SEED=2"], {
   cwd: options.repo,
   encoding: "utf8",
   maxBuffer: 64 * 1024 * 1024,
-  env: { PATH: "/usr/local/bin:/usr/bin:/bin" },
+  env: { PATH: executionPath },
 });
 if (run.stdout) process.stderr.write(run.stdout);
 if (run.stderr) process.stderr.write(run.stderr);
@@ -109,8 +113,8 @@ function parseArgs(argv) {
     if (!argv[index]?.startsWith("--") || argv[index + 1] === undefined) throw new Error(`invalid argument ${argv[index] ?? "<missing>"}`);
     values.set(argv[index].slice(2), argv[index + 1]);
   }
-  for (const key of ["repo", "repository", "commit", "git", "make", "node"]) if (!values.has(key)) throw new Error(`--${key} is required`);
-  return { repo: fs.realpathSync(path.resolve(values.get("repo"))), repository: values.get("repository"), commit: values.get("commit"), git: values.get("git"), make: values.get("make"), node: values.get("node") };
+  for (const key of ["repo", "repository", "commit", "git", "make", "node", "harness-sha256"]) if (!values.has(key)) throw new Error(`--${key} is required`);
+  return { repo: fs.realpathSync(path.resolve(values.get("repo"))), repository: values.get("repository"), commit: values.get("commit"), git: values.get("git"), make: values.get("make"), node: values.get("node"), harnessSha256: values.get("harness-sha256") };
 }
 
 function assert(condition, message) { if (!condition) throw new Error(message); }
