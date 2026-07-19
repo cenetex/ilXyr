@@ -1,0 +1,62 @@
+{
+  "schema": "ilxyr.experiment_evidence_summary.v1",
+  "experiment_id": "zero.q24.seed2.cumulative-guard.v1",
+  "resolved_outcome": "no_go",
+  "registration": {
+    "repository": "https://github.com/cenetex/ilXyr.git",
+    "commit": "ce89615bf704eaa962fe18301b8a42fc1f08bbf1",
+    "harness_sha256": "007329a7fab1e870ddccf9fb1b996657f2538df110dcd79fea8162442a8c46ce",
+    "compiled_ref": "artifact://sha256/254d9a1f07d14366912b3326d41300c7bfa21a62740d3ed2d97f12ad5a3e3030"
+  },
+  "source": {
+    "repository": "https://github.com/atimics/zero-grounded-literary-lm.git",
+    "execution_commit": "b7b9d118374eb966821b8e77666926b128f2f36b",
+    "result_commit": "3813c2cbd1f02af9ea29e3a0da5183f76e146540",
+    "artifacts": [
+      { "path": "benchmarks/zero4-q24-v1/contract.json", "sha256": "d070c30b7b44dc7f6cee6e37eee2dfb4ce6e53fca2c6537856c78dd9ad355c08" },
+      { "path": "benchmarks/zero4-q24-v1/seed2/RESULTS.md", "sha256": "91c8e904065ad8f2c070061112439e4163e0da69c773bbb8a8309a690ebe7cbe" },
+      { "path": "benchmarks/zero4-q24-v1/seed2/result.json", "sha256": "00cc6cf8bd3c16bd17e75f7961464cd4f31373f762b73304bb6bf42cdd4bfc8f" },
+      { "path": "benchmarks/zero4-q24-v1/seed2/optimizer-attempts.jsonl", "sha256": "9a184e2806f548f6fb873b13f59170a937a4b9f37ab04eec174fa68f7afa5548" },
+      { "path": "benchmarks/zero4-q24-v1/seed2/events.jsonl", "sha256": "ff6e3bedeeb6b22a1154cd47c121df79b55a20fc80781e0796d05caab1cde025" },
+      { "path": "scripts/check_zero4_q24.mjs", "sha256": "0f7f720b7bfa982eb6cd192f51e8f760e8f4ae17842262a60210f271c48baf21" },
+      { "path": "scripts/train_zero4_q24.mjs", "sha256": "567107a2ac99bfa892cf5d0af107eaf42cec92d2b955f32da2e5cd708ff0c89f" }
+    ]
+  },
+  "pre_training_failure": {
+    "started_at": "2026-07-19T21:11:22.047Z",
+    "completed_at": "2026-07-19T21:11:22.178Z",
+    "resolved_outcome": "execution_failure",
+    "run_ref": "artifact://sha256/65d87c2b3a7d40273004591e04e15c795f81a3e4d271738ff41c3a268a9860b8",
+    "cause": "The macOS sandbox denied Clang temporary-file creation before training began.",
+    "optimizer_attempts": 0,
+    "ledger_verification": { "objects_checked": 16, "events_checked": 17, "valid": true }
+  },
+  "scientific_run": {
+    "started_at": "2026-07-19T21:12:04.807Z",
+    "completed_at": "2026-07-19T21:14:27.054Z",
+    "resolved_outcome": "no_go",
+    "run_ref": "artifact://sha256/963ef601c9093fe2ab11f4594fe7084c73ff7671152e49fc355bcd21ef62ed15",
+    "metrics": {
+      "seed_passed": 0,
+      "optimizer_attempts": 74,
+      "committed_updates": 66,
+      "rejected_candidates": 8,
+      "warning_exceedances": 14,
+      "hard_exceedances": 8,
+      "max_cumulative_replay_increase": 0.015463133728703652,
+      "public_checkpoint_count": 0,
+      "jointly_feasible_checkpoint_count": 0,
+      "promotion_evaluations": 0,
+      "replication_seeds_opened": 0
+    },
+    "ledger_verification": { "objects_checked": 16, "events_checked": 17, "valid": true }
+  },
+  "forecast_settlements": [
+    { "forecast_id": "zero.q24.forecast.mechanistic.v1", "resolved_outcome": "no_go", "stake": 10, "brier_score": 0.16880000000000003 },
+    { "forecast_id": "zero.q24.forecast.empirical.v1", "resolved_outcome": "no_go", "stake": 10, "brier_score": 0.04940000000000001 }
+  ],
+  "sealed": {
+    "promotion": true,
+    "replication_seeds": [1, 3]
+  }
+}

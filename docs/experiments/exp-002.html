@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="EXP-002: preregistered ZERO.4 Q2.4 cumulative replay guard.">
+  <meta name="description" content="EXP-002: ZERO.4 Q2.4 cumulative replay guard no-go result.">
   <title>EXP-002 — Q2.4 cumulative replay guard</title>
   <link rel="stylesheet" href="../styles.css">
 </head>
@@ -21,10 +21,10 @@
 
   <main class="shell">
     <div class="hero">
-      <div class="eyebrow">EXP-002 · preregistered 2026-07-19</div>
+      <div class="eyebrow">EXP-002 · completed 2026-07-19</div>
       <h1>Budget the trajectory.</h1>
-      <p class="lede">Every candidate now answers to the same immutable six-source replay baseline. Seed 2 has forecasts and funding, but has not run.</p>
-      <p><span class="tag">Preregistered</span></p>
+      <p class="lede">The cumulative guard held its boundary, then closed the learning path: 66 commits, eight consecutive rollbacks, no public checkpoint.</p>
+      <p><span class="tag no-go">No-go</span></p>
     </div>
 
     <section>
@@ -47,7 +47,7 @@
 
     <section>
       <div class="panel">
-        <h2>Prospective forecasts</h2>
+        <h2>Forecasts frozen before the run</h2>
         <table class="metrics">
           <thead><tr><th>Forecaster</th><th>Go / no-go / failure</th></tr></thead>
           <tbody>
@@ -55,7 +55,17 @@
             <tr><td>Q2.3 trace model</td><td>14% / 83% / 3%</td></tr>
           </tbody>
         </table>
-        <p>The control mechanism is direct, but Q2.3 needed about 200 commits to reach its quantity threshold. A 1.5% guard may bind first.</p>
+        <p>The predicted binding risk materialized. Both forecasts settled to no-go: Brier 0.1688 for the mechanistic model and 0.0494 for the Q2.3 trace model.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="eyebrow">Result</div>
+      <h2>The boundary held. Progress stopped.</h2>
+      <div class="grid">
+        <article class="card"><h3>74 attempts</h3><p>66 candidates committed; attempts 67–74 exceeded 1.5% and rolled back.</p></article>
+        <article class="card"><h3>1.5463% max</h3><p>The largest accepted increase was 1.4253%; the largest rejected candidate was 1.5463%.</p></article>
+        <article class="card"><h3>0 public reads</h3><p>No public checkpoint, promotion evaluation, or replication seed was opened.</p></article>
       </div>
     </section>
 
@@ -69,13 +79,14 @@
 
     <section>
       <div class="panel">
-        <div class="eyebrow">Current state</div>
-        <h2>Admitted in dry validation. Not executed.</h2>
-        <p>The promoted-lane package passes methodology, forecast, funding, security, and role-separation gates. The live harness verifies its own frozen SHA-256 and the clean merged Zero implementation before execution. No result has been sampled.</p>
+        <div class="eyebrow">Evidence</div>
+        <h2>Settled and independently checkable.</h2>
+        <p>The live ledger passes all admission gates and verifies 16 objects across 17 hash-linked events. An initial sandbox compile failure is preserved separately; it occurred before any optimizer attempt. The unchanged package then completed outside the sandbox and settled no-go.</p>
+        <p><a href="exp-002-evidence.json">Read the evidence summary →</a> · <a href="https://github.com/atimics/zero-grounded-literary-lm/tree/3813c2cbd1f02af9ea29e3a0da5183f76e146540/benchmarks/zero4-q24-v1/seed2">Inspect the upstream result →</a></p>
       </div>
     </section>
   </main>
 
-  <footer><div class="shell">EXP-002 · Zero Q2.4 · prospective deterministic authority · promotion sealed</div></footer>
+  <footer><div class="shell">EXP-002 · Zero Q2.4 · no-go · promotion and replication sealed</div></footer>
 </body>
 </html>
