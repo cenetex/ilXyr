@@ -1,0 +1,113 @@
+{
+  "schema": "ilxyr.experiment.v1",
+  "id": "zero.q24.seed2.cumulative-guard.v1",
+  "title": "ZERO.4 Q2.4 seed-2 cumulative replay guard",
+  "hypothesis": "An immutable six-slice cumulative replay guard can produce a jointly feasible public and promotion result while keeping public replay regression at or below 2%.",
+  "rationale": "EXP-001 proved transactional mechanics but falsified local one-step replay deltas as a cumulative authority. Q2.4 directly measures baseline-relative functional drift before every commit.",
+  "proposer": {
+    "id": "model://zero/q24/research-director",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5.6-sol/2026-07-19"
+  },
+  "family": "zero",
+  "lineage": {
+    "hypothesis": "zero.q24.hypothesis.v1",
+    "mathematical_foundation": "zero.q24.foundation.v1",
+    "engineering_review": "zero.q24.engineering_review.v1",
+    "experiment_design": "zero.q24.experiment_design.v1"
+  },
+  "baseline": "baseline://zero/q23/seed2/local-guard-no-go/v1",
+  "datasets": [
+    "dataset://zero/q24/seed2/frozen-corpora/v1",
+    "dataset://zero/q24/seed2/public-and-promotion/v1"
+  ],
+  "models": ["weight://zero/zero3-balanced-final/c8657694"],
+  "metrics": [
+    { "name": "seed_passed", "unit": "boolean", "description": "Conjunctive upstream public and promotion decision, encoded as 0 or 1." },
+    { "name": "optimizer_attempts", "unit": "count", "description": "Total transactional AdamW candidates evaluated." },
+    { "name": "committed_updates", "unit": "count", "description": "Candidates committed after cumulative replay authority." },
+    { "name": "rejected_candidates", "unit": "count", "description": "Candidates atomically rolled back by the cumulative guard." },
+    { "name": "warning_exceedances", "unit": "count", "description": "Candidates whose cumulative composite replay increase exceeded 1% or was non-finite." },
+    { "name": "hard_exceedances", "unit": "count", "description": "Candidates whose cumulative composite replay increase exceeded 1.5% or was non-finite." },
+    { "name": "max_cumulative_replay_increase", "unit": "ratio", "description": "Largest candidate composite replay increase relative to immutable ZERO.3." },
+    { "name": "public_checkpoint_count", "unit": "count", "description": "Frozen full public evaluations completed." },
+    { "name": "jointly_feasible_checkpoint_count", "unit": "count", "description": "Public checkpoints satisfying quantity and replay gates together." },
+    { "name": "promotion_evaluations", "unit": "count", "description": "Disjoint promotion evaluations performed." },
+    { "name": "replication_seeds_opened", "unit": "count", "description": "Sealed replication seeds opened after the diagnostic." }
+  ],
+  "seeds": [2],
+  "outcome_contract": {
+    "primary_metric": "seed_passed",
+    "success_outcome": "go",
+    "outcomes": [
+      {
+        "id": "go",
+        "description": "The upstream frozen conjunctive public and promotion gates all pass.",
+        "predicate": { "kind": "metric", "metric": "seed_passed", "operator": "gte", "threshold": 1 }
+      },
+      {
+        "id": "no_go",
+        "description": "Execution completes validly without a seed-level pass.",
+        "predicate": { "kind": "metric", "metric": "seed_passed", "operator": "lt", "threshold": 1 }
+      },
+      {
+        "id": "execution_failure",
+        "description": "The process exits unsuccessfully, times out, or violates the metric envelope.",
+        "predicate": { "kind": "execution_failure" }
+      }
+    ]
+  },
+  "execution": {
+    "executor": "local-command",
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-zero-q24.mjs",
+      "--repo", "/workspace/zero-grounded-literary-lm",
+      "--repository", "https://github.com/atimics/zero-grounded-literary-lm.git",
+      "--commit", "b7b9d118374eb966821b8e77666926b128f2f36b",
+      "--git", "/usr/bin/git",
+      "--make", "/usr/bin/make",
+      "--node", "/usr/local/bin/node"
+    ],
+    "timeout_seconds": 7200,
+    "max_cost_credits": 200,
+    "network": "open"
+  },
+  "funding": {
+    "required_compute_credits": 200,
+    "minimum_forecasters": 2,
+    "minimum_total_stake": 20
+  },
+  "security": {
+    "weight_class": "public",
+    "code_policy": "arbitrary",
+    "export_policy": "artifacts"
+  },
+  "evidence_authority": {
+    "level": "deterministic_replay",
+    "scope": {
+      "seeds": [2],
+      "eval_set": "dataset://zero/q24/seed2/public-and-promotion/v1",
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [],
+      "checker": "checker://ilxyr/zero-q24-live/v1"
+    }
+  },
+  "expected_outputs": [
+    "metrics.seed_passed",
+    "metrics.optimizer_attempts",
+    "metrics.committed_updates",
+    "metrics.rejected_candidates",
+    "metrics.warning_exceedances",
+    "metrics.hard_exceedances",
+    "metrics.max_cumulative_replay_increase",
+    "metrics.public_checkpoint_count",
+    "metrics.jointly_feasible_checkpoint_count",
+    "metrics.promotion_evaluations",
+    "metrics.replication_seeds_opened",
+    "resolved_outcome",
+    "forecast_settlements"
+  ]
+}

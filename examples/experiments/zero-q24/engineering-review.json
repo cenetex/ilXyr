@@ -1,0 +1,19 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q24.engineering_review.v1",
+  "stage": "engineering_review",
+  "actor": {
+    "id": "model://zero/q24/transaction-reviewer",
+    "kind": "model",
+    "model_ref": "model://zero/q24/transaction-review/v1"
+  },
+  "title": "Q2.4 transaction and replay review",
+  "body": "The cumulative guard uses a distinct checkpoint mode, recomputes immutable baselines deterministically on resume, probes all six eligible replay ranges before every commit, and restores weights plus both AdamW moment arrays on rejection. The v2 attempt record carries the composite baseline, candidate value, relative change, all per-range values, and rollback digest. Dedicated checks recompute every aggregate and decision from the trace.",
+  "input_refs": ["zero.q24.hypothesis.v1", "zero.q24.foundation.v1"],
+  "claims": [
+    "The implementation fails closed on non-finite probes and cross-mode resume.",
+    "The fixed checker can independently derive every cumulative decision from recorded values.",
+    "Promotion is not opened unless a jointly feasible public checkpoint exists."
+  ],
+  "confidence": 0.9
+}

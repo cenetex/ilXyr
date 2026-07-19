@@ -1,0 +1,11 @@
+{
+  "schema": "ilxyr.funding.v1",
+  "id": "zero.q24.funding-negative-results.v1",
+  "experiment_id": "zero.q24.seed2.cumulative-guard.v1",
+  "funder": {
+    "id": "service://ilxyr/negative-results-program",
+    "kind": "service"
+  },
+  "compute_credits": 100,
+  "rationale": "Reserve enough compute for the frozen seed-2 run whether it resolves go or no-go."
+}

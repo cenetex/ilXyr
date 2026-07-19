@@ -1,0 +1,22 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q24.experiment_design.v1",
+  "stage": "experiment_design",
+  "actor": {
+    "id": "model://zero/q24/experiment-designer",
+    "kind": "model",
+    "model_ref": "model://zero/q24/frozen-design/v1"
+  },
+  "title": "Prospective Q2.4 seed-2 diagnostic",
+  "body": "Run only seed 2 from the exact clean merged Zero commit. Preserve Q2.3's corpora, immutable teachers, quantity and replay gates, 25-commit recovery cadence, 100-commit public cadence, 1000 acquisition and 400 consolidation attempt caps, eight-rejection fallback, sealed promotion rule, and seed-1/3 replication lock. Resolve go only when the upstream driver emits seed_passed=1 after public and promotion gates; otherwise resolve no_go without opening replication seeds.",
+  "input_refs": [
+    "zero.q24.hypothesis.v1",
+    "zero.q24.foundation.v1",
+    "zero.q24.engineering_review.v1"
+  ],
+  "claims": [
+    "No Q2.4 outcome is observed before this contract, forecasts, and funding commitments are recorded.",
+    "A valid no-go is a terminal experimental result, not an execution failure."
+  ],
+  "confidence": 0.96
+}
