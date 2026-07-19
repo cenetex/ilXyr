@@ -77,7 +77,7 @@ function parseArgs(argv) {
     if (!values.has(key)) throw new Error(`--${key} is required`);
   }
   return {
-    repo: path.resolve(values.get("repo")),
+    repo: fs.realpathSync(path.resolve(values.get("repo"))),
     repository: values.get("repository"),
     commit: values.get("commit"),
     git: values.get("git"),

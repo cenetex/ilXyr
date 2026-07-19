@@ -40,7 +40,8 @@ policy boundary provider-neutral, before any service or cloud binding.
 - Replays frozen prior claims into a separate retro evidence lane without pretending they carried
   historical forecast risk.
 - Runs an idempotent propose → forecast → allocate → run → settle cycle inside signed policy.
-- Provides clean-commit metric adapters for Zero q22r and Solomon successor-v2 harnesses.
+- Provides clean-commit metric adapters for Zero q22r seed and multi-seed decisions and the
+  Solomon successor-v2 harness.
 
 Protected weights are handles, never local paths. The v1 local executor cannot run protected
 weight experiments; those require a future attested executor adapter.
@@ -131,8 +132,10 @@ runtime. The ledger is single-writer. Actor handles are local self-declarations,
 keys are installed through an explicit local human action, and compute credits are reservations,
 not money. The loop driver does not provide a scheduler or autonomous proposal generator.
 Replication settlement and the evidence graph remain later milestones. Solomon's frozen
-successor-v2 result replays locally but its inspected commit is not yet on the observed remote
-branch. Zero q22r seed 2 now replays independently from a public source commit with its selected
-model hash verified; family promotion still requires seeds 1 and 3. The real cross-family q22r
-contract also remains blocked on shared data bindings and a Solomon encoding/verifier. See
-`docs/V1_1_REVIEW.md` for the exact audit.
+successor-v2 commit is advertised on a remote branch and replays from a fresh checkout, but the
+NSRL repository is private, so unauthenticated public checkout is still unavailable. Zero q22r
+seed 2 replays independently from a public hash-pinned model; seeds 1 and 3 have now completed as
+valid no-go results. The grounded family decision is one go and two no-go, so ZERO.4 is not
+promoted and ZERO.3 remains current. The real cross-family q22r contract also remains blocked on
+shared data bindings and a Solomon encoding/verifier. See `docs/V1_1_REVIEW.md` for the exact
+audit.

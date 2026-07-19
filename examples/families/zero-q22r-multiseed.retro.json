@@ -1,0 +1,87 @@
+{
+  "schema": "ilxyr.retro_registration_spec.v1",
+  "id": "zero.q22r.multiseed.decision.v1",
+  "claim": "All three frozen ZERO.4 Q2.2-R seeds completed: seed 2 passed, seeds 1 and 3 stopped as no-go results, and the one-go/two-no-go family is not promotion eligible.",
+  "family": "zero",
+  "source": {
+    "repository": "https://github.com/atimics/zero-grounded-literary-lm.git",
+    "commit": "d0ed47e2dffd0c6709da9b1970a8a3f9db4f3ad3",
+    "artifacts": [
+      {
+        "path": "benchmarks/zero4-q22r-v1/AGGREGATE.md",
+        "sha256": "399f30535980a310c4d1bf27eac9c5179334df3e9bfee9300b79b749730866f1"
+      },
+      {
+        "path": "benchmarks/zero4-q22r-v1/aggregate.json",
+        "sha256": "38a111aa6a841696984b07122aa3827515535af0547f5b9c8d8b5fa20ab9f131"
+      },
+      {
+        "path": "benchmarks/zero4-q22r-v1/seed1/manifest.json",
+        "sha256": "e9785837284fd46c51720db4a641045e9ea4b93eb3470eb21f1d7a4e2ab9a9d9"
+      },
+      {
+        "path": "benchmarks/zero4-q22r-v1/seed1/selection.json",
+        "sha256": "1bfce6172f99fa0618fb193f75ff287693a01c1e6b79ec64722619f943c92701"
+      },
+      {
+        "path": "benchmarks/zero4-q22r-v1/seed2/manifest.json",
+        "sha256": "d1583845430ed3288e7842f6c2583c54b9f447a2ffd6319237b3ed27c29f1a7f"
+      },
+      {
+        "path": "benchmarks/zero4-q22r-v1/seed3/manifest.json",
+        "sha256": "9007ff65c6db325902932c6cae41350d64baad5c03ab72b6173c64cd390c3181"
+      },
+      {
+        "path": "benchmarks/zero4-q22r-v1/seed3/selection.json",
+        "sha256": "39cfcc27b50bff54dd3d2dd2effb872bae5469daf18b52df1dc6c30d0de9dcbd"
+      },
+      {
+        "path": "scripts/aggregate_zero4_q22r.mjs",
+        "sha256": "913a5496e8e07a6eb8f67de1786f6b1305f1a302499862277ad26e4fcdcdbc03"
+      }
+    ]
+  },
+  "metrics": [
+    { "name": "completed_seeds", "unit": "count", "description": "Declared seeds with completed frozen-policy results" },
+    { "name": "go_seeds", "unit": "count", "description": "Seeds passing every frozen gate" },
+    { "name": "no_go_seeds", "unit": "count", "description": "Seeds terminating with a valid scientific no-go" },
+    { "name": "family_promotion_eligible", "unit": "boolean", "description": "Three-seed family promotion decision encoded as 0 or 1" },
+    { "name": "seed1_operation_rate", "unit": "ratio", "description": "Seed 1 retained diagnostic operation rate" },
+    { "name": "seed1_exact_artifact_rate", "unit": "ratio", "description": "Seed 1 retained diagnostic exact-artifact rate" },
+    { "name": "seed1_replay_relative_regression", "unit": "ratio", "description": "Seed 1 retained diagnostic replay regression" },
+    { "name": "seed2_operation_rate", "unit": "ratio", "description": "Seed 2 promotion operation rate" },
+    { "name": "seed2_exact_artifact_rate", "unit": "ratio", "description": "Seed 2 promotion exact-artifact rate" },
+    { "name": "seed2_replay_relative_regression", "unit": "ratio", "description": "Seed 2 selected-model replay regression" },
+    { "name": "seed3_operation_rate", "unit": "ratio", "description": "Seed 3 retained diagnostic operation rate" },
+    { "name": "seed3_exact_artifact_rate", "unit": "ratio", "description": "Seed 3 retained diagnostic exact-artifact rate" },
+    { "name": "seed3_replay_relative_regression", "unit": "ratio", "description": "Seed 3 retained diagnostic replay regression" },
+    { "name": "failed_seed_promotion_evaluations", "unit": "count", "description": "Failed seeds that touched the disjoint promotion split" }
+  ],
+  "seeds": [1, 2, 3],
+  "replay": {
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-zero-q22r-multiseed.mjs",
+      "--repo", "/workspace/zero-grounded-literary-lm",
+      "--repository", "https://github.com/atimics/zero-grounded-literary-lm.git",
+      "--commit", "d0ed47e2dffd0c6709da9b1970a8a3f9db4f3ad3",
+      "--git", "/usr/bin/git",
+      "--node", "/usr/local/bin/node"
+    ],
+    "timeout_seconds": 300,
+    "network": "open"
+  },
+  "authority": {
+    "level": "deterministic_replay",
+    "scope": {
+      "seeds": [1, 2, 3],
+      "eval_set": "dataset://zero/q22r/multiseed/frozen-policy",
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [],
+      "model_lineage": "model://zero/zero4/q22r/multiseed/d0ed47e2",
+      "checker": "checker://zero/q22r/multiseed/v1"
+    }
+  }
+}

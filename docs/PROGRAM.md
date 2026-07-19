@@ -56,17 +56,24 @@ a stated tolerance, and per-input agreement over the full eval set. Cross-family
 is the lab's strongest independence, so the bridge doubles as the spine's replication
 mechanism.
 
+The frozen Q2.2-R family decision is a grounded no-go: seed 2 passed, while seeds 1 and 3 failed
+the joint quantity/replay contract. The bridge therefore cannot treat Q2.2-R as a Zero-proven
+capability. A new Zero attempt must be separately preregistered and clear the full multi-seed gate
+before it can enter the bridge.
+
 ## Bootstrap
 
 1. V1 control plane: authority records, certificates, signed budgets, sandbox/promoted lanes,
    allocation, thresholds, and calibration — implemented in this repository.
-2. Retro-registration and family replay adapters — implemented; Solomon replay passes locally,
-   and Zero q22r seed 2 is grounded from a public, hash-pinned selected model. Zero family
-   promotion remains blocked on seeds 1 and 3.
+2. Retro-registration and family replay adapters — implemented; Solomon replay passes from a
+   fresh remote checkout for authorized NSRL access, Zero q22r seed 2 is grounded from a public,
+   hash-pinned selected model, and the completed three-seed no-go decision is separately grounded.
 3. Shared-task contracts and the continuous loop-cycle driver — implemented; the real q22r shared
    task remains blocked until both family encodings/verifiers and data hashes exist.
-4. Run new work through the two execution lanes: sandbox for cadence, full gates for spine claims.
-5. Execute the bridge.
+4. Preregister the next Zero faculty/replay-conflict hypothesis, then run new work through the two
+   execution lanes: sandbox for cadence, full gates for spine claims.
+5. Execute the bridge only after a Zero result clears its declared family gate and a real shared
+   task binds both family verifiers.
 
 ## Operating model
 
