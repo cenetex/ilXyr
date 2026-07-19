@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/replication-contract.v1.json",
+  "title": "ilxyr replication contract v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "target_claim", "kind", "eval_set", "declared_at_ms"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.replication_contract.v1" },
+    "target_claim": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:/-]+$",
+      "description": "ID of the experiment or evidence being replicated."
+    },
+    "kind": {
+      "enum": ["capability", "computational_equivalence", "both"],
+      "description": "Capability: metric within tolerance. Computational equivalence: per-input agreement over eval set."
+    },
+    "tolerances": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number",
+        "minimum": 0
+      },
+      "description": "Map of metric name to maximum absolute deviation for capability replication.",
+      "minProperties": 1
+    },
+    "eval_set": {
+      "type": "string",
+      "pattern": "^(dataset|artifact)://\\S+$",
+      "description": "Handle for the evaluation set used for computational equivalence."
+    },
+    "agreement_threshold": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Minimum per-input agreement rate for computational equivalence. Default 1.0 for exact."
+    },
+    "declared_at_ms": { "type": "integer", "minimum": 0 }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "kind": { "enum": ["capability", "both"] } },
+        "required": ["kind"]
+      },
+      "then": { "properties": { "tolerances": true }, "required": ["tolerances"] }
+    },
+    {
+      "if": {
+        "properties": { "kind": { "enum": ["computational_equivalence", "both"] } },
+        "required": ["kind"]
+      },
+      "then": {
+        "properties": { "agreement_threshold": true },
+        "required": ["agreement_threshold"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/retro-registration-spec.v1.json",
+  "title": "ilxyr retro-registration replay plan v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "claim", "family", "source", "metrics", "seeds", "replay", "authority"],
+  "properties": {
+    "schema": { "const": "ilxyr.retro_registration_spec.v1" },
+    "id": { "$ref": "#/$defs/identifier" },
+    "claim": { "type": "string", "minLength": 1 },
+    "family": { "enum": ["zero", "solomon"] },
+    "shared_task_id": { "$ref": "#/$defs/identifier" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit", "artifacts"],
+      "properties": {
+        "repository": { "type": "string", "minLength": 1 },
+        "commit": { "type": "string", "pattern": "^[a-fA-F0-9]{40}$" },
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "unit", "description"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "unit": { "type": "string" },
+          "description": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "seeds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "integer", "minimum": 0 }
+    },
+    "replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["program", "args", "timeout_seconds", "network"],
+      "properties": {
+        "program": { "type": "string", "pattern": "^/" },
+        "args": { "type": "array", "items": { "type": "string" } },
+        "timeout_seconds": { "type": "integer", "minimum": 1 },
+        "network": { "const": "open" }
+      }
+    },
+    "authority": { "$ref": "#/$defs/authority" }
+  },
+  "$defs": {
+    "identifier": { "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "scope", "provenance"],
+      "properties": {
+        "level": { "enum": ["exact_check", "deterministic_replay"] },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["seeds"],
+          "properties": {
+            "seeds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "integer", "minimum": 0 }
+            },
+            "eval_set": { "type": "string", "pattern": "^(dataset|artifact)://\\S+$" },
+            "coverage": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["artifact_hashes", "checker"],
+          "properties": {
+            "artifact_hashes": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": { "type": "string", "pattern": "^artifact://sha256/[a-f0-9]{64}$" }
+            },
+            "model_lineage": { "type": "string", "pattern": "^model://\\S+$" },
+            "checker": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    }
+  }
+}

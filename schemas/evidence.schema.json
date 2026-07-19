@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/evidence.v1.json",
+  "title": "ilxyr evidence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "id", "experiment_id", "run_ref", "resolved_outcome",
+    "metrics", "recorded_at_ms", "authority", "lane"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.evidence.v1" },
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "experiment_id": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "run_ref": { "type": "string", "pattern": "^artifact://sha256/[a-f0-9]{64}$" },
+    "resolved_outcome": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "recorded_at_ms": { "type": "integer", "minimum": 0 },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "scope", "provenance"],
+      "properties": {
+        "level": {
+          "enum": ["exact_check", "deterministic_replay", "corpus_proxy", "review"]
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["seeds"],
+          "properties": {
+            "seeds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "integer", "minimum": 0 }
+            },
+            "eval_set": { "type": "string", "pattern": "^(dataset|artifact)://\\S+$" },
+            "coverage": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["artifact_hashes", "checker"],
+          "properties": {
+            "artifact_hashes": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "string", "pattern": "^artifact://sha256/[a-f0-9]{64}$" }
+            },
+            "model_lineage": { "type": "string", "pattern": "^model://\\S+$" },
+            "checker": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "lane": {
+      "enum": ["sandbox", "promoted", "retro"]
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schema": "ilxyr.retro_registration_spec.v1",
+  "id": "zero.q22r.seed2.headline.v1",
+  "claim": "ZERO.4 Q2.2-R seed 2 passes every frozen quantity-request and replay gate; it is not family-promotion eligible until seeds 1 and 3 also pass.",
+  "family": "zero",
+  "source": {
+    "repository": "https://github.com/atimics/zero-grounded-literary-lm.git",
+    "commit": "d561954f93733e95876632311a56a5eaac4c9c9b",
+    "artifacts": [
+      {
+        "path": "benchmarks/zero4-q22r-v1/seed2/manifest.json",
+        "sha256": "d1583845430ed3288e7842f6c2583c54b9f447a2ffd6319237b3ed27c29f1a7f"
+      },
+      {
+        "path": "benchmarks/zero4-q22r-v1/seed2/seed2-promotion.json",
+        "sha256": "dd04b9a2aae0dbe865285bd33ef58ec537d5d5729e2416ffa6b05f5bd3126a7d"
+      },
+      {
+        "path": "benchmarks/zero4-q22r-v1/seed2/selection.json",
+        "sha256": "3267d2be471b83b912fd78e37c9e696f0d4e61bd01236ea4c8dab53d3662d6a8"
+      },
+      {
+        "path": "benchmarks/zero4-q22r-v1/seed2/selected.litq8",
+        "sha256": "0fe6e507f8d8ae5bc51e615be79b72425410664976ecc4fbeebb594319f67e8d"
+      }
+    ]
+  },
+  "metrics": [
+    { "name": "exact_request_rate", "unit": "ratio", "description": "Exact model operation-request rate" },
+    { "name": "exact_artifact_rate", "unit": "ratio", "description": "Exact committed-artifact rate" },
+    { "name": "replay_relative_regression", "unit": "ratio", "description": "Relative historical replay loss regression" },
+    { "name": "rejected_state_mutations", "unit": "count", "description": "State mutations from rejected requests" },
+    { "name": "seed_passed", "unit": "boolean", "description": "All frozen seed gates passed, encoded as 0 or 1" }
+  ],
+  "seeds": [2],
+  "replay": {
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-zero-q22r.mjs",
+      "--repo", "/workspace/zero-grounded-literary-lm",
+      "--repository", "https://github.com/atimics/zero-grounded-literary-lm.git",
+      "--commit", "d561954f93733e95876632311a56a5eaac4c9c9b",
+      "--git", "/usr/bin/git",
+      "--node", "/usr/local/bin/node",
+      "--seed", "2"
+    ],
+    "timeout_seconds": 300,
+    "network": "open"
+  },
+  "authority": {
+    "level": "deterministic_replay",
+    "scope": {
+      "seeds": [2],
+      "eval_set": "dataset://zero/q22r/seed2/promotion",
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [],
+      "model_lineage": "model://zero/zero4/q22r/seed2/0fe6e507",
+      "checker": "checker://zero/q22r/v1"
+    }
+  }
+}

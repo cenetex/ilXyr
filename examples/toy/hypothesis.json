@@ -1,0 +1,15 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "toy.hypothesis.v1",
+  "stage": "hypothesis",
+  "actor": {
+    "id": "model://toy/research-director",
+    "kind": "model",
+    "model_ref": "model://toy/research-director/v1"
+  },
+  "title": "Deterministic toy score exceeds the acceptance threshold",
+  "body": "The reference toy procedure will emit a score of 0.82, exceeding the frozen 0.80 threshold.",
+  "input_refs": [],
+  "claims": ["The score metric is sufficient to demonstrate protocol settlement."],
+  "confidence": 0.74
+}

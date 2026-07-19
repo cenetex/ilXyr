@@ -1,0 +1,11 @@
+{
+  "schema": "ilxyr.replication_contract.v1",
+  "target_claim": "toy.score.v1",
+  "kind": "both",
+  "tolerances": {
+    "score": 0.01
+  },
+  "eval_set": "dataset://toy/score/v1",
+  "agreement_threshold": 0.99,
+  "declared_at_ms": 1770000000000
+}

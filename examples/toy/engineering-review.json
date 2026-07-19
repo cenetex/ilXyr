@@ -1,0 +1,14 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "toy.engineering_review.v1",
+  "stage": "engineering_review",
+  "actor": {
+    "id": "human://toy/platform-reviewer",
+    "kind": "human"
+  },
+  "title": "Local executor review",
+  "body": "The demonstration uses /bin/echo directly, needs no shell, consumes no network services, and returns one bounded JSON metrics object.",
+  "input_refs": ["toy.hypothesis.v1", "toy.foundation.v1"],
+  "claims": ["The public-weight lane is sufficient for this protocol demonstration."],
+  "confidence": 0.96
+}

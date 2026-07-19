@@ -1,0 +1,27 @@
+{
+  "schema": "ilxyr.evidence.v1",
+  "id": "toy.evidence.score.v1",
+  "experiment_id": "toy.score.v1",
+  "run_ref": "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "resolved_outcome": "success",
+  "metrics": {
+    "score": 0.82
+  },
+  "recorded_at_ms": 1770000000000,
+  "authority": {
+    "level": "deterministic_replay",
+    "scope": {
+      "seeds": [7, 19],
+      "eval_set": "dataset://toy/score/v1",
+      "coverage": 1
+    },
+    "provenance": {
+      "artifact_hashes": [
+        "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "model_lineage": "model://toy/scorer/v1",
+      "checker": "checker://toy/score/v1"
+    }
+  },
+  "lane": "promoted"
+}

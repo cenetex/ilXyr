@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/forecast.v1.json",
+  "title": "ilxyr forecast v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "experiment_id", "forecaster", "probabilities", "stake", "rationale"],
+  "properties": {
+    "schema": { "const": "ilxyr.forecast.v1" },
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "experiment_id": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "forecaster": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["human", "model", "service"] },
+        "model_ref": { "type": "string", "pattern": "^model://\\S+$" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "model" } } },
+          "then": {
+            "properties": { "id": { "type": "string", "pattern": "^model://" }, "model_ref": true },
+            "required": ["model_ref"]
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "human" } } },
+          "then": { "properties": { "id": { "type": "string", "pattern": "^human://" }, "model_ref": false } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "service" } } },
+          "then": { "properties": { "id": { "type": "string", "pattern": "^service://" }, "model_ref": false } }
+        }
+      ]
+    },
+    "probabilities": {
+      "type": "object",
+      "minProperties": 2,
+      "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 }
+    },
+    "stake": { "type": "integer", "minimum": 1 },
+    "rationale": { "type": "string", "minLength": 1 }
+  }
+}

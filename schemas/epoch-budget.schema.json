@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/epoch-budget.v1.json",
+  "title": "ilxyr epoch budget v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "id", "epoch", "total_compute_credits", "replication_reserve_pct", "per_executable_caps",
+    "allowlisted_executables", "promoted_metrics", "baselines", "signed_by", "signed_at_ms",
+    "acknowledgement_thresholds", "signature"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.epoch_budget.v1" },
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "epoch": { "type": "integer", "minimum": 1 },
+    "total_compute_credits": { "type": "integer", "minimum": 1 },
+    "replication_reserve_pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "multipleOf": 0.01,
+      "default": 0,
+      "description": "Fixed share of epoch credits reserved for replication experiments (ADR 0004)."
+    },
+    "per_executable_caps": {
+      "type": "object",
+      "propertyNames": { "pattern": "^/" },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["per_run_credits", "per_epoch_credits", "network", "allowed_argument_sets"],
+        "properties": {
+          "per_run_credits": { "type": "integer", "minimum": 1 },
+          "per_epoch_credits": { "type": "integer", "minimum": 1 },
+          "network": { "enum": ["open", "denied"] },
+          "allowed_argument_sets": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "description": "Exact argument vectors permitted for this executable."
+          }
+        }
+      },
+      "description": "Map of executable path to credit, network, and exact-argument caps."
+    },
+    "allowlisted_executables": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^/" },
+      "description": "Absolute paths of executables permitted in the sandbox lane."
+    },
+    "promoted_metrics": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Metric names that define the ratchet baseline comparison."
+    },
+    "baselines": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["operator", "threshold"],
+        "properties": {
+          "operator": { "enum": ["gt", "gte", "lt", "lte"] },
+          "threshold": { "type": "number" }
+        }
+      },
+      "description": "Map of promoted metric name to its directional baseline rule."
+    },
+    "acknowledgement_thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["new_executable", "network_beyond_policy", "cumulative_spend_pct"],
+      "properties": {
+        "new_executable": {
+          "type": "boolean",
+          "description": "Require human ack for executables not on the allowlist."
+        },
+        "network_beyond_policy": {
+          "type": "boolean",
+          "description": "Require human ack for open-network requests beyond policy."
+        },
+        "cumulative_spend_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "multipleOf": 0.01,
+          "description": "Alert threshold as percentage of total epoch credits."
+        }
+      }
+    },
+    "signed_by": {
+      "type": "string",
+      "pattern": "^human://\\S+$",
+      "description": "Human identity that signed this budget."
+    },
+    "signed_at_ms": { "type": "integer", "minimum": 0 },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "key_id", "value"],
+      "properties": {
+        "algorithm": { "const": "ed25519" },
+        "key_id": { "type": "string", "pattern": "^key://\\S+$" },
+        "value": { "type": "string", "pattern": "^[A-Za-z0-9+/]+={0,2}$" }
+      },
+      "description": "Signature over canonical JSON with the signature field omitted."
+    }
+  }
+}

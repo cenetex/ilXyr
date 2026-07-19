@@ -1,0 +1,12 @@
+{
+  "schema": "ilxyr.calibration_record.v1",
+  "handle": "model://toy/forecaster/v1",
+  "forecasts_settled": 4,
+  "reliability": 0.03,
+  "resolution": 0.11,
+  "brier_score": 0.17,
+  "uncertainty": 0.25,
+  "probationary": true,
+  "last_settlement_at_ms": 1770000000000,
+  "forecast_ids": ["toy.forecast.model.v1"]
+}

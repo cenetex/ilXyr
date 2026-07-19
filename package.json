@@ -1,0 +1,11 @@
+{
+  "name": "ilxyr-schema-validation",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:schemas": "node scripts/validate-json-schemas.mjs"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0"
+  }
+}

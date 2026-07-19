@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/calibration-record.v1.json",
+  "title": "ilxyr calibration record v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "handle", "forecasts_settled", "reliability", "resolution",
+    "brier_score", "uncertainty", "probationary", "last_settlement_at_ms", "forecast_ids"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.calibration_record.v1" },
+    "handle": {
+      "type": "string",
+      "pattern": "^(model|human)://\\S+$",
+      "description": "The model:// or human:// handle this record tracks."
+    },
+    "forecasts_settled": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total number of forecasts settled for this handle."
+    },
+    "reliability": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Murphy reliability component: weighted average of (forecast_prob - observed_freq)^2 per forecast bin. Measures calibration independent of resolution. Lower is better."
+    },
+    "resolution": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Murphy resolution component: weighted variance of observed frequencies across forecast bins. Measures ability to separate outcomes. Higher is better."
+    },
+    "brier_score": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Overall Brier score = reliability − resolution + uncertainty. Sum of squared errors. Lower is better."
+    },
+    "uncertainty": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Base-rate uncertainty of the observed outcomes. A forecaster cannot beat this term."
+    },
+    "probationary": {
+      "type": "boolean",
+      "default": true,
+      "description": "True for new handles with fewer than the minimum settlement count. Probationary forecasters receive reduced allocator weight."
+    },
+    "last_settlement_at_ms": { "type": "integer", "minimum": 0 },
+    "forecast_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
+      "description": "IDs of settled forecasts contributing to this record, up to a windowed maximum."
+    }
+  }
+}

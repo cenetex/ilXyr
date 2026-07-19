@@ -1,0 +1,15 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "toy.foundation.v1",
+  "stage": "mathematical_foundation",
+  "actor": {
+    "id": "model://toy/mathematical-reviewer",
+    "kind": "model",
+    "model_ref": "model://toy/mathematical-reviewer/v1"
+  },
+  "title": "Frozen partition of the toy outcome space",
+  "body": "For successful execution, score >= 0.80 and score < 0.80 form a disjoint and exhaustive partition. Execution failure is evaluated only when the process does not complete successfully.",
+  "input_refs": ["toy.hypothesis.v1"],
+  "claims": ["Exactly one declared outcome resolves for every supported run result."],
+  "confidence": 0.99
+}

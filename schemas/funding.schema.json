@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/funding.v1.json",
+  "title": "ilxyr compute funding commitment v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "experiment_id", "funder", "compute_credits", "rationale"],
+  "properties": {
+    "schema": { "const": "ilxyr.funding.v1" },
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "experiment_id": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "funder": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["human", "model", "service"] },
+        "model_ref": { "type": "string", "pattern": "^model://\\S+$" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "model" } } },
+          "then": {
+            "properties": { "id": { "type": "string", "pattern": "^model://" }, "model_ref": true },
+            "required": ["model_ref"]
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "human" } } },
+          "then": { "properties": { "id": { "type": "string", "pattern": "^human://" }, "model_ref": false } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "service" } } },
+          "then": { "properties": { "id": { "type": "string", "pattern": "^service://" }, "model_ref": false } }
+        }
+      ]
+    },
+    "compute_credits": { "type": "integer", "minimum": 1 },
+    "rationale": { "type": "string", "minLength": 1 }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/sandbox-spec.v1.json",
+  "title": "ilxyr sandbox specification v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "id", "experiment_id", "executable", "args", "timeout_seconds",
+    "cost_credits", "network", "metrics", "authority"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.sandbox_spec.v1" },
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "experiment_id": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "executable": { "type": "string", "pattern": "^/" },
+    "args": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[^\\u0000]*$" }
+    },
+    "timeout_seconds": { "type": "integer", "minimum": 1 },
+    "cost_credits": { "type": "integer", "minimum": 1 },
+    "network": { "enum": ["open", "denied"] },
+    "metrics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "unit", "description"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "unit": { "type": "string" },
+          "description": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "scope", "provenance"],
+      "properties": {
+        "level": {
+          "enum": ["exact_check", "deterministic_replay", "corpus_proxy", "review"]
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["seeds"],
+          "properties": {
+            "seeds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "integer", "minimum": 0 }
+            },
+            "eval_set": { "type": "string", "pattern": "^(dataset|artifact)://\\S+$" },
+            "coverage": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["artifact_hashes", "checker"],
+          "properties": {
+            "artifact_hashes": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": { "type": "string", "pattern": "^artifact://sha256/[a-f0-9]{64}$" }
+            },
+            "model_lineage": { "type": "string", "pattern": "^model://\\S+$" },
+            "checker": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    }
+  }
+}

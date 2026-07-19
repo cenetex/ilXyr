@@ -1,0 +1,16 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "toy.forecast.human.v1",
+  "experiment_id": "toy.score.v1",
+  "forecaster": {
+    "id": "human://toy/reviewer",
+    "kind": "human"
+  },
+  "probabilities": {
+    "below_threshold": 0.08,
+    "execution_failure": 0.02,
+    "success": 0.9
+  },
+  "stake": 4,
+  "rationale": "The frozen argument directly supplies the expected score envelope."
+}

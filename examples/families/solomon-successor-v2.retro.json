@@ -1,0 +1,63 @@
+{
+  "schema": "ilxyr.retro_registration_spec.v1",
+  "id": "solomon.successor-v2.headline.v1",
+  "claim": "The frozen integer-only transformer successor beats uniform, retrieval, byte-ngram, and float-transformer NLL baselines on 5,896 targets with no zero-probability windows.",
+  "family": "solomon",
+  "source": {
+    "repository": "https://github.com/atimics/nsrl.git",
+    "commit": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+    "artifacts": [
+      {
+        "path": "benchmarks/integer-transformer-proof-v1/successor-v2-manifest.tsv",
+        "sha256": "b15d81ef527befd9699634eba6ec1451428e2c1eb7c8e0bb43dcd3009a373281"
+      },
+      {
+        "path": "benchmarks/integer-transformer-proof-v1/successor-v2-evidence.json",
+        "sha256": "29546fca1eab45e592489ce6e6b0b6f352c7a2a740558c7de4e016e23c2f1428"
+      },
+      {
+        "path": "scripts/run-integer-transformer-successor-v2.mjs",
+        "sha256": "187134c570f1807292d8ad3e0eee5f1d4934118a3afcdcefa820a5905cb5a157"
+      }
+    ]
+  },
+  "metrics": [
+    { "name": "transformer_nll_millibits", "unit": "millibits", "description": "Frozen integer-transformer NLL" },
+    { "name": "uniform_nll_millibits", "unit": "millibits", "description": "Frozen uniform baseline NLL" },
+    { "name": "retrieval_nll_millibits", "unit": "millibits", "description": "Frozen retrieval baseline NLL" },
+    { "name": "byte_ngram_nll_millibits", "unit": "millibits", "description": "Frozen byte-ngram baseline NLL" },
+    { "name": "float_transformer_nll_millibits", "unit": "millibits", "description": "Frozen float-transformer baseline NLL" },
+    { "name": "zero_probability_windows", "unit": "count", "description": "Candidate windows assigned zero probability" },
+    { "name": "targets", "unit": "count", "description": "Frozen evaluation target count" },
+    { "name": "promoted", "unit": "boolean", "description": "Frozen checker promotion decision encoded as 0 or 1" }
+  ],
+  "seeds": [0],
+  "replay": {
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-solomon-successor-v2.mjs",
+      "--repo", "/workspace/nsrl",
+      "--repository", "https://github.com/atimics/nsrl.git",
+      "--commit", "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "--git", "/usr/bin/git",
+      "--node", "/usr/local/bin/node",
+      "--python", "/usr/bin/python3",
+      "--cargo", "/usr/local/bin/cargo"
+    ],
+    "timeout_seconds": 1800,
+    "network": "open"
+  },
+  "authority": {
+    "level": "deterministic_replay",
+    "scope": {
+      "seeds": [0],
+      "eval_set": "dataset://solomon/integer-transformer-successor-v2/eval",
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [],
+      "model_lineage": "model://solomon/integer-transformer-successor-v2/0x3e2b06f1c8ec76df",
+      "checker": "checker://solomon/integer-transformer-successor/v2"
+    }
+  }
+}

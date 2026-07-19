@@ -1,0 +1,42 @@
+{
+  "schema": "ilxyr.retro_registration_spec.v1",
+  "id": "toy.retro.v1",
+  "claim": "The frozen toy result replays with score 0.82",
+  "family": "zero",
+  "source": {
+    "repository": "https://example.invalid/toy.git",
+    "commit": "0123456789abcdef0123456789abcdef01234567",
+    "artifacts": [
+      {
+        "path": "results/toy.json",
+        "sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+      }
+    ]
+  },
+  "metrics": [
+    {
+      "name": "score",
+      "unit": "ratio",
+      "description": "Frozen toy score"
+    }
+  ],
+  "seeds": [7],
+  "replay": {
+    "program": "/bin/echo",
+    "args": ["{\"metrics\":{\"score\":0.82},\"source\":{\"repository\":\"https://example.invalid/toy.git\",\"commit\":\"0123456789abcdef0123456789abcdef01234567\",\"artifacts\":[{\"path\":\"results/toy.json\",\"sha256\":\"3333333333333333333333333333333333333333333333333333333333333333\"}]}}"],
+    "timeout_seconds": 5,
+    "network": "open"
+  },
+  "authority": {
+    "level": "deterministic_replay",
+    "scope": {
+      "seeds": [7],
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [],
+      "model_lineage": "model://toy/frozen/v1",
+      "checker": "checker://toy/replay/v1"
+    }
+  }
+}

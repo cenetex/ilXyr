@@ -1,0 +1,90 @@
+{
+  "schema": "ilxyr.experiment.v1",
+  "id": "toy.score.v1",
+  "title": "Funded toy score experiment",
+  "hypothesis": "The reference procedure emits score >= 0.80.",
+  "rationale": "Exercise the full ilxyr protocol without relying on a cloud provider or protected model weights.",
+  "proposer": {
+    "id": "model://toy/research-director",
+    "kind": "model",
+    "model_ref": "model://toy/research-director/v1"
+  },
+  "lineage": {
+    "hypothesis": "toy.hypothesis.v1",
+    "mathematical_foundation": "toy.foundation.v1",
+    "engineering_review": "toy.engineering_review.v1",
+    "experiment_design": "toy.experiment_design.v1"
+  },
+  "baseline": "baseline://toy/score-v0",
+  "datasets": ["dataset://toy/frozen-v1"],
+  "models": ["weight://toy/public-v1"],
+  "metrics": [
+    {
+      "name": "score",
+      "unit": "ratio",
+      "description": "Frozen scalar quality score."
+    }
+  ],
+  "seeds": [17],
+  "outcome_contract": {
+    "primary_metric": "score",
+    "success_outcome": "success",
+    "outcomes": [
+      {
+        "id": "success",
+        "description": "The score meets or exceeds 0.80.",
+        "predicate": {
+          "kind": "metric",
+          "metric": "score",
+          "operator": "gte",
+          "threshold": 0.8
+        }
+      },
+      {
+        "id": "below_threshold",
+        "description": "The run succeeds but score is below 0.80.",
+        "predicate": {
+          "kind": "metric",
+          "metric": "score",
+          "operator": "lt",
+          "threshold": 0.8
+        }
+      },
+      {
+        "id": "execution_failure",
+        "description": "The process exits unsuccessfully or times out.",
+        "predicate": { "kind": "execution_failure" }
+      }
+    ]
+  },
+  "execution": {
+    "executor": "local-command",
+    "program": "/bin/echo",
+    "args": ["{\"metrics\":{\"score\":0.82}}"],
+    "timeout_seconds": 10,
+    "max_cost_credits": 10,
+    "network": "open"
+  },
+  "funding": {
+    "required_compute_credits": 10,
+    "minimum_forecasters": 2,
+    "minimum_total_stake": 10
+  },
+  "security": {
+    "weight_class": "public",
+    "code_policy": "arbitrary",
+    "export_policy": "artifacts"
+  },
+  "evidence_authority": {
+    "level": "deterministic_replay",
+    "scope": {
+      "seeds": [17],
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [],
+      "checker": "checker://toy/local-command/v1"
+    }
+  },
+  "expected_outputs": ["metrics.score", "resolved_outcome", "forecast_settlements"]
+}

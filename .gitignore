@@ -1,0 +1,12 @@
+/target/
+/node_modules/
+/.ilxyr/
+# The public website is maintained in its own repository.
+/site/
+/.claude/settings.local.json
+.env
+.env.*
+!.env.example
+*.log
+*.swp
+.DS_Store

@@ -1,0 +1,28 @@
+{
+  "schema": "ilxyr.sandbox_spec.v1",
+  "id": "toy.sandbox.v1",
+  "experiment_id": "toy.score.sandbox.v1",
+  "executable": "/bin/echo",
+  "args": ["{\"metrics\":{\"score\":0.82}}"],
+  "timeout_seconds": 10,
+  "cost_credits": 10,
+  "network": "open",
+  "metrics": [
+    {
+      "name": "score",
+      "unit": "ratio",
+      "description": "Frozen scalar quality score."
+    }
+  ],
+  "authority": {
+    "level": "deterministic_replay",
+    "scope": {
+      "seeds": [7],
+      "coverage": 1
+    },
+    "provenance": {
+      "artifact_hashes": [],
+      "checker": "checker://toy/score/v1"
+    }
+  }
+}

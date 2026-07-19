@@ -1,0 +1,19 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "toy.experiment_design.v1",
+  "stage": "experiment_design",
+  "actor": {
+    "id": "model://toy/experiment-designer",
+    "kind": "model",
+    "model_ref": "model://toy/experiment-designer/v1"
+  },
+  "title": "One-command protocol experiment",
+  "body": "Execute the pinned absolute program with frozen arguments, parse its metrics envelope, resolve one declared outcome, and score all forecasts with the multiclass Brier rule.",
+  "input_refs": [
+    "toy.hypothesis.v1",
+    "toy.foundation.v1",
+    "toy.engineering_review.v1"
+  ],
+  "claims": ["The run is deterministic and cheap enough for the v1 local adapter."],
+  "confidence": 0.97
+}

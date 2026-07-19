@@ -1,0 +1,37 @@
+{
+  "schema": "ilxyr.epoch_budget.v1",
+  "id": "toy.epoch-budget.v1",
+  "epoch": 1,
+  "total_compute_credits": 1000,
+  "replication_reserve_pct": 20,
+  "per_executable_caps": {
+    "/bin/echo": {
+      "per_run_credits": 10,
+      "per_epoch_credits": 100,
+      "network": "open",
+      "allowed_argument_sets": [
+        ["{\"metrics\":{\"score\":0.82}}"]
+      ]
+    }
+  },
+  "allowlisted_executables": ["/bin/echo"],
+  "promoted_metrics": ["score"],
+  "baselines": {
+    "score": {
+      "operator": "gt",
+      "threshold": 0.8
+    }
+  },
+  "acknowledgement_thresholds": {
+    "new_executable": true,
+    "network_beyond_policy": true,
+    "cumulative_spend_pct": 80
+  },
+  "signed_by": "human://toy/policy-owner",
+  "signed_at_ms": 1770000000000,
+  "signature": {
+    "algorithm": "ed25519",
+    "key_id": "key://toy/policy-owner/v1",
+    "value": "YWJjZA=="
+  }
+}

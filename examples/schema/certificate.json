@@ -1,0 +1,23 @@
+{
+  "schema": "ilxyr.certificate.v1",
+  "id": "toy.certificate.score.v1",
+  "evidence_ref": "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "predicate": {
+    "kind": "metric",
+    "metric": "score",
+    "operator": "gte",
+    "threshold": 0.8
+  },
+  "domain": {
+    "kind": "enumerated",
+    "values": [1, 2, 3]
+  },
+  "checker": {
+    "id": "checker://toy/score",
+    "version": "1.0.0"
+  },
+  "checked_artifacts": [
+    "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  ],
+  "issued_at_ms": 1770000000000
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "ilxyr.funding.v1",
+  "id": "toy.funding.team-a.v1",
+  "experiment_id": "toy.score.v1",
+  "funder": {
+    "id": "human://toy/team-a",
+    "kind": "human"
+  },
+  "compute_credits": 6,
+  "rationale": "Fund the reproducibility and evidence path."
+}

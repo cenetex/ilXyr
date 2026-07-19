@@ -1,0 +1,43 @@
+{
+  "schema": "ilxyr.shared_task.v1",
+  "id": "toy.quantity.shared.v1",
+  "title": "Toy cross-family quantity task",
+  "dataset": {
+    "handle": "dataset://toy/quantity/train/v1",
+    "sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "eval_set": {
+    "handle": "dataset://toy/quantity/eval/v1",
+    "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "metrics": [
+    {
+      "name": "exact_rate",
+      "unit": "ratio",
+      "description": "Fraction of exact answers"
+    }
+  ],
+  "seeds": [1, 2, 3],
+  "family_bindings": [
+    {
+      "family": "zero",
+      "encoding": "zero.quantity_request.v2",
+      "verifier": "verifier://zero/quantity-request/v2",
+      "designated_proposer": {
+        "id": "model://zero/proposer",
+        "kind": "model",
+        "model_ref": "model://zero/proposer/v1"
+      }
+    },
+    {
+      "family": "solomon",
+      "encoding": "solomon.byte-identity.v1",
+      "verifier": "verifier://solomon/successor/v2",
+      "designated_proposer": {
+        "id": "model://solomon/proposer",
+        "kind": "model",
+        "model_ref": "model://solomon/proposer/v1"
+      }
+    }
+  ]
+}

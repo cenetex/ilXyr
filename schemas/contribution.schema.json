@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/contribution.v1.json",
+  "title": "ilxyr research contribution v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "stage", "actor", "title", "body", "confidence"],
+  "properties": {
+    "schema": { "const": "ilxyr.contribution.v1" },
+    "id": { "$ref": "#/$defs/identifier" },
+    "stage": {
+      "enum": [
+        "hypothesis",
+        "mathematical_foundation",
+        "engineering_review",
+        "experiment_design"
+      ]
+    },
+    "actor": { "$ref": "#/$defs/actor" },
+    "title": { "type": "string", "minLength": 1 },
+    "body": { "type": "string", "minLength": 1 },
+    "input_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/identifier" },
+      "default": []
+    },
+    "claims": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:/-]+$"
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["human", "model", "service"] },
+        "model_ref": { "type": "string", "pattern": "^model://\\S+$" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "model" } } },
+          "then": {
+            "properties": { "id": { "type": "string", "pattern": "^model://" }, "model_ref": true },
+            "required": ["model_ref"]
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "human" } } },
+          "then": { "properties": { "id": { "type": "string", "pattern": "^human://" }, "model_ref": false } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "service" } } },
+          "then": { "properties": { "id": { "type": "string", "pattern": "^service://" }, "model_ref": false } }
+        }
+      ]
+    }
+  }
+}

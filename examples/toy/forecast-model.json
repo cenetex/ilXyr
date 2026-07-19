@@ -1,0 +1,17 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "toy.forecast.model.v1",
+  "experiment_id": "toy.score.v1",
+  "forecaster": {
+    "id": "model://toy/forecaster",
+    "kind": "model",
+    "model_ref": "model://toy/forecaster/v1"
+  },
+  "probabilities": {
+    "below_threshold": 0.18,
+    "execution_failure": 0.02,
+    "success": 0.8
+  },
+  "stake": 6,
+  "rationale": "The command and output are deterministic, with a small residual execution risk."
+}
