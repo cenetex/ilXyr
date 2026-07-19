@@ -29,6 +29,10 @@
     "run_ref": "artifact://sha256/65d87c2b3a7d40273004591e04e15c795f81a3e4d271738ff41c3a268a9860b8",
     "cause": "The macOS sandbox denied Clang temporary-file creation before training began.",
     "optimizer_attempts": 0,
+    "forecast_settlements": [
+      { "forecast_id": "zero.q24.forecast.mechanistic.v1", "resolved_outcome": "execution_failure", "stake": 10, "brier_score": 1.5288 },
+      { "forecast_id": "zero.q24.forecast.empirical.v1", "resolved_outcome": "execution_failure", "stake": 10, "brier_score": 1.6494 }
+    ],
     "ledger_verification": { "objects_checked": 16, "events_checked": 17, "valid": true }
   },
   "scientific_run": {
@@ -49,12 +53,12 @@
       "promotion_evaluations": 0,
       "replication_seeds_opened": 0
     },
+    "forecast_settlements": [
+      { "forecast_id": "zero.q24.forecast.mechanistic.v1", "resolved_outcome": "no_go", "stake": 10, "brier_score": 0.16880000000000003 },
+      { "forecast_id": "zero.q24.forecast.empirical.v1", "resolved_outcome": "no_go", "stake": 10, "brier_score": 0.04940000000000001 }
+    ],
     "ledger_verification": { "objects_checked": 16, "events_checked": 17, "valid": true }
   },
-  "forecast_settlements": [
-    { "forecast_id": "zero.q24.forecast.mechanistic.v1", "resolved_outcome": "no_go", "stake": 10, "brier_score": 0.16880000000000003 },
-    { "forecast_id": "zero.q24.forecast.empirical.v1", "resolved_outcome": "no_go", "stake": 10, "brier_score": 0.04940000000000001 }
-  ],
   "sealed": {
     "promotion": true,
     "replication_seeds": [1, 3]
