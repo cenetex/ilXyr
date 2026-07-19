@@ -33,6 +33,7 @@ const fixtures = {
     "examples/families/solomon-successor-v2.retro.json",
     "examples/families/zero-q22r-multiseed.retro.json",
     "examples/families/zero-q22r-seed2.retro.json",
+    "examples/families/zero-q23-seed2.retro.json",
   ],
   "sandbox-run.schema.json": ["examples/schema/sandbox-run.json"],
   "sandbox-spec.schema.json": ["examples/schema/sandbox-spec.json"],

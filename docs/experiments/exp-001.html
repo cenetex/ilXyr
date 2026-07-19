@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="EXP-001: ZERO.4 Q2.3 local replay guard result.">
+  <title>EXP-001 — Q2.3 local replay guard</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header>
+    <nav class="shell" aria-label="Primary navigation">
+      <a class="brand" href="../index.html">ilXyr / lab notebook</a>
+      <div class="nav-links">
+        <a href="https://github.com/cenetex/ilXyr/blob/main/docs/experiments/EXP-001.md">Source guide</a>
+        <a href="https://github.com/cenetex/ilXyr">Repository</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="shell">
+    <div class="hero">
+      <div class="eyebrow">EXP-001 · completed 2026-07-19</div>
+      <h1>Local safety did not add up.</h1>
+      <p class="lede">The transaction mechanics worked. The observer was byte-identical. But a 0.25% per-attempt replay guard accepted every step while cumulative public replay crossed the frozen 2% ceiling.</p>
+      <p><span class="tag no-go">No-go</span></p>
+    </div>
+
+    <section>
+      <div class="panel">
+        <h2>The frozen question</h2>
+        <p>Can an observer-calibrated per-attempt functional replay budget prevent faculty training from exceeding the public replay ceiling without weakening the quantity gates?</p>
+        <p>The student, teachers, corpora, routing, seed 2, thresholds, stop rules, and promotion sealing were fixed. Seeds 1 and 3 could open only after a seed-2 pass.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="eyebrow">Measured outcome</div>
+      <h2>Quantity passed. Replay failed.</h2>
+      <div class="panel">
+        <table class="metrics">
+          <thead><tr><th>Measure</th><th>Observed</th></tr></thead>
+          <tbody>
+            <tr><td>Observer learned-state equivalence</td><td class="pass">pass</td></tr>
+            <tr><td>First-order predictive Pearson</td><td>0.0076</td></tr>
+            <tr><td>Guard attempts / commits / rejects</td><td>200 / 200 / 0</td></tr>
+            <tr><td>Warning / hard exceedances</td><td>5 / 0</td></tr>
+            <tr><td>Maximum local replay increase</td><td>0.2013%</td></tr>
+            <tr><td>Quantity operation rate</td><td class="pass">95.0%</td></tr>
+            <tr><td>Quantity exact-artifact rate</td><td class="pass">95.0%</td></tr>
+            <tr><td>Public replay regression</td><td class="fail">2.685%</td></tr>
+            <tr><td>Promotion evaluations</td><td>0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="grid">
+        <article class="card"><h3>What survived</h3><p>Atomic propose/commit/rollback state, checkpoint v4, resume equivalence, append-only attempt evidence, and direct functional probing.</p></article>
+        <article class="card"><h3>What failed</h3><p>The assumption that bounding each local increase independently would bound the complete trajectory.</p></article>
+        <article class="card"><h3>What stays sealed</h3><p>The promotion split, replication seeds 1 and 3, ZERO.4 promotion, and the cross-family replication bridge.</p></article>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <div class="eyebrow">Deterministic registration</div>
+        <h2>Replay the claim, including the no-go.</h2>
+        <p>The ilXyr adapter binds commit <code>0ab274c577074eaa7d519dc3fda20d8a86acfc63</code>, eleven source hashes, both complete transaction logs, and both public evaluations.</p>
+        <pre><code>cargo run -p ilxyr-cli -- retro /workspace/ledger \
+  examples/families/zero-q23-seed2.retro.json --execute
+cargo run -p ilxyr-cli -- verify /workspace/ledger</code></pre>
+        <p>A fresh end-to-end registration produced four content-addressed objects across five hash-linked events and passed ledger verification. This is retro evidence: grounded by deterministic replay, but not assigned synthetic historical forecast risk.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <div class="eyebrow">Next decision</div>
+        <h2>Budget the trajectory, not just the step.</h2>
+        <p>Q2.4 remains a proposal until cumulative budget semantics, accept/reject behavior, exact resume, and promotion sealing are frozen and tested. No threshold changes and no predictive projection are authorized.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="shell">EXP-001 · Zero Q2.3 · deterministic replay authority · no promotion</div></footer>
+</body>
+</html>

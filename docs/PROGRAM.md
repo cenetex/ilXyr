@@ -58,8 +58,9 @@ mechanism.
 
 The frozen Q2.2-R family decision is a grounded no-go: seed 2 passed, while seeds 1 and 3 failed
 the joint quantity/replay contract. The bridge therefore cannot treat Q2.2-R as a Zero-proven
-capability. A new Zero attempt must be separately preregistered and clear the full multi-seed gate
-before it can enter the bridge.
+capability. The separately preregistered Q2.3 diagnostic also ended no-go: its per-attempt local
+guard accepted all 200 updates while cumulative replay reached 2.685%. A new Zero attempt must be
+separately preregistered and clear the full multi-seed gate before it can enter the bridge.
 
 ## Bootstrap
 
@@ -70,8 +71,9 @@ before it can enter the bridge.
    hash-pinned selected model, and the completed three-seed no-go decision is separately grounded.
 3. Shared-task contracts and the continuous loop-cycle driver — implemented; the real q22r shared
    task remains blocked until both family encodings/verifiers and data hashes exist.
-4. Preregister the next Zero faculty/replay-conflict hypothesis, then run new work through the two
-   execution lanes: sandbox for cadence, full gates for spine claims.
+4. EXP-001 grounds Q2.3's local-guard no-go. Preregister a cumulative direct functional replay
+   budget as a new experiment before execution, then run new work through the two execution lanes:
+   sandbox for cadence, full gates for spine claims.
 5. Execute the bridge only after a Zero result clears its declared family gate and a real shared
    task binds both family verifiers.
 
