@@ -1,0 +1,13 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "zero.q26.forecast.empirical.v1",
+  "experiment_id": "zero.q26.seed2.cumulative-tangent.v1",
+  "forecaster": {
+    "id": "model://zero/q26/forecaster-empirical",
+    "kind": "model",
+    "model_ref": "model://zero/q26/forecast-q23-q25-trace/v1"
+  },
+  "probabilities": {"go": 0.16, "no_go": 0.81, "execution_failure": 0.03},
+  "stake": 10,
+  "rationale": "Q2.3 needed roughly 200 commits to reach the quantity threshold, while the constrained Q2.4 and Q2.5 trajectories stopped at 66 and 71. Direction correction can extend the path, but the historical distance to the first public checkpoint and the conjunctive promotion requirement keep no-go dominant."
+}

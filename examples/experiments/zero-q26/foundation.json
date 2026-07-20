@@ -1,0 +1,19 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q26.foundation.v1",
+  "stage": "mathematical_foundation",
+  "actor": {
+    "id": "model://zero/q26/replay-analyst",
+    "kind": "model",
+    "model_ref": "model://zero/q26/tangent-analysis/v1"
+  },
+  "title": "Global all-slice replay-tangent projection",
+  "body": "Let r be the arithmetic mean gradient of the six frozen replay validation-window losses at the committed pre-attempt state, and let d(alpha) be the weight displacement produced by the Q2.5 AdamW trial at scale alpha. Q2.6 uses d'(alpha) = d(alpha) - max(0, dot(r,d(alpha))/dot(r,r)) r, retaining the scaled trial's moments. It evaluates alpha in {1, 1/2, ..., 1/128} and commits the first projected finite candidate whose directly measured immutable-baseline replay increase is at most 0.015.",
+  "input_refs": ["zero.q26.hypothesis.v1"],
+  "claims": [
+    "When projection applies, the projected displacement is first-order tangent to the mean replay loss; when the dot product is non-positive, the displacement is unchanged.",
+    "Weights and both AdamW moment arrays restore together before every retry or outer rejection.",
+    "The first-order tangent condition never substitutes for the unchanged direct cumulative functional guard."
+  ],
+  "confidence": 0.96
+}

@@ -62,7 +62,9 @@ capability. The Q2.3 local guard also ended no-go: it accepted all 200 updates w
 replay reached 2.685%. Q2.4 then enforced a cumulative boundary but stopped after 66 commits and
 eight guarded rollbacks. Q2.5 then tested deterministic candidate backtracking under the same
 authority: five scaled updates committed before eight attempts exhausted every registered scale.
-It never reached a public checkpoint, so EXP-003 resolved no-go and the bridge remains closed.
+It never reached a public checkpoint, so EXP-003 resolved no-go. EXP-004 now prospectively binds
+Q2.6's global all-slice replay-tangent projection while preserving every gate; its diagnostic seed
+2 remains unobserved and the bridge remains closed.
 
 ## Bootstrap
 
@@ -74,9 +76,9 @@ It never reached a public checkpoint, so EXP-003 resolved no-go and the bridge r
 3. Shared-task contracts and the continuous loop-cycle driver — implemented; the real q22r shared
    task remains blocked until both family encodings/verifiers and data hashes exist.
 4. EXP-001 grounds Q2.3's local-guard no-go, EXP-002 records Q2.4's prospective cumulative-guard
-   no-go, and EXP-003 records Q2.5's prospective deterministic-backtracking no-go. Q2.6 is not
-   preregistered; the next intervention must change direction or optimization geometry while
-   preserving full gates for spine claims.
+   no-go, and EXP-003 records Q2.5's prospective deterministic-backtracking no-go. EXP-004
+   preregisters Q2.6's direction-changing global replay-tangent projection while preserving full
+   gates for spine claims; it has not yet executed.
 5. Execute the bridge only after a Zero result clears its declared family gate and a real shared
    task binds both family verifiers.
 

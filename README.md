@@ -43,7 +43,8 @@ policy boundary provider-neutral, before any service or cloud binding.
   historical forecast risk.
 - Runs an idempotent propose → forecast → allocate → run → settle cycle inside signed policy.
 - Provides clean-commit metric adapters for Zero q22r seed and multi-seed decisions and the
-  Solomon successor-v2 harness, plus ledgered Q2.3, Q2.4, and Q2.5 transaction diagnostics.
+  Solomon successor-v2 harness, plus ledgered Q2.3, Q2.4, and Q2.5 transaction diagnostics and
+  the prospectively registered Q2.6 replay-tangent experiment.
 
 Protected weights are handles, never local paths. The v1 local executor cannot run protected
 weight experiments; those require a future attested executor adapter.
@@ -131,6 +132,8 @@ started without producing a terminal run. `authorize` reports the same decision 
   settlement histories.
 - `docs/experiments/EXP-003.md`: the prospectively registered Q2.5 deterministic-backtracking
   no-go, settled forecasts, exact evidence, and sealed downstream gates.
+- `docs/experiments/EXP-004.md`: the prospective Q2.6 global replay-tangent projection, frozen
+  forecasts, exact source/harness pins, and unobserved seed-2 outcome.
 - `docs/decisions/`: architectural decision records (ADR 0001–0004).
 
 ## Current non-goals and evidence gaps
@@ -148,8 +151,9 @@ promoted and ZERO.3 remains current. EXP-001 grounds the Q2.3 seed-2 local-guard
 prospectively settled Q2.4 no-go after 66 commits and eight cumulative-guard rollbacks. EXP-003
 prospectively settled Q2.5 no-go after 66 full-scale and five backtracked commits, followed by
 eight exhausted outer attempts. It reached no public checkpoint; promotion and replication remain
-sealed. Q2.6 is not preregistered and must change update direction or optimization geometry without
-relaxing the frozen gates.
+sealed. EXP-004 now preregisters Q2.6's global replay-tangent projection from merged Zero commit
+`412ab70a...`, with the direct replay and quantity gates unchanged. Seed 2 remains unobserved;
+promotion and replication remain sealed.
 The real cross-family q22r contract also remains
 blocked on shared data bindings and a Solomon encoding/verifier. See `docs/V1_1_REVIEW.md` for the
 exact audit.
