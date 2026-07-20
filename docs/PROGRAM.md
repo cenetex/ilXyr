@@ -95,6 +95,10 @@ policy and audits the ledger.
   forecasts close before execution; settlement builds per-handle calibration records.
 - **Ratchet** — a sandbox result beating a registered baseline at sufficient authority
   becomes eligible for promoted compilation. Computed, never granted.
+- **Scholars** — researcher agents (`.claude/agents/prior-art-scholar.md`) find verified
+  prior art before a claim is preregistered or published. Reports carry `review` authority
+  and only fetch-verified citations; each promoted claim states its novelty boundary. This
+  is practice, not protocol: reports feed reviewer contributions and EXP docs.
 
 A human-signed epoch budget is spent by a deterministic allocator ranking experiments by
 resolution-weighted forecaster disagreement per credit cost; near-unanimous experiments
