@@ -1,0 +1,17 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "zero.q25.forecast.mechanistic.v1",
+  "experiment_id": "zero.q25.seed2.cumulative-backtracking.v1",
+  "forecaster": {
+    "id": "model://zero/q25/forecaster-mechanistic",
+    "kind": "model",
+    "model_ref": "model://zero/q25/forecast-backtracking/v1"
+  },
+  "probabilities": {
+    "go": 0.18,
+    "no_go": 0.8,
+    "execution_failure": 0.02
+  },
+  "stake": 10,
+  "rationale": "Backtracking directly addresses Q2.4's bound at commit 66 and should preserve safety, but progressively smaller steps may not reach the quantity gate within the unchanged outer-attempt budget. The mechanism is credible; joint success remains unlikely."
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q25.hypothesis.v1",
+  "stage": "hypothesis",
+  "actor": {
+    "id": "model://zero/q25/research-director",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5.6-sol/2026-07-19"
+  },
+  "title": "Deterministic backtracking can reopen Q2.4's safe learning path",
+  "body": "Q2.4 established a valid cumulative replay boundary but rejected every full-size candidate after commit 66. Reapplying the same frozen AdamW proposal from the same pre-attempt state at prospectively fixed geometric learning-rate scales may find admissible smaller displacements, allowing quantity learning to continue without weakening the replay or quantity gates.",
+  "input_refs": ["zero.q24.seed2.cumulative-guard.no-go.v1"],
+  "claims": [
+    "Q2.4's no-go identified candidate scale, rather than replay authority, as the next controlled variable.",
+    "A first-feasible geometric schedule changes no data, metric, threshold, or promotion rule."
+  ],
+  "confidence": 0.18
+}

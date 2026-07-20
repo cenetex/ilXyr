@@ -1,0 +1,126 @@
+{
+  "schema": "ilxyr.experiment.v1",
+  "id": "zero.q25.seed2.cumulative-backtracking.v1",
+  "title": "ZERO.4 Q2.5 seed-2 cumulative-guard backtracking",
+  "hypothesis": "Deterministic first-feasible AdamW learning-rate backtracking can preserve Q2.4's cumulative replay authority while reopening a path to the frozen quantity gates.",
+  "rationale": "EXP-002 validated the cumulative replay boundary but rejected every full-size candidate after commit 66. Q2.5 changes candidate scale only, with data, budgets, gates, and authority fixed.",
+  "proposer": {
+    "id": "model://zero/q25/research-director",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5.6-sol/2026-07-19"
+  },
+  "family": "zero",
+  "lineage": {
+    "hypothesis": "zero.q25.hypothesis.v1",
+    "mathematical_foundation": "zero.q25.foundation.v1",
+    "engineering_review": "zero.q25.engineering_review.v1",
+    "experiment_design": "zero.q25.experiment_design.v1"
+  },
+  "baseline": "baseline://zero/q24/seed2/cumulative-guard-no-go/v1",
+  "datasets": [
+    "dataset://zero/q25/seed2/frozen-corpora/v1",
+    "dataset://zero/q25/seed2/public-and-promotion/v1"
+  ],
+  "models": ["weight://zero/zero3-balanced-final/c8657694"],
+  "metrics": [
+    { "name": "seed_passed", "unit": "boolean", "description": "Conjunctive upstream public and promotion decision, encoded as 0 or 1." },
+    { "name": "optimizer_attempts", "unit": "count", "description": "Total outer transactional AdamW attempts evaluated." },
+    { "name": "committed_updates", "unit": "count", "description": "Outer attempts committed after cumulative replay authority." },
+    { "name": "rejected_outer_attempts", "unit": "count", "description": "Outer attempts rolled back after exhausting all eight scales." },
+    { "name": "full_scale_commits", "unit": "count", "description": "Commits accepted at the unscaled learning rate." },
+    { "name": "backtracked_commits", "unit": "count", "description": "Commits accepted after one or more geometric retries." },
+    { "name": "trial_evaluations", "unit": "count", "description": "Total candidate scales evaluated across outer attempts." },
+    { "name": "max_trials_used", "unit": "count", "description": "Largest trial count observed in one outer attempt." },
+    { "name": "min_accepted_scale", "unit": "ratio", "description": "Smallest learning-rate scale committed, or zero if no attempt commits." },
+    { "name": "warning_trial_exceedances", "unit": "count", "description": "Trials above 1% cumulative replay increase or non-finite." },
+    { "name": "hard_trial_exceedances", "unit": "count", "description": "Trials above 1.5% cumulative replay increase or non-finite." },
+    { "name": "max_trial_replay_increase", "unit": "ratio", "description": "Largest finite trial composite increase relative to immutable ZERO.3." },
+    { "name": "max_committed_replay_increase", "unit": "ratio", "description": "Largest finite committed composite increase relative to immutable ZERO.3." },
+    { "name": "public_checkpoint_count", "unit": "count", "description": "Frozen full public evaluations completed." },
+    { "name": "jointly_feasible_checkpoint_count", "unit": "count", "description": "Public checkpoints satisfying quantity and replay gates together." },
+    { "name": "promotion_evaluations", "unit": "count", "description": "Disjoint promotion evaluations performed." },
+    { "name": "replication_seeds_opened", "unit": "count", "description": "Sealed replication seeds opened after the diagnostic." }
+  ],
+  "seeds": [2],
+  "outcome_contract": {
+    "primary_metric": "seed_passed",
+    "success_outcome": "go",
+    "outcomes": [
+      {
+        "id": "go",
+        "description": "The upstream frozen conjunctive public and promotion gates all pass.",
+        "predicate": { "kind": "metric", "metric": "seed_passed", "operator": "gte", "threshold": 1 }
+      },
+      {
+        "id": "no_go",
+        "description": "Execution completes validly without a seed-level pass.",
+        "predicate": { "kind": "metric", "metric": "seed_passed", "operator": "lt", "threshold": 1 }
+      },
+      {
+        "id": "execution_failure",
+        "description": "The process exits unsuccessfully, times out, or violates the metric envelope.",
+        "predicate": { "kind": "execution_failure" }
+      }
+    ]
+  },
+  "execution": {
+    "executor": "local-command",
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-zero-q25.mjs",
+      "--repo", "/workspace/zero-grounded-literary-lm",
+      "--repository", "https://github.com/atimics/zero-grounded-literary-lm.git",
+      "--commit", "616220e2b7a35bb35f34b01fb32e1f5d8977df89",
+      "--git", "/usr/bin/git",
+      "--make", "/usr/bin/make",
+      "--node", "/usr/local/bin/node",
+      "--harness-sha256", "3d1cd0547bb1db51188caeb1b948069193a5fb5729efa3f6844c4d533de06ddd"
+    ],
+    "timeout_seconds": 14400,
+    "max_cost_credits": 300,
+    "network": "open"
+  },
+  "funding": {
+    "required_compute_credits": 300,
+    "minimum_forecasters": 2,
+    "minimum_total_stake": 20
+  },
+  "security": {
+    "weight_class": "public",
+    "code_policy": "arbitrary",
+    "export_policy": "artifacts"
+  },
+  "evidence_authority": {
+    "level": "deterministic_replay",
+    "scope": {
+      "seeds": [2],
+      "eval_set": "dataset://zero/q25/seed2/public-and-promotion/v1",
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [],
+      "checker": "checker://ilxyr/zero-q25-live/v1"
+    }
+  },
+  "expected_outputs": [
+    "metrics.seed_passed",
+    "metrics.optimizer_attempts",
+    "metrics.committed_updates",
+    "metrics.rejected_outer_attempts",
+    "metrics.full_scale_commits",
+    "metrics.backtracked_commits",
+    "metrics.trial_evaluations",
+    "metrics.max_trials_used",
+    "metrics.min_accepted_scale",
+    "metrics.warning_trial_exceedances",
+    "metrics.hard_trial_exceedances",
+    "metrics.max_trial_replay_increase",
+    "metrics.max_committed_replay_increase",
+    "metrics.public_checkpoint_count",
+    "metrics.jointly_feasible_checkpoint_count",
+    "metrics.promotion_evaluations",
+    "metrics.replication_seeds_opened",
+    "resolved_outcome",
+    "forecast_settlements"
+  ]
+}
