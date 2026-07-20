@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="EXP-003: prospective ZERO.4 Q2.5 deterministic cumulative-guard backtracking.">
+  <title>EXP-003 — Q2.5 deterministic backtracking</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header>
+    <nav class="shell" aria-label="Primary navigation">
+      <a class="brand" href="../index.html">ilXyr / lab notebook</a>
+      <div class="nav-links">
+        <a href="exp-001.html">EXP-001</a>
+        <a href="exp-002.html">EXP-002</a>
+        <a href="https://github.com/cenetex/ilXyr/blob/main/docs/experiments/EXP-003.md">Source guide</a>
+        <a href="https://github.com/cenetex/ilXyr">Repository</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="shell">
+    <div class="hero">
+      <div class="eyebrow">EXP-003 · preregistered 2026-07-19</div>
+      <h1>Scale the candidate.<br>Keep the boundary.</h1>
+      <p class="lede">Eight deterministic AdamW scales, one frozen minibatch, and the same immutable six-source replay authority. Seed 2 has not run.</p>
+      <p><span class="tag">Preregistered</span></p>
+    </div>
+
+    <section>
+      <div class="panel">
+        <h2>The frozen question</h2>
+        <p>Can first-feasible learning-rate backtracking continue quantity learning without weakening Q2.4's 1.5% cumulative replay authority or the 2% public ceiling?</p>
+        <p>EXP-002 proved the boundary and exposed the next controlled variable: after commit 66, every full-size candidate was too large.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="eyebrow">Candidate construction</div>
+      <h2>Restore. Scale. Re-evaluate all six slices.</h2>
+      <div class="grid">
+        <article class="card"><h3>One outer attempt</h3><p>Freeze minibatch, clipped gradient, proposed update, weights, and AdamW moments.</p></article>
+        <article class="card"><h3>Eight scales</h3><p>Try 1 through 1/128 in descending geometric order and select the first feasible trial.</p></article>
+        <article class="card"><h3>Same authority</h3><p>Every trial must be finite and no more than 1.5% above immutable ZERO.3.</p></article>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <h2>Forecasts frozen before the run</h2>
+        <table class="metrics">
+          <thead><tr><th>Forecaster</th><th>Go / no-go / failure</th></tr></thead>
+          <tbody>
+            <tr><td>Mechanistic backtracking model</td><td>18% / 80% / 2%</td></tr>
+            <tr><td>Q2.3/Q2.4 trace model</td><td>8% / 89% / 3%</td></tr>
+          </tbody>
+        </table>
+        <p>The leading risk is not replay leakage; it is that safe scaled updates provide too little quantity learning inside the unchanged outer-attempt budget.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="grid">
+        <article class="card"><h3>Seed 2 only</h3><p>Replication seeds 1 and 3 remain sealed until the diagnostic passes.</p></article>
+        <article class="card"><h3>Promotion sealed</h3><p>The disjoint panel opens once only after a jointly feasible public checkpoint.</p></article>
+        <article class="card"><h3>17 metrics</h3><p>Outer attempts, trial scales, guard exceedances, public feasibility, and sealed reads are explicit.</p></article>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <div class="eyebrow">Readiness</div>
+        <h2>Frozen, funded, and not yet executed.</h2>
+        <p>The exact Zero source is merged at <code>616220e2</code>. The implementation is green on macOS/Accelerate and Ubuntu/portable. A non-executing ilXyr rehearsal passed all 12 admission gates and verified 10 objects across 10 events.</p>
+        <p><a href="https://github.com/atimics/zero-grounded-literary-lm/tree/616220e2b7a35bb35f34b01fb32e1f5d8977df89/benchmarks/zero4-q25-v1">Inspect the frozen upstream contract →</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="shell">EXP-003 · Zero Q2.5 · preregistered · seed 2 unopened</div></footer>
+</body>
+</html>

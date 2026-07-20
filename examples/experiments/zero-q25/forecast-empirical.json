@@ -1,0 +1,17 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "zero.q25.forecast.empirical.v1",
+  "experiment_id": "zero.q25.seed2.cumulative-backtracking.v1",
+  "forecaster": {
+    "id": "model://zero/q25/forecaster-empirical",
+    "kind": "model",
+    "model_ref": "model://zero/q25/forecast-q23-q24-trace/v1"
+  },
+  "probabilities": {
+    "go": 0.08,
+    "no_go": 0.89,
+    "execution_failure": 0.03
+  },
+  "stake": 10,
+  "rationale": "Q2.3 first passed quantity near commit 200, whereas Q2.4's admissible full-step trajectory ended at 66. The trace therefore favors a safe but underpowered continuation even after smaller candidates are admitted."
+}

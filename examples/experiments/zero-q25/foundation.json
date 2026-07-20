@@ -1,0 +1,19 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q25.foundation.v1",
+  "stage": "mathematical_foundation",
+  "actor": {
+    "id": "model://zero/q25/replay-analyst",
+    "kind": "model",
+    "model_ref": "model://zero/q25/backtracking-analysis/v1"
+  },
+  "title": "First-feasible cumulative-guard line search",
+  "body": "Let theta, m, and v be the frozen pre-attempt weights and AdamW moments, and let U(alpha) reapply the same moment update with learning-rate multiplier alpha. Q2.5 evaluates alpha in {1, 1/2, ..., 1/128} and commits the first U(alpha) whose immutable-baseline six-slice replay increase is finite and at most 0.015. Every trial starts from the same theta, m, and v; only the outer attempt advances sampling and attempt budgets.",
+  "input_refs": ["zero.q25.hypothesis.v1"],
+  "claims": [
+    "Descending first-feasible selection is deterministic and does not optimize against the public evaluator.",
+    "Restoring moments as well as weights makes each scale a trial of the same proposed AdamW update.",
+    "The immutable 1.5% authority retains the 0.5 percentage-point reserve below the public replay ceiling."
+  ],
+  "confidence": 0.95
+}

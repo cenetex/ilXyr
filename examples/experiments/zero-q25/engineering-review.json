@@ -1,0 +1,19 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q25.engineering_review.v1",
+  "stage": "engineering_review",
+  "actor": {
+    "id": "model://zero/q25/transaction-reviewer",
+    "kind": "model",
+    "model_ref": "model://zero/q25/backtracking-review/v1"
+  },
+  "title": "Q2.5 retry, recovery, and evidence review",
+  "body": "The runtime restores weights and both AdamW moment arrays before each retry, restores the frozen clipped gradient, and reuses the proposed committed-update index. Attempt schema v3 records every scale, all six replay losses, composite decision, selected scale, and rollback digest. The dedicated gate proves full-scale and scaled commits plus byte-identical uninterrupted and 4+4 recovery. Checkpoint mode 4 rejects cross-mode resume.",
+  "input_refs": ["zero.q25.hypothesis.v1", "zero.q25.foundation.v1"],
+  "claims": [
+    "The implementation cannot skip an earlier feasible trial without checker failure.",
+    "Internal trials do not consume attempt budget or advance the sampler.",
+    "Promotion remains inaccessible unless a jointly feasible public checkpoint exists."
+  ],
+  "confidence": 0.93
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "ilxyr.funding.v1",
+  "id": "zero.q25.funding-negative-results.v1",
+  "experiment_id": "zero.q25.seed2.cumulative-backtracking.v1",
+  "funder": {
+    "id": "service://ilxyr/negative-results-program",
+    "kind": "service"
+  },
+  "compute_credits": 150,
+  "rationale": "Reserve the additional replay-trial compute for the frozen seed-2 run whether it resolves go or no-go."
+}
