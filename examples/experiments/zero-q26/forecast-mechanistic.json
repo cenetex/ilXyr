@@ -1,0 +1,13 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "zero.q26.forecast.mechanistic.v1",
+  "experiment_id": "zero.q26.seed2.cumulative-tangent.v1",
+  "forecaster": {
+    "id": "model://zero/q26/forecaster-mechanistic",
+    "kind": "model",
+    "model_ref": "model://zero/q26/forecast-tangent-mechanism/v1"
+  },
+  "probabilities": {"go": 0.32, "no_go": 0.66, "execution_failure": 0.02},
+  "stake": 10,
+  "rationale": "The tangent projection directly targets Q2.5's binding direction and a parent-endpoint mechanics calibration admitted a projected half-scale candidate just under 1.5%. That materially improves the chance of reaching a public checkpoint, but a local first-order correction may not preserve nonlinear replay or learn quantity fast enough to clear every public and promotion gate."
+}

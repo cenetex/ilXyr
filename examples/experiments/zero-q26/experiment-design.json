@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q26.experiment_design.v1",
+  "stage": "experiment_design",
+  "actor": {
+    "id": "model://zero/q26/experiment-designer",
+    "kind": "model",
+    "model_ref": "model://zero/q26/frozen-design/v1"
+  },
+  "title": "Prospective Q2.6 seed-2 diagnostic",
+  "body": "Run only seed 2 from merged Zero commit 412ab70a7922a8f964a3ab7429dd601ba0250383. The only intervention is the global all-six-slice tangent projection. Preserve Q2.5's initialization, corpora, teachers, optimizer, geometric scales, quantity gates, 1.5% commit authority, 2% public replay ceiling, 25-commit recovery cadence, 100-commit public cadence, 1000 acquisition and 400 consolidation attempt caps, eight-exhaustion fallback, sealed promotion rule, and seed-1/3 replication lock. Resolve go only after public and promotion gates; otherwise resolve no_go as valid evidence.",
+  "input_refs": ["zero.q26.hypothesis.v1", "zero.q26.foundation.v1", "zero.q26.engineering_review.v1"],
+  "claims": [
+    "No Q2.6 seed-2 outcome is observed before the source contract, ilXyr experiment, forecasts, and funding commitments merge.",
+    "A valid no-go is terminal evidence and does not authorize threshold tuning, a duplicate seed-2 run, or access to sealed seeds."
+  ],
+  "confidence": 0.99
+}

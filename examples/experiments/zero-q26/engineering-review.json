@@ -1,0 +1,19 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q26.engineering_review.v1",
+  "stage": "engineering_review",
+  "actor": {
+    "id": "model://zero/q26/transaction-reviewer",
+    "kind": "model",
+    "model_ref": "model://zero/q26/tangent-review/v1"
+  },
+  "title": "Q2.6 projection, rollback, recovery, and evidence review",
+  "body": "Zero commit 412ab70a7922a8f964a3ab7429dd601ba0250383 adds checkpoint mode 5 and optimizer-attempt schema v4. Each outer attempt computes one frozen mean replay gradient, projects weights only after each scaled AdamW trial, retains the selected candidate moments, and restores weights plus both moment arrays before retry or rejection. The mechanics gate proves a positive-conflict projection, a near-zero post-projection dot product, full-scale and backtracked commits, byte-identical uninterrupted and 4+4 recovery, and portable/Accelerate CI.",
+  "input_refs": ["zero.q26.hypothesis.v1", "zero.q26.foundation.v1"],
+  "claims": [
+    "The checker rejects an invalid projection trigger, non-tangent projected displacement, skipped feasible scale, missing replay slice, or incomplete rollback proof.",
+    "Internal projection trials do not consume outer-attempt budget or advance the sampler.",
+    "Promotion and replication remain inaccessible unless the unchanged conjunctive gates authorize them."
+  ],
+  "confidence": 0.97
+}

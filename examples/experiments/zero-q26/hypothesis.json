@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q26.hypothesis.v1",
+  "stage": "hypothesis",
+  "actor": {
+    "id": "model://zero/q26/research-director",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5.6-sol/2026-07-19"
+  },
+  "title": "A replay-tangent update can reopen Q2.5's constrained path",
+  "body": "Q2.5 showed that scalar continuation alone is insufficient: its terminal 1/128 candidates missed the 1.5% cumulative boundary by only 0.000151 to 0.000238 percentage points. Removing only the component of each AdamW weight displacement that points uphill on the pre-attempt mean six-slice replay surface may admit a direction that continues quantity learning without changing any data, gate, or evaluation authority.",
+  "input_refs": ["zero.q25.seed2.cumulative-backtracking.no-go.v1"],
+  "claims": [
+    "Q2.5 isolates update direction, rather than a weaker replay threshold or a smaller scalar step, as the next controlled variable.",
+    "The projection changes candidate construction only; direct six-slice functional evaluation remains the sole commit authority."
+  ],
+  "confidence": 0.32
+}
