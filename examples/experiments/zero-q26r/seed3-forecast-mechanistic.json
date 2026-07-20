@@ -1,0 +1,13 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "zero.q26r.seed3.forecast.mechanistic.v1",
+  "experiment_id": "zero.q26r.seed3.cumulative-tangent.v1",
+  "forecaster": {
+    "id": "model://zero/q26r/forecaster-mechanistic",
+    "kind": "model",
+    "model_ref": "model://zero/q26r/forecast-tangent-replication/v1"
+  },
+  "probabilities": {"go": 0.62, "no_go": 0.36, "execution_failure": 0.02},
+  "stake": 10,
+  "rationale": "Seed 2 crossed every gate with six jointly feasible public checkpoints and large replay reserve, supporting a mechanism-level effect. Seed variation can still change quantity acquisition or the one-time promotion result."
+}

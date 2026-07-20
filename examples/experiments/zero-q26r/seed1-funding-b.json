@@ -1,0 +1,8 @@
+{
+  "schema": "ilxyr.funding.v1",
+  "id": "zero.q26r.seed1.funding-negative-results.v1",
+  "experiment_id": "zero.q26r.seed1.cumulative-tangent.v1",
+  "funder": {"id": "service://ilxyr/negative-results-reserve", "kind": "service"},
+  "compute_credits": 150,
+  "rationale": "Complete seed 1 and publish a valid go or no-go without adaptive repair."
+}

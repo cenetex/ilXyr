@@ -43,8 +43,8 @@ policy boundary provider-neutral, before any service or cloud binding.
   historical forecast risk.
 - Runs an idempotent propose → forecast → allocate → run → settle cycle inside signed policy.
 - Provides clean-commit metric adapters for Zero q22r seed and multi-seed decisions and the
-  Solomon successor-v2 harness, plus ledgered Q2.3, Q2.4, Q2.5, and Q2.6 prospective
-  transaction experiments.
+  Solomon successor-v2 harness, plus ledgered Q2.3–Q2.6 prospective transaction experiments
+  and the frozen Q2.6 seed-1/3 family replication.
 
 Protected weights are handles, never local paths. The v1 local executor cannot run protected
 weight experiments; those require a future attested executor adapter.
@@ -134,6 +134,8 @@ started without producing a terminal run. `authorize` reports the same decision 
   no-go, settled forecasts, exact evidence, and sealed downstream gates.
 - `docs/experiments/EXP-004.md`: the prospective Q2.6 global replay-tangent projection go,
   settled forecasts, exact evidence, and newly eligible replication boundary.
+- `docs/experiments/EXP-005.md`: the prospective Q2.6 seeds 1 and 3 replication, independent
+  forecasts, exact source pins, and frozen all-three-seeds family rule.
 - `docs/decisions/`: architectural decision records (ADR 0001–0004).
 
 ## Current non-goals and evidence gaps
@@ -154,7 +156,8 @@ eight exhausted outer attempts. It reached no public checkpoint. EXP-004 prospec
 Q2.6's global replay-tangent projection from merged Zero commit `412ab70a...`, with the direct
 replay and quantity gates unchanged. Seed 2 resolved go after 700 full-scale commits; its selected
 public checkpoint and exactly one promotion-split evaluation both passed. Seeds 1 and 3 are now
-eligible but remain unregistered and unexecuted, so ZERO.3 remains current.
+registered prospectively as EXP-005 against merged Zero commit `3ee802c2...`, but remain
+unexecuted. Both must run even if the first is no-go; ZERO.3 remains current.
 The real cross-family q22r contract also remains
 blocked on shared data bindings and a Solomon encoding/verifier. See `docs/V1_1_REVIEW.md` for the
 exact audit.

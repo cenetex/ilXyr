@@ -65,8 +65,9 @@ authority: five scaled updates committed before eight attempts exhausted every r
 It never reached a public checkpoint, so EXP-003 resolved no-go. EXP-004 then prospectively tested
 Q2.6's global all-slice replay-tangent projection while preserving every gate. Diagnostic seed 2
 resolved go after 700 full-scale commits; the selected public checkpoint and one-time disjoint
-promotion evaluation passed. Seeds 1 and 3 are eligible but unexecuted, so ZERO.3 remains current
-and the bridge remains closed.
+promotion evaluation passed. EXP-005 now prospectively registers seeds 1 and 3 as separate runs
+under the unchanged design and an all-three-seeds conjunction. Both remain unobserved, so ZERO.3
+remains current and the bridge remains closed.
 
 ## Bootstrap
 
@@ -79,8 +80,8 @@ and the bridge remains closed.
    task remains blocked until both family encodings/verifiers and data hashes exist.
 4. EXP-001 grounds Q2.3's local-guard no-go, EXP-002 records Q2.4's prospective cumulative-guard
    no-go, and EXP-003 records Q2.5's prospective deterministic-backtracking no-go. EXP-004 records
-   Q2.6's prospective seed-2 replay-tangent go while preserving full gates for spine claims;
-   prospectively register and execute replication seeds 1 and 3 next.
+   Q2.6's prospective seed-2 replay-tangent go while preserving full gates for spine claims.
+   EXP-005 prospectively registers replication seeds 1 and 3; execute both independently next.
 5. Execute the bridge only after a Zero result clears its declared family gate and a real shared
    task binds both family verifiers.
 

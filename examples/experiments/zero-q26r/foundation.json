@@ -1,0 +1,19 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q26r.foundation.v1",
+  "stage": "mathematical_foundation",
+  "actor": {
+    "id": "model://zero/q26r/replay-analyst",
+    "kind": "model",
+    "model_ref": "model://zero/q26r/tangent-replication-analysis/v1"
+  },
+  "title": "Exchangeable seed replication under a locked tangent geometry",
+  "body": "For each seed, Q2.6 computes the same mean six-slice replay gradient r and projects each scaled AdamW displacement d(alpha) as d'(alpha) = d(alpha) - max(0, dot(r,d(alpha))/dot(r,r)) r. The seed changes initialization randomness and sample order only. Per-seed go still requires the frozen public-and-promotion conjunction; family go is the conjunction of seed-level go for seeds 1, 2, and 3.",
+  "input_refs": ["zero.q26r.hypothesis.v1"],
+  "claims": [
+    "The global tangent formula, direct 1.5% commit authority, and 2% public replay ceiling are seed-invariant.",
+    "The prospectively selected seed-2 model is the only promotion candidate; replication checkpoints cannot replace it post hoc.",
+    "Family no-go is valid if either replication seed completes without the public-and-promotion conjunction."
+  ],
+  "confidence": 0.98
+}
