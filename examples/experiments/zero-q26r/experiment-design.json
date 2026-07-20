@@ -1,0 +1,19 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q26r.experiment_design.v1",
+  "stage": "experiment_design",
+  "actor": {
+    "id": "model://zero/q26r/experiment-designer",
+    "kind": "model",
+    "model_ref": "model://zero/q26r/frozen-replication-design/v1"
+  },
+  "title": "Prospective Q2.6 seeds 1 and 3 family replication",
+  "body": "Register seeds 1 and 3 as separate experiments against merged source commit 3ee802c29ddf47982477a6b6dd635eaedede7bb7. Preserve Q2.6 initialization, corpora, teachers, optimizer, tangent projection, geometric scales, quantity gates, 1.5% commit authority, 2% public ceiling, checkpoint cadence, attempt budgets, stop rules, and exactly-once promotion policy. Close two independent forecasts and 300 credits per seed before either execution. Execute both even if the first is no-go. Aggregate only after both valid results exist.",
+  "input_refs": ["zero.q26r.hypothesis.v1", "zero.q26r.foundation.v1", "zero.q26r.engineering_review.v1"],
+  "claims": [
+    "Neither seed-1 nor seed-3 Q2.6-R outcome was observed before source, experiment, forecast, and funding contracts merged.",
+    "A seed-level go requires both public feasibility and promotion pass; a valid completed non-pass resolves no_go.",
+    "Family promotion requires all three declared seeds to resolve go and otherwise leaves ZERO.3 current."
+  ],
+  "confidence": 0.99
+}

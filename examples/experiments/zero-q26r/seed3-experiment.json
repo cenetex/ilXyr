@@ -1,0 +1,103 @@
+{
+  "schema": "ilxyr.experiment.v1",
+  "id": "zero.q26r.seed3.cumulative-tangent.v1",
+  "title": "ZERO.4 Q2.6-R seed-3 replay-tangent replication",
+  "hypothesis": "The accepted Q2.6 global replay-tangent intervention reproduces on seed 3 under unchanged public, promotion, and replay authorities.",
+  "rationale": "Seed 2 passed strongly, but a family claim requires seeds 1, 2, and 3 all to pass. This experiment changes only the declared training seed and forbids adaptive repair or early family stopping.",
+  "proposer": {
+    "id": "model://zero/q26r/research-director",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5.6-sol/2026-07-19"
+  },
+  "family": "zero",
+  "lineage": {
+    "hypothesis": "zero.q26r.hypothesis.v1",
+    "mathematical_foundation": "zero.q26r.foundation.v1",
+    "engineering_review": "zero.q26r.engineering_review.v1",
+    "experiment_design": "zero.q26r.experiment_design.v1"
+  },
+  "baseline": "baseline://zero/q26/seed2/cumulative-tangent-go/v1",
+  "datasets": [
+    "dataset://zero/q26r/seed3/frozen-corpora/v1",
+    "dataset://zero/q26r/seed3/public-and-promotion/v1"
+  ],
+  "models": ["weight://zero/zero3-balanced-final/c8657694"],
+  "metrics": [
+    {"name": "replication_seed", "unit": "count", "description": "Authorized Q2.6-R seed identity."},
+    {"name": "seed_passed", "unit": "boolean", "description": "Conjunctive upstream public and promotion decision, encoded as 0 or 1."},
+    {"name": "optimizer_attempts", "unit": "count", "description": "Total outer transactional AdamW attempts evaluated."},
+    {"name": "committed_updates", "unit": "count", "description": "Outer attempts committed after tangent construction and cumulative replay authority."},
+    {"name": "rejected_outer_attempts", "unit": "count", "description": "Outer attempts rolled back after exhausting all eight projected scales."},
+    {"name": "full_scale_commits", "unit": "count", "description": "Commits accepted at the unscaled learning rate."},
+    {"name": "backtracked_commits", "unit": "count", "description": "Commits accepted after one or more geometric retries."},
+    {"name": "trial_evaluations", "unit": "count", "description": "Total projected or unprojected candidate scales evaluated."},
+    {"name": "max_trials_used", "unit": "count", "description": "Largest trial count observed in one outer attempt."},
+    {"name": "min_accepted_scale", "unit": "ratio", "description": "Smallest learning-rate scale committed, or zero if no attempt commits."},
+    {"name": "warning_trial_exceedances", "unit": "count", "description": "Trials above 1% cumulative replay increase or non-finite."},
+    {"name": "hard_trial_exceedances", "unit": "count", "description": "Trials above 1.5% cumulative replay increase or non-finite."},
+    {"name": "max_trial_replay_increase", "unit": "ratio", "description": "Largest finite trial composite increase relative to immutable ZERO.3."},
+    {"name": "max_committed_replay_increase", "unit": "ratio", "description": "Largest finite committed composite increase relative to immutable ZERO.3."},
+    {"name": "projected_trials", "unit": "count", "description": "Trials whose replay-increasing displacement component was removed."},
+    {"name": "projected_commits", "unit": "count", "description": "Committed attempts whose selected trial applied projection."},
+    {"name": "unprojected_trials", "unit": "count", "description": "Trials left unchanged because their replay-gradient dot displacement was non-positive."},
+    {"name": "max_projection_removed_fraction", "unit": "ratio", "description": "Largest fraction of candidate displacement norm removed by projection."},
+    {"name": "mean_projection_removed_fraction", "unit": "ratio", "description": "Mean removed displacement fraction over projected trials."},
+    {"name": "max_projection_pre_dot", "unit": "scalar", "description": "Largest positive replay-gradient dot displacement before projection."},
+    {"name": "max_absolute_projection_post_dot", "unit": "scalar", "description": "Largest absolute replay-gradient dot projected displacement after projection."},
+    {"name": "public_checkpoint_count", "unit": "count", "description": "Frozen full public evaluations completed."},
+    {"name": "jointly_feasible_checkpoint_count", "unit": "count", "description": "Public checkpoints satisfying quantity and replay gates together."},
+    {"name": "promotion_evaluations", "unit": "count", "description": "Disjoint promotion evaluations performed."}
+  ],
+  "seeds": [3],
+  "outcome_contract": {
+    "primary_metric": "seed_passed",
+    "success_outcome": "go",
+    "outcomes": [
+      {"id": "go", "description": "The frozen public checkpoint and exactly-once promotion gates all pass.", "predicate": {"kind": "metric", "metric": "seed_passed", "operator": "gte", "threshold": 1}},
+      {"id": "no_go", "description": "Execution completes validly without the public-and-promotion conjunction.", "predicate": {"kind": "metric", "metric": "seed_passed", "operator": "lt", "threshold": 1}},
+      {"id": "execution_failure", "description": "The process exits unsuccessfully, times out, duplicates a result, or violates the metric envelope.", "predicate": {"kind": "execution_failure"}}
+    ]
+  },
+  "execution": {
+    "executor": "local-command",
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-zero-q26r.mjs",
+      "--repo", "/workspace/zero-grounded-literary-lm",
+      "--repository", "https://github.com/atimics/zero-grounded-literary-lm.git",
+      "--commit", "3ee802c29ddf47982477a6b6dd635eaedede7bb7",
+      "--git", "/usr/bin/git",
+      "--make", "/usr/bin/make",
+      "--node", "/usr/local/bin/node",
+      "--harness-sha256", "7c6c217fb2be10b067b55649048b7177a3eccdae9a22ff252f483f7a8d367f47",
+      "--seed", "3"
+    ],
+    "timeout_seconds": 14400,
+    "max_cost_credits": 300,
+    "network": "open"
+  },
+  "funding": {
+    "required_compute_credits": 300,
+    "minimum_forecasters": 2,
+    "minimum_total_stake": 20
+  },
+  "security": {"weight_class": "public", "code_policy": "arbitrary", "export_policy": "artifacts"},
+  "evidence_authority": {
+    "level": "deterministic_replay",
+    "scope": {"seeds": [3], "eval_set": "dataset://zero/q26r/seed3/public-and-promotion/v1", "coverage": 1.0},
+    "provenance": {"artifact_hashes": [], "checker": "checker://ilxyr/zero-q26r-live/v1"}
+  },
+  "expected_outputs": [
+    "metrics.replication_seed", "metrics.seed_passed", "metrics.optimizer_attempts",
+    "metrics.committed_updates", "metrics.rejected_outer_attempts",
+    "metrics.full_scale_commits", "metrics.backtracked_commits",
+    "metrics.trial_evaluations", "metrics.max_trials_used", "metrics.min_accepted_scale",
+    "metrics.warning_trial_exceedances", "metrics.hard_trial_exceedances",
+    "metrics.max_trial_replay_increase", "metrics.max_committed_replay_increase",
+    "metrics.projected_trials", "metrics.projected_commits", "metrics.unprojected_trials",
+    "metrics.max_projection_removed_fraction", "metrics.mean_projection_removed_fraction",
+    "metrics.max_projection_pre_dot", "metrics.max_absolute_projection_post_dot",
+    "metrics.public_checkpoint_count", "metrics.jointly_feasible_checkpoint_count",
+    "metrics.promotion_evaluations", "resolved_outcome", "forecast_settlements"
+  ]
+}

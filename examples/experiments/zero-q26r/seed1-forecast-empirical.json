@@ -1,0 +1,13 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "zero.q26r.seed1.forecast.empirical.v1",
+  "experiment_id": "zero.q26r.seed1.cumulative-tangent.v1",
+  "forecaster": {
+    "id": "model://zero/q26r/forecaster-empirical",
+    "kind": "model",
+    "model_ref": "model://zero/q26r/forecast-cross-seed-history/v1"
+  },
+  "probabilities": {"go": 0.46, "no_go": 0.51, "execution_failure": 0.03},
+  "stake": 10,
+  "rationale": "The only observed Q2.6 seed passed strongly, but the earlier Q2.2-R family showed one go and two no-go under seed variation. The accepted geometry is promising without yet establishing family stability."
+}

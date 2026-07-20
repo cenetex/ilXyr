@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q26r.hypothesis.v1",
+  "stage": "hypothesis",
+  "actor": {
+    "id": "model://zero/q26r/research-director",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5.6-sol/2026-07-19"
+  },
+  "title": "Q2.6 replay-tangent gains are stable across declared seeds",
+  "body": "Q2.6 seed 2 passed after 700 full-scale commits under the unchanged replay and quantity authorities. If the global replay-tangent intervention, rather than seed-specific luck, reopened the constrained path, independently initialized seeds 1 and 3 should also reach a jointly feasible public checkpoint and pass their disjoint promotion evaluations without changing the accepted design.",
+  "input_refs": ["zero.q26.seed2.cumulative-tangent.go.v1"],
+  "claims": [
+    "Replication varies only the declared training seed while preserving the exact Q2.6 design and authorities.",
+    "Both remaining seeds must execute regardless of the first outcome to prevent optional stopping."
+  ],
+  "confidence": 0.54
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "zero.q26r.engineering_review.v1",
+  "stage": "engineering_review",
+  "actor": {
+    "id": "model://zero/q26r/transaction-reviewer",
+    "kind": "model",
+    "model_ref": "model://zero/q26r/replication-source-review/v1"
+  },
+  "title": "Q2.6-R source authorization, isolation, and aggregation review",
+  "body": "Merged Zero commit 3ee802c29ddf47982477a6b6dd635eaedede7bb7 adds a separate Q2.6-R authorization contract while retaining the Q2.6 transaction implementation. The driver rejects seeds 1 and 3 without that exact contract, routes each result to a seed-specific directory, refuses duplicates, and preserves the original seed-2 path. The checker pins diagnostic evidence and deep-validates every attempt through the unchanged Q2.6 checker. Aggregation waits for all three declared seeds and applies an all-go conjunction.",
+  "input_refs": ["zero.q26r.hypothesis.v1", "zero.q26r.foundation.v1"],
+  "claims": [
+    "Portable and Accelerate mechanics, recovery determinism, WASM, and results-integrity checks passed before the source contract merged.",
+    "Each ilXyr harness requires a clean exact source commit and refuses an existing result.",
+    "The family aggregator cannot run until both replication results exist and cannot select a replication model."
+  ],
+  "confidence": 0.98
+}
