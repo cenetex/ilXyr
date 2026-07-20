@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="EXP-003: prospective ZERO.4 Q2.5 deterministic cumulative-guard backtracking.">
+  <meta name="description" content="EXP-003: ZERO.4 Q2.5 deterministic cumulative-guard backtracking no-go result.">
   <title>EXP-003 — Q2.5 deterministic backtracking</title>
   <link rel="stylesheet" href="../styles.css">
 </head>
@@ -22,62 +22,95 @@
 
   <main class="shell">
     <div class="hero">
-      <div class="eyebrow">EXP-003 · preregistered 2026-07-19</div>
-      <h1>Scale the candidate.<br>Keep the boundary.</h1>
-      <p class="lede">Eight deterministic AdamW scales, one frozen minibatch, and the same immutable six-source replay authority. Seed 2 has not run.</p>
-      <p><span class="tag">Preregistered</span></p>
+      <div class="eyebrow">EXP-003 · settled 2026-07-19</div>
+      <h1>Five more updates.<br>The same boundary.</h1>
+      <p class="lede">Deterministic backtracking reached 1/128 and preserved the 1.5% cumulative replay authority, then exhausted every scale before the first public checkpoint.</p>
+      <p><span class="tag no-go">Valid no-go</span></p>
+    </div>
+
+    <div class="status-row" aria-label="Experiment outcome">
+      <div class="status"><span class="label">Committed</span><strong>71 updates</strong></div>
+      <div class="status"><span class="label">Smallest scale</span><strong>1 / 128</strong></div>
+      <div class="status"><span class="label">Public checkpoints</span><strong>0</strong></div>
     </div>
 
     <section>
       <div class="panel">
-        <h2>The frozen question</h2>
-        <p>Can first-feasible learning-rate backtracking continue quantity learning without weakening Q2.4's 1.5% cumulative replay authority or the 2% public ceiling?</p>
-        <p>EXP-002 proved the boundary and exposed the next controlled variable: after commit 66, every full-size candidate was too large.</p>
+        <div class="eyebrow">Decision</div>
+        <h2>Scalar continuation did not reopen the learning path.</h2>
+        <p>Attempts 1–66 committed at full scale. Five more committed only after backtracking. Attempts 72–79 then exhausted all eight registered scales, triggering the frozen stop rule at 71 committed updates.</p>
+        <p>The maximum committed replay increase was <strong>1.499444%</strong>, below the unchanged 1.5% authority. No rejected state was admitted. Because the run never reached 100 commits, quantity/public feasibility and promotion were not evaluated; replication seeds 1 and 3 stayed sealed.</p>
       </div>
     </section>
 
     <section>
-      <div class="eyebrow">Candidate construction</div>
-      <h2>Restore. Scale. Re-evaluate all six slices.</h2>
+      <div class="eyebrow">Observed trajectory</div>
+      <h2>Safe by construction. Insufficient by result.</h2>
       <div class="grid">
-        <article class="card"><h3>One outer attempt</h3><p>Freeze minibatch, clipped gradient, proposed update, weights, and AdamW moments.</p></article>
-        <article class="card"><h3>Eight scales</h3><p>Try 1 through 1/128 in descending geometric order and select the first feasible trial.</p></article>
-        <article class="card"><h3>Same authority</h3><p>Every trial must be finite and no more than 1.5% above immutable ZERO.3.</p></article>
+        <article class="card"><h3>66 full-scale</h3><p>The trajectory matched Q2.4 through the original cumulative boundary.</p></article>
+        <article class="card"><h3>5 backtracked</h3><p>Geometric retries extended the safe path, including one commit at the minimum 1/128 scale.</p></article>
+        <article class="card"><h3>8 exhausted</h3><p>Every registered scale failed on eight consecutive outer attempts, ending the phase.</p></article>
       </div>
     </section>
 
     <section>
       <div class="panel">
-        <h2>Forecasts frozen before the run</h2>
+        <h2>Recorded metrics</h2>
         <table class="metrics">
-          <thead><tr><th>Forecaster</th><th>Go / no-go / failure</th></tr></thead>
+          <thead><tr><th>Metric</th><th>Value</th></tr></thead>
           <tbody>
-            <tr><td>Mechanistic backtracking model</td><td>18% / 80% / 2%</td></tr>
-            <tr><td>Q2.3/Q2.4 trace model</td><td>8% / 89% / 3%</td></tr>
+            <tr><td>Outer attempts / candidate trials</td><td>79 / 156</td></tr>
+            <tr><td>Full-scale / backtracked commits</td><td>66 / 5</td></tr>
+            <tr><td>Warning / hard trial exceedances</td><td>96 / 85</td></tr>
+            <tr><td>Maximum trial replay increase</td><td>1.605636%</td></tr>
+            <tr><td>Maximum committed replay increase</td><td class="pass">1.499444%</td></tr>
+            <tr><td>Public / promotion evaluations</td><td class="fail">0 / 0</td></tr>
           </tbody>
         </table>
-        <p>The leading risk is not replay leakage; it is that safe scaled updates provide too little quantity learning inside the unchanged outer-attempt budget.</p>
-      </div>
-    </section>
-
-    <section>
-      <div class="grid">
-        <article class="card"><h3>Seed 2 only</h3><p>Replication seeds 1 and 3 remain sealed until the diagnostic passes.</p></article>
-        <article class="card"><h3>Promotion sealed</h3><p>The disjoint panel opens once only after a jointly feasible public checkpoint.</p></article>
-        <article class="card"><h3>17 metrics</h3><p>Outer attempts, trial scales, guard exceedances, public feasibility, and sealed reads are explicit.</p></article>
       </div>
     </section>
 
     <section>
       <div class="panel">
-        <div class="eyebrow">Readiness</div>
-        <h2>Frozen, funded, and not yet executed.</h2>
-        <p>The exact Zero source is merged at <code>616220e2</code>. The implementation is green on macOS/Accelerate and Ubuntu/portable. A non-executing ilXyr rehearsal passed all 12 admission gates and verified 10 objects across 10 events.</p>
-        <p><a href="https://github.com/atimics/zero-grounded-literary-lm/tree/616220e2b7a35bb35f34b01fb32e1f5d8977df89/benchmarks/zero4-q25-v1">Inspect the frozen upstream contract →</a></p>
+        <h2>Forecasts settled to no-go</h2>
+        <table class="metrics">
+          <thead><tr><th>Forecaster</th><th>Frozen go / no-go / failure</th><th>Brier</th></tr></thead>
+          <tbody>
+            <tr><td>Mechanistic backtracking model</td><td>18% / 80% / 2%</td><td>0.0728</td></tr>
+            <tr><td>Q2.3/Q2.4 trace model</td><td>8% / 89% / 3%</td><td>0.0194</td></tr>
+          </tbody>
+        </table>
+        <p>Both independent forecasters assigned their largest probability to the observed outcome before execution.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="grid">
+        <article class="card"><h3>16 objects</h3><p>All content-addressed ledger objects verified.</p></article>
+        <article class="card"><h3>17 events</h3><p>The complete contribution-to-settlement chain verified.</p></article>
+        <article class="card"><h3>7 source hashes</h3><p>Contract, results, logs, checker, and driver match the run attestation.</p></article>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <div class="eyebrow">Evidence</div>
+        <h2>Exact commits, exact artifacts, one live run.</h2>
+        <p>Execution used the frozen Zero implementation at <code>616220e2</code>. The observed artifacts are published without source changes at result commit <code>16b1fc9f</code>. ilXyr registered the experiment prospectively at <code>392aaac2</code> and resolved run <code>f4cf8ffe…</code> as a valid no-go.</p>
+        <p><a href="exp-003-evidence.json">Read the machine-readable evidence →</a><br>
+        <a href="https://github.com/atimics/zero-grounded-literary-lm/tree/16b1fc9ffe7d7c4f611e9b850f0d33b3a6339718/benchmarks/zero4-q25-v1/seed2">Inspect the upstream result →</a></p>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <div class="eyebrow">Next decision</div>
+        <h2>Change direction, not the standard.</h2>
+        <p>Q2.6 is not preregistered. A defensible proposal must change the candidate direction, objective, or optimization geometry while preserving the replay authority, public quantity and replay gates, promotion rule, and seed seals. ZERO.3 remains current.</p>
       </div>
     </section>
   </main>
 
-  <footer><div class="shell">EXP-003 · Zero Q2.5 · preregistered · seed 2 unopened</div></footer>
+  <footer><div class="shell">EXP-003 · Zero Q2.5 · valid no-go · promotion and replication sealed</div></footer>
 </body>
 </html>
