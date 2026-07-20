@@ -1,0 +1,74 @@
+{
+  "schema": "ilxyr.experiment_evidence_summary.v1",
+  "experiment_id": "zero.q26.seed2.cumulative-tangent.v1",
+  "resolved_outcome": "go",
+  "registration": {
+    "repository": "https://github.com/cenetex/ilXyr.git",
+    "commit": "aac5197e752bd0046dc2a1b447e12dfdc8cefddc",
+    "harness_sha256": "673c25881cee7431a1bc77e0eee63305165f8d9bece03383d63c082411fdc926",
+    "compiled_ref": "artifact://sha256/24efd7dc7daeef6dec4a74a00939b0ce784561eff0fc23ba136825357c835b1b"
+  },
+  "source": {
+    "repository": "https://github.com/atimics/zero-grounded-literary-lm.git",
+    "execution_commit": "412ab70a7922a8f964a3ab7429dd601ba0250383",
+    "result_commit": "94c7e1d0f45f49d6893922d32d985761d502e79b",
+    "artifacts": [
+      { "path": "benchmarks/zero4-q26-v1/contract.json", "sha256": "2fa40ace634c9fc737d6212f902b074685a7769628becf720cefe5f936e4ac80" },
+      { "path": "benchmarks/zero4-q26-v1/seed2/RESULTS.md", "sha256": "b3bbc85d9d2de5ca9bd49d9940cd2e78e89599e69cbaaa5dd7a907bab34749db" },
+      { "path": "benchmarks/zero4-q26-v1/seed2/result.json", "sha256": "6fba7b46a00c881ab129ea706125fee0924d897836784274275ae9517805eb5f" },
+      { "path": "benchmarks/zero4-q26-v1/seed2/optimizer-attempts.jsonl", "sha256": "c7f7c3a9a20f02c59d0354c7f947195cd5da7b7aa256662064aaa2b4edd931ba" },
+      { "path": "benchmarks/zero4-q26-v1/seed2/events.jsonl", "sha256": "b45268d32ba97db47cca074276a27d55738f8c70319dd373647052ca40f24e75" },
+      { "path": "benchmarks/zero4-q26-v1/seed2/selected.litq8", "sha256": "44b32f2262be2754fd2eeaf16ed206bae32b4ce30d7f5541a1059cd21257ae50" },
+      { "path": "scripts/check_zero4_q26.mjs", "sha256": "85681beb4eed9f1ae632d7a258629727015baea62ed0415b7bdbab40a17ef269" },
+      { "path": "scripts/train_zero4_q26.mjs", "sha256": "15112a37bc951290b99e63bea9e64dc85a143a12cabaa6223c42628d99714f88" }
+    ]
+  },
+  "scientific_run": {
+    "started_at": "2026-07-20T04:05:42.058Z",
+    "completed_at": "2026-07-20T05:06:18.023Z",
+    "resolved_outcome": "go",
+    "run_ref": "artifact://sha256/0940076590557425cf1a3a4bbf3d20fc3fa457191ea02c145686744f2c7d56d8",
+    "metrics": {
+      "seed_passed": 1,
+      "optimizer_attempts": 700,
+      "committed_updates": 700,
+      "rejected_outer_attempts": 0,
+      "full_scale_commits": 700,
+      "backtracked_commits": 0,
+      "trial_evaluations": 700,
+      "max_trials_used": 1,
+      "min_accepted_scale": 1,
+      "warning_trial_exceedances": 0,
+      "hard_trial_exceedances": 0,
+      "max_trial_replay_increase": 0.0005089199641196096,
+      "max_committed_replay_increase": 0.0005089199641196096,
+      "projected_trials": 423,
+      "projected_commits": 423,
+      "unprojected_trials": 277,
+      "max_projection_removed_fraction": 0.14337323665418025,
+      "mean_projection_removed_fraction": 0.036731164347065866,
+      "max_projection_pre_dot": 0.0017079639087356257,
+      "max_absolute_projection_post_dot": 6.218345195680731e-7,
+      "public_checkpoint_count": 7,
+      "jointly_feasible_checkpoint_count": 6,
+      "selected_commit": 500,
+      "selected_replay_regression": 0.011833231146535925,
+      "selected_minimum_faculty_margin": 0.010000000000000009,
+      "promotion_evaluations": 1,
+      "replication_seeds_opened": 0
+    },
+    "forecast_settlements": [
+      { "forecast_id": "zero.q26.forecast.mechanistic.v1", "resolved_outcome": "go", "stake": 10, "brier_score": 0.8984 },
+      { "forecast_id": "zero.q26.forecast.empirical.v1", "resolved_outcome": "go", "stake": 10, "brier_score": 1.3626 }
+    ],
+    "ledger_verification": { "objects_checked": 16, "events_checked": 17, "valid": true }
+  },
+  "downstream": {
+    "promotion_split_evaluated": true,
+    "promotion_split_passed": true,
+    "replication_seeds_eligible": [1, 3],
+    "replication_seeds_executed": [],
+    "family_promotion": false,
+    "current_model": "ZERO.3"
+  }
+}

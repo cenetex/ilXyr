@@ -52,9 +52,11 @@ into a promoted claim.
   the 1.5% boundary, then stopped after 66 commits and eight consecutive rollbacks before a public
   checkpoint. EXP-003 prospectively executed eight-scale deterministic backtracking under the same
   authority. It admitted five additional commits, including one at 1/128, then exhausted every
-  scale on eight consecutive attempts before a public checkpoint. EXP-004 prospectively registers
-  Q2.6's global replay-tangent projection from a merged source commit under the same authority.
-  Seed 2 remains unobserved; promotion and replication remain sealed.
+  scale on eight consecutive attempts before a public checkpoint. EXP-004 prospectively executed
+  Q2.6's global replay-tangent projection under the same authority. Seed 2 resolved go after 700
+  full-scale commits; the selected public checkpoint and exactly one disjoint promotion evaluation
+  passed. Replication seeds 1 and 3 are eligible but remain unregistered and unexecuted, so ZERO.3
+  remains current.
 - Independently, extract the real
   q22r shared contract with frozen data hashes and add a Solomon-compatible encoding and verifier;
   neither task licenses promotion of a failed result.
