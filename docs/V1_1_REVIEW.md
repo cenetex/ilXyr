@@ -54,9 +54,14 @@ content-addressed objects across five hash-linked events, and `ilxyr verify` pas
 | Candidate zero-probability windows | 0 |
 | Frozen checker promotion | pass |
 
-NSRL remains a private GitHub repository. The source is independently checkoutable by authorized
-users, but unauthenticated public replay remains unavailable; this access limitation is not
-silently described as public grounding.
+NSRL is now a public GitHub repository (visibility changed 2026-07-19). The frozen commit is
+reachable as `codex/publish-solomon-successor-v2` and `frozen/successor-v2-replay`. An
+unauthenticated cold clone of the public repository, checked out at the frozen commit, replayed
+the full successor-v2 pipeline and reproduced every frozen metric above. `retro --execute`
+registered `solomon.successor-v2.headline.public.v1` with `grounded=true`,
+`forecast_risked=false` at `deterministic_replay` authority, and `ilxyr verify` passed
+(4 objects, 5 events). Solomon public grounding is complete; see
+[`docs/experiments/solomon-successor-v2-public-evidence.json`](experiments/solomon-successor-v2-public-evidence.json).
 
 ### Zero
 

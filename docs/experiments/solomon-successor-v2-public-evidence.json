@@ -1,0 +1,71 @@
+{
+  "schema": "ilxyr.experiment_evidence_summary.v1",
+  "experiment_id": "retro:solomon.successor-v2.headline.public.v1",
+  "resolved_outcome": "retro_grounded",
+  "registration": {
+    "repository": "https://github.com/cenetex/ilXyr.git",
+    "commit": "aac5197e752bd0046dc2a1b447e12dfdc8cefddc",
+    "harness_sha256": "5d88cd7613a2d867d49f007aa0f7970e4bb2f253535d7965fb621edaa57a5d53",
+    "plan_ref": "artifact://sha256/19c2e698438d4fd64367076c8192367ffd2b88d1630334ca961547c13aa0d45a"
+  },
+  "source": {
+    "repository": "https://github.com/atimics/nsrl.git",
+    "visibility": "public",
+    "commit": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+    "refs": [
+      "codex/publish-solomon-successor-v2",
+      "frozen/successor-v2-replay"
+    ],
+    "artifacts": [
+      {
+        "path": "benchmarks/integer-transformer-proof-v1/successor-v2-manifest.tsv",
+        "sha256": "b15d81ef527befd9699634eba6ec1451428e2c1eb7c8e0bb43dcd3009a373281"
+      },
+      {
+        "path": "benchmarks/integer-transformer-proof-v1/successor-v2-evidence.json",
+        "sha256": "29546fca1eab45e592489ce6e6b0b6f352c7a2a740558c7de4e016e23c2f1428"
+      },
+      {
+        "path": "scripts/run-integer-transformer-successor-v2.mjs",
+        "sha256": "187134c570f1807292d8ad3e0eee5f1d4934118a3afcdcefa820a5905cb5a157"
+      }
+    ]
+  },
+  "replay": {
+    "started_at": "2026-07-20T05:40:12.255000Z",
+    "completed_at": "2026-07-20T05:41:10.602000Z",
+    "run_ref": "artifact://sha256/57c5518687890503fbb182f5a7c2fba84722c8110da1e314be767dc2e0bb5106",
+    "evidence_ref": "artifact://sha256/12b326bee2642c0274ac32d9410dbfa19c929ac10feb17fbdb2c9485c5072aa9",
+    "metrics": {
+      "transformer_nll_millibits": 25347655,
+      "uniform_nll_millibits": 47168000,
+      "retrieval_nll_millibits": 38271425,
+      "byte_ngram_nll_millibits": 38025720,
+      "float_transformer_nll_millibits": 40847697,
+      "zero_probability_windows": 0,
+      "targets": 5896,
+      "promoted": 1
+    },
+    "authority": {
+      "level": "deterministic_replay",
+      "scope": {
+        "seeds": [
+          0
+        ],
+        "eval_set": "dataset://solomon/integer-transformer-successor-v2/eval",
+        "coverage": 1.0
+      },
+      "provenance": {
+        "model_lineage": "model://solomon/integer-transformer-successor-v2/0x3e2b06f1c8ec76df",
+        "checker": "checker://solomon/integer-transformer-successor/v2"
+      }
+    },
+    "grounded": true,
+    "forecast_risked": false
+  },
+  "verification": {
+    "objects_checked": 4,
+    "events_checked": 5,
+    "valid": true
+  }
+}
