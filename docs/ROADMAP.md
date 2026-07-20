@@ -50,8 +50,10 @@ into a promoted claim.
   and replication seeds remained sealed.
 - EXP-002 prospectively executed Q2.4's cumulative direct functional replay budget. It enforced
   the 1.5% boundary, then stopped after 66 commits and eight consecutive rollbacks before a public
-  checkpoint. EXP-003 is now preregistered to retry each frozen candidate at eight deterministic
-  scales under the same authority; seed 2 remains unopened.
+  checkpoint. EXP-003 prospectively executed eight-scale deterministic backtracking under the same
+  authority. It admitted five additional commits, including one at 1/128, then exhausted every
+  scale on eight consecutive attempts before a public checkpoint. Q2.6 is not preregistered; a
+  follow-up must change update direction or optimization geometry without relaxing the gates.
 - Independently, extract the real
   q22r shared contract with frozen data hashes and add a Solomon-compatible encoding and verifier;
   neither task licenses promotion of a failed result.

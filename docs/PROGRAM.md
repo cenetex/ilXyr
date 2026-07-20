@@ -60,8 +60,9 @@ The frozen Q2.2-R family decision is a grounded no-go: seed 2 passed, while seed
 the joint quantity/replay contract. The bridge therefore cannot treat Q2.2-R as a Zero-proven
 capability. The Q2.3 local guard also ended no-go: it accepted all 200 updates while cumulative
 replay reached 2.685%. Q2.4 then enforced a cumulative boundary but stopped after 66 commits and
-eight guarded rollbacks. Q2.5 is prospectively registered as EXP-003 with deterministic candidate
-backtracking; it must clear seed 2 and then the sealed multi-seed gate before entering the bridge.
+eight guarded rollbacks. Q2.5 then tested deterministic candidate backtracking under the same
+authority: five scaled updates committed before eight attempts exhausted every registered scale.
+It never reached a public checkpoint, so EXP-003 resolved no-go and the bridge remains closed.
 
 ## Bootstrap
 
@@ -72,9 +73,10 @@ backtracking; it must clear seed 2 and then the sealed multi-seed gate before en
    hash-pinned selected model, and the completed three-seed no-go decision is separately grounded.
 3. Shared-task contracts and the continuous loop-cycle driver — implemented; the real q22r shared
    task remains blocked until both family encodings/verifiers and data hashes exist.
-4. EXP-001 grounds Q2.3's local-guard no-go and EXP-002 records Q2.4's prospective cumulative-guard
-   no-go. EXP-003 preregisters deterministic backtracking under the same authority; run seed 2 only
-   after the package merges, using sandbox for cadence and full gates for spine claims.
+4. EXP-001 grounds Q2.3's local-guard no-go, EXP-002 records Q2.4's prospective cumulative-guard
+   no-go, and EXP-003 records Q2.5's prospective deterministic-backtracking no-go. Q2.6 is not
+   preregistered; the next intervention must change direction or optimization geometry while
+   preserving full gates for spine claims.
 5. Execute the bridge only after a Zero result clears its declared family gate and a real shared
    task binds both family verifiers.
 

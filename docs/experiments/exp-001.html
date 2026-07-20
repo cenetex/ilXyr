@@ -79,9 +79,9 @@ cargo run -p ilxyr-cli -- verify /workspace/ledger</code></pre>
 
     <section>
       <div class="panel">
-        <div class="eyebrow">Next decision</div>
-        <h2>Budget the trajectory, not just the step.</h2>
-        <p>EXP-002 enforced the cumulative six-slice authority, then stopped after 66 commits and eight guarded rollbacks. EXP-003 now freezes deterministic candidate backtracking under the same 1.5% ceiling.</p>
+        <div class="eyebrow">Later decisions</div>
+        <h2>Budget the trajectory, then test the constrained path.</h2>
+        <p>EXP-002 enforced the cumulative six-slice authority and stopped at 66 commits. EXP-003 added deterministic backtracking under the same ceiling, gained five commits, then exhausted every scale before a public checkpoint.</p>
         <p><a href="exp-003.html">Read EXP-003 →</a></p>
       </div>
     </section>
