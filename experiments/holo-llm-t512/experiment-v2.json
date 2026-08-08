@@ -1,0 +1,46 @@
+{
+  "schema": "ilxyr.experiment.v1",
+  "id": "holo.hrr.t512.enwik8.v2",
+  "title": "Independent CPU verification of Holo HRR attention at T=512",
+  "hypothesis": "The public Holo HRR repository can complete its published T=512 three-arm training comparison on the public enwik8 corpus under a frozen CPU lab run.",
+  "rationale": "The upstream T=512 report uses a local Telegram corpus and MPS measurements that are not present in the public checkout. This experiment independently verifies the executable implementation and comparison protocol on the public enwik8 artifact while explicitly classifying the result as corpus-proxy evidence. Revision v2 records distinct model references for proposer and engineering reviewer after the admission gate rejected the first contract's role identity collision.",
+  "proposer": {"id": "model://codex/holo-t512/research-director", "kind": "model", "model_ref": "model://openai/codex/gpt-5/2026-08-08"},
+  "lineage": {
+    "hypothesis": "holo.hrr.t512.hypothesis.v1",
+    "mathematical_foundation": "holo.hrr.t512.foundation.v1",
+    "engineering_review": "holo.hrr.t512.engineering-review.v2",
+    "experiment_design": "holo.hrr.t512.experiment-design.v1"
+  },
+  "baseline": "baseline://holo-llm/results-t512-telegram-mps-v2",
+  "datasets": ["dataset://holo-llm/enwik8/2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8"],
+  "models": ["weight://holo-llm/source-578af4e5f368c198fa8c1ca8e32ae7258762b28b"],
+  "metrics": [
+    {"name": "execution_complete", "unit": "boolean", "description": "The frozen training comparison exited successfully and emitted a complete metrics envelope, encoded as 0 or 1."},
+    {"name": "source_clean", "unit": "boolean", "description": "No tracked files in the vendored upstream checkout were modified before execution, encoded as 0 or 1."},
+    {"name": "softmax_final_val_bpb", "unit": "bits_per_byte", "description": "Softmax arm final validation bits per byte; lower is better."},
+    {"name": "hrr_final_val_bpb", "unit": "bits_per_byte", "description": "Uniform HRR arm final validation bits per byte; lower is better."},
+    {"name": "gated_final_val_bpb", "unit": "bits_per_byte", "description": "Gated HRR arm final validation bits per byte; lower is better."},
+    {"name": "softmax_median_ms_per_step", "unit": "milliseconds", "description": "Softmax arm median training-step wall time."},
+    {"name": "hrr_median_ms_per_step", "unit": "milliseconds", "description": "Uniform HRR arm median training-step wall time."},
+    {"name": "gated_median_ms_per_step", "unit": "milliseconds", "description": "Gated HRR arm median training-step wall time."},
+    {"name": "hrr_minus_softmax_bpb", "unit": "bits_per_byte_delta", "description": "Uniform HRR final validation bits per byte minus softmax; negative favors HRR."},
+    {"name": "gated_minus_softmax_bpb", "unit": "bits_per_byte_delta", "description": "Gated HRR final validation bits per byte minus softmax; negative favors gated HRR."},
+    {"name": "hrr_speedup_vs_softmax", "unit": "ratio", "description": "Softmax median milliseconds per step divided by uniform HRR median milliseconds per step; above 1 favors HRR."},
+    {"name": "gated_speedup_vs_softmax", "unit": "ratio", "description": "Softmax median milliseconds per step divided by gated HRR median milliseconds per step; above 1 favors gated HRR."}
+  ],
+  "seeds": [0],
+  "outcome_contract": {
+    "primary_metric": "source_clean",
+    "success_outcome": "completed",
+    "outcomes": [
+      {"id": "completed", "description": "The frozen public-corpus run completed with a clean tracked upstream checkout.", "predicate": {"kind": "metric", "metric": "source_clean", "operator": "gte", "threshold": 1}},
+      {"id": "source_dirty", "description": "The computation completed but the tracked upstream checkout was modified before execution.", "predicate": {"kind": "metric", "metric": "source_clean", "operator": "lt", "threshold": 1}},
+      {"id": "execution_failure", "description": "The process exited unsuccessfully, timed out, or failed to emit the frozen metric envelope.", "predicate": {"kind": "execution_failure"}}
+    ]
+  },
+  "execution": {"executor": "local-command", "program": "/private/tmp/ilxyr-holo-venv/bin/python", "args": ["/Users/ratimics/develop/ilxyr/experiments/holo-llm-t512/run_t512.py"], "timeout_seconds": 3600, "max_cost_credits": 10, "network": "open"},
+  "funding": {"required_compute_credits": 10, "minimum_forecasters": 2, "minimum_total_stake": 10},
+  "security": {"weight_class": "public", "code_policy": "arbitrary", "export_policy": "artifacts"},
+  "evidence_authority": {"level": "corpus_proxy", "scope": {"seeds": [0], "eval_set": "dataset://holo-llm/enwik8/2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8", "coverage": 1.0}, "provenance": {"artifact_hashes": [], "model_lineage": "model://holo-llm/source-578af4e5f368c198fa8c1ca8e32ae7258762b28b", "checker": "checker://ilxyr/holo-hrr-t512-enwik8/v1"}},
+  "expected_outputs": ["metrics.execution_complete", "metrics.source_clean", "metrics.softmax_final_val_bpb", "metrics.hrr_final_val_bpb", "metrics.gated_final_val_bpb", "metrics.softmax_median_ms_per_step", "metrics.hrr_median_ms_per_step", "metrics.gated_median_ms_per_step", "metrics.hrr_minus_softmax_bpb", "metrics.gated_minus_softmax_bpb", "metrics.hrr_speedup_vs_softmax", "metrics.gated_speedup_vs_softmax", "resolved_outcome", "forecast_settlements"]
+}

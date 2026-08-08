@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "holo.hrr.t512.foundation.v1",
+  "stage": "mathematical_foundation",
+  "actor": {
+    "id": "model://codex/holo-t512/mathematical-reviewer",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5/2026-08-08"
+  },
+  "title": "Frozen T=512 comparison and interpretation boundary",
+  "body": "The comparison holds the byte-level GPT architecture, seed, optimizer, batch size, sequence length, training steps, learning rate, and evaluation procedure fixed while varying only the attention arm. Lower validation bits per byte and lower median milliseconds per step are favorable. A CPU/enwik8 result is a corpus-and-device proxy for the upstream Telegram/MPS report, not an exact metric replication.",
+  "input_refs": ["holo.hrr.t512.hypothesis.v1"],
+  "claims": [
+    "The three-arm comparison has a declared directional interpretation.",
+    "The public evidence must keep exact replication separate from proxy verification."
+  ],
+  "confidence": 0.97
+}

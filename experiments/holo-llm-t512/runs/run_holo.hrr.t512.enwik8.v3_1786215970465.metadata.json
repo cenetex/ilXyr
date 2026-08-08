@@ -1,0 +1,24 @@
+{
+  "captured_config": {
+    "B": 16,
+    "T": 512,
+    "a_init": 0.99,
+    "arms": "softmax,hrr,gated",
+    "corpus": "/Users/ratimics/develop/ilxyr/vendor/holo-llm-hrr-attention/data/enwik8",
+    "d_model": 256,
+    "eval_iters": 20,
+    "log_every": 250,
+    "lr": 0.0003,
+    "n_head": 4,
+    "n_layer": 4,
+    "out": "/Users/ratimics/develop/ilxyr/experiments/holo-llm-t512/runs/run_holo.hrr.t512.enwik8.v2_1786214604523.json",
+    "raw": "/Users/stacc/brain-ab/shared-raw/telegram",
+    "seed": 0,
+    "steps": 1500,
+    "train_frac": 0.95,
+    "val_frac": 0.05
+  },
+  "captured_device": "cpu",
+  "captured_result_sha256": "f7c319079cc22135782b05e0e75e0be104782b2b017e3bffa7010249cb6b1369",
+  "recovery_of": "experiments/holo-llm-t512/runs/run_holo.hrr.t512.enwik8.v2_1786214604523.json"
+}

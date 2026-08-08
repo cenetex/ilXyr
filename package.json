@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "test:pages": "node scripts/validate-pages-publication.mjs",
     "test:schemas": "node scripts/validate-json-schemas.mjs"
   },
   "devDependencies": {

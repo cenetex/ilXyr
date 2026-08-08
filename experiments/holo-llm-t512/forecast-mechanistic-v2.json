@@ -1,0 +1,9 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "holo.hrr.t512.forecast.mechanistic.v2",
+  "experiment_id": "holo.hrr.t512.enwik8.v2",
+  "forecaster": {"id": "model://codex/holo-t512/forecaster-mechanistic", "kind": "model", "model_ref": "model://openai/codex/gpt-5/2026-08-08/mechanistic"},
+  "probabilities": {"completed": 0.96, "source_dirty": 0.01, "execution_failure": 0.03},
+  "stake": 5,
+  "rationale": "The corrected contract now passes role-separation requirements; the wrapper passed a smoke run and the upstream checkout is clean at a pinned commit. The main residual risk is runtime failure during the full 1500-step comparison."
+}

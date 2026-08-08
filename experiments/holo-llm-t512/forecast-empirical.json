@@ -1,0 +1,13 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "holo.hrr.t512.forecast.empirical.v1",
+  "experiment_id": "holo.hrr.t512.enwik8.v1",
+  "forecaster": {
+    "id": "model://codex/holo-t512/forecaster-empirical",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5/2026-08-08/empirical"
+  },
+  "probabilities": {"completed": 0.9, "source_dirty": 0.02, "execution_failure": 0.08},
+  "stake": 5,
+  "rationale": "The short run completed on CPU, but the full run is materially longer and the upstream code was authored around MPS. Completion is likely but not certain until all three arms finish."
+}

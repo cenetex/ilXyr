@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "holo.hrr.t512.engineering-review.v2",
+  "stage": "engineering_review",
+  "actor": {
+    "id": "model://codex/holo-t512/engineering-reviewer-v2",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5/2026-08-08/engineering-review"
+  },
+  "title": "Certified wrapper and provenance review, corrected role identity",
+  "body": "The ilXyr wrapper runs the upstream train.py from an isolated vendored checkout using an absolute Python executable, captures the upstream transcript as an artifact, and emits one strict JSON metrics envelope. It records the upstream commit and SHA-256 hashes for train.py, model.py, and data/enwik8. Runtime dependencies are installed before the experiment; the declared run itself performs no network fetch. The host has CPU PyTorch available and MPS unavailable, so device identity is part of the evidence. This revision uses a model reference distinct from the proposer so the lab's reviewer-separation gate can be evaluated mechanically.",
+  "input_refs": ["holo.hrr.t512.hypothesis.v1", "holo.hrr.t512.foundation.v1"],
+  "claims": [
+    "The wrapper is compatible with ilXyr's shell-free local executor output contract.",
+    "The source and runtime boundary are observable enough for independent audit."
+  ],
+  "confidence": 0.94
+}

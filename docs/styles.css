@@ -9,6 +9,8 @@
   --signal-soft: #dcece5;
   --no-go: #9a3f2f;
   --no-go-soft: #f2ded8;
+  --proxy: #76551b;
+  --proxy-soft: #f2e8cf;
   --code: #202724;
 }
 
@@ -58,14 +60,18 @@ section { padding: 2.5rem 0; }
 .card .decision { color: var(--no-go); }
 .tag { display: inline-block; padding: 0.25rem 0.58rem; border-radius: 999px; background: var(--signal-soft); color: var(--signal); font-size: 0.75rem; font-weight: 800; }
 .tag.no-go { background: var(--no-go-soft); color: var(--no-go); }
+.tag.proxy { background: var(--proxy-soft); color: var(--proxy); }
 
 .panel { padding: clamp(1.3rem, 4vw, 2.2rem); }
+.table-wrap { overflow-x: auto; }
 .metrics { width: 100%; border-collapse: collapse; }
 .metrics th, .metrics td { padding: 0.78rem 0.45rem; border-bottom: 1px solid var(--line); text-align: left; }
 .metrics th { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
 .metrics td:last-child, .metrics th:last-child { text-align: right; }
 .fail { color: var(--no-go); font-weight: 760; }
 .pass { color: var(--signal); font-weight: 760; }
+.boundary { padding-left: 1.2rem; color: var(--muted); }
+.boundary li + li { margin-top: 0.5rem; }
 
 pre { overflow-x: auto; padding: 1rem; border-radius: 0.75rem; background: var(--code); color: #ecf4ef; font-size: 0.84rem; }
 code { font-family: "SFMono-Regular", Consolas, monospace; }

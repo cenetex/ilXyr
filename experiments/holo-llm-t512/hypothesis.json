@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "holo.hrr.t512.hypothesis.v1",
+  "stage": "hypothesis",
+  "actor": {
+    "id": "model://codex/holo-t512/research-director",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5/2026-08-08"
+  },
+  "title": "Public Holo HRR T=512 procedure is independently executable",
+  "body": "A clean checkout of the public staccs/holo-llm-hrr-attention repository can execute its published T=512 training comparison with the declared seed, model shape, data split, and three attention arms on the certified lab host. This study verifies the public implementation and protocol on the repository's public enwik8 corpus; it does not claim an exact reproduction of the upstream Telegram/MPS result, whose corpus is not published in the checkout.",
+  "input_refs": [],
+  "claims": [
+    "The public source and public corpus are sufficient to run the T=512 comparison without modifying tracked upstream files.",
+    "The resulting transcript, metrics, source commit, and artifact hashes can be preserved in ilXyr evidence."
+  ],
+  "confidence": 0.9
+}

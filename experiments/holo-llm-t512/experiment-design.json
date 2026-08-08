@@ -1,0 +1,22 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "holo.hrr.t512.experiment-design.v1",
+  "stage": "experiment_design",
+  "actor": {
+    "id": "model://codex/holo-t512/experiment-designer",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5/2026-08-08"
+  },
+  "title": "One-shot public-corpus T=512 reproduction",
+  "body": "After this contract, its forecasts, and its funding are recorded, execute the frozen wrapper once. Preserve stdout metrics, stderr transcript, generated JSON, source attestation, environment versions, and the ilXyr event chain. Resolve completed when the run exits cleanly with a clean tracked upstream checkout; resolve source_dirty when the computation finishes but the tracked source is not clean; resolve execution_failure for a failed or timed-out run. Do not tune, retry, or replace the public corpus after execution.",
+  "input_refs": [
+    "holo.hrr.t512.hypothesis.v1",
+    "holo.hrr.t512.foundation.v1",
+    "holo.hrr.t512.engineering-review.v1"
+  ],
+  "claims": [
+    "A valid completed result is publishable as independent public-corpus verification, with the exact-replication limitation stated.",
+    "The run is immutable at the experiment level even though later analysis may add separate artifacts."
+  ],
+  "confidence": 0.95
+}

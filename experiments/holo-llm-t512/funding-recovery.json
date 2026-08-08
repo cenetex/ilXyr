@@ -1,0 +1,8 @@
+{
+  "schema": "ilxyr.funding.v1",
+  "id": "holo.hrr.t512.funding.recovery.v1",
+  "experiment_id": "holo.hrr.t512.enwik8.v3",
+  "funder": {"id": "human://certified-lab/operator", "kind": "human"},
+  "compute_credits": 1,
+  "rationale": "Reserve one low-cost deterministic verification run for the completed T=512 training artifact."
+}

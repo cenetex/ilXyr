@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="EXP-006: recovered corpus-proxy verification of Holo HRR attention at T=512 on CPU and enwik8.">
+  <title>EXP-006 — Holo HRR attention at T=512</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header>
+    <nav class="shell" aria-label="Primary navigation">
+      <a class="brand" href="../index.html">ilXyr / lab notebook</a>
+      <div class="nav-links">
+        <a href="exp-004.html">EXP-004</a>
+        <a href="exp-005.html">EXP-005</a>
+        <a href="https://github.com/cenetex/ilXyr/blob/main/docs/experiments/EXP-006.md">Source guide</a>
+        <a href="https://github.com/cenetex/ilXyr">Repository</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="shell">
+    <div class="hero">
+      <div class="eyebrow">EXP-006 · settled 2026-08-08</div>
+      <h1>The run completed.<br>Softmax still led.</h1>
+      <p class="lede">A public CPU/enwik8 execution independently verified the Holo HRR T=512 three-arm implementation. Both HRR variants ran successfully, but neither beat softmax in validation quality or speed.</p>
+      <p><span class="tag proxy">Recovered · corpus proxy</span></p>
+    </div>
+
+    <div class="status-row" aria-label="Experiment outcome">
+      <div class="status"><span class="label">Protocol outcome</span><strong>Recovered</strong></div>
+      <div class="status"><span class="label">Authority</span><strong>Corpus proxy</strong></div>
+      <div class="status"><span class="label">Scope</span><strong>Seed 0 · CPU</strong></div>
+    </div>
+
+    <section>
+      <div class="panel">
+        <div class="eyebrow">Decision</div>
+        <h2>The implementation is executable. This run shows no HRR advantage.</h2>
+        <p>The frozen public checkout completed 1,500 training steps for softmax, uniform HRR, and gated HRR under one seed and one public enwik8 split. The recovery verifier matched the captured result, source commit, source-file hashes, dataset hash, frozen configuration, and CPU device before ilXyr recorded evidence.</p>
+        <p>The scientific comparison is descriptive rather than a promotion gate: lower bits per byte and lower step time both favored softmax.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="eyebrow">Measured result</div>
+      <h2>One protocol, three attention arms.</h2>
+      <div class="table-wrap">
+        <table class="metrics">
+          <thead><tr><th>Arm</th><th>Parameters</th><th>Validation bits/byte</th><th>Median ms/step</th><th>Tokens/sec</th></tr></thead>
+          <tbody>
+            <tr><td>Softmax</td><td>4.330M</td><td class="pass">2.9731</td><td class="pass">192.99</td><td class="pass">42,448</td></tr>
+            <tr><td>Uniform HRR</td><td>4.068M</td><td>3.5507</td><td>226.95</td><td>36,096</td></tr>
+            <tr><td>Gated HRR</td><td>4.069M</td><td>3.3308</td><td>296.08</td><td>27,668</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="grid">
+        <article class="card"><h3>+0.5776 bpb</h3><p>Uniform HRR's validation result relative to softmax; lower was better.</p></article>
+        <article class="card"><h3>+0.3577 bpb</h3><p>Gated HRR's validation result relative to softmax.</p></article>
+        <article class="card"><h3>0.850× / 0.652×</h3><p>Uniform and gated training speed relative to softmax.</p></article>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <div class="eyebrow">Claim boundary</div>
+        <h2>What this result does—and does not—establish.</h2>
+        <ul class="boundary">
+          <li>It verifies that the public Holo HRR implementation executes its declared T=512 comparison end to end on the public enwik8 corpus.</li>
+          <li>It does not reproduce the unpublished Telegram corpus or the upstream MPS hardware conditions.</li>
+          <li>Its promoted protocol lane applies to the recovered evidence transaction, not to a claim that HRR outperformed softmax.</li>
+          <li>It covers one seed on one CPU host; exact replication and broader performance claims remain open.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="eyebrow">Recovery audit</div>
+      <h2>The failed envelope stays visible.</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>1 · Training completed</h3>
+          <p>All three arms finished and emitted metrics, checkpoints, a transcript, and a captured result under the frozen v2 experiment.</p>
+        </article>
+        <article class="card">
+          <h3>2 · Strict parser rejected</h3>
+          <p>The wrapper added an unsupported top-level field. ilXyr retained the run but did not convert malformed output into settled evidence.</p>
+        </article>
+        <article class="card">
+          <h3>3 · Evidence recovered</h3>
+          <p>A separate v3 verifier checked the captured result and provenance without rerunning training or changing parameters, then emitted a valid envelope.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <h2>Forecast chronology</h2>
+        <div class="table-wrap">
+          <table class="metrics">
+            <thead><tr><th>Stage</th><th>Forecaster</th><th>Probability on successful stage outcome</th><th>Settlement</th></tr></thead>
+            <tbody>
+              <tr><td>Before training</td><td>Mechanistic</td><td>96% completed</td><td>Not settled after invalid envelope</td></tr>
+              <tr><td>Before training</td><td>Empirical</td><td>90% completed</td><td>Not settled after invalid envelope</td></tr>
+              <tr><td>Before recovery</td><td>Mechanistic</td><td>98% recovered</td><td>Brier 0.0006</td></tr>
+              <tr><td>Before recovery</td><td>Empirical</td><td>97% recovered</td><td>Brier 0.0014</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The recovery forecasts concern deterministic artifact verification after the training result existed. They are not forecasts that HRR would beat softmax.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <div class="eyebrow">Public evidence</div>
+        <h2>Small summary here. Heavy artifacts stay out.</h2>
+        <p>The public summary carries source, dataset, result, checkpoint, ledger, and event hashes without exposing raw executor output or workstation paths. The three retained checkpoints total about 48 MB and are deliberately not served by GitHub Pages.</p>
+        <p><a href="exp-006-evidence.json">Read the machine-readable evidence →</a><br>
+        <a href="https://huggingface.co/staccs/holo-llm-hrr-attention/tree/578af4e5f368c198fa8c1ca8e32ae7258762b28b">Inspect the frozen upstream source →</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="shell">EXP-006 · Holo HRR T=512 · recovered corpus-proxy evidence · no measured HRR advantage</div></footer>
+</body>
+</html>
