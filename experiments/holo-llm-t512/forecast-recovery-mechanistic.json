@@ -1,0 +1,9 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "holo.hrr.t512.forecast.recovery-mechanistic.v1",
+  "experiment_id": "holo.hrr.t512.enwik8.v3",
+  "forecaster": {"id": "model://codex/holo-t512/recovery-forecaster-mechanistic", "kind": "model", "model_ref": "model://openai/codex/gpt-5/2026-08-08/recovery-mechanistic"},
+  "probabilities": {"recovered": 0.98, "verification_failed": 0.01, "execution_failure": 0.01},
+  "stake": 5,
+  "rationale": "The captured result, source commit, and artifact hashes have already been inspected; the recovery verifier is deterministic and has no training workload."
+}

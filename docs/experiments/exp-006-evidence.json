@@ -1,0 +1,170 @@
+{
+  "schema": "ilxyr.experiment_evidence_summary.v1",
+  "public_id": "EXP-006",
+  "experiment_id": "holo.hrr.t512.enwik8.v3",
+  "resolved_outcome": "recovered",
+  "publication": {
+    "status": "recovered_corpus_proxy",
+    "prepared_at": "2026-08-08",
+    "claim": "The public Holo HRR checkout completed its T=512 three-arm comparison on CPU using the public enwik8 corpus, and the captured result passed deterministic recovery verification.",
+    "claim_boundary": [
+      "This is not an exact reproduction of the upstream Telegram/MPS result.",
+      "This is a single-seed corpus-and-device proxy.",
+      "The protocol outcome recovered is an integrity outcome, not a finding that HRR outperformed softmax."
+    ]
+  },
+  "authority": {
+    "level": "corpus_proxy",
+    "protocol_lane": "promoted",
+    "scope": {
+      "seeds": [0],
+      "eval_set": "dataset://holo-llm/enwik8/2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
+      "coverage": 1.0
+    },
+    "interpretation": "The promoted lane applies to the recovered evidence transaction and does not promote a performance-superiority claim."
+  },
+  "source": {
+    "repository": "https://huggingface.co/staccs/holo-llm-hrr-attention",
+    "commit": "578af4e5f368c198fa8c1ca8e32ae7258762b28b",
+    "artifacts": [
+      {
+        "path": "train.py",
+        "sha256": "c159707df262a312d851d2fd091d79ed59fc60b37131a936c210b19a35f6fd87"
+      },
+      {
+        "path": "model.py",
+        "sha256": "05f6eb89cd76d0b0f118e638e7cebf6f0d1b5724c97cc3e9be652685feb9e580"
+      },
+      {
+        "path": "data/enwik8",
+        "sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8"
+      }
+    ]
+  },
+  "scientific_run": {
+    "experiment_id": "holo.hrr.t512.enwik8.v2",
+    "compiled_ref": "artifact://sha256/204a16fed0ab812e2b4c847886c0af7d2b754bf6765433e38af82a8d4545e262",
+    "run_ref": "artifact://sha256/ef6fe687105c16caeb8d98dff4cc821396fb1245721d2ed73eeaa6dbbb6bc6c7",
+    "started_at": "2026-08-08T18:43:24.523Z",
+    "completed_at": "2026-08-08T19:03:07.621Z",
+    "device": "cpu",
+    "seed": 0,
+    "configuration": {
+      "batch_size": 16,
+      "sequence_length": 512,
+      "model_width": 256,
+      "layers": 4,
+      "heads": 4,
+      "steps": 1500,
+      "learning_rate": 0.0003,
+      "train_fraction": 0.95,
+      "validation_fraction": 0.05,
+      "evaluation_iterations": 20
+    },
+    "captured_result_sha256": "f7c319079cc22135782b05e0e75e0be104782b2b017e3bffa7010249cb6b1369",
+    "settlement": {
+      "recorded": false,
+      "reason": "The strict executor-output parser rejected an unsupported top-level field; no malformed output was converted into evidence."
+    },
+    "metrics": {
+      "softmax": {
+        "parameters_millions": 4.33,
+        "final_validation_bits_per_byte": 2.9731,
+        "median_ms_per_step": 192.99,
+        "tokens_per_second": 42448
+      },
+      "uniform_hrr": {
+        "parameters_millions": 4.068,
+        "final_validation_bits_per_byte": 3.5507,
+        "median_ms_per_step": 226.95,
+        "tokens_per_second": 36096,
+        "bits_per_byte_delta_vs_softmax": 0.5775999999999999,
+        "speed_ratio_vs_softmax": 0.8503635161929941
+      },
+      "gated_hrr": {
+        "parameters_millions": 4.069,
+        "final_validation_bits_per_byte": 3.3308,
+        "median_ms_per_step": 296.08,
+        "tokens_per_second": 27668,
+        "bits_per_byte_delta_vs_softmax": 0.3576999999999999,
+        "speed_ratio_vs_softmax": 0.6518170764658201
+      }
+    }
+  },
+  "recovery": {
+    "experiment_id": "holo.hrr.t512.enwik8.v3",
+    "compiled_ref": "artifact://sha256/d48355d92682bfadc73b3eabbadf43a7edec7b672d33f04c8636571cc6106231",
+    "run_ref": "artifact://sha256/68054f794a485263abb1a049bd501c6b1b5f6901acd5d90cb0149ba506774200",
+    "evidence_ref": "artifact://sha256/4e59ddd38584db9a7b0d38889d49334182351d6d4a92a1ba8688682c25b3face",
+    "evidence_event_hash": "a1251e1819b791dd403ff1c990098be4d1cf8046d2ca474c51b4cdb479a72bd2",
+    "ledger_head_at_preparation": "6c0164368f17a07d3dab95cdfcf31105aad77a1d78a237dbdc5813048b66e93b",
+    "started_at": "2026-08-08T19:06:10.465Z",
+    "completed_at": "2026-08-08T19:06:10.576Z",
+    "evidence_recorded_at": "2026-08-08T19:06:10.610Z",
+    "training_rerun": false,
+    "verified": [
+      "captured result digest",
+      "frozen configuration",
+      "source commit",
+      "source-file digests",
+      "dataset digest",
+      "CPU device"
+    ]
+  },
+  "forecasts": {
+    "original_execution": [
+      {
+        "forecast_id": "holo.hrr.t512.forecast.mechanistic.v2",
+        "probability_completed": 0.96,
+        "settled": false
+      },
+      {
+        "forecast_id": "holo.hrr.t512.forecast.empirical.v2",
+        "probability_completed": 0.9,
+        "settled": false
+      }
+    ],
+    "recovery_verification": [
+      {
+        "forecast_id": "holo.hrr.t512.forecast.recovery-mechanistic.v1",
+        "probability_recovered": 0.98,
+        "resolved_outcome": "recovered",
+        "brier_score": 0.0006000000000000008
+      },
+      {
+        "forecast_id": "holo.hrr.t512.forecast.recovery-empirical.v1",
+        "probability_recovered": 0.97,
+        "resolved_outcome": "recovered",
+        "brier_score": 0.0014000000000000017
+      }
+    ],
+    "interpretation": "Recovery forecasts cover deterministic artifact verification after the training result existed; they are not performance forecasts."
+  },
+  "retained_checkpoints": [
+    {
+      "name": "ckpt_softmax_T512.pt",
+      "bytes": 17334242,
+      "sha256": "458e0ee94f6a793661f01c299e806e7d9d865e02f32eab9e391039febc3ad7da",
+      "distribution": "not_published_on_github_pages"
+    },
+    {
+      "name": "ckpt_hrr_T512.pt",
+      "bytes": 16291546,
+      "sha256": "037533fe10b17e95931006eda8dfef6b23595e88eafac7249c92599c619968a1",
+      "distribution": "not_published_on_github_pages"
+    },
+    {
+      "name": "ckpt_gated_T512_a0.99.pt",
+      "bytes": 16295294,
+      "sha256": "4bd6fd860ae4562f12815ff007d23c8b914edf1d3ba0ed86fac929c9f57d7a45",
+      "distribution": "not_published_on_github_pages"
+    }
+  ],
+  "interpretation": {
+    "execution_verified": true,
+    "exact_upstream_replication": false,
+    "hrr_quality_advantage_observed": false,
+    "hrr_speed_advantage_observed": false,
+    "summary": "The public implementation executed successfully, while softmax outperformed both HRR variants on this single-seed CPU/enwik8 proxy."
+  }
+}

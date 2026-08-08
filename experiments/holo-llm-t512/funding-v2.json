@@ -1,0 +1,8 @@
+{
+  "schema": "ilxyr.funding.v1",
+  "id": "holo.hrr.t512.funding.lab.v2",
+  "experiment_id": "holo.hrr.t512.enwik8.v2",
+  "funder": {"id": "human://certified-lab/operator", "kind": "human"},
+  "compute_credits": 10,
+  "rationale": "Reserve one full CPU reproduction run under the corrected frozen experiment contract."
+}

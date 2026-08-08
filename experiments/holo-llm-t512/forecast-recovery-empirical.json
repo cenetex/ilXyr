@@ -1,0 +1,9 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "holo.hrr.t512.forecast.recovery-empirical.v1",
+  "experiment_id": "holo.hrr.t512.enwik8.v3",
+  "forecaster": {"id": "model://codex/holo-t512/recovery-forecaster-empirical", "kind": "model", "model_ref": "model://openai/codex/gpt-5/2026-08-08/recovery-empirical"},
+  "probabilities": {"recovered": 0.97, "verification_failed": 0.01, "execution_failure": 0.02},
+  "stake": 5,
+  "rationale": "The verification inputs are fixed and the source checks were already independently confirmed during the failed v2 finalization, leaving only a parser or path failure risk."
+}

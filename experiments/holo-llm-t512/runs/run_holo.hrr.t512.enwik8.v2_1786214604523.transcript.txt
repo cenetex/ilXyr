@@ -1,0 +1,43 @@
+device=cpu  train=95.0MB  val=5.0MB  (test held out: 0.0MB)
+
+=== SOFTMAX  params=4.33M  B=16 T=512 steps=1500 ===
+  step     1/1500  train 5.6620  val 5.6006  (8.080 bits/byte)  242.7 ms/step
+  step   250/1500  train 2.5950  val 2.6331  (3.799 bits/byte)  232.3 ms/step
+  step   500/1500  train 2.4973  val 2.5110  (3.623 bits/byte)  232.5 ms/step
+  step   750/1500  train 2.3518  val 2.3548  (3.397 bits/byte)  226.8 ms/step
+  step  1000/1500  train 2.1657  val 2.1865  (3.154 bits/byte)  202.4 ms/step
+  step  1250/1500  train 2.0773  val 2.1037  (3.035 bits/byte)  200.8 ms/step
+  step  1500/1500  train 2.1204  val 2.0841  (3.007 bits/byte)  193.0 ms/step
+  saved /Users/ratimics/develop/ilxyr/experiments/holo-llm-t512/runs/ckpt_softmax_T512.pt
+  -> final val 2.0608 = 2.9731 bits/byte | 193.0 ms/step | 42,448 tok/s | 316s total
+
+=== HRR  params=4.07M  B=16 T=512 steps=1500 ===
+  step     1/1500  train 5.5844  val 5.5793  (8.049 bits/byte)  294.8 ms/step
+  step   250/1500  train 2.6153  val 2.6730  (3.856 bits/byte)  223.8 ms/step
+  step   500/1500  train 2.5905  val 2.5937  (3.742 bits/byte)  226.0 ms/step
+  step   750/1500  train 2.5538  val 2.5456  (3.673 bits/byte)  234.7 ms/step
+  step  1000/1500  train 2.5009  val 2.5079  (3.618 bits/byte)  231.6 ms/step
+  step  1250/1500  train 2.4732  val 2.4858  (3.586 bits/byte)  228.1 ms/step
+  step  1500/1500  train 2.4746  val 2.4791  (3.577 bits/byte)  226.9 ms/step
+  saved /Users/ratimics/develop/ilxyr/experiments/holo-llm-t512/runs/ckpt_hrr_T512.pt
+  -> final val 2.4611 = 3.5507 bits/byte | 226.9 ms/step | 36,096 tok/s | 374s total
+
+=== GATED  params=4.07M  B=16 T=512 steps=1500 ===
+  step     1/1500  train 5.5875  val 5.5807  (8.051 bits/byte)  456.4 ms/step
+  step   250/1500  train 2.5685  val 2.6280  (3.791 bits/byte)  339.3 ms/step
+  step   500/1500  train 2.4788  val 2.4868  (3.588 bits/byte)  314.5 ms/step
+  step   750/1500  train 2.4051  val 2.4199  (3.491 bits/byte)  301.4 ms/step
+  step  1000/1500  train 2.3460  val 2.3659  (3.413 bits/byte)  293.7 ms/step
+  step  1250/1500  train 2.2957  val 2.3373  (3.372 bits/byte)  295.9 ms/step
+  step  1500/1500  train 2.3615  val 2.3302  (3.362 bits/byte)  296.1 ms/step
+  saved /Users/ratimics/develop/ilxyr/experiments/holo-llm-t512/runs/ckpt_gated_T512_a0.99.pt
+  -> final val 2.3087 = 3.3308 bits/byte | 296.1 ms/step | 27,668 tok/s | 481s total
+
+==========================================================================
+      arm   params   ms/step      tok/s  val bits/byte   wall s
+--------------------------------------------------------------------------
+  softmax    4.33M    192.99     42,448         2.9731    315.8
+      hrr   4.068M    226.95     36,096         3.5507    373.6
+    gated   4.069M    296.08     27,668         3.3308    480.6
+
+wrote /Users/ratimics/develop/ilxyr/experiments/holo-llm-t512/runs/run_holo.hrr.t512.enwik8.v2_1786214604523.json
