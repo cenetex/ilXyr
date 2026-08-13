@@ -1,0 +1,9 @@
+{
+  "name": "ilXyr Permanent Experiment Registry",
+  "short_name": "ilXyr",
+  "description": "Submit, review, fund, and verify permanent experiment records.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f1e8",
+  "theme_color": "#18231d"
+}

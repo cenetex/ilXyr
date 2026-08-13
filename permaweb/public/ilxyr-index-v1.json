@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.index.v1",
+  "sequence": 1,
+  "previous_index_tx": null,
+  "ledger_head": "",
+  "published_by": "arweave://I5Z-EnOhkasZjtaMu9IbSVK3duWSecQpZ0lnKFEjjRg",
+  "generated_at": "2026-08-12T22:13:12.000Z",
+  "experiments": [
+    {
+      "experiment_id": "lecore.qwen35.install.20c3330d0b3e.d6905f043e78.a6c9d1135a04.a04ab5692be3.v1.acceptance",
+      "bundle_tx": "jguWIRC2oP5gNWNmGNNeLIGD9t155X6orv9FREZmHBk",
+      "evidence_ref": "artifact://sha256/22fc1c29c182563c80d9188e4e2d077e6fbb72dcdc0c1d046e7d7e22dd3c00e1",
+      "outcome": "execution_failure",
+      "title": "Qwen3.5 acceptance experiment: v1 terminal record",
+      "owner": "I5Z-EnOhkasZjtaMu9IbSVK3duWSecQpZ0lnKFEjjRg"
+    }
+  ]
+}

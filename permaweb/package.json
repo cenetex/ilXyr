@@ -1,0 +1,33 @@
+{
+  "name": "ilxyr-permaweb",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc --noEmit && tsc --noEmit -p tsconfig.node.json && vite build",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "index:build": "node scripts/build-index.mjs",
+    "index:validate": "node scripts/validate-index.mjs",
+    "bundle:verify": "node scripts/verify-bundle.mjs",
+    "deploy:index": "npx --yes @ar.io/deploy@1.0.1 upload --deploy-file public/ilxyr-index-v1.json",
+    "deploy:arweave": "npx --yes @ar.io/deploy@1.0.1 upload --deploy-folder dist",
+    "deploy:arns": "npx --yes @ar.io/deploy@1.0.1 deploy --deploy-folder dist --use-arns"
+  },
+  "dependencies": {
+    "@permaweb/aoconnect": "0.0.69",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "@vitejs/plugin-react": "6.0.5",
+    "luaparse": "0.3.1",
+    "typescript": "5.9.3",
+    "vite": "8.2.1"
+  },
+  "overrides": {
+    "undici": "6.28.0"
+  }
+}
