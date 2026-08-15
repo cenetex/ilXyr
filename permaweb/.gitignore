@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.ario-deploy/
+.env
+*.log
+*.tsbuildinfo
+ilxyr-index.json

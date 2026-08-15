@@ -111,6 +111,9 @@ started without producing a terminal run. `authorize` reports the same decision 
 
 ## Repository map
 
+- `permaweb`: the static Arweave/AO experiment registry, canonical index tooling, and signed
+  proposal/review/funding process. See [`permaweb/README.md`](permaweb/README.md).
+- `portal`: the hosted submission and review portal used for the conventional web deployment.
 - `crates/ilxyr-core`: protocol objects, validation, ledger, gates, execution, settlement.
 - `crates/ilxyr-cli`: a small reference control-plane CLI.
 - `schemas`: portable JSON contracts for non-Rust producers and consumers (13 strict Draft
