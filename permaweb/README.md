@@ -13,8 +13,11 @@ server or a central database. You can open it through different Arweave gateways
   evidence notices.
 - **The ilXyr executor runs outside the dApp.** It sends verified results to Arweave.
 
-The dApp ships with the existing Qwen3.5 acceptance evidence transaction as its first known record:
-`jguWIRC2oP5gNWNmGNNeLIGD9t155X6orv9FREZmHBk`.
+The dApp ships with all seven frozen Qwen3.5 acceptance records. The canonical index preserves the
+five terminal failures and the accepted v6 and v7 results; the seven path manifests are also seeded
+directly so their file inventories remain available when gateway tag discovery is incomplete.
+Because v3-v5 did not produce admitted `EvidenceRecorded` objects, their index `evidence_ref` values
+bind the reconstructable evidence-bundle SHA-256 recorded by their publication receipts.
 
 ## Configure
 
@@ -38,7 +41,7 @@ npm test
 npm run bundle:verify -- jguWIRC2oP5gNWNmGNNeLIGD9t155X6orv9FREZmHBk
 ```
 
-## Build the first canonical index
+## Rebuild the bundled canonical index
 
 ```bash
 npm run index:build -- \

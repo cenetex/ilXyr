@@ -4,8 +4,32 @@
   "previous_index_tx": null,
   "ledger_head": "",
   "published_by": "arweave://I5Z-EnOhkasZjtaMu9IbSVK3duWSecQpZ0lnKFEjjRg",
-  "generated_at": "2026-08-12T22:13:12.000Z",
+  "generated_at": "2026-08-15T02:10:00.000Z",
   "experiments": [
+    {
+      "experiment_id": "lecore.qwen35.install.20c3330d0b3e.0215736e2060.a6c9d1135a04.3e130ddc1500.ed018efbbb3a.v6.acceptance",
+      "bundle_tx": "Ks5BCVFX6179VUXQL8lMczLXX6hAp7j-lUpOcXikiTs",
+      "evidence_ref": "artifact://sha256/daa75d8b453c67e56677612cd6c5913cfa8a8c9281a08c7a2c4c807252db314b",
+      "outcome": "accepted",
+      "title": "Qwen3.5 acceptance v6: correctness parity accepted",
+      "owner": "kHK-OR_6S6p89Q2VdGAsbUyUscIws4O51vST5LYOjsk"
+    },
+    {
+      "experiment_id": "lecore.qwen35.install.20c3330d0b3e.59f551d452cf.a6c9d1135a04.f399cd6bc7f2.v3.acceptance",
+      "bundle_tx": "h96JlX-4ttZsPZdYRBuT-_JNO2s0lS18hoFjM4ojYSw",
+      "evidence_ref": "artifact://sha256/84db563708d77fb13ff93f072dec85f19e96ec7cfe33a22e56e639df78dfcc60",
+      "outcome": "execution_failure",
+      "title": "Qwen3.5 acceptance v3: execution failure",
+      "owner": "Tp9rnI0lVaMBpPbhbofJXTBI6yJtfoxrI5KWM4GEXKE"
+    },
+    {
+      "experiment_id": "lecore.qwen35.install.20c3330d0b3e.d6905f043e78.a6c9d1135a04.2f32151c6d44.v2.acceptance",
+      "bundle_tx": "f35OgXuOoulk9EcndJBNWIgZ5tmaQ6DRzeINP7ARZTU",
+      "evidence_ref": "artifact://sha256/15885a3e5fbb01a504473e3076c25c9d5d938c13f96faa340ed9600a245845cc",
+      "outcome": "execution_failure",
+      "title": "Qwen3.5 acceptance v2: execution failure",
+      "owner": "CYVtYCPST9t7ziybtEpHSxncOEgCiofFatuiHcTFSjA"
+    },
     {
       "experiment_id": "lecore.qwen35.install.20c3330d0b3e.d6905f043e78.a6c9d1135a04.a04ab5692be3.v1.acceptance",
       "bundle_tx": "jguWIRC2oP5gNWNmGNNeLIGD9t155X6orv9FREZmHBk",
@@ -13,6 +37,30 @@
       "outcome": "execution_failure",
       "title": "Qwen3.5 acceptance experiment: v1 terminal record",
       "owner": "I5Z-EnOhkasZjtaMu9IbSVK3duWSecQpZ0lnKFEjjRg"
+    },
+    {
+      "experiment_id": "lecore.qwen35.install.20c3330d0b3e.e4323ead9159.a6c9d1135a04.c1ddc2291695.5773fd8e17e2.v4.acceptance",
+      "bundle_tx": "S_abPRyuad89zt2QFN-f9G6kIbumkvqBWqg5_K0SkJk",
+      "evidence_ref": "artifact://sha256/29d4b28aa0be9896f8993ead3a93a741c831346f64356c35dc7e73bd6f8243de",
+      "outcome": "preflight_failure",
+      "title": "Qwen3.5 acceptance v4: preflight failure",
+      "owner": "PWFAC17n2EiUXKICMO_gEND8C86SWnc5pANBX7TAPkE"
+    },
+    {
+      "experiment_id": "lecore.qwen35.install.20c3330d0b3e.e4323ead9159.a6c9d1135a04.cb3b1d2ac71c.5a73ec7002a4.v7.acceptance",
+      "bundle_tx": "RaDOgThGonnt9eLUe_1eKjJukMY-FnbXlBYSRmCUSa0",
+      "evidence_ref": "artifact://sha256/6fb7363869ee687c051132d936f7ae1513ad1d8ab6f0ce8b13ad2290db4c27c5",
+      "outcome": "accepted",
+      "title": "Qwen3.5 acceptance v7: native C parity accepted",
+      "owner": "dFGQBNylv-sEZKOvDxSPHmrr423_dU8fhbXc1AhPD2E"
+    },
+    {
+      "experiment_id": "lecore.qwen35.install.20c3330d0b3e.e4323ead9159.a6c9d1135a04.d5bcfc297a3a.be5d1f431823.v5.acceptance",
+      "bundle_tx": "zoZh-bZWRN_rlBuC-AONvZg5CbI6NIpkrbgepz7J5cM",
+      "evidence_ref": "artifact://sha256/32be545966b2d1fe9254ac1d100b7c4285adddf911f2e7c428ffbe40741db500",
+      "outcome": "execution_failure",
+      "title": "Qwen3.5 acceptance v5: execution failure",
+      "owner": "5-RWj5HyTnqdanAebjcRSrqu5oPqN0Jk2VZ9nRFvvz0"
     }
   ]
 }

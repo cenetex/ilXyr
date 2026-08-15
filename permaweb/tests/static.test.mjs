@@ -15,4 +15,6 @@ test("build output is a gateway-portable static dApp", async () => {
   const index = JSON.parse(await readFile(new URL("../dist/ilxyr-index-v1.json", import.meta.url), "utf8"));
   assert.equal(index.schema, "ilxyr.index.v1");
   assert.equal(index.sequence, 1);
+  assert.equal(index.experiments.length, 7);
+  assert.equal(index.experiments.filter((entry) => entry.outcome === "accepted").length, 2);
 });
