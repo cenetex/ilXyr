@@ -36,3 +36,4 @@ disable window should be recorded in an issue.
 Enforcement is live as of 2026-08-24. See docs/GOVERNANCE.md.
 
 - 2026-08-24: adversarial test suite passed (5/5).
+- escalation path verified on protected-path PR.
