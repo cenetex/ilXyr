@@ -10,3 +10,12 @@
 *.log
 *.swp
 .DS_Store
+
+# Runtime artifacts and vendored code (repo hygiene contract)
+/vendor/
+/tmp/
+/output/
+**/__pycache__/
+*.pt
+*.ckpt
+experiments/*/runs/
