@@ -2,9 +2,10 @@ use std::collections::BTreeSet;
 
 use crate::{
     ActorKind, ActorRef, AuthorityLevel, Certificate, CertificateDomain, CertificatePredicate,
-    CodePolicy, ComparisonOperator, EpochBudget, Error, ExperimentSpec, ExportPolicy, Forecast,
-    FundingCommitment, GroundingAuthority, NetworkPolicy, OutcomePredicate, ResearchContribution,
-    Result, RetroRegistrationSpec, SandboxSpec, SharedTaskContract, TrustedPolicyKey, WeightClass,
+    CodePolicy, ComparisonOperator, EpochBudget, Error, ExperimentSpec, ExportPolicy,
+    ExternalRegistrationReceipt, Forecast, FundingCommitment, GroundingAuthority, NetworkPolicy,
+    OutcomePredicate, RegistrationVisibility, ResearchContribution, Result, RetroRegistrationSpec,
+    SandboxSpec, SharedTaskContract, TrustedPolicyKey, WeightClass,
 };
 
 pub fn contribution(contribution: &ResearchContribution) -> Result<()> {
@@ -212,6 +213,61 @@ pub fn experiment(spec: &ExperimentSpec) -> Result<()> {
         errors.push("restricted weights permit only metrics_only or no export".to_owned());
     }
 
+    finish(errors)
+}
+
+pub fn external_registration_receipt(receipt: &ExternalRegistrationReceipt) -> Result<()> {
+    let mut errors = Vec::new();
+    schema(
+        &receipt.schema,
+        "ilxyr.external_registration_receipt.v1",
+        &mut errors,
+    );
+    identifier(&receipt.id, "registration_receipt.id", &mut errors);
+    identifier(
+        &receipt.experiment_id,
+        "registration_receipt.experiment_id",
+        &mut errors,
+    );
+    artifact_ref(
+        &receipt.package_ref,
+        "registration_receipt.package_ref",
+        &mut errors,
+    );
+    nonempty(
+        &receipt.registration_id,
+        "registration_receipt.registration_id",
+        &mut errors,
+    );
+    handle(
+        &receipt.url,
+        "registration_receipt.url",
+        Some("https://"),
+        &mut errors,
+    );
+    actor(&receipt.registered_by, &mut errors);
+    if receipt.registered_at_ms == 0 {
+        errors.push("registration_receipt.registered_at_ms must be positive".to_owned());
+    }
+    match (&receipt.visibility, &receipt.doi) {
+        (RegistrationVisibility::Public, Some(doi)) => {
+            nonempty(doi, "registration_receipt.doi", &mut errors);
+            if !doi.starts_with("10.") || !doi.contains('/') || doi.chars().any(char::is_whitespace)
+            {
+                errors.push(
+                    "registration_receipt.doi must be a canonical DOI beginning with 10."
+                        .to_owned(),
+                );
+            }
+        }
+        (RegistrationVisibility::Public, None) => {
+            errors.push("a public registration receipt requires a DOI".to_owned());
+        }
+        (RegistrationVisibility::Embargoed, Some(_)) => {
+            errors.push("an embargoed registration receipt must not declare a DOI".to_owned());
+        }
+        (RegistrationVisibility::Embargoed, None) => {}
+    }
     finish(errors)
 }
 

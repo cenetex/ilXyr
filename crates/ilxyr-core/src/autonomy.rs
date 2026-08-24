@@ -14,10 +14,10 @@ use crate::{
     ComparisonOperator, CompiledExperiment, CompletedExperiment, CompletedSandbox, EpochBudget,
     Error, Evidence, EvidenceLane, ExecutionSpec, ExperimentSpec, ExportPolicy, Forecast,
     ForecastSettlement, FundingCommitment, FundingPolicy, GroundingAuthority, NetworkPolicy,
-    OutcomeContract, PromotionEligibility, ResearchLineage, Result, RunAuthorization, RunRecord,
-    SandboxRun, SandboxSpec, SecurityPolicy, TrustedPolicyKey, WeightClass, Workspace,
-    commit_funding, decide_admission, executor, run_experiment, store::canonical_bytes,
-    store::now_ms, validation,
+    OutcomeContract, PromotionEligibility, ReplicationContract, ResearchLineage, Result,
+    RunAuthorization, RunRecord, SandboxRun, SandboxSpec, SecurityPolicy, TrustedPolicyKey,
+    WeightClass, Workspace, commit_funding, decide_admission, executor, run_experiment,
+    store::canonical_bytes, store::now_ms, validation,
 };
 
 const POLICY_KEY_TRUSTED: &str = "PolicyKeyTrusted";
@@ -34,7 +34,9 @@ const EVIDENCE_RECORDED: &str = "EvidenceRecorded";
 const PROMOTION_EVALUATED: &str = "PromotionEvaluated";
 const FORECAST_SETTLED: &str = "ForecastSettled";
 const CALIBRATION_UPDATED: &str = "CalibrationUpdated";
-const CERTIFICATE_RECORDED: &str = "CertificateRecorded";
+pub(crate) const CERTIFICATE_RECORDED: &str = "CertificateRecorded";
+/// Public alias for the certificate-recorded event type.
+pub const CERTIFICATE_RECORDED_EVENT: &str = CERTIFICATE_RECORDED;
 const PROBATIONARY_WEIGHT: f64 = 0.25;
 const CALIBRATION_MINIMUM: usize = 5;
 const DISAGREEMENT_EPSILON: f64 = 1e-12;
@@ -168,6 +170,7 @@ pub fn allocate_epoch(
             &budget,
             &candidate.executable,
             candidate.compute_credits,
+            AllocationKind::Promoted,
         ) {
             decisions.push(candidate.decision(false, &error.to_string()));
             continue;
@@ -227,6 +230,64 @@ pub fn allocate_epoch(
     })
 }
 
+pub fn allocate_replication(
+    workspace: &Workspace,
+    budget_id: &str,
+    contract_ref: &str,
+) -> Result<AllocationRecord> {
+    let contract_event = workspace.events()?.into_iter().find(|event| {
+        event.event_type == "ReplicationContractRegistered"
+            && event.artifact_ref.as_deref() == Some(contract_ref)
+    });
+    if contract_event.is_none() {
+        return Err(Error::Conflict(format!(
+            "{contract_ref} is not a ledgered replication contract"
+        )));
+    }
+    let contract: ReplicationContract = workspace.get(contract_ref)?;
+    let budget = epoch_budget(workspace, budget_id)?;
+    let candidate = allocation_candidate(workspace, &budget, &contract.replication_experiment_id)?;
+    let allocation = reserve_allocation(
+        workspace,
+        &budget,
+        &candidate.experiment_id,
+        &candidate.executable,
+        candidate.compute_credits,
+        AllocationKind::Replication,
+    )?;
+    let funding_id = format!(
+        "funding:{budget_id}:replication:{}",
+        contract.replication_experiment_id
+    );
+    if workspace
+        .latest_event(FUNDING_COMMITTED, &funding_id)?
+        .is_none()
+    {
+        commit_funding(
+            workspace,
+            FundingCommitment {
+                schema: "ilxyr.funding.v1".to_owned(),
+                id: funding_id,
+                experiment_id: contract.replication_experiment_id.clone(),
+                funder: ActorRef::service("service://ilxyr/replication-allocator-v1"),
+                compute_credits: candidate.compute_credits,
+                rationale: format!(
+                    "reserved replication allocation for contract {}",
+                    contract.id
+                ),
+            },
+        )?;
+    }
+    let admission = decide_admission(workspace, &contract.replication_experiment_id)?;
+    if !admission.accepted {
+        return Err(Error::Conflict(format!(
+            "replication allocator funded {}, but admission rejected it",
+            contract.replication_experiment_id
+        )));
+    }
+    Ok(allocation)
+}
+
 pub fn authorize_unattended_run(
     workspace: &Workspace,
     budget_id: &str,
@@ -234,9 +295,12 @@ pub fn authorize_unattended_run(
 ) -> Result<RunAuthorization> {
     let budget = epoch_budget(workspace, budget_id)?;
     let compiled = load_compiled(workspace, experiment_id)?;
-    let allocation_id = allocation_id(budget_id, AllocationKind::Promoted, experiment_id);
+    let promoted_id = allocation_id(budget_id, AllocationKind::Promoted, experiment_id);
+    let replication_id = allocation_id(budget_id, AllocationKind::Replication, experiment_id);
     let allocation =
-        latest_typed::<AllocationRecord>(workspace, ALLOCATION_COMMITTED, &allocation_id)?;
+        latest_typed::<AllocationRecord>(workspace, ALLOCATION_COMMITTED, &replication_id)?.or(
+            latest_typed::<AllocationRecord>(workspace, ALLOCATION_COMMITTED, &promoted_id)?,
+        );
     let mut reasons = Vec::new();
     let allocated_compute_credits = allocation
         .as_ref()
@@ -675,7 +739,7 @@ fn reserve_allocation(
         }
         return Err(Error::Conflict(format!("allocation {id} is immutable")));
     }
-    check_capacity(workspace, budget, executable, compute_credits)?;
+    check_capacity(workspace, budget, executable, compute_credits, kind.clone())?;
     let allocation = AllocationRecord {
         schema: "ilxyr.allocation.v1".to_owned(),
         id: id.clone(),
@@ -701,6 +765,7 @@ fn check_capacity(
     budget: &EpochBudget,
     executable: &str,
     compute_credits: u64,
+    kind: AllocationKind,
 ) -> Result<()> {
     let cap = budget
         .per_executable_caps
@@ -736,11 +801,40 @@ fn check_capacity(
         .saturating_sub(reserved.min(budget.total_compute_credits));
     if total
         .checked_add(compute_credits)
-        .is_none_or(|next| next > general_limit)
+        .is_none_or(|next| next > budget.total_compute_credits)
     {
         return Err(Error::Security(format!(
-            "general epoch allocation limit {general_limit} would be exceeded; {reserved} credits are reserved for replication"
+            "total epoch allocation limit {} would be exceeded",
+            budget.total_compute_credits
         )));
+    }
+    match kind {
+        AllocationKind::Replication => {
+            let replication_total = checked_allocation_total(&allocations, |allocation| {
+                allocation.kind == AllocationKind::Replication
+            })?;
+            if replication_total
+                .checked_add(compute_credits)
+                .is_none_or(|next| next > reserved)
+            {
+                return Err(Error::Security(format!(
+                    "replication reserve {reserved} would be exceeded"
+                )));
+            }
+        }
+        AllocationKind::Promoted | AllocationKind::Sandbox => {
+            let general_total = checked_allocation_total(&allocations, |allocation| {
+                allocation.kind != AllocationKind::Replication
+            })?;
+            if general_total
+                .checked_add(compute_credits)
+                .is_none_or(|next| next > general_limit)
+            {
+                return Err(Error::Security(format!(
+                    "general epoch allocation limit {general_limit} would be exceeded; {reserved} credits are reserved for replication"
+                )));
+            }
+        }
     }
     let executable_total = checked_allocation_total(&allocations, |allocation| {
         allocation.executable == executable
@@ -814,7 +908,13 @@ fn check_sandbox_authorization(
     budget: &EpochBudget,
     spec: &SandboxSpec,
 ) -> Result<()> {
-    check_capacity(workspace, budget, &spec.executable, spec.cost_credits)?;
+    check_capacity(
+        workspace,
+        budget,
+        &spec.executable,
+        spec.cost_credits,
+        AllocationKind::Sandbox,
+    )?;
     let cap = budget
         .per_executable_caps
         .get(&spec.executable)
@@ -856,6 +956,7 @@ fn sandbox_execution_spec(spec: &SandboxSpec) -> ExperimentSpec {
         proposer: ActorRef::service("service://ilxyr/sandbox-v1"),
         family: None,
         shared_task_id: None,
+        preregistration: None,
         lineage: ResearchLineage {
             hypothesis: "sandbox".to_owned(),
             mathematical_foundation: "sandbox".to_owned(),
@@ -1060,7 +1161,7 @@ fn baseline_matches(rule: &BaselineRule, value: f64) -> bool {
     }
 }
 
-fn certificate_matches(
+pub(crate) fn certificate_matches(
     workspace: &Workspace,
     certificate: &Certificate,
     evidence: &Evidence,
@@ -1085,7 +1186,11 @@ fn certificate_matches(
     }
 }
 
-fn comparison_matches(operator: &ComparisonOperator, value: f64, threshold: f64) -> bool {
+pub(crate) fn comparison_matches(
+    operator: &ComparisonOperator,
+    value: f64,
+    threshold: f64,
+) -> bool {
     match operator {
         ComparisonOperator::Gt => value > threshold,
         ComparisonOperator::Gte => value >= threshold,
@@ -1264,6 +1369,7 @@ fn allocation_id(budget_id: &str, kind: AllocationKind, experiment_id: &str) -> 
     let kind = match kind {
         AllocationKind::Promoted => "promoted",
         AllocationKind::Sandbox => "sandbox",
+        AllocationKind::Replication => "replication",
     };
     format!("allocation:{budget_id}:{kind}:{experiment_id}")
 }

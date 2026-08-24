@@ -240,6 +240,26 @@ pub enum ExportPolicy {
     None,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum RegistrationProvider {
+    Osf,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum RegistrationVisibility {
+    Public,
+    Embargoed,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct RegistrationRequirement {
+    pub provider: RegistrationProvider,
+    pub visibility: RegistrationVisibility,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct SecurityPolicy {
@@ -261,6 +281,8 @@ pub struct ExperimentSpec {
     pub family: Option<ModelFamily>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub shared_task_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub preregistration: Option<RegistrationRequirement>,
     pub lineage: ResearchLineage,
     pub baseline: String,
     #[serde(default)]
@@ -287,6 +309,183 @@ pub struct CompiledExperiment {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub shared_task_ref: Option<String>,
     pub evidence_authority: GroundingAuthority,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RegistrationPackage {
+    pub schema: String,
+    pub id: String,
+    pub experiment_id: String,
+    pub compiled_ref: String,
+    pub compiled: CompiledExperiment,
+    pub requirement: RegistrationRequirement,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ExternalRegistrationReceipt {
+    pub schema: String,
+    pub id: String,
+    pub experiment_id: String,
+    pub provider: RegistrationProvider,
+    pub visibility: RegistrationVisibility,
+    pub package_ref: String,
+    pub registration_id: String,
+    pub url: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub doi: Option<String>,
+    pub registered_by: ActorRef,
+    pub registered_at_ms: u128,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct TrustedAttestationKey {
+    pub schema: String,
+    pub key_id: String,
+    pub executor: ActorRef,
+    pub algorithm: String,
+    pub public_key: String,
+    pub trusted_at_ms: u128,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct DsseSignature {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub keyid: Option<String>,
+    pub sig: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct DsseEnvelope {
+    pub payload_type: String,
+    pub payload: String,
+    pub signatures: Vec<DsseSignature>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ExecutorAttestation {
+    pub schema: String,
+    pub id: String,
+    pub run_ref: String,
+    pub envelope: DsseEnvelope,
+    pub statement: Value,
+    pub predicate_type: String,
+    pub verified_key_ids: Vec<String>,
+    pub recorded_at_ms: u128,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ClaimNode {
+    pub schema: String,
+    pub id: String,
+    pub statement: String,
+    pub evidence_refs: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub shared_task_ref: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub freshness_prerequisite: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub refresh_command: Option<String>,
+    pub created_by: ActorRef,
+    pub created_at_ms: u128,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum EvidenceRelation {
+    Supports,
+    Contradicts,
+    Replicates,
+    DependsOn,
+    Supersedes,
+    Subsumes,
+    DerivedFrom,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct EvidenceGraphEdge {
+    pub schema: String,
+    pub id: String,
+    pub source: String,
+    pub target: String,
+    pub relation: EvidenceRelation,
+    pub asserted_by: ActorRef,
+    pub asserted_at_ms: u128,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum ReplicationKind {
+    Capability,
+    ComputationalEquivalence,
+    Both,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ReplicationContract {
+    pub schema: String,
+    pub id: String,
+    pub target_claim: String,
+    pub reference_evidence_ref: String,
+    pub replication_experiment_id: String,
+    pub kind: ReplicationKind,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tolerances: Option<BTreeMap<String, f64>>,
+    pub eval_set: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub agreement_metric: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub agreement_threshold: Option<f64>,
+    pub declared_by: ActorRef,
+    pub declared_at_ms: u128,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct IndependenceAssessment {
+    pub shared_artifacts: Vec<String>,
+    pub distinct_checker: bool,
+    pub distinct_model_lineage: bool,
+    pub independent: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ReplicationSettlement {
+    pub schema: String,
+    pub id: String,
+    pub contract_ref: String,
+    pub target_claim: String,
+    pub reference_evidence_ref: String,
+    pub replication_evidence_ref: String,
+    pub capability_passed: bool,
+    pub equivalence_passed: bool,
+    pub forward_risked: bool,
+    pub independence: IndependenceAssessment,
+    pub succeeded: bool,
+    pub settled_at_ms: u128,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ClaimStatus {
+    pub schema: String,
+    pub claim: ClaimNode,
+    pub edges: Vec<EvidenceGraphEdge>,
+    pub replications: Vec<ReplicationSettlement>,
+    pub shared_task_bound: bool,
+    pub prospectively_risked: bool,
+    pub cold_replayable: bool,
+    pub independent_replications: usize,
+    pub spine_eligible: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -591,6 +790,7 @@ pub struct EpochBudget {
 pub enum AllocationKind {
     Promoted,
     Sandbox,
+    Replication,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

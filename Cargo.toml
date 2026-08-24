@@ -14,6 +14,7 @@ ed25519-dalek = "2.2"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sha2 = "0.10"
+ureq = { version = "2.12", features = ["json"] }
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

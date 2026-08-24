@@ -7,7 +7,8 @@ use crate::{
     CompletedExperiment, ContributionStage, Error, Evidence, EvidenceLane, ExperimentSpec,
     ExperimentStatus, ExportPolicy, Forecast, ForecastSettlement, FundingCommitment, GateCheck,
     OutcomePredicate, ResearchContribution, Result, RunRecord, SharedTaskContract, WeightClass,
-    Workspace, autonomy, executor, onboarding, store::now_ms, validation,
+    Workspace, autonomy, executor, onboarding, registration, require_registered_huggingface_actor,
+    require_registered_huggingface_weight, store::now_ms, validation,
 };
 
 const CONTRIBUTION_SUBMITTED: &str = "ContributionSubmitted";
@@ -25,6 +26,7 @@ pub fn submit_contribution(
     contribution: ResearchContribution,
 ) -> Result<String> {
     validation::contribution(&contribution)?;
+    require_registered_huggingface_actor(workspace, &contribution.actor)?;
     ensure_unique_id(workspace, CONTRIBUTION_SUBMITTED, &contribution.id)?;
     let artifact_ref = workspace.put(&contribution)?;
     workspace.append_event(
@@ -38,6 +40,10 @@ pub fn submit_contribution(
 
 pub fn compile_experiment(workspace: &Workspace, spec: ExperimentSpec) -> Result<String> {
     validation::experiment(&spec)?;
+    require_registered_huggingface_actor(workspace, &spec.proposer)?;
+    for model in &spec.models {
+        require_registered_huggingface_weight(workspace, model)?;
+    }
     autonomy::ensure_authority_artifacts_exist(workspace, &spec.evidence_authority)?;
     ensure_unique_id(workspace, EXPERIMENT_COMPILED, &spec.id)?;
     let stages = [
@@ -191,6 +197,7 @@ pub fn submit_forecast(workspace: &Workspace, forecast: Forecast) -> Result<Stri
     let compiled = load_compiled(workspace, &forecast.experiment_id)?;
     ensure_inputs_open(workspace, &forecast.experiment_id)?;
     validation::forecast(&forecast, &compiled.spec)?;
+    require_registered_huggingface_actor(workspace, &forecast.forecaster)?;
     let forecaster_identity = actor_identity(&forecast.forecaster);
     if forecasts_for(workspace, &forecast.experiment_id)?
         .iter()
@@ -216,6 +223,7 @@ pub fn commit_funding(workspace: &Workspace, commitment: FundingCommitment) -> R
     let compiled = load_compiled(workspace, &commitment.experiment_id)?;
     ensure_inputs_open(workspace, &commitment.experiment_id)?;
     validation::funding(&commitment, &compiled.spec)?;
+    require_registered_huggingface_actor(workspace, &commitment.funder)?;
     let artifact_ref = workspace.put(&commitment)?;
     workspace.append_event(
         FUNDING_COMMITTED,
@@ -303,6 +311,7 @@ fn evaluate_admission(
                 spec.outcome_contract.outcomes.len()
             ),
         ),
+        registration::admission_gate(workspace, compiled)?,
         check(
             "forecast_participation",
             distinct_forecasters >= spec.funding.minimum_forecasters,

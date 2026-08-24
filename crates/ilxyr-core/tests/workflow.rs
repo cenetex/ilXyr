@@ -1,9 +1,10 @@
 use std::{fs, path::PathBuf, process, time::SystemTime};
 
 use ilxyr_core::{
-    CodePolicy, ExperimentSpec, ExportPolicy, Forecast, FundingCommitment, NetworkPolicy,
-    ResearchContribution, WeightClass, Workspace, commit_funding, compile_experiment,
-    decide_admission, experiment_status, run_experiment, submit_contribution, submit_forecast,
+    CodePolicy, ExperimentSpec, ExportPolicy, Forecast, FundingCommitment, HuggingFaceModel,
+    NetworkPolicy, ResearchContribution, WeightClass, Workspace, commit_funding,
+    compile_experiment, decide_admission, experiment_status, register_huggingface_model,
+    run_experiment, submit_contribution, submit_forecast,
 };
 
 struct TestDirectory(PathBuf);
@@ -282,6 +283,31 @@ fn contribution_ids_are_immutable() {
             .len(),
         1
     );
+}
+
+#[test]
+fn hugging_face_actor_and_weight_handles_require_a_registered_manifest() {
+    let directory = TestDirectory::create("huggingface-binding");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let model: HuggingFaceModel = serde_json::from_str(include_str!(
+        "../../../examples/schema/huggingface-model.json"
+    ))
+    .expect("Hugging Face fixture must parse");
+
+    let mut model_contribution =
+        contribution(include_str!("../../../examples/toy/hypothesis.json"));
+    model_contribution.id = "huggingface.hypothesis.v1".to_owned();
+    model_contribution.actor.model_ref = Some(model.model_ref.clone());
+    assert!(submit_contribution(&workspace, model_contribution.clone()).is_err());
+
+    submit_lineage(&workspace);
+    let mut experiment = experiment();
+    experiment.models = vec![model.weight_ref.clone()];
+    assert!(compile_experiment(&workspace, experiment.clone()).is_err());
+
+    register_huggingface_model(&workspace, model).expect("model must register");
+    submit_contribution(&workspace, model_contribution).expect("model actor must resolve");
+    compile_experiment(&workspace, experiment).expect("model weights must resolve");
 }
 
 #[test]
