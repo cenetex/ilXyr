@@ -199,7 +199,8 @@ fn supported_claim_when_certificate_predicate_holds() {
     let support = claim_support(&ledger.workspace, claim_id).expect("support must derive");
     assert_eq!(support.status, SupportStatus::Supported);
     assert_eq!(support.certificates.len(), 1);
-    assert!(support.certificates[0].observed_value.unwrap() - 0.82 < f64::EPSILON);
+    let observed = support.certificates[0].observed_value.unwrap();
+    assert!((observed - 0.82).abs() < f64::EPSILON);
 }
 
 #[test]
