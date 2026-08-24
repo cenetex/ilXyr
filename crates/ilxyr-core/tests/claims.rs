@@ -8,21 +8,40 @@ use std::{fs, path::PathBuf, process, time::SystemTime};
 
 use ilxyr_core::{
     ActorRef, Certificate, CertificateDomain, CertificatePredicate, CheckerRef, ClaimNode,
-    ComparisonOperator, Evidence, ExperimentSpec, Forecast, FundingCommitment,
-    PaperContract, ResearchContribution, SupportStatus, Workspace, claim_support,
-    compile_experiment, decide_admission, commit_funding, evaluate_certificate, load_paper_contract,
-    program_status,
-    record_certificate, register_claim, run_experiment, submit_contribution, submit_forecast,
+    ComparisonOperator, Evidence, ExperimentSpec, Forecast, FundingCommitment, PaperContract,
+    ResearchContribution, SupportStatus, Workspace, claim_support, commit_funding,
+    compile_experiment, decide_admission, evaluate_certificate, load_paper_contract,
+    program_status, record_certificate, register_claim, run_experiment, submit_contribution,
+    submit_forecast,
 };
+
+/// Process-global uniqueness for temporary test directories. Parallel tests
+/// can read the same coarse clock tick on macOS, so timestamps alone are not
+/// sufficient to keep directories distinct.
+static UNIQUE: Unique = Unique::new();
+
+struct Unique(std::sync::atomic::AtomicU64);
+
+impl Unique {
+    const fn new() -> Self {
+        Self(std::sync::atomic::AtomicU64::new(0))
+    }
+    fn next_relaxed(&self) -> u64 {
+        self.0.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
+    }
+}
 
 struct TestDirectory(PathBuf);
 
 impl TestDirectory {
     fn create() -> Self {
-        let nonce = SystemTime::now()
-            .duration_since(SystemTime::UNIX_EPOCH)
-            .expect("test clock must follow Unix epoch")
-            .as_nanos();
+        // Monotonic per-process counter: wall-clock nanoseconds alone can
+        // collide when parallel tests start within one clock tick.
+        let nonce = u128::from(UNIQUE.next_relaxed())
+            + SystemTime::now()
+                .duration_since(SystemTime::UNIX_EPOCH)
+                .expect("test clock must follow Unix epoch")
+                .as_nanos();
         let path = std::env::temp_dir().join(format!("ilxyr-claims-{}-{nonce}", process::id()));
         fs::create_dir_all(&path).expect("test directory must be created");
         Self(path)
@@ -42,7 +61,6 @@ fn human_actor() -> ActorRef {
         model_ref: None,
     }
 }
-
 
 /// Build a minimal ledger: compile + run a toy experiment, record evidence,
 /// optionally record a certificate, and register a claim bound to that evidence.
@@ -112,10 +130,7 @@ fn write_score_script(score: f64) -> String {
     let dir = std::env::temp_dir().join(format!(
         "ilxyr-claims-script-{}-{}",
         process::id(),
-        SystemTime::now()
-            .duration_since(SystemTime::UNIX_EPOCH)
-            .unwrap()
-            .as_nanos()
+        UNIQUE.next_relaxed()
     ));
     fs::create_dir_all(&dir).expect("script dir");
     let script = dir.join("score.sh");
@@ -272,7 +287,12 @@ fn program_status_counts_claims_and_lists_experiments() {
         "status_counts = {:?}",
         overview.status_counts
     );
-    assert!(overview.experiments.iter().any(|e| e.experiment_id == ledger.experiment_id));
+    assert!(
+        overview
+            .experiments
+            .iter()
+            .any(|e| e.experiment_id == ledger.experiment_id)
+    );
     assert!(overview.scope_violations.is_empty());
 }
 
@@ -324,9 +344,13 @@ fn load_paper_contract_rejects_wrong_schema() {
 
 #[test]
 fn load_paper_contract_loads_fixture() {
-    let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../../examples/schema/paper-contract.json");
+    let path =
+        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../examples/schema/paper-contract.json");
     let contract = load_paper_contract(&path).expect("fixture must load");
     assert_eq!(contract.id, "paper:toy.v1");
-    assert!(contract.non_claims.contains(&"general task solving".to_owned()));
+    assert!(
+        contract
+            .non_claims
+            .contains(&"general task solving".to_owned())
+    );
 }

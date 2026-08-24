@@ -13,14 +13,33 @@ use ilxyr_core::{
 };
 use serde::de::DeserializeOwned;
 
+/// Process-global uniqueness for temporary test directories. Parallel tests
+/// can read the same coarse clock tick on macOS, so timestamps alone are not
+/// sufficient to keep directories distinct.
+static UNIQUE: Unique = Unique::new();
+
+struct Unique(std::sync::atomic::AtomicU64);
+
+impl Unique {
+    const fn new() -> Self {
+        Self(std::sync::atomic::AtomicU64::new(0))
+    }
+    fn next_relaxed(&self) -> u64 {
+        self.0.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
+    }
+}
+
 struct TestDirectory(PathBuf);
 
 impl TestDirectory {
     fn create() -> Self {
-        let nonce = SystemTime::now()
-            .duration_since(SystemTime::UNIX_EPOCH)
-            .expect("test clock must follow Unix epoch")
-            .as_nanos();
+        // Monotonic per-process counter: wall-clock nanoseconds alone can
+        // collide when parallel tests start within one clock tick.
+        let nonce = u128::from(UNIQUE.next_relaxed())
+            + SystemTime::now()
+                .duration_since(SystemTime::UNIX_EPOCH)
+                .expect("test clock must follow Unix epoch")
+                .as_nanos();
         let path = std::env::temp_dir().join(format!("ilxyr-graph-{}-{nonce}", process::id()));
         fs::create_dir_all(&path).expect("test directory must be created");
         Self(path)
