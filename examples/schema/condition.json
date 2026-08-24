@@ -1,0 +1,31 @@
+{
+  "schema": "ilxyr.condition.v1",
+  "id": "toy.condition.all-gates.v1",
+  "root": {
+    "kind": "all_of",
+    "all_of": [
+      {
+        "kind": "metric",
+        "experiment_id": "toy.score.v1",
+        "metric": "score",
+        "operator": "gte",
+        "threshold": 0.8
+      },
+      {
+        "kind": "not",
+        "not": {
+          "kind": "any_of",
+          "any_of": [
+            {
+              "kind": "metric",
+              "experiment_id": "toy.score.v1",
+              "metric": "regression",
+              "operator": "gt",
+              "threshold": 0.05
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

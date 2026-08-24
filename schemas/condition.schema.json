@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ilxyr.condition.v1",
+  "title": "Declarative condition expression over evidence metrics",
+  "type": "object",
+  "properties": {
+    "schema": { "const": "ilxyr.condition.v1" },
+    "id": { "type": "string", "minLength": 1 },
+    "root": { "$ref": "#/$defs/condition" }
+  },
+  "required": ["schema", "id", "root"],
+  "additionalProperties": false,
+  "$defs": {
+    "condition": {
+      "type": "object",
+      "oneOf": [
+        { "$ref": "#/$defs/metric" },
+        { "$ref": "#/$defs/allOf" },
+        { "$ref": "#/$defs/anyOf" },
+        { "$ref": "#/$defs/not" }
+      ]
+    },
+    "metric": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "metric" },
+        "experiment_id": { "type": "string", "minLength": 1 },
+        "metric": { "type": "string", "minLength": 1 },
+        "operator": {
+          "enum": ["gt", "gte", "lt", "lte", "eq"]
+        },
+        "threshold": { "type": "number" }
+      },
+      "required": ["kind", "experiment_id", "metric", "operator", "threshold"],
+      "additionalProperties": false
+    },
+    "allOf": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "all_of" },
+        "all_of": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/condition" }
+        }
+      },
+      "required": ["kind", "all_of"],
+      "additionalProperties": false
+    },
+    "anyOf": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "any_of" },
+        "any_of": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/condition" }
+        }
+      },
+      "required": ["kind", "any_of"],
+      "additionalProperties": false
+    },
+    "not": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "not" },
+        "not": { "$ref": "#/$defs/condition" }
+      },
+      "required": ["kind", "not"],
+      "additionalProperties": false
+    }
+  }
+}

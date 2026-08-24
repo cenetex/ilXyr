@@ -9,6 +9,7 @@ const schemaDirectory = join(root, "schemas");
 
 const fixtures = {
   "calibration-record.schema.json": ["examples/schema/calibration-record.json"],
+  "condition.schema.json": ["examples/schema/condition.json"],
   "certificate.schema.json": ["examples/schema/certificate.json"],
   "claim-status.schema.json": ["examples/schema/claim-status.json"],
   "claim.schema.json": ["examples/schema/claim.json"],

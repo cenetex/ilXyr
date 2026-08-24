@@ -18,7 +18,8 @@ const FUNDING_COMMITTED: &str = "FundingCommitted";
 const ADMISSION_DECIDED: &str = "AdmissionDecided";
 const EXECUTION_STARTED: &str = "ExecutionStarted";
 const EXPERIMENT_COMPLETED: &str = "ExperimentCompleted";
-const EVIDENCE_RECORDED: &str = "EvidenceRecorded";
+pub const EVIDENCE_RECORDED_EVENT: &str = "EvidenceRecorded";
+const EVIDENCE_RECORDED: &str = EVIDENCE_RECORDED_EVENT;
 const FORECAST_SETTLED: &str = "ForecastSettled";
 
 pub fn submit_contribution(
@@ -441,6 +442,7 @@ fn finalize_completed_run(
         recorded_at_ms: now_ms()?,
         authority: autonomy::evidence_authority_for_run(&compiled.evidence_authority, &run_ref),
         lane: EvidenceLane::Promoted,
+        answer_token_mass: None,
     };
     let evidence = if let Some(existing) =
         latest_typed::<Evidence>(workspace, EVIDENCE_RECORDED, experiment_id)?

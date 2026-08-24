@@ -1040,6 +1040,7 @@ fn finalize_sandbox(
         recorded_at_ms: now_ms()?,
         authority: evidence_authority_for_run(&run.authority, &run_ref),
         lane: EvidenceLane::Sandbox,
+        answer_token_mass: None,
     };
     let (evidence_ref, evidence) = if let Some((evidence_ref, existing)) =
         latest_typed_with_ref::<Evidence>(workspace, EVIDENCE_RECORDED, &spec.id)?
