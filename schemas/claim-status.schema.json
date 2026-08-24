@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/claim-status.v1.json",
+  "title": "ilxyr passive claim status v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "claim",
+    "edges",
+    "replications",
+    "shared_task_bound",
+    "prospectively_risked",
+    "cold_replayable",
+    "independent_replications",
+    "spine_eligible"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.claim_status.v1" },
+    "claim": { "$ref": "https://ilxyr.dev/schemas/claim.v1.json" },
+    "edges": {
+      "type": "array",
+      "items": {
+        "$ref": "https://ilxyr.dev/schemas/evidence-graph-edge.v1.json"
+      }
+    },
+    "replications": {
+      "type": "array",
+      "items": {
+        "$ref": "https://ilxyr.dev/schemas/replication-settlement.v1.json"
+      }
+    },
+    "shared_task_bound": { "type": "boolean" },
+    "prospectively_risked": { "type": "boolean" },
+    "cold_replayable": { "type": "boolean" },
+    "independent_replications": { "type": "integer", "minimum": 0 },
+    "spine_eligible": { "type": "boolean" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "shared_task_bound": { "const": true } },
+        "required": ["shared_task_bound"]
+      },
+      "then": {
+        "properties": {
+          "claim": {
+            "type": "object",
+            "properties": { "shared_task_ref": true },
+            "required": ["shared_task_ref"]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "claim": {
+            "type": "object",
+            "not": {
+              "type": "object",
+              "properties": { "shared_task_ref": true },
+              "required": ["shared_task_ref"]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "spine_eligible": { "const": true } },
+        "required": ["spine_eligible"]
+      },
+      "then": {
+        "properties": {
+          "shared_task_bound": { "const": true },
+          "prospectively_risked": { "const": true },
+          "cold_replayable": { "const": true },
+          "independent_replications": { "type": "integer", "minimum": 1 },
+          "replications": { "type": "array", "minItems": 1 }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/evidence-graph-edge.v1.json",
+  "title": "ilxyr evidence graph edge v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "source",
+    "target",
+    "relation",
+    "asserted_by",
+    "asserted_at_ms"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.evidence_graph_edge.v1" },
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "source": { "type": "string", "minLength": 1 },
+    "target": { "type": "string", "minLength": 1 },
+    "relation": {
+      "enum": [
+        "supports",
+        "contradicts",
+        "replicates",
+        "depends_on",
+        "supersedes",
+        "subsumes",
+        "derived_from"
+      ]
+    },
+    "asserted_by": {
+      "$ref": "https://ilxyr.dev/schemas/claim.v1.json#/$defs/actor"
+    },
+    "asserted_at_ms": { "type": "integer", "minimum": 1 }
+  }
+}

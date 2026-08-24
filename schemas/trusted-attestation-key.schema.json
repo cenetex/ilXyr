@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/trusted-attestation-key.v1.json",
+  "title": "ilxyr trusted attestation key v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "key_id",
+    "executor",
+    "algorithm",
+    "public_key",
+    "trusted_at_ms"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.trusted_attestation_key.v1" },
+    "key_id": { "type": "string", "pattern": "^key://\\S+$" },
+    "executor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^service://\\S+$" },
+        "kind": { "const": "service" }
+      }
+    },
+    "algorithm": { "const": "ed25519" },
+    "public_key": { "type": "string", "minLength": 1 },
+    "trusted_at_ms": { "type": "integer", "minimum": 1 }
+  }
+}

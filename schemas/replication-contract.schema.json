@@ -5,14 +5,27 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "schema", "target_claim", "kind", "eval_set", "declared_at_ms"
+    "schema", "id", "target_claim", "reference_evidence_ref",
+    "replication_experiment_id", "kind", "eval_set", "declared_by", "declared_at_ms"
   ],
   "properties": {
     "schema": { "const": "ilxyr.replication_contract.v1" },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:/-]+$"
+    },
     "target_claim": {
       "type": "string",
       "pattern": "^[A-Za-z0-9._:/-]+$",
-      "description": "ID of the experiment or evidence being replicated."
+      "description": "ID of the immutable claim node being replicated."
+    },
+    "reference_evidence_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+    },
+    "replication_experiment_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:/-]+$"
     },
     "kind": {
       "enum": ["capability", "computational_equivalence", "both"],
@@ -38,7 +51,15 @@
       "maximum": 1,
       "description": "Minimum per-input agreement rate for computational equivalence. Default 1.0 for exact."
     },
-    "declared_at_ms": { "type": "integer", "minimum": 0 }
+    "agreement_metric": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Replication evidence metric containing the observed per-input agreement rate."
+    },
+    "declared_by": {
+      "$ref": "https://ilxyr.dev/schemas/claim.v1.json#/$defs/actor"
+    },
+    "declared_at_ms": { "type": "integer", "minimum": 1 }
   },
   "allOf": [
     {
@@ -46,7 +67,8 @@
         "properties": { "kind": { "enum": ["capability", "both"] } },
         "required": ["kind"]
       },
-      "then": { "properties": { "tolerances": true }, "required": ["tolerances"] }
+      "then": { "properties": { "tolerances": true }, "required": ["tolerances"] },
+      "else": { "properties": { "tolerances": false } }
     },
     {
       "if": {
@@ -54,8 +76,17 @@
         "required": ["kind"]
       },
       "then": {
-        "properties": { "agreement_threshold": true },
-        "required": ["agreement_threshold"]
+        "properties": {
+          "agreement_metric": true,
+          "agreement_threshold": true
+        },
+        "required": ["agreement_metric", "agreement_threshold"]
+      },
+      "else": {
+        "properties": {
+          "agreement_metric": false,
+          "agreement_threshold": false
+        }
       }
     }
   ]

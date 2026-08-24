@@ -1,0 +1,43 @@
+{
+  "schema": "ilxyr.executor_attestation.v1",
+  "id": "attestation:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "run_ref": "artifact://sha256/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "envelope": {
+    "payloadType": "application/vnd.in-toto.provenance+json",
+    "payload": "eyJfdHlwZSI6Imh0dHBzOi8vaW4tdG90by5pby9TdGF0ZW1lbnQvdjEifQ==",
+    "signatures": [
+      {
+        "keyid": "key://toy/executor/v1",
+        "sig": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+      }
+    ]
+  },
+  "statement": {
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+      {
+        "name": "run:toy.score.v1",
+        "digest": {
+          "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      }
+    ],
+    "predicateType": "https://slsa.dev/provenance/v1",
+    "predicate": {
+      "buildDefinition": {
+        "buildType": "https://ilxyr.dev/buildtypes/local-command/v1",
+        "externalParameters": {
+          "ilxyrRunRef": "artifact://sha256/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "runDetails": {
+        "builder": {
+          "id": "service://toy/executor-v1"
+        }
+      }
+    }
+  },
+  "predicate_type": "https://slsa.dev/provenance/v1",
+  "verified_key_ids": ["key://toy/executor/v1"],
+  "recorded_at_ms": 1780000000000
+}

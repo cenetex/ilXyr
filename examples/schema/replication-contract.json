@@ -1,11 +1,20 @@
 {
   "schema": "ilxyr.replication_contract.v1",
-  "target_claim": "toy.score.v1",
+  "id": "toy.score.replication.v1",
+  "target_claim": "claim:toy.score.v1",
+  "reference_evidence_ref": "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "replication_experiment_id": "toy.score.replication-experiment.v1",
   "kind": "both",
   "tolerances": {
     "score": 0.01
   },
   "eval_set": "dataset://toy/score/v1",
+  "agreement_metric": "agreement_rate",
   "agreement_threshold": 0.99,
+  "declared_by": {
+    "id": "model://toy/replication-designer",
+    "kind": "model",
+    "model_ref": "model://toy/replication-designer/v1"
+  },
   "declared_at_ms": 1770000000000
 }

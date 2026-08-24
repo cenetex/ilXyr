@@ -1,0 +1,16 @@
+{
+  "schema": "ilxyr.external_registration_receipt.v1",
+  "id": "toy.preregistered.osf.v1",
+  "experiment_id": "toy.preregistered.v1",
+  "provider": "osf",
+  "visibility": "public",
+  "package_ref": "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "registration_id": "abc12",
+  "url": "https://osf.io/abc12",
+  "doi": "10.17605/OSF.IO/ABC12",
+  "registered_by": {
+    "id": "human://toy/owner",
+    "kind": "human"
+  },
+  "registered_at_ms": 1780000000000
+}

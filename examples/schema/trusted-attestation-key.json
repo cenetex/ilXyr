@@ -1,0 +1,11 @@
+{
+  "schema": "ilxyr.trusted_attestation_key.v1",
+  "key_id": "key://toy/executor/v1",
+  "executor": {
+    "id": "service://toy/executor-v1",
+    "kind": "service"
+  },
+  "algorithm": "ed25519",
+  "public_key": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+  "trusted_at_ms": 1780000000000
+}

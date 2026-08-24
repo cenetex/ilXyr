@@ -18,6 +18,15 @@
     "proposer": { "$ref": "#/$defs/actor" },
     "family": { "enum": ["zero", "solomon"] },
     "shared_task_id": { "$ref": "#/$defs/identifier" },
+    "preregistration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "visibility"],
+      "properties": {
+        "provider": { "const": "osf" },
+        "visibility": { "enum": ["public", "embargoed"] }
+      }
+    },
     "lineage": {
       "type": "object",
       "additionalProperties": false,

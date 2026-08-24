@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/claim-support.v1.json",
+  "title": "ilxyr claim support v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "claim_id",
+    "statement",
+    "status",
+    "certificates",
+    "spine_eligible",
+    "shared_task_bound",
+    "independent_replications",
+    "lane"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.claim_support.v1" },
+    "claim_id": { "type": "string", "minLength": 1 },
+    "statement": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": ["supported", "contradicted", "underpowered", "missing", "stale"]
+    },
+    "certificates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "certificate_id",
+          "status",
+          "evidence_ref"
+        ],
+        "properties": {
+          "certificate_id": { "type": "string" },
+          "status": {
+            "enum": ["supported", "contradicted", "underpowered", "missing", "stale"]
+          },
+          "evidence_ref": { "type": "string" },
+          "metric": { "type": "string" },
+          "observed_value": { "type": "number" },
+          "threshold": { "type": "number" },
+          "operator": {
+            "enum": ["gt", "gte", "lt", "lte", "eq"]
+          }
+        }
+      }
+    },
+    "spine_eligible": { "type": "boolean" },
+    "shared_task_bound": { "type": "boolean" },
+    "independent_replications": { "type": "integer", "minimum": 0 },
+    "lane": { "enum": ["sandbox", "promoted", "retro"] }
+  }
+}

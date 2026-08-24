@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/program-overview.v1.json",
+  "title": "ilxyr program overview v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "generated_at_ms",
+    "claims",
+    "experiments",
+    "models",
+    "non_claims",
+    "scope_violations",
+    "status_counts"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.program_overview.v1" },
+    "generated_at_ms": { "type": "integer", "minimum": 1 },
+    "claims": {
+      "type": "array",
+      "items": { "$ref": "https://ilxyr.dev/schemas/claim-support.v1.json" }
+    },
+    "experiments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "experiment_id",
+          "title",
+          "compiled",
+          "admitted",
+          "completed",
+          "evidence_recorded"
+        ],
+        "properties": {
+          "experiment_id": { "type": "string", "minLength": 1 },
+          "title": { "type": "string" },
+          "family": { "enum": ["zero", "solomon"] },
+          "shared_task_ref": { "type": "string" },
+          "compiled": { "type": "boolean" },
+          "admitted": { "type": "boolean" },
+          "completed": { "type": "boolean" },
+          "evidence_recorded": { "type": "boolean" },
+          "resolved_outcome": { "type": "string" },
+          "primary_metric": { "type": "string" },
+          "metrics": {
+            "type": "object",
+            "additionalProperties": { "type": "number" }
+          }
+        }
+      }
+    },
+    "models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["model_ref", "source"],
+        "properties": {
+          "model_ref": { "type": "string", "minLength": 1 },
+          "family": { "enum": ["zero", "solomon"] },
+          "source": { "type": "string", "minLength": 1 },
+          "parameter_count": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "non_claims": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "scope_violations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "status_counts": {
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "ilxyr.replication_settlement.v1",
+  "id": "replication:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "contract_ref": "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "target_claim": "claim:toy.score.v1",
+  "reference_evidence_ref": "artifact://sha256/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "replication_evidence_ref": "artifact://sha256/cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "capability_passed": true,
+  "equivalence_passed": true,
+  "forward_risked": true,
+  "independence": {
+    "shared_artifacts": [],
+    "distinct_checker": true,
+    "distinct_model_lineage": true,
+    "independent": true
+  },
+  "succeeded": true,
+  "settled_at_ms": 1780000000000
+}
