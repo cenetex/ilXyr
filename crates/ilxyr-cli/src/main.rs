@@ -1,16 +1,24 @@
 use std::{env, fs, path::Path, process::ExitCode};
 
 use ilxyr_core::{
-    ActorKind, ActorRef, Certificate, EpochBudget, ExperimentSpec, Forecast, FundingCommitment,
-    LoopCycle, ResearchContribution, Result, RetroRegistrationSpec, SandboxSpec,
-    SharedTaskContract, Workspace, allocate_epoch, authorize_unattended_run, calibration_for,
+    ActorKind, ActorRef, Certificate, ClaimNode, DsseEnvelope, EpochBudget, EvidenceGraphEdge,
+    ExperimentSpec, ExternalRegistrationReceipt, Forecast, FundingCommitment, HuggingFaceModel,
+    InteropFormat, LoopCycle, ReplicationContract, ResearchContribution, Result,
+    RetroRegistrationSpec, SandboxSpec, SharedTaskContract, Workspace, allocate_epoch,
+    allocate_replication, authorize_unattended_run, calibration_for, claim_status, claim_support,
     commit_funding, compile_experiment, decide_admission, epoch_budget_signing_payload,
-    execute_loop_cycle, experiment_status, record_certificate, register_epoch_budget,
-    register_shared_task, retro_register, run_experiment, run_experiment_unattended, run_sandbox,
-    submit_contribution, submit_forecast, trust_policy_key,
+    execute_loop_cycle, experiment_status, export_evidence, load_paper_contract,
+    prepare_registration, program_status, record_certificate, record_evidence_edge,
+    record_executor_attestation, record_external_registration, register_claim,
+    register_epoch_budget, register_replication_contract, register_shared_task, retro_register,
+    run_experiment, run_experiment_unattended, run_sandbox, settle_replication,
+    submit_contribution, submit_forecast, trust_attestation_key, trust_policy_key,
 };
 use serde::{Serialize, de::DeserializeOwned};
 use serde_json::json;
+
+mod family;
+mod huggingface;
 
 fn main() -> ExitCode {
     match run() {
@@ -35,6 +43,62 @@ fn run() -> Result<()> {
             Workspace::init(&args[1])?;
             print_json(&json!({ "workspace": args[1], "initialized": true }))?;
         }
+        "family" => match args.get(1).map(String::as_str) {
+            Some("freeze") => {
+                require_len(
+                    &args,
+                    4,
+                    "ilxyr family freeze <workspace> <family-manifest.json>",
+                )?;
+                let workspace = Workspace::open(&args[2])?;
+                print_json(&family::freeze(&workspace, Path::new(&args[3]))?)?;
+            }
+            Some("check") => {
+                require_len(
+                    &args,
+                    4,
+                    "ilxyr family check <workspace> <family-manifest.json>",
+                )?;
+                let workspace = Workspace::open(&args[2])?;
+                print_json(&family::check(&workspace, Path::new(&args[3]))?)?;
+            }
+            Some("run") => {
+                require_len(
+                    &args,
+                    5,
+                    "ilxyr family run <workspace> <family-manifest.json> --execute",
+                )?;
+                if args[4] != "--execute" {
+                    return Err(ilxyr_core::Error::Security(
+                        "family run requires the explicit --execute acknowledgement".to_owned(),
+                    ));
+                }
+                let workspace = Workspace::open(&args[2])?;
+                let report = family::run(&workspace, Path::new(&args[3]))?;
+                let has_errors = report.has_errors();
+                print_json(&report)?;
+                if has_errors {
+                    return Err(ilxyr_core::Error::Execution(
+                        "one or more family members could not complete; every member was still attempted"
+                            .to_owned(),
+                    ));
+                }
+            }
+            Some("settle") => {
+                require_len(
+                    &args,
+                    4,
+                    "ilxyr family settle <workspace> <family-manifest.json>",
+                )?;
+                let workspace = Workspace::open(&args[2])?;
+                print_json(&family::settle(&workspace, Path::new(&args[3]))?)?;
+            }
+            _ => {
+                return Err(ilxyr_core::Error::Validation(vec![
+                    "usage: ilxyr family <freeze|check|run|settle> ...".to_owned(),
+                ]));
+            }
+        },
         "contribute" => {
             require_len(&args, 3, "ilxyr contribute <workspace> <contribution.json>")?;
             let workspace = Workspace::open(&args[1])?;
@@ -49,6 +113,26 @@ fn run() -> Result<()> {
             let artifact_ref = compile_experiment(&workspace, experiment)?;
             print_json(&json!({ "artifact_ref": artifact_ref }))?;
         }
+        "preregister-package" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr preregister-package <workspace> <experiment-id>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&prepare_registration(&workspace, &args[2])?)?;
+        }
+        "preregister-record" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr preregister-record <workspace> <receipt.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let receipt = read_json::<ExternalRegistrationReceipt>(&args[2])?;
+            let artifact_ref = record_external_registration(&workspace, receipt)?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
         "shared-task-register" => {
             require_len(
                 &args,
@@ -59,6 +143,46 @@ fn run() -> Result<()> {
             let contract = read_json::<SharedTaskContract>(&args[2])?;
             let artifact_ref = register_shared_task(&workspace, contract)?;
             print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "huggingface-import" => {
+            require_min_max(
+                &args,
+                3,
+                4,
+                "ilxyr huggingface-import <workspace> <repo-id> [commit-sha]",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let model = huggingface::import_model(&args[2], args.get(3).map(String::as_str))?;
+            let artifact_ref = ilxyr_core::register_huggingface_model(&workspace, model.clone())?;
+            print_json(&json!({
+                "artifact_ref": artifact_ref,
+                "model_ref": model.model_ref,
+                "weight_ref": model.weight_ref,
+                "revision": model.revision
+            }))?;
+        }
+        "huggingface-register" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr huggingface-register <workspace> <model.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let model = read_json::<HuggingFaceModel>(&args[2])?;
+            let artifact_ref = ilxyr_core::register_huggingface_model(&workspace, model.clone())?;
+            print_json(&json!({
+                "artifact_ref": artifact_ref,
+                "model_ref": model.model_ref,
+                "weight_ref": model.weight_ref,
+                "revision": model.revision
+            }))?;
+        }
+        "huggingface-show" => {
+            require_len(&args, 3, "ilxyr huggingface-show <workspace> <model-ref>")?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&ilxyr_core::registered_huggingface_model(
+                &workspace, &args[2],
+            )?)?;
         }
         "retro" => {
             require_len(
@@ -102,6 +226,25 @@ fn run() -> Result<()> {
                 ActorRef {
                     id: args[2].clone(),
                     kind: ActorKind::Human,
+                    model_ref: None,
+                },
+                args[4].clone(),
+            )?;
+            print_json(&key)?;
+        }
+        "trust-attestation-key" => {
+            require_len(
+                &args,
+                5,
+                "ilxyr trust-attestation-key <workspace> <service-id> <key-id> <public-key-base64>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let key = trust_attestation_key(
+                &workspace,
+                &args[3],
+                ActorRef {
+                    id: args[2].clone(),
+                    kind: ActorKind::Service,
                     model_ref: None,
                 },
                 args[4].clone(),
@@ -190,6 +333,85 @@ fn run() -> Result<()> {
             let artifact_ref = record_certificate(&workspace, certificate)?;
             print_json(&json!({ "artifact_ref": artifact_ref }))?;
         }
+        "claim-register" => {
+            require_len(&args, 3, "ilxyr claim-register <workspace> <claim.json>")?;
+            let workspace = Workspace::open(&args[1])?;
+            let claim = read_json::<ClaimNode>(&args[2])?;
+            let artifact_ref = register_claim(&workspace, claim)?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "edge-record" => {
+            require_len(&args, 3, "ilxyr edge-record <workspace> <edge.json>")?;
+            let workspace = Workspace::open(&args[1])?;
+            let edge = read_json::<EvidenceGraphEdge>(&args[2])?;
+            let artifact_ref = record_evidence_edge(&workspace, edge)?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "replication-register" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr replication-register <workspace> <contract.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let contract = read_json::<ReplicationContract>(&args[2])?;
+            let artifact_ref = register_replication_contract(&workspace, contract)?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "replication-allocate" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr replication-allocate <workspace> <budget-id> <contract-ref>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&allocate_replication(&workspace, &args[2], &args[3])?)?;
+        }
+        "replication-settle" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr replication-settle <workspace> <contract-ref> <evidence-ref>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&settle_replication(&workspace, &args[2], &args[3])?)?;
+        }
+        "claim-status" => {
+            require_len(&args, 3, "ilxyr claim-status <workspace> <claim-id>")?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&claim_status(&workspace, &args[2])?)?;
+        }
+        "claim-support" => {
+            require_len(&args, 3, "ilxyr claim-support <workspace> <claim-id>")?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&claim_support(&workspace, &args[2])?)?;
+        }
+        "program-status" => {
+            // ilxyr program-status <workspace> [paper-contract.json]
+            require_len(
+                &args,
+                2,
+                "ilxyr program-status <workspace> [paper-contract.json]",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let paper = if args.len() == 3 {
+                Some(load_paper_contract(std::path::Path::new(&args[2]))?)
+            } else {
+                None
+            };
+            print_json(&program_status(&workspace, paper.as_ref())?)?;
+        }
+        "attest" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr attest <workspace> <run-ref> <dsse-envelope.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let envelope = read_json::<DsseEnvelope>(&args[3])?;
+            let artifact_ref = record_executor_attestation(&workspace, &args[2], envelope)?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
         "calibration" => {
             require_len(&args, 3, "ilxyr calibration <workspace> <actor-handle>")?;
             let workspace = Workspace::open(&args[1])?;
@@ -199,6 +421,16 @@ fn run() -> Result<()> {
             require_len(&args, 3, "ilxyr status <workspace> <experiment-id>")?;
             let workspace = Workspace::open(&args[1])?;
             print_json(&experiment_status(&workspace, &args[2])?)?;
+        }
+        "export-evidence" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr export-evidence <workspace> <evidence-ref> <native|ro-crate|in-toto|mlflow>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let format = args[3].parse::<InteropFormat>()?;
+            print_json(&export_evidence(&workspace, &args[2], format)?)?;
         }
         "verify" => {
             require_len(&args, 2, "ilxyr verify <workspace>")?;
@@ -244,18 +476,38 @@ fn require_min(args: &[String], minimum: usize, usage: &str) -> Result<()> {
     }
 }
 
+fn require_min_max(args: &[String], minimum: usize, maximum: usize, usage: &str) -> Result<()> {
+    if (minimum..=maximum).contains(&args.len()) {
+        Ok(())
+    } else {
+        Err(ilxyr_core::Error::Validation(vec![format!(
+            "usage: {usage}"
+        )]))
+    }
+}
+
 fn usage() {
     println!(
         "ilxyr v1 — Fund uncertainty. Settle in evidence.\n\n\
          Commands:\n\
            ilxyr init <workspace>\n\
+           ilxyr family freeze <workspace> <family-manifest.json>\n\
+           ilxyr family check <workspace> <family-manifest.json>\n\
+           ilxyr family run <workspace> <family-manifest.json> --execute\n\
+           ilxyr family settle <workspace> <family-manifest.json>\n\
            ilxyr contribute <workspace> <contribution.json>\n\
            ilxyr shared-task-register <workspace> <shared-task.json>\n\
+           ilxyr huggingface-import <workspace> <repo-id> [commit-sha]\n\
+           ilxyr huggingface-register <workspace> <model.json>\n\
+           ilxyr huggingface-show <workspace> <model-ref>\n\
            ilxyr compile <workspace> <experiment.json>\n\
+           ilxyr preregister-package <workspace> <experiment-id>\n\
+           ilxyr preregister-record <workspace> <receipt.json>\n\
            ilxyr retro <workspace> <retro-registration.json> --execute\n\
            ilxyr forecast <workspace> <forecast.json>\n\
            ilxyr fund <workspace> <funding.json>\n\
            ilxyr trust-key <workspace> <human-id> <key-id> <public-key-base64>\n\
+           ilxyr trust-attestation-key <workspace> <service-id> <key-id> <public-key-base64>\n\
            ilxyr budget-payload <budget.json>\n\
            ilxyr budget-register <workspace> <budget.json>\n\
            ilxyr allocate <workspace> <budget-id> <experiment-id>...\n\
@@ -266,8 +518,18 @@ fn usage() {
            ilxyr loop-cycle <workspace> <budget-id> <cycle.json>\n\
            ilxyr sandbox <workspace> <budget-id> <sandbox-spec.json>\n\
            ilxyr certify <workspace> <certificate.json>\n\
+           ilxyr claim-register <workspace> <claim.json>\n\
+           ilxyr edge-record <workspace> <edge.json>\n\
+           ilxyr replication-register <workspace> <contract.json>\n\
+           ilxyr replication-allocate <workspace> <budget-id> <contract-ref>\n\
+           ilxyr replication-settle <workspace> <contract-ref> <evidence-ref>\n\
+           ilxyr claim-status <workspace> <claim-id>\n\
+           ilxyr claim-support <workspace> <claim-id>\n\
+           ilxyr program-status <workspace> [paper-contract.json]\n\
+           ilxyr attest <workspace> <run-ref> <dsse-envelope.json>\n\
            ilxyr calibration <workspace> <actor-handle>\n\
            ilxyr status <workspace> <experiment-id>\n\
+           ilxyr export-evidence <workspace> <evidence-ref> <native|ro-crate|in-toto|mlflow>\n\
            ilxyr verify <workspace>"
     );
 }

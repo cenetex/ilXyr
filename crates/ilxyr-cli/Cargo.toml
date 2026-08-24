@@ -13,6 +13,7 @@ path = "src/main.rs"
 ilxyr-core = { path = "../ilxyr-core" }
 serde.workspace = true
 serde_json.workspace = true
+ureq.workspace = true
 
 [lints]
 workspace = true
