@@ -355,7 +355,8 @@ fn retro_execution_spec(spec: &RetroRegistrationSpec) -> ExperimentSpec {
         rationale: "deterministic replay of a frozen prior claim".to_owned(),
         proposer: ActorRef::service("service://ilxyr/retro-registry-v1"),
         family: Some(spec.family.clone()),
-        shared_task_id: None,
+        shared_task_id: spec.shared_task_id.clone(),
+        preregistration: None,
         lineage: ResearchLineage {
             hypothesis: "retro".to_owned(),
             mathematical_foundation: "retro".to_owned(),
