@@ -1,0 +1,289 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/evidence-bundle.v1.json",
+  "title": "ilxyr evidence bundle v1",
+  "description": "A ledger-verified, self-describing export of one evidence object and its protocol context.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "evidence_ref",
+    "evidence_event_hash",
+    "ledger_head",
+    "evidence",
+    "run_ref",
+    "run",
+    "forecasts",
+    "settlements",
+    "certificates",
+    "executor_attestations",
+    "forecast_risked",
+    "source_attested",
+    "executor_attested",
+    "cold_replayable"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.evidence_bundle.v1" },
+    "evidence_ref": { "$ref": "#/$defs/artifact_ref" },
+    "evidence_event_hash": { "$ref": "#/$defs/digest" },
+    "ledger_head": { "$ref": "#/$defs/digest" },
+    "evidence": { "$ref": "https://ilxyr.dev/schemas/evidence.v1.json" },
+    "run_ref": { "$ref": "#/$defs/artifact_ref" },
+    "run": { "$ref": "#/$defs/run" },
+    "compiled_ref": { "$ref": "#/$defs/artifact_ref" },
+    "compiled": { "$ref": "#/$defs/compiled_experiment" },
+    "registration_package_ref": { "$ref": "#/$defs/artifact_ref" },
+    "registration_package": {
+      "$ref": "https://ilxyr.dev/schemas/registration-package.v1.json"
+    },
+    "external_registration_receipt": {
+      "$ref": "https://ilxyr.dev/schemas/external-registration-receipt.v1.json"
+    },
+    "retro_plan_ref": { "$ref": "#/$defs/artifact_ref" },
+    "retro_plan": {
+      "$ref": "https://ilxyr.dev/schemas/retro-registration-spec.v1.json"
+    },
+    "retro_registration": { "$ref": "#/$defs/retro_registration" },
+    "forecasts": {
+      "type": "array",
+      "items": { "$ref": "https://ilxyr.dev/schemas/forecast.v1.json" }
+    },
+    "settlements": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/forecast_settlement" }
+    },
+    "certificates": {
+      "type": "array",
+      "items": { "$ref": "https://ilxyr.dev/schemas/certificate.v1.json" }
+    },
+    "executor_attestations": {
+      "type": "array",
+      "items": {
+        "$ref": "https://ilxyr.dev/schemas/executor-attestation.v1.json"
+      }
+    },
+    "forecast_risked": { "type": "boolean" },
+    "source_attested": { "type": "boolean" },
+    "executor_attested": { "type": "boolean" },
+    "cold_replayable": { "type": "boolean" }
+  },
+  "dependentRequired": {
+    "compiled_ref": ["compiled"],
+    "compiled": ["compiled_ref"],
+    "registration_package_ref": ["registration_package"],
+    "registration_package": ["registration_package_ref"],
+    "external_registration_receipt": [
+      "registration_package_ref",
+      "registration_package"
+    ],
+    "retro_plan_ref": ["retro_plan"],
+    "retro_plan": ["retro_plan_ref"]
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "evidence": {
+            "type": "object",
+            "properties": { "lane": { "const": "promoted" } },
+            "required": ["lane"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "compiled_ref": true,
+          "compiled": true
+        },
+        "required": ["compiled_ref", "compiled"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "evidence": {
+            "type": "object",
+            "properties": { "lane": { "const": "retro" } },
+            "required": ["lane"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "retro_plan_ref": true,
+          "retro_plan": true,
+          "retro_registration": true
+        },
+        "required": ["retro_plan_ref", "retro_plan", "retro_registration"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "forecast_risked": { "const": true } },
+        "required": ["forecast_risked"]
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "type": "object",
+            "properties": { "lane": { "const": "promoted" } },
+            "required": ["lane"]
+          },
+          "forecasts": { "type": "array", "minItems": 1 },
+          "settlements": { "type": "array", "minItems": 1 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "executor_attested": { "const": true } },
+        "required": ["executor_attested"]
+      },
+      "then": {
+        "properties": {
+          "executor_attestations": { "type": "array", "minItems": 1 }
+        }
+      },
+      "else": {
+        "properties": {
+          "executor_attestations": { "type": "array", "maxItems": 0 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "cold_replayable": { "const": true } },
+        "required": ["cold_replayable"]
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "type": "object",
+            "properties": { "lane": { "const": "retro" } },
+            "required": ["lane"]
+          },
+          "source_attested": { "const": true }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "id",
+        "experiment_id",
+        "started_at_ms",
+        "completed_at_ms",
+        "exit_code",
+        "timed_out",
+        "stdout",
+        "stderr",
+        "output_truncated",
+        "metrics"
+      ],
+      "properties": {
+        "schema": { "const": "ilxyr.run.v1" },
+        "id": { "type": "string", "minLength": 1 },
+        "experiment_id": { "type": "string", "minLength": 1 },
+        "started_at_ms": { "type": "integer", "minimum": 0 },
+        "completed_at_ms": { "type": "integer", "minimum": 0 },
+        "exit_code": { "type": "integer" },
+        "timed_out": { "type": "boolean" },
+        "stdout": { "type": "string" },
+        "stderr": { "type": "string" },
+        "output_truncated": { "type": "boolean" },
+        "output_error": { "type": "string", "minLength": 1 },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": { "type": "number" }
+        },
+        "source_attestation": {
+          "$ref": "https://ilxyr.dev/schemas/retro-registration-spec.v1.json#/properties/source"
+        }
+      }
+    },
+    "compiled_experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "spec",
+        "source_digest",
+        "resolved_lineage",
+        "evidence_authority"
+      ],
+      "properties": {
+        "schema": { "const": "ilxyr.compiled_experiment.v1" },
+        "spec": { "$ref": "https://ilxyr.dev/schemas/experiment.v1.json" },
+        "source_digest": { "$ref": "#/$defs/digest" },
+        "resolved_lineage": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/artifact_ref" }
+        },
+        "shared_task_ref": { "$ref": "#/$defs/artifact_ref" },
+        "evidence_authority": {
+          "$ref": "https://ilxyr.dev/schemas/evidence.v1.json#/properties/authority"
+        }
+      }
+    },
+    "retro_registration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "id",
+        "claim",
+        "family",
+        "plan_ref",
+        "run_ref",
+        "evidence_ref",
+        "grounded",
+        "forecast_risked",
+        "registered_at_ms"
+      ],
+      "properties": {
+        "schema": { "const": "ilxyr.retro_registration.v1" },
+        "id": { "type": "string", "minLength": 1 },
+        "claim": { "type": "string", "minLength": 1 },
+        "family": { "enum": ["zero", "solomon"] },
+        "plan_ref": { "$ref": "#/$defs/artifact_ref" },
+        "run_ref": { "$ref": "#/$defs/artifact_ref" },
+        "evidence_ref": { "$ref": "#/$defs/artifact_ref" },
+        "grounded": { "type": "boolean" },
+        "forecast_risked": { "const": false },
+        "registered_at_ms": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "forecast_settlement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "forecast_id",
+        "experiment_id",
+        "resolved_outcome",
+        "brier_score",
+        "stake"
+      ],
+      "properties": {
+        "schema": { "const": "ilxyr.forecast_settlement.v1" },
+        "forecast_id": { "type": "string", "minLength": 1 },
+        "experiment_id": { "type": "string", "minLength": 1 },
+        "resolved_outcome": { "type": "string", "minLength": 1 },
+        "brier_score": { "type": "number", "minimum": 0 },
+        "stake": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

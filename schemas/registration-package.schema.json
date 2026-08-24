@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/registration-package.v1.json",
+  "title": "ilxyr executable registration package v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "experiment_id",
+    "compiled_ref",
+    "compiled",
+    "requirement"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.registration_package.v1" },
+    "id": { "$ref": "#/$defs/identifier" },
+    "experiment_id": { "$ref": "#/$defs/identifier" },
+    "compiled_ref": { "$ref": "#/$defs/artifact_ref" },
+    "compiled": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "spec",
+        "source_digest",
+        "resolved_lineage",
+        "evidence_authority"
+      ],
+      "properties": {
+        "schema": { "const": "ilxyr.compiled_experiment.v1" },
+        "spec": { "$ref": "https://ilxyr.dev/schemas/experiment.v1.json" },
+        "source_digest": { "$ref": "#/$defs/digest" },
+        "resolved_lineage": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/artifact_ref" }
+        },
+        "shared_task_ref": { "$ref": "#/$defs/artifact_ref" },
+        "evidence_authority": {
+          "$ref": "https://ilxyr.dev/schemas/evidence.v1.json#/properties/authority"
+        }
+      }
+    },
+    "requirement": { "$ref": "#/$defs/requirement" }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:/-]+$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "visibility"],
+      "properties": {
+        "provider": { "const": "osf" },
+        "visibility": { "enum": ["public", "embargoed"] }
+      }
+    }
+  }
+}

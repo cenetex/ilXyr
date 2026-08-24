@@ -10,6 +10,9 @@ const schemaDirectory = join(root, "schemas");
 const fixtures = {
   "calibration-record.schema.json": ["examples/schema/calibration-record.json"],
   "certificate.schema.json": ["examples/schema/certificate.json"],
+  "claim-status.schema.json": ["examples/schema/claim-status.json"],
+  "claim.schema.json": ["examples/schema/claim.json"],
+  "claim-support.schema.json": [],
   "contribution.schema.json": [
     "examples/toy/hypothesis.json",
     "examples/toy/foundation.json",
@@ -17,8 +20,21 @@ const fixtures = {
     "examples/toy/experiment-design.json",
   ],
   "epoch-budget.schema.json": ["examples/schema/epoch-budget.json"],
+  "evidence-bundle.schema.json": ["examples/schema/evidence-bundle.json"],
+  "evidence-graph-edge.schema.json": [
+    "examples/schema/evidence-graph-edge.json",
+  ],
   "evidence.schema.json": ["examples/schema/evidence.json"],
+  "executor-attestation.schema.json": [
+    "examples/schema/executor-attestation.json",
+  ],
   "experiment.schema.json": ["examples/toy/experiment.json"],
+  "external-registration-receipt.schema.json": [
+    "examples/schema/external-registration-receipt.json",
+  ],
+  "family-manifest.schema.json": [
+    "examples/experiments/zero-q26r/family.json",
+  ],
   "forecast.schema.json": [
     "examples/toy/forecast-model.json",
     "examples/toy/forecast-human.json",
@@ -27,7 +43,18 @@ const fixtures = {
     "examples/toy/funding-a.json",
     "examples/toy/funding-b.json",
   ],
+  "huggingface-model.schema.json": [
+    "examples/schema/huggingface-model.json",
+  ],
+  "paper-contract.schema.json": ["examples/schema/paper-contract.json"],
+  "program-overview.schema.json": [],
   "replication-contract.schema.json": ["examples/schema/replication-contract.json"],
+  "replication-settlement.schema.json": [
+    "examples/schema/replication-settlement.json",
+  ],
+  "registration-package.schema.json": [
+    "examples/schema/registration-package.json",
+  ],
   "retro-registration.schema.json": [
     "examples/schema/retro-registration.json",
     "examples/families/solomon-successor-v2.retro.json",
@@ -38,6 +65,9 @@ const fixtures = {
   "sandbox-run.schema.json": ["examples/schema/sandbox-run.json"],
   "sandbox-spec.schema.json": ["examples/schema/sandbox-spec.json"],
   "shared-task.schema.json": ["examples/schema/shared-task.json"],
+  "trusted-attestation-key.schema.json": [
+    "examples/schema/trusted-attestation-key.json",
+  ],
 };
 
 const readJson = async (relativePath) =>
@@ -48,13 +78,23 @@ const schemaNames = (await readdir(schemaDirectory))
   .sort();
 const ajv = new Ajv2020({ allErrors: true, strict: true });
 const validators = new Map();
+const schemas = new Map();
 
 for (const schemaName of schemaNames) {
   if (!fixtures[schemaName]) {
     throw new Error(`schema ${schemaName} has no positive fixture`);
   }
   const schema = await readJson(`schemas/${schemaName}`);
-  validators.set(schemaName, ajv.compile(schema));
+  schemas.set(schemaName, schema);
+  ajv.addSchema(schema);
+}
+
+for (const [schemaName, schema] of schemas) {
+  const validate = ajv.getSchema(schema.$id);
+  if (!validate) {
+    throw new Error(`schema ${schemaName} did not compile`);
+  }
+  validators.set(schemaName, validate);
 }
 
 let positiveCount = 0;
@@ -109,9 +149,53 @@ expectInvalid(
   replication,
 );
 
+const claimStatus = await readJson("examples/schema/claim-status.json");
+claimStatus.spine_eligible = true;
+expectInvalid(
+  "claim-status.schema.json",
+  "spine-eligible claim without risk and independent replication",
+  claimStatus,
+);
+
+const unboundClaimStatus = await readJson("examples/schema/claim-status.json");
+unboundClaimStatus.shared_task_bound = false;
+expectInvalid(
+  "claim-status.schema.json",
+  "unbound status that retains a shared-task reference",
+  unboundClaimStatus,
+);
+
 const evidence = await readJson("examples/schema/evidence.json");
 delete evidence.authority;
 expectInvalid("evidence.schema.json", "evidence without authority", evidence);
+
+const evidenceBundle = await readJson("examples/schema/evidence-bundle.json");
+evidenceBundle.cold_replayable = true;
+expectInvalid(
+  "evidence-bundle.schema.json",
+  "cold-replayable bundle without retro evidence and source attestation",
+  evidenceBundle,
+);
+
+const registrationReceipt = await readJson(
+  "examples/schema/external-registration-receipt.json",
+);
+delete registrationReceipt.doi;
+expectInvalid(
+  "external-registration-receipt.schema.json",
+  "public registration receipt without DOI",
+  registrationReceipt,
+);
+
+const executorAttestation = await readJson(
+  "examples/schema/executor-attestation.json",
+);
+executorAttestation.verified_key_ids = [];
+expectInvalid(
+  "executor-attestation.schema.json",
+  "executor attestation without a verified key",
+  executorAttestation,
+);
 
 const budget = await readJson("examples/schema/epoch-budget.json");
 delete budget.per_executable_caps["/bin/echo"].network;
@@ -145,6 +229,16 @@ expectInvalid(
   sharedTask,
 );
 
+const huggingFaceModel = await readJson(
+  "examples/schema/huggingface-model.json",
+);
+huggingFaceModel.revision = "main";
+expectInvalid(
+  "huggingface-model.schema.json",
+  "Hugging Face model with mutable revision",
+  huggingFaceModel,
+);
+
 console.log(
-  `Validated ${schemaNames.length} Draft 2020-12 schemas, ${positiveCount} positive fixtures, and 10 rejection fixtures.`,
+  `Validated ${schemaNames.length} Draft 2020-12 schemas, ${positiveCount} positive fixtures, and 16 rejection fixtures.`,
 );

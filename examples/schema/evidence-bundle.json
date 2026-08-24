@@ -1,0 +1,55 @@
+{
+  "schema": "ilxyr.evidence_bundle.v1",
+  "evidence_ref": "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "evidence_event_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "ledger_head": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "evidence": {
+    "schema": "ilxyr.evidence.v1",
+    "id": "evidence:toy.sandbox.v1",
+    "experiment_id": "toy.sandbox.v1",
+    "run_ref": "artifact://sha256/dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "resolved_outcome": "sandbox_observation",
+    "metrics": {
+      "score": 0.5
+    },
+    "recorded_at_ms": 1780000001000,
+    "authority": {
+      "level": "review",
+      "scope": {
+        "seeds": [17],
+        "coverage": 1.0
+      },
+      "provenance": {
+        "artifact_hashes": [
+          "artifact://sha256/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        ],
+        "checker": "checker://toy/review-v1"
+      }
+    },
+    "lane": "sandbox"
+  },
+  "run_ref": "artifact://sha256/dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "run": {
+    "schema": "ilxyr.run.v1",
+    "id": "run:toy.sandbox.v1",
+    "experiment_id": "toy.sandbox.v1",
+    "started_at_ms": 1780000000000,
+    "completed_at_ms": 1780000001000,
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout": "",
+    "stderr": "",
+    "output_truncated": false,
+    "metrics": {
+      "score": 0.5
+    }
+  },
+  "forecasts": [],
+  "settlements": [],
+  "certificates": [],
+  "executor_attestations": [],
+  "forecast_risked": false,
+  "source_attested": false,
+  "executor_attested": false,
+  "cold_replayable": false
+}

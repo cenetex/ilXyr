@@ -1,0 +1,12 @@
+{
+  "schema": "ilxyr.evidence_graph_edge.v1",
+  "id": "edge:toy.score.support",
+  "source": "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "target": "claim:toy.score.v1",
+  "relation": "supports",
+  "asserted_by": {
+    "id": "human://toy/owner",
+    "kind": "human"
+  },
+  "asserted_at_ms": 1780000000000
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "ilxyr.claim_status.v1",
+  "claim": {
+    "schema": "ilxyr.claim.v1",
+    "id": "claim:toy.score.v1",
+    "statement": "The frozen toy procedure emits score 0.82.",
+    "evidence_refs": [
+      "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    "shared_task_ref": "artifact://sha256/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "created_by": {
+      "id": "human://toy/owner",
+      "kind": "human"
+    },
+    "created_at_ms": 1780000000000
+  },
+  "edges": [],
+  "replications": [],
+  "shared_task_bound": true,
+  "prospectively_risked": false,
+  "cold_replayable": true,
+  "independent_replications": 0,
+  "spine_eligible": false
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/replication-settlement.v1.json",
+  "title": "ilxyr replication settlement v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "contract_ref",
+    "target_claim",
+    "reference_evidence_ref",
+    "replication_evidence_ref",
+    "capability_passed",
+    "equivalence_passed",
+    "forward_risked",
+    "independence",
+    "succeeded",
+    "settled_at_ms"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.replication_settlement.v1" },
+    "id": { "type": "string", "pattern": "^replication:[a-f0-9]{64}:[a-f0-9]{64}$" },
+    "contract_ref": { "$ref": "#/$defs/artifact_ref" },
+    "target_claim": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "reference_evidence_ref": { "$ref": "#/$defs/artifact_ref" },
+    "replication_evidence_ref": { "$ref": "#/$defs/artifact_ref" },
+    "capability_passed": { "type": "boolean" },
+    "equivalence_passed": { "type": "boolean" },
+    "forward_risked": { "type": "boolean" },
+    "independence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shared_artifacts",
+        "distinct_checker",
+        "distinct_model_lineage",
+        "independent"
+      ],
+      "properties": {
+        "shared_artifacts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/artifact_ref" }
+        },
+        "distinct_checker": { "type": "boolean" },
+        "distinct_model_lineage": { "type": "boolean" },
+        "independent": { "type": "boolean" }
+      }
+    },
+    "succeeded": { "type": "boolean" },
+    "settled_at_ms": { "type": "integer", "minimum": 1 }
+  },
+  "$defs": {
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+    }
+  }
+}

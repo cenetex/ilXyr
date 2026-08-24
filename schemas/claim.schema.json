@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/claim.v1.json",
+  "title": "ilxyr claim node v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "statement",
+    "evidence_refs",
+    "created_by",
+    "created_at_ms"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.claim.v1" },
+    "id": { "$ref": "#/$defs/identifier" },
+    "statement": { "type": "string", "minLength": 1 },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/artifact_ref" }
+    },
+    "shared_task_ref": { "$ref": "#/$defs/artifact_ref" },
+    "freshness_prerequisite": { "$ref": "#/$defs/artifact_ref" },
+    "refresh_command": { "type": "string", "minLength": 1 },
+    "created_by": { "$ref": "#/$defs/actor" },
+    "created_at_ms": { "type": "integer", "minimum": 1 }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:/-]+$"
+    },
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["human", "model", "service"] },
+        "model_ref": { "type": "string", "pattern": "^model://\\S+$" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "model" } } },
+          "then": {
+            "properties": {
+              "id": { "type": "string", "pattern": "^model://" },
+              "model_ref": true
+            },
+            "required": ["model_ref"]
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "human" } } },
+          "then": {
+            "properties": {
+              "id": { "type": "string", "pattern": "^human://" },
+              "model_ref": false
+            }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "service" } } },
+          "then": {
+            "properties": {
+              "id": { "type": "string", "pattern": "^service://" },
+              "model_ref": false
+            }
+          }
+        }
+      ]
+    }
+  }
+}

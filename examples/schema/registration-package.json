@@ -1,0 +1,125 @@
+{
+  "schema": "ilxyr.registration_package.v1",
+  "id": "preregistration:toy.preregistered.v1",
+  "experiment_id": "toy.preregistered.v1",
+  "compiled_ref": "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "compiled": {
+    "schema": "ilxyr.compiled_experiment.v1",
+    "spec": {
+      "schema": "ilxyr.experiment.v1",
+      "id": "toy.preregistered.v1",
+      "title": "Preregistered toy experiment",
+      "hypothesis": "The frozen score is at least 0.8.",
+      "rationale": "Exercise the external registration gate.",
+      "proposer": {
+        "id": "model://toy/research-director",
+        "kind": "model",
+        "model_ref": "model://toy/research-director/v1"
+      },
+      "preregistration": {
+        "provider": "osf",
+        "visibility": "public"
+      },
+      "lineage": {
+        "hypothesis": "toy.hypothesis.v1",
+        "mathematical_foundation": "toy.foundation.v1",
+        "engineering_review": "toy.engineering_review.v1",
+        "experiment_design": "toy.experiment_design.v1"
+      },
+      "baseline": "baseline://toy/score-v0",
+      "datasets": [],
+      "models": [],
+      "metrics": [
+        {
+          "name": "score",
+          "unit": "ratio",
+          "description": "Frozen scalar score."
+        }
+      ],
+      "seeds": [17],
+      "outcome_contract": {
+        "primary_metric": "score",
+        "success_outcome": "success",
+        "outcomes": [
+          {
+            "id": "success",
+            "description": "The score reaches the threshold.",
+            "predicate": {
+              "kind": "metric",
+              "metric": "score",
+              "operator": "gte",
+              "threshold": 0.8
+            }
+          },
+          {
+            "id": "below_threshold",
+            "description": "The score is below the threshold.",
+            "predicate": {
+              "kind": "metric",
+              "metric": "score",
+              "operator": "lt",
+              "threshold": 0.8
+            }
+          }
+        ]
+      },
+      "execution": {
+        "executor": "local-command",
+        "program": "/bin/echo",
+        "args": ["{\"metrics\":{\"score\":0.82}}"],
+        "timeout_seconds": 10,
+        "max_cost_credits": 10,
+        "network": "open"
+      },
+      "funding": {
+        "required_compute_credits": 10,
+        "minimum_forecasters": 2,
+        "minimum_total_stake": 10
+      },
+      "security": {
+        "weight_class": "public",
+        "code_policy": "arbitrary",
+        "export_policy": "artifacts"
+      },
+      "evidence_authority": {
+        "level": "deterministic_replay",
+        "scope": {
+          "seeds": [17],
+          "coverage": 1.0
+        },
+        "provenance": {
+          "artifact_hashes": [],
+          "checker": "checker://toy/local-command/v1"
+        }
+      },
+      "expected_outputs": ["metrics.score"]
+    },
+    "source_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "resolved_lineage": {
+      "hypothesis": "artifact://sha256/cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "mathematical_foundation": "artifact://sha256/dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "engineering_review": "artifact://sha256/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "experiment_design": "artifact://sha256/ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    "evidence_authority": {
+      "level": "deterministic_replay",
+      "scope": {
+        "seeds": [17],
+        "coverage": 1.0
+      },
+      "provenance": {
+        "artifact_hashes": [
+          "artifact://sha256/cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "artifact://sha256/dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "artifact://sha256/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "artifact://sha256/ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        ],
+        "checker": "checker://toy/local-command/v1"
+      }
+    }
+  },
+  "requirement": {
+    "provider": "osf",
+    "visibility": "public"
+  }
+}

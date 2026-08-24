@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/external-registration-receipt.v1.json",
+  "title": "ilxyr external registration receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "experiment_id",
+    "provider",
+    "visibility",
+    "package_ref",
+    "registration_id",
+    "url",
+    "registered_by",
+    "registered_at_ms"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.external_registration_receipt.v1" },
+    "id": { "$ref": "#/$defs/identifier" },
+    "experiment_id": { "$ref": "#/$defs/identifier" },
+    "provider": { "const": "osf" },
+    "visibility": { "enum": ["public", "embargoed"] },
+    "package_ref": { "$ref": "#/$defs/artifact_ref" },
+    "registration_id": { "type": "string", "minLength": 1 },
+    "url": { "type": "string", "pattern": "^https://\\S+$" },
+    "doi": {
+      "type": "string",
+      "pattern": "^10\\.[0-9]{4,9}/\\S+$"
+    },
+    "registered_by": { "$ref": "#/$defs/actor" },
+    "registered_at_ms": { "type": "integer", "minimum": 1 }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "visibility": { "const": "public" } },
+        "required": ["visibility"]
+      },
+      "then": {
+        "properties": { "doi": true },
+        "required": ["doi"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "visibility": { "const": "embargoed" } },
+        "required": ["visibility"]
+      },
+      "then": {
+        "properties": { "doi": false }
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:/-]+$"
+    },
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["human", "model", "service"] },
+        "model_ref": { "type": "string", "pattern": "^model://\\S+$" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "model" } } },
+          "then": {
+            "properties": {
+              "id": { "type": "string", "pattern": "^model://" },
+              "model_ref": true
+            },
+            "required": ["model_ref"]
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "human" } } },
+          "then": {
+            "properties": {
+              "id": { "type": "string", "pattern": "^human://" },
+              "model_ref": false
+            }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "service" } } },
+          "then": {
+            "properties": {
+              "id": { "type": "string", "pattern": "^service://" },
+              "model_ref": false
+            }
+          }
+        }
+      ]
+    }
+  }
+}

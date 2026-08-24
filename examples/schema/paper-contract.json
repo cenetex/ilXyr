@@ -1,0 +1,12 @@
+{
+  "schema": "ilxyr.paper_contract.v1",
+  "id": "paper:toy.v1",
+  "title": "Toy score demonstration",
+  "non_claims": [
+    "general task solving",
+    "competitive performance on real benchmarks"
+  ],
+  "required_claims": [
+    "claim:toy.score.v1"
+  ]
+}
