@@ -1,9 +1,11 @@
 pub mod attestation;
 pub mod autonomy;
 pub mod claims;
+pub mod conditions;
 pub mod error;
 pub mod executor;
 pub mod family;
+pub mod gates;
 pub mod graph;
 pub mod huggingface;
 pub mod interop;

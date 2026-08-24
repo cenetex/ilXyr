@@ -71,6 +71,10 @@ pub struct MetricSpec {
     pub name: String,
     pub unit: String,
     pub description: String,
+    /// Declared answer-token budget for this task (issue #17), when the
+    /// metric measures an answer-bearing task. Additive, default `None`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub answer_token_budget: Option<u64>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
@@ -645,6 +649,9 @@ pub struct Evidence {
     pub recorded_at_ms: u128,
     pub authority: GroundingAuthority,
     pub lane: EvidenceLane,
+    /// Recorded per-task answer-token masses (issue #17). Additive.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub answer_token_mass: Option<BTreeMap<String, u64>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

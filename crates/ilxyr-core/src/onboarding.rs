@@ -140,6 +140,7 @@ pub fn retro_register(
             recorded_at_ms: now_ms()?,
             authority,
             lane: EvidenceLane::Retro,
+            answer_token_mass: None,
         };
         let evidence_ref = workspace.put(&evidence)?;
         workspace.append_event(
