@@ -20,10 +20,17 @@ it is actually enforced for this repository as of 2026-08-24.
 - **Merge triage**: merges are performed by the author once gates pass; there
   is no separate merger identity.
 
+## Enforcement scope
+
+Protection applies to **all** actors including repository admins
+(`enforce_admins` is on), so the sole maintainer is subject to the same
+gates as agents.
+
 ## Emergency override
 
-Repository admins can bypass protection (`enforce_admins` is off) so that a
-broken Actions pipeline cannot deadlock the repository. Any such bypass
-should be recorded in the PR conversation.
+There is no push-level bypass. If the Actions pipeline breaks and blocks
+merges, the recovery path is deliberate friction: disable branch protection
+via Settings or the API, land the fix, re-enable protection. Any such
+disable window should be recorded in an issue.
 
 Enforcement is live as of 2026-08-24. See docs/GOVERNANCE.md.
