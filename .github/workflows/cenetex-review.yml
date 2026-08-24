@@ -63,7 +63,8 @@ jobs:
           if echo "$changed" | grep -Eq "$protected"; then
             echo "Verdict: human-required (protected path touched)"
             gh pr review "$NUMBER" --repo "$REPO" --comment --body "$escalate_body"
-            gh pr edit "$NUMBER" --repo "$REPO" --add-label "review:human-required"
+            gh pr edit "$NUMBER" --repo "$REPO" --add-label "review:human-required" \
+              || echo "label already present or failed; continuing"
             exit 0
           fi
 
