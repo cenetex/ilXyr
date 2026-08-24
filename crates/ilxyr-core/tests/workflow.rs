@@ -565,3 +565,6 @@ fn funding_b() -> FundingCommitment {
     serde_json::from_str(include_str!("../../../examples/toy/funding-b.json"))
         .expect("example funding must parse")
 }
+
+#[test]
+fn intentional_failure() { assert_eq!(1, 2); }
