@@ -64,10 +64,10 @@ pub fn import_model(repo_id: &str, requested_revision: Option<&str>) -> Result<H
         .timeout(Duration::from_secs(30))
         .build();
     let mut request = agent.get(&url).set("User-Agent", "ilxyr/0.1");
-    if let Ok(token) = env::var("HF_TOKEN")
-        && !token.trim().is_empty()
-    {
-        request = request.set("Authorization", &format!("Bearer {token}"));
+    if let Ok(token) = env::var("HF_TOKEN") {
+        if !token.trim().is_empty() {
+            request = request.set("Authorization", &format!("Bearer {token}"));
+        }
     }
     let response = request.call().map_err(hub_error)?;
     let info: HubModelInfo = response.into_json().map_err(|error| {
@@ -76,13 +76,13 @@ pub fn import_model(repo_id: &str, requested_revision: Option<&str>) -> Result<H
         ))
     })?;
     let model = from_hub_info(repo_id, info)?;
-    if let Some(requested_revision) = requested_revision
-        && model.revision != requested_revision.to_ascii_lowercase()
-    {
-        return Err(Error::Security(format!(
-            "Hugging Face returned revision {} when {} was requested",
-            model.revision, requested_revision
-        )));
+    if let Some(requested_revision) = requested_revision {
+        if model.revision != requested_revision.to_ascii_lowercase() {
+            return Err(Error::Security(format!(
+                "Hugging Face returned revision {} when {} was requested",
+                model.revision, requested_revision
+            )));
+        }
     }
     Ok(model)
 }
