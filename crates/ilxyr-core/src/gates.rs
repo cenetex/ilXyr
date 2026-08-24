@@ -43,8 +43,16 @@ impl PairedEvalResult {
 
     #[must_use]
     pub fn position_gap(&self) -> Option<f64> {
-        let max = self.per_orientation.values().copied().fold(f64::MIN, f64::max);
-        let min = self.per_orientation.values().copied().fold(f64::MAX, f64::min);
+        let max = self
+            .per_orientation
+            .values()
+            .copied()
+            .fold(f64::MIN, f64::max);
+        let min = self
+            .per_orientation
+            .values()
+            .copied()
+            .fold(f64::MAX, f64::min);
         if self.per_orientation.is_empty() {
             None
         } else {
@@ -101,10 +109,7 @@ pub fn check_token_mass(
 ///
 /// Returns one check per required orientation, plus mean-paired-accuracy and
 /// position-gap checks. Missing orientations fail closed.
-pub fn evaluate_paired_eval(
-    spec: &PairedEvalSpec,
-    result: &PairedEvalResult,
-) -> Vec<GateCheck> {
+pub fn evaluate_paired_eval(spec: &PairedEvalSpec, result: &PairedEvalResult) -> Vec<GateCheck> {
     let mut checks = Vec::new();
     for orientation in &spec.orientations {
         match result.per_orientation.get(orientation) {

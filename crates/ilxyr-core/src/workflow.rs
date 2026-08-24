@@ -13,7 +13,8 @@ use crate::{
 
 const CONTRIBUTION_SUBMITTED: &str = "ContributionSubmitted";
 const EXPERIMENT_COMPILED: &str = "ExperimentCompiled";
-const FORECAST_SUBMITTED: &str = "ForecastSubmitted";
+pub const FORECAST_SUBMITTED_EVENT: &str = "ForecastSubmitted";
+const FORECAST_SUBMITTED: &str = FORECAST_SUBMITTED_EVENT;
 const FUNDING_COMMITTED: &str = "FundingCommitted";
 const ADMISSION_DECIDED: &str = "AdmissionDecided";
 const EXECUTION_STARTED: &str = "ExecutionStarted";

@@ -7,12 +7,12 @@
 use std::{fs, path::PathBuf, process};
 
 use ilxyr_core::conditions::{
-    evaluate, Condition, ConditionFacts, ConditionResult, MAX_CONDITION_DEPTH,
+    Condition, ConditionFacts, ConditionResult, MAX_CONDITION_DEPTH, evaluate,
 };
 use ilxyr_core::model::{ComparisonOperator, Evidence};
 use ilxyr_core::{
-    compile_experiment, decide_admission, commit_funding, run_experiment, submit_contribution,
-    submit_forecast, ExperimentSpec, Forecast, FundingCommitment, ResearchContribution, Workspace,
+    ExperimentSpec, Forecast, FundingCommitment, ResearchContribution, Workspace, commit_funding,
+    compile_experiment, decide_admission, run_experiment, submit_contribution, submit_forecast,
 };
 use serde_json::Value;
 
@@ -30,8 +30,10 @@ impl TestDirectory {
             .duration_since(std::time::SystemTime::UNIX_EPOCH)
             .expect("test clock must follow Unix epoch")
             .as_nanos();
-        let path =
-            std::env::temp_dir().join(format!("ilxyr-conditions-{}-{nonce}-{unique}", process::id()));
+        let path = std::env::temp_dir().join(format!(
+            "ilxyr-conditions-{}-{nonce}-{unique}",
+            process::id()
+        ));
         fs::create_dir_all(&path).expect("test directory must be created");
         Self(path)
     }
@@ -40,14 +42,6 @@ impl TestDirectory {
 impl Drop for TestDirectory {
     fn drop(&mut self) {
         let _ = fs::remove_dir_all(&self.0);
-    }
-}
-
-fn actor() -> ilxyr_core::ActorRef {
-    ilxyr_core::ActorRef {
-        id: "human://toy/owner".to_owned(),
-        kind: ilxyr_core::ActorKind::Human,
-        model_ref: None,
     }
 }
 
@@ -71,16 +65,14 @@ fn build_ledger(dir: &TestDirectory) {
         include_str!("../../../examples/toy/forecast-model.json"),
         include_str!("../../../examples/toy/forecast-human.json"),
     ] {
-        let forecast: Forecast =
-            serde_json::from_str(json).expect("forecast must parse");
+        let forecast: Forecast = serde_json::from_str(json).expect("forecast must parse");
         submit_forecast(&workspace, forecast).expect("forecast must be accepted");
     }
     for json in [
         include_str!("../../../examples/toy/funding-a.json"),
         include_str!("../../../examples/toy/funding-b.json"),
     ] {
-        let funding: FundingCommitment =
-            serde_json::from_str(json).expect("funding must parse");
+        let funding: FundingCommitment = serde_json::from_str(json).expect("funding must parse");
         commit_funding(&workspace, funding).expect("funding must be accepted");
     }
     decide_admission(&workspace, "toy.score.v1").expect("admission must decide");
@@ -101,12 +93,15 @@ fn facts_resolve_from_ledger_and_evaluate() {
     let dir = TestDirectory::create();
     build_ledger(&dir);
     let workspace = Workspace::open(&dir.0).expect("workspace must open");
-    let facts = ConditionFacts::from_workspace(&workspace)
-        .expect("facts must resolve from the ledger");
+    let facts =
+        ConditionFacts::from_workspace(&workspace).expect("facts must resolve from the ledger");
 
     // The toy run resolves its declared outcome; score threshold gates on it.
     let satisfied = evaluate(&metric_condition(0.0), &facts);
-    assert!(matches!(satisfied, ConditionResult::Satisfied | ConditionResult::Unsatisfied { .. }));
+    assert!(matches!(
+        satisfied,
+        ConditionResult::Satisfied | ConditionResult::Unsatisfied { .. }
+    ));
 
     let impossible = Condition::AllOf {
         all_of: vec![

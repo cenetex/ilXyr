@@ -25,6 +25,12 @@ pub struct ConditionSet {
     pub root: Condition,
 }
 
+impl ConditionSet {
+    pub fn validate(&self) -> Result<()> {
+        self.root.validate()
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
 pub enum Condition {
@@ -35,9 +41,15 @@ pub enum Condition {
         operator: ComparisonOperator,
         threshold: f64,
     },
-    AllOf { all_of: Vec<Condition> },
-    AnyOf { any_of: Vec<Condition> },
-    Not { not: Box<Condition> },
+    AllOf {
+        all_of: Vec<Condition>,
+    },
+    AnyOf {
+        any_of: Vec<Condition>,
+    },
+    Not {
+        not: Box<Condition>,
+    },
 }
 
 impl Condition {
