@@ -34,39 +34,38 @@ jobs:
           echo "Changed files:"
           echo "$changed"
 
-          if echo "$changed" | grep -Eq "$protected"; then
-            echo "Verdict: human-required (protected path touched)"
-            gh pr review "$NUMBER" --comment --body "$(cat <<'MSG'
-**cenetex review: `review:human-required`**
+          escalate_body="$(printf '%s\n' \
+            '**cenetex review: `review:human-required`**' \
+            '' \
+            'This pull request touches a protected path (`.github/workflows/**`,'
+            '`CODEOWNERS`, `LICENSE`, `docs/SECURITY.md`, or `AGENTS.md`). Per the'
+            'governance contract it escalates for **human approval** before merge.'
+            'The bot does not approve protected-path changes.')"
 
-This pull request touches a protected path (`.github/workflows/**`,
-`CODEOWNERS`, `LICENSE`, `docs/SECURITY.md`, or `AGENTS.md`). Per the
-governance contract it escalates for **human approval** before merge.
-The bot does not approve protected-path changes.
-MSG
-)"
-            gh pr edit "$NUMBER" --add-label "review:human-required"
-            exit 0
-          fi
+          approve_body="$(printf '%s\n' \
+            '**cenetex review: `review:approved`**' \
+            '' \
+            'Automated policy review passed:' \
+            '' \
+            '- No protected paths touched (`workflows`, `CODEOWNERS`, `LICENSE`,'
+            '  `docs/SECURITY.md`, `AGENTS.md`).'
+            '- Required status checks (`rust`, `msrv`, `schemas`, `validate`) are'
+            '  the merge gate for code health; this review covers governance'
+            '  policy only.'
+            ''
+            'Merge remains subject to required checks passing on GitHub''s side.')"
 
-          # Minimal sanity gates beyond CI: the diff must be non-empty and
-          # the PR must be mergeable (no unresolved conflicts).
           if [ -z "$changed" ]; then
             gh pr review "$NUMBER" --comment --body "cenetex review: empty diff; nothing to approve." || true
             exit 0
           fi
 
+          if echo "$changed" | grep -Eq "$protected"; then
+            echo "Verdict: human-required (protected path touched)"
+            gh pr review "$NUMBER" --comment --body "$escalate_body"
+            gh pr edit "$NUMBER" --add-label "review:human-required"
+            exit 0
+          fi
+
           echo "Verdict: approved"
-          gh pr review "$NUMBER" --approve --body "$(cat <<'MSG'
-**cenetex review: `review:approved`**
-
-Automated policy review passed:
-
-- No protected paths touched (`workflows`, `CODEOWNERS`, `LICENSE`,
-  `docs/SECURITY.md`, `AGENTS.md`).
-- Required status checks (`rust`, `msrv`, `schemas`, `validate`) are the
-  merge gate for code health; this review covers governance policy only.
-
-Merge remains subject to required checks passing on GitHub's side.
-MSG
-)"
+          gh pr review "$NUMBER" --approve --body "$approve_body"
