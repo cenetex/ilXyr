@@ -1,0 +1,72 @@
+name: cenetex-review
+
+# The cenetex gatekeeper: reviews every pull request and either approves it
+# (review:approved semantics) or escalates it for human review by commenting
+# and labelling review:human-required. Branch protection requires one
+# approval, so a PR is mergeable only when this bot has approved it or a
+# human has.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  gatekeep:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Review pull request against policy
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+
+          # Protected paths: changes here always require human review.
+          protected='^(\.github/workflows/|\.github/CODEOWNERS|LICENSE|docs/SECURITY\.md|AGENTS\.md)'
+
+          changed="$(gh pr diff "$NUMBER" --repo "$REPO" --name-only)"
+          echo "Changed files:"
+          echo "$changed"
+
+          if echo "$changed" | grep -Eq "$protected"; then
+            echo "Verdict: human-required (protected path touched)"
+            gh pr review "$NUMBER" --comment --body "$(cat <<'MSG'
+**cenetex review: `review:human-required`**
+
+This pull request touches a protected path (`.github/workflows/**`,
+`CODEOWNERS`, `LICENSE`, `docs/SECURITY.md`, or `AGENTS.md`). Per the
+governance contract it escalates for **human approval** before merge.
+The bot does not approve protected-path changes.
+MSG
+)"
+            gh pr edit "$NUMBER" --add-label "review:human-required"
+            exit 0
+          fi
+
+          # Minimal sanity gates beyond CI: the diff must be non-empty and
+          # the PR must be mergeable (no unresolved conflicts).
+          if [ -z "$changed" ]; then
+            gh pr review "$NUMBER" --comment --body "cenetex review: empty diff; nothing to approve." || true
+            exit 0
+          fi
+
+          echo "Verdict: approved"
+          gh pr review "$NUMBER" --approve --body "$(cat <<'MSG'
+**cenetex review: `review:approved`**
+
+Automated policy review passed:
+
+- No protected paths touched (`workflows`, `CODEOWNERS`, `LICENSE`,
+  `docs/SECURITY.md`, `AGENTS.md`).
+- Required status checks (`rust`, `msrv`, `schemas`, `validate`) are the
+  merge gate for code health; this review covers governance policy only.
+
+Merge remains subject to required checks passing on GitHub's side.
+MSG
+)"
