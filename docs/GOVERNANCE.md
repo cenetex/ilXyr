@@ -25,3 +25,5 @@ it is actually enforced for this repository as of 2026-08-24.
 Repository admins can bypass protection (`enforce_admins` is off) so that a
 broken Actions pipeline cannot deadlock the repository. Any such bypass
 should be recorded in the PR conversation.
+
+Enforcement is live as of 2026-08-24. See docs/GOVERNANCE.md.
