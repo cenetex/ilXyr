@@ -127,16 +127,17 @@ pub fn register_replication_contract(
             }
         }
     }
-    if let Some(metric) = &contract.agreement_metric
-        && !compiled
+    if let Some(metric) = &contract.agreement_metric {
+        if !compiled
             .spec
             .metrics
             .iter()
             .any(|declared| declared.name == *metric)
-    {
-        return Err(Error::Validation(vec![format!(
-            "agreement metric {metric} is not declared by the replication experiment"
-        )]));
+        {
+            return Err(Error::Validation(vec![format!(
+                "agreement metric {metric} is not declared by the replication experiment"
+            )]));
+        }
     }
     if compiled.spec.evidence_authority.scope.eval_set.as_deref()
         != Some(contract.eval_set.as_str())

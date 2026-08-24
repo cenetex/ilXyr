@@ -517,26 +517,26 @@ fn scientific_fingerprint(spec: &ExperimentSpec, seed: u64) -> Result<Value> {
             normalize_seed_value(dataset, seed);
         }
     }
-    if let Some(execution) = object.get_mut("execution").and_then(Value::as_object_mut)
-        && let Some(args) = execution.get_mut("args").and_then(Value::as_array_mut)
-    {
-        for argument in args.iter_mut() {
-            normalize_seed_value(argument, seed);
-        }
-        if let Some(position) = args.iter().position(|arg| arg.as_str() == Some("--seed")) {
-            let value = args.get_mut(position + 1).ok_or_else(|| {
-                Error::Validation(vec![format!(
-                    "experiment {} has --seed without a value",
-                    spec.id
-                )])
-            })?;
-            if value.as_str() != Some(seed.to_string().as_str()) {
-                return Err(Error::Validation(vec![format!(
-                    "experiment {} --seed argument does not match declared seed {seed}",
-                    spec.id
-                )]));
+    if let Some(execution) = object.get_mut("execution").and_then(Value::as_object_mut) {
+        if let Some(args) = execution.get_mut("args").and_then(Value::as_array_mut) {
+            for argument in args.iter_mut() {
+                normalize_seed_value(argument, seed);
             }
-            *value = Value::String("{seed}".to_owned());
+            if let Some(position) = args.iter().position(|arg| arg.as_str() == Some("--seed")) {
+                let value = args.get_mut(position + 1).ok_or_else(|| {
+                    Error::Validation(vec![format!(
+                        "experiment {} has --seed without a value",
+                        spec.id
+                    )])
+                })?;
+                if value.as_str() != Some(seed.to_string().as_str()) {
+                    return Err(Error::Validation(vec![format!(
+                        "experiment {} --seed argument does not match declared seed {seed}",
+                        spec.id
+                    )]));
+                }
+                *value = Value::String("{seed}".to_owned());
+            }
         }
     }
     if let Some(scope) = object

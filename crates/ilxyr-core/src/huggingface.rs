@@ -195,13 +195,13 @@ pub fn validate_huggingface_model(model: &HuggingFaceModel) -> Result<()> {
                 file.path
             ));
         }
-        if let Some(sha256) = &file.sha256
-            && !is_lower_hex(sha256, 64)
-        {
-            errors.push(format!(
-                "hugging_face_model file {} has an invalid SHA-256 digest",
-                file.path
-            ));
+        if let Some(sha256) = &file.sha256 {
+            if !is_lower_hex(sha256, 64) {
+                errors.push(format!(
+                    "hugging_face_model file {} has an invalid SHA-256 digest",
+                    file.path
+                ));
+            }
         }
     }
 
