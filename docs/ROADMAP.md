@@ -44,7 +44,7 @@ into a promoted claim.
   unattended only inside an existing signed epoch budget.
 - Upstream evidence settled on 2026-07-19: the Solomon replay commit is remote-advertised, Zero
   seeds 1 and 3 are published on `main`, and the aggregate is a family no-go. The failed seeds did
-  not touch their disjoint promotion sets; ZERO.3 remains promoted.
+  not touch their disjoint promotion sets; ZERO.3 remained promoted at that checkpoint.
 - EXP-001 grounds the completed Zero Q2.3 seed-2 local-guard diagnostic. The observer mechanics
   passed, but the guard accepted all 200 attempts and cumulative replay reached 2.685%; promotion
   and replication seeds remained sealed.
@@ -55,9 +55,10 @@ into a promoted claim.
   scale on eight consecutive attempts before a public checkpoint. EXP-004 prospectively executed
   Q2.6's global replay-tangent projection under the same authority. Seed 2 resolved go after 700
   full-scale commits; the selected public checkpoint and exactly one disjoint promotion evaluation
-  passed. EXP-005 prospectively registers replication seeds 1 and 3 against one merged source
-  commit, with independent forecasts, funding, evidence, and an all-three-seeds conjunction. Both
-  remain unobserved, so ZERO.3 remains current.
+  passed. EXP-005 then executed replication seeds 1 and 3 against the frozen scientific contract,
+  with independent forecasts and AWS provenance. Both resolved go after 600 full-scale commits.
+  The all-three-seeds conjunction passed, making the seed-2 artifact promotion-eligible as ZERO.4.
+  The upstream result is verified; local ilXyr ledger import and settlement remain pending.
 - Independently, extract the real
   q22r shared contract with frozen data hashes and add a Solomon-compatible encoding and verifier;
   neither task licenses promotion of a failed result.
@@ -66,18 +67,36 @@ into a promoted claim.
 
 ## V1.2 — replication bridge and live gates
 
-- Additive evidence graph with `supports`, `contradicts`, `replicates`, `depends_on`,
+The interoperability and generic graph foundation is implemented: ledger-verified native
+evidence bundles, a strict bundle schema, RO-Crate 1.3 / PROV-O export, unsigned in-toto Statement
+v1 export, a side-effect-free MLflow REST bridge manifest, and deterministic executable
+preregistration packages with OSF receipt-gated admission. Signed DSSE ingestion now verifies
+in-toto Statement v1 payloads, SLSA/native run bindings, and trusted Ed25519 executor identities.
+The generic claim/replication layer also records typed edges, freezes capability/equivalence
+contracts before execution, allocates the signed reserve, settles forward risk and mechanical
+provenance independence, enforces exact shared-task binding for spine candidates and replication
+experiments, and derives passive spine eligibility. These mechanisms do not substitute for a real
+cross-family replication, OSF-side authentication, hardware attestation, or SLSA level assessment.
+
+- Implemented additive evidence graph with `supports`, `contradicts`, `replicates`, `depends_on`,
   `supersedes`, `subsumes`, and `derived_from` edges; contradictions coexist and the query
   interface returns evidence state, never truth values.
-- Replication contracts with compile-time tolerance bounds: capability replication and
+- Implemented replication contracts with pre-run tolerance bounds: capability replication and
   computational equivalence as distinct declared targets.
-- Promoted-spine replication requirement (provenance-disjoint independence) and the
-  reserved replication budget share; spine claims must be stated on shared task contracts.
-- The Zero→Solomon replication bridge as the first cross-family experiment, after a Zero family
-  result clears its preregistered multi-seed gate.
+- Implemented promoted-spine eligibility from an exact shared-task anchor, forward risk, cold
+  replay, mechanically provenance-disjoint replication, and the reserved replication budget share.
+- The Zero→Solomon replication bridge as the first cross-family experiment. The Zero family gate
+  is clear; bind the concrete ZERO.4 capability to the shared task and finish the Solomon encoding
+  and verifier before preregistration.
 - Forecast closing windows and proper-scoring credit accounting for live experiments.
 - Demotion challenge windows for contradicted promoted claims (deferred sketch in
   ADR 0004).
+- Add an authenticated OSF adapter that creates/inspects registrations and verifies remote package
+  content while preserving the implemented offline receipt gate.
+- Add hardware remote-attestation and Sigstore/transparency-log verification around the implemented
+  signed DSSE ingestion path.
+- Extend the implemented passive one-claim query to graph traversal and authenticated service
+  access while preserving the same agent admission and signed-policy boundary.
 
 ## V2 — service boundary (when multi-writer need is real)
 

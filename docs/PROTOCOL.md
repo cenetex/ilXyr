@@ -5,6 +5,7 @@
 ```text
 contributions
     -> compiled experiment
+    -> optional external preregistration package + receipt
     -> forecasts + compute commitments
     -> admission decision
     -> execution
@@ -21,6 +22,13 @@ shared task -> family-bound compiled experiment
 frozen prior claim -> retro plan -> replay -> retro evidence -> grounded registration
 
 loop cycle -> contributions + forecasts -> allocation -> unattended run -> settlement
+
+recorded evidence -> verified native bundle -> RO-Crate | in-toto statement | MLflow manifest
+
+trusted attestation key + ledgered run + signed DSSE envelope -> verified executor attestation
+
+claim + frozen replication contract -> reserved allocation -> forward evidence
+    -> independence/tolerance settlement -> replicates edge -> passive claim status
 ```
 
 The steps are monotonic. Objects are immutable; revisions create new objects and experiment
@@ -81,6 +89,10 @@ The reference implementation emits:
 
 - `ContributionSubmitted`
 - `ExperimentCompiled`
+- `RegistrationPackaged`
+- `ExternalRegistrationRecorded`
+- `AttestationKeyTrusted`
+- `ExecutorAttestationRecorded`
 - `ForecastSubmitted`
 - `FundingCommitted`
 - `AdmissionDecided`
@@ -101,14 +113,57 @@ The reference implementation emits:
 - `RetroExecutionStarted`
 - `RetroRunCompleted`
 - `RetroRegistered`
+- `ClaimRegistered`
+- `EvidenceEdgeRecorded`
+- `ReplicationContractRegistered`
+- `ReplicationSettled`
 
 Each event contains the preceding event hash. Events that materialize an object contain its
 content-addressed artifact reference.
 
+## Interoperability exports
+
+Evidence export is a read-only projection, not a new lifecycle event. The exporter verifies the
+workspace and requires an `EvidenceRecorded` event before producing:
+
+- a lossless `ilxyr.evidence_bundle.v1` object;
+- an RO-Crate 1.3 JSON-LD graph with W3C PROV-O mappings;
+- an unsigned in-toto Statement v1 with the native bundle as its predicate; or
+- an MLflow REST bridge manifest with caller-supplied deployment context.
+
+Risk and replay labels are derived from included ledger objects. A promoted result is marked
+forecast-risked only when forecasts exist and every included forecast is settled. Retro evidence
+is cold-replayable only when the successful run's source attestation exactly matches its frozen
+plan and the completed registration is grounded. Export does not sign statements, make network
+requests, create OSF registrations, or confer SLSA compliance. The normative mappings and adapter
+roadmap are in `docs/INTEROPERABILITY.md`.
+
+## Executor attestation ingestion
+
+`trust-attestation-key` installs an immutable Ed25519 public key bound to a service executor.
+`attest` accepts a DSSE envelope only after:
+
+1. decoding a supported in-toto JSON payload type;
+2. verifying at least one signature over DSSE pre-authentication encoding against a trusted key;
+3. parsing the exact verified bytes as an in-toto Statement v1;
+4. finding the ledgered run's SHA-256 among the statement subjects; and
+5. binding the predicate executor/builder identity and run reference to the verified key and run.
+
+The supported predicates are SLSA provenance v1 with ilXyr run-binding external parameters and the
+native ilXyr executor predicate. The accepted record stores the envelope, parsed statement,
+predicate type, and verified key IDs. Key IDs inside DSSE signatures are treated only as hints; the
+verifier tries trusted keys and accepts only cryptographic matches. A verified provenance statement
+is not itself a SLSA level assessment or proof of platform isolation.
+
 ## Failure behavior
 
 - Invalid protocol objects are rejected before storage.
+- Hugging Face imports reject mutable revisions in ledger objects and fail closed for private,
+  gated, disabled, unlicensed, or incomplete Hub metadata.
 - Missing lineage or changed experiment IDs fail compilation.
+- A frozen preregistration requirement fails admission until the exact ledgered package has a
+  provider/visibility-matching external receipt; packaging and recording are forbidden after
+  execution starts.
 - Insufficient forecast participation, stake, or compute funding records a rejected admission.
 - Unsupported or protected-weight executors are rejected by admission.
 - Manual execution requires explicit CLI acknowledgement. Unattended execution requires an
@@ -133,8 +188,9 @@ content-addressed artifact reference.
 
 Implemented in V1 from ADRs 0003–0004. Evidence has three runtime lanes: **sandbox evidence**
 (fast-lane recordings), **promoted evidence** (settled through the full ceremony), and **retro
-evidence** (a deterministic replay of a frozen prior claim, explicitly not forecast-risked). Spine status
-is deferred until replication settlement exists; it is not a mutable flag on evidence.
+evidence** (a deterministic replay of a frozen prior claim, explicitly not forecast-risked).
+Spine eligibility is derived at query time from a claim's exact shared-task binding, evidence, and
+replication settlements; it is not a mutable flag on evidence or a truth score.
 
 ### Grounding authority
 
@@ -148,8 +204,8 @@ Declared provenance artifact hashes must already resolve in the workspace; compi
 sandbox planning add their own immutable lineage, policy, plan, and run artifacts.
 
 Levels are not a global order. Gate policies compare records with predicates (the V1 ratchet
-accepts only `exact_check` or `deterministic_replay`). A future evidence graph will compose
-authority by weakest link over `depends_on` edges only; aggregating support into confidence remains
+accepts only `exact_check` or `deterministic_replay`). Future graph traversal will compose authority
+by weakest link over `depends_on` edges only; aggregating support into confidence remains
 forecaster work, scored at settlement. Proxy-grounded evidence cannot pass the V1 ratchet.
 
 ### Certificates
@@ -190,6 +246,49 @@ frozen source snapshot in addition to checking terminal status and exact metric 
 produces `retro` evidence and the immutable pair `grounded=true`,
 `forecast_risked=false`. It never manufactures a historical forecast or settlement.
 
+### External preregistration
+
+`ExperimentSpec.preregistration` optionally freezes `provider=osf` and either `public` or
+`embargoed` visibility. `preregister-package` records a deterministic
+`ilxyr.registration_package.v1` containing the complete compiled experiment. After an authorized
+actor freezes that package externally, `preregister-record` accepts a strict receipt only when it
+references the ledgered package, matches the requirement, predates execution, and uses a unique
+provider registration ID. Public receipts require a canonical DOI; embargoed receipts must not
+claim one.
+
+The external receipt is an accountable assertion, not proof fetched from OSF. Authentication,
+remote-content comparison, moderation/pending-state handling, and eventual embargo-to-public
+transitions belong in an OSF adapter. The admission gate does not depend on network availability.
+
+### Claim graph and replication settlement
+
+A claim is an immutable statement with one or more ledgered evidence references, an accountable
+human/model/service creator, and an optional exact shared-task artifact reference. If present,
+every attached evidence object must carry that same task through its compiled experiment or frozen
+retro plan and authority provenance. Claims without a task binding remain private/queryable but
+cannot enter the promoted spine. Edges connect existing claims or evidence using `supports`,
+`contradicts`, `replicates`, `depends_on`, `supersedes`, `subsumes`, or `derived_from`. Edges never
+rewrite nodes, and mutually contradictory chains coexist.
+
+A replication contract must be recorded before its declared replication experiment starts and may
+target only a shared-task-bound claim. It binds the claim and reference evidence, a replication
+experiment compiled against the same task, that task's eval set, and either metric tolerances, an
+agreement metric/threshold, or both. `replication-allocate` is the only allocator that may consume
+the signed replication reserve; it still requires frozen forecasts, role separation, executable
+policy, admission, and unattended authorization.
+
+Settlement accepts only evidence from the declared experiment and only when its ledger event
+follows the contract. Capability compares absolute metric deviation to each frozen tolerance.
+Computational equivalence compares the frozen agreement metric to its threshold. Independence is
+the deliberately mechanical ADR 0004 approximation: no shared provenance artifacts other than the
+required shared-task anchor, different checker IDs, and two present, different model-lineage
+handles. Success also requires the replication evidence to be forward forecast-risked.
+
+`claim-status` returns adjacent edges and settlements without mutating state. It derives
+`spine_eligible` only when the claim is shared-task-bound, has a cold-replayable evidence path, has
+a prospectively risked path (including replication evidence), and has at least one successful
+independent replication. It does not answer whether the claim is true.
+
 ### Loop cycles
 
 `loop-cycle` is one idempotent orchestration transaction over immutable inputs supplied by external
@@ -212,7 +311,7 @@ each forecaster's contribution weighted by its resolution record (probationary w
 new handles). Settlement updates per-handle calibration records — the Murphy
 decomposition, reliability and resolution separately — and never mints, burns, or
 transfers credits. General and sandbox allocation cannot consume the signed replication-reserve
-share; it remains unavailable until replication settlement is implemented.
+share; `replication-allocate` consumes only that share for a registered contract.
 
 ### Acknowledgement thresholds
 
@@ -224,12 +323,12 @@ remain human-signed. The manual `--execute` path is the explicit override; it is
 
 ## Deferred protocol work
 
-- replication settlement, provenance-disjoint independence checks, reserved replication spending,
-  and promoted-spine status; the published replication-contract schema freezes the decided input
-  vocabulary but no V1 workflow consumes it;
-- evidence graph edges and weakest-link authority composition over `depends_on`;
+- graph traversal and weakest-link authority composition over `depends_on`;
+- demotion challenge windows and subsumption/archive policy;
 - authenticated multi-writer event sequencing;
 - compute reservation expiry and refund rules;
-- signed evidence bundles and remote executor attestation;
+- signed detached evidence bundles, hardware remote attestation, and Sigstore/transparency-log
+  verification;
+- authenticated OSF registration creation and remote-content verification;
 - knowledge-graph merge policy and research pull-request review;
 - competing proposers within a baseline (single-proposer per family in v1.1, see ADR 0003).

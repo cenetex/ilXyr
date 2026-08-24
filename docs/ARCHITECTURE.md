@@ -58,8 +58,10 @@ Admission is a deterministic policy decision, not an agent action. V1 checks:
 5. enough compute credits were committed;
 6. an executor adapter exists;
 7. the selected weight and execution policies fit that adapter;
-8. proposer and engineering reviewer handles differ; and
-9. the proposer did not forecast its own experiment.
+8. proposer and engineering reviewer handles differ;
+9. the proposer did not forecast its own experiment; and
+10. when the frozen experiment requires external preregistration, a matching receipt binds the
+    ledgered package to the required provider and visibility before admission.
 
 Forecast stakes express epistemic commitment. Compute credits reserve scarce execution capacity.
 They are intentionally separate ledgers and neither is money in v1.
@@ -81,8 +83,8 @@ variance divided by required credits. New handles receive a probationary weight;
 use their recorded resolution. Effectively unanimous candidates receive no allocation. Funding and
 the corresponding budget reservation are recorded before admission. `run-auto` executes only an
 admitted experiment with a matching allocation and a clean threshold decision. The signed
-replication-reserve percentage is withheld from current allocation kinds until the replication
-workflow exists.
+replication-reserve percentage is unavailable to general/sandbox allocation and is consumed only
+by a ledgered replication contract through `replication-allocate`.
 
 ### Sandbox lane and ratchet
 
@@ -137,6 +139,48 @@ chain and point to those objects. `ilxyr verify` re-hashes every object, verifie
 confirms that event artifacts exist. Normal workflow APIs are the only ledger mutation boundary,
 and every append verifies the existing chain first. V1 is intentionally single-writer.
 
+### Evidence interoperability
+
+The read-only export boundary verifies the workspace, resolves one `EvidenceRecorded` object and
+its protocol context, and emits a native evidence bundle plus standards-oriented views. RO-Crate
+1.3 and PROV-O provide discovery/provenance metadata; in-toto Statement v1 provides an unsigned
+attestation statement; and the MLflow output is a REST request template that a separate
+authenticated adapter may execute. None of these views can admit a run, promote evidence, or alter
+the ledger.
+
+The native bundle is lossless and normative for ilxyr semantics. External views preserve native
+artifact identifiers and namespaced authority/risk fields. SLSA provenance generation, hardware
+remote-attestation verification, OSF API authentication and remote-content verification, network
+delivery, and detached-bundle verification remain adapter work. See `docs/INTEROPERABILITY.md`.
+
+### Signed executor attestations
+
+Executor public keys are installed as immutable Ed25519 trust records bound to service actor
+identities. The attestation verifier accepts DSSE in-toto JSON envelopes, verifies signatures over
+the specification's pre-authentication encoding and exact decoded payload bytes, and only then
+parses that same payload. The statement must bind a subject SHA-256 to a ledgered run.
+
+The current SLSA provenance v1 profile additionally requires
+`buildDefinition.externalParameters.ilxyrRunRef` to equal the run and
+`runDetails.builder.id` to equal the executor identity of a verified key. A smaller native executor
+predicate has equivalent run/identity bindings. Accepted envelopes are additive records included
+in native and RO-Crate evidence exports. This verifies an external assertion; it does not infer a
+SLSA level, prove platform isolation, or establish hardware remote attestation.
+
+### External preregistration
+
+An experiment may freeze an OSF `public` or `embargoed` registration requirement. The registration
+packager materializes the complete compiled experiment in a deterministic content-addressed object
+before execution. An authorized human or adapter registers that object externally and submits a
+receipt containing the provider registration ID/URL, visibility, public DOI when applicable,
+actor, timestamp, and exact package reference.
+
+The recorder rejects a receipt when the experiment has started, the package was not ledgered, the
+provider or visibility differs from the frozen requirement, the package contains a different
+compiled object, or the external registration identifier is already bound to another experiment.
+Admission remains closed until this check passes. V1 does not authenticate to OSF or verify remote
+page contents; the receipt actor is accountable for that external assertion.
+
 ## Portable core and infrastructure adapters
 
 Future implementations should preserve protocol objects and event semantics while replacing the
@@ -151,14 +195,17 @@ following edges:
 | Protected-weight broker | KMS-backed handles, confidential VMs, attested enclaves |
 | Identity | OIDC workload identity, SPIFFE/SPIRE, cloud-native federation |
 | Cost oracle | cloud price APIs, cluster quota service, internal compute exchange |
+| Experiment tracker | MLflow bridge consuming completed evidence bundles |
+| Registration archive | OSF receipt bound to the compiled plan digest |
+| Research packaging | RO-Crate 1.3 JSON-LD with W3C PROV-O mappings |
+| Supply-chain attestations | signed in-toto/DSSE and SLSA provenance from executors |
 
 Cloud adapters must consume a compiled experiment by immutable digest and emit the same run and
 evidence objects. Provider concepts must not leak into the experiment protocol.
 
-## Two-lane structure and knowledge state
+## Evidence lanes and knowledge state
 
-V1 stops at authority-bearing evidence and calibration. It does not automatically merge a claim
-into accepted knowledge. The protocol operates two implemented lanes connected by a deterministic
+The execution protocol operates two forward lanes plus retro replay, connected by a deterministic
 ratchet (ADR 0003):
 
 - **Sandbox lane** — single-object recording with structural caps; absorbs the
@@ -168,7 +215,7 @@ ratchet (ADR 0003):
 A sandbox result that beats a ledger-registered baseline at sufficient authority becomes
 eligible for promoted compilation. Eligibility is computed from evidence, never granted.
 
-The deferred evidence-graph and replication layer attaches additive edges to promoted claims:
+The knowledge layer records immutable claim nodes and additive edges:
 
 - `supports`
 - `contradicts`
@@ -182,3 +229,19 @@ Contradictions coexist; an agent must not rewrite prior evidence or collapse dis
 into one confidence score. The query interface is passive: it answers "what is the evidence
 state of X" — both chains plus the contradiction's own state — never "is X true."
 Recommendations over the graph are advisor forecasts, scored like any other (ADR 0004).
+
+Replication contracts target only claims bound to a ledgered shared-task artifact. They bind one
+attached reference evidence object, a future replication experiment compiled against that same
+task, its eval set, and pre-run capability tolerances and/or agreement threshold. Only a ledgered
+contract may use the signed replication reserve. Settlement requires evidence from that exact
+experiment after the contract event, evaluates the declared metrics, requires forward forecast
+settlement, and records a mechanical independence assessment: no shared provenance artifacts
+other than the required task anchor, a distinct checker, and two present, distinct model-lineage
+handles.
+
+`claim-status` is a passive one-node query. It reports adjacent competing edges, replication
+settlements, shared-task binding, prospective risk, cold replayability, and successful
+independent-replication count. `spine_eligible` is derived only when the task binding and all three
+north-star evidence conditions hold; it is not a mutable claim flag and is not a truth value.
+Graph traversal, weakest-link authority composition across `depends_on`, and demotion challenge
+windows remain deferred.
