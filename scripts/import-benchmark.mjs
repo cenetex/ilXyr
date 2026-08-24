@@ -85,17 +85,42 @@ for (const name of ["contract.json", "result.json"]) {
   sourceHashes[name] = createHash("sha256").update(bytes).digest("hex");
 }
 
-// Extract metrics from common result shapes without guessing semantics.
+// Extract metrics from known result profiles. Unknown schemas fail closed:
+// the compiler never guesses at result semantics it was not built for.
 const metrics = {};
-if (result.metrics && typeof result.metrics === "object") {
-  for (const [key, value] of Object.entries(result.metrics)) {
-    if (typeof value === "number" && Number.isFinite(value)) {
-      metrics[key] = value;
+let resolvedOutcome = null;
+
+if (typeof result.schema === "string" && result.schema.startsWith("zero.c3")) {
+  // zero-family benchmark profile: decision.outcome + per-arm nested metrics.
+  if (result.decision && typeof result.decision.outcome === "string") {
+    resolvedOutcome = result.decision.outcome;
+  }
+  if (result.arms && typeof result.arms === "object") {
+    const flatten = (node, prefix) => {
+      for (const [key, value] of Object.entries(node)) {
+        if (typeof value === "number" && Number.isFinite(value)) {
+          metrics[`${prefix}.${key}`] = value;
+        } else if (value && typeof value === "object" && !Array.isArray(value)) {
+          flatten(value, `${prefix}.${key}`);
+        }
+      }
+    };
+    for (const [arm, armResult] of Object.entries(result.arms)) {
+      flatten(armResult.validation ?? {}, `arm.${arm}`);
+    }
+  }
+} else {
+  // Generic profile: top-level finite numeric metrics map.
+  if (result.metrics && typeof result.metrics === "object") {
+    for (const [key, value] of Object.entries(result.metrics)) {
+      if (typeof value === "number" && Number.isFinite(value)) {
+        metrics[key] = value;
+      }
     }
   }
 }
 
-const resolvedOutcome =
+resolvedOutcome ??=
   typeof result.outcome === "string"
     ? result.outcome
     : Object.keys(metrics).length > 0
@@ -103,7 +128,7 @@ const resolvedOutcome =
       : null;
 
 if (!resolvedOutcome) {
-  fail("result.json has neither a string 'outcome' nor any finite numeric metrics");
+  fail("result.json has neither a resolvable outcome nor any finite numeric metrics");
 }
 
 const registrationPackage = {
