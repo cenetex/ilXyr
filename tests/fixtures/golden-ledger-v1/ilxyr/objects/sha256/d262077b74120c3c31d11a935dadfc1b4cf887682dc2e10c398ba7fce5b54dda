@@ -1,0 +1,1 @@
+{"brier_score":0.016799999999999995,"forecast_ids":["toy.forecast.human.v1"],"forecasts_settled":1,"handle":"human://toy/reviewer","last_settlement_at_ms":1787604092764,"probationary":true,"reliability":0.016799999999999995,"resolution":0.0,"schema":"ilxyr.calibration_record.v1","uncertainty":0.0}

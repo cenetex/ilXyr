@@ -1,0 +1,1 @@
+{"compute_credits":4,"experiment_id":"toy.score.v1","funder":{"id":"human://toy/team-b","kind":"human"},"id":"toy.funding.team-b.v1","rationale":"Complete the run's compute reservation.","schema":"ilxyr.funding.v1"}
