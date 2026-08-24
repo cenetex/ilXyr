@@ -56,16 +56,16 @@ jobs:
             "Merge remains subject to required checks passing on GitHub's side.")"
 
           if [ -z "$changed" ]; then
-            gh pr review "$NUMBER" --comment --body "cenetex review: empty diff; nothing to approve." || true
+            gh pr review "$NUMBER" --repo "$REPO" --comment --body "cenetex review: empty diff; nothing to approve." || true
             exit 0
           fi
 
           if echo "$changed" | grep -Eq "$protected"; then
             echo "Verdict: human-required (protected path touched)"
-            gh pr review "$NUMBER" --comment --body "$escalate_body"
-            gh pr edit "$NUMBER" --add-label "review:human-required"
+            gh pr review "$NUMBER" --repo "$REPO" --comment --body "$escalate_body"
+            gh pr edit "$NUMBER" --repo "$REPO" --add-label "review:human-required"
             exit 0
           fi
 
           echo "Verdict: approved"
-          gh pr review "$NUMBER" --approve --body "$approve_body"
+          gh pr review "$NUMBER" --repo "$REPO" --approve --body "$approve_body"
