@@ -43,6 +43,13 @@ with the signature field omitted and rejects signer/key-owner mismatch. The priv
 outside ilxyr. Actor identity and the initial human key-install action are still local,
 self-declared controls—not authenticated principals.
 
+Executor attestations use a separate trust namespace. `trust-attestation-key` binds an immutable
+Ed25519 public key to a service actor. `attest` verifies the DSSE pre-authentication encoding over
+the exact decoded in-toto payload, rejects untrusted signatures, and requires the subject,
+run-reference parameter, and builder/executor identity to match the ledger and verified key.
+Private keys remain with executors. This establishes signature and binding integrity, not hardware
+isolation, exclusive key custody, a SLSA level, or a public PKI identity.
+
 `run-auto` requires a budget allocation and proceeds only when the signed executable, exact
 argument vector, network, per-run, per-epoch, total-credit, and cumulative-spend policies pass.
 `authorize` exposes the same decision without running. An execution-start record without a

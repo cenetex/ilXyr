@@ -1,0 +1,147 @@
+{
+  "schema": "ilxyr.experiment_family_evidence_summary.v1",
+  "family_id": "zero.q26r.family.v1",
+  "resolved_outcome": "go",
+  "local_ledger_status": "upstream evidence verified; ilXyr import and settlement pending",
+  "registration": {
+    "repository": "https://github.com/cenetex/ilXyr.git",
+    "scientific_source_commit": "3ee802c29ddf47982477a6b6dd635eaedede7bb7",
+    "contract_sha256": "f966485a209d21ef54b56601fb2d91ebcf318d4da646b5572c0a432996140318",
+    "harness_sha256": "7c6c217fb2be10b067b55649048b7177a3eccdae9a22ff252f483f7a8d367f47",
+    "declared_seeds": [1, 2, 3],
+    "authorized_replication_seeds": [1, 3],
+    "family_rule": "all declared seeds resolve go"
+  },
+  "source": {
+    "repository": "https://github.com/atimics/zero-grounded-literary-lm.git",
+    "execution_commit": "e6e717a53d6903b71d8f563104ec9ce75c65ce11",
+    "result_commit": "bde7875bdc3947bb4203fe3b8eccc8fb6488bda6",
+    "artifacts": [
+      {
+        "path": "benchmarks/zero4-q26r-v1/seed1/result.json",
+        "sha256": "9e80942f0e9c541fcd92fb63fd7a6b1fe82b5148b05239a34937c17926ff274f"
+      },
+      {
+        "path": "benchmarks/zero4-q26r-v1/seed3/result.json",
+        "sha256": "38bda6500ddb1012cb0c37fe691b4803447e9f03e62d0a9c34f0b4c3f39f4537"
+      },
+      {
+        "path": "benchmarks/zero4-q26r-v1/aggregate.json",
+        "sha256": "246274e15bcdcea7e337a01bdf415b72251f010fb411b8a1c0ac879d0ddc5d71"
+      }
+    ]
+  },
+  "executions": {
+    "route": "aws-v2 recovery-3",
+    "source_workflow_run_id": "30126034960",
+    "collector_workflow_run_id": "30131123238",
+    "completed_at": "2026-07-24T22:30:44Z",
+    "collector_started_new_training": false,
+    "seeds": {
+      "1": {
+        "decision": "go",
+        "instance_type": "c6i.4xlarge",
+        "started_at": "2026-07-24T21:00:16Z",
+        "finished_at": "2026-07-24T22:21:36Z",
+        "observed_instance_seconds": 4962,
+        "observed_compute_usd": 0.9372666666666668,
+        "attempts": 600,
+        "committed_updates": 600,
+        "full_scale_commits": 600,
+        "backtracked_commits": 0,
+        "rejected_attempts": 0,
+        "projected_trials": 335,
+        "unprojected_trials": 265,
+        "max_committed_replay_increase": 0.0005057062180562855,
+        "selected_update": 400,
+        "selected_operation_rate": 0.98,
+        "selected_exact_artifact_rate": 0.98,
+        "selected_replay_regression": 0.010423053341508219,
+        "promotion_evaluated_once": true,
+        "promotion_passed": true,
+        "promotion_limiting_rate": 0.984,
+        "quantized_model_sha256": "67a1d5bafd00164b158811fc99a6f9b558e7414ff604b6f513e26a196b1eb65e"
+      },
+      "3": {
+        "decision": "go",
+        "instance_type": "c6i.4xlarge",
+        "started_at": "2026-07-24T21:00:23Z",
+        "finished_at": "2026-07-24T22:22:20Z",
+        "observed_instance_seconds": 5000,
+        "observed_compute_usd": 0.9444444444444445,
+        "attempts": 600,
+        "committed_updates": 600,
+        "full_scale_commits": 600,
+        "backtracked_commits": 0,
+        "rejected_attempts": 0,
+        "projected_trials": 326,
+        "unprojected_trials": 274,
+        "max_committed_replay_increase": 0.0004657003864890863,
+        "selected_update": 500,
+        "selected_operation_rate": 0.96,
+        "selected_exact_artifact_rate": 0.96,
+        "selected_replay_regression": 0.012752912323727732,
+        "promotion_evaluated_once": true,
+        "promotion_passed": true,
+        "promotion_limiting_rate": 0.964,
+        "quantized_model_sha256": "817eb9b9dd5c1685fcf6e65f7e16f5ab2ec7f13933b2b73c749a557720e49603"
+      }
+    }
+  },
+  "forecast_settlements": [
+    {
+      "seed": 1,
+      "forecaster": "tangent-replication mechanism",
+      "probabilities": { "go": 0.62, "no_go": 0.36, "failure": 0.02 },
+      "resolved_outcome": "go",
+      "stake": 10,
+      "brier_score": 0.2744
+    },
+    {
+      "seed": 1,
+      "forecaster": "cross-seed empirical history",
+      "probabilities": { "go": 0.46, "no_go": 0.51, "failure": 0.03 },
+      "resolved_outcome": "go",
+      "stake": 10,
+      "brier_score": 0.5526
+    },
+    {
+      "seed": 3,
+      "forecaster": "tangent-replication mechanism",
+      "probabilities": { "go": 0.62, "no_go": 0.36, "failure": 0.02 },
+      "resolved_outcome": "go",
+      "stake": 10,
+      "brier_score": 0.2744
+    },
+    {
+      "seed": 3,
+      "forecaster": "cross-seed empirical history",
+      "probabilities": { "go": 0.46, "no_go": 0.51, "failure": 0.03 },
+      "resolved_outcome": "go",
+      "stake": 10,
+      "brier_score": 0.5526
+    }
+  ],
+  "family": {
+    "decision": "go",
+    "promotion_eligible": true,
+    "completed_seeds": [1, 2, 3],
+    "promoted_source_seed": 2,
+    "promoted_model_sha256": "44b32f2262be2754fd2eeaf16ed206bae32b4ce30d7f5541a1059cd21257ae50",
+    "current_model": "ZERO.4"
+  },
+  "verification": {
+    "seed_1_checker": "passed; 600 attempts",
+    "seed_3_checker": "passed; 600 attempts",
+    "aws_v2_completion_check": "passed; family go",
+    "full_command": "make zero4-q26r-aws-v2-check"
+  },
+  "downstream": {
+    "zero_family_gate_cleared": true,
+    "bridge_ready": false,
+    "remaining_bridge_blockers": [
+      "frozen shared-task data bindings",
+      "Solomon-compatible encoding and verifier"
+    ]
+  }
+}

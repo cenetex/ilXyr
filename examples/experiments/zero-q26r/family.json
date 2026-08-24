@@ -1,0 +1,52 @@
+{
+  "schema": "ilxyr.family_manifest.v1",
+  "id": "zero.q26r.family.v1",
+  "title": "ZERO.4 Q2.6 seeds 1, 2, and 3 family decision",
+  "contributions": [
+    "hypothesis.json",
+    "foundation.json",
+    "engineering-review.json",
+    "experiment-design.json"
+  ],
+  "members": [
+    {
+      "seed": 1,
+      "required_outcome": "go",
+      "experiment": "seed1-experiment.json",
+      "forecasts": [
+        "seed1-forecast-mechanistic.json",
+        "seed1-forecast-empirical.json"
+      ],
+      "funding": [
+        "seed1-funding-a.json",
+        "seed1-funding-b.json"
+      ]
+    },
+    {
+      "seed": 3,
+      "required_outcome": "go",
+      "experiment": "seed3-experiment.json",
+      "forecasts": [
+        "seed3-forecast-mechanistic.json",
+        "seed3-forecast-empirical.json"
+      ],
+      "funding": [
+        "seed3-funding-a.json",
+        "seed3-funding-b.json"
+      ]
+    }
+  ],
+  "prior_outcomes": [
+    {
+      "experiment_id": "zero.q26.seed2.cumulative-tangent.v1",
+      "seed": 2,
+      "resolved_outcome": "go",
+      "required_outcome": "go",
+      "result_ref": "artifact://sha256/0940076590557425cf1a3a4bbf3d20fc3fa457191ea02c145686744f2c7d56d8"
+    }
+  ],
+  "run_all": true,
+  "success_outcome": "go",
+  "failure_outcome": "no_go",
+  "promotion_candidate": "weight://zero/zero4-q26-seed2/44b32f2262be2754fd2eeaf16ed206bae32b4ce30d7f5541a1059cd21257ae50"
+}

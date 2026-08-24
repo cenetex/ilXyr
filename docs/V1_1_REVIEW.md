@@ -88,7 +88,8 @@ was replayed through `scripts/harness-zero-q22r-multiseed.mjs` and registered in
 The aggregate registration records `completed_seeds=3`, `go_seeds=1`, `no_go_seeds=2`,
 `family_promotion_eligible=0`, and `failed_seed_promotion_evaluations=0`. It produced four
 content-addressed objects across five hash-linked events; `ilxyr verify` passed. This grounds the
-negative family decision, not a ZERO.4 promotion. ZERO.3 remains current.
+negative family decision, not a ZERO.4 promotion. ZERO.3 remained current at this review point;
+the later Q2.6 family replication passed in EXP-005 and made ZERO.4 current upstream.
 
 ### EXP-001 — Zero Q2.3 seed 2
 

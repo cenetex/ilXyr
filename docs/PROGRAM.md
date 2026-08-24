@@ -65,9 +65,10 @@ authority: five scaled updates committed before eight attempts exhausted every r
 It never reached a public checkpoint, so EXP-003 resolved no-go. EXP-004 then prospectively tested
 Q2.6's global all-slice replay-tangent projection while preserving every gate. Diagnostic seed 2
 resolved go after 700 full-scale commits; the selected public checkpoint and one-time disjoint
-promotion evaluation passed. EXP-005 now prospectively registers seeds 1 and 3 as separate runs
-under the unchanged design and an all-three-seeds conjunction. Both remain unobserved, so ZERO.3
-remains current and the bridge remains closed.
+promotion evaluation passed. EXP-005 then executed seeds 1 and 3 as separate runs under the
+unchanged design. Both resolved go after 600 full-scale commits, so the all-three-seeds
+conjunction passed and ZERO.4 is current upstream. The Zero family gate is now clear. The bridge
+still needs frozen shared-task data bindings and a Solomon-compatible encoding and verifier.
 
 ## Bootstrap
 
@@ -81,9 +82,10 @@ remains current and the bridge remains closed.
 4. EXP-001 grounds Q2.3's local-guard no-go, EXP-002 records Q2.4's prospective cumulative-guard
    no-go, and EXP-003 records Q2.5's prospective deterministic-backtracking no-go. EXP-004 records
    Q2.6's prospective seed-2 replay-tangent go while preserving full gates for spine claims.
-   EXP-005 prospectively registers replication seeds 1 and 3; execute both independently next.
-5. Execute the bridge only after a Zero result clears its declared family gate and a real shared
-   task binds both family verifiers.
+   EXP-005 records independent seed-1 and seed-3 go results and the verified family go. Its
+   upstream evidence still needs to be imported into the local ilXyr ledger.
+5. Bind the ZERO.4 capability to a real shared task, add the Solomon-compatible encoding and
+   verifier, then preregister and execute the bridge.
 
 ## Operating model
 
