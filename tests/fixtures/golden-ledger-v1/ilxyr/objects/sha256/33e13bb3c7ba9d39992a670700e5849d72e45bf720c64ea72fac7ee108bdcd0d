@@ -1,0 +1,1 @@
+{"completed_at_ms":1787604092718,"exit_code":0,"experiment_id":"toy.score.v1","id":"run:toy.score.v1:1787604092687","metrics":{"score":0.82},"output_truncated":false,"schema":"ilxyr.run.v1","started_at_ms":1787604092687,"stderr":"","stdout":"{\"metrics\":{\"score\":0.82}}\n","timed_out":false}

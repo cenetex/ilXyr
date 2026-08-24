@@ -1,0 +1,1 @@
+{"experiment_id":"toy.score.v1","forecaster":{"id":"human://toy/reviewer","kind":"human"},"id":"toy.forecast.human.v1","probabilities":{"below_threshold":0.08,"execution_failure":0.02,"success":0.9},"rationale":"The frozen argument directly supplies the expected score envelope.","schema":"ilxyr.forecast.v1","stake":4}
