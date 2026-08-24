@@ -126,3 +126,5 @@ for this adapter.
 
 Do not include credentials, sensitive datasets, private weight locations, or exploitable deployment
 details in public issues. Use the repository owner's private security channel when one is published.
+
+- test
