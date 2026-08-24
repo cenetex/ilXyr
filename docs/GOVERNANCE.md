@@ -34,3 +34,5 @@ via Settings or the API, land the fix, re-enable protection. Any such
 disable window should be recorded in an issue.
 
 Enforcement is live as of 2026-08-24. See docs/GOVERNANCE.md.
+
+- 2026-08-24: adversarial test suite passed (5/5).
