@@ -37,9 +37,9 @@ jobs:
           escalate_body="$(printf '%s\n' \
             '**cenetex review: `review:human-required`**' \
             '' \
-            'This pull request touches a protected path (`.github/workflows/**`,'
-            '`CODEOWNERS`, `LICENSE`, `docs/SECURITY.md`, or `AGENTS.md`). Per the'
-            'governance contract it escalates for **human approval** before merge.'
+            'This pull request touches a protected path (.github/workflows/**,' \
+            'CODEOWNERS, LICENSE, docs/SECURITY.md, or AGENTS.md). Per the' \
+            'governance contract it escalates for human approval before merge.' \
             'The bot does not approve protected-path changes.')"
 
           approve_body="$(printf '%s\n' \
@@ -47,13 +47,13 @@ jobs:
             '' \
             'Automated policy review passed:' \
             '' \
-            '- No protected paths touched (`workflows`, `CODEOWNERS`, `LICENSE`,'
-            '  `docs/SECURITY.md`, `AGENTS.md`).'
-            '- Required status checks (`rust`, `msrv`, `schemas`, `validate`) are'
-            '  the merge gate for code health; this review covers governance'
-            '  policy only.'
-            ''
-            'Merge remains subject to required checks passing on GitHub''s side.')"
+            '- No protected paths touched (workflows, CODEOWNERS, LICENSE,' \
+            'docs/SECURITY.md, AGENTS.md).' \
+            '- Required status checks (rust, msrv, schemas, validate) are the' \
+            'merge gate for code health; this review covers governance policy' \
+            'only.' \
+            '' \
+            "Merge remains subject to required checks passing on GitHub's side.")"
 
           if [ -z "$changed" ]; then
             gh pr review "$NUMBER" --comment --body "cenetex review: empty diff; nothing to approve." || true
