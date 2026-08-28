@@ -124,7 +124,8 @@ if (fs.existsSync(programPage) &&
 }
 if (fs.existsSync(indexPage)) {
   const indexContents = fs.readFileSync(indexPage, "utf8");
-  for (const required of ["program-registry.html", "ZERO5 C5.1", "ZERO5 C5.2"]) {
+  for (const required of ["program-registry.html", "ZERO5 C5.1", "ZERO5 C5.2",
+    "ZERO5 C6.1"]) {
     if (!indexContents.includes(required)) report(indexPage, `must surface ${required}`);
   }
 }
