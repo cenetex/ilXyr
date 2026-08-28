@@ -58,6 +58,10 @@ policy boundary provider-neutral, before any service or cloud binding.
 - Provides clean-commit metric adapters for Zero q22r seed and multi-seed decisions and the
   Solomon successor-v2 harness, plus ledgered Q2.3–Q2.6 prospective transaction experiments
   and the completed Q2.6 seed-1/3 family replication workflow.
+- Publishes a machine-readable lab registry that separates Braid data inputs, the promoted ZERO.4
+  line, the active ZERO.5 research line, upstream evidence debt, and the current C5.2 contract.
+- Compiles supported upstream benchmark results into schema-validated review records without
+  pretending that completed external runs were registered prospectively by ilXyr.
 
 Protected weights are handles, never local paths. The v1 local executor cannot run protected
 weight experiments; those require a future attested executor adapter.
@@ -209,6 +213,9 @@ started without producing a terminal run. `authorize` reports the same decision 
   certified-gate method, autonomous operating model, flagship replication bridge.
 - `docs/decisions/0005-nsrl-p10m-operational-stewardship.md`: the approved 30-day experimental
   stewardship pilot, ownership boundary, checkpoint bundle, and promotion gates for NSRL p10m.
+- `docs/lab-registry.json`: the reviewed cross-project program inventory for Braid and ZERO,
+  including active controls, artifact hashes, model-line boundaries, and evidence state.
+- `docs/program-registry.html`: the public, readable view of that inventory.
 - `docs/ARCHITECTURE.md`: two-lane structure, system boundaries, future cloud adapters.
 - `docs/PROTOCOL.md`: object lifecycle, events, gate semantics, decided and deferred extensions.
 - `docs/INTEROPERABILITY.md`: MLflow, OSF, RO-Crate/PROV, in-toto/SLSA, and research-agent
