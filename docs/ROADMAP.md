@@ -64,6 +64,15 @@ into a promoted claim.
   neither task licenses promotion of a failed result.
 - Per-project pipelines remain source harnesses; `ilxyr verify` can replace their evidence ledger
   only after each frozen replay has been registered.
+- The active ZERO.5 C line is now explicit in the lab registry. C0 selected the governed lossless
+  tokenizer, C1 proved native C training, C2 selected the Atlas checkpoint, C3 through C4.3
+  recorded a sequence of useful no-go curriculum repairs, and C5.1 found that a 25% Braid
+  structured-text mixture did not transfer into the frozen retrieval audit. C5.2 TargetBridge is
+  the active authorized contract at 5,046,256 total parameters. These upstream runs are evidence
+  debt until imported; none is silently treated as ilXyr-native or forecast-risked.
+- The checked-in machine-readable lab registry and its internal-reference validator now make
+  Braid inputs, ZERO model lines, experiment controls, evidence state, and the active contract one
+  reviewed surface. A new run must carry an ilXyr registration before execution.
 
 ## V1.2 — replication bridge and live gates
 
@@ -92,6 +101,9 @@ cross-family replication, OSF-side authentication, hardware attestation, or SLSA
   bundle and source-pinned adapter, settle the frozen baseline and exact-restart checks, then record
   a continue, candidate, or freeze decision. Stewardship does not change the model's
   `experimental` status.
+- If C5.2 passes and then reproduces across its frozen seed family, evaluate Braid StateBridge as
+  a second cross-family task. Its symbolic representation is promising input, not yet a
+  Solomon-compatible contract or capability claim.
 - Forecast closing windows and proper-scoring credit accounting for live experiments.
 - Demotion challenge windows for contradicted promoted claims (deferred sketch in
   ADR 0004).
