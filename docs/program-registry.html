@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="The ilXyr lab program registry for Braid, ZERO.4, and the active ZERO.5 C5 lineage.">
+  <meta name="description" content="The ilXyr lab program registry for Braid, ZERO.4, and the active ZERO.5 C lineage through the blocked C6.1 build.">
   <title>ilXyr — Lab program registry</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -31,7 +31,7 @@
     <div class="status-row" aria-label="Program status">
       <div class="status"><span class="label">Promoted model</span><strong>ZERO.4</strong></div>
       <div class="status"><span class="label">Active research line</span><strong>ZERO.5 · 4.85M base</strong></div>
-      <div class="status"><span class="label">Current decision</span><strong>C5.2 · private</strong></div>
+      <div class="status"><span class="label">Next experiment</span><strong>C6.1 · built, blocked</strong></div>
     </div>
 
     <section>
@@ -58,12 +58,17 @@
         <article class="card">
           <span class="tag proxy">Active research · not promoted</span>
           <h3>ZERO.5</h3>
-          <p>A separate dependency-free C training line. Its base has 4,852,992 parameters and its C experiments start from the selected C2 checkpoint. No experiment is currently authorized.</p>
+          <p>A separate dependency-free C training line. Its base has 4,852,992 parameters and its C experiments start from the selected C2 checkpoint. C6.1 is built, but no experiment is currently authorized to train.</p>
         </article>
         <article class="card">
           <span class="tag proxy">Private terminal record</span>
           <h3>C5.2 TargetBridge</h3>
-          <p>The authorized run finished, but its frozen contract forbids public results. No follow-up is authorized while the decision remains private.</p>
+          <p>The authorized run finished, but its frozen contract forbids public results. Its outcome is not used as public evidence for C6.1.</p>
+        </article>
+        <article class="card">
+          <span class="tag proxy">Built · training blocked</span>
+          <h3>C6.1 Shared-State Bottleneck</h3>
+          <p>A separate public prospective contract couples verified state learning to answer logits. It does not disclose the C5.2 result and cannot run without a later hash-bound authorization.</p>
         </article>
       </div>
     </section>
@@ -86,8 +91,19 @@
             <tr><td>C4.3</td><td>Hard retrieval and cloze coverage repair</td><td>No-go</td><td>Public result; import required</td></tr>
             <tr><td>C5.1</td><td>25% Braid structured-state text</td><td>No-go</td><td>Private result hash; import required</td></tr>
             <tr><td>C5.2</td><td>Verified factorized state-target loss</td><td>Decision withheld</td><td>Private terminal record</td></tr>
+            <tr><td>C6.1</td><td>Shared state bottleneck in answer logits</td><td>Built; training blocked</td><td>Native prospective contract</td></tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <div class="eyebrow">C6.1 preregistration</div>
+        <h2>Make the state representation part of the answer path.</h2>
+        <p>A 152-wide bottleneck feeds both the verified 752-tag state decoder and a zero-initialized answer-token adapter. It adds 193,032 parameters—232 fewer than the prior auxiliary ceiling—for 5,046,024 parameters total.</p>
+        <p>The completed C5.1 seed-0 run is the text-only control. The trained checkpoint must also beat itself with the bridge switched off by at least one point on both retrieval choice and pair-exact accuracy. This same-checkpoint ablation is what makes the mechanism testable.</p>
+        <p>The implementation and frozen gates exist, but this registry records C6.1 as blocked. No preflight or training is authorized until a separate record binds the exact ZERO contract hash to this ilXyr registration.</p>
       </div>
     </section>
 
@@ -121,7 +137,8 @@
           <li>A new run requires an ilXyr registration before execution.</li>
           <li>External completed runs are never relabelled as forecast-risked ilXyr experiments.</li>
           <li>Plane-prefixed display names distinguish Braid Corpus 5.2 from ZERO5 C5.2.</li>
-          <li>C5.2 has a private terminal record. No follow-up or sealed-test access is authorized while its public decision is withheld.</li>
+          <li>C5.2 stays private. C6.1 stands on a separate public prospective contract and makes no public claim about the C5.2 outcome.</li>
+          <li>A built or blocked experiment is not an active run. C6.1 still needs a separate hash-bound authorization before compute.</li>
         </ul>
       </div>
     </section>
