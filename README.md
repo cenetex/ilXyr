@@ -59,7 +59,7 @@ policy boundary provider-neutral, before any service or cloud binding.
   Solomon successor-v2 harness, plus ledgered Q2.3–Q2.6 prospective transaction experiments
   and the completed Q2.6 seed-1/3 family replication workflow.
 - Publishes a machine-readable lab registry that separates Braid data inputs, the promoted ZERO.4
-  line, the active ZERO.5 research line, upstream evidence debt, and the current C5.2 contract.
+  line, the active ZERO.5 research line, upstream evidence debt, and C5.2's private terminal state.
 - Compiles supported upstream benchmark results into schema-validated review records without
   pretending that completed external runs were registered prospectively by ilXyr.
 
@@ -202,7 +202,7 @@ started without producing a terminal run. `authorize` reports the same decision 
 - `portal`: the hosted submission and review portal used for the conventional web deployment.
 - `crates/ilxyr-core`: protocol objects, validation, ledger, gates, execution, settlement.
 - `crates/ilxyr-cli`: a small reference control-plane CLI.
-- `schemas`: portable JSON contracts for non-Rust producers and consumers (27 strict Draft
+- `schemas`: portable JSON contracts for non-Rust producers and consumers (30 strict Draft
   2020-12 schemas, including evidence authority, certificates, epoch budgets, sandbox runs,
   calibration records, evidence/registration bundles, external registration receipts, trusted
   attestation keys, verified executor attestations, claims/edges/status, and replication

@@ -88,8 +88,8 @@
       "state": "active_research",
       "promotion_state": "not_promoted",
       "base_parameter_count": 4852992,
-      "active_experiment": "zero5-c52-targetbridge-v1",
-      "summary": "Dependency-free C11 training at a fixed 4,852,992-parameter base. C5.2 adds a 193,264-parameter auxiliary head but does not authorize promotion."
+      "active_experiment": null,
+      "summary": "Dependency-free C11 training at a fixed 4,852,992-parameter base. C5.2 has a terminal private result, so the line has no active experiment and remains unpromoted."
     }
   ],
   "experiments": [
@@ -423,7 +423,7 @@
       "model_line_id": "model-line://zero/zero5",
       "category": "scientific",
       "question": "Does a factorized verified state-target loss transfer Braid state learning into the frozen retrieval audit?",
-      "state": "authorized",
+      "state": "withheld",
       "parameter_count": 5046256,
       "promotion_authorized": false,
       "prospective_contract": true,
@@ -442,18 +442,18 @@
       },
       "evidence": {
         "ilxyr_recorded": false,
-        "classification": "contract_only",
+        "classification": "private_withheld",
         "forecast_risked": false,
         "source_attested": false,
         "cold_replayable": false
       },
-      "summary": "The only treatment is a 193,264-parameter factorized state-target head at weight 0.1. The base stream, seed, schedule, token exposure, and C2 checkpoint remain matched to C5.1.",
-      "next_decision": "If every transfer and retention gate passes, request a frozen multi-seed family; otherwise close this objective branch without tuning the threshold."
+      "summary": "The authorized run finished under its frozen private-result and no-publication boundary. Its outcome, metrics, checkpoint hashes, and result hash are intentionally absent from this public registry.",
+      "next_decision": "No follow-up run is authorized while the terminal decision remains private. Keep the sealed test closed and require a separately approved public decision record before changing the program."
     }
   ],
   "governance": {
     "system_of_record": "ilxyr",
-    "active_experiment": "zero5-c52-targetbridge-v1",
+    "active_experiment": null,
     "new_run_policy": "requires_ilxyr_registration",
     "already_started_run_policy": "finish_then_import_honestly",
     "naming_policy": "use_plane_prefixed_display_names"

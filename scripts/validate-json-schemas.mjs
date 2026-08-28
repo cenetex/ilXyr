@@ -247,6 +247,7 @@ expectInvalid(
 );
 
 const labRegistry = await readJson("docs/lab-registry.json");
+labRegistry.experiments.at(-1).state = "authorized";
 labRegistry.experiments.at(-1).outcome = "pass";
 expectInvalid(
   "lab-registry.schema.json",

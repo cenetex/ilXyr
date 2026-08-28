@@ -40,10 +40,11 @@ ZERO.4 and ZERO.5 are separate states, not one checkpoint chain.
 - **ZERO.5 is active research.** It is the dependency-free C11 training line at a fixed
   4,852,992-parameter base. Its C experiments start from the selected C2 checkpoint, not from
   ZERO.4. The line is not promoted.
-- **C5 is the active decision lineage.** C5.1 tested a 25% Braid structured-text mixture and
+- **C5 is a private terminal lineage.** C5.1 tested a 25% Braid structured-text mixture and
   resolved no-go outside the ilXyr ledger. C5.2 keeps that stream fixed and adds a 193,264-
-  parameter verified state-target head, for 5,046,256 total parameters. Its committed contract
-  is the active experiment. A pass authorizes only a frozen multi-seed request.
+  parameter verified state-target head, for 5,046,256 total parameters. Its authorized run
+  finished, but the frozen contract forbids public results. No follow-up run is authorized while
+  the decision remains private.
 
 The machine-readable source of truth is [`docs/lab-registry.json`](lab-registry.json), with the
 public view at [`docs/program-registry.html`](program-registry.html). External runs remain marked
@@ -90,8 +91,8 @@ promotion evaluation passed. EXP-005 then executed seeds 1 and 3 as separate run
 unchanged design. Both resolved go after 600 full-scale commits, so the all-three-seeds
 conjunction passed and ZERO.4 is current upstream. The Zero family gate is now clear. The bridge
 still needs frozen shared-task data bindings and a Solomon-compatible encoding and verifier.
-The verified Braid StateBridge symbolic view is a candidate for a later shared task, but only if
-the ZERO.5 C5 transfer gate first passes and replicates. It does not replace q22r by declaration.
+The verified Braid StateBridge symbolic view is not admitted as a shared task while the C5
+decision remains private. It stays an input artifact and does not replace q22r by declaration.
 
 ## NSRL p10m managed pilot
 
