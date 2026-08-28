@@ -60,11 +60,21 @@ for (const experiment of registry.experiments) {
   }
 }
 
-const activeExperiment = experiments.get(registry.governance.active_experiment);
-if (!activeExperiment) {
-  fail(`governance active experiment is missing: ${registry.governance.active_experiment}`);
-} else if (!["authorized", "running"].includes(activeExperiment.state)) {
+const activeExperimentId = registry.governance.active_experiment;
+const activeExperiment = activeExperimentId ? experiments.get(activeExperimentId) : null;
+const executableExperiments = registry.experiments.filter((experiment) =>
+  ["authorized", "running"].includes(experiment.state));
+if (activeExperimentId && !activeExperiment) {
+  fail(`governance active experiment is missing: ${activeExperimentId}`);
+} else if (activeExperiment && !["authorized", "running"].includes(activeExperiment.state)) {
   fail(`governance active experiment is not authorized or running: ${activeExperiment.id}`);
+}
+if (!activeExperimentId && executableExperiments.length > 0) {
+  fail("governance has no active experiment but executable experiments remain");
+}
+if (activeExperimentId &&
+    (executableExperiments.length !== 1 || executableExperiments[0].id !== activeExperimentId)) {
+  fail("governance must name the only authorized or running experiment");
 }
 
 const activeModelLines = registry.model_lines.filter((line) => line.state === "active_research");

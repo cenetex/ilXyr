@@ -31,7 +31,7 @@
     <div class="status-row" aria-label="Program status">
       <div class="status"><span class="label">Promoted model</span><strong>ZERO.4</strong></div>
       <div class="status"><span class="label">Active research line</span><strong>ZERO.5 · 4.85M base</strong></div>
-      <div class="status"><span class="label">Active contract</span><strong>C5.2 TargetBridge</strong></div>
+      <div class="status"><span class="label">Current decision</span><strong>C5.2 · private</strong></div>
     </div>
 
     <section>
@@ -58,12 +58,12 @@
         <article class="card">
           <span class="tag proxy">Active research · not promoted</span>
           <h3>ZERO.5</h3>
-          <p>A separate dependency-free C training line. Its base has 4,852,992 parameters and its active experiments start from the selected C2 checkpoint.</p>
+          <p>A separate dependency-free C training line. Its base has 4,852,992 parameters and its C experiments start from the selected C2 checkpoint. No experiment is currently authorized.</p>
         </article>
         <article class="card">
-          <span class="tag proxy">Authorized</span>
+          <span class="tag proxy">Private terminal record</span>
           <h3>C5.2 TargetBridge</h3>
-          <p>Adds a 193,264-parameter auxiliary state-target head for 5,046,256 total parameters. A pass authorizes only a replication request.</p>
+          <p>The authorized run finished, but its frozen contract forbids public results. No follow-up is authorized while the decision remains private.</p>
         </article>
       </div>
     </section>
@@ -85,7 +85,7 @@
             <tr><td>C4.2</td><td>Grouped data repair</td><td>No-go</td><td>Backfill required</td></tr>
             <tr><td>C4.3</td><td>Hard retrieval and cloze coverage repair</td><td>No-go</td><td>Public result; import required</td></tr>
             <tr><td>C5.1</td><td>25% Braid structured-state text</td><td>No-go</td><td>Private result hash; import required</td></tr>
-            <tr><td>C5.2</td><td>Verified factorized state-target loss</td><td>Authorized</td><td>Contract only</td></tr>
+            <tr><td>C5.2</td><td>Verified factorized state-target loss</td><td>Decision withheld</td><td>Private terminal record</td></tr>
           </tbody>
         </table>
       </div>
@@ -97,7 +97,7 @@
         <h2>Content first. Learning bridge second.</h2>
         <p><strong>C4.3 control:</strong> retrieval choice reached 53.76%; claim and retention gates passed, but retrieval and cloze kept the experiment at no-go.</p>
         <p><strong>C5.1 StateBridge text:</strong> the base remained 4,852,992 parameters. Exactly 25% of the matched stream became Braid structured-state text. Retrieval choice fell to 52.57%, pair-exact to 50.94%, and claim choice to 56.14%. Structured content alone was not enough.</p>
-        <p><strong>C5.2 TargetBridge auxiliary:</strong> the C5.1 stream stays frozen. The only treatment is a factorized verified state-target head at loss weight 0.1. The run must improve both state factors and the frozen retrieval audit while preserving claim and language retention.</p>
+        <p><strong>C5.2 TargetBridge auxiliary:</strong> the authorized run finished with the C5.1 stream, seed, schedule, compute, and sealed-test boundary fixed. Its outcome, metrics, checkpoint hashes, and result hash remain private under the committed publication rule.</p>
       </div>
     </section>
 
@@ -121,7 +121,7 @@
           <li>A new run requires an ilXyr registration before execution.</li>
           <li>External completed runs are never relabelled as forecast-risked ilXyr experiments.</li>
           <li>Plane-prefixed display names distinguish Braid Corpus 5.2 from ZERO5 C5.2.</li>
-          <li>A C5.2 pass authorizes a frozen multi-seed request, not promotion or sealed-test access.</li>
+          <li>C5.2 has a private terminal record. No follow-up or sealed-test access is authorized while its public decision is withheld.</li>
         </ul>
       </div>
     </section>

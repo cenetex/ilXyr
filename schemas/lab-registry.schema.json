@@ -104,7 +104,12 @@
         "state": { "enum": ["promoted", "active_research", "frozen"] },
         "promotion_state": { "enum": ["promoted", "not_promoted", "not_applicable"] },
         "base_parameter_count": { "type": "integer", "minimum": 1 },
-        "active_experiment": { "$ref": "#/$defs/id" },
+        "active_experiment": {
+          "anyOf": [
+            { "$ref": "#/$defs/id" },
+            { "type": "null" }
+          ]
+        },
         "summary": { "type": "string", "minLength": 1 }
       }
     },
@@ -144,7 +149,7 @@
       "properties": {
         "ilxyr_recorded": { "type": "boolean" },
         "classification": {
-          "enum": ["native", "external_public", "external_private_hash", "contract_only"]
+          "enum": ["native", "external_public", "external_private_hash", "contract_only", "private_withheld"]
         },
         "forecast_risked": { "type": "boolean" },
         "source_attested": { "type": "boolean" },
@@ -179,7 +184,7 @@
         "model_line_id": { "$ref": "#/$defs/id" },
         "category": { "enum": ["scientific", "mechanics", "engineering"] },
         "question": { "type": "string", "minLength": 1 },
-        "state": { "enum": ["completed", "authorized", "running", "blocked"] },
+        "state": { "enum": ["completed", "authorized", "running", "blocked", "withheld"] },
         "outcome": { "enum": ["pass", "no_go", "selected", "not_run"] },
         "parameter_count": { "type": "integer", "minimum": 1 },
         "promotion_authorized": { "type": "boolean" },
@@ -227,7 +232,7 @@
         {
           "if": {
             "properties": {
-              "state": { "enum": ["authorized", "running", "blocked"] }
+              "state": { "enum": ["authorized", "running", "blocked", "withheld"] }
             }
           },
           "then": {
@@ -248,7 +253,12 @@
       ],
       "properties": {
         "system_of_record": { "const": "ilxyr" },
-        "active_experiment": { "$ref": "#/$defs/id" },
+        "active_experiment": {
+          "anyOf": [
+            { "$ref": "#/$defs/id" },
+            { "type": "null" }
+          ]
+        },
         "new_run_policy": { "const": "requires_ilxyr_registration" },
         "already_started_run_policy": { "const": "finish_then_import_honestly" },
         "naming_policy": { "const": "use_plane_prefixed_display_names" }
