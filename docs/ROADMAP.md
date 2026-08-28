@@ -88,6 +88,10 @@ cross-family replication, OSF-side authentication, hardware attestation, or SLSA
 - The Zero→Solomon replication bridge as the first cross-family experiment. The Zero family gate
   is clear; bind the concrete ZERO.4 capability to the shared task and finish the Solomon encoding
   and verifier before preregistration.
+- Execute the ADR 0005 NSRL p10m managed pilot: implement a native content-addressed checkpoint
+  bundle and source-pinned adapter, settle the frozen baseline and exact-restart checks, then record
+  a continue, candidate, or freeze decision. Stewardship does not change the model's
+  `experimental` status.
 - Forecast closing windows and proper-scoring credit accounting for live experiments.
 - Demotion challenge windows for contradicted promoted claims (deferred sketch in
   ADR 0004).

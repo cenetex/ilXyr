@@ -70,6 +70,19 @@ unchanged design. Both resolved go after 600 full-scale commits, so the all-thre
 conjunction passed and ZERO.4 is current upstream. The Zero family gate is now clear. The bridge
 still needs frozen shared-task data bindings and a Solomon-compatible encoding and verifier.
 
+## NSRL p10m managed pilot
+
+ADR 0005 accepts operational stewardship of the production `NSRLPM1` p10m lineage for a 30-day
+managed pilot. It remains an `experimental` Solomon asset. NSRL owns the integer model,
+tokenizer, artifact formats, and execution code; ilXyr owns source-pinned execution, budgets,
+evaluation contracts, evidence, checkpoint comparison, and lifecycle decisions.
+
+The first objective is trustworthy custody, not fluency. Intake must preserve the current negative
+generation results, keep the production lineage separate from the successor-v2 benchmark, and
+verify artifact digests plus byte-identical restart. A checkpoint can become a candidate only after
+all integrity, numeric-health, learning, generation, context, serving, provenance, and independent-
+evidence gates pass together. Better likelihood by itself is not promotion evidence.
+
 ## Bootstrap
 
 1. V1 control plane: authority records, certificates, signed budgets, sandbox/promoted lanes,
@@ -86,6 +99,8 @@ still needs frozen shared-task data bindings and a Solomon-compatible encoding a
    upstream evidence still needs to be imported into the local ilXyr ledger.
 5. Bind the ZERO.4 capability to a real shared task, add the Solomon-compatible encoding and
    verifier, then preregister and execute the bridge.
+6. Implement the native NSRL checkpoint registration and source-pinned adapter, then execute the
+   p10m intake and baseline defined by ADR 0005 without changing its experimental status.
 
 ## Operating model
 
