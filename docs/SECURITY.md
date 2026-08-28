@@ -110,6 +110,19 @@ to run that public-weight command on the local host, not an attestation that arb
 sandboxed or reproducible. Only cooperative, locally trusted-to-terminate harnesses are suitable
 for this adapter.
 
+## NSRL p10m pilot boundary
+
+ADR 0005 authorizes registration and evaluation of the NSRL p10m model as an experimental public-
+weight asset. It does not relax the local executor limits above. The intake must bind a full source
+commit and artifact digests, and the executable and model-handle registrations require the same
+human acknowledgement as any new boundary object under ADR 0003. Model, tokenizer, optimizer, and
+evaluation inputs are untrusted data until their hashes and licences are recorded.
+
+Hidden evaluation material must not enter NSRL's training or tuning path. Optimizer state is stored
+separately from inference bundles and is exposed only to admitted continuation experiments. No
+pilot result authorizes protected-weight handling, multi-tenant execution, public serving, or a
+production capability claim.
+
 ## Production controls required before any multi-tenant service
 
 - OIDC workload identity with no long-lived provider keys.

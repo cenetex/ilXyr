@@ -207,6 +207,8 @@ started without producing a terminal run. `authorize` reports the same decision 
 - `examples/schema`: positive fixtures for the published protocol schemas.
 - `docs/PROGRAM.md`: the research program — Zero and Solomon micromodel families,
   certified-gate method, autonomous operating model, flagship replication bridge.
+- `docs/decisions/0005-nsrl-p10m-operational-stewardship.md`: the approved 30-day experimental
+  stewardship pilot, ownership boundary, checkpoint bundle, and promotion gates for NSRL p10m.
 - `docs/ARCHITECTURE.md`: two-lane structure, system boundaries, future cloud adapters.
 - `docs/PROTOCOL.md`: object lifecycle, events, gate semantics, decided and deferred extensions.
 - `docs/INTEROPERABILITY.md`: MLflow, OSF, RO-Crate/PROV, in-toto/SLSA, and research-agent
