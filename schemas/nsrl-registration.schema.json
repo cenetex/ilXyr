@@ -4,7 +4,35 @@
   "title": "ilxyr NSRL checkpoint registration v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "checkpoint", "continuation"],
+  "required": ["schema", "checkpoint"],
+  "oneOf": [
+    {
+      "required": ["continuation"],
+      "properties": {
+        "continuation": {},
+        "checkpoint": {
+          "type": "object",
+          "required": ["continuation_ref"],
+          "properties": { "continuation_ref": {} }
+        }
+      }
+    },
+    {
+      "not": {
+        "required": ["continuation"],
+        "properties": { "continuation": {} }
+      },
+      "properties": {
+        "checkpoint": {
+          "type": "object",
+          "not": {
+            "required": ["continuation_ref"],
+            "properties": { "continuation_ref": {} }
+          }
+        }
+      }
+    }
+  ],
   "properties": {
     "schema": { "const": "ilxyr.nsrl_registration.v1" },
     "checkpoint": { "$ref": "#/$defs/checkpoint" },
@@ -65,7 +93,6 @@
         "executable",
         "generation_defaults",
         "licences",
-        "continuation_ref",
         "evidence_refs",
         "experiment_refs"
       ],

@@ -262,6 +262,31 @@ expectInvalid(
   nsrlRegistration,
 );
 
+const nsrlRegistrationWithoutContinuation = await readJson(
+  "examples/nsrl/p10m-v10-registration.json",
+);
+delete nsrlRegistrationWithoutContinuation.continuation;
+delete nsrlRegistrationWithoutContinuation.checkpoint.continuation_ref;
+const validateNsrlRegistration = validators.get(
+  "nsrl-registration.schema.json",
+);
+if (!validateNsrlRegistration(nsrlRegistrationWithoutContinuation)) {
+  throw new Error(
+    `NSRL registration without continuation failed nsrl-registration.schema.json: ${JSON.stringify(validateNsrlRegistration.errors)}`,
+  );
+}
+positiveCount += 1;
+
+const unpairedNsrlRegistration = await readJson(
+  "examples/nsrl/p10m-v10-registration.json",
+);
+delete unpairedNsrlRegistration.continuation;
+expectInvalid(
+  "nsrl-registration.schema.json",
+  "NSRL checkpoint continuation reference without continuation",
+  unpairedNsrlRegistration,
+);
+
 const nsrlGate = await readJson(
   "examples/nsrl/p10m-v10-generation-gate.json",
 );
@@ -273,5 +298,5 @@ expectInvalid(
 );
 
 console.log(
-  `Validated ${schemaNames.length} Draft 2020-12 schemas, ${positiveCount} positive fixtures, and 18 rejection fixtures.`,
+  `Validated ${schemaNames.length} Draft 2020-12 schemas, ${positiveCount} positive fixtures, and 19 rejection fixtures.`,
 );
