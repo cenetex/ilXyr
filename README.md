@@ -242,6 +242,8 @@ started without producing a terminal run. `authorize` reports the same decision 
   settled forecasts, exact evidence, and newly eligible replication boundary.
 - `docs/experiments/EXP-005.md`: the completed Q2.6 seeds 1 and 3 replication, settled forecasts,
   exact source pins, and verified all-three-seeds family go.
+- `docs/experiments/NSRL-P10M-TARGET-MARGIN.md`: the exact-check negative result for the
+  output-matrix-only target-margin pilot and its public-development stop decision.
 - `docs/decisions/`: architectural decision records (ADR 0001–0004).
 
 ## Current non-goals and evidence gaps
