@@ -135,6 +135,18 @@ The import records metadata and exact file identities; it does not download weig
 inference. See [docs/HUGGINGFACE.md](docs/HUGGINGFACE.md) for the linked Qwen3.5 checkpoint,
 revision-pinned loading, and the executor boundary.
 
+Native NSRL checkpoints use a separate registry that verifies local source and artifact bytes
+before creating model and continuation handles:
+
+```bash
+cargo run -p ilxyr-cli -- nsrl-register . examples/nsrl/p10m-v10-registration.json /path/to/nsrl --execute
+cargo run -p ilxyr-cli -- nsrl-gate-record . examples/nsrl/p10m-v10-generation-gate.json /path/to/ilxyr
+cargo run -p ilxyr-cli -- nsrl-status . MODEL_REF
+```
+
+See [docs/NSRL.md](docs/NSRL.md) for the custody boundary and
+[the executed p10m intake](docs/experiments/NSRL-P10M-PILOT.md) for its failing public baseline.
+
 Claim and replication operations are explicit:
 
 ```bash
@@ -198,7 +210,7 @@ started without producing a terminal run. `authorize` reports the same decision 
 - `portal`: the hosted submission and review portal used for the conventional web deployment.
 - `crates/ilxyr-core`: protocol objects, validation, ledger, gates, execution, settlement.
 - `crates/ilxyr-cli`: a small reference control-plane CLI.
-- `schemas`: portable JSON contracts for non-Rust producers and consumers (27 strict Draft
+- `schemas`: portable JSON contracts for non-Rust producers and consumers (30 strict Draft
   2020-12 schemas, including evidence authority, certificates, epoch budgets, sandbox runs,
   calibration records, evidence/registration bundles, external registration receipts, trusted
   attestation keys, verified executor attestations, claims/edges/status, and replication
@@ -214,6 +226,8 @@ started without producing a terminal run. `authorize` reports the same decision 
 - `docs/INTEROPERABILITY.md`: MLflow, OSF, RO-Crate/PROV, in-toto/SLSA, and research-agent
   boundaries plus the integration roadmap.
 - `docs/HUGGINGFACE.md`: immutable Hub import, model/weight handles, and revision-pinned loading.
+- `docs/NSRL.md`: native NSRL checkpoint, continuation, local-verification, and gate-evidence
+  registration.
 - `docs/SECURITY.md`: threat model, autonomous operation rules, weight protection.
 - `docs/ROADMAP.md`: sequenced milestones from protocol proof through federation.
 - `docs/V1_REVIEW.md`: V1 acceptance review, revisions, and residual limitations.

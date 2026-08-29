@@ -122,7 +122,14 @@ not silently discarded.
 - Negative generation results become durable evidence instead of cleanup candidates.
 - The pilot creates new model-handle and executable registrations, so existing human
   acknowledgement and signed-budget controls still apply.
-- Current protocol objects do not yet represent the full native checkpoint bundle or all eight
-  lifecycle gates. Those contracts and the NSRL adapter must be implemented before intake can be
-  called complete.
+- At acceptance, protocol objects did not yet represent the full native checkpoint bundle or all
+  eight lifecycle gates. Those contracts and the NSRL adapter had to be implemented before intake
+  could be called complete.
 - Promotion remains a later, separate decision. This ADR cannot be cited as a quality endorsement.
+
+## Implementation record
+
+The native checkpoint/continuation registry, source-root verifier, append-only gate evidence, and
+first p10m intake were implemented on 2026-08-28. The executed result is recorded in
+`docs/experiments/NSRL-P10M-PILOT.md`. This implementation note does not change the original
+decision boundary or the model's experimental status.

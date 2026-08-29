@@ -923,6 +923,8 @@ pub struct ResearchEvent {
 #[serde(deny_unknown_fields)]
 pub struct VerificationReport {
     pub objects_checked: usize,
+    #[serde(default)]
+    pub blobs_checked: usize,
     pub events_checked: usize,
     pub valid: bool,
 }

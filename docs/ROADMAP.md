@@ -92,6 +92,9 @@ cross-family replication, OSF-side authentication, hardware attestation, or SLSA
   bundle and source-pinned adapter, settle the frozen baseline and exact-restart checks, then record
   a continue, candidate, or freeze decision. Stewardship does not change the model's
   `experimental` status.
+  Initial intake and public baseline completed on 2026-08-28 with a continue-experimental decision;
+  the exact source commit and weight licence remain provenance blockers, five measured gates fail,
+  and independent evidence remains unopened.
 - Forecast closing windows and proper-scoring credit accounting for live experiments.
 - Demotion challenge windows for contradicted promoted claims (deferred sketch in
   ADR 0004).
