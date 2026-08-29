@@ -1,4 +1,10 @@
 import { getDatabase } from "../../../db";
+import {
+  canAddReview,
+  canAddressReview,
+  canResolveReview,
+  proposalReadiness,
+} from "./policy.mjs";
 
 type Actor = { id: string; name: string };
 
@@ -23,10 +29,25 @@ type ProposalRow = {
   created_at: string;
   updated_at: string;
   blocking_reviews: number;
+  independent_reviews: number;
   review_count: number;
   committed_credits: number;
   forecast_count: number;
-  average_forecast: number | null;
+};
+
+type ReviewRow = {
+  id: number;
+  proposal_id: string;
+  reviewer_id: string;
+  reviewer_name: string;
+  category: string;
+  severity: string;
+  comment: string;
+  addressed: number;
+  response: string | null;
+  resolved: number;
+  resolved_at: string | null;
+  created_at: string;
 };
 
 const proposalSelect = `
@@ -34,12 +55,13 @@ const proposalSelect = `
     (SELECT COUNT(*) FROM reviews r
       WHERE r.proposal_id = p.id AND r.severity = 'blocking' AND r.resolved = 0
     ) AS blocking_reviews,
+    (SELECT COUNT(*) FROM reviews r
+      WHERE r.proposal_id = p.id AND r.reviewer_id <> p.owner_id
+    ) AS independent_reviews,
     (SELECT COUNT(*) FROM reviews r WHERE r.proposal_id = p.id) AS review_count,
     COALESCE((SELECT SUM(f.compute_credits) FROM funding_commitments f
       WHERE f.proposal_id = p.id), 0) AS committed_credits,
-    (SELECT COUNT(*) FROM forecasts fc WHERE fc.proposal_id = p.id) AS forecast_count,
-    (SELECT AVG(fc.success_probability) FROM forecasts fc
-      WHERE fc.proposal_id = p.id) AS average_forecast
+    (SELECT COUNT(*) FROM forecasts fc WHERE fc.proposal_id = p.id) AS forecast_count
   FROM proposals p`;
 
 function actorFromRequest(request: Request): Actor | null {
@@ -64,18 +86,18 @@ function parseJsonArray<T>(value: string): T[] {
 }
 
 function readiness(row: ProposalRow) {
-  const checks = [
-    { label: "Falsifiable hypothesis", pass: row.hypothesis.trim().length >= 24 },
-    { label: "Frozen baseline", pass: row.baseline.includes("://") },
-    { label: "Dataset binding", pass: parseJsonArray(row.dataset_refs).length > 0 },
-    { label: "Decidable outcome", pass: row.primary_metric.trim().length > 0 },
-    { label: "Seeds declared", pass: parseJsonArray(row.seeds).length > 0 },
-    { label: "Compute ceiling", pass: row.compute_credits > 0 },
-    { label: "Evidence authority", pass: row.evidence_level.trim().length > 0 },
-    { label: "Blocking feedback resolved", pass: row.blocking_reviews === 0 },
-  ];
-  const score = Math.round((checks.filter((check) => check.pass).length / checks.length) * 100);
-  return { checks, score, promotable: score === 100 && row.status !== "blocked" };
+  return proposalReadiness({
+    hypothesis: row.hypothesis,
+    baseline: row.baseline,
+    datasetCount: parseJsonArray(row.dataset_refs).length,
+    primaryMetric: row.primary_metric,
+    seedCount: parseJsonArray(row.seeds).length,
+    computeCredits: row.compute_credits,
+    evidenceLevel: row.evidence_level,
+    independentReviews: row.independent_reviews,
+    blockingReviews: row.blocking_reviews,
+    status: row.status,
+  });
 }
 
 function serializeProposal(row: ProposalRow) {
@@ -100,11 +122,24 @@ function serializeProposal(row: ProposalRow) {
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     blockingReviews: row.blocking_reviews,
+    independentReviews: row.independent_reviews,
     reviewCount: row.review_count,
     committedCredits: row.committed_credits,
     forecastCount: row.forecast_count,
-    averageForecast: row.average_forecast,
     readiness: readiness(row),
+  };
+}
+
+function serializeReview(review: ReviewRow, proposal: ProposalRow, actor: Actor | null) {
+  return {
+    ...review,
+    can_address:
+      !review.resolved &&
+      !review.addressed &&
+      Boolean(actor && canAddressReview(proposal.owner_id, actor.id, proposal.status)),
+    can_resolve:
+      !review.resolved &&
+      Boolean(actor && canResolveReview(review, actor.id, proposal.status)),
   };
 }
 
@@ -136,12 +171,16 @@ export async function GET(request: Request) {
       const reviews = await db
         .prepare(
           `SELECT id, proposal_id, reviewer_id, reviewer_name, category, severity,
-            comment, resolved, created_at
+            comment, addressed, response, resolved, resolved_at, created_at
            FROM reviews WHERE proposal_id = ? ORDER BY created_at DESC, id DESC`,
         )
         .bind(id)
-        .all();
-      return Response.json({ proposal: serializeProposal(row), reviews: reviews.results });
+        .all<ReviewRow>();
+      const actor = actorFromRequest(request);
+      return Response.json({
+        proposal: serializeProposal(row),
+        reviews: reviews.results.map((review) => serializeReview(review, row, actor)),
+      });
     }
 
     const rows = await db
@@ -248,6 +287,12 @@ export async function POST(request: Request) {
     if (!row) return Response.json({ error: "Proposal not found" }, { status: 404 });
 
     if (action === "review") {
+      if (!canAddReview(row.owner_id, actor.id, row.status)) {
+        return Response.json(
+          { error: "Proposal owners cannot review their own work, and frozen proposals are locked." },
+          { status: 403 },
+        );
+      }
       const category = stringValue(payload.category, 40);
       const severity = stringValue(payload.severity, 20);
       const comment = stringValue(payload.comment, 1200);
@@ -262,14 +307,59 @@ export async function POST(request: Request) {
         )
         .bind(proposalId, actor.id, actor.name, category, severity, comment)
         .run();
+    } else if (action === "address") {
+      const reviewId = intValue(payload.reviewId, 1, 2_147_483_647);
+      const response =
+        stringValue(payload.response, 1200) || "Addressed in the current proposal draft.";
+      if (!reviewId || !canAddressReview(row.owner_id, actor.id, row.status)) {
+        return Response.json(
+          { error: "Only the proposal owner can mark feedback addressed before candidacy." },
+          { status: 403 },
+        );
+      }
+      const review = await db
+        .prepare(
+          `SELECT id, proposal_id, reviewer_id, reviewer_name, category, severity,
+            comment, addressed, response, resolved, resolved_at, created_at
+           FROM reviews WHERE id = ? AND proposal_id = ?`,
+        )
+        .bind(reviewId, proposalId)
+        .first<ReviewRow>();
+      if (!review) return Response.json({ error: "Review not found" }, { status: 404 });
+      if (!review.resolved) {
+        await db
+          .prepare(
+            `UPDATE reviews SET addressed = 1, response = ?
+             WHERE id = ? AND proposal_id = ? AND resolved = 0`,
+          )
+          .bind(response, reviewId, proposalId)
+          .run();
+      }
     } else if (action === "resolve") {
       const reviewId = intValue(payload.reviewId, 1, 2_147_483_647);
-      if (!reviewId || (actor.id !== row.owner_id && actor.id !== "human://local-researcher")) {
-        return Response.json({ error: "Only the proposal owner can resolve feedback." }, { status: 403 });
+      if (!reviewId) return Response.json({ error: "Review not found" }, { status: 404 });
+      const review = await db
+        .prepare(
+          `SELECT id, proposal_id, reviewer_id, reviewer_name, category, severity,
+            comment, addressed, response, resolved, resolved_at, created_at
+           FROM reviews WHERE id = ? AND proposal_id = ?`,
+        )
+        .bind(reviewId, proposalId)
+        .first<ReviewRow>();
+      if (!review) return Response.json({ error: "Review not found" }, { status: 404 });
+      if (!canResolveReview(review, actor.id, row.status)) {
+        const error =
+          review.severity === "blocking" && !review.addressed
+            ? "Blocking feedback must be addressed before resolution."
+            : "Only the original reviewer can resolve this feedback before candidacy.";
+        return Response.json({ error }, { status: 403 });
       }
       await db
-        .prepare("UPDATE reviews SET resolved = 1 WHERE id = ? AND proposal_id = ?")
-        .bind(reviewId, proposalId)
+        .prepare(
+          `UPDATE reviews SET resolved = 1, resolved_at = CURRENT_TIMESTAMP
+           WHERE id = ? AND proposal_id = ? AND reviewer_id = ? AND resolved = 0`,
+        )
+        .bind(reviewId, proposalId, actor.id)
         .run();
     } else if (action === "promote") {
       const current = serializeProposal(row);
@@ -313,18 +403,20 @@ export async function POST(request: Request) {
       if (!Number.isFinite(probability) || probability < 0 || probability > 1 || !stake || !rationale) {
         return Response.json({ error: "Add a 0–100% probability, stake, and rationale." }, { status: 400 });
       }
-      await db
+      const result = await db
         .prepare(
-          `INSERT INTO forecasts
+          `INSERT OR IGNORE INTO forecasts
             (proposal_id, forecaster_id, forecaster_name, success_probability, stake, rationale)
-           VALUES (?, ?, ?, ?, ?, ?)
-           ON CONFLICT(proposal_id, forecaster_id) DO UPDATE SET
-             success_probability = excluded.success_probability,
-             stake = excluded.stake,
-             rationale = excluded.rationale`,
+           VALUES (?, ?, ?, ?, ?, ?)`,
         )
         .bind(proposalId, actor.id, actor.name, probability, stake, rationale)
         .run();
+      if (result.meta.changes === 0) {
+        return Response.json(
+          { error: "Your sealed forecast is already recorded and cannot be changed." },
+          { status: 409 },
+        );
+      }
     } else {
       return Response.json({ error: "Unknown proposal action" }, { status: 400 });
     }

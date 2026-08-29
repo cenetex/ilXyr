@@ -24,7 +24,6 @@ type Proposal = {
   reviewCount: number;
   committedCredits: number;
   forecastCount: number;
-  averageForecast: number | null;
   readiness: { checks: Check[]; score: number; promotable: boolean };
 };
 
@@ -34,7 +33,11 @@ type Review = {
   category: string;
   severity: "blocking" | "advisory" | "endorsement";
   comment: string;
+  addressed: number;
+  response: string | null;
   resolved: number;
+  can_address: boolean;
+  can_resolve: boolean;
   created_at: string;
 };
 
@@ -115,18 +118,27 @@ export default function PortalApp() {
   const [fundingForm, setFundingForm] = useState({ computeCredits: "50", rationale: "" });
   const [forecastForm, setForecastForm] = useState({ probability: "50", stake: "10", rationale: "" });
 
-  const loadProposals = useCallback(async () => {
-    const response = await fetch("/api/proposals");
-    const data = (await response.json()) as { proposals?: Proposal[]; error?: string };
-    if (!response.ok) throw new Error(data.error || "Could not load proposals");
-    setProposals(data.proposals || []);
-  }, []);
-
   useEffect(() => {
-    loadProposals()
-      .catch((error) => setNotice(error instanceof Error ? error.message : "Could not load proposals"))
-      .finally(() => setLoading(false));
-  }, [loadProposals]);
+    let active = true;
+    async function loadProposals() {
+      try {
+        const response = await fetch("/api/proposals");
+        const data = (await response.json()) as { proposals?: Proposal[]; error?: string };
+        if (!response.ok) throw new Error(data.error || "Could not load proposals");
+        if (active) setProposals(data.proposals || []);
+      } catch (error) {
+        if (active) {
+          setNotice(error instanceof Error ? error.message : "Could not load proposals");
+        }
+      } finally {
+        if (active) setLoading(false);
+      }
+    }
+    void loadProposals();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const openProposal = useCallback(async (proposal: Proposal) => {
     setSelected(proposal);
@@ -212,6 +224,15 @@ export default function PortalApp() {
     if (proposal) {
       await openProposal(proposal);
       setNotice("Review marked as resolved.");
+    }
+  };
+
+  const addressReview = async (reviewId: number) => {
+    if (!selected) return;
+    const proposal = await postAction({ action: "address", proposalId: selected.id, reviewId });
+    if (proposal) {
+      await openProposal(proposal);
+      setNotice("Feedback marked as addressed. The reviewer can now resolve it.");
     }
   };
 
@@ -365,7 +386,7 @@ export default function PortalApp() {
           <section className="page-intro">
             <p className="eyebrow">Funding queue</p>
             <h1>Fund the experiment that will change your mind.</h1>
-            <p>Only frozen, mechanically decidable contracts appear here. Forecasts are sealed until the window closes.</p>
+            <p>Only frozen, mechanically decidable contracts appear here. Forecast details stay sealed; only participation counts are shown.</p>
           </section>
           <div className="queue-summary">
             <div><span>Requested</span><strong>{formatCredits(totalRequested)} credits</strong></div>
@@ -381,7 +402,7 @@ export default function PortalApp() {
                   <div className="funding-main"><span className="family-label">{proposal.family} family</span><h2>{proposal.title}</h2><p>{proposal.hypothesis}</p></div>
                   <div className="funding-facts">
                     <div><span>Forecasts</span><strong>{proposal.forecastCount || "Open"}</strong></div>
-                    <div><span>Mean belief</span><strong>{proposal.averageForecast == null ? "Sealed" : `${Math.round(proposal.averageForecast * 100)}%`}</strong></div>
+                    <div><span>Beliefs</span><strong>Sealed</strong></div>
                     <div><span>Compute</span><strong>{formatCredits(proposal.computeCredits)}</strong></div>
                   </div>
                   <div className="funding-progress"><span><i style={{ width: `${percent}%` }} /></span><strong>{percent}% committed</strong></div>
@@ -495,7 +516,9 @@ export default function PortalApp() {
                     <article className={`review-item ${review.severity} ${review.resolved ? "resolved" : ""}`} key={review.id}>
                       <div className="review-meta"><span className="review-avatar">{review.reviewer_name.slice(0, 1).toUpperCase()}</span><div><strong>{review.reviewer_name}</strong><span>{review.category} · {review.severity}{review.resolved ? " · resolved" : ""}</span></div><time>{new Date(review.created_at + "Z").toLocaleDateString(undefined, { month: "short", day: "numeric" })}</time></div>
                       <p>{review.comment}</p>
-                      {!review.resolved && review.severity === "blocking" && <button onClick={() => resolveReview(review.id)} disabled={working}>Mark addressed</button>}
+                      {review.addressed && review.response && <p><strong>Owner response:</strong> {review.response}</p>}
+                      {review.can_address && <button onClick={() => addressReview(review.id)} disabled={working}>Mark addressed</button>}
+                      {review.can_resolve && <button onClick={() => resolveReview(review.id)} disabled={working}>Resolve feedback</button>}
                     </article>
                   ))}
                 </div>
@@ -518,7 +541,7 @@ export default function PortalApp() {
                 {selected.status === "candidate" && <div className="frozen-note"><span>✓</span><p><strong>Contract frozen</strong>Forecasts and commitments are now bound to this exact version.</p></div>}
               </section>
 
-              <section className="compute-panel"><p className="eyebrow">Compute request</p><div className="compute-number"><strong>{formatCredits(selected.committedCredits)}</strong><span>of {formatCredits(selected.computeCredits)} credits</span></div><div className="progress-track"><span style={{ width: `${Math.min(100, (selected.committedCredits / selected.computeCredits) * 100)}%` }} /></div><div className="compute-meta"><span>{selected.forecastCount} forecasts</span><span>{selected.averageForecast == null ? "belief sealed" : `${Math.round(selected.averageForecast * 100)}% mean belief`}</span></div></section>
+              <section className="compute-panel"><p className="eyebrow">Compute request</p><div className="compute-number"><strong>{formatCredits(selected.committedCredits)}</strong><span>of {formatCredits(selected.computeCredits)} credits</span></div><div className="progress-track"><span style={{ width: `${Math.min(100, (selected.committedCredits / selected.computeCredits) * 100)}%` }} /></div><div className="compute-meta"><span>{selected.forecastCount} forecasts</span><span>belief sealed</span></div></section>
 
               {selected.status === "candidate" && (
                 <>
