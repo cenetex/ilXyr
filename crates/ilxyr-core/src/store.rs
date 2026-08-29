@@ -1,7 +1,7 @@
 use std::{
     collections::BTreeMap,
     fs::{self, OpenOptions},
-    io::Write,
+    io::{Read, Write},
     path::{Path, PathBuf},
     time::{SystemTime, UNIX_EPOCH},
 };
@@ -13,6 +13,7 @@ use sha2::{Digest, Sha256};
 use crate::{ActorRef, Error, ResearchEvent, Result, VerificationReport};
 
 const ARTIFACT_PREFIX: &str = "artifact://sha256/";
+const BLOB_PREFIX: &str = "blob://sha256/";
 
 #[derive(Debug, Clone)]
 pub struct Workspace {
@@ -25,6 +26,7 @@ impl Workspace {
         let root = root.as_ref().to_path_buf();
         let state = root.join(".ilxyr");
         fs::create_dir_all(state.join("objects/sha256"))?;
+        fs::create_dir_all(state.join("blobs/sha256"))?;
         let config = state.join("config.json");
         if !config.exists() {
             let contents = serde_json::to_vec_pretty(&json!({
@@ -99,6 +101,62 @@ impl Workspace {
 
     pub fn digest<T: Serialize>(object: &T) -> Result<String> {
         Ok(sha256_hex(&canonical_bytes(object)?))
+    }
+
+    pub fn put_blob(&self, source: impl AsRef<Path>, expected_sha256: &str) -> Result<String> {
+        validate_lower_sha256(expected_sha256)?;
+        let source = source.as_ref();
+        if !source.is_file() {
+            return Err(Error::NotFound(format!("blob source {}", source.display())));
+        }
+        let directory = self.state.join("blobs/sha256");
+        fs::create_dir_all(&directory)?;
+        let destination = directory.join(expected_sha256);
+        if destination.exists() {
+            verify_blob_path(&destination, expected_sha256)?;
+            return Ok(format!("{BLOB_PREFIX}{expected_sha256}"));
+        }
+
+        let mut input = OpenOptions::new().read(true).open(source)?;
+        let mut output = OpenOptions::new()
+            .create_new(true)
+            .write(true)
+            .open(&destination)?;
+        let mut digest = Sha256::new();
+        let mut buffer = [0_u8; 64 * 1024];
+        let write_result = (|| -> Result<()> {
+            loop {
+                let count = input.read(&mut buffer)?;
+                if count == 0 {
+                    break;
+                }
+                digest.update(&buffer[..count]);
+                output.write_all(&buffer[..count])?;
+            }
+            output.sync_all()?;
+            Ok(())
+        })();
+        if let Err(error) = write_result {
+            drop(output);
+            let _ = fs::remove_file(&destination);
+            return Err(error);
+        }
+        let actual = format!("{:x}", digest.finalize());
+        if actual != expected_sha256 {
+            drop(output);
+            let _ = fs::remove_file(&destination);
+            return Err(Error::Conflict(format!(
+                "blob source {} has digest {actual}, expected {expected_sha256}",
+                source.display()
+            )));
+        }
+        Ok(format!("{BLOB_PREFIX}{expected_sha256}"))
+    }
+
+    pub fn verify_blob(&self, blob_ref: &str) -> Result<u64> {
+        let digest = parse_blob_ref(blob_ref)?;
+        let path = self.state.join("blobs/sha256").join(digest);
+        verify_blob_path(&path, digest)
     }
 
     pub fn events(&self) -> Result<Vec<ResearchEvent>> {
@@ -188,8 +246,24 @@ impl Workspace {
         let events = self.events()?;
         self.verify_event_chain(&events)?;
 
+        let blob_dir = self.state.join("blobs/sha256");
+        let mut blobs_checked = 0;
+        if blob_dir.is_dir() {
+            for entry in fs::read_dir(blob_dir)? {
+                let entry = entry?;
+                if !entry.file_type()?.is_file() {
+                    continue;
+                }
+                let expected = entry.file_name().to_string_lossy().into_owned();
+                validate_lower_sha256(&expected)?;
+                verify_blob_path(&entry.path(), &expected)?;
+                blobs_checked += 1;
+            }
+        }
+
         Ok(VerificationReport {
             objects_checked,
+            blobs_checked,
             events_checked: events.len(),
             valid: true,
         })
@@ -251,6 +325,53 @@ fn parse_artifact_ref(artifact_ref: &str) -> Result<&str> {
     })
 }
 
+fn parse_blob_ref(blob_ref: &str) -> Result<&str> {
+    let digest = blob_ref.strip_prefix(BLOB_PREFIX).ok_or_else(|| {
+        Error::Validation(vec![format!(
+            "blob reference must start with {BLOB_PREFIX}"
+        )])
+    })?;
+    validate_lower_sha256(digest)?;
+    Ok(digest)
+}
+
+fn validate_lower_sha256(digest: &str) -> Result<()> {
+    if digest.len() != 64
+        || !digest
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+    {
+        return Err(Error::Validation(vec![format!(
+            "invalid lowercase SHA-256 digest: {digest}"
+        )]));
+    }
+    Ok(())
+}
+
+fn verify_blob_path(path: &Path, expected: &str) -> Result<u64> {
+    if !path.is_file() {
+        return Err(Error::NotFound(format!("blob {}", path.display())));
+    }
+    let mut file = OpenOptions::new().read(true).open(path)?;
+    let mut digest = Sha256::new();
+    let mut buffer = [0_u8; 64 * 1024];
+    loop {
+        let count = file.read(&mut buffer)?;
+        if count == 0 {
+            break;
+        }
+        digest.update(&buffer[..count]);
+    }
+    let actual = format!("{:x}", digest.finalize());
+    if actual != expected {
+        return Err(Error::Conflict(format!(
+            "blob {} has digest {actual}, expected {expected}",
+            path.display()
+        )));
+    }
+    Ok(fs::metadata(path)?.len())
+}
+
 fn hash_event(
     event_type: &str,
     aggregate_id: &str,
@@ -303,4 +424,34 @@ fn sha256_hex(bytes: &[u8]) -> String {
 
 fn trim_one_newline(bytes: &[u8]) -> &[u8] {
     bytes.strip_suffix(b"\n").unwrap_or(bytes)
+}
+
+#[cfg(test)]
+mod tests {
+    use std::{fs, process, time::SystemTime};
+
+    use super::*;
+
+    #[test]
+    fn blob_import_is_content_addressed_and_verified() {
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock")
+            .as_nanos();
+        let root = std::env::temp_dir().join(format!("ilxyr-blob-test-{}-{nonce}", process::id()));
+        fs::create_dir(&root).expect("root");
+        let source = root.join("source.bin");
+        fs::write(&source, b"deterministic NSRL artifact").expect("source");
+        let expected = sha256_hex(b"deterministic NSRL artifact");
+        let workspace = Workspace::init(&root).expect("workspace");
+
+        let first = workspace.put_blob(&source, &expected).expect("import");
+        let second = workspace
+            .put_blob(&source, &expected)
+            .expect("idempotent import");
+        assert_eq!(first, second);
+        assert_eq!(workspace.verify_blob(&first).expect("verify blob"), 27);
+        let report = workspace.verify().expect("verify workspace");
+        assert_eq!(report.blobs_checked, 1);
+    }
 }

@@ -1,0 +1,126 @@
+{
+  "schema": "ilxyr.nsrl_pilot_evidence.v1",
+  "pilot": "nsrl-p10m-2026-08-28",
+  "recorded_on": "2026-08-28",
+  "model_ref": "model://nsrl/nsrlpm1-p10m-output-calibration-v10@d1e323aa94170b3d0d049c1c70be2d5bebdd1cc7f57e5fc549da13ecdbb5f1be",
+  "source": {
+    "repository": "https://github.com/atimics/nsrl",
+    "commit": "94515eabc301e759226095a14fada7020d1c5dd8",
+    "tree": "f3314308e41f3724394b1c241bcc50737ef4f1a3",
+    "remote_branch_head": "6ef355cbfe8916ca42808aa1a49d6edf89b71f35",
+    "published": false,
+    "tracked_worktree_clean": true
+  },
+  "artifacts": {
+    "model": {
+      "sha256": "d1e323aa94170b3d0d049c1c70be2d5bebdd1cc7f57e5fc549da13ecdbb5f1be",
+      "size_bytes": 13539906
+    },
+    "tokenizer": {
+      "sha256": "9a9f96e4b7114726966ce0c2f5a0969939900e28f50860749fc1d1ebc31a25ce",
+      "size_bytes": 63496
+    },
+    "optimizer": {
+      "sha256": "d07df1733af9863d90ca8b230f4c192c223f3c3157d4042add877fdebe54f09f",
+      "size_bytes": 74541140
+    },
+    "model_card": {
+      "sha256": "f72a02ad67c8f1129a4f0fa1a48fdc1ea94542dfee6fef132291b5d3ba8f24de",
+      "size_bytes": 77946
+    },
+    "executable": {
+      "sha256": "e2e569f2ed93c37d3f122130befe9d49d496e5e8079931f44dcd627c51c8ceb1",
+      "size_bytes": 1158544
+    }
+  },
+  "inspection": {
+    "schema": "nsrl.production_model_inspect.v1",
+    "profile": "p10m",
+    "vocabulary_size": 8192,
+    "model_width": 256,
+    "heads": 8,
+    "layers": 6,
+    "hidden_width": 768,
+    "context_tokens": 256,
+    "parameter_count": 9317632,
+    "tokenizer_hash": "0xf4fe71d93c438c1a",
+    "model_hash": "0x011da7a107200d14",
+    "artifact_bytes": 13539906
+  },
+  "fixed_generation": {
+    "prompt": "The king",
+    "max_new_tokens": 32,
+    "top_k": 1,
+    "two_runs_byte_identical": true,
+    "trace_sha256": "b16ec3118e83e8875162f83a6193aa7efe800f47e2f72b4ed71c83dfeda842cd",
+    "generated_text_sha256": "7c0e61dab627137cb54b85237e8c7acb298c2e86e4eab904d408693b82aeef46",
+    "generated_token": 854,
+    "generated_token_count": 32,
+    "unique_generated_tokens": 1,
+    "decoded_text": "German German German German German German German German German German German German German German German German German German German German German German German German German German German German German German German German"
+  },
+  "restart_replay": {
+    "candidate_model_sha256": "d1e323aa94170b3d0d049c1c70be2d5bebdd1cc7f57e5fc549da13ecdbb5f1be",
+    "replay_model_sha256": "d1e323aa94170b3d0d049c1c70be2d5bebdd1cc7f57e5fc549da13ecdbb5f1be",
+    "candidate_optimizer_sha256": "d07df1733af9863d90ca8b230f4c192c223f3c3157d4042add877fdebe54f09f",
+    "replay_optimizer_sha256": "d07df1733af9863d90ca8b230f4c192c223f3c3157d4042add877fdebe54f09f",
+    "candidate_trace_sha256": "98d1d7e051d360665cb430bff4e9ea513c73f70070affbc260780dbc6f061dd7",
+    "replay_trace_sha256": "98d1d7e051d360665cb430bff4e9ea513c73f70070affbc260780dbc6f061dd7",
+    "byte_identical": true
+  },
+  "public_baseline": {
+    "contract": "open-generation-v1",
+    "partition": "development",
+    "hidden_panel_opened": false,
+    "counts": {
+      "prompts": 12,
+      "samples": 60,
+      "generated_tokens": 30720,
+      "samples_beyond_training_context": 60
+    },
+    "modeling": {
+      "millibits_per_original_utf8_byte": 3488,
+      "required_baselines_measured": false
+    },
+    "metrics": {
+      "max_repeat_4gram_share_per_mille": 999,
+      "min_unique_4gram_share_per_mille": 1,
+      "aggregate_unique_4gram_share_per_mille": 800,
+      "min_entropy_q10": 0,
+      "utf8_valid_per_mille": 1000,
+      "context_use_per_mille": 0,
+      "distractor_resistance_per_mille": 0
+    },
+    "serving": {
+      "maximum_cache_state_bytes": 405504,
+      "maximum_workspace_bytes": 10240,
+      "residual_saturation_count": 0,
+      "latency_limit_declared": false,
+      "tokens_per_second_limit_declared": false
+    },
+    "promotion_passed": false,
+    "result_sha256": "fa05453ca28bf68370fbab621ca17af354c18f05d014b515b0a6f5bdcf312d27",
+    "checkpoint_sha256": "06cc797e034ac78df7c24ccab6f7e7dbea50b863c650c553b93aa636f2fca693",
+    "samples_sha256": "f759def9cb3f35b2dd9011810948a09169f4206d79167d811b751403b908bb54",
+    "decoder_traces_sha256": "bf5ad332757f23b772449fcfbeb54d66afaeec5d100fb2a0b4fd4c9a34947ac9"
+  },
+  "numeric_health": {
+    "inference_residual_saturation_count": 0,
+    "candidate_test_residual_saturation_count": 1,
+    "passed": false
+  },
+  "learning": {
+    "development_total_nll_delta_millibits": -121238,
+    "test_total_nll_delta_millibits": -123879,
+    "passed": true,
+    "independent_hidden_confirmation": false
+  },
+  "licences": {
+    "weights": null,
+    "training_data": [
+      "LicenseRef-Public-Domain-US-Project-Gutenberg",
+      "CC-BY-SA-4.0 OR GFDL-1.3-or-later"
+    ]
+  },
+  "pilot_decision": "continue_as_managed_experimental_model"
+}

@@ -47,6 +47,18 @@ const fixtures = {
   "huggingface-model.schema.json": [
     "examples/schema/huggingface-model.json",
   ],
+  "nsrl-gate-evidence.schema.json": [
+    "examples/nsrl/p10m-v10-context-gate.json",
+    "examples/nsrl/p10m-v10-generation-gate.json",
+    "examples/nsrl/p10m-v10-integrity-gate.json",
+    "examples/nsrl/p10m-v10-learning-gate.json",
+    "examples/nsrl/p10m-v10-numeric-health-gate.json",
+    "examples/nsrl/p10m-v10-provenance-gate.json",
+    "examples/nsrl/p10m-v10-serving-gate.json",
+  ],
+  "nsrl-registration.schema.json": [
+    "examples/nsrl/p10m-v10-registration.json",
+  ],
   "paper-contract.schema.json": ["examples/schema/paper-contract.json"],
   "program-overview.schema.json": [],
   "replication-contract.schema.json": ["examples/schema/replication-contract.json"],
@@ -240,6 +252,26 @@ expectInvalid(
   huggingFaceModel,
 );
 
+const nsrlRegistration = await readJson(
+  "examples/nsrl/p10m-v10-registration.json",
+);
+nsrlRegistration.checkpoint.source.commit = "main";
+expectInvalid(
+  "nsrl-registration.schema.json",
+  "NSRL checkpoint with mutable source revision",
+  nsrlRegistration,
+);
+
+const nsrlGate = await readJson(
+  "examples/nsrl/p10m-v10-generation-gate.json",
+);
+nsrlGate.outcome = "unopened";
+expectInvalid(
+  "nsrl-gate-evidence.schema.json",
+  "NSRL gate evidence with an unsettled outcome",
+  nsrlGate,
+);
+
 console.log(
-  `Validated ${schemaNames.length} Draft 2020-12 schemas, ${positiveCount} positive fixtures, and 16 rejection fixtures.`,
+  `Validated ${schemaNames.length} Draft 2020-12 schemas, ${positiveCount} positive fixtures, and 18 rejection fixtures.`,
 );

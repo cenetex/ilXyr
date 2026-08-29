@@ -83,6 +83,11 @@ verify artifact digests plus byte-identical restart. A checkpoint can become a c
 all integrity, numeric-health, learning, generation, context, serving, provenance, and independent-
 evidence gates pass together. Better likelihood by itself is not promotion evidence.
 
+The first managed intake ran on 2026-08-28. It registered the v10 model and continuation bindings,
+reproduced deterministic generation and the public development baseline, and kept the hidden panel
+unopened. Integrity and learning passed; numeric health, generation, context, serving, and
+provenance failed; independent evidence remains unopened. The lineage continues as experimental.
+
 ## Bootstrap
 
 1. V1 control plane: authority records, certificates, signed budgets, sandbox/promoted lanes,
