@@ -70,6 +70,7 @@ const fixtures = {
   ],
   "retro-registration.schema.json": [
     "examples/schema/retro-registration.json",
+    "examples/families/nsrl-target-margin-v1.retro.json",
     "examples/families/solomon-successor-v2.retro.json",
     "examples/families/zero-q22r-multiseed.retro.json",
     "examples/families/zero-q22r-seed2.retro.json",

@@ -63,3 +63,8 @@ are in `examples/nsrl/p10m-v10-pilot-evidence.json`.
 The hidden panel was not opened. Integrity and public learning pass. Numeric health, generation,
 context, serving, and provenance fail. Independent evidence stays unopened. The checkpoint remains
 `experimental` and is not candidate-eligible.
+
+The later output-matrix target-margin pilot is recorded separately as a negative exact-check
+result in `examples/families/nsrl-target-margin-v1.retro.json`. It replayed exactly and stayed
+numerically safe, but failed its public-development rank and NLL gates; public test and hidden
+evidence remained closed. See `docs/experiments/NSRL-P10M-TARGET-MARGIN.md`.
