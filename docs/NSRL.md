@@ -68,3 +68,8 @@ The later output-matrix target-margin pilot is recorded separately as a negative
 result in `examples/families/nsrl-target-margin-v1.retro.json`. It replayed exactly and stayed
 numerically safe, but failed its public-development rank and NLL gates; public test and hidden
 evidence remained closed. See `docs/experiments/NSRL-P10M-TARGET-MARGIN.md`.
+
+Its fixed-schedule trust-region follow-up is registered in
+`examples/families/nsrl-target-margin-trust-region-v1.retro.json`. All 48 proposed batches across
+three rates worsened canonical NLL on the same disjoint guard and were rejected. No full candidate
+was selected, and development, test, open-generation, and hidden evidence stayed closed.

@@ -46,3 +46,30 @@ The exact-check registration is
 `examples/families/nsrl-target-margin-v1.retro.json`. It binds NSRL merge commit
 `df6e7b0c2dd07520094216662903f61921f11f54` and the three frozen evidence
 artifacts.
+
+## Trust-region follow-up
+
+The authorized follow-up was run under a new prospective contract. It fixed
+the selection mismatch by binding shifts 13, 14, and 15 to one 2,048-window
+update schedule. It also added 32 fixed training-corpus guard windows that were
+disjoint from the entire update schedule. A proposed batch was accepted only
+when canonical guard NLL did not worsen.
+
+The result stopped the lineage earlier and more cleanly. Every one of the 16
+batches proposed at each feature shift worsened guard NLL. All 48 proposals
+were restored atomically. No shift had an accepted batch, update, or
+output-matrix movement. The common guard stayed at 407,206 millibits, mean
+target rank 2,289.312, and one top-10 hit. Saturation stayed at zero and all
+frozen hashes held.
+
+Because no preflight candidate passed, the full run never started. Public
+development, public test, open-generation checks, and the hidden panel all
+stayed closed. This identifies an immediate objective conflict: at the tested
+rates, the hard-negative direction itself opposed canonical NLL on disjoint
+data.
+
+Do not continue this hard-negative hinge lineage by weakening the guard. The
+next useful work should change the objective or candidate family before adding
+more scale. The exact-check registration is
+`examples/families/nsrl-target-margin-trust-region-v1.retro.json`, binding NSRL
+merge commit `e2a9e9558ce5811e904a9d8e68e66ba6dac8306f`.
