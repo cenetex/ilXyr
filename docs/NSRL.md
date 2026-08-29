@@ -73,3 +73,9 @@ Its fixed-schedule trust-region follow-up is registered in
 `examples/families/nsrl-target-margin-trust-region-v1.retro.json`. All 48 proposed batches across
 three rates worsened canonical NLL on the same disjoint guard and were rejected. No full candidate
 was selected, and development, test, open-generation, and hidden evidence stayed closed.
+
+The canonical-NLL head follow-up is registered in
+`examples/families/nsrl-direct-head-nll-guard-v1.retro.json`. Its selected unit move improved the
+64-window proposal but worsened a different-document 32-window guard, so it was restored in round
+zero. Exact model and trace reruns passed. Development was unchanged; test, open-generation, and
+hidden evidence stayed closed.

@@ -73,3 +73,26 @@ next useful work should change the objective or candidate family before adding
 more scale. The exact-check registration is
 `examples/families/nsrl-target-margin-trust-region-v1.retro.json`, binding NSRL
 merge commit `e2a9e9558ce5811e904a9d8e68e66ba6dac8306f`.
+
+## Canonical-NLL head follow-up
+
+The next prospectively frozen run changed the objective rather than weakening
+the guard. It searched unit updates to the output matrix and bias using
+canonical integer NLL. The trunk stayed frozen. The proposal used 64 windows
+from document 0; the guard used 32 windows from document 1. The complete run
+was repeated independently from the healthy v9 source.
+
+The selected output-weight coordinate 8,445 improved exact proposal NLL by
+57,212 Q20 units but worsened exact guard NLL by 586 Q20 units. The guard
+restored the move in round zero. Both runs produced identical model and trace
+hashes, the frozen trunk hash held, and weight saturation stayed zero. Because
+no move was applied, public development exactly matched the source. The
+required movement and strict training-NLL gates failed.
+
+Public test, open generation, hidden evidence, and paid scaling remained
+closed. This result rejects the single proposal-selected move. It does not show
+that all eight ranked coordinates were guard-unsafe; a new experiment would
+need exact two-surface selection across the whole candidate set. The
+exact-check registration is
+`examples/families/nsrl-direct-head-nll-guard-v1.retro.json`, binding NSRL merge
+commit `316663b9ff1a0ec805f2f0218be683d75ad90e2d`.
