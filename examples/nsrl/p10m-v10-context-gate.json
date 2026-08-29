@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.nsrl_gate_evidence.v1",
+  "id": "nsrl.p10m.v10.context.public-development",
+  "model_ref": "model://nsrl/nsrlpm1-p10m-output-calibration-v10@d1e323aa94170b3d0d049c1c70be2d5bebdd1cc7f57e5fc549da13ecdbb5f1be",
+  "gate": "context",
+  "outcome": "failed",
+  "detail": "The fresh 60-sample public panel measured zero context use and zero distractor resistance, below the frozen 750 and 700 per-mille thresholds.",
+  "artifacts": [
+    {
+      "path": "examples/nsrl/p10m-v10-pilot-evidence.json",
+      "sha256": "8042e28e7ec67a45c3c49035123352f6f6603c392563c78fb821963ad8cc5a90",
+      "size_bytes": 4841,
+      "blob_ref": "blob://sha256/8042e28e7ec67a45c3c49035123352f6f6603c392563c78fb821963ad8cc5a90"
+    }
+  ],
+  "evidence_refs": [],
+  "experiment_refs": ["nsrl.p10m.output-calibration.v10"]
+}

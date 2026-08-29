@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/nsrl-registration.v1.json",
+  "title": "ilxyr NSRL checkpoint registration v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "checkpoint", "continuation"],
+  "properties": {
+    "schema": { "const": "ilxyr.nsrl_registration.v1" },
+    "checkpoint": { "$ref": "#/$defs/checkpoint" },
+    "continuation": { "$ref": "#/$defs/continuation" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "git_hash": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "repo_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\u0000]+$"
+    },
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[0-9a-f]{64}$"
+    },
+    "model_ref": {
+      "type": "string",
+      "pattern": "^model://nsrl/[a-z0-9][a-z0-9._-]*@[0-9a-f]{64}$"
+    },
+    "weight_ref": {
+      "type": "string",
+      "pattern": "^weight://nsrl/[a-z0-9][a-z0-9._-]*@[0-9a-f]{64}$"
+    },
+    "continuation_ref": {
+      "type": "string",
+      "pattern": "^continuation://nsrl/[a-z0-9][a-z0-9._-]*@[0-9a-f]{64}$"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes", "blob_ref"],
+      "properties": {
+        "path": { "$ref": "#/$defs/repo_path" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "size_bytes": { "type": "integer", "minimum": 1 },
+        "blob_ref": {
+          "type": "string",
+          "pattern": "^blob://sha256/[0-9a-f]{64}$"
+        }
+      }
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "model_ref",
+        "weight_ref",
+        "lineage",
+        "lifecycle",
+        "source",
+        "architecture",
+        "model",
+        "tokenizer",
+        "model_card",
+        "executable",
+        "generation_defaults",
+        "licences",
+        "continuation_ref",
+        "evidence_refs",
+        "experiment_refs"
+      ],
+      "properties": {
+        "schema": { "const": "ilxyr.nsrl_checkpoint.v1" },
+        "model_ref": { "$ref": "#/$defs/model_ref" },
+        "weight_ref": { "$ref": "#/$defs/weight_ref" },
+        "lineage": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]*$"
+        },
+        "lifecycle": { "const": "experimental" },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "commit", "tree", "published"],
+          "properties": {
+            "repository": { "type": "string", "pattern": "^https://[^\\s]+$" },
+            "commit": { "$ref": "#/$defs/git_hash" },
+            "tree": { "$ref": "#/$defs/git_hash" },
+            "published": { "type": "boolean" }
+          }
+        },
+        "architecture": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "artifact_format",
+            "profile",
+            "parameter_count",
+            "vocabulary_size",
+            "context_tokens",
+            "layers"
+          ],
+          "properties": {
+            "artifact_format": { "const": "NSRLPM1" },
+            "profile": { "type": "string", "minLength": 1 },
+            "parameter_count": { "type": "integer", "minimum": 1 },
+            "vocabulary_size": { "type": "integer", "minimum": 1 },
+            "context_tokens": { "type": "integer", "minimum": 1 },
+            "layers": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "model": { "$ref": "#/$defs/artifact" },
+        "tokenizer": { "$ref": "#/$defs/artifact" },
+        "model_card": { "$ref": "#/$defs/artifact" },
+        "executable": { "$ref": "#/$defs/artifact" },
+        "generation_defaults": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "context_tokens",
+            "max_new_tokens",
+            "top_k",
+            "seed",
+            "stop_on_eos"
+          ],
+          "properties": {
+            "context_tokens": { "type": "integer", "minimum": 1 },
+            "max_new_tokens": { "type": "integer", "minimum": 1 },
+            "top_k": { "type": "integer", "minimum": 1 },
+            "seed": { "type": "integer", "minimum": 0 },
+            "stop_on_eos": { "type": "boolean" }
+          }
+        },
+        "licences": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["weights", "training_data"],
+          "properties": {
+            "weights": { "type": ["string", "null"], "minLength": 1 },
+            "training_data": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "parent_checkpoint": { "$ref": "#/$defs/model_ref" },
+        "continuation_ref": { "$ref": "#/$defs/continuation_ref" },
+        "evidence_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/artifact_ref" }
+        },
+        "experiment_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "continuation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "continuation_ref",
+        "checkpoint_ref",
+        "source_model_sha256",
+        "optimizer_format",
+        "optimizer"
+      ],
+      "properties": {
+        "schema": { "const": "ilxyr.nsrl_continuation.v1" },
+        "continuation_ref": { "$ref": "#/$defs/continuation_ref" },
+        "checkpoint_ref": { "$ref": "#/$defs/model_ref" },
+        "source_model_sha256": { "$ref": "#/$defs/sha256" },
+        "optimizer_format": { "const": "NSRLPO1" },
+        "optimizer": { "$ref": "#/$defs/artifact" }
+      }
+    }
+  }
+}

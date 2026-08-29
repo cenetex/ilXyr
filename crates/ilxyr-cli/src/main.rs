@@ -3,22 +3,24 @@ use std::{env, fs, path::Path, process::ExitCode};
 use ilxyr_core::{
     ActorKind, ActorRef, Certificate, ClaimNode, DsseEnvelope, EpochBudget, EvidenceGraphEdge,
     ExperimentSpec, ExternalRegistrationReceipt, Forecast, FundingCommitment, HuggingFaceModel,
-    InteropFormat, LoopCycle, ReplicationContract, ResearchContribution, Result,
-    RetroRegistrationSpec, SandboxSpec, SharedTaskContract, Workspace, allocate_epoch,
-    allocate_replication, authorize_unattended_run, calibration_for, claim_status, claim_support,
-    commit_funding, compile_experiment, decide_admission, epoch_budget_signing_payload,
-    execute_loop_cycle, experiment_status, export_evidence, load_paper_contract,
-    prepare_registration, program_status, record_certificate, record_evidence_edge,
-    record_executor_attestation, record_external_registration, register_claim,
-    register_epoch_budget, register_replication_contract, register_shared_task, retro_register,
-    run_experiment, run_experiment_unattended, run_sandbox, settle_replication,
-    submit_contribution, submit_forecast, trust_attestation_key, trust_policy_key,
+    InteropFormat, LoopCycle, NsrlGateEvidence, NsrlRegistration, ReplicationContract,
+    ResearchContribution, Result, RetroRegistrationSpec, SandboxSpec, SharedTaskContract,
+    Workspace, allocate_epoch, allocate_replication, authorize_unattended_run, calibration_for,
+    claim_status, claim_support, commit_funding, compile_experiment, decide_admission,
+    epoch_budget_signing_payload, execute_loop_cycle, experiment_status, export_evidence,
+    load_paper_contract, prepare_registration, program_status, record_certificate,
+    record_evidence_edge, record_executor_attestation, record_external_registration,
+    register_claim, register_epoch_budget, register_nsrl_model, register_replication_contract,
+    register_shared_task, retro_register, run_experiment, run_experiment_unattended, run_sandbox,
+    settle_replication, submit_contribution, submit_forecast, trust_attestation_key,
+    trust_policy_key,
 };
 use serde::{Serialize, de::DeserializeOwned};
 use serde_json::json;
 
 mod family;
 mod huggingface;
+mod nsrl;
 
 fn main() -> ExitCode {
     match run() {
@@ -183,6 +185,60 @@ fn run() -> Result<()> {
             print_json(&ilxyr_core::registered_huggingface_model(
                 &workspace, &args[2],
             )?)?;
+        }
+        "nsrl-register" => {
+            require_len(
+                &args,
+                5,
+                "ilxyr nsrl-register <workspace> <registration.json> <source-root> --execute",
+            )?;
+            if args[4] != "--execute" {
+                return Err(ilxyr_core::Error::Security(
+                    "nsrl-register requires the explicit --execute acknowledgement".to_owned(),
+                ));
+            }
+            let workspace = Workspace::open(&args[1])?;
+            let registration = read_json::<NsrlRegistration>(&args[2])?;
+            let verification = nsrl::verify_local_registration(&registration, Path::new(&args[3]))?;
+            let blob_refs =
+                nsrl::import_registration_blobs(&workspace, &registration, Path::new(&args[3]))?;
+            let refs = register_nsrl_model(&workspace, registration.clone())?;
+            print_json(&json!({
+                "model_ref": registration.checkpoint.model_ref,
+                "weight_ref": registration.checkpoint.weight_ref,
+                "registration": refs,
+                "blob_refs": blob_refs,
+                "local_verification": verification
+            }))?;
+        }
+        "nsrl-show" => {
+            require_len(&args, 3, "ilxyr nsrl-show <workspace> <model-ref>")?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&ilxyr_core::registered_nsrl_model(&workspace, &args[2])?)?;
+        }
+        "nsrl-gate-record" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr nsrl-gate-record <workspace> <gate-evidence.json> <evidence-root>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let evidence = read_json::<NsrlGateEvidence>(&args[2])?;
+            let verification =
+                nsrl::verify_gate_evidence_artifacts(&evidence, Path::new(&args[3]))?;
+            let blob_refs =
+                nsrl::import_gate_evidence_blobs(&workspace, &evidence, Path::new(&args[3]))?;
+            let artifact_ref = ilxyr_core::record_nsrl_gate_evidence(&workspace, evidence)?;
+            print_json(&json!({
+                "artifact_ref": artifact_ref,
+                "blob_refs": blob_refs,
+                "local_verification": verification
+            }))?;
+        }
+        "nsrl-status" => {
+            require_len(&args, 3, "ilxyr nsrl-status <workspace> <model-ref>")?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&ilxyr_core::nsrl_status(&workspace, &args[2])?)?;
         }
         "retro" => {
             require_len(
@@ -500,6 +556,10 @@ fn usage() {
            ilxyr huggingface-import <workspace> <repo-id> [commit-sha]\n\
            ilxyr huggingface-register <workspace> <model.json>\n\
            ilxyr huggingface-show <workspace> <model-ref>\n\
+           ilxyr nsrl-register <workspace> <registration.json> <source-root> --execute\n\
+           ilxyr nsrl-show <workspace> <model-ref>\n\
+           ilxyr nsrl-gate-record <workspace> <gate-evidence.json> <evidence-root>\n\
+           ilxyr nsrl-status <workspace> <model-ref>\n\
            ilxyr compile <workspace> <experiment.json>\n\
            ilxyr preregister-package <workspace> <experiment-id>\n\
            ilxyr preregister-record <workspace> <receipt.json>\n\

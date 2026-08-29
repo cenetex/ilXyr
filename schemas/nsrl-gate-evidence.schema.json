@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/nsrl-gate-evidence.v1.json",
+  "title": "ilxyr NSRL gate evidence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "model_ref",
+    "gate",
+    "outcome",
+    "detail",
+    "artifacts",
+    "evidence_refs",
+    "experiment_refs"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.nsrl_gate_evidence.v1" },
+    "id": { "type": "string", "minLength": 1 },
+    "model_ref": {
+      "type": "string",
+      "pattern": "^model://nsrl/[a-z0-9][a-z0-9._-]*@[0-9a-f]{64}$"
+    },
+    "gate": {
+      "enum": [
+        "integrity",
+        "numeric_health",
+        "learning",
+        "generation",
+        "context",
+        "serving",
+        "provenance",
+        "independent_evidence"
+      ]
+    },
+    "outcome": { "enum": ["passed", "failed"] },
+    "detail": { "type": "string", "minLength": 1 },
+    "artifacts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "size_bytes", "blob_ref"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\u0000]+$"
+          },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "size_bytes": { "type": "integer", "minimum": 1 },
+          "blob_ref": {
+            "type": "string",
+            "pattern": "^blob://sha256/[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^artifact://sha256/[0-9a-f]{64}$"
+      }
+    },
+    "experiment_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "anyOf": [
+    { "properties": { "artifacts": { "type": "array", "minItems": 1 } } },
+    { "properties": { "evidence_refs": { "type": "array", "minItems": 1 } } }
+  ]
+}
