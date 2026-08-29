@@ -92,8 +92,8 @@ provenance failed; independent evidence remains unopened. The lineage continues 
 
 1. V1 control plane: authority records, certificates, signed budgets, sandbox/promoted lanes,
    allocation, thresholds, and calibration — implemented in this repository.
-2. Retro-registration and family replay adapters — implemented; Solomon replay passes from a
-   fresh remote checkout for authorized NSRL access, Zero q22r seed 2 is grounded from a public,
+2. Retro-registration and family replay adapters — implemented; Solomon replay passes from an
+   unauthenticated fresh checkout of public NSRL, Zero q22r seed 2 is grounded from a public,
    hash-pinned selected model, and the completed three-seed no-go decision is separately grounded.
 3. Shared-task contracts and the continuous loop-cycle driver — implemented; the real q22r shared
    task remains blocked until both family encodings/verifiers and data hashes exist.

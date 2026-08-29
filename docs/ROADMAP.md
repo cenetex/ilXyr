@@ -37,7 +37,7 @@ into a promoted claim.
 - Implemented shared task contracts for SHA-256 data/eval bindings, metric and seed contracts,
   family encodings/verifiers, and one designated proposer per family.
 - Implemented Zero q22r and Solomon successor-v2 `local-command` metric adapters. Solomon replayed
-  successfully from a clean remote checkout for authorized NSRL access. Zero seed 2 replays from a
+  successfully from an unauthenticated clean checkout of public NSRL. Zero seed 2 replays from a
   public, hash-pinned model artifact, and the completed three-seed aggregate independently registers
   the grounded one-go/two-no-go family decision.
 - Implemented the idempotent library/CLI cycle: propose → forecast → allocate → run → settle,

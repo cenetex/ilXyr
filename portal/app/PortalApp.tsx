@@ -51,9 +51,9 @@ const experiments = [
   {
     id: "EXP-005",
     title: "Q2.6 family replication",
-    status: "Preregistered",
-    outcome: "Seeds 1 and 3 remain unobserved; ZERO.3 stays current.",
-    tone: "open",
+    status: "Settled · family go",
+    outcome: "Seeds 1 and 3 passed the frozen rule; ZERO.4 is current upstream.",
+    tone: "go",
   },
   {
     id: "EXP-004",
@@ -115,18 +115,29 @@ export default function PortalApp() {
   const [fundingForm, setFundingForm] = useState({ computeCredits: "50", rationale: "" });
   const [forecastForm, setForecastForm] = useState({ probability: "50", stake: "10", rationale: "" });
 
-  const loadProposals = useCallback(async () => {
-    const response = await fetch("/api/proposals");
-    const data = (await response.json()) as { proposals?: Proposal[]; error?: string };
-    if (!response.ok) throw new Error(data.error || "Could not load proposals");
-    setProposals(data.proposals || []);
-  }, []);
-
   useEffect(() => {
-    loadProposals()
-      .catch((error) => setNotice(error instanceof Error ? error.message : "Could not load proposals"))
-      .finally(() => setLoading(false));
-  }, [loadProposals]);
+    let cancelled = false;
+
+    async function loadProposals() {
+      try {
+        const response = await fetch("/api/proposals");
+        const data = (await response.json()) as { proposals?: Proposal[]; error?: string };
+        if (!response.ok) throw new Error(data.error || "Could not load proposals");
+        if (!cancelled) setProposals(data.proposals || []);
+      } catch (error) {
+        if (!cancelled) {
+          setNotice(error instanceof Error ? error.message : "Could not load proposals");
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    void loadProposals();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const openProposal = useCallback(async (proposal: Proposal) => {
     setSelected(proposal);
