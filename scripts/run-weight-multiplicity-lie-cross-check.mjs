@@ -75,7 +75,8 @@ const parseZero = (execution) => {
   if (execution.status !== "completed") return { status: execution.status, error: execution.stderr.trim() || execution.error || null };
   try {
     const response = JSON.parse(execution.stdout.trim());
-    if (response.status !== "ok") return { status: "oracle_error", error: response.error ?? response.status };
+    if (typeof response.multiplicity !== "string")
+      return { status: "oracle_error", error: response.error ?? response.status ?? "missing multiplicity" };
     return { status: "ok", multiplicity: String(response.multiplicity) };
   } catch (error) {
     return { status: "parse_error", error: error.message };
