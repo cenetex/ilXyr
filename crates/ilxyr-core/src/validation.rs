@@ -2,11 +2,102 @@ use std::collections::BTreeSet;
 
 use crate::{
     ActorKind, ActorRef, AuthorityLevel, Certificate, CertificateDomain, CertificatePredicate,
-    CodePolicy, ComparisonOperator, EpochBudget, Error, ExperimentSpec, ExportPolicy,
-    ExternalRegistrationReceipt, Forecast, FundingCommitment, GroundingAuthority, NetworkPolicy,
-    OutcomePredicate, RegistrationVisibility, ResearchContribution, Result, RetroRegistrationSpec,
-    SandboxSpec, SharedTaskContract, TrustedPolicyKey, WeightClass,
+    CodePolicy, ComparisonOperator, EpochBudget, Error, ExperimentProposal, ExperimentSpec,
+    ExportPolicy, ExternalRegistrationReceipt, Forecast, FundingCommitment, GroundingAuthority,
+    NetworkPolicy, OutcomePredicate, ProposalReview, RegistrationVisibility, ResearchContribution,
+    Result, RetroRegistrationSpec, SandboxSpec, SharedTaskContract, TrustedPolicyKey, WeightClass,
 };
+
+pub fn proposal(proposal: &ExperimentProposal) -> Result<()> {
+    let mut errors = Vec::new();
+    schema(
+        &proposal.schema,
+        "ilxyr.experiment_proposal.v1",
+        &mut errors,
+    );
+    identifier(&proposal.id, "proposal.id", &mut errors);
+    identifier(
+        &proposal.experiment_id,
+        "proposal.experiment_id",
+        &mut errors,
+    );
+    actor(&proposal.proposer, &mut errors);
+    if proposal.revision == 0 {
+        errors.push("proposal.revision must be positive".to_owned());
+    }
+    match (&proposal.predecessor_ref, proposal.revision) {
+        (None, 1) => {}
+        (Some(predecessor_ref), revision) if revision > 1 => {
+            artifact_ref(predecessor_ref, "proposal.predecessor_ref", &mut errors);
+        }
+        (None, _) => errors.push("proposal revisions after 1 require predecessor_ref".to_owned()),
+        (Some(_), 1) => {
+            errors.push("proposal revision 1 must not declare predecessor_ref".to_owned());
+        }
+        (Some(_), _) => {}
+    }
+    nonempty(&proposal.title, "proposal.title", &mut errors);
+    nonempty(&proposal.summary, "proposal.summary", &mut errors);
+    nonempty(&proposal.hypothesis, "proposal.hypothesis", &mut errors);
+    nonempty(&proposal.novelty, "proposal.novelty", &mut errors);
+    handle(&proposal.baseline, "proposal.baseline", None, &mut errors);
+    if proposal.datasets.is_empty() {
+        errors.push("proposal.datasets must not be empty".to_owned());
+    }
+    unique_strings(&proposal.datasets, "proposal.datasets", &mut errors);
+    for dataset in &proposal.datasets {
+        handle(
+            dataset,
+            "proposal.datasets[]",
+            Some("dataset://"),
+            &mut errors,
+        );
+    }
+    nonempty(
+        &proposal.primary_metric,
+        "proposal.primary_metric",
+        &mut errors,
+    );
+    if !proposal.success_threshold.is_finite() {
+        errors.push("proposal.success_threshold must be finite".to_owned());
+    }
+    if matches!(proposal.success_operator, ComparisonOperator::Eq) {
+        errors.push("proposal.success_operator must not use exact equality".to_owned());
+    }
+    if proposal.seeds.is_empty() {
+        errors.push("proposal.seeds must not be empty".to_owned());
+    }
+    if proposal.seeds.iter().collect::<BTreeSet<_>>().len() != proposal.seeds.len() {
+        errors.push("proposal.seeds contains duplicates".to_owned());
+    }
+    if proposal.compute_credits == 0 {
+        errors.push("proposal.compute_credits must be positive".to_owned());
+    }
+    finish(errors)
+}
+
+pub fn proposal_review(review: &ProposalReview) -> Result<()> {
+    let mut errors = Vec::new();
+    schema(&review.schema, "ilxyr.proposal_review.v1", &mut errors);
+    identifier(&review.id, "proposal_review.id", &mut errors);
+    identifier(
+        &review.proposal_id,
+        "proposal_review.proposal_id",
+        &mut errors,
+    );
+    artifact_ref(
+        &review.proposal_ref,
+        "proposal_review.proposal_ref",
+        &mut errors,
+    );
+    actor(&review.reviewer, &mut errors);
+    nonempty(&review.category, "proposal_review.category", &mut errors);
+    nonempty(&review.comment, "proposal_review.comment", &mut errors);
+    if !review.confidence.is_finite() || !(0.0..=1.0).contains(&review.confidence) {
+        errors.push("proposal_review.confidence must be finite and between 0 and 1".to_owned());
+    }
+    finish(errors)
+}
 
 pub fn contribution(contribution: &ResearchContribution) -> Result<()> {
     let mut errors = Vec::new();

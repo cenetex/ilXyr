@@ -3,6 +3,9 @@
 ## State machine
 
 ```text
+proposal revision -> exact-revision review -> frozen candidate
+    -> four-contribution package -> compiled experiment
+
 contributions
     -> compiled experiment
     -> optional external preregistration package + receipt
@@ -33,7 +36,31 @@ claim + frozen replication contract -> reserved allocation -> forward evidence
 
 The steps are monotonic. Objects are immutable; revisions create new objects and experiment
 revisions use new experiment IDs. Events may add information but never mutate prior evidence.
-Contribution, forecast, funding, and experiment IDs are unique within their object type.
+Contribution, forecast, funding, proposal-review, and experiment IDs are unique within their
+object type.
+
+## Experiment proposals
+
+`ilxyr.experiment_proposal.v1` is the decision boundary before a full runnable experiment exists.
+It freezes the hypothesis, family, baseline, datasets, primary metric, directional success
+threshold, seeds, compute ceiling, evidence level, and export policy. Runtime arguments, full
+metric descriptions, funding participation, and the finite outcome partition are added in the
+formal experiment package.
+
+A proposal begins at revision 1. A successor keeps the proposal and experiment identities,
+increments the revision by one, and binds `predecessor_ref` to the exact current object. A review
+binds `proposal_ref` to one revision and its reviewer must be independent from the proposer.
+Revision therefore invalidates old reviews mechanically; it does not erase them.
+
+Freeze requires at least one current-revision independent review and no current blocking review.
+Blocking feedback is resolved by a successor revision, not by mutating the review. Freeze creates
+an immutable candidate containing the exact proposal and review references.
+
+Packaging then requires exactly one contribution from each formal stage. The proposer authors the
+hypothesis and experiment-design contributions. The mathematical-foundation and engineering-review
+authors must be independent from the proposer. The compiler checks that the full experiment has
+not changed any frozen proposal field before it submits those contributions and invokes the normal
+experiment compiler. Exact retries return the existing objects; drift fails closed.
 
 ## Contributions
 
@@ -87,6 +114,12 @@ reliability and resolution record. Settlement never mints, burns, or transfers c
 
 The reference implementation emits:
 
+- `ProposalDrafted`
+- `ProposalRevised`
+- `ProposalReviewed`
+- `ProposalFrozen`
+- `ProposalPackaged`
+- `ProposalCompiled`
 - `ContributionSubmitted`
 - `ExperimentCompiled`
 - `RegistrationPackaged`
@@ -294,8 +327,8 @@ independent replication. It does not answer whether the claim is true.
 `loop-cycle` is one idempotent orchestration transaction over immutable inputs supplied by external
 actors. It ensures contributions, compilation, and forecasts, invokes the existing signed-budget
 allocator, runs only when unattended authorization passes, and returns the settled result. It is
-safe to call repeatedly with the same cycle. Daemon scheduling and proposal generation are outside
-the core so they cannot bypass the same policy boundary.
+safe to call repeatedly with the same cycle. Daemon scheduling and proposal generation remain
+outside the core; generated drafts enter through the proposal review and freeze boundary.
 
 ### Roles and separation
 

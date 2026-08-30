@@ -40,6 +40,9 @@ const fixtures = {
     "examples/toy/forecast-model.json",
     "examples/toy/forecast-human.json",
   ],
+  "frozen-proposal-candidate.schema.json": [
+    "examples/schema/frozen-proposal-candidate.json",
+  ],
   "funding.schema.json": [
     "examples/toy/funding-a.json",
     "examples/toy/funding-b.json",
@@ -60,6 +63,18 @@ const fixtures = {
     "examples/nsrl/p10m-v10-registration.json",
   ],
   "paper-contract.schema.json": ["examples/schema/paper-contract.json"],
+  "proposal-compilation.schema.json": [
+    "examples/schema/proposal-compilation.json",
+  ],
+  "proposal-contribution-package.schema.json": [
+    "examples/schema/proposal-contribution-package.json",
+  ],
+  "proposal-review.schema.json": ["examples/schema/proposal-review.json"],
+  "experiment-proposal.schema.json": [
+    "examples/proposals/zero-orbit-quotient.proposal.json",
+    "examples/proposals/solomon-e8-codebook.proposal.json",
+    "examples/proposals/zero-exception-routing.proposal.json",
+  ],
   "program-overview.schema.json": [],
   "replication-contract.schema.json": ["examples/schema/replication-contract.json"],
   "replication-settlement.schema.json": [
@@ -127,11 +142,13 @@ for (const [schemaName, fixturePaths] of Object.entries(fixtures)) {
   }
 }
 
+let rejectionCount = 0;
 const expectInvalid = (schemaName, label, value) => {
   const validate = validators.get(schemaName);
   if (validate(value)) {
     throw new Error(`${label} unexpectedly passed ${schemaName}`);
   }
+  rejectionCount += 1;
 };
 
 const modelContribution = await readJson("examples/toy/foundation.json");
@@ -148,6 +165,27 @@ expectInvalid(
   "contribution.schema.json",
   "human actor with service identity",
   mismatchedActor,
+);
+
+const proposalWithEquality = await readJson(
+  "examples/proposals/zero-orbit-quotient.proposal.json",
+);
+proposalWithEquality.success_operator = "eq";
+expectInvalid(
+  "experiment-proposal.schema.json",
+  "proposal with floating-point equality",
+  proposalWithEquality,
+);
+
+const firstProposalWithPredecessor = await readJson(
+  "examples/proposals/zero-orbit-quotient.proposal.json",
+);
+firstProposalWithPredecessor.predecessor_ref =
+  "artifact://sha256/0000000000000000000000000000000000000000000000000000000000000000";
+expectInvalid(
+  "experiment-proposal.schema.json",
+  "first proposal revision with a predecessor",
+  firstProposalWithPredecessor,
 );
 
 const certificate = await readJson("examples/schema/certificate.json");
@@ -273,5 +311,5 @@ expectInvalid(
 );
 
 console.log(
-  `Validated ${schemaNames.length} Draft 2020-12 schemas, ${positiveCount} positive fixtures, and 18 rejection fixtures.`,
+  `Validated ${schemaNames.length} Draft 2020-12 schemas, ${positiveCount} positive fixtures, and ${rejectionCount} rejection fixtures.`,
 );

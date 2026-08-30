@@ -17,6 +17,11 @@ policy boundary provider-neutral, before any service or cloud binding.
 
 ## What v1 does
 
+- Accepts decision-complete experiment proposals, binds reviews to an exact proposal revision,
+  and freezes only independently reviewed revisions with no blocking review.
+- Converts a frozen proposal into the four role-separated research contributions and full
+  experiment contract without allowing the package to change the chosen data, metric, threshold,
+  seeds, evidence level, export policy, or compute ceiling.
 - Records model or human contributions for hypothesis, mathematical foundation, engineering
   review, and experiment design.
 - Compiles those contributions into a versioned experiment and frozen outcome contract.
@@ -65,6 +70,28 @@ weight experiments; those require a future attested executor adapter.
 ## Quick start
 
 Rust 1.85 or newer is required.
+
+The proposal path is the experiment-draft mechanism. Start with any checked-in draft, capture the
+returned proposal artifact reference, and put that exact reference in a review object:
+
+```bash
+cargo run -p ilxyr-cli -- init .
+cargo run -p ilxyr-cli -- proposal-submit . examples/proposals/zero-orbit-quotient.proposal.json
+# Set proposal_ref in a review JSON to the artifact_ref printed above.
+cargo run -p ilxyr-cli -- proposal-review . path/to/review.json
+cargo run -p ilxyr-cli -- proposal-freeze . zero.orbit_quotient.proposal.v1
+cargo run -p ilxyr-cli -- proposal-status . zero.orbit_quotient.proposal.v1
+# After the four formal contributions and runnable experiment are ready:
+cargo run -p ilxyr-cli -- proposal-package . zero.orbit_quotient.proposal.v1 path/to/contributions.json path/to/experiment.json
+cargo run -p ilxyr-cli -- proposal-compile . zero.orbit_quotient.proposal.v1
+```
+
+The draft may be revised before freeze. Each successor increments `revision` and names the exact
+current object in `predecessor_ref`; reviews of an older revision do not carry forward. See
+[`examples/proposals`](examples/proposals) for three symmetry-informed ML proposals and the limits
+of the analogy.
+
+The direct contribution path remains available for already-complete experiment packages:
 
 ```bash
 cargo build
@@ -210,11 +237,13 @@ started without producing a terminal run. `authorize` reports the same decision 
 - `portal`: the hosted submission and review portal used for the conventional web deployment.
 - `crates/ilxyr-core`: protocol objects, validation, ledger, gates, execution, settlement.
 - `crates/ilxyr-cli`: a small reference control-plane CLI.
-- `schemas`: portable JSON contracts for non-Rust producers and consumers (30 strict Draft
+- `schemas`: portable JSON contracts for non-Rust producers and consumers (35 strict Draft
   2020-12 schemas, including evidence authority, certificates, epoch budgets, sandbox runs,
   calibration records, evidence/registration bundles, external registration receipts, trusted
   attestation keys, verified executor attestations, claims/edges/status, and replication
   contracts/settlements).
+- `examples/proposals`: decision-complete experiment drafts, including three symmetry-informed ML
+  tests.
 - `examples/toy`: one end-to-end funded experiment.
 - `examples/schema`: positive fixtures for the published protocol schemas.
 - `docs/PROGRAM.md`: the research program — Zero and Solomon micromodel families,
@@ -249,7 +278,8 @@ started without producing a terminal run. `authorize` reports the same decision 
 This is not a multi-tenant service, a currency, a hostile-code sandbox, or a protected-weight
 runtime. The ledger is single-writer. Actor handles are local self-declarations, trusted policy
 keys are installed through an explicit local human action, and compute credits are reservations,
-not money. The loop driver does not provide a scheduler or autonomous proposal generator.
+not money. The loop driver does not provide a scheduler or autonomous proposal generator; actors
+may generate drafts, but every draft still passes the proposal review and freeze boundary.
 The registration workflow does not authenticate to OSF or independently inspect remote contents;
 an authorized actor or adapter freezes the package and supplies the receipt, whose exact local
 package binding ilxyr enforces.

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/proposal-review.v1.json",
+  "title": "ilxyr proposal review v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "proposal_id",
+    "proposal_ref",
+    "reviewer",
+    "category",
+    "severity",
+    "comment",
+    "confidence"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.proposal_review.v1" },
+    "id": { "$ref": "https://ilxyr.dev/schemas/contribution.v1.json#/$defs/identifier" },
+    "proposal_id": { "$ref": "https://ilxyr.dev/schemas/contribution.v1.json#/$defs/identifier" },
+    "proposal_ref": { "$ref": "#/$defs/artifact_ref" },
+    "reviewer": { "$ref": "https://ilxyr.dev/schemas/contribution.v1.json#/$defs/actor" },
+    "category": { "type": "string", "minLength": 1 },
+    "severity": { "enum": ["advisory", "blocking", "endorsement"] },
+    "comment": { "type": "string", "minLength": 1 },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+  },
+  "$defs": {
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+    }
+  }
+}

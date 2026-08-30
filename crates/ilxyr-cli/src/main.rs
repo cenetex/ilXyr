@@ -2,18 +2,19 @@ use std::{env, fs, path::Path, process::ExitCode};
 
 use ilxyr_core::{
     ActorKind, ActorRef, Certificate, ClaimNode, DsseEnvelope, EpochBudget, EvidenceGraphEdge,
-    ExperimentSpec, ExternalRegistrationReceipt, Forecast, FundingCommitment, HuggingFaceModel,
-    InteropFormat, LoopCycle, NsrlGateEvidence, NsrlRegistration, ReplicationContract,
-    ResearchContribution, Result, RetroRegistrationSpec, SandboxSpec, SharedTaskContract,
-    Workspace, allocate_epoch, allocate_replication, authorize_unattended_run, calibration_for,
-    claim_status, claim_support, commit_funding, compile_experiment, decide_admission,
-    epoch_budget_signing_payload, execute_loop_cycle, experiment_status, export_evidence,
-    load_paper_contract, prepare_registration, program_status, record_certificate,
+    ExperimentProposal, ExperimentSpec, ExternalRegistrationReceipt, Forecast, FundingCommitment,
+    HuggingFaceModel, InteropFormat, LoopCycle, NsrlGateEvidence, NsrlRegistration, ProposalReview,
+    ReplicationContract, ResearchContribution, Result, RetroRegistrationSpec, SandboxSpec,
+    SharedTaskContract, Workspace, allocate_epoch, allocate_replication, authorize_unattended_run,
+    calibration_for, claim_status, claim_support, commit_funding, compile_experiment,
+    compile_proposal, decide_admission, epoch_budget_signing_payload, execute_loop_cycle,
+    experiment_status, export_evidence, freeze_proposal, load_paper_contract, package_proposal,
+    prepare_registration, program_status, proposal_status, record_certificate,
     record_evidence_edge, record_executor_attestation, record_external_registration,
     register_claim, register_epoch_budget, register_nsrl_model, register_replication_contract,
-    register_shared_task, retro_register, run_experiment, run_experiment_unattended, run_sandbox,
-    settle_replication, submit_contribution, submit_forecast, trust_attestation_key,
-    trust_policy_key,
+    register_shared_task, retro_register, review_proposal, run_experiment,
+    run_experiment_unattended, run_sandbox, settle_replication, submit_contribution,
+    submit_forecast, submit_proposal, trust_attestation_key, trust_policy_key,
 };
 use serde::{Serialize, de::DeserializeOwned};
 use serde_json::json;
@@ -107,6 +108,52 @@ fn run() -> Result<()> {
             let contribution = read_json::<ResearchContribution>(&args[2])?;
             let artifact_ref = submit_contribution(&workspace, contribution)?;
             print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "proposal-submit" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr proposal-submit <workspace> <proposal.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let proposal = read_json::<ExperimentProposal>(&args[2])?;
+            let artifact_ref = submit_proposal(&workspace, proposal)?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "proposal-review" => {
+            require_len(&args, 3, "ilxyr proposal-review <workspace> <review.json>")?;
+            let workspace = Workspace::open(&args[1])?;
+            let review = read_json::<ProposalReview>(&args[2])?;
+            let artifact_ref = review_proposal(&workspace, review)?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "proposal-freeze" => {
+            require_len(&args, 3, "ilxyr proposal-freeze <workspace> <proposal-id>")?;
+            let workspace = Workspace::open(&args[1])?;
+            let artifact_ref = freeze_proposal(&workspace, &args[2])?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "proposal-status" => {
+            require_len(&args, 3, "ilxyr proposal-status <workspace> <proposal-id>")?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&proposal_status(&workspace, &args[2])?)?;
+        }
+        "proposal-package" => {
+            require_len(
+                &args,
+                5,
+                "ilxyr proposal-package <workspace> <proposal-id> <contributions.json> <experiment.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let contributions = read_json::<Vec<ResearchContribution>>(&args[3])?;
+            let experiment = read_json::<ExperimentSpec>(&args[4])?;
+            let artifact_ref = package_proposal(&workspace, &args[2], contributions, experiment)?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "proposal-compile" => {
+            require_len(&args, 3, "ilxyr proposal-compile <workspace> <proposal-id>")?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&compile_proposal(&workspace, &args[2])?)?;
         }
         "compile" => {
             require_len(&args, 3, "ilxyr compile <workspace> <experiment.json>")?;
@@ -552,6 +599,12 @@ fn usage() {
            ilxyr family run <workspace> <family-manifest.json> --execute\n\
            ilxyr family settle <workspace> <family-manifest.json>\n\
            ilxyr contribute <workspace> <contribution.json>\n\
+           ilxyr proposal-submit <workspace> <proposal.json>\n\
+           ilxyr proposal-review <workspace> <review.json>\n\
+           ilxyr proposal-freeze <workspace> <proposal-id>\n\
+           ilxyr proposal-status <workspace> <proposal-id>\n\
+           ilxyr proposal-package <workspace> <proposal-id> <contributions.json> <experiment.json>\n\
+           ilxyr proposal-compile <workspace> <proposal-id>\n\
            ilxyr shared-task-register <workspace> <shared-task.json>\n\
            ilxyr huggingface-import <workspace> <repo-id> [commit-sha]\n\
            ilxyr huggingface-register <workspace> <model.json>\n\

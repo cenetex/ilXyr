@@ -303,6 +303,118 @@ pub struct ExperimentSpec {
     pub expected_outputs: Vec<String>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct ExperimentProposal {
+    pub schema: String,
+    pub id: String,
+    pub revision: u64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub predecessor_ref: Option<String>,
+    pub experiment_id: String,
+    pub proposer: ActorRef,
+    pub title: String,
+    pub summary: String,
+    pub hypothesis: String,
+    pub novelty: String,
+    pub family: ModelFamily,
+    pub baseline: String,
+    pub datasets: Vec<String>,
+    pub primary_metric: String,
+    pub success_operator: ComparisonOperator,
+    pub success_threshold: f64,
+    pub seeds: Vec<u64>,
+    pub compute_credits: u64,
+    pub evidence_level: AuthorityLevel,
+    pub export_policy: ExportPolicy,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum ProposalReviewSeverity {
+    Advisory,
+    Blocking,
+    Endorsement,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct ProposalReview {
+    pub schema: String,
+    pub id: String,
+    pub proposal_id: String,
+    pub proposal_ref: String,
+    pub reviewer: ActorRef,
+    pub category: String,
+    pub severity: ProposalReviewSeverity,
+    pub comment: String,
+    pub confidence: f64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct FrozenProposalCandidate {
+    pub schema: String,
+    pub id: String,
+    pub proposal_id: String,
+    pub proposal_ref: String,
+    pub revision: u64,
+    pub proposer: ActorRef,
+    pub review_refs: Vec<String>,
+    pub frozen_at_ms: u128,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ProposalContributionPackage {
+    pub schema: String,
+    pub id: String,
+    pub proposal_id: String,
+    pub proposal_ref: String,
+    pub candidate_ref: String,
+    pub review_refs: Vec<String>,
+    pub contributions: Vec<ResearchContribution>,
+    pub experiment: ExperimentSpec,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ProposalCompilation {
+    pub schema: String,
+    pub id: String,
+    pub proposal_id: String,
+    pub package_ref: String,
+    pub contribution_refs: BTreeMap<String, String>,
+    pub compiled_ref: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ProposalReadinessCheck {
+    pub check: String,
+    pub passed: bool,
+    pub detail: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ProposalStatus {
+    pub proposal_id: String,
+    pub current_ref: String,
+    pub revision: u64,
+    pub frozen: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub candidate_ref: Option<String>,
+    pub current_review_refs: Vec<String>,
+    pub packaged: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub package_ref: Option<String>,
+    pub compiled: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub compiled_ref: Option<String>,
+    pub readiness: Vec<ProposalReadinessCheck>,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct CompiledExperiment {
