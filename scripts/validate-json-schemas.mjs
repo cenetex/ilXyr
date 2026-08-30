@@ -20,6 +20,10 @@ const fixtures = {
     "examples/toy/foundation.json",
     "examples/toy/engineering-review.json",
     "examples/toy/experiment-design.json",
+    "examples/experiments/solomon-q22/hypothesis.json",
+    "examples/experiments/solomon-q22/foundation.json",
+    "examples/experiments/solomon-q22/engineering-review.json",
+    "examples/experiments/solomon-q22/experiment-design.json",
   ],
   "epoch-budget.schema.json": ["examples/schema/epoch-budget.json"],
   "evidence-bundle.schema.json": ["examples/schema/evidence-bundle.json"],
@@ -30,7 +34,10 @@ const fixtures = {
   "executor-attestation.schema.json": [
     "examples/schema/executor-attestation.json",
   ],
-  "experiment.schema.json": ["examples/toy/experiment.json"],
+  "experiment.schema.json": [
+    "examples/toy/experiment.json",
+    "examples/experiments/solomon-q22/experiment.json",
+  ],
   "external-registration-receipt.schema.json": [
     "examples/schema/external-registration-receipt.json",
   ],
@@ -40,10 +47,14 @@ const fixtures = {
   "forecast.schema.json": [
     "examples/toy/forecast-model.json",
     "examples/toy/forecast-human.json",
+    "examples/experiments/solomon-q22/forecast-mechanistic.json",
+    "examples/experiments/solomon-q22/forecast-empirical.json",
   ],
   "funding.schema.json": [
     "examples/toy/funding-a.json",
     "examples/toy/funding-b.json",
+    "examples/experiments/solomon-q22/funding-a.json",
+    "examples/experiments/solomon-q22/funding-b.json",
   ],
   "huggingface-model.schema.json": [
     "examples/schema/huggingface-model.json",

@@ -109,7 +109,7 @@ fn executable_q22_task_binds_both_source_snapshots() {
         register_shared_task(&workspace, contract.clone()).expect("Q22 shared task must register");
     assert_eq!(
         task_ref,
-        "artifact://sha256/984cc50b986532506eb2148be561404075de37b24c135a260130f5a6f02ae848"
+        "artifact://sha256/b5c374b548a52e457577524b131cc52f12b875b85506cb1c470770dcf16e6dd6"
     );
     assert!(contract.family_bindings.iter().all(|binding| {
         binding
@@ -117,6 +117,28 @@ fn executable_q22_task_binds_both_source_snapshots() {
             .as_ref()
             .is_some_and(|source| source.artifacts.len() >= 2)
     }));
+
+    for fixture in [
+        include_str!("../../../examples/experiments/solomon-q22/hypothesis.json"),
+        include_str!("../../../examples/experiments/solomon-q22/foundation.json"),
+        include_str!("../../../examples/experiments/solomon-q22/engineering-review.json"),
+        include_str!("../../../examples/experiments/solomon-q22/experiment-design.json"),
+    ] {
+        let contribution: ResearchContribution =
+            serde_json::from_str(fixture).expect("Solomon Q22 contribution must parse");
+        submit_contribution(&workspace, contribution)
+            .expect("Solomon Q22 contribution must register");
+    }
+    let experiment: ExperimentSpec = serde_json::from_str(include_str!(
+        "../../../examples/experiments/solomon-q22/experiment.json"
+    ))
+    .expect("Solomon Q22 experiment must parse");
+    let compiled_ref = compile_experiment(&workspace, experiment)
+        .expect("Solomon Q22 experiment must bind the registered task");
+    let compiled: ilxyr_core::CompiledExperiment = workspace
+        .get(&compiled_ref)
+        .expect("compiled Solomon Q22 experiment must load");
+    assert_eq!(compiled.shared_task_ref.as_deref(), Some(task_ref.as_str()));
 
     let mut drifted = contract;
     drifted.family_bindings[1]
