@@ -118,6 +118,20 @@ reproduced deterministic generation and the public development baseline, and kep
 unopened. Integrity and learning passed; numeric health, generation, context, serving, and
 provenance failed; independent evidence remains unopened. The lineage continues as experimental.
 
+## Verified-oracle weight-multiplicity transfer
+
+The signed Revision 3 program asks whether a small exact-domain model transfers weight
+multiplicity to unseen classical ranks and non-dominant Weyl-orbit targets. ilXyr owns the frozen
+contract and evidence. Zero supplies the symbolic oracle. Three float models test transfer, one
+restricted-input model measures the height/depth shortcut, and NSRL provides only a later integer
+feasibility note.
+
+The program is prospective and has not started its oracle frontier. Its source-pinned contract is
+[`weight-multiplicity-transfer-r3`](../examples/weight-multiplicity/rev3-contract.json), and the
+plain-language execution record is
+[`WEIGHT-MULTIPLICITY-TRANSFER.md`](experiments/WEIGHT-MULTIPLICITY-TRANSFER.md). It may not be
+described as an active or successful model line until the corresponding stages run and settle.
+
 ## Bootstrap
 
 1. V1 control plane: authority records, certificates, signed budgets, sandbox/promoted lanes,
@@ -139,6 +153,8 @@ provenance failed; independent evidence remains unopened. The lineage continues 
 7. Reconcile the active ZERO.5 C0–C5 decision lineage and Braid inputs into the ilXyr registry.
    This public registry now identifies the evidence debt. Completed upstream runs must be
    imported honestly; no new run may bypass ilXyr registration.
+8. Freeze and validate the verified-oracle weight-multiplicity contract, then measure its oracle
+   frontier before generating a corpus or training a model.
 
 ## Operating model
 
