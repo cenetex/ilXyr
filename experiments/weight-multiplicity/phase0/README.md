@@ -26,6 +26,11 @@ raw result, compressed result, oracle, and controller digests. It records that
 post-query memory was not observed for any of the 35 timed-out cells. Their
 time-limit failures remain measured; their memory-limit status is unknown.
 
+The client later approved a separate Phase 0.5 scope revision. Its frozen
+protocol is `docs/contracts/WEIGHT-MULTIPLICITY-PHASE05.md`, and its plan is
+`examples/weight-multiplicity/phase05-frontier-plan.json`. Phase 0.5 does not
+modify or relabel either sealed Phase 0 result.
+
 Replay the hashes, counts, predecessor link, erratum seal and scope, safe
 boundary, and Phase 1 closure with:
 
