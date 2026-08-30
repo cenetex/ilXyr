@@ -27,7 +27,17 @@
         "nearest_geometric_midpoint",
         "maximum_dimension"
       ],
-      "tie_break": "lexicographic_highest_weight_dynkin_labels"
+      "tie_break": "lexicographic_highest_weight_dynkin_labels",
+      "phase0_v2_first_timeout_cases": {
+        "B7": { "highest_weight": [1, 0, 1, 0, 1, 2, 1], "target_weight": [0, 1, 0, 1, 1, 0, 1] },
+        "B8": { "highest_weight": [0, 0, 0, 0, 1, 1, 2, 0], "target_weight": [0, 1, -1, 1, 0, 2, 0, 0] },
+        "C7": { "highest_weight": [0, 2, 0, 1, 2, 1, 0], "target_weight": [0, 1, 0, 1, 1, 1, 0] },
+        "C8": { "highest_weight": [0, 0, 0, 1, 0, 1, 1, 1], "target_weight": [0, 0, 0, 1, 1, 0, 0, 1] },
+        "D7": { "highest_weight": [1, 1, 1, 1, 2, 1, 1], "target_weight": [0, 0, 1, 2, 0, 0, 2] },
+        "D8": { "highest_weight": [0, 1, 0, 2, 0, 2, 0, 0], "target_weight": [0, 0, 0, 1, 0, 2, 0, 0] },
+        "E7": { "highest_weight": [0, 0, 2, 1, 0, 0, 0], "target_weight": [1, 1, 0, 1, 0, 0, 0] },
+        "E8": { "highest_weight": [0, 0, 1, 0, 0, 0, 0, 0], "target_weight": [0, 1, 0, 0, 0, 0, 0, 0] }
+      }
     },
     "targets_per_representation": 32,
     "target_depth_anchors_per_mille": [125, 250, 375, 500, 625, 750, 875, 950],
