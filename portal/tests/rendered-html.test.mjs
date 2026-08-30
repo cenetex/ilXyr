@@ -28,8 +28,12 @@ test("server-renders the public ilXyr protocol index", async () => {
   assert.equal(response.headers.get("x-content-type-options"), "nosniff");
   assert.equal(response.headers.get("x-frame-options"), "DENY");
   assert.equal(response.headers.get("referrer-policy"), "no-referrer");
+  assert.equal(response.headers.get("strict-transport-security"), "max-age=31536000");
+  assert.equal(response.headers.get("cross-origin-opener-policy"), "same-origin");
+  assert.equal(response.headers.get("cross-origin-resource-policy"), "same-origin");
   assert.match(response.headers.get("content-security-policy") ?? "", /frame-ancestors 'none'/);
   assert.match(response.headers.get("permissions-policy") ?? "", /camera=\(\)/);
+  assert.match(response.headers.get("cache-control") ?? "", /s-maxage=300/);
 
   const html = await response.text();
   assert.match(html, /<title>ilXyr — protocol index<\/title>/i);
@@ -61,6 +65,15 @@ test("public API returns only static protocol data", async () => {
 
   const writeResponse = await request("/api/status", { method: "POST" });
   assert.equal(writeResponse.status, 405);
+  assert.equal(writeResponse.headers.get("allow"), "GET, HEAD");
+  assert.equal(await writeResponse.text(), "");
+
+  const headResponse = await request("/api/status", { method: "HEAD" });
+  assert.equal(headResponse.status, 200);
+  assert.equal(await headResponse.text(), "");
+
+  const imageOptimizerResponse = await request("/_vinext/image?url=%2Fog.png&w=640&q=75");
+  assert.equal(imageOptimizerResponse.status, 404);
 });
 
 test("public deployment has no database or private proposal code", async () => {
