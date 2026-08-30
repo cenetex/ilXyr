@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { createHash } from "node:crypto";
-import { spawn, execFileSync } from "node:child_process";
+import { spawn, execFile, execFileSync } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
 import { createInterface } from "node:readline";
 import { arch, cpus, platform, release, totalmem } from "node:os";
@@ -448,11 +448,20 @@ const mean = (values) =>
     : values.reduce((sum, value) => sum + value, 0) / values.length;
 
 class OracleServer {
-  constructor(executable, mode, hardTimeoutMs, memoLimitBytes) {
+  constructor(
+    executable,
+    mode,
+    hardTimeoutMs,
+    memoLimitBytes,
+    samplingStartMs,
+    samplingIntervalMs,
+  ) {
     this.executable = executable;
     this.mode = mode;
     this.hardTimeoutMs = hardTimeoutMs;
     this.memoLimitBytes = memoLimitBytes;
+    this.samplingStartMs = samplingStartMs;
+    this.samplingIntervalMs = samplingIntervalMs;
     this.child = null;
     this.iterator = null;
     this.stderr = "";
@@ -503,32 +512,39 @@ class OracleServer {
     return line.value;
   }
 
-  sampleResidentBytes() {
+  async sampleResidentBytes() {
     if (!this.child?.pid) return null;
-    try {
-      const output = execFileSync(
+    return await new Promise((resolveSample) => {
+      execFile(
         "ps",
         ["-o", "rss=", "-p", String(this.child.pid)],
-        { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
-      ).trim();
-      return output ? Number(output) * 1024 : null;
-    } catch {
-      return null;
-    }
+        { encoding: "utf8" },
+        (error, output) => {
+          if (error) resolveSample(null);
+          else {
+            const value = output.trim();
+            resolveSample(value ? Number(value) * 1024 : null);
+          }
+        },
+      );
+    });
   }
 
   async request(line, sampleProcess = true) {
     const started = process.hrtime.bigint();
-    let sampledPeakRss = sampleProcess ? this.sampleResidentBytes() : null;
-    const sampler = sampleProcess
-      ? setInterval(() => {
-          const value = this.sampleResidentBytes();
-          if (value !== null)
-            sampledPeakRss = sampledPeakRss === null
-              ? value
-              : Math.max(sampledPeakRss, value);
-        }, 25)
-      : null;
+    let sampledPeakRss = null;
+    let samplingStopped = false;
+    let sampler = null;
+    const sample = async () => {
+      const value = await this.sampleResidentBytes();
+      if (samplingStopped) return;
+      if (value !== null)
+        sampledPeakRss = sampledPeakRss === null
+          ? value
+          : Math.max(sampledPeakRss, value);
+      sampler = setTimeout(sample, this.samplingIntervalMs);
+    };
+    if (sampleProcess) sampler = setTimeout(sample, this.samplingStartMs);
     this.child.stdin.write(`${line}\n`);
     try {
       const raw = await this.nextLine();
@@ -545,7 +561,8 @@ class OracleServer {
       }
       throw error;
     } finally {
-      if (sampler) clearInterval(sampler);
+      samplingStopped = true;
+      if (sampler) clearTimeout(sampler);
     }
   }
 
@@ -582,6 +599,8 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
     mode,
     plan.frontier.measurement_hard_timeout_ms,
     plan.frontier.peak_incremental_memory_limit_bytes,
+    plan.frontier.hard_timeout_rss_sampling_start_ms,
+    plan.frontier.hard_timeout_rss_sampling_interval_ms,
   );
   const records = [];
   let readyMetrics;
@@ -704,7 +723,7 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
       hard_timeout_rss_sampling: hardTimeout
         ? hardTimeout.sampled_peak_rss_bytes === null
           ? "unavailable"
-          : "sampled_every_25ms"
+          : `sampled_after_${plan.frontier.hard_timeout_rss_sampling_start_ms}ms_every_${plan.frontier.hard_timeout_rss_sampling_interval_ms}ms`
         : "not_needed",
     },
     total_elapsed_ms: Number(process.hrtime.bigint() - started) / 1e6,
@@ -1010,12 +1029,23 @@ const main = async () => {
     result = {
       schema_version: 1,
       evidence_status: options.smoke ? "nonbinding_smoke" : "binding_in_progress",
+      evidence_stage: "bounded_session_memo_and_order_sensitivity",
       scope_revision: plan.scope_revision,
       plan_sha256: manifest.plan_sha256,
       manifest_sha256: sha256(manifestRecord.bytes),
       oracle_executable_sha256: manifest.oracle_executable_sha256,
       oracle_declared_revision: plan.oracle.zero_revision,
       optimization_sequence: plan.frontier.optimization_sequence,
+      predecessor_cold_replay: {
+        plan_sha256: plan.predecessor.phase05_cold_replay_v1_plan_sha256,
+        compressed_result_sha256:
+          plan.predecessor.phase05_cold_replay_v1_compressed_result_sha256,
+        summary_sha256: plan.predecessor.phase05_cold_replay_v1_summary_sha256,
+        decision: plan.predecessor.phase05_cold_replay_v1_decision,
+        relationship: plan.predecessor.session_stage_relationship,
+      },
+      cold_reference_role:
+        "fresh_answers_for_same-session-target_exactness_not_combined_resource_evidence",
       controller_revision: execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim(),
       reference_hardware: {
         cpu: cpus()[0]?.model ?? "unknown",
