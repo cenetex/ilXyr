@@ -2,12 +2,22 @@
 
 - Contract: `weight-multiplicity-transfer-r3`
 - Contract status: signed execution contract
-- Current execution status: not started
-- Current milestone: Week 1 specification freeze
+- Current execution status: Stop
+- Current milestone: Phase 0 negative-result handoff
 - Machine-readable contract:
   [`examples/weight-multiplicity/rev3-contract.json`](../../examples/weight-multiplicity/rev3-contract.json)
 - Contract schema:
   [`schemas/weight-multiplicity-program.schema.json`](../../schemas/weight-multiplicity-program.schema.json)
+- Frontier plan:
+  [`examples/weight-multiplicity/phase0-frontier-plan.json`](../../examples/weight-multiplicity/phase0-frontier-plan.json)
+- Corrected frontier plan:
+  [`examples/weight-multiplicity/phase0-frontier-plan-v2.json`](../../examples/weight-multiplicity/phase0-frontier-plan-v2.json)
+- Frontier-plan schema:
+  [`schemas/weight-multiplicity-frontier-plan.schema.json`](../../schemas/weight-multiplicity-frontier-plan.schema.json)
+- Phase 0 decision:
+  [`docs/experiments/WEIGHT-MULTIPLICITY-PHASE0-DECISION.md`](WEIGHT-MULTIPLICITY-PHASE0-DECISION.md)
+- Integer feasibility note:
+  [`docs/experiments/WEIGHT-MULTIPLICITY-INTEGER-FEASIBILITY.md`](WEIGHT-MULTIPLICITY-INTEGER-FEASIBILITY.md)
 - Signed source:
   [`docs/contracts/WEIGHT-MULTIPLICITY-TRANSFER-R3.md`](../contracts/WEIGHT-MULTIPLICITY-TRANSFER-R3.md)
 - Received source SHA-256:
@@ -20,9 +30,16 @@
 Can a small model trained on exact weight-multiplicity examples transfer to unseen ranks and to
 non-dominant weights at those ranks?
 
-This is a prospective program. No oracle frontier, corpus, training run, or scientific result has
-been recorded yet. A negative result is an accepted delivery outcome, but it must come from the
-frozen tests rather than from an implementation failure.
+The corrected binding oracle frontier is complete. It stops the program before corpus generation
+or training because the signed rank-7/rank-8 and E7/E8 surfaces do not fit the frozen one-second
+query limit. This is a resource-frontier result, not a finding about learned transfer.
+
+The first binding frontier run is sealed but superseded. Its unconstrained positive-stratum
+sampler produced almost only zero-multiplicity targets for E7 and E8. That is a generator defect,
+not evidence that the positive strata do not exist. Version 2 keeps the same coordinates, seed,
+limits, and quotas, but generates positive candidates through valid simple-root lowering walks.
+The Version 1 plan and result hashes are recorded in the Version 2 plan; Version 1 is not deleted
+or reinterpreted.
 
 ## Frozen design
 
@@ -38,6 +55,43 @@ Three full models use seeds 1, 2, and 3. A fourth null model sees only family, r
 highest-weight height, target depth, and scalar target magnitude. It cannot read root, weight, or
 Weyl data. A transfer claim must beat this shortcut model by the frozen absolute and confidence
 margins.
+
+## Frozen coordinates and scalar controls
+
+The Cartan convention is `A_ij=<alpha_i_coroot,alpha_j>`. Highest and target weights use integer
+Dynkin labels. Positive roots and the coefficient vector in `lambda-mu` use simple-root
+coordinates.
+
+- Highest-weight height is the sum of the Dynkin labels of `lambda`.
+- Target depth is the signed sum of the integer simple-root coefficients in `lambda-mu`.
+- The shortcut model's scalar `|mu|` is the L1 norm of the target's Dynkin labels.
+- A target is dominant exactly when all of its Dynkin labels are non-negative.
+
+The signed depth is defined for the zero-multiplicity controls above as well as below the highest
+weight. The scalar magnitude does not use a Cartan matrix or root-length information, so it does
+not leak the full structural input into the shortcut baseline.
+
+## Frontier controller
+
+The measurement cell is one Lie type and one highest-weight height. Each supported cell targets
+100 accepted records: 25 from each gated multiplicity stratum and 75 dominant / 25 non-dominant
+targets, with the exact joint quotas frozen in the plan. A cell that cannot supply a label stratum
+is reported as `incomplete_yield`; it is not rewritten as a fast oracle result. Resource failures
+remain distinct.
+
+The controller uses a fresh exact-multiplicity memo table for every query. It records every oracle
+attempt, measures round-trip latency after warm-up, records process peak memory separately, and
+replays each accepted request twice in fresh oracle processes for byte identity.
+
+Run the controller's local checks with:
+
+```sh
+npm run test:weight-multiplicity-frontier
+npm run test:schemas
+```
+
+A non-binding smoke measurement can restrict types and heights with `--types`, `--heights`, and
+`--smoke`. A binding frontier may not use any of those overrides.
 
 ## Decision order
 
