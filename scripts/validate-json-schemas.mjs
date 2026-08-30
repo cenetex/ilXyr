@@ -95,6 +95,9 @@ const fixtures = {
   "weight-multiplicity-program.schema.json": [
     "examples/weight-multiplicity/rev3-contract.json",
   ],
+  "weight-multiplicity-frontier-plan.schema.json": [
+    "examples/weight-multiplicity/phase0-frontier-plan.json",
+  ],
 };
 
 const readJson = async (relativePath) =>
