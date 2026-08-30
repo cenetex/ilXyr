@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.cenetex.net/schemas/weight-multiplicity-phase05-manifest.schema.json",
+  "title": "Weight-multiplicity Phase 0.5 representation manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scope_revision",
+    "plan_sha256",
+    "oracle_implementation",
+    "oracle_algorithm",
+    "oracle_interface_version",
+    "oracle_declared_revision",
+    "oracle_executable_sha256",
+    "candidate_envelope",
+    "selection",
+    "representations",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "scope_revision": { "const": "phase-0.5-client-approved-2026-08-30" },
+    "plan_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "oracle_implementation": { "const": "zero-freudenthal-exact-c11" },
+    "oracle_algorithm": { "const": "freudenthal_recurrence" },
+    "oracle_interface_version": { "const": 2 },
+    "oracle_declared_revision": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" },
+    "oracle_executable_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "candidate_envelope": {
+      "const": { "minimum_highest_weight_height": 1, "maximum_highest_weight_height": 8 }
+    },
+    "selection": { "type": "object" },
+    "representations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "type", "rank", "highest_weight", "highest_weight_height", "representation_dimension", "dimension_band", "selection_reasons", "required_targets"],
+        "properties": {
+          "id": { "type": "string", "minLength": 4 },
+          "type": { "type": "string", "pattern": "^(A[1-8]|B[2-8]|C[3-8]|D[4-8]|G2|F4|E[6-8])$" },
+          "rank": { "type": "integer", "minimum": 1, "maximum": 8 },
+          "highest_weight": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 8,
+            "items": { "type": "integer", "minimum": 0 }
+          },
+          "highest_weight_height": { "type": "integer", "minimum": 1, "maximum": 8 },
+          "representation_dimension": { "type": "string", "pattern": "^[1-9][0-9]*$" },
+          "dimension_band": { "type": "string", "pattern": "^d[0-9]{2}-[0-9]{2}$" },
+          "selection_reasons": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "required_targets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["target_weight", "target_depth", "source"],
+              "properties": {
+                "target_weight": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 8,
+                  "items": { "type": "integer" }
+                },
+                "target_depth": { "type": "integer", "minimum": 0 },
+                "source": { "const": "phase0_v2_first_timeout" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["representations", "per_type"],
+      "properties": {
+        "representations": { "type": "integer", "minimum": 1 },
+        "per_type": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "integer", "minimum": 1 }
+        }
+      }
+    }
+  }
+}

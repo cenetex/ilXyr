@@ -18,8 +18,21 @@ coordinates, seed, label quotas, time limit, memory limit, and oracle binary.
 record is `frontier-v2-summary.json`. The result is Stop at the oracle/resource
 gate; Phase 1 was not opened.
 
-Replay the hashes, counts, predecessor link, safe boundary, and Phase 1 closure
-with:
+`phase0-v2-memory-observability-erratum-v1.json` is an append-only correction
+to the interpretation of memory fields on timed-out Version 2 cells. The
+original result and decision files are unchanged. The erratum is sealed by
+`phase0-v2-memory-observability-erratum-v1.sha256` and binds the original plan,
+raw result, compressed result, oracle, and controller digests. It records that
+post-query memory was not observed for any of the 35 timed-out cells. Their
+time-limit failures remain measured; their memory-limit status is unknown.
+
+The client later approved a separate Phase 0.5 scope revision. Its frozen
+protocol is `docs/contracts/WEIGHT-MULTIPLICITY-PHASE05.md`, and its plan is
+`examples/weight-multiplicity/phase05-frontier-plan.json`. Phase 0.5 does not
+modify or relabel either sealed Phase 0 result.
+
+Replay the hashes, counts, predecessor link, erratum seal and scope, safe
+boundary, and Phase 1 closure with:
 
 ```sh
 npm run test:weight-multiplicity-evidence
