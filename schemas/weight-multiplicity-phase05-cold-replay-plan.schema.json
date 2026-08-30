@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.cenetex.net/schemas/weight-multiplicity-phase05-cold-replay-plan.schema.json",
+  "title": "Phase 0.5 recursive Weyl canonicalization cold replay plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "stage", "source", "oracle", "limits", "memory_policy", "decision_scope", "phase_1_authorized"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "stage": { "const": "recursive_weyl_canonicalization_cold_replay" },
+    "source": {
+      "const": {
+        "path": "experiments/weight-multiplicity/phase0/frontier-v2.json.gz",
+        "compressed_sha256": "170803ee08bb5fa26dea5c9a983511e2eb740d90387af3d887c379b8469a8aa8",
+        "uncompressed_sha256": "45e77630a9dd4005256627970c853573e71537f1076400b26391efb9450a5052",
+        "cells": 248,
+        "accepted_requests": 19104,
+        "former_timeout_requests": 35,
+        "total_recoverable_requests": 19139
+      }
+    },
+    "oracle": {
+      "const": {
+        "implementation": "zero-freudenthal-exact-c11",
+        "revision": "51b594fc4ca4f4613ab943f54e78668516d1b7b9",
+        "executable_sha256": "e09f8059d77598b969f33f24e6e9c38818c195b6f61aed699c771f45f1019914",
+        "memo_scope": "fresh_per_query",
+        "recursive_dependency_key": "dominant_weyl_representative"
+      }
+    },
+    "limits": {
+      "const": {
+        "query_time_ms": 1000,
+        "measurement_hard_timeout_ms": 10000,
+        "peak_incremental_rss_bytes": 2147483648,
+        "rss_sample_interval_ms": 25
+      }
+    },
+    "memory_policy": {
+      "const": {
+        "completed_query": "exact_process_high_water",
+        "hard_timeout": "unknown_unless_sampled_lower_bound_exceeds_limit",
+        "timeout_exact_peak_and_incremental": "null"
+      }
+    },
+    "decision_scope": { "const": "canonicalization_only_recorded_phase0_v2_request_stream" },
+    "phase_1_authorized": { "const": false }
+  }
+}
