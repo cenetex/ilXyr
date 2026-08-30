@@ -34,7 +34,10 @@ const schemaStatements = [
     category TEXT NOT NULL,
     severity TEXT NOT NULL,
     comment TEXT NOT NULL,
+    addressed INTEGER NOT NULL DEFAULT 0,
+    response TEXT,
     resolved INTEGER NOT NULL DEFAULT 0,
+    resolved_at TEXT,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (proposal_id) REFERENCES proposals(id)
   )`,

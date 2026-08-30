@@ -14,6 +14,7 @@ use crate::{ActorRef, Error, ResearchEvent, Result, VerificationReport};
 
 const ARTIFACT_PREFIX: &str = "artifact://sha256/";
 const BLOB_PREFIX: &str = "blob://sha256/";
+const EVENT_SCHEMA: &str = "ilxyr.event.v1";
 
 #[derive(Debug, Clone)]
 pub struct Workspace {
@@ -164,7 +165,11 @@ impl Workspace {
         contents
             .lines()
             .filter(|line| !line.trim().is_empty())
-            .map(|line| serde_json::from_str(line).map_err(Error::from))
+            .map(|line| {
+                let event: ResearchEvent = serde_json::from_str(line)?;
+                validate_event_envelope(&event)?;
+                Ok(event)
+            })
             .collect()
     }
 
@@ -175,6 +180,7 @@ impl Workspace {
         actor: ActorRef,
         artifact_ref: Option<String>,
     ) -> Result<ResearchEvent> {
+        validate_event_type(event_type)?;
         let events = self.events()?;
         self.verify_event_chain(&events)?;
         if let Some(artifact_ref) = artifact_ref.as_deref() {
@@ -183,6 +189,7 @@ impl Workspace {
         let previous_event = events.last().map(|event| event.event_hash.clone());
         let occurred_at_ms = now_ms()?;
         let event_hash = hash_event(
+            EVENT_SCHEMA,
             event_type,
             aggregate_id,
             &actor,
@@ -191,7 +198,7 @@ impl Workspace {
             previous_event.as_deref(),
         )?;
         let event = ResearchEvent {
-            schema: "ilxyr.event.v1".to_owned(),
+            schema: EVENT_SCHEMA.to_owned(),
             event_type: event_type.to_owned(),
             aggregate_id: aggregate_id.to_owned(),
             actor,
@@ -272,6 +279,7 @@ impl Workspace {
     fn verify_event_chain(&self, events: &[ResearchEvent]) -> Result<()> {
         let mut previous: Option<&str> = None;
         for event in events {
+            validate_event_envelope(event)?;
             if event.previous_event.as_deref() != previous {
                 return Err(Error::Conflict(format!(
                     "event chain break at {}",
@@ -279,6 +287,7 @@ impl Workspace {
                 )));
             }
             let expected = hash_event(
+                &event.schema,
                 &event.event_type,
                 &event.aggregate_id,
                 &event.actor,
@@ -373,6 +382,7 @@ fn verify_blob_path(path: &Path, expected: &str) -> Result<u64> {
 }
 
 fn hash_event(
+    schema: &str,
     event_type: &str,
     aggregate_id: &str,
     actor: &ActorRef,
@@ -381,7 +391,7 @@ fn hash_event(
     previous_event: Option<&str>,
 ) -> Result<String> {
     let unsigned = json!({
-        "schema": "ilxyr.event.v1",
+        "schema": schema,
         "event_type": event_type,
         "aggregate_id": aggregate_id,
         "actor": actor,
@@ -390,6 +400,76 @@ fn hash_event(
         "previous_event": previous_event,
     });
     Ok(sha256_hex(&canonical_bytes(&unsigned)?))
+}
+
+fn validate_event_envelope(event: &ResearchEvent) -> Result<()> {
+    if event.schema != EVENT_SCHEMA {
+        return Err(Error::Validation(vec![format!(
+            "unsupported event schema {}; expected {EVENT_SCHEMA}",
+            event.schema
+        )]));
+    }
+    validate_event_type(&event.event_type)
+}
+
+fn validate_event_type(event_type: &str) -> Result<()> {
+    let supported = matches!(
+        event_type,
+        "AdmissionDecided"
+            | "AllocationCommitted"
+            | "AttestationKeyTrusted"
+            | "BranchActivated"
+            | "BranchPlanRegistered"
+            | "CalibrationUpdated"
+            | "CertificateRecorded"
+            | "ClaimRegistered"
+            | "ContributionSubmitted"
+            | "EpochBudgetRegistered"
+            | "EvidenceEdgeRecorded"
+            | "EvidenceRecorded"
+            | "ExecutionStarted"
+            | "ExecutorAttestationRecorded"
+            | "ExperimentCompiled"
+            | "ExperimentCompleted"
+            | "ExperimentFamilyRegistered"
+            | "ExperimentFamilySettled"
+            | "ExternalRegistrationRecorded"
+            | "ForecastSettled"
+            | "ForecastSubmitted"
+            | "FundingCommitted"
+            | "HuggingFaceModelRegistered"
+            | "IntentDeclared"
+            | "MechanismConditionAttached"
+            | "MechanismForecastSettled"
+            | "NsrlContinuationRegistered"
+            | "NsrlGateEvaluated"
+            | "NsrlModelRegistered"
+            | "PaperCandidateRegistered"
+            | "PaperDecisionReceiptRecorded"
+            | "PaperStateResolved"
+            | "PaperSubmitted"
+            | "PolicyKeyTrusted"
+            | "PromotionEvaluated"
+            | "RegistrationPackaged"
+            | "ReplicationContractRegistered"
+            | "ReplicationSettled"
+            | "RetroExecutionStarted"
+            | "RetroPlanned"
+            | "RetroRegistered"
+            | "RetroRunCompleted"
+            | "SandboxPlanned"
+            | "SandboxRunCompleted"
+            | "SharedTaskRegistered"
+            | "TestDigestReleased"
+            | "TestDigestSealed"
+    );
+    if supported {
+        Ok(())
+    } else {
+        Err(Error::Validation(vec![format!(
+            "unsupported event type {event_type}; upgrade ilxyr before reading this ledger"
+        )]))
+    }
 }
 
 pub(crate) fn canonical_bytes<T: Serialize>(object: &T) -> Result<Vec<u8>> {
@@ -453,5 +533,84 @@ mod tests {
         assert_eq!(workspace.verify_blob(&first).expect("verify blob"), 27);
         let report = workspace.verify().expect("verify workspace");
         assert_eq!(report.blobs_checked, 1);
+    }
+
+    #[test]
+    fn event_schema_tampering_is_rejected() {
+        let root = test_root("event-schema");
+        let workspace = Workspace::init(&root).expect("workspace");
+        workspace
+            .append_event(
+                "ExecutionStarted",
+                "experiment://test",
+                ActorRef::service("service://test/runner"),
+                None,
+            )
+            .expect("event");
+
+        let events_path = root.join(".ilxyr/events.jsonl");
+        let mut event: Value =
+            serde_json::from_str(fs::read_to_string(&events_path).expect("events").trim())
+                .expect("event JSON");
+        event["schema"] = Value::String("ilxyr.event.v999".to_owned());
+        fs::write(
+            &events_path,
+            format!("{}\n", serde_json::to_string(&event).expect("serialize")),
+        )
+        .expect("tamper event");
+
+        let error = workspace
+            .verify()
+            .expect_err("unknown schema must fail closed");
+        assert!(error.to_string().contains("unsupported event schema"));
+        fs::remove_dir_all(root).expect("cleanup");
+    }
+
+    #[test]
+    fn unknown_event_types_fail_closed() {
+        let root = test_root("event-type");
+        let workspace = Workspace::init(&root).expect("workspace");
+        let actor = ActorRef::service("service://test/future-writer");
+        let event = ResearchEvent {
+            schema: EVENT_SCHEMA.to_owned(),
+            event_type: "FutureProtocolEvent".to_owned(),
+            aggregate_id: "future://test".to_owned(),
+            actor: actor.clone(),
+            artifact_ref: None,
+            occurred_at_ms: 1,
+            previous_event: None,
+            event_hash: hash_event(
+                EVENT_SCHEMA,
+                "FutureProtocolEvent",
+                "future://test",
+                &actor,
+                None,
+                1,
+                None,
+            )
+            .expect("hash"),
+        };
+        fs::write(
+            root.join(".ilxyr/events.jsonl"),
+            format!("{}\n", serde_json::to_string(&event).expect("serialize")),
+        )
+        .expect("write event");
+
+        let error = workspace
+            .verify()
+            .expect_err("unknown type must fail closed");
+        assert!(error.to_string().contains("unsupported event type"));
+        fs::remove_dir_all(root).expect("cleanup");
+    }
+
+    fn test_root(label: &str) -> PathBuf {
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock")
+            .as_nanos();
+        let root =
+            std::env::temp_dir().join(format!("ilxyr-store-{label}-{}-{nonce}", process::id()));
+        fs::create_dir(&root).expect("root");
+        root
     }
 }

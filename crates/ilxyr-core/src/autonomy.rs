@@ -9,15 +9,15 @@ use serde::de::DeserializeOwned;
 use serde_json::Value;
 
 use crate::{
-    ActorKind, ActorRef, AllocationDecision, AllocationKind, AllocationRecord, AllocationReport,
-    AuthorityLevel, BaselineRule, CalibrationRecord, Certificate, CertificatePredicate, CodePolicy,
-    ComparisonOperator, CompiledExperiment, CompletedExperiment, CompletedSandbox, EpochBudget,
-    Error, Evidence, EvidenceLane, ExecutionSpec, ExperimentSpec, ExportPolicy, Forecast,
-    ForecastSettlement, FundingCommitment, FundingPolicy, GroundingAuthority, NetworkPolicy,
-    OutcomeContract, PromotionEligibility, ReplicationContract, ResearchLineage, Result,
-    RunAuthorization, RunRecord, SandboxRun, SandboxSpec, SecurityPolicy, TrustedPolicyKey,
-    WeightClass, Workspace, commit_funding, decide_admission, executor, run_experiment,
-    store::canonical_bytes, store::now_ms, validation,
+    ActorKind, ActorRef, AdmissionDecision, AllocationDecision, AllocationKind, AllocationRecord,
+    AllocationReport, AuthorityLevel, BaselineRule, CalibrationRecord, Certificate,
+    CertificatePredicate, CodePolicy, ComparisonOperator, CompiledExperiment, CompletedExperiment,
+    CompletedSandbox, EpochBudget, Error, Evidence, EvidenceLane, ExecutionSpec, ExperimentSpec,
+    ExportPolicy, Forecast, ForecastSettlement, FundingCommitment, FundingPolicy,
+    GroundingAuthority, NetworkPolicy, OutcomeContract, PromotionEligibility, ReplicationContract,
+    ResearchLineage, Result, RunAuthorization, RunRecord, SandboxRun, SandboxSpec, SecurityPolicy,
+    TrustedPolicyKey, WeightClass, Workspace, commit_funding, decide_admission, executor,
+    run_experiment, store::canonical_bytes, store::now_ms, validation,
 };
 
 const POLICY_KEY_TRUSTED: &str = "PolicyKeyTrusted";
@@ -25,6 +25,7 @@ const EPOCH_BUDGET_REGISTERED: &str = "EpochBudgetRegistered";
 const EXPERIMENT_COMPILED: &str = "ExperimentCompiled";
 const FORECAST_SUBMITTED: &str = "ForecastSubmitted";
 const FUNDING_COMMITTED: &str = "FundingCommitted";
+const ADMISSION_DECIDED: &str = "AdmissionDecided";
 const EXECUTION_STARTED: &str = "ExecutionStarted";
 const EXPERIMENT_COMPLETED: &str = "ExperimentCompleted";
 const ALLOCATION_COMMITTED: &str = "AllocationCommitted";
@@ -159,10 +160,12 @@ pub fn allocate_epoch(
             AllocationKind::Promoted,
             &candidate.experiment_id,
         );
-        if latest_typed::<AllocationRecord>(workspace, ALLOCATION_COMMITTED, &allocation_id)?
-            .is_some()
-        {
-            decisions.push(candidate.decision(true, "allocation already recorded"));
+        let allocation_exists =
+            latest_typed::<AllocationRecord>(workspace, ALLOCATION_COMMITTED, &allocation_id)?
+                .is_some();
+        if allocation_exists {
+            ensure_admitted(workspace, &candidate.experiment_id, "allocator")?;
+            decisions.push(candidate.decision(true, "allocation already recorded and admitted"));
             continue;
         }
         if let Err(error) = check_capacity(
@@ -196,6 +199,7 @@ pub fn allocate_epoch(
                 },
             )?;
         }
+        ensure_admitted(workspace, &candidate.experiment_id, "allocator")?;
         reserve_allocation(
             workspace,
             &budget,
@@ -204,13 +208,6 @@ pub fn allocate_epoch(
             candidate.compute_credits,
             AllocationKind::Promoted,
         )?;
-        let admission = decide_admission(workspace, &candidate.experiment_id)?;
-        if !admission.accepted {
-            return Err(Error::Conflict(format!(
-                "allocator funded {}, but admission rejected it",
-                candidate.experiment_id
-            )));
-        }
         decisions.push(candidate.decision(true, "allocated and admitted"));
     }
 
@@ -247,14 +244,23 @@ pub fn allocate_replication(
     let contract: ReplicationContract = workspace.get(contract_ref)?;
     let budget = epoch_budget(workspace, budget_id)?;
     let candidate = allocation_candidate(workspace, &budget, &contract.replication_experiment_id)?;
-    let allocation = reserve_allocation(
-        workspace,
-        &budget,
-        &candidate.experiment_id,
-        &candidate.executable,
-        candidate.compute_credits,
+    let allocation_id = allocation_id(
+        budget_id,
         AllocationKind::Replication,
-    )?;
+        &candidate.experiment_id,
+    );
+    let allocation_exists =
+        latest_typed::<AllocationRecord>(workspace, ALLOCATION_COMMITTED, &allocation_id)?
+            .is_some();
+    if !allocation_exists {
+        check_capacity(
+            workspace,
+            &budget,
+            &candidate.executable,
+            candidate.compute_credits,
+            AllocationKind::Replication,
+        )?;
+    }
     let funding_id = format!(
         "funding:{budget_id}:replication:{}",
         contract.replication_experiment_id
@@ -278,14 +284,35 @@ pub fn allocate_replication(
             },
         )?;
     }
-    let admission = decide_admission(workspace, &contract.replication_experiment_id)?;
-    if !admission.accepted {
-        return Err(Error::Conflict(format!(
-            "replication allocator funded {}, but admission rejected it",
-            contract.replication_experiment_id
-        )));
+    ensure_admitted(
+        workspace,
+        &contract.replication_experiment_id,
+        "replication allocator",
+    )?;
+    reserve_allocation(
+        workspace,
+        &budget,
+        &candidate.experiment_id,
+        &candidate.executable,
+        candidate.compute_credits,
+        AllocationKind::Replication,
+    )
+}
+
+fn ensure_admitted(workspace: &Workspace, experiment_id: &str, allocator: &str) -> Result<()> {
+    if latest_typed::<AdmissionDecision>(workspace, ADMISSION_DECIDED, experiment_id)?
+        .is_some_and(|decision| decision.accepted)
+    {
+        return Ok(());
     }
-    Ok(allocation)
+    let admission = decide_admission(workspace, experiment_id)?;
+    if admission.accepted {
+        Ok(())
+    } else {
+        Err(Error::Conflict(format!(
+            "{allocator} funded {experiment_id}, but admission rejected it"
+        )))
+    }
 }
 
 pub fn authorize_unattended_run(
