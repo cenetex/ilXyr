@@ -17,6 +17,7 @@ pub mod onboarding;
 pub mod papers;
 pub mod registration;
 pub mod store;
+pub mod tournament;
 pub mod validation;
 pub mod workflow;
 
@@ -33,4 +34,5 @@ pub use nsrl::*;
 pub use onboarding::*;
 pub use registration::*;
 pub use store::Workspace;
+pub use tournament::*;
 pub use workflow::*;

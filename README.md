@@ -55,6 +55,9 @@ policy boundary provider-neutral, before any service or cloud binding.
   replication tolerances against exact shared-task bindings, funds replication from the signed
   reserve, mechanically settles provenance independence, and derives spine eligibility without
   computing a truth score.
+- Freezes rival-mechanism tournaments with metric-level predictions, ranks observations by
+  disagreement per estimated credit, and settles an exhaustive predeclared decision table from
+  ledgered evidence.
 - Provides clean-commit metric adapters for Zero q22r seed and multi-seed decisions and the
   Solomon successor-v2 harness, plus ledgered Q2.3–Q2.6 prospective transaction experiments
   and the completed Q2.6 seed-1/3 family replication workflow.
@@ -165,6 +168,20 @@ many independent replications succeeded, and whether all conditions make the cla
 the promoted spine. Private claims may omit a task binding and remain queryable, but cannot become
 spine-eligible.
 
+Mechanism tournaments turn a broad outcome into a discriminating causal test:
+
+```bash
+cargo run -p ilxyr-cli -- tournament-register . examples/schema/mechanism-tournament.json
+# Run and settle the referenced experiment through its normal lifecycle.
+cargo run -p ilxyr-cli -- tournament-settle . toy.score-mechanisms.v1
+```
+
+Registration must happen before accepted admission or execution. Every rival predicts every
+observation, and the decision table must cover all boolean observation patterns. Settlement fails
+closed while any declared metric condition is unresolved. Rival Brier scores and the authored
+next action are recorded without changing the experiment's scientific outcome. Identical
+registration retries are safe; changing a frozen tournament under the same ID is rejected.
+
 V1.1 adds:
 
 ```bash
@@ -210,11 +227,11 @@ started without producing a terminal run. `authorize` reports the same decision 
 - `portal`: the hosted submission and review portal used for the conventional web deployment.
 - `crates/ilxyr-core`: protocol objects, validation, ledger, gates, execution, settlement.
 - `crates/ilxyr-cli`: a small reference control-plane CLI.
-- `schemas`: portable JSON contracts for non-Rust producers and consumers (30 strict Draft
+- `schemas`: portable JSON contracts for non-Rust producers and consumers (32 strict Draft
   2020-12 schemas, including evidence authority, certificates, epoch budgets, sandbox runs,
   calibration records, evidence/registration bundles, external registration receipts, trusted
-  attestation keys, verified executor attestations, claims/edges/status, and replication
-  contracts/settlements).
+  attestation keys, verified executor attestations, claims/edges/status, replication
+  contracts/settlements, and mechanism tournaments/settlements).
 - `examples/toy`: one end-to-end funded experiment.
 - `examples/schema`: positive fixtures for the published protocol schemas.
 - `docs/PROGRAM.md`: the research program — Zero and Solomon micromodel families,

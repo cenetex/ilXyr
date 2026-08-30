@@ -47,6 +47,12 @@ const fixtures = {
   "huggingface-model.schema.json": [
     "examples/schema/huggingface-model.json",
   ],
+  "mechanism-tournament.schema.json": [
+    "examples/schema/mechanism-tournament.json",
+  ],
+  "mechanism-tournament-settlement.schema.json": [
+    "examples/schema/mechanism-tournament-settlement.json",
+  ],
   "nsrl-gate-evidence.schema.json": [
     "examples/nsrl/p10m-v10-context-gate.json",
     "examples/nsrl/p10m-v10-generation-gate.json",
@@ -275,6 +281,24 @@ expectInvalid(
   nsrlGate,
 );
 
+const tournament = await readJson("examples/schema/mechanism-tournament.json");
+delete tournament.decision_table[0].next_action;
+expectInvalid(
+  "mechanism-tournament.schema.json",
+  "mechanism tournament decision without a next action",
+  tournament,
+);
+
+const tournamentSettlement = await readJson(
+  "examples/schema/mechanism-tournament-settlement.json",
+);
+tournamentSettlement.rival_scores[0].brier_score = 1.1;
+expectInvalid(
+  "mechanism-tournament-settlement.schema.json",
+  "mechanism tournament settlement with invalid Brier score",
+  tournamentSettlement,
+);
+
 console.log(
-  `Validated ${schemaNames.length} Draft 2020-12 schemas, ${positiveCount} positive fixtures, and 18 rejection fixtures.`,
+  `Validated ${schemaNames.length} Draft 2020-12 schemas, ${positiveCount} positive fixtures, and 20 rejection fixtures.`,
 );

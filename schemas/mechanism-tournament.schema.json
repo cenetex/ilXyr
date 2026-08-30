@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ilxyr.mechanism_tournament.v1",
+  "title": "Rival-mechanism tournament with frozen observations and decision table",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "title",
+    "experiment_id",
+    "author",
+    "question",
+    "rivals",
+    "observations",
+    "decision_table"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.mechanism_tournament.v1" },
+    "id": { "$ref": "#/$defs/id" },
+    "title": { "type": "string", "minLength": 1 },
+    "experiment_id": { "$ref": "#/$defs/id" },
+    "author": { "$ref": "#/$defs/actor" },
+    "question": { "type": "string", "minLength": 1 },
+    "rivals": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/rival" }
+    },
+    "observations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": { "$ref": "#/$defs/observation" }
+    },
+    "decision_table": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 1024,
+      "items": { "$ref": "#/$defs/decisionRow" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:/-]+$"
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["human", "model", "service"] },
+        "model_ref": { "type": "string", "pattern": "^model://\\S+$" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "model" } } },
+          "then": {
+            "properties": {
+              "id": { "type": "string", "pattern": "^model://" },
+              "model_ref": true
+            },
+            "required": ["model_ref"]
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "human" } } },
+          "then": {
+            "properties": {
+              "id": { "type": "string", "pattern": "^human://" },
+              "model_ref": false
+            }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "service" } } },
+          "then": {
+            "properties": {
+              "id": { "type": "string", "pattern": "^service://" },
+              "model_ref": false
+            }
+          }
+        }
+      ]
+    },
+    "rival": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "statement", "predictions"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "statement": { "type": "string", "minLength": 1 },
+        "predictions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/prediction" }
+        }
+      }
+    },
+    "prediction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observation_id", "probability_satisfied"],
+      "properties": {
+        "observation_id": { "$ref": "#/$defs/id" },
+        "probability_satisfied": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "description", "estimated_cost_credits", "condition"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "description": { "type": "string", "minLength": 1 },
+        "estimated_cost_credits": { "type": "integer", "minimum": 1 },
+        "condition": { "$ref": "ilxyr.condition.v1" }
+      }
+    },
+    "decisionRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "expectations", "supported_rival_ids", "next_action"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "expectations": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/expectation" }
+        },
+        "supported_rival_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "next_action": { "type": "string", "minLength": 1 }
+      }
+    },
+    "expectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observation_id", "satisfied"],
+      "properties": {
+        "observation_id": { "$ref": "#/$defs/id" },
+        "satisfied": { "type": "boolean" }
+      }
+    }
+  }
+}

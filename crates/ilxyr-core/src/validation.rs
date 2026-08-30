@@ -27,6 +27,12 @@ pub fn contribution(contribution: &ResearchContribution) -> Result<()> {
     finish(errors)
 }
 
+pub(crate) fn actor_ref(actor_ref: &ActorRef) -> Result<()> {
+    let mut errors = Vec::new();
+    actor(actor_ref, &mut errors);
+    finish(errors)
+}
+
 pub fn experiment(spec: &ExperimentSpec) -> Result<()> {
     let mut errors = Vec::new();
     schema(&spec.schema, "ilxyr.experiment.v1", &mut errors);

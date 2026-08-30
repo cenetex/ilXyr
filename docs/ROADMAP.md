@@ -81,6 +81,9 @@ cross-family replication, OSF-side authentication, hardware attestation, or SLSA
 - Implemented additive evidence graph with `supports`, `contradicts`, `replicates`, `depends_on`,
   `supersedes`, `subsumes`, and `derived_from` edges; contradictions coexist and the query
   interface returns evidence state, never truth values.
+- Implemented rival-mechanism tournaments with prospectively frozen metric predictions,
+  disagreement-per-credit observation ranking, exhaustive decision tables, fail-closed evidence
+  resolution, and per-rival Brier settlement.
 - Implemented replication contracts with pre-run tolerance bounds: capability replication and
   computational equivalence as distinct declared targets.
 - Implemented promoted-spine eligibility from an exact shared-task anchor, forward risk, cold
