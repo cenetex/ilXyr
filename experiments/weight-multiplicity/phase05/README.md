@@ -13,3 +13,6 @@ Current append-only evidence:
   request stream.
 - `LIE-CROSS-CHECK-V4-PASS.md` and `lie-cross-check-v4.json` are the separate
   independent LiE witness for that canonicalization-only Zero revision.
+- `SESSION-FRONTIER-V2-HOLD.md`, `session-frontier-v2.json.gz`, and the compact
+  summary record the separate bounded-session memo and order-sensitivity
+  stage. The raw result is compressed; the summary is the review surface.

@@ -20,6 +20,9 @@ const lieManifestV3Path = "examples/weight-multiplicity/phase05-lie-cross-check-
 const lieManifestV4Path = "examples/weight-multiplicity/phase05-lie-cross-check-manifest-v4.json";
 const lieResultV4Path = "experiments/weight-multiplicity/phase05/lie-cross-check-v4.json";
 const lieDecisionV4Path = "experiments/weight-multiplicity/phase05/LIE-CROSS-CHECK-V4-PASS.md";
+const sessionCompressedPath = "experiments/weight-multiplicity/phase05/session-frontier-v2.json.gz";
+const sessionSummaryPath = "experiments/weight-multiplicity/phase05/session-frontier-v2-summary.json";
+const sessionDecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V2-HOLD.md";
 
 const [
   coldPlanBytes,
@@ -30,6 +33,9 @@ const [
   lieManifestV4Bytes,
   lieResultV4Bytes,
   lieDecisionV4Bytes,
+  sessionCompressedBytes,
+  sessionSummaryBytes,
+  sessionDecisionBytes,
 ] = await Promise.all([
   read(coldPlanPath),
   read(coldSummaryPath),
@@ -39,6 +45,9 @@ const [
   read(lieManifestV4Path),
   read(lieResultV4Path),
   read(lieDecisionV4Path),
+  read(sessionCompressedPath),
+  read(sessionSummaryPath),
+  read(sessionDecisionPath),
 ]);
 
 const coldRawBytes = gunzipSync(coldCompressedBytes);
@@ -48,6 +57,9 @@ const coldDecision = coldDecisionBytes.toString("utf8");
 const lieManifestV4 = JSON.parse(lieManifestV4Bytes.toString("utf8"));
 const lieResultV4 = JSON.parse(lieResultV4Bytes.toString("utf8"));
 const lieDecisionV4 = lieDecisionV4Bytes.toString("utf8");
+const sessionRawBytes = gunzipSync(sessionCompressedBytes);
+const sessionSummary = JSON.parse(sessionSummaryBytes.toString("utf8"));
+const sessionDecision = sessionDecisionBytes.toString("utf8");
 
 assert.equal(sha256(coldPlanBytes), "4355bc8a9d156fb7ae3ae9f3867bb0d91f80e76d6b6ac9c56f85cb4bcc4611a1");
 assert.equal(sha256(coldSummaryBytes), "7aea6035dbabe4b53423df03b9e495b81377628a39528a3ed59314708319690b");
@@ -96,6 +108,84 @@ assert(lieResultV4.results.every((result) => result.agreement));
 assert.match(lieDecisionV4, /independent correctness witness/);
 assert.match(lieDecisionV4, /separate from the internal/);
 
+assert.equal(sha256(sessionRawBytes), "4d4fa4dfcb3e51b2ce4443a10d0e906be8f7f2fd41df08aa0b26bd203b5f1b9e");
+assert.equal(sha256(sessionCompressedBytes), "e0c55c0038119136d5b3d39fb13231fb15f8146a52cd7ff6246591f48f4e9a4f");
+assert.equal(sha256(sessionSummaryBytes), "f928ec7b90581bd7689545eada4f8396cb2d884c9385ae618f7c6424cd4b3a5c");
+assert.equal(sessionSummary.evidence_stage, "bounded_session_memo_and_order_sensitivity");
+assert.equal(sessionSummary.decision, "hold");
+assert.deepEqual(sessionSummary.coverage.classifications, {
+  pass: 815,
+  time_fail: 7,
+  order_sensitive: 4,
+  time_fail_memory_unknown: 2,
+});
+assert.equal(sessionSummary.coverage.representations, 828);
+assert.equal(sessionSummary.coverage.grouped_runs, 2484);
+assert.equal(sessionSummary.coverage.grouped_runs_with_hard_timeout, 6);
+assert.equal(sessionSummary.coverage.exactness_pass_representations, 826);
+assert.equal(sessionSummary.coverage.exactness_unknown_representations, 2);
+assert.equal(sessionSummary.coverage.exactness_disagreements, 0);
+assert.equal(sessionSummary.coverage.replay_failures, 0);
+assert.equal(
+  sessionSummary.resource.maximum_known_grouped_incremental_memory_bytes,
+  21479424,
+);
+assert.equal(
+  sessionSummary.resource.safe_parallel_workers_under_full_time_contract,
+  0,
+);
+assert.equal(sessionSummary.resource.unknown_memory_is_never_reported_as_pass, true);
+assert.deepEqual(
+  sessionSummary.order_sensitive.map((entry) => entry.id),
+  [
+    "E7:1,1,5,1,0,0,0",
+    "E7:0,0,7,1,0,0,0",
+    "E8:1,1,2,0,0,1,1,0",
+    "E8:3,0,0,1,0,0,0,4",
+  ],
+);
+assert.deepEqual(
+  sessionSummary.time_failures.map((entry) => entry.id),
+  [
+    "B8:0,0,2,2,1,0,3,0",
+    "B8:0,1,1,0,0,2,1,3",
+    "B8:0,0,1,1,1,2,2,1",
+    "C8:0,0,2,1,4,1,0,0",
+    "C8:1,1,0,1,3,1,1,0",
+    "C8:0,0,1,1,1,2,3,0",
+    "D8:0,0,1,1,2,4,0,0",
+  ],
+);
+assert.deepEqual(
+  sessionSummary.hard_timeouts.map((entry) => entry.id),
+  ["E8:0,0,2,1,2,0,0,3", "E8:0,0,8,0,0,0,0,0"],
+);
+assert(
+  sessionSummary.hard_timeouts.every(
+    (entry) =>
+      entry.exactness_status === "unknown_after_hard_timeout" &&
+      entry.grouped_orders.every(
+        (run) =>
+          run.memory_observation === "unknown_after_hard_timeout" &&
+          run.incremental_memory_bytes === null,
+      ),
+  ),
+);
+assert.equal(sessionSummary.independent_lie_witness.decision, "pass");
+assert.equal(sessionSummary.independent_lie_witness.agreements, 496);
+assert.match(
+  sessionSummary.independent_lie_witness.category,
+  /separate_from_internal_resource_evidence/,
+);
+assert.deepEqual(sessionSummary.phase_1, {
+  authorized: false,
+  corpus_generated: false,
+  models_trained: false,
+});
+assert.match(sessionDecision, /Hold for the separate bounded-session/);
+assert.match(sessionDecision, /unknown, not passed/);
+assert.match(sessionDecision, /separate independent\s+correctness witness/);
+
 console.log(JSON.stringify({
   status: "pass",
   cold_replay: {
@@ -108,5 +198,13 @@ console.log(JSON.stringify({
   independent_lie_witness: {
     decision: lieResultV4.evidence_status,
     agreements: lieResultV4.summary.agreements,
+  },
+  session_frontier: {
+    decision: sessionSummary.decision,
+    pass: sessionSummary.coverage.classifications.pass,
+    time_fail: sessionSummary.coverage.classifications.time_fail,
+    order_sensitive: sessionSummary.coverage.classifications.order_sensitive,
+    time_fail_memory_unknown:
+      sessionSummary.coverage.classifications.time_fail_memory_unknown,
   },
 }));
