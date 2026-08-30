@@ -138,10 +138,7 @@
   },
   "downstream": {
     "zero_family_gate_cleared": true,
-    "bridge_ready": false,
-    "remaining_bridge_blockers": [
-      "frozen shared-task data bindings",
-      "Solomon-compatible encoding and verifier"
-    ]
+    "bridge_ready": true,
+    "remaining_bridge_blockers": []
   }
 }

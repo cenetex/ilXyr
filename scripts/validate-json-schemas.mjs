@@ -1,4 +1,5 @@
 import { readFile, readdir } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -91,11 +92,21 @@ const fixtures = {
   "sandbox-run.schema.json": ["examples/schema/sandbox-run.json"],
   "sandbox-spec.schema.json": ["examples/schema/sandbox-spec.json"],
   "shared-task.schema.json": ["examples/schema/shared-task.json"],
+  "shared-task-v2.schema.json": [
+    "examples/shared-tasks/zero-solomon-q22-operation-v1.json",
+  ],
   "trusted-attestation-key.schema.json": [
     "examples/schema/trusted-attestation-key.json",
   ],
   "upstream-benchmark.schema.json": [
     "examples/schema/upstream-benchmark.json",
+  ],
+  "weight-multiplicity-program.schema.json": [
+    "examples/weight-multiplicity/rev3-contract.json",
+  ],
+  "weight-multiplicity-frontier-plan.schema.json": [
+    "examples/weight-multiplicity/phase0-frontier-plan.json",
+    "examples/weight-multiplicity/phase0-frontier-plan-v2.json",
   ],
 };
 
@@ -260,6 +271,16 @@ expectInvalid(
   sharedTask,
 );
 
+const executableSharedTask = await readJson(
+  "examples/shared-tasks/zero-solomon-q22-operation-v1.json",
+);
+delete executableSharedTask.family_bindings[1].implementation;
+expectInvalid(
+  "shared-task-v2.schema.json",
+  "executable shared task without a Solomon implementation snapshot",
+  executableSharedTask,
+);
+
 const huggingFaceModel = await readJson(
   "examples/schema/huggingface-model.json",
 );
@@ -348,6 +369,127 @@ expectInvalid(
   "mechanism-tournament-settlement.schema.json",
   "mechanism tournament settlement with invalid Brier score",
   tournamentSettlement,
+);
+
+const weightMultiplicityContract = await readJson(
+  "examples/weight-multiplicity/rev3-contract.json",
+);
+
+const canonicalContractBytes = await readFile(
+  join(root, weightMultiplicityContract.source_document.canonical_repository_path),
+);
+const canonicalContractDigest = createHash("sha256")
+  .update(canonicalContractBytes)
+  .digest("hex");
+if (canonicalContractDigest !== weightMultiplicityContract.source_document.canonical_sha256) {
+  throw new Error(
+    `canonical weight-multiplicity contract digest is ${canonicalContractDigest}, expected ${weightMultiplicityContract.source_document.canonical_sha256}`,
+  );
+}
+
+const wrongAcr2Order = structuredClone(weightMultiplicityContract);
+wrongAcr2Order.gates.acr2.pass_per_mille.median_non_dominant = 950;
+expectInvalid(
+  "weight-multiplicity-program.schema.json",
+  "weight-multiplicity contract with the old unreachable ACR-2 threshold",
+  wrongAcr2Order,
+);
+
+const dominantOnlyTraining = structuredClone(weightMultiplicityContract);
+dominantOnlyTraining.datasets.training_target_mix_per_mille = {
+  dominant: 1000,
+  non_dominant: 0,
+};
+expectInvalid(
+  "weight-multiplicity-program.schema.json",
+  "weight-multiplicity contract without non-dominant training inputs",
+  dominantOnlyTraining,
+);
+
+const unboundedTail = structuredClone(weightMultiplicityContract);
+unboundedTail.task.maximum_exact_label = 1024;
+expectInvalid(
+  "weight-multiplicity-program.schema.json",
+  "weight-multiplicity contract with an unbounded decision tail",
+  unboundedTail,
+);
+
+const rootAwareShortcut = structuredClone(weightMultiplicityContract);
+rootAwareShortcut.models.shortcut.allowed_inputs.push("root_set");
+expectInvalid(
+  "weight-multiplicity-program.schema.json",
+  "shortcut baseline that can read root data",
+  rootAwareShortcut,
+);
+
+const prematureIntegrityStop = structuredClone(weightMultiplicityContract);
+prematureIntegrityStop.gates.acr1.fixable_failure_policy = "stop";
+expectInvalid(
+  "weight-multiplicity-program.schema.json",
+  "ACR-1 policy that stops before diagnosing a repairable integrity defect",
+  prematureIntegrityStop,
+);
+
+const acceptedRecordFields = Object.entries(
+  weightMultiplicityContract.datasets.accepted_records,
+).filter(([name]) => name !== "total");
+const acceptedRecordSum = acceptedRecordFields.reduce(
+  (sum, [, count]) => sum + count,
+  0,
+);
+if (acceptedRecordSum !== weightMultiplicityContract.datasets.accepted_records.total) {
+  throw new Error(
+    `weight-multiplicity accepted-record total is ${weightMultiplicityContract.datasets.accepted_records.total}, expected ${acceptedRecordSum}`,
+  );
+}
+
+const acr1 = weightMultiplicityContract.gates.acr1;
+if (acr1.root_queries + acr1.doubled_root_queries + acr1.zero_weight_queries !== acr1.total) {
+  throw new Error("weight-multiplicity ACR-1 component counts do not match its total");
+}
+
+const stratumShare = weightMultiplicityContract.task.strata.reduce(
+  (sum, stratum) => sum + stratum.share_per_mille,
+  0,
+);
+if (stratumShare !== 1000) {
+  throw new Error(`weight-multiplicity strata sum to ${stratumShare} per mille, expected 1000`);
+}
+
+const classical = weightMultiplicityContract.gates.classical_cross_rank;
+const acr2Pass = weightMultiplicityContract.gates.acr2.pass_per_mille;
+if (acr2Pass.median_non_dominant >= classical.pass_median_per_mille) {
+  throw new Error("ACR-2 absolute median threshold must stay below classical cross-rank Pass");
+}
+if (
+  classical.pass_median_per_mille - acr2Pass.maximum_dominant_drop <
+  acr2Pass.median_non_dominant
+) {
+  throw new Error("ACR-2 degradation rule makes the classical Pass floor unreachable");
+}
+
+const frontierV2WithoutPredecessor = await readJson(
+  "examples/weight-multiplicity/phase0-frontier-plan-v2.json",
+);
+delete frontierV2WithoutPredecessor.supersedes;
+expectInvalid(
+  "weight-multiplicity-frontier-plan.schema.json",
+  "frontier generator v2 without sealed predecessor evidence",
+  frontierV2WithoutPredecessor,
+);
+
+const frontierV1WithPredecessor = await readJson(
+  "examples/weight-multiplicity/phase0-frontier-plan.json",
+);
+frontierV1WithPredecessor.supersedes = {
+  plan_sha256: "0".repeat(64),
+  result_sha256: "0".repeat(64),
+  reason: "invalid retroactive predecessor",
+};
+expectInvalid(
+  "weight-multiplicity-frontier-plan.schema.json",
+  "frontier generator v1 with a retroactive predecessor",
+  frontierV1WithPredecessor,
 );
 
 console.log(

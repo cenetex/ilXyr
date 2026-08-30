@@ -113,13 +113,13 @@ produced four content-addressed objects across five hash-linked events and passe
 The experiment guide is
 [`docs/experiments/EXP-001.md`](experiments/EXP-001.md).
 
-### First q22r shared task
+### First q22 shared task
 
-The shared-task protocol is ready, but a real q22r contract has not been registered. A contract
-consumed by both harnesses requires the actual dataset and eval-set SHA-256 values plus a Solomon
-q22r encoding/verifier. Those inputs do not exist in the inspected repositories. Publishing a
-contract with placeholders or treating the Zero report itself as the dataset would overstate the
-evidence, so registration remains deliberately blocked.
+The bridge follow-up now publishes an executable v2 contract. It binds a training-only 9,500-row
+JSONL file, the disjoint 500-row promotion TSV, the Zero channel adapter, and the Solomon byte
+encoder and kernel-aware verifier to exact public commits and source hashes. Local registration is
+covered by the onboarding suite. This closes the infrastructure blocker only: no Solomon model has
+been trained and no cross-family replication outcome has been observed.
 
 ## Verification
 
