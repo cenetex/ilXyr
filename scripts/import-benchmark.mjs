@@ -1,10 +1,11 @@
 #!/usr/bin/env node
-// Benchmark -> ilXyr registration-package compiler (#21).
+// Benchmark -> ilXyr upstream evidence compiler (#21).
 //
 // Consumes a hash-bound benchmark directory (contract.json + result.json in
-// the sero-model-lineage convention) and emits a valid registration package
-// for `ilxyr register`. Digests are preserved end-to-end; nothing is
-// recomputed or reinterpreted.
+// a supported model-line convention) and emits a schema-valid upstream
+// benchmark record for review and later ledger import. It does not pretend
+// that an already completed external run was registered by ilXyr before it
+// executed. Digests are preserved end-to-end.
 //
 // Usage:
 //   node scripts/import-benchmark.mjs <benchmark-dir> [--out <output.json>]
@@ -62,7 +63,7 @@ for (const [name, value] of [["contract", contract], ["result", result]]) {
 
 const benchmarkId = basename(benchmarkDir);
 
-// Collect every digest-shaped string so the package can pin them without
+// Collect every digest-shaped string so the record can pin them without
 // understanding them. Unknown structure is preserved verbatim instead of
 // being reinterpreted.
 const collectedDigests = new Set();
@@ -90,27 +91,45 @@ for (const name of ["contract.json", "result.json"]) {
 const metrics = {};
 let resolvedOutcome = null;
 
-if (typeof result.schema === "string" && result.schema.startsWith("zero.c3")) {
-  // zero-family benchmark profile: decision.outcome + per-arm nested metrics.
-  if (result.decision && typeof result.decision.outcome === "string") {
-    resolvedOutcome = result.decision.outcome;
-  }
-  if (result.arms && typeof result.arms === "object") {
-    const flatten = (node, prefix) => {
-      for (const [key, value] of Object.entries(node)) {
-        if (typeof value === "number" && Number.isFinite(value)) {
-          metrics[`${prefix}.${key}`] = value;
-        } else if (value && typeof value === "object" && !Array.isArray(value)) {
-          flatten(value, `${prefix}.${key}`);
-        }
-      }
-    };
-    for (const [arm, armResult] of Object.entries(result.arms)) {
-      flatten(armResult.validation ?? {}, `arm.${arm}`);
+const flatten = (node, prefix) => {
+  if (!node || typeof node !== "object" || Array.isArray(node)) return;
+  for (const [key, value] of Object.entries(node)) {
+    const path = prefix ? `${prefix}.${key}` : key;
+    if (typeof value === "number" && Number.isFinite(value)) {
+      metrics[path] = value;
+    } else if (value && typeof value === "object" && !Array.isArray(value)) {
+      flatten(value, path);
     }
   }
+};
+
+if (typeof result.schema === "string" && /^zero\.[a-z0-9_]+_result\.v\d+$/.test(result.schema)) {
+  if (result.decision && typeof result.decision.outcome === "string") {
+    resolvedOutcome = result.decision.outcome;
+  } else if (result.schema === "zero.c42_result.v1" &&
+             result.status === "complete" &&
+             result.decision?.eligible_for_promotion === false) {
+    resolvedOutcome = "no-go";
+  } else if (result.schema === "zero.c0_tokenizer_result.v2" &&
+             typeof result.decision?.candidate_for_zero5_training === "string") {
+    resolvedOutcome = `selected-${result.decision.candidate_for_zero5_training}`;
+  } else if (typeof result.decision?.all_gates_pass === "boolean") {
+    resolvedOutcome = result.decision.all_gates_pass ? "go" : "no-go";
+  } else if (typeof result.status === "string" && result.status.includes("no-go")) {
+    resolvedOutcome = "no-go";
+  }
+
+  for (const root of ["metrics", "validation", "training", "arms", "comparison"]) {
+    if (result[root] && typeof result[root] === "object") {
+      flatten(result[root], root);
+    }
+  }
+} else if (typeof result.schema === "string" && result.schema.startsWith("zero.")) {
+  fail(`unsupported ZERO result schema '${result.schema}'`);
 } else {
-  // Generic profile: top-level finite numeric metrics map.
+  if (typeof result.outcome === "string") {
+    resolvedOutcome = result.outcome;
+  }
   if (result.metrics && typeof result.metrics === "object") {
     for (const [key, value] of Object.entries(result.metrics)) {
       if (typeof value === "number" && Number.isFinite(value)) {
@@ -120,20 +139,13 @@ if (typeof result.schema === "string" && result.schema.startsWith("zero.c3")) {
   }
 }
 
-resolvedOutcome ??=
-  typeof result.outcome === "string"
-    ? result.outcome
-    : Object.keys(metrics).length > 0
-      ? "success"
-      : null;
-
 if (!resolvedOutcome) {
-  fail("result.json has neither a resolvable outcome nor any finite numeric metrics");
+  fail("result.json has no supported, explicit outcome");
 }
 
-const registrationPackage = {
-  schema: "ilxyr.registration_package.v1",
-  id: `registration:${benchmarkId}`,
+const upstreamRecord = {
+  schema: "ilxyr.upstream_benchmark.v1",
+  id: `upstream-benchmark:${benchmarkId}`,
   title: `Imported benchmark ${benchmarkId}`,
   benchmark_id: benchmarkId,
   outcome: {
@@ -151,7 +163,7 @@ const registrationPackage = {
   raw: { contract, result },
 };
 
-const output = JSON.stringify(registrationPackage, null, 2) + "\n";
+const output = JSON.stringify(upstreamRecord, null, 2) + "\n";
 if (outputPath) {
   await writeFile(outputPath, output);
   console.log(`wrote ${outputPath}`);

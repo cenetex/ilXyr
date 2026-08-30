@@ -1,0 +1,77 @@
+{
+  "schema": "ilxyr.retro_registration_spec.v1",
+  "id": "solomon.nsrl-p10m-direct-head-nll-guard-v1.negative.v1",
+  "claim": "A prospectively frozen canonical-NLL output-head search selected a coordinate that improved exact proposal NLL but worsened a document-disjoint training guard. The move was atomically rejected, exact rerun replay passed, the source model was retained, and public test plus all later gates stayed closed.",
+  "family": "solomon",
+  "source": {
+    "repository": "https://github.com/atimics/nsrl.git",
+    "commit": "316663b9ff1a0ec805f2f0218be683d75ad90e2d",
+    "artifacts": [
+      {
+        "path": "benchmarks/production-model-v1/p10m-direct-head-nll-guard-v1-contract.json",
+        "sha256": "592ee07674b8d932f7f06319c1a365b5239fb1c5db98dc28ebb6b9d7daee9387"
+      },
+      {
+        "path": "benchmarks/production-model-v1/p10m-direct-head-nll-guard-v1-development-gate.json",
+        "sha256": "f7b27e53d17770f3d8eb04cbeff417aafcc5d6b330fa65b1b3e07f4f93ab9d9b"
+      },
+      {
+        "path": "scripts/run-production-direct-head-nll-guard-v1.sh",
+        "sha256": "9b012cd9a569851acc953b37071a09f8e5d0bb80ab43bb8f26b8a05734cac956"
+      },
+      {
+        "path": "scripts/check-production-direct-head-nll-guard-development-v1.mjs",
+        "sha256": "a5115cffc068c4ab0ccf6060a6a77a5d1de1412b72ae3062f7b5093755550df1"
+      }
+    ]
+  },
+  "metrics": [
+    { "name": "candidate_coordinates_evaluated", "unit": "count", "description": "Gradient-ranked output-head coordinates evaluated in round zero" },
+    { "name": "selected_output_weight_coordinate", "unit": "coordinate_index", "description": "Output-weight coordinate selected for exact full-surface checks" },
+    { "name": "proposal_nll_improvement_q20", "unit": "q20_nll", "description": "Exact full-proposal NLL improvement from the selected unit move" },
+    { "name": "guard_nll_regression_q20", "unit": "q20_nll", "description": "Exact document-disjoint guard NLL regression from the selected move" },
+    { "name": "guard_rejections", "unit": "count", "description": "Selected coordinates restored after worsening the guard" },
+    { "name": "descent_steps_applied", "unit": "count", "description": "Output-head coordinate moves committed to the candidate" },
+    { "name": "model_movement", "unit": "boolean", "description": "Whether the final model differed from the source" },
+    { "name": "exact_model_rerun_replay", "unit": "boolean", "description": "Independent full rerun reproduced candidate model bytes" },
+    { "name": "exact_trace_rerun_replay", "unit": "boolean", "description": "Independent full rerun reproduced training trace bytes" },
+    { "name": "frozen_parameters_unchanged", "unit": "boolean", "description": "The frozen p10m trunk hash stayed unchanged" },
+    { "name": "zero_weight_saturation", "unit": "boolean", "description": "The bounded search reported zero weight saturation" },
+    { "name": "development_nll_delta_millibits", "unit": "millibits", "description": "Candidate minus source canonical public-development NLL" },
+    { "name": "development_rank_delta", "unit": "rank", "description": "Candidate minus source public-development mean target rank" },
+    { "name": "public_test_opened", "unit": "boolean", "description": "Whether public test evaluation was opened" },
+    { "name": "open_generation_opened", "unit": "boolean", "description": "Whether open-generation evaluation was opened" },
+    { "name": "hidden_panel_opened", "unit": "boolean", "description": "Whether hidden evidence was opened" }
+  ],
+  "seeds": [0],
+  "replay": {
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-nsrl-direct-head-nll-guard-v1.mjs",
+      "--repo", "/workspace/nsrl",
+      "--repository", "https://github.com/atimics/nsrl.git",
+      "--commit", "316663b9ff1a0ec805f2f0218be683d75ad90e2d",
+      "--git", "/usr/bin/git"
+    ],
+    "timeout_seconds": 300,
+    "network": "open"
+  },
+  "authority": {
+    "level": "exact_check",
+    "scope": {
+      "seeds": [0],
+      "eval_set": "artifact://sha256/f7b27e53d17770f3d8eb04cbeff417aafcc5d6b330fa65b1b3e07f4f93ab9d9b",
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [
+        "artifact://sha256/592ee07674b8d932f7f06319c1a365b5239fb1c5db98dc28ebb6b9d7daee9387",
+        "artifact://sha256/f7b27e53d17770f3d8eb04cbeff417aafcc5d6b330fa65b1b3e07f4f93ab9d9b",
+        "artifact://sha256/9b012cd9a569851acc953b37071a09f8e5d0bb80ab43bb8f26b8a05734cac956",
+        "artifact://sha256/a5115cffc068c4ab0ccf6060a6a77a5d1de1412b72ae3062f7b5093755550df1"
+      ],
+      "model_lineage": "model://nsrl/nsrlpm1-p10m-causal-tail-representation-v9/14f568de85931696dfd2c7b4cb35883d7b8c88430e5395b0c9c7f9f2660d5c22",
+      "checker": "checker://nsrl/p10m-direct-head-nll-guard/v1"
+    }
+  }
+}
