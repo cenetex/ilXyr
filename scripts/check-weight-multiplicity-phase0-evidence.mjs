@@ -53,6 +53,26 @@ const checkRun = async (version) => {
 const version1 = await checkRun(1);
 const version2 = await checkRun(2);
 
+const erratumName = "phase0-v2-memory-observability-erratum-v1";
+const erratumBytes = await readFile(join(evidenceDirectory, `${erratumName}.json`));
+const erratum = JSON.parse(erratumBytes);
+const erratumSeal = (
+  await readFile(join(evidenceDirectory, `${erratumName}.sha256`), "utf8")
+).trim();
+if (erratumSeal !== digest(erratumBytes)) fail("Phase 0 erratum seal mismatch");
+if (
+  erratum.record_kind !== "append_only_erratum" ||
+  erratum.independent_evidence !== false ||
+  erratum.binds.plan_sha256 !== version2.summary.plan_sha256 ||
+  erratum.binds.raw_result_sha256 !== version2.summary.raw_result_sha256 ||
+  erratum.binds.compressed_result_sha256 !==
+    version2.summary.compressed_result_sha256 ||
+  erratum.binds.oracle_executable_sha256 !==
+    version2.summary.oracle_executable_sha256 ||
+  erratum.binds.controller_revision !== version2.summary.controller_revision
+)
+  fail("Phase 0 erratum does not bind the Version 2 evidence");
+
 const planV1Bytes = await readFile(
   join(root, "examples/weight-multiplicity/phase0-frontier-plan.json"),
 );
@@ -86,6 +106,29 @@ const e8Height1 = version2.result.cells.find(
 );
 if (e8Height1?.status !== "resource_fail")
   fail("Version 2 does not preserve the E8 height-1 boundary failure");
+const timedOutCells = version2.result.cells.filter(
+  (cell) => cell.status === "resource_fail" && cell.exactness.timeout,
+);
+const substitutedMemoryCells = timedOutCells.filter(
+  (cell) =>
+    cell.memory_bytes.final_peak_rss === cell.memory_bytes.warmed_peak_rss &&
+    cell.memory_bytes.incremental_after_warmup === 0,
+);
+if (
+  timedOutCells.length !== erratum.finding.affected_cells ||
+  substitutedMemoryCells.length !== timedOutCells.length ||
+  erratum.corrected_interpretation.required_status_for_affected_memory !==
+    "unknown"
+)
+  fail("Phase 0 erratum does not cover every substituted timeout memory field");
+const e8FatalRequest = e8Height1.exactness.fatal_request.split("\t");
+if (
+  e8FatalRequest[1] !== erratum.finding.e8_depth_44.highest_weight.join(",") ||
+  e8FatalRequest[2] !== erratum.finding.e8_depth_44.target_weight.join(",") ||
+  erratum.finding.e8_depth_44.correct_interpretation !==
+    "unknown_during_timed_out_query"
+)
+  fail("Phase 0 erratum does not identify the E8 depth-44 timeout");
 if (version2.result.parallelism.safe_parallel_workers !== 1)
   fail("Version 2 safe parallelism drifted from one worker");
 if (
@@ -100,6 +143,8 @@ process.stdout.write(
   `${JSON.stringify({
     status: "pass",
     sealed_runs: 2,
+    sealed_errata: 1,
+    erratum_sha256: erratumSeal,
     verified_cells: version1.result.cells.length + version2.result.cells.length,
     v1_raw_sha256: version1.summary.raw_result_sha256,
     v2_raw_sha256: version2.summary.raw_result_sha256,
