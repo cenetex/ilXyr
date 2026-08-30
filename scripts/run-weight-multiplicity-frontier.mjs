@@ -21,11 +21,13 @@ const parseArguments = (values) => {
     types: null,
     heights: null,
     smoke: false,
+    resume: false,
     selfTest: false,
   };
   for (let index = 0; index < values.length; index += 1) {
     const value = values[index];
     if (value === "--smoke") options.smoke = true;
+    else if (value === "--resume") options.resume = true;
     else if (value === "--self-test") options.selfTest = true;
     else if (["--plan", "--oracle", "--out", "--types", "--heights"].includes(value)) {
       if (index + 1 >= values.length) throw new Error(`${value} needs a value`);
@@ -229,9 +231,16 @@ class OracleServer {
   async close() {
     if (!this.child) return;
     if (this.child.exitCode !== null) return;
-    this.child.stdin.end();
     await new Promise((resolveExit) => {
-      this.child.once("exit", resolveExit);
+      const timer = setTimeout(() => {
+        this.child.kill("SIGKILL");
+        resolveExit();
+      }, 2000);
+      this.child.once("exit", () => {
+        clearTimeout(timer);
+        resolveExit();
+      });
+      this.child.stdin.end();
     });
   }
 
@@ -377,12 +386,12 @@ const calibrateParallelism = async ({ oracle, plan, records, candidates }) => {
     try {
       for (let index = 0; index < workers; index += 1) {
         const server = new OracleServer(oracle, plan.frontier.query_timeout_ms);
+        servers.push(server);
         await server.start();
         baselineRss.push(await server.metrics());
         const warm = stressRecords[index % stressRecords.length];
         const response = await server.request(warm.request);
         if (response.raw !== warm.response) byteIdentical = false;
-        servers.push(server);
       }
       queryStarted = process.hrtime.bigint();
       for (let round = 0; round < 20; round += 1) {
@@ -746,7 +755,7 @@ const main = async () => {
     : plan.frontier.attempt_cap_per_cell;
   const executableBytes = await readFile(oracle);
   const cpuList = cpus();
-  const result = {
+  let result = {
     schema_version: 1,
     status: "running",
     binding: !options.smoke && !options.types && !options.heights,
@@ -782,6 +791,21 @@ const main = async () => {
   };
   const output = resolve(options.out);
   await mkdir(dirname(output), { recursive: true });
+  if (options.resume) {
+    const prior = JSON.parse(await readFile(output, "utf8"));
+    if (
+      prior.status !== "running" ||
+      prior.plan_sha256 !== result.plan_sha256 ||
+      prior.oracle_executable_sha256 !== result.oracle_executable_sha256 ||
+      JSON.stringify(prior.effective) !== JSON.stringify(result.effective)
+    ) {
+      throw new Error("resume evidence does not match the current frozen run");
+    }
+    result = prior;
+    result.resumed_at = new Date().toISOString();
+    result.calibration_controller_revision =
+      process.env.ILXYR_REVISION ?? "working-tree";
+  }
   const save = async () => {
     const temporary = `${output}.tmp`;
     await writeFile(temporary, `${JSON.stringify(result, null, 2)}\n`);
@@ -790,6 +814,15 @@ const main = async () => {
   await save();
   for (const type of selectedTypes) {
     for (const height of selectedHeights) {
+      if (
+        result.cells.some(
+          (entry) =>
+            entry.cell.type === type &&
+            entry.cell.highest_weight_height === height,
+        )
+      ) {
+        continue;
+      }
       process.stderr.write(`measuring ${type} height ${height}\n`);
       const cell = await measureCell({
         oracle,
