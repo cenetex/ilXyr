@@ -207,6 +207,7 @@ const main = async () => {
   }
   const result = {
     schema_version: 1,
+    witness_version: 2,
     scope_revision: plan.scope_revision,
     purpose: "independent_correctness_witness",
     plan_sha256: sha256(planRecord.bytes),
@@ -220,10 +221,28 @@ const main = async () => {
     },
     coordinate_mapping: {
       default: "identity",
+      F4: [3, 2, 1, 0],
       E6: [0, 5, 1, 2, 3, 4],
       E7: [0, 6, 1, 2, 3, 4, 5],
       E8: [0, 7, 1, 2, 3, 4, 5, 6],
       meaning: "LiE_coordinate_i_equals_Zero_coordinate_at_list_i",
+    },
+    lie_type_mapping: {
+      default: "same_type",
+      B2: "C2",
+      B3: "C3",
+      B4: "C4",
+      B5: "C5",
+      B6: "C6",
+      B7: "C7",
+      B8: "C8",
+      C3: "B3",
+      C4: "B4",
+      C5: "B5",
+      C6: "B6",
+      C7: "B7",
+      C8: "B8",
+      meaning: "Zero_Reasoner0_and_LiE_use_dual_Cartan_orientation_conventions",
     },
     selection: {
       minimum_cases_per_type: plan.cross_check.minimum_cases_per_type,

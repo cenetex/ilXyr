@@ -43,13 +43,22 @@ system's deprecated `index()` declaration from colliding with LiE's historical
 
 ## Coordinate identity
 
-The classical, F4, and G2 coordinates are identical between Zero and LiE. LiE
-numbers the E-type diagrams differently. The frozen manifest therefore maps
+Zero/Reasoner0 and LiE expose opposite Cartan orientation conventions for the
+non-simply-laced families. The independent comparison therefore maps Zero Bn
+to LiE Cn and Zero Cn to LiE Bn without changing the coordinate order. This is
+required by their fundamental-representation dimensions, not inferred from a
+single multiplicity query. Zero F4 maps to LiE F4 with the four coordinates
+reversed. Zero and LiE G2 use the same effective coordinate order.
+
+LiE also numbers the E-type diagrams differently. The frozen manifest maps
 Zero coordinates into LiE coordinates as follows:
 
+- F4: `[z3, z2, z1, z0]`;
 - E6: `[z0, z5, z1, z2, z3, z4]`;
 - E7: `[z0, z6, z1, z2, z3, z4, z5]`;
 - E8: `[z0, z7, z1, z2, z3, z4, z5, z6]`.
 
-The permutation is applied to both the highest and target weights before the
-LiE query. It is part of the frozen case manifest and evidence output.
+Each permutation is applied to both the highest and target weights before the
+LiE query. The type and coordinate mappings are part of the frozen Version 2
+case manifest and evidence output. Version 1's identity-mapping Hold remains
+preserved as evidence of the witness defect and its correction.

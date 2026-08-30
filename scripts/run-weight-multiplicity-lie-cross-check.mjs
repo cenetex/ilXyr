@@ -106,6 +106,7 @@ const main = async () => {
     throw new Error("cross-check manifest does not bind the Zero executable");
   const results = [];
   for (const testCase of manifest.cases) {
+    const lieType = manifest.lie_type_mapping[testCase.type] ?? testCase.type;
     const mappedHighest = mapForLie(testCase.highest_weight, testCase.type, manifest.coordinate_mapping);
     const mappedTarget = mapForLie(testCase.target_weight, testCase.type, manifest.coordinate_mapping);
     const [zeroExecution, lieExecution] = await Promise.all([
@@ -118,7 +119,7 @@ const main = async () => {
       runProcess({
         executable: liePath,
         arguments: [],
-        input: `dom_char([${mappedHighest.join(",")}],[${mappedTarget.join(",")}],${testCase.type})\nquit\n`,
+        input: `dom_char([${mappedHighest.join(",")}],[${mappedTarget.join(",")}],${lieType})\nquit\n`,
         timeoutMs: options.timeoutMs,
         cwd: dirname(liePath),
       }),
@@ -129,7 +130,7 @@ const main = async () => {
     const result = {
       ...testCase,
       zero: { ...zero, elapsed_ms: zeroExecution.elapsed_ms },
-      lie: { ...lie, elapsed_ms: lieExecution.elapsed_ms },
+      lie: { ...lie, query_type: lieType, elapsed_ms: lieExecution.elapsed_ms },
       agreement,
     };
     results.push(result);

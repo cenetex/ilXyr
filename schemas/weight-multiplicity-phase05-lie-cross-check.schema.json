@@ -6,6 +6,7 @@
   "additionalProperties": false,
   "required": [
     "schema_version",
+    "witness_version",
     "scope_revision",
     "purpose",
     "plan_sha256",
@@ -13,12 +14,14 @@
     "zero_executable_sha256",
     "lie",
     "coordinate_mapping",
+    "lie_type_mapping",
     "selection",
     "cases",
     "summary"
   ],
   "properties": {
     "schema_version": { "const": 1 },
+    "witness_version": { "const": 2 },
     "scope_revision": { "const": "phase-0.5-client-approved-2026-08-30" },
     "purpose": { "const": "independent_correctness_witness" },
     "plan_sha256": { "$ref": "#/$defs/sha256" },
@@ -38,13 +41,36 @@
     "coordinate_mapping": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["default", "E6", "E7", "E8", "meaning"],
+      "required": ["default", "F4", "E6", "E7", "E8", "meaning"],
       "properties": {
         "default": { "const": "identity" },
+        "F4": { "const": [3, 2, 1, 0] },
         "E6": { "const": [0, 5, 1, 2, 3, 4] },
         "E7": { "const": [0, 6, 1, 2, 3, 4, 5] },
         "E8": { "const": [0, 7, 1, 2, 3, 4, 5, 6] },
         "meaning": { "const": "LiE_coordinate_i_equals_Zero_coordinate_at_list_i" }
+      }
+    },
+    "lie_type_mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "C3", "C4", "C5", "C6", "C7", "C8", "meaning"],
+      "properties": {
+        "default": { "const": "same_type" },
+        "B2": { "const": "C2" },
+        "B3": { "const": "C3" },
+        "B4": { "const": "C4" },
+        "B5": { "const": "C5" },
+        "B6": { "const": "C6" },
+        "B7": { "const": "C7" },
+        "B8": { "const": "C8" },
+        "C3": { "const": "B3" },
+        "C4": { "const": "B4" },
+        "C5": { "const": "B5" },
+        "C6": { "const": "B6" },
+        "C7": { "const": "B7" },
+        "C8": { "const": "B8" },
+        "meaning": { "const": "Zero_Reasoner0_and_LiE_use_dual_Cartan_orientation_conventions" }
       }
     },
     "selection": { "type": "object" },
