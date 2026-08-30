@@ -96,3 +96,28 @@ need exact two-surface selection across the whole candidate set. The
 exact-check registration is
 `examples/families/nsrl-direct-head-nll-guard-v1.retro.json`, binding NSRL merge
 commit `316663b9ff1a0ec805f2f0218be683d75ad90e2d`.
+
+## Exact safe-set follow-up
+
+The next prospectively frozen run tested the full ranked safe set instead of
+accepting or rejecting only the first proposal winner. For all eight ranked
+output-weight coordinates, it measured both unit directions exactly on the
+complete 64-window proposal and different-document 32-window guard surfaces.
+A move was safe only if it strictly improved proposal NLL without worsening
+guard NLL. The source remained an explicit candidate.
+
+All eight coordinates had one proposal-descent direction. The improvements
+ranged from 48,929 to 61,290 Q20 units, but all eight directions worsened guard
+NLL, by 578 to 963 Q20 units. Six reverse directions improved the guard while
+worsening the proposal; the other two worsened both. The safe set was empty,
+so the source was retained in round zero with zero moves and zero saturation.
+Independent runs reproduced model and trace bytes exactly.
+
+The private training gate failed its movement and strict-improvement rules.
+Public development, public test, open generation, hidden evidence, and paid
+scaling remained closed. This establishes local proposal/guard anti-alignment
+for both unit directions of the eight tested coordinates. It does not rule out
+a wider coordinate set, a joint move, or a different training surface. The
+exact-check registration is
+`examples/families/nsrl-direct-head-nll-safe-set-v1.retro.json`, binding NSRL
+merge commit `241424758a4d84f7cb1fa89aab3f622283aa2623`.

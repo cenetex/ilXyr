@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use ilxyr in research, please cite the software and the exact archived release used."
+title: "ilxyr: Intelligent Lab eXperiment Yielding Research"
+type: software
+version: 0.1.0
+authors:
+  - name: "ilxyr contributors"
+repository-code: "https://github.com/cenetex/ilXyr"
+url: "https://cenetex.github.io/ilXyr/"
+license: MIT
+abstract: >-
+  ilxyr is a local research control plane that freezes experiment contracts,
+  gates execution, settles forecasts, and records content-addressed evidence.
+keywords:
+  - reproducible research
+  - experiment provenance
+  - preregistration
+  - research software

@@ -12,7 +12,7 @@ remains behind the ilXyr control-plane policy boundary.
 ## Local development
 
 ```bash
-npm install
+npm ci
 npm run dev
 npm run build
 npm test

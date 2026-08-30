@@ -31,6 +31,39 @@ jobs:
       - run: npm ci
       - run: npm run test:schemas
 
+  permaweb:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: permaweb
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: permaweb/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm audit --audit-level=high
+
+  portal:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: portal
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: portal/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
+      - run: npm audit --audit-level=high
+
   msrv:
     runs-on: ubuntu-latest
     steps:

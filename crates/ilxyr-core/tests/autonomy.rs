@@ -4,11 +4,12 @@ use base64::{Engine as _, engine::general_purpose::STANDARD};
 use ed25519_dalek::{Signer, SigningKey};
 use ilxyr_core::{
     ActorKind, ActorRef, Certificate, EpochBudget, EvidenceLane, ExperimentSpec, Forecast,
-    FundingCommitment, ResearchContribution, SandboxSpec, Workspace, allocate_epoch,
-    authorize_unattended_run, calibration_for, certificates_for_evidence, commit_funding,
-    compile_experiment, decide_admission, epoch_budget_signing_payload, record_certificate,
-    register_epoch_budget, run_experiment, run_experiment_unattended, run_sandbox,
-    submit_contribution, submit_forecast, trust_policy_key,
+    FundingCommitment, RegistrationProvider, RegistrationRequirement, RegistrationVisibility,
+    ResearchContribution, SandboxSpec, Workspace, allocate_epoch, authorize_unattended_run,
+    calibration_for, certificates_for_evidence, commit_funding, compile_experiment,
+    decide_admission, epoch_budget_signing_payload, record_certificate, register_epoch_budget,
+    run_experiment, run_experiment_unattended, run_sandbox, submit_contribution, submit_forecast,
+    trust_policy_key,
 };
 
 /// Process-global uniqueness for temporary test directories. Parallel tests
@@ -121,6 +122,38 @@ fn allocator_admits_and_runs_with_signed_policy_then_updates_calibration() {
         workspace.events().expect("events must load").len(),
         event_count
     );
+}
+
+#[test]
+fn rejected_admission_does_not_consume_epoch_capacity() {
+    let directory = TestDirectory::create("rejected-admission");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let signing_key = SigningKey::from_bytes(&[10; 32]);
+    trust_test_key(&workspace, &signing_key);
+    let budget = signed_budget(&signing_key);
+    register_epoch_budget(&workspace, budget.clone()).expect("budget must register");
+
+    submit_lineage(&workspace);
+    let mut spec = experiment();
+    spec.preregistration = Some(RegistrationRequirement {
+        provider: RegistrationProvider::Osf,
+        visibility: RegistrationVisibility::Public,
+    });
+    compile_experiment(&workspace, spec).expect("experiment must compile");
+    submit_forecast(&workspace, forecast_model()).expect("model forecast must be accepted");
+    submit_forecast(&workspace, forecast_human()).expect("human forecast must be accepted");
+
+    let error = allocate_epoch(&workspace, &budget.id, &["toy.score.v1".to_owned()])
+        .expect_err("missing preregistration must reject admission");
+    assert!(error.to_string().contains("admission rejected"));
+    let allocations = workspace
+        .events()
+        .expect("events must load")
+        .into_iter()
+        .filter(|event| event.event_type == "AllocationCommitted")
+        .count();
+    assert_eq!(allocations, 0, "rejected work must not reserve capacity");
+    assert!(workspace.verify().expect("ledger must verify").valid);
 }
 
 #[test]

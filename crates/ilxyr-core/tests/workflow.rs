@@ -443,7 +443,7 @@ fn append_refuses_to_extend_a_corrupt_ledger() {
     let event_path = directory.0.join(".ilxyr/events.jsonl");
     let tampered = fs::read_to_string(&event_path)
         .expect("event log must be readable")
-        .replace("ContributionSubmitted", "ContributionCorrupted");
+        .replace("toy.hypothesis.v1", "toy.hypothesis.tampered.v1");
     fs::write(&event_path, &tampered).expect("test must tamper with the ledger");
 
     let error = submit_contribution(

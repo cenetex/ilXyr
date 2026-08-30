@@ -1,0 +1,32 @@
+{
+  "schema": "ilxyr.upstream_benchmark.v1",
+  "id": "upstream-benchmark:toy-result",
+  "title": "Imported benchmark toy-result",
+  "benchmark_id": "toy-result",
+  "outcome": {
+    "resolved_outcome": "no-go",
+    "metrics": {
+      "validation.score": 0.4
+    }
+  },
+  "provenance": {
+    "source_files": {
+      "contract.json": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "result.json": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "pinned_digests": [
+      "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    ],
+    "imported_with": "scripts/import-benchmark.mjs",
+    "imported_at_ms": 1787950000000
+  },
+  "raw": {
+    "contract": {
+      "schema": "external.contract.v1"
+    },
+    "result": {
+      "schema": "external.result.v1",
+      "outcome": "no-go"
+    }
+  }
+}

@@ -4,8 +4,8 @@
 - Scope: shared-task contracts, retro-registration, Zero and Solomon local harness adapters,
   and the policy-bounded loop-cycle driver
 - Verdict: protocol implementation accepted; the available frozen family evidence is registered.
-  Solomon is remotely checkoutable for authorized users but not public, and Zero's completed
-  Q2.2-R family and Q2.3 diagnostic results are grounded no-go evidence.
+  Solomon is publicly checkoutable, and Zero's completed Q2.2-R family and Q2.3 diagnostic results
+  are grounded no-go evidence.
 
 ## Implemented
 
@@ -93,7 +93,7 @@ the later Q2.6 family replication passed in EXP-005 and made ZERO.4 current upst
 
 ### EXP-001 — Zero Q2.3 seed 2
 
-The next Zero experiment was preregistered upstream as a transactional AdamW diagnostic with a
+The next Zero experiment was prospectively frozen upstream as a transactional AdamW diagnostic with a
 local direct functional replay guard. Its observer stage passed exact learned-state equivalence
 over 200 attempts and calibrated a 0.25% hard band. The first-order drift predictor was
 non-predictive (Pearson 0.0076), so projection remained disabled.

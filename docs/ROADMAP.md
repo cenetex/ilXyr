@@ -37,7 +37,7 @@ into a promoted claim.
 - Implemented shared task contracts for SHA-256 data/eval bindings, metric and seed contracts,
   family encodings/verifiers, and one designated proposer per family.
 - Implemented Zero q22r and Solomon successor-v2 `local-command` metric adapters. Solomon replayed
-  successfully from a clean remote checkout for authorized NSRL access. Zero seed 2 replays from a
+  successfully from an unauthenticated clean checkout of public NSRL. Zero seed 2 replays from a
   public, hash-pinned model artifact, and the completed three-seed aggregate independently registers
   the grounded one-go/two-no-go family decision.
 - Implemented the idempotent library/CLI cycle: propose → forecast → allocate → run → settle,
@@ -64,6 +64,16 @@ into a promoted claim.
   neither task licenses promotion of a failed result.
 - Per-project pipelines remain source harnesses; `ilxyr verify` can replace their evidence ledger
   only after each frozen replay has been registered.
+- The active ZERO.5 C line is now explicit in the lab registry. C0 selected the governed lossless
+  tokenizer, C1 proved native C training, C2 selected the Atlas checkpoint, C3 through C4.3
+  recorded a sequence of useful no-go curriculum repairs, and C5.1 found that a 25% Braid
+  structured-text mixture did not transfer into the frozen retrieval audit. C5.2 TargetBridge
+  finished under a private-result boundary at 5,046,256 total parameters. Its public decision is
+  withheld and no follow-up is authorized. These upstream runs are evidence
+  debt until imported; none is silently treated as ilXyr-native or forecast-risked.
+- The checked-in machine-readable lab registry and its internal-reference validator now make
+  Braid inputs, ZERO model lines, experiment controls, evidence state, and the current decision one
+  reviewed surface. A new run must carry an ilXyr registration before execution.
 
 ## V1.2 — replication bridge and live gates
 
@@ -98,6 +108,9 @@ cross-family replication, OSF-side authentication, hardware attestation, or SLSA
   Initial intake and public baseline completed on 2026-08-28 with a continue-experimental decision;
   the exact source commit and weight licence remain provenance blockers, five measured gates fail,
   and independent evidence remains unopened.
+- Braid StateBridge is not admitted as a second cross-family task while the C5.2 decision remains
+  private. Its symbolic representation remains an input artifact, not a Solomon-compatible
+  contract or capability claim.
 - Forecast closing windows and proper-scoring credit accounting for live experiments.
 - Demotion challenge windows for contradicted promoted claims (deferred sketch in
   ADR 0004).
