@@ -13,3 +13,14 @@ The corrected plan is
 `examples/weight-multiplicity/phase0-frontier-plan-v2.json`. Version 2 changes
 only the positive-candidate proposal. It retains the signed contract,
 coordinates, seed, label quotas, time limit, memory limit, and oracle binary.
+
+`frontier-v2.json.gz` is the corrected binding result. Its compact decision
+record is `frontier-v2-summary.json`. The result is Stop at the oracle/resource
+gate; Phase 1 was not opened.
+
+Replay the hashes, counts, predecessor link, safe boundary, and Phase 1 closure
+with:
+
+```sh
+npm run test:weight-multiplicity-evidence
+```

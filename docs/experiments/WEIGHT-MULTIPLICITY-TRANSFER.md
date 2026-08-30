@@ -2,8 +2,8 @@
 
 - Contract: `weight-multiplicity-transfer-r3`
 - Contract status: signed execution contract
-- Current execution status: Phase 0 implementation
-- Current milestone: Week 2 oracle frontier
+- Current execution status: Stop
+- Current milestone: Phase 0 negative-result handoff
 - Machine-readable contract:
   [`examples/weight-multiplicity/rev3-contract.json`](../../examples/weight-multiplicity/rev3-contract.json)
 - Contract schema:
@@ -14,6 +14,10 @@
   [`examples/weight-multiplicity/phase0-frontier-plan-v2.json`](../../examples/weight-multiplicity/phase0-frontier-plan-v2.json)
 - Frontier-plan schema:
   [`schemas/weight-multiplicity-frontier-plan.schema.json`](../../schemas/weight-multiplicity-frontier-plan.schema.json)
+- Phase 0 decision:
+  [`docs/experiments/WEIGHT-MULTIPLICITY-PHASE0-DECISION.md`](WEIGHT-MULTIPLICITY-PHASE0-DECISION.md)
+- Integer feasibility note:
+  [`docs/experiments/WEIGHT-MULTIPLICITY-INTEGER-FEASIBILITY.md`](WEIGHT-MULTIPLICITY-INTEGER-FEASIBILITY.md)
 - Signed source:
   [`docs/contracts/WEIGHT-MULTIPLICITY-TRANSFER-R3.md`](../contracts/WEIGHT-MULTIPLICITY-TRANSFER-R3.md)
 - Received source SHA-256:
@@ -26,10 +30,9 @@
 Can a small model trained on exact weight-multiplicity examples transfer to unseen ranks and to
 non-dominant weights at those ranks?
 
-The exact oracle and frontier controller are under review. No binding oracle frontier, corpus,
-training run, or scientific result has been recorded yet. A negative result is an accepted
-delivery outcome, but it must come from the frozen tests rather than from an implementation
-failure.
+The corrected binding oracle frontier is complete. It stops the program before corpus generation
+or training because the signed rank-7/rank-8 and E7/E8 surfaces do not fit the frozen one-second
+query limit. This is a resource-frontier result, not a finding about learned transfer.
 
 The first binding frontier run is sealed but superseded. Its unconstrained positive-stratum
 sampler produced almost only zero-multiplicity targets for E7 and E8. That is a generator defect,
