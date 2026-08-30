@@ -262,6 +262,24 @@ const summarize = (result, hashes, lie) => {
         runBoundary,
       ),
     }));
+  const exactnessUnknown = result.measurements
+    .filter((measurement) => !measurement.boundary.exactness_known)
+    .map((measurement) => ({
+      id: measurement.representation.id,
+      type: measurement.representation.type,
+      highest_weight: measurement.representation.highest_weight,
+      representation_dimension:
+        measurement.representation.representation_dimension,
+      classification: measurement.classification,
+      exactness_status: measurement.boundary.exactness_status,
+      cold_hard_timeout: measurement.cold.hard_timeout,
+      grouped_orders_with_hard_timeout: [
+        measurement.binding,
+        ...measurement.sensitivities,
+      ]
+        .filter((run) => run.hard_timeout)
+        .map(runBoundary),
+    }));
   return {
     schema_version: 1,
     evidence_stage: result.evidence_stage,
@@ -314,6 +332,7 @@ const summarize = (result, hashes, lie) => {
     order_sensitive: orderSensitive,
     time_failures: timeFailures,
     hard_timeouts: hardTimeouts,
+    exactness_unknown: exactnessUnknown,
     tested_ceilings: result.summary.tested_ceilings,
     independent_lie_witness: lie,
     phase_1: result.phase_1,
