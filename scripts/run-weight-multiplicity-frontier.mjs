@@ -188,15 +188,22 @@ class OracleServer {
   }
 
   async nextLine() {
-    const line = await Promise.race([
-      this.iterator.next(),
-      new Promise((_, reject) => {
-        setTimeout(
-          () => reject(new Error(`oracle exceeded ${this.timeoutMs} ms`)),
-          this.timeoutMs,
-        );
-      }),
-    ]);
+    const line = await new Promise((resolveLine, rejectLine) => {
+      const timer = setTimeout(
+        () => rejectLine(new Error(`oracle exceeded ${this.timeoutMs} ms`)),
+        this.timeoutMs,
+      );
+      this.iterator.next().then(
+        (value) => {
+          clearTimeout(timer);
+          resolveLine(value);
+        },
+        (error) => {
+          clearTimeout(timer);
+          rejectLine(error);
+        },
+      );
+    });
     if (line.done) {
       throw new Error(`oracle closed its output: ${this.stderr.trim()}`);
     }
@@ -221,6 +228,7 @@ class OracleServer {
 
   async close() {
     if (!this.child) return;
+    if (this.child.exitCode !== null) return;
     this.child.stdin.end();
     await new Promise((resolveExit) => {
       this.child.once("exit", resolveExit);
