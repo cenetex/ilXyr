@@ -463,6 +463,7 @@ class OracleServer {
     this.child = null;
     this.iterator = null;
     this.stderr = "";
+    this.ready = null;
   }
 
   async start() {
@@ -474,6 +475,7 @@ class OracleServer {
         env: {
           ...process.env,
           ZERO_WEIGHT_MEMO_LIMIT_BYTES: String(this.memoLimitBytes),
+          ZERO_WEIGHT_MEMO_PROGRESS: "1",
         },
       },
     );
@@ -486,6 +488,20 @@ class OracleServer {
     const expectedVersion = this.mode === "grouped" ? 2 : 1;
     if (ready.status !== "ready" || ready.schema_version !== expectedVersion)
       throw new Error(`oracle returned unexpected ready record: ${JSON.stringify(ready)}`);
+    this.ready = ready;
+  }
+
+  latestMemoProgress() {
+    const lines = this.stderr.trim().split(/\r?\n/u).reverse();
+    for (const line of lines) {
+      try {
+        const value = JSON.parse(line);
+        if (value.schema === "zero.weight_memo_progress.v1") return value;
+      } catch {
+        // Non-JSON diagnostics remain available in the retained stderr text.
+      }
+    }
+    return null;
   }
 
   async nextLine() {
@@ -548,6 +564,7 @@ class OracleServer {
     } catch (error) {
       if (error.hardTimeout) {
         error.sampledPeakRssBytes = sampledPeakRss;
+        error.memoProgress = this.latestMemoProgress();
         this.child.kill("SIGKILL");
       }
       throw error;
@@ -612,6 +629,7 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
             request: queryLine(representation, target),
             target_depth: target.target_depth,
             sampled_peak_rss_bytes: error.sampledPeakRssBytes,
+            memo_progress: error.memoProgress,
           };
           break;
         }
@@ -659,9 +677,24 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
   }
   const latencies = records.map((record) => record.elapsed_ms);
   const incrementalRss = readyMetrics ? Math.max(0, peakRss - readyMetrics.max_rss_bytes) : null;
+  const maximumMemoEntries = Math.max(
+    0,
+    ...records.map((record) => record.memo_entries ?? 0),
+    hardTimeout?.memo_progress?.memo_entries ?? 0,
+  );
+  const memoEntryBytes = server.ready?.memo_entry_bytes ?? null;
   return {
     mode,
     order,
+    memo_configuration: server.ready
+      ? {
+          limit_bytes: server.ready.memo_limit_bytes ?? null,
+          initial_capacity: server.ready.memo_initial_capacity ?? null,
+          entry_bytes: memoEntryBytes,
+          allocation_policy: server.ready.memo_allocation_policy ?? null,
+          progress_schema: "zero.weight_memo_progress.v1",
+        }
+      : null,
     records,
     completed_queries: records.length,
     hard_timeout: hardTimeout,
@@ -677,7 +710,9 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
       ready_peak_rss: readyMetrics?.max_rss_bytes ?? null,
       group_peak_rss: peakRss || null,
       incremental_from_ready: incrementalRss,
-      maximum_memo_entries: Math.max(0, ...records.map((record) => record.memo_entries ?? 0)),
+      maximum_memo_entries: maximumMemoEntries,
+      maximum_live_entry_bytes:
+        memoEntryBytes === null ? null : maximumMemoEntries * memoEntryBytes,
       maximum_memo_capacity: Math.max(0, ...records.map((record) => record.memo_capacity_bytes ?? 0)),
       maximum_memo_peak_allocated: Math.max(0, ...records.map((record) => record.memo_peak_allocated_bytes ?? 0)),
       hard_timeout_rss_sampling: hardTimeout
