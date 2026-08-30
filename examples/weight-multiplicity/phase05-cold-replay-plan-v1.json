@@ -21,6 +21,7 @@
     "query_time_ms": 1000,
     "measurement_hard_timeout_ms": 10000,
     "peak_incremental_rss_bytes": 2147483648,
+    "rss_sampling_starts_after_ms": 1000,
     "rss_sample_interval_ms": 25
   },
   "memory_policy": {

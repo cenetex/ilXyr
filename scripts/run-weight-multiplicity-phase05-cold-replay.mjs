@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { createHash } from "node:crypto";
-import { spawn, execFileSync } from "node:child_process";
+import { execFile, spawn } from "node:child_process";
 import { gunzipSync } from "node:zlib";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { arch, cpus, platform, release, totalmem } from "node:os";
@@ -64,9 +64,10 @@ const frozenCells = (source) =>
   });
 
 class OracleServer {
-  constructor(executable, hardTimeoutMs, sampleIntervalMs) {
+  constructor(executable, hardTimeoutMs, sampleDelayMs, sampleIntervalMs) {
     this.executable = executable;
     this.hardTimeoutMs = hardTimeoutMs;
+    this.sampleDelayMs = sampleDelayMs;
     this.sampleIntervalMs = sampleIntervalMs;
     this.child = null;
     this.iterator = null;
@@ -99,27 +100,32 @@ class OracleServer {
     return line.value;
   }
 
-  sampleResidentBytes() {
-    if (!this.child?.pid) return null;
-    try {
-      const text = execFileSync("ps", ["-o", "rss=", "-p", String(this.child.pid)], {
-        encoding: "utf8",
-        stdio: ["ignore", "pipe", "ignore"],
-      }).trim();
-      return text ? Number(text) * 1024 : null;
-    } catch {
-      return null;
-    }
-  }
-
   async request(line, sample = true) {
-    let sampledPeakRss = sample ? this.sampleResidentBytes() : null;
-    const sampler = sample
-      ? setInterval(() => {
-          const value = this.sampleResidentBytes();
-          if (value !== null)
-            sampledPeakRss = sampledPeakRss === null ? value : Math.max(sampledPeakRss, value);
-        }, this.sampleIntervalMs)
+    let sampledPeakRss = null;
+    let sampler = null;
+    let sampleInFlight = false;
+    const takeSample = () => {
+      if (!this.child?.pid || sampleInFlight) return;
+      sampleInFlight = true;
+      execFile(
+        "ps",
+        ["-o", "rss=", "-p", String(this.child.pid)],
+        { encoding: "utf8" },
+        (error, stdout) => {
+          sampleInFlight = false;
+          if (error) return;
+          const text = stdout.trim();
+          if (!text) return;
+          const value = Number(text) * 1024;
+          sampledPeakRss = sampledPeakRss === null ? value : Math.max(sampledPeakRss, value);
+        },
+      );
+    };
+    const sampleDelay = sample
+      ? setTimeout(() => {
+          takeSample();
+          sampler = setInterval(takeSample, this.sampleIntervalMs);
+        }, this.sampleDelayMs)
       : null;
     const started = process.hrtime.bigint();
     this.child.stdin.write(`${line}\n`);
@@ -138,6 +144,7 @@ class OracleServer {
       }
       throw error;
     } finally {
+      if (sampleDelay) clearTimeout(sampleDelay);
       if (sampler) clearInterval(sampler);
     }
   }
@@ -168,6 +175,7 @@ const runCell = async ({ oracle, frozen, plan }) => {
   const server = new OracleServer(
     oracle,
     plan.limits.measurement_hard_timeout_ms,
+    plan.limits.rss_sampling_starts_after_ms,
     plan.limits.rss_sample_interval_ms,
   );
   const records = [];
