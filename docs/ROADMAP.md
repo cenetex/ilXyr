@@ -128,8 +128,9 @@ The next executor milestone is a package and adapter contract, not a cloud launc
 the boundary and adapts the proven parts of Zero's AWS workflows without making AWS workflow YAML
 the ilXyr protocol.
 
-- Publish the plain API and protocol index at `ilxyr.cenetex.com`; keep the portal outside the
-  authoritative ledger and give it no cloud-launch route.
+- Publish the plain public API and protocol index at `ilxyr.cenetex.com`; keep proposal data and
+  write routes off that hosted surface, keep it outside the authoritative ledger, and give it no
+  cloud-launch route.
 - Add a strict executor-job-package schema plus deterministic pack/verify commands. Freeze exact
   source commits, archives, executables, oracles, harnesses, data, models, machine shape and image,
   budget, target order, allocation, network/export policy, and expected receipts by SHA-256.
