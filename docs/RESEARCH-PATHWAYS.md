@@ -7,7 +7,7 @@ from a completed result whose disclosure is intentionally withheld.
 The machine-readable source is [`research-pathways.json`](research-pathways.json).
 Its validator requires exact coverage of every experiment in
 [`lab-registry.json`](lab-registry.json), every family retro-registration, and
-every numbered experiment record from EXP-001 through EXP-006. Supporting
+every numbered experiment record from EXP-001 through EXP-007. Supporting
 engineering and protocol tests are intentionally outside this scientific map.
 
 ## Research coordinates and factor vectors
@@ -62,10 +62,10 @@ These axes must not be collapsed. In particular:
   public inference.
 - A **mixed** pathway contains separately stated positive and negative claims.
 
-The current graph contains 27 nodes: 25 completed and two not run. Six have
-positive scientific outcomes, 16 negative, two mixed, and three unknown. These
+The current graph contains 27 nodes: 26 completed and one not run. Seven have
+positive scientific outcomes, 16 negative, two mixed, and two unknown. These
 counts are not a success rate: the nodes include enabling experiments,
-diagnostics, replications, managed checkpoints, and blocked bridges at
+diagnostics, replications, managed checkpoints, and blocked questions at
 different levels of the same lineages.
 
 ## Pathway map
@@ -79,7 +79,7 @@ flowchart TD
     Z25["Q2.5 scalar backtracking<br/>NO-GO: all scales exhausted"]
     Z26["Q2.6 tangent projection<br/>SEED-2 GO"]
     Z26R["Seeds 1, 2, 3 GO<br/>ZERO.4 PROMOTED"]
-    BRIDGE["Zero to Solomon bridge<br/>BLOCKED: bindings and verifier"]
+    BRIDGE["Zero to Solomon bridge<br/>GO: 3 × 500/500<br/>perfect agreement"]
     Z22 --> Z23 --> Z24 --> Z25 --> Z26 --> Z26R --> BRIDGE
   end
 
@@ -144,8 +144,17 @@ repair to this training result.
 The integer-transformer successor beat uniform, retrieval, byte-ngram, and
 float-transformer NLL baselines on 5,896 targets with no zero-probability
 windows. The exact pipeline replayed from a clean public checkout. This is a
-promoted Solomon result and supplies the deployment substrate for a future
-shared-task bridge.
+promoted Solomon result and supplied the deployment substrate used by the
+completed Q22 shared-task bridge.
+
+### Zero to Solomon Q22 bridge
+
+The bridge was preregistered before the promotion set opened. Three independently
+trained Solomon integer class heads each selected all 500 operations exactly,
+and every per-case prediction agreed across seeds. This is a positive transfer
+result for the narrow Q22 operation-routing surface. It is not evidence of
+arithmetic answer generation, broad language modeling, or general Solomon
+promotion; the task can be separated largely through command-prefix features.
 
 ### ZERO.5 enabling results
 
@@ -185,13 +194,6 @@ a different causal hypothesis. Relaxing the failed gate or repeating a nearby
 parameter choice does not reopen the pathway.
 
 ## Blocked, withheld, and experimental pathways
-
-### Zero to Solomon bridge — blocked before execution
-
-The ZERO.4 family gate is clear and the generic replication protocol exists.
-The bridge still lacks real shared-task dataset and evaluation hashes plus a
-Solomon-compatible encoding and verifier. No cross-family scientific result
-exists yet.
 
 ### ZERO5-C5.2 — terminal private
 
@@ -278,7 +280,8 @@ Apply these additional rules:
 
 ## Priority order
 
-1. Complete the ZERO.4 to Solomon shared-task bindings and verifier.
+1. Design one harder cross-family task that cannot be solved by command-prefix
+   routing and preregister its generalization claim before data generation.
 2. Run a read-only NSRL frozen-representation sufficiency audit before another
    training method.
 3. Decide whether ZERO5-C6.1 earns its separately authorized

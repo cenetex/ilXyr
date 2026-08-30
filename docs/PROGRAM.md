@@ -96,7 +96,11 @@ promotion evaluation passed. EXP-005 then executed seeds 1 and 3 as separate run
 unchanged design. Both resolved go after 600 full-scale commits, so the all-three-seeds
 conjunction passed and ZERO.4 is current upstream. The Zero family gate is now clear. The bridge
 now freezes the training and evaluation bytes plus source-pinned Zero and Solomon encodings and
-verifiers in `zero-solomon.q22-operation.v1`. No Solomon training or replication result exists yet.
+verifiers in `zero-solomon.q22-operation.v1`. EXP-007 then froze an 8,192-feature integer class
+head, four epochs, seeds 1–3, a 950,000 ppm per-seed gate, and exact cross-seed agreement before
+evaluation. Every seed scored 500/500 and all predictions agreed, so the narrow operation-routing
+bridge resolved go. This does not establish arithmetic generation or broad language quality; a
+successor must remove command-prefix shortcuts and freeze a harder transfer claim.
 The verified Braid StateBridge symbolic view is not admitted as a shared task while the C5
 decision remains private. It stays an input artifact and does not replace q22r by declaration.
 
@@ -146,8 +150,8 @@ described as an active or successful model line until the corresponding stages r
    Q2.6's prospective seed-2 replay-tangent go while preserving full gates for spine claims.
    EXP-005 records independent seed-1 and seed-3 go results and the verified family go. Its
    upstream evidence still needs to be imported into the local ilXyr ledger.
-5. Preregister one Solomon training experiment against the frozen q22 bridge, then execute it
-   without changing the task bytes, seeds, verifier, or evaluation boundary.
+5. The Solomon Q22 experiment was preregistered and completed unchanged as EXP-007. Preserve it
+   as terminal evidence; any successor must use a new task and a new prospective claim.
 6. Implement the native NSRL checkpoint registration and source-pinned adapter, then execute the
    p10m intake and baseline defined by ADR 0005 without changing its experimental status.
 7. Reconcile the active ZERO.5 C0–C5 decision lineage and Braid inputs into the ilXyr registry.

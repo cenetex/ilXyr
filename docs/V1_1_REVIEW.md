@@ -121,6 +121,11 @@ encoder and kernel-aware verifier to exact public commits and source hashes. Loc
 covered by the onboarding suite. This closes the infrastructure blocker only: no Solomon model has
 been trained and no cross-family replication outcome has been observed.
 
+Post-review update, 2026-08-30: EXP-007 prospectively froze and ran the Solomon class head against
+this contract. Seeds 1, 2, and 3 each scored 500/500 and agreed on every case. The original review
+statement remains the correct boundary at review time; the later result is recorded separately in
+`docs/experiments/EXP-007.md`.
+
 ## Verification
 
 The V1.1 suite adds tests for immutable shared tasks, designated family proposers, retro success,
