@@ -166,7 +166,7 @@ export default function Home() {
         <li><a href={`${repository}/blob/main/docs/PROTOCOL.md`}>research protocol v1</a></li>
         <li><a href={`${repository}/blob/main/docs/PROGRAM.md`}>research program</a></li>
         <li><a href={`${repository}/blob/main/docs/ROADMAP.md`}>roadmap</a></li>
-        <li><a href={`${repository}/blob/main/docs/decisions/0006-digest-bound-cloud-executor.md`}>digest-bound cloud executor decision</a></li>
+        <li><a href={`${repository}/blob/582dc88d702982ec2568ce02cd6f9a72f4fbacb1/docs/decisions/0006-digest-bound-cloud-executor.md`}>digest-bound cloud executor decision</a></li>
         <li><a href={`${repository}/tree/main/schemas`}>JSON schemas</a></li>
         <li><a href={`${repository}/blob/main/docs/SECURITY.md`}>security boundary</a></li>
         <li><a href={`${repository}/blob/main/docs/INTEROPERABILITY.md`}>interoperability and attestations</a></li>
