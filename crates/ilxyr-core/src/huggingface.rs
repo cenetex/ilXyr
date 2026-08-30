@@ -250,17 +250,25 @@ fn is_lower_hex(value: &str, length: usize) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use std::{fs, process, time::SystemTime};
+    use std::{
+        fs, process,
+        sync::atomic::{AtomicU64, Ordering},
+        time::SystemTime,
+    };
 
     use super::*;
 
     fn workspace() -> Workspace {
+        static COUNTER: AtomicU64 = AtomicU64::new(0);
+        let unique = COUNTER.fetch_add(1, Ordering::Relaxed);
         let nonce = SystemTime::now()
             .duration_since(SystemTime::UNIX_EPOCH)
             .expect("clock")
             .as_nanos();
-        let root =
-            std::env::temp_dir().join(format!("ilxyr-huggingface-test-{}-{nonce}", process::id()));
+        let root = std::env::temp_dir().join(format!(
+            "ilxyr-huggingface-test-{}-{nonce}-{unique}",
+            process::id()
+        ));
         fs::create_dir(&root).expect("test workspace root");
         Workspace::init(root).expect("workspace")
     }

@@ -822,18 +822,27 @@ fn finish_validation(errors: Vec<String>) -> Result<()> {
 
 #[cfg(test)]
 mod tests {
-    use std::{fs, process, time::SystemTime};
+    use std::{
+        fs, process,
+        sync::atomic::{AtomicU64, Ordering},
+        time::SystemTime,
+    };
 
     use sha2::{Digest, Sha256};
 
     use super::*;
 
     fn workspace() -> Workspace {
+        static COUNTER: AtomicU64 = AtomicU64::new(0);
+        let unique = COUNTER.fetch_add(1, Ordering::Relaxed);
         let nonce = SystemTime::now()
             .duration_since(SystemTime::UNIX_EPOCH)
             .expect("clock")
             .as_nanos();
-        let root = std::env::temp_dir().join(format!("ilxyr-nsrl-test-{}-{nonce}", process::id()));
+        let root = std::env::temp_dir().join(format!(
+            "ilxyr-nsrl-test-{}-{nonce}-{unique}",
+            process::id()
+        ));
         fs::create_dir(&root).expect("test workspace root");
         Workspace::init(root).expect("workspace")
     }
