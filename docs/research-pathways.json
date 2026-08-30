@@ -1,10 +1,45 @@
 {
-  "schema": "ilxyr.research_pathways.v1",
+  "schema": "ilxyr.research_pathways.v2",
   "as_of": "2026-08-30",
   "scope": "Decision-bearing Zero, Solomon and NSRL model-research pathways, the cross-family bridge, and the independent Holo verification recorded by ilXyr. Protocol-only engineering tests are excluded.",
+  "factor_spaces": [
+    {
+      "lineage": "zero/zero4-quantity",
+      "track": "Q",
+      "axes": ["data", "representation", "objective", "optimizer", "evaluation", "replication"]
+    },
+    {
+      "lineage": "zero/zero5-c",
+      "track": "C",
+      "axes": ["checkpoint", "tokenizer", "data", "schedule", "representation", "objective", "evaluation"]
+    },
+    {
+      "lineage": "solomon/successor-v2",
+      "track": "S",
+      "axes": ["model", "data", "representation", "objective", "evaluation", "replication"]
+    },
+    {
+      "lineage": "solomon/nsrl-p10m",
+      "track": "N",
+      "axes": ["checkpoint", "data", "representation", "objective", "optimizer", "evaluation"]
+    },
+    {
+      "lineage": "external/holo-hrr",
+      "track": "H",
+      "axes": ["model", "data", "representation", "objective", "evaluation", "replication"]
+    },
+    {
+      "lineage": "cross-family/zero-solomon",
+      "track": "B",
+      "axes": ["zero_model", "solomon_model", "task", "encoding", "verifier", "evaluation"]
+    }
+  ],
   "nodes": [
     {
       "id": "zero-q22r-family-v1",
+      "coordinate": { "track": "Q", "parts": [2, 2, 1], "slug": "q2_2_1" },
+      "record_revision": 1,
+      "factor_state": { "data": 1, "representation": 1, "objective": 1, "optimizer": 1, "evaluation": 1, "replication": 1 },
       "display_name": "ZERO.4 Q2.2-R family",
       "family": "zero",
       "lineage": "zero/zero4-quantity",
@@ -26,6 +61,9 @@
     },
     {
       "id": "zero-q23-local-replay-guard-v1",
+      "coordinate": { "track": "Q", "parts": [2, 3], "slug": "q2_3" },
+      "record_revision": 1,
+      "factor_state": { "data": 1, "representation": 1, "objective": 1, "optimizer": 2, "evaluation": 1, "replication": 0 },
       "display_name": "ZERO.4 Q2.3 local replay guard",
       "family": "zero",
       "lineage": "zero/zero4-quantity",
@@ -47,6 +85,9 @@
     },
     {
       "id": "zero-q24-cumulative-replay-guard-v1",
+      "coordinate": { "track": "Q", "parts": [2, 4], "slug": "q2_4" },
+      "record_revision": 1,
+      "factor_state": { "data": 1, "representation": 1, "objective": 1, "optimizer": 3, "evaluation": 1, "replication": 0 },
       "display_name": "ZERO.4 Q2.4 cumulative replay guard",
       "family": "zero",
       "lineage": "zero/zero4-quantity",
@@ -67,6 +108,9 @@
     },
     {
       "id": "zero-q25-deterministic-backtracking-v1",
+      "coordinate": { "track": "Q", "parts": [2, 5], "slug": "q2_5" },
+      "record_revision": 1,
+      "factor_state": { "data": 1, "representation": 1, "objective": 1, "optimizer": 4, "evaluation": 1, "replication": 0 },
       "display_name": "ZERO.4 Q2.5 deterministic backtracking",
       "family": "zero",
       "lineage": "zero/zero4-quantity",
@@ -87,6 +131,9 @@
     },
     {
       "id": "zero-q26-replay-tangent-seed2-v1",
+      "coordinate": { "track": "Q", "parts": [2, 6, 1], "slug": "q2_6_1" },
+      "record_revision": 1,
+      "factor_state": { "data": 1, "representation": 1, "objective": 1, "optimizer": 5, "evaluation": 1, "replication": 0 },
       "display_name": "ZERO.4 Q2.6 replay-tangent projection seed 2",
       "family": "zero",
       "lineage": "zero/zero4-quantity",
@@ -107,6 +154,9 @@
     },
     {
       "id": "zero-q26-family-replication-v1",
+      "coordinate": { "track": "Q", "parts": [2, 6, 2], "slug": "q2_6_2" },
+      "record_revision": 1,
+      "factor_state": { "data": 1, "representation": 1, "objective": 1, "optimizer": 5, "evaluation": 1, "replication": 2 },
       "display_name": "ZERO.4 Q2.6 three-seed replication",
       "family": "zero",
       "lineage": "zero/zero4-quantity",
@@ -127,6 +177,9 @@
     },
     {
       "id": "zero5-c0-v1",
+      "coordinate": { "track": "C", "parts": [0], "slug": "c0" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 0, "tokenizer": 1, "data": 1, "schedule": 0, "representation": 0, "objective": 0, "evaluation": 1 },
       "display_name": "ZERO5-C0 corpus and tokenizer",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -147,6 +200,9 @@
     },
     {
       "id": "zero5-c1-v1",
+      "coordinate": { "track": "C", "parts": [1], "slug": "c1" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 1, "tokenizer": 1, "data": 1, "schedule": 1, "representation": 1, "objective": 1, "evaluation": 1 },
       "display_name": "ZERO5-C1 native C training",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -167,6 +223,9 @@
     },
     {
       "id": "zero5-c2-v1",
+      "coordinate": { "track": "C", "parts": [2], "slug": "c2" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 2, "schedule": 1, "representation": 1, "objective": 1, "evaluation": 1 },
       "display_name": "ZERO5-C2 Atlas continuation",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -187,6 +246,9 @@
     },
     {
       "id": "zero5-c3-v1",
+      "coordinate": { "track": "C", "parts": [3], "slug": "c3" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 3, "schedule": 2, "representation": 1, "objective": 2, "evaluation": 2 },
       "display_name": "ZERO5-C3 evidence curriculum",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -207,6 +269,9 @@
     },
     {
       "id": "zero5-c31-v1",
+      "coordinate": { "track": "C", "parts": [3, 1], "slug": "c3_1" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 3, "schedule": 3, "representation": 1, "objective": 3, "evaluation": 2 },
       "display_name": "ZERO5-C3.1 record-safe interleaving",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -227,6 +292,9 @@
     },
     {
       "id": "zero5-c32-v1",
+      "coordinate": { "track": "C", "parts": [3, 2], "slug": "c3_2" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 4, "schedule": 3, "representation": 1, "objective": 4, "evaluation": 3 },
       "display_name": "ZERO5-C3.2 paired invariance",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -247,6 +315,9 @@
     },
     {
       "id": "zero5-c33-v1",
+      "coordinate": { "track": "C", "parts": [3, 3], "slug": "c3_3" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 4, "schedule": 4, "representation": 1, "objective": 4, "evaluation": 3 },
       "display_name": "ZERO5-C3.3 pair-atomic updates",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -267,6 +338,9 @@
     },
     {
       "id": "zero5-c42-v1",
+      "coordinate": { "track": "C", "parts": [4, 2], "slug": "c4_2" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 5, "schedule": 5, "representation": 1, "objective": 4, "evaluation": 3 },
       "display_name": "ZERO5-C4.2 grouped training",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -287,6 +361,9 @@
     },
     {
       "id": "zero5-c43-v1",
+      "coordinate": { "track": "C", "parts": [4, 3], "slug": "c4_3" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 6, "schedule": 5, "representation": 1, "objective": 4, "evaluation": 3 },
       "display_name": "ZERO5-C4.3 data repair",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -307,6 +384,9 @@
     },
     {
       "id": "zero5-c51-statebridge-v1",
+      "coordinate": { "track": "C", "parts": [5, 1], "slug": "c5_1" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 7, "schedule": 5, "representation": 2, "objective": 4, "evaluation": 3 },
       "display_name": "ZERO5-C5.1 StateBridge text",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -327,6 +407,9 @@
     },
     {
       "id": "zero5-c52-targetbridge-v1",
+      "coordinate": { "track": "C", "parts": [5, 2], "slug": "c5_2" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 7, "schedule": 5, "representation": 2, "objective": 5, "evaluation": 4 },
       "display_name": "ZERO5-C5.2 TargetBridge auxiliary loss",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -351,6 +434,9 @@
     },
     {
       "id": "zero5-c61-shared-state-v1",
+      "coordinate": { "track": "C", "parts": [6, 1], "slug": "c6_1" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 7, "schedule": 5, "representation": 3, "objective": 6, "evaluation": 5 },
       "display_name": "ZERO5-C6.1 shared-state bottleneck",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -374,6 +460,9 @@
     },
     {
       "id": "solomon-successor-v2",
+      "coordinate": { "track": "S", "parts": [2], "slug": "s2" },
+      "record_revision": 1,
+      "factor_state": { "model": 2, "data": 1, "representation": 1, "objective": 1, "evaluation": 1, "replication": 1 },
       "display_name": "Solomon integer-transformer successor-v2",
       "family": "solomon",
       "lineage": "solomon/successor-v2",
@@ -394,6 +483,9 @@
     },
     {
       "id": "nsrl-p10m-v10-intake",
+      "coordinate": { "track": "N", "parts": [10, 0], "slug": "n10_0" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 10, "data": 1, "representation": 1, "objective": 0, "optimizer": 0, "evaluation": 1 },
       "display_name": "NSRL p10m v10 managed intake",
       "family": "solomon",
       "lineage": "solomon/nsrl-p10m",
@@ -424,6 +516,9 @@
     },
     {
       "id": "nsrl-p10m-target-margin-v1",
+      "coordinate": { "track": "N", "parts": [10, 1], "slug": "n10_1" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 10, "data": 2, "representation": 1, "objective": 1, "optimizer": 1, "evaluation": 2 },
       "display_name": "NSRL p10m hard-negative target margin",
       "family": "solomon",
       "lineage": "solomon/nsrl-p10m",
@@ -444,6 +539,9 @@
     },
     {
       "id": "nsrl-p10m-target-margin-trust-region-v1",
+      "coordinate": { "track": "N", "parts": [10, 2], "slug": "n10_2" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 10, "data": 3, "representation": 1, "objective": 1, "optimizer": 2, "evaluation": 3 },
       "display_name": "NSRL p10m target-margin trust region",
       "family": "solomon",
       "lineage": "solomon/nsrl-p10m",
@@ -464,6 +562,9 @@
     },
     {
       "id": "nsrl-p10m-direct-head-nll-guard-v1",
+      "coordinate": { "track": "N", "parts": [10, 3], "slug": "n10_3" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 10, "data": 3, "representation": 1, "objective": 2, "optimizer": 3, "evaluation": 4 },
       "display_name": "NSRL p10m direct-head NLL guard",
       "family": "solomon",
       "lineage": "solomon/nsrl-p10m",
@@ -484,6 +585,9 @@
     },
     {
       "id": "nsrl-p10m-direct-head-nll-safe-set-v1",
+      "coordinate": { "track": "N", "parts": [10, 4], "slug": "n10_4" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 10, "data": 3, "representation": 1, "objective": 2, "optimizer": 4, "evaluation": 4 },
       "display_name": "NSRL p10m direct-head exact safe set",
       "family": "solomon",
       "lineage": "solomon/nsrl-p10m",
@@ -504,6 +608,9 @@
     },
     {
       "id": "nsrl-p10m-direct-head-cross-document-stability-v1",
+      "coordinate": { "track": "N", "parts": [10, 5], "slug": "n10_5" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 10, "data": 4, "representation": 1, "objective": 3, "optimizer": 4, "evaluation": 5 },
       "display_name": "NSRL p10m cross-document direction stability",
       "family": "solomon",
       "lineage": "solomon/nsrl-p10m",
@@ -524,6 +631,9 @@
     },
     {
       "id": "holo-hrr-t512-public-corpus-v1",
+      "coordinate": { "track": "H", "parts": [512, 1], "slug": "h512_1" },
+      "record_revision": 1,
+      "factor_state": { "model": 1, "data": 1, "representation": 1, "objective": 1, "evaluation": 1, "replication": 0 },
       "display_name": "Holo HRR attention T=512 public-corpus verification",
       "family": "external",
       "lineage": "external/holo-hrr",
@@ -550,6 +660,9 @@
     },
     {
       "id": "zero-solomon-shared-task-bridge-v1",
+      "coordinate": { "track": "B", "parts": [1], "slug": "b1" },
+      "record_revision": 1,
+      "factor_state": { "zero_model": 1, "solomon_model": 1, "task": 0, "encoding": 0, "verifier": 0, "evaluation": 0 },
       "display_name": "ZERO.4 to Solomon shared-task replication bridge",
       "family": "cross_family",
       "lineage": "cross-family/zero-solomon",
