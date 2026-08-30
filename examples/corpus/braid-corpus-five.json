@@ -1,0 +1,33 @@
+{
+  "schema": "ilxyr.corpus_release.v1",
+  "id": "dataset://example/braid-corpus-five/statebridge/v0.3.0",
+  "title": "Example Braid-style Corpus Five StateBridge",
+  "version": "v0.3.0",
+  "source": {
+    "repository": "https://example.com/braid",
+    "revision": "0123456789abcdef0123456789abcdef01234567",
+    "path": "datasets/corpus-five"
+  },
+  "rights": {
+    "license": "EXAMPLE-ONLY",
+    "use_constraints": ["preserve-attribution"]
+  },
+  "files": [
+    {
+      "path": "train/statebridge.jsonl",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "size_bytes": 100,
+      "media_type": "application/x-jsonlines"
+    },
+    {
+      "path": "validation/statebridge.jsonl",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "size_bytes": 25,
+      "media_type": "application/x-jsonlines"
+    }
+  ],
+  "metadata": {
+    "generator": "braid",
+    "split_policy": "deterministic-v1"
+  }
+}

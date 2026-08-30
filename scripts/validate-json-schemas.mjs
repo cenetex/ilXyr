@@ -9,6 +9,9 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const schemaDirectory = join(root, "schemas");
 
 const fixtures = {
+  "azure-ml-corpus-handoff.schema.json": [
+    "examples/corpus/azure-ml-handoff.json",
+  ],
   "calibration-record.schema.json": ["examples/schema/calibration-record.json"],
   "condition.schema.json": ["examples/schema/condition.json"],
   "certificate.schema.json": ["examples/schema/certificate.json"],
@@ -25,6 +28,11 @@ const fixtures = {
     "examples/experiments/solomon-q22/engineering-review.json",
     "examples/experiments/solomon-q22/experiment-design.json",
   ],
+  "corpus-materialization.schema.json": [
+    "examples/corpus/s3-materialization.json",
+    "examples/corpus/azure-materialization.json",
+  ],
+  "corpus-release.schema.json": ["examples/corpus/braid-corpus-five.json"],
   "epoch-budget.schema.json": ["examples/schema/epoch-budget.json"],
   "evidence-bundle.schema.json": ["examples/schema/evidence-bundle.json"],
   "evidence-graph-edge.schema.json": [
@@ -117,6 +125,9 @@ const fixtures = {
   ],
   "sandbox-run.schema.json": ["examples/schema/sandbox-run.json"],
   "sandbox-spec.schema.json": ["examples/schema/sandbox-spec.json"],
+  "sagemaker-corpus-handoff.schema.json": [
+    "examples/corpus/sagemaker-handoff.json",
+  ],
   "shared-task.schema.json": ["examples/schema/shared-task.json"],
   "shared-task-v2.schema.json": [
     "examples/shared-tasks/zero-solomon-q22-operation-v1.json",

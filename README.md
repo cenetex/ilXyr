@@ -70,6 +70,9 @@ academic claim, evaluation boundary, and publication gaps are stated in
   and the completed Q2.6 seed-1/3 family replication workflow.
 - Publishes a machine-readable lab registry that separates Braid data inputs, the promoted ZERO.4
   line, the active ZERO.5 research line, upstream evidence debt, and C5.2's private terminal state.
+- Runs an authenticated, single-writer Corpus as a Service boundary that registers immutable
+  Braid-style releases, checks complete S3 or Azure Blob materialization receipts, and emits
+  digest-bound SageMaker or Azure ML training-input handoffs without storing cloud credentials.
 - Compiles supported upstream benchmark results into schema-validated review records without
   pretending that completed external runs were registered prospectively by ilXyr.
 
@@ -124,6 +127,16 @@ cargo run -p ilxyr-cli -- status . toy.score.v1
 cargo run -p ilxyr-cli -- export-evidence . EVIDENCE_REF ro-crate
 cargo run -p ilxyr-cli -- verify .
 ```
+
+The corpus service runs over a separate or existing initialized workspace:
+
+```bash
+export ILXYR_CORPUS_TOKEN='replace-with-a-random-secret-of-at-least-32-bytes'
+cargo run -p ilxyr-corpus-service -- /path/to/initialized-workspace
+```
+
+See [docs/CORPUS-SERVICE.md](docs/CORPUS-SERVICE.md) for release registration, materialization
+receipts, and SageMaker/Azure ML handoffs.
 
 Multi-seed replications can use one family manifest while retaining separate ledger objects for
 every contribution, experiment, forecast, funding commitment, run, and evidence record:
@@ -287,6 +300,8 @@ started without producing a terminal run. `authorize` reports the same decision 
 - `docs/HUGGINGFACE.md`: immutable Hub import, model/weight handles, and revision-pinned loading.
 - `docs/NSRL.md`: native NSRL checkpoint, continuation, local-verification, and gate-evidence
   registration.
+- `docs/CORPUS-SERVICE.md`: authenticated immutable corpus registry, materialization receipts, and
+  provider training-input handoffs.
 - `docs/SECURITY.md`: threat model, autonomous operation rules, weight protection.
 - `docs/ROADMAP.md`: sequenced milestones from protocol proof through federation.
 - `docs/V1_REVIEW.md`: V1 acceptance review, revisions, and residual limitations.
