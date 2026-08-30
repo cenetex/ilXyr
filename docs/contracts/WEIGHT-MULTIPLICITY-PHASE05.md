@@ -95,6 +95,12 @@ The existing limits remain binding:
 - exact integer answers; and
 - byte-identical deterministic replay.
 
+The one-second value is the decision threshold. A query may continue for up to
+ten seconds in the measurement harness solely so that a time failure can still
+return its exact memo and process-memory high-water marks. Passing one second
+remains a failure, regardless of whether the measurement later completes. A
+query still running at ten seconds is killed and recorded as a hard timeout.
+
 Time and memory are separate boundary facts:
 
 - `time_fail`: time limit exceeded while memory remains within limit;
@@ -105,6 +111,9 @@ Time and memory are separate boundary facts:
 
 The report records memo entries before and after every query, insertions, hits,
 capacity bytes, group high-water entries, process RSS, and incremental RSS.
+Cold fresh-memo timing is a counterfactual comparison, not the production
+resource gate. The binding and sensitivity grouped orders determine fit; cold
+and grouped answers must still agree wherever both complete.
 
 ## Parallelism
 

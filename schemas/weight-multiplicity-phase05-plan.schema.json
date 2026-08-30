@@ -93,7 +93,7 @@
     "frontier": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["types", "dimension_bands", "binding_target_order", "sensitivity_target_orders", "cold_baseline", "query_timeout_ms", "p95_limit_ms", "peak_incremental_memory_limit_bytes", "replays", "parallelism_candidates", "parallelism_basis"],
+      "required": ["types", "dimension_bands", "binding_target_order", "sensitivity_target_orders", "cold_baseline", "query_timeout_ms", "measurement_hard_timeout_ms", "p95_limit_ms", "peak_incremental_memory_limit_bytes", "replays", "parallelism_candidates", "parallelism_basis"],
       "properties": {
         "types": {
           "const": ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "C3", "C4", "C5", "C6", "C7", "C8", "D4", "D5", "D6", "D7", "D8", "G2", "F4", "E6", "E7", "E8"]
@@ -116,6 +116,7 @@
         "sensitivity_target_orders": { "const": ["descending_depth_dominant_first_lexicographic", "seeded_generation_order"] },
         "cold_baseline": { "const": "fresh_memo_every_query" },
         "query_timeout_ms": { "const": 1000 },
+        "measurement_hard_timeout_ms": { "const": 10000 },
         "p95_limit_ms": { "const": 1000 },
         "peak_incremental_memory_limit_bytes": { "const": 2147483648 },
         "replays": { "const": 2 },
