@@ -661,25 +661,26 @@
     {
       "id": "zero-solomon-shared-task-bridge-v1",
       "coordinate": { "track": "B", "parts": [1], "slug": "b1" },
-      "record_revision": 1,
-      "factor_state": { "zero_model": 1, "solomon_model": 1, "task": 0, "encoding": 0, "verifier": 0, "evaluation": 0 },
+      "record_revision": 2,
+      "factor_state": { "zero_model": 1, "solomon_model": 1, "task": 1, "encoding": 1, "verifier": 1, "evaluation": 1 },
       "display_name": "ZERO.4 to Solomon shared-task replication bridge",
       "family": "cross_family",
       "lineage": "cross-family/zero-solomon",
       "kind": "replication_bridge",
-      "execution_status": "not_run",
-      "scientific_outcome": "unknown",
+      "execution_status": "completed",
+      "scientific_outcome": "positive",
       "disclosure_status": "public",
-      "lifecycle_status": "open",
-      "evidence_status": "documented",
+      "lifecycle_status": "closed",
+      "evidence_status": "external_public",
       "claim_results": [
-        { "claim": "A ZERO.4 capability survives Solomon integer training under one shared task and agreement contract", "outcome": "unknown" }
+        { "claim": "ZERO.4 Q22 operation routing survives Solomon integer class-head training under the frozen shared task", "outcome": "positive" }
       ],
-      "summary": "The training and evaluation bytes plus both family encodings and verifiers are source-pinned. The bridge is technically ready, but no Solomon run or scientific outcome exists.",
-      "next_boundary": "Preregister exactly one Solomon experiment with a fixed model, compute budget, evaluation firewall, and agreement rule.",
+      "summary": "The prospectively frozen Solomon run scored 500/500 on seeds 1, 2, and 3, with identical predictions across all 500 promotion cases. The narrow operation-routing bridge passed without retraining after evaluation opened.",
+      "next_boundary": "Do not infer language-model or arithmetic-generation quality. Any successor must freeze a harder task that breaks prefix-only routing and tests compositional transfer.",
       "sources": [
         { "kind": "program_record", "path": "docs/PROGRAM.md", "record_id": "zero-solomon-replication-bridge" },
-        { "kind": "program_record", "path": "examples/shared-tasks/zero-solomon-q22-operation-v1.json", "record_id": "zero-solomon.q22-operation.v1" }
+        { "kind": "program_record", "path": "examples/shared-tasks/zero-solomon-q22-operation-v1.json", "record_id": "zero-solomon.q22-operation.v1" },
+        { "kind": "experiment_record", "path": "docs/experiments/EXP-007.md", "record_id": "EXP-007" }
       ]
     }
   ],
@@ -733,7 +734,7 @@
       "Require major branches to declare rules_out, supports, supersedes, and next_allowed intervention edges."
     ],
     "priority_order": [
-      "Preregister one bounded Solomon run against the frozen ZERO.4 q22 shared task.",
+      "Use the completed bridge to design one harder cross-family task that cannot be solved by command-prefix routing.",
       "Run a read-only NSRL frozen-representation sufficiency audit before another training method.",
       "Decide whether ZERO5-C6.1 earns its separately authorized representation-level run.",
       "Import outstanding external evidence and settle verified upstream family evidence locally.",

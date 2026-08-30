@@ -60,7 +60,9 @@ into a promoted claim.
   The all-three-seeds conjunction passed, making the seed-2 artifact promotion-eligible as ZERO.4.
   The upstream result is verified; local ilXyr ledger import and settlement remain pending.
 - The q22 bridge now has frozen training/evaluation hashes plus public, source-pinned Zero and
-  Solomon encodings and verifiers. This infrastructure does not itself license a run or promotion.
+  Solomon encodings and verifiers. EXP-007 subsequently ran the preregistered three-seed Solomon
+  class head: every seed scored 500/500 and all predictions agreed. This closes the narrow bridge
+  without authorizing general Solomon promotion.
 - Per-project pipelines remain source harnesses; `ilxyr verify` can replace their evidence ledger
   only after each frozen replay has been registered.
 - The active ZERO.5 C line is now explicit in the lab registry. C0 selected the governed lossless
@@ -97,9 +99,9 @@ cross-family replication, OSF-side authentication, hardware attestation, or SLSA
   computational equivalence as distinct declared targets.
 - Implemented promoted-spine eligibility from an exact shared-task anchor, forward risk, cold
   replay, mechanically provenance-disjoint replication, and the reserved replication budget share.
-- The Zero→Solomon replication bridge as the first cross-family experiment. The task and both
-  family implementations are now bound; the next gate is one prospective Solomon experiment and
-  replication contract with a fixed compute budget and agreement rule.
+- The Zero→Solomon replication bridge is complete as EXP-007. The task, both family
+  implementations, fixed compute budget, evaluation firewall, and agreement rule were bound
+  before the three-seed go. A successor must test a harder surface without prefix shortcuts.
 - Execute the ADR 0005 NSRL p10m managed pilot: implement a native content-addressed checkpoint
   bundle and source-pinned adapter, settle the frozen baseline and exact-restart checks, then record
   a continue, candidate, or freeze decision. Stewardship does not change the model's

@@ -57,6 +57,32 @@ assert(JSON.stringify(legacyC31?.coordinate.parts) === JSON.stringify([3, 1])
     && legacyC31.coordinate.slug === "c3_1",
   "legacy zero5-c31-v1 must resolve explicitly to C[3,1] and c3_1");
 
+const q22Evidence = readJson("docs/experiments/exp-007-evidence.json");
+const q22Bridge = nodes.get("zero-solomon-shared-task-bridge-v1");
+assert(q22Evidence.public_id === "EXP-007"
+    && q22Evidence.resolved_outcome === "go"
+    && q22Evidence.registration.merged_before_evaluation === true,
+  "EXP-007 must retain its prospective go registration boundary");
+assert(q22Evidence.scientific_run.seeds.length === 3
+    && q22Evidence.scientific_run.seeds.every(seed =>
+      seed.cases === 500 && seed.operation_exact === 500
+      && seed.operation_exact_rate_ppm === 1000000)
+    && q22Evidence.scientific_run.all_seed_agreement_cases === 500
+    && q22Evidence.scientific_run.all_seed_agreement_rate_ppm === 1000000
+    && q22Evidence.scientific_run.family_passed === true,
+  "EXP-007 exact result or agreement gate drifted");
+assert(q22Bridge?.execution_status === "completed"
+    && q22Bridge.scientific_outcome === "positive"
+    && q22Bridge.lifecycle_status === "closed",
+  "the completed EXP-007 bridge must remain a closed positive pathway");
+for (const forecast of q22Evidence.forecasts.analytical_settlement) {
+  const expected = Object.entries(forecast.probabilities)
+    .reduce((score, [outcome, probability]) =>
+      score + (probability - (outcome === forecast.resolved_outcome ? 1 : 0)) ** 2, 0);
+  assert(Math.abs(expected - forecast.brier_score) < 1e-12,
+    `EXP-007 forecast score drifted for ${forecast.forecast_id}`);
+}
+
 const edgeKeys = new Set();
 for (const edge of map.edges) {
   assert(nodes.has(edge.from), `research pathway edge source is missing: ${edge.from}`);

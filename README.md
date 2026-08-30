@@ -272,6 +272,10 @@ started without producing a terminal run. `authorize` reports the same decision 
   settled forecasts, exact evidence, and newly eligible replication boundary.
 - `docs/experiments/EXP-005.md`: the completed Q2.6 seeds 1 and 3 replication, settled forecasts,
   exact source pins, and verified all-three-seeds family go.
+- `docs/experiments/EXP-006.md`: the recovered public-corpus Holo HRR protocol verification and
+  its bounded negative performance comparison.
+- `docs/experiments/EXP-007.md`: the prospectively frozen three-seed Zero→Solomon Q22 bridge,
+  exact public evidence, forecast settlement, and narrow claim boundary.
 - `docs/experiments/NSRL-P10M-TARGET-MARGIN.md`: exact-check negative results for the
   output-matrix target-margin pilot, its fixed-schedule trust region, and the canonical-NLL
   direct-head guard, exact safe-set, and cross-document stability follow-ups.
@@ -301,9 +305,10 @@ replay and quantity gates unchanged. Seed 2 resolved go after 700 full-scale com
 public checkpoint and exactly one promotion-split evaluation both passed. EXP-005 then executed
 seeds 1 and 3 independently under the frozen Q2.6-R contract. Both resolved go after 600 commits,
 so the all-three-seeds family rule passed and ZERO.4 is current upstream. The result commit is
-published and verified; local ilXyr ledger import remains pending. The cross-family bridge is no
-longer blocked by the Zero family gate, but it still needs shared data bindings and a Solomon
-encoding/verifier. See `docs/V1_1_REVIEW.md` for the earlier Q2.2-R audit.
+published and verified; local ilXyr ledger import remains pending. EXP-007 then completed the
+cross-family Q22 operation-routing bridge prospectively: all three Solomon seeds scored 500/500
+and agreed on every promotion case. This closes the narrow routing claim, not arithmetic answer
+generation or broad language quality. See `docs/V1_1_REVIEW.md` for the earlier Q2.2-R audit.
 
 ## Academic terminology and citation
 

@@ -1,0 +1,98 @@
+{
+  "schema": "ilxyr.experiment_evidence_summary.v1",
+  "public_id": "EXP-007",
+  "experiment_id": "solomon.q22-operation.three-seed.v1",
+  "shared_task_id": "zero-solomon.q22-operation.v1",
+  "resolved_outcome": "go",
+  "registration": {
+    "repository": "https://github.com/cenetex/ilXyr.git",
+    "experiment_commit": "1fe7d377f271a02ff23d9cb5941f2d5d576bcb6f",
+    "registration_merge_commit": "4cac7dd1c35f065f61edc813533a1f6206d08c5e",
+    "shared_task_ref": "artifact://sha256/b5c374b548a52e457577524b131cc52f12b875b85506cb1c470770dcf16e6dd6",
+    "harness_sha256": "fe11f8ec3be09a0870f06cee1f9994763b851d3f88100f40fbc3e9ea1b4cfe3b",
+    "merged_before_evaluation": true
+  },
+  "datasets": {
+    "training_records": 9500,
+    "training_sha256": "815fac312664f49eaaa33942828ffa1511fd81091ccd88d47b4480b6c27a5fa4",
+    "encoded_training_sha256": "2f03c80eb286e64eeb22521a929184d6018991667e0ddd410b6e22acbb9bef61",
+    "promotion_records": 500,
+    "promotion_sha256": "9270ea2b72af90235407bd7924a0864b8eba35b2969e1657ed1c15bf04449519",
+    "blind_inputs_sha256": "c56618634879aaa7ac05f3c5b111db449aa96e7d63de3020ae2a9f8de479f02c"
+  },
+  "source": {
+    "repository": "https://github.com/atimics/nsrl.git",
+    "scientific_commit": "5de132b52b361b8b79638969bb0f0ab6c04111a6",
+    "evidence_merge_commit": "82be778f5d2a9d6d4f798ff4b9ab5ec3c583745b",
+    "contract_path": "benchmarks/q22-solomon-prospective-v1/contract.json",
+    "contract_sha256": "b3b2e2d2648802ac99395c0d1110207409f240cc5e4b83d8c89186c36238ccc0",
+    "result_path": "benchmarks/q22-solomon-prospective-v1/evidence/result.json",
+    "result_sha256": "afaba78f3f31fb95a24f74b76672ed2adb2afc480240c08a613fcc5fbf222c28",
+    "evidence_manifest_sha256": "9bfc8797550ac6467eb69c6f0cd0e07c8283b6473c7c22e06f187f3bc42d6b7d",
+    "model_freeze_sha256": "ff6ae1d63b98b42a88e575e577a1e504487a31fb6f89cfb8cfada0888ed8f327",
+    "evaluation_open_record_sha256": "6b6bda841c9de3bc136a5bccf039e5cc8ebc8cd9cee6afe19d15982db1a45683"
+  },
+  "firewall": {
+    "models_frozen_before_evaluation": true,
+    "training_had_evaluation_path": false,
+    "prediction_received_blind_input_only": true,
+    "retraining_allowed_after_open": false,
+    "paid_compute_used": false
+  },
+  "scientific_run": {
+    "seeds": [
+      {
+        "seed": 1,
+        "cases": 500,
+        "operation_exact": 500,
+        "operation_exact_rate_ppm": 1000000,
+        "model_sha256": "b9a448920b3e2acf807700ae4fc9ba456c102b0d1b99b4bec59016218c3dc5b8"
+      },
+      {
+        "seed": 2,
+        "cases": 500,
+        "operation_exact": 500,
+        "operation_exact_rate_ppm": 1000000,
+        "model_sha256": "19e0b8366c711eb4024775b91bf73b9dae96b3b81d3f11ce7224e4afb2dc8f1e"
+      },
+      {
+        "seed": 3,
+        "cases": 500,
+        "operation_exact": 500,
+        "operation_exact_rate_ppm": 1000000,
+        "model_sha256": "d0455d60d6154650689e57a8e4dd109e35e9b5a8e31cdabbbc4a2ce10094f84a"
+      }
+    ],
+    "minimum_operation_exact_rate_ppm": 1000000,
+    "mean_operation_exact_rate_ppm": 1000000,
+    "all_seed_agreement_cases": 500,
+    "all_seed_agreement_rate_ppm": 1000000,
+    "family_passed": true
+  },
+  "forecasts": {
+    "ledger_recorded_settlement": false,
+    "analytical_settlement": [
+      {
+        "forecast_id": "solomon.q22.forecast.mechanistic.v1",
+        "probabilities": {"go": 0.98, "no_go": 0.015, "execution_failure": 0.005},
+        "resolved_outcome": "go",
+        "stake": 10,
+        "brier_score": 0.00065
+      },
+      {
+        "forecast_id": "solomon.q22.forecast.empirical.v1",
+        "probabilities": {"go": 0.95, "no_go": 0.04, "execution_failure": 0.01},
+        "resolved_outcome": "go",
+        "stake": 10,
+        "brier_score": 0.0042
+      }
+    ]
+  },
+  "interpretation": {
+    "shared_operation_routing_transferred": true,
+    "arithmetic_answer_generation_tested": false,
+    "general_language_quality_tested": false,
+    "solomon_model_promotion_authorized": false,
+    "next_boundary": "A new prospectively frozen task must remove command-prefix shortcuts and test compositional or paraphrastic transfer."
+  }
+}
