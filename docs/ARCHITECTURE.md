@@ -181,6 +181,21 @@ compiled object, or the external registration identifier is already bound to ano
 Admission remains closed until this check passes. V1 does not authenticate to OSF or verify remote
 page contents; the receipt actor is accountable for that external assertion.
 
+### Corpus service boundary
+
+The `ilxyr-corpus-service` binary is an authenticated, single-writer HTTP boundary for immutable
+corpus releases. A release freezes its source revision, rights, file paths, sizes, media types, and
+SHA-256 digests into one content-addressed artifact. Re-registering identical content is
+idempotent; changing content under the same corpus ID is rejected.
+
+External materializers copy corpus files to S3 or Azure Blob, read them back, and submit a receipt.
+The service accepts a receipt only when its complete file inventory exactly matches the registered
+release and every provider object has a version identifier. It then emits provider-specific,
+digest-tagged input fragments plus the complete verification inventory for SageMaker or Azure ML.
+The executor must hash mounted or downloaded files before training. Uploading bytes, storing cloud
+credentials, creating provider resources, and submitting training jobs remain authenticated
+adapter work. See `docs/CORPUS-SERVICE.md`.
+
 ## Portable core and infrastructure adapters
 
 Future implementations should preserve protocol objects and event semantics while replacing the
