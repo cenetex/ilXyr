@@ -7,7 +7,7 @@
       "id": "repo://zero",
       "role": "model_engine",
       "url": "https://github.com/atimics/zero-grounded-literary-lm",
-      "observed_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7"
+      "observed_revision": "8876c335f04966f09127e8e35c63558a2e2aaffb"
     },
     {
       "id": "repo://braid",
@@ -89,7 +89,7 @@
       "promotion_state": "not_promoted",
       "base_parameter_count": 4852992,
       "active_experiment": null,
-      "summary": "Dependency-free C11 training at a fixed 4,852,992-parameter base. C5.2 has a terminal private result, so the line has no active experiment and remains unpromoted."
+      "summary": "Dependency-free C11 training at a fixed 4,852,992-parameter base. C5.2 has a terminal private result. C6.1 is built and preregistered but blocked from training, so the line has no active experiment and remains unpromoted."
     }
   ],
   "experiments": [
@@ -448,7 +448,41 @@
         "cold_replayable": false
       },
       "summary": "The authorized run finished under its frozen private-result and no-publication boundary. Its outcome, metrics, checkpoint hashes, and result hash are intentionally absent from this public registry.",
-      "next_decision": "No follow-up run is authorized while the terminal decision remains private. Keep the sealed test closed and require a separately approved public decision record before changing the program."
+      "next_decision": "Keep the sealed test closed. Any later experiment must stand on its own public prospective contract without disclosing or relabelling this private terminal result."
+    },
+    {
+      "id": "zero5-c61-shared-state-v1",
+      "display_name": "ZERO5-C6.1-SHARED-STATE-BOTTLENECK",
+      "family": "zero",
+      "model_line_id": "model-line://zero/zero5",
+      "category": "scientific",
+      "question": "Does a verified state bottleneck improve retrieval when the same learned representation directly changes answer-token language logits?",
+      "state": "blocked",
+      "parameter_count": 5046024,
+      "promotion_authorized": false,
+      "prospective_contract": true,
+      "inputs": [
+        "checkpoint://zero/zero5/c2/selected",
+        "dataset://braid/corpus-five/statebridge/v0.3.0",
+        "representation://braid/corpus-five/zero5-512-text-c52/v0.3.0",
+        "vocabulary://braid/state-target/v2"
+      ],
+      "depends_on": ["zero5-c51-statebridge-v1"],
+      "source": {
+        "repository_id": "repo://zero",
+        "observed_revision": "8876c335f04966f09127e8e35c63558a2e2aaffb",
+        "contract_path": "benchmarks/zero5-c61-shared-state-v1/contract.json",
+        "contract_sha256": "e06a7fb3fa56890085f00531ff5802e147b018b52bf582cda65938a9a06236e4"
+      },
+      "evidence": {
+        "ilxyr_recorded": true,
+        "classification": "native",
+        "forecast_risked": false,
+        "source_attested": true,
+        "cold_replayable": false
+      },
+      "summary": "The 152-wide bottleneck, evaluator, runner, and frozen gates are built. The same-checkpoint bridge-off ablation is mandatory. Training remains blocked until a separate authorization is bound to this contract and ilXyr registration.",
+      "next_decision": "Review and merge the registry and implementation PRs. A separate explicit authorization may then permit exactly one local seed-0 run; this registration alone permits no compute."
     }
   ],
   "governance": {
