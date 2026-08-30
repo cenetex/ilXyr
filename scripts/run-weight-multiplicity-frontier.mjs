@@ -495,6 +495,8 @@ const measureCell = async ({
   let attempts = 0;
   let errors = 0;
   let timeout = false;
+  let fatalError = null;
+  let fatalRequest = null;
   const server = new OracleServer(oracle, plan.frontier.query_timeout_ms);
   let readyRss;
   let warmRss;
@@ -533,8 +535,11 @@ const measureCell = async ({
         response = await server.request(queryLine(candidate));
       } catch (error) {
         timeout = error.message.includes("exceeded");
+        errors += 1;
+        fatalError = error.message;
+        fatalRequest = queryLine(candidate);
         server.kill();
-        throw error;
+        break;
       }
       latenciesMs.push(response.elapsedNs / 1e6);
       if (response.value.status === "error" || response.value.multiplicity === undefined) {
@@ -582,7 +587,7 @@ const measureCell = async ({
         elapsed_ms: response.elapsedNs / 1e6,
       });
     }
-    peakRss = await server.metrics();
+    peakRss = timeout ? warmRss : await server.metrics();
   } finally {
     if (server.child?.exitCode === null) await server.close();
   }
@@ -639,7 +644,13 @@ const measureCell = async ({
       target_status_complete: statusComplete,
       depth_complete: depthComplete,
     },
-    exactness: { errors, timeout, replay },
+    exactness: {
+      errors,
+      timeout,
+      fatal_error: fatalError,
+      fatal_request: fatalRequest,
+      replay,
+    },
     latency_ms: {
       samples: latenciesMs.length,
       mean: mean(latenciesMs),
