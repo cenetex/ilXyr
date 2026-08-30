@@ -18,6 +18,11 @@ coordinates, seed, label quotas, time limit, memory limit, and oracle binary.
 record is `frontier-v2-summary.json`. The result is Stop at the oracle/resource
 gate; Phase 1 was not opened.
 
+The client later approved a separate Phase 0.5 scope revision. Its frozen
+protocol is `docs/contracts/WEIGHT-MULTIPLICITY-PHASE05.md`, and its plan is
+`examples/weight-multiplicity/phase05-frontier-plan.json`. Phase 0.5 does not
+modify or relabel either sealed Phase 0 result.
+
 Replay the hashes, counts, predecessor link, safe boundary, and Phase 1 closure
 with:
 

@@ -1,0 +1,142 @@
+# Phase 0.5 — dimension-indexed oracle correction
+
+## Status
+
+Client-approved scope revision to Revision 3. Phase 0.5 lasts one week. It
+does not authorize corpus generation, model training, or blind evaluation.
+
+The sealed Phase 0 Version 1 and Version 2 evidence remains unchanged. Version
+2 is a valid measurement of the frozen height-indexed, uncached Zero frontier
+and its Stop remains valid under Revision 3. Phase 0.5 measures a new surface;
+it does not relabel the old result.
+
+## Jointly owned ambiguity defect
+
+Revision 3 Section 3 assigns the exact symbolic-oracle role to Zero, and the
+machine-readable contract identifies `zero_symbolic`. Section 7 cites SageMath
+as a reference for the Weyl-invariance law; it does not designate SageMath as
+the oracle.
+
+The reusable defect is that the frontier clause did not state the algorithm
+and executable identity prominently enough. Both parties missed that
+ambiguity during review. Future frontier clauses must name the algorithm,
+executable, interface version, revision, and executable digest directly.
+
+Phase 0 used Zero's exact C11 Freudenthal oracle. There was no Sage-to-Zero
+implementation substitution.
+
+## Corrected scientific coordinate
+
+Highest-weight height is retained as a secondary coordinate but is not the
+primary cross-type frontier coordinate. Phase 0.5 computes the exact
+representation dimension before oracle execution using the Weyl dimension
+formula and groups results by dimension band.
+
+The representation roster is selected deterministically from all dominant
+Dynkin-label vectors of height 1 through 8. It includes:
+
+- every fundamental representation;
+- every highest weight from the first Version 2 timeout for B7, B8, C7, C8,
+  D7, D8, E7, and E8; and
+- the minimum, geometric-midpoint-nearest, and maximum dimension candidates
+  in each populated dimension band for each type.
+
+The roster is a tested surface, not proof about every representation below a
+reported dimension. Reports must say `tested ceiling`, list holes, and retain
+the exact highest weights behind every boundary.
+
+## Zero algorithm and allowed optimization
+
+Zero reduces each target to its dominant Weyl representative, then applies the
+exact Freudenthal recurrence. The existing implementation memoizes recursive
+states within one query and discards the memo after the response.
+
+Phase 0.5 may retain one bounded memo per worker for one exact `(type, lambda)`
+group. The memo:
+
+- is reused only while type and highest weight are unchanged;
+- is evicted on type or highest-weight change;
+- does not enumerate unrequested weights;
+- uses the dominant representative as the recurrence key;
+- must remain below the total two-GiB per-worker RSS limit; and
+- must produce exactly the same answer as a fresh-memo query.
+
+Weyl folding already exists and is not new work. SageMath and LiE are not
+production-oracle replacements in this phase.
+
+## Target order and order sensitivity
+
+Target order affects a persistent recurrence memo. The binding production
+order is:
+
+1. increasing signed target depth;
+2. dominant targets before non-dominant targets at equal depth; and
+3. lexicographic target Dynkin labels as the final tie-break.
+
+No unreported warm-up is permitted. Every cache-populating request is part of
+the recorded group.
+
+Each representation is also run in:
+
+- decreasing depth with the same tie-breaks; and
+- deterministic seeded generation order.
+
+The report gives cold fresh-memo latency, binding grouped latency, both
+sensitivity-order latencies, and p95 pass/fail for each. If the one-second p95
+decision changes with order, the cell is marked `order_sensitive`; this fact
+cannot be absorbed into an unconditional Pass.
+
+## Time and memory decisions
+
+The existing limits remain binding:
+
+- one second per query and p95 no greater than one second;
+- peak incremental RSS no greater than 2,147,483,648 bytes per worker;
+- exact integer answers; and
+- byte-identical deterministic replay.
+
+Time and memory are separate boundary facts:
+
+- `time_fail`: time limit exceeded while memory remains within limit;
+- `memory_fail`: memory limit exceeded while time remains within limit;
+- `time_and_memory_fail`: both limits exceeded;
+- `order_sensitive`: the p95 result changes across frozen orders; and
+- `pass`: exactness, replay, time, and memory all pass in every required run.
+
+The report records memo entries before and after every query, insertions, hits,
+capacity bytes, group high-water entries, process RSS, and incremental RSS.
+
+## Parallelism
+
+Safe worker count is recalibrated with grouped persistent workloads. The
+controller tests 1, 2, 4, and 8 workers on the same frozen stress groups.
+Version 2's one-worker result is historical context, not a carried-forward
+decision.
+
+## Independent LiE witness
+
+LiE is an independent correctness witness, not a speed dependency. A frozen
+cross-check includes every supported type, nontrivial depths and multiplicity
+strata, all E7 and E8 fundamental representations, and the named small E7/E8
+cases in the Phase 0.5 roster.
+
+Any unresolved Zero/LiE disagreement produces `Hold`. It outranks the resource
+frontier and stops further execution until root cause is established. LiE is
+not added as a distributed or production dependency in Phase 0.5.
+
+## Deliverables and closure
+
+Phase 0.5 delivers:
+
+- the frozen dimension-indexed plan and representation manifest;
+- exact dimension-formula tests;
+- fresh-versus-persistent exactness tests;
+- cold, grouped, order-sensitivity, memo-memory, and parallelism evidence;
+- the LiE license note and frozen cross-check result;
+- named tested dimension ceilings and holes by type;
+- an explicit E7/E8 reachability table; and
+- a corrected decision report.
+
+The final decision is Proceed, Rescope, Hold, or Stop. No outcome authorizes a
+corpus automatically. Corpus generation requires explicit client approval of
+the Phase 0.5 report.

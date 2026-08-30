@@ -102,6 +102,9 @@ const fixtures = {
     "examples/weight-multiplicity/phase0-frontier-plan.json",
     "examples/weight-multiplicity/phase0-frontier-plan-v2.json",
   ],
+  "weight-multiplicity-phase05-plan.schema.json": [
+    "examples/weight-multiplicity/phase05-frontier-plan.json",
+  ],
 };
 
 const readJson = async (relativePath) =>
