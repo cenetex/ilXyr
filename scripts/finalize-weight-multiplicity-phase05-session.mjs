@@ -46,11 +46,14 @@ const readRecord = async (path) => {
   return { bytes, value: JSON.parse(bytes.toString("utf8")) };
 };
 
-const timePass = (run, limit) =>
+const p95Pass = (run, limit) =>
   !run.hard_timeout &&
   !run.oracle_error &&
   run.latency_ms.p95 !== null &&
   run.latency_ms.p95 <= limit;
+
+const timePass = (run, limit) =>
+  p95Pass(run, limit) && run.latency_ms.threshold_exceedances === 0;
 
 const memoryStatus = (run, limit) => {
   if (run.memory_bytes.observation === "lower_bound_limit_exceeded") return "fail";
@@ -92,10 +95,13 @@ const normalizeMeasurement = (measurement, plan) => {
   const timePasses = groupedRuns.map((run) =>
     timePass(run, plan.frontier.p95_limit_ms),
   );
+  const p95Passes = groupedRuns.map((run) =>
+    p95Pass(run, plan.frontier.p95_limit_ms),
+  );
   const memoryStatuses = groupedRuns.map((run) =>
     memoryStatus(run, plan.frontier.peak_incremental_memory_limit_bytes),
   );
-  const orderSensitive = timePasses.some((value) => value !== timePasses[0]);
+  const orderSensitive = p95Passes.some((value) => value !== p95Passes[0]);
   const groupedTimePass = timePasses.every(Boolean);
   const groupedMemoryPass = memoryStatuses.every((status) => status === "pass");
   const memoryUnknown = memoryStatuses.includes("unknown");
@@ -119,6 +125,10 @@ const normalizeMeasurement = (measurement, plan) => {
     memory_pass: groupedMemoryPass,
     memory_known: !memoryUnknown,
     memory_statuses: memoryStatuses,
+    per_query_time_passes: groupedRuns.map(
+      (run) => run.latency_ms.threshold_exceedances === 0,
+    ),
+    p95_time_passes: p95Passes,
     order_sensitive: orderSensitive,
   };
   measurement.exactness.status = exactnessStatus;
@@ -174,6 +184,28 @@ const runBoundary = (run) => ({
   hard_timeout_rss_sampling: run.memory_bytes.hard_timeout_rss_sampling,
 });
 
+const normalizeParallelism = (parallelism, plan) => {
+  for (const candidate of parallelism.candidates) {
+    candidate.p95_safe = candidate.runs.every(
+      (run) =>
+        !run.hard_timeout &&
+        !run.oracle_error &&
+        run.p95_ms !== null &&
+        run.p95_ms <= plan.frontier.p95_limit_ms,
+    );
+    candidate.per_query_safe = candidate.runs.every(
+      (run) =>
+        run.maximum_ms !== null &&
+        run.maximum_ms <= plan.frontier.query_timeout_ms,
+    );
+    candidate.safe = candidate.p95_safe && candidate.per_query_safe;
+  }
+  parallelism.safe_parallel_workers =
+    parallelism.candidates.filter((candidate) => candidate.safe).at(-1)
+      ?.workers ?? 0;
+  return parallelism;
+};
+
 const summarize = (result, hashes, lie) => {
   const classifications = {};
   for (const measurement of result.measurements)
@@ -218,14 +250,28 @@ const summarize = (result, hashes, lie) => {
         runBoundary,
       ),
     }));
+  const timeFailures = result.measurements
+    .filter((measurement) => measurement.classification === "time_fail")
+    .map((measurement) => ({
+      id: measurement.representation.id,
+      type: measurement.representation.type,
+      highest_weight: measurement.representation.highest_weight,
+      representation_dimension:
+        measurement.representation.representation_dimension,
+      grouped_orders: [measurement.binding, ...measurement.sensitivities].map(
+        runBoundary,
+      ),
+    }));
   return {
     schema_version: 1,
     evidence_stage: result.evidence_stage,
     decision: "hold",
     decision_basis: {
       order_sensitive_representations: orderSensitive.length,
+      time_fail_representations: timeFailures.length,
       time_fail_memory_unknown_representations: hardTimeouts.length,
-      resource_pass_requires_every_frozen_representation_and_order_to_pass: true,
+      resource_pass_requires_every_query_and_p95_in_every_frozen_order_to_pass:
+        true,
     },
     bindings: hashes,
     capture: {
@@ -262,9 +308,11 @@ const summarize = (result, hashes, lie) => {
       maximum_known_grouped_incremental_memory_bytes:
         exactMemoryValues.length === 0 ? null : Math.max(...exactMemoryValues),
       unknown_memory_is_never_reported_as_pass: true,
-      safe_parallel_workers_tested: result.parallelism.safe_parallel_workers,
+      safe_parallel_workers_under_full_time_contract:
+        result.parallelism.safe_parallel_workers,
     },
     order_sensitive: orderSensitive,
+    time_failures: timeFailures,
     hard_timeouts: hardTimeouts,
     tested_ceilings: result.summary.tested_ceilings,
     independent_lie_witness: lie,
@@ -300,6 +348,7 @@ const main = async () => {
   result.measurements = result.measurements.map((measurement) =>
     normalizeMeasurement(measurement, plan.value),
   );
+  result.parallelism = normalizeParallelism(result.parallelism, plan.value);
   const classifications = {};
   for (const measurement of result.measurements)
     classifications[measurement.classification] =
