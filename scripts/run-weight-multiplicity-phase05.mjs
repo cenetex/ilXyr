@@ -1029,4 +1029,7 @@ const main = async () => {
   console.log(JSON.stringify({ summary: result.summary, parallelism: result.parallelism }));
 };
 
-await main();
+export { describeType, exactWeylDimension, generateTargets, sha256, stableJson };
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url))
+  await main();

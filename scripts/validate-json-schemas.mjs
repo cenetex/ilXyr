@@ -108,6 +108,9 @@ const fixtures = {
   "weight-multiplicity-phase05-manifest.schema.json": [
     "examples/weight-multiplicity/phase05-representation-manifest.json",
   ],
+  "weight-multiplicity-phase05-lie-cross-check.schema.json": [
+    "examples/weight-multiplicity/phase05-lie-cross-check-manifest.json",
+  ],
 };
 
 const readJson = async (relativePath) =>
