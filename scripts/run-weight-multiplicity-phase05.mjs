@@ -515,18 +515,22 @@ class OracleServer {
   async sampleResidentBytes() {
     if (!this.child?.pid) return null;
     return await new Promise((resolveSample) => {
-      execFile(
-        "ps",
-        ["-o", "rss=", "-p", String(this.child.pid)],
-        { encoding: "utf8" },
-        (error, output) => {
-          if (error) resolveSample(null);
-          else {
-            const value = output.trim();
-            resolveSample(value ? Number(value) * 1024 : null);
-          }
-        },
-      );
+      try {
+        execFile(
+          "ps",
+          ["-o", "rss=", "-p", String(this.child.pid)],
+          { encoding: "utf8" },
+          (error, output) => {
+            if (error) resolveSample(null);
+            else {
+              const value = output.trim();
+              resolveSample(value ? Number(value) * 1024 : null);
+            }
+          },
+        );
+      } catch {
+        resolveSample(null);
+      }
     });
   }
 
