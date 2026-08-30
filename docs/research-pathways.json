@@ -120,7 +120,7 @@
         { "claim": "The replay-tangent intervention passes unchanged on all three declared seeds", "outcome": "positive" }
       ],
       "summary": "Seeds 1 and 3 independently passed the unchanged public and promotion gates, completing the all-three-seed family conjunction and promoting ZERO.4.",
-      "next_boundary": "Bind the concrete ZERO.4 capability to a real shared task for cross-family replication.",
+      "next_boundary": "Preregister one bounded Solomon run against the frozen zero-solomon.q22-operation.v1 task.",
       "sources": [
         { "kind": "experiment_record", "path": "docs/experiments/EXP-005.md", "record_id": "EXP-005" }
       ]
@@ -387,7 +387,7 @@
         { "claim": "The frozen integer transformer beats uniform, retrieval, byte-ngram, and float-transformer NLL baselines with no zero-probability windows", "outcome": "positive" }
       ],
       "summary": "The exact pipeline replayed from a clean public checkout and beat every declared baseline over 5,896 targets.",
-      "next_boundary": "Use a shared task to test whether a Zero-proven capability survives Solomon integer training.",
+      "next_boundary": "Use the frozen q22 operation task in one prospectively bounded Solomon run.",
       "sources": [
         { "kind": "retro_registration", "path": "examples/families/solomon-successor-v2.retro.json", "record_id": "solomon.successor-v2.headline.v1" }
       ]
@@ -557,19 +557,16 @@
       "execution_status": "not_run",
       "scientific_outcome": "unknown",
       "disclosure_status": "public",
-      "lifecycle_status": "blocked",
+      "lifecycle_status": "open",
       "evidence_status": "documented",
       "claim_results": [
         { "claim": "A ZERO.4 capability survives Solomon integer training under one shared task and agreement contract", "outcome": "unknown" }
       ],
-      "blockers": [
-        "The real shared-task dataset and evaluation hashes are not bound.",
-        "A Solomon-compatible encoding and verifier do not yet exist."
-      ],
-      "summary": "The Zero family gate is clear and the generic replication protocol exists, but the concrete cross-family task cannot yet be preregistered.",
-      "next_boundary": "Freeze the real q22r data bindings, implement the Solomon encoding and verifier, then preregister exactly one bridge experiment.",
+      "summary": "The training and evaluation bytes plus both family encodings and verifiers are source-pinned. The bridge is technically ready, but no Solomon run or scientific outcome exists.",
+      "next_boundary": "Preregister exactly one Solomon experiment with a fixed model, compute budget, evaluation firewall, and agreement rule.",
       "sources": [
-        { "kind": "program_record", "path": "docs/PROGRAM.md", "record_id": "zero-solomon-replication-bridge" }
+        { "kind": "program_record", "path": "docs/PROGRAM.md", "record_id": "zero-solomon-replication-bridge" },
+        { "kind": "program_record", "path": "examples/shared-tasks/zero-solomon-q22-operation-v1.json", "record_id": "zero-solomon.q22-operation.v1" }
       ]
     }
   ],
@@ -623,7 +620,7 @@
       "Require major branches to declare rules_out, supports, supersedes, and next_allowed intervention edges."
     ],
     "priority_order": [
-      "Complete the ZERO.4 to Solomon shared-task bindings and verifier.",
+      "Preregister one bounded Solomon run against the frozen ZERO.4 q22 shared task.",
       "Run a read-only NSRL frozen-representation sufficiency audit before another training method.",
       "Decide whether ZERO5-C6.1 earns its separately authorized representation-level run.",
       "Import outstanding external evidence and settle verified upstream family evidence locally.",
