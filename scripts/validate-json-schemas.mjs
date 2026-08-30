@@ -47,6 +47,7 @@ const fixtures = {
   "huggingface-model.schema.json": [
     "examples/schema/huggingface-model.json",
   ],
+  "lab-registry.schema.json": ["docs/lab-registry.json"],
   "nsrl-gate-evidence.schema.json": [
     "examples/nsrl/p10m-v10-context-gate.json",
     "examples/nsrl/p10m-v10-generation-gate.json",
@@ -84,6 +85,9 @@ const fixtures = {
   "shared-task.schema.json": ["examples/schema/shared-task.json"],
   "trusted-attestation-key.schema.json": [
     "examples/schema/trusted-attestation-key.json",
+  ],
+  "upstream-benchmark.schema.json": [
+    "examples/schema/upstream-benchmark.json",
   ],
 };
 
@@ -131,11 +135,13 @@ for (const [schemaName, fixturePaths] of Object.entries(fixtures)) {
   }
 }
 
+let rejectionCount = 0;
 const expectInvalid = (schemaName, label, value) => {
   const validate = validators.get(schemaName);
   if (validate(value)) {
     throw new Error(`${label} unexpectedly passed ${schemaName}`);
   }
+  rejectionCount += 1;
 };
 
 const modelContribution = await readJson("examples/toy/foundation.json");
@@ -256,6 +262,23 @@ expectInvalid(
   huggingFaceModel,
 );
 
+const labRegistry = await readJson("docs/lab-registry.json");
+labRegistry.experiments.at(-1).state = "authorized";
+labRegistry.experiments.at(-1).outcome = "pass";
+expectInvalid(
+  "lab-registry.schema.json",
+  "authorized lab experiment with an outcome",
+  labRegistry,
+);
+
+const upstreamBenchmark = await readJson("examples/schema/upstream-benchmark.json");
+delete upstreamBenchmark.outcome.resolved_outcome;
+expectInvalid(
+  "upstream-benchmark.schema.json",
+  "upstream benchmark without an explicit outcome",
+  upstreamBenchmark,
+);
+
 const nsrlRegistration = await readJson(
   "examples/nsrl/p10m-v10-registration.json",
 );
@@ -277,5 +300,5 @@ expectInvalid(
 );
 
 console.log(
-  `Validated ${schemaNames.length} Draft 2020-12 schemas, ${positiveCount} positive fixtures, and 18 rejection fixtures.`,
+  `Validated ${schemaNames.length} Draft 2020-12 schemas, ${positiveCount} positive fixtures, and ${rejectionCount} rejection fixtures.`,
 );

@@ -8,6 +8,7 @@ Keep protocol changes explicit and replayable.
 4. Add or update a positive schema fixture and a focused rejection fixture when a JSON contract
    changes.
 5. Run `cargo fmt --check`, `cargo clippy --workspace --all-targets --locked -- -D warnings`,
-   `cargo test --workspace --locked`, and `npm run test:schemas`.
+   `cargo test --workspace --locked`, `npm run test:schemas`,
+   `npm run test:registry`, and `npm run test:importer`.
 
 Security boundary changes require a decision record under `docs/decisions`.

@@ -1,0 +1,495 @@
+{
+  "schema": "ilxyr.lab_registry.v1",
+  "as_of": "2026-08-28",
+  "scope": "Decision-bearing ZERO.5 experiments and their Braid inputs. Engineering calibrations are supporting evidence, not separate scientific decisions.",
+  "repositories": [
+    {
+      "id": "repo://zero",
+      "role": "model_engine",
+      "url": "https://github.com/atimics/zero-grounded-literary-lm",
+      "observed_revision": "8876c335f04966f09127e8e35c63558a2e2aaffb"
+    },
+    {
+      "id": "repo://braid",
+      "role": "dataset_plane",
+      "url": "https://github.com/cenetex/braid",
+      "observed_revision": "8f5bf03984fec1f5d892776f0dd3eb05c9aa48e6"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "dataset://braid/corpus-five/statebridge/v0.3.0",
+      "kind": "dataset_release",
+      "title": "BRAID-CORPUS-5.2-STATEBRIDGE",
+      "repository_id": "repo://braid",
+      "source_revision": "f96fb289b2ddf3c22b755bfa378f8ff70afb0293",
+      "digest": "3ce479213241679af209b402101c24786299f2ff05325838efd42eebf541315c",
+      "visibility": "private_hash_only",
+      "status": "verified_input",
+      "summary_url": "https://github.com/cenetex/braid/blob/main/datasets/corpus-five/README.md"
+    },
+    {
+      "id": "representation://braid/corpus-five/zero5-512-text-c52/v0.3.0",
+      "kind": "representation",
+      "title": "Braid Corpus 5.2 ZERO.5 text view",
+      "repository_id": "repo://braid",
+      "source_revision": "f96fb289b2ddf3c22b755bfa378f8ff70afb0293",
+      "digest": "88aa4262ef1fcdada6aa36e99aa7d1c6ccb4e347c5e0ce2c6505b6bfc03b5766",
+      "visibility": "private_hash_only",
+      "status": "verified_input",
+      "summary_url": "https://github.com/cenetex/braid/blob/main/datasets/corpus-five/README.md"
+    },
+    {
+      "id": "representation://braid/corpus-five/symbolic-u16-c52/v0.3.0",
+      "kind": "representation",
+      "title": "Braid Corpus 5.2 symbolic uint16 view",
+      "repository_id": "repo://braid",
+      "source_revision": "f96fb289b2ddf3c22b755bfa378f8ff70afb0293",
+      "digest": "825cfdfe4dcbc0c861da1c951a5e0c874cf1fc40a59fe5b7a69de4f5a267f0bb",
+      "visibility": "private_hash_only",
+      "status": "withheld",
+      "summary_url": "https://github.com/cenetex/braid/blob/main/datasets/corpus-five/README.md"
+    },
+    {
+      "id": "vocabulary://braid/state-target/v2",
+      "kind": "vocabulary",
+      "title": "Braid factorized state-target vocabulary v2",
+      "repository_id": "repo://braid",
+      "source_revision": "f96fb289b2ddf3c22b755bfa378f8ff70afb0293",
+      "digest": "3923f04459eb3769fce7e133f687758b677bca0e3a9d65444a6407e70e9bb578",
+      "visibility": "private_hash_only",
+      "status": "verified_input",
+      "summary_url": "https://github.com/cenetex/braid/blob/main/datasets/corpus-five/README.md"
+    },
+    {
+      "id": "checkpoint://zero/zero5/c2/selected",
+      "kind": "checkpoint",
+      "title": "ZERO.5 C2 selected checkpoint",
+      "repository_id": "repo://zero",
+      "source_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+      "digest": "d6ca2c804f6aded47262060b30ba19e579ec2737e3fab5d0caf40a075148f849",
+      "visibility": "private_hash_only",
+      "status": "selected_baseline"
+    }
+  ],
+  "model_lines": [
+    {
+      "id": "model-line://zero/zero4",
+      "family": "zero",
+      "title": "ZERO.4 promoted quantity line",
+      "state": "promoted",
+      "promotion_state": "promoted",
+      "summary": "Q2.6 passed all three declared seeds. ZERO.4 remains the deployed promoted model and is not the parent checkpoint for the ZERO.5 C line."
+    },
+    {
+      "id": "model-line://zero/zero5",
+      "family": "zero",
+      "title": "ZERO.5 active C research line",
+      "state": "active_research",
+      "promotion_state": "not_promoted",
+      "base_parameter_count": 4852992,
+      "active_experiment": null,
+      "summary": "Dependency-free C11 training at a fixed 4,852,992-parameter base. C5.2 has a terminal private result. C6.1 is built and preregistered but blocked from training, so the line has no active experiment and remains unpromoted."
+    }
+  ],
+  "experiments": [
+    {
+      "id": "zero5-c0-v1",
+      "display_name": "ZERO5-C0-CORPUS-TOKENIZER",
+      "family": "zero",
+      "model_line_id": "model-line://zero/zero5",
+      "category": "mechanics",
+      "question": "Can ZERO verify a governed Braid corpus and select a lossless tokenizer without parameter-budget drift?",
+      "state": "completed",
+      "outcome": "selected",
+      "parameter_count": 4852992,
+      "promotion_authorized": false,
+      "prospective_contract": true,
+      "inputs": [],
+      "depends_on": [],
+      "source": {
+        "repository_id": "repo://zero",
+        "observed_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+        "contract_path": "benchmarks/zero5-c0-v1/contract.json",
+        "contract_sha256": "05156df6222094e7ed75f89cdf9ceb2aacae0e481cd3637514fa116980fb2886",
+        "result_path": "benchmarks/zero5-c0-v1/result.json",
+        "result_sha256": "e3c0bd90196387d0791674c6b38ecf97134f229f99757c94c8b4f095d339508f"
+      },
+      "evidence": {
+        "ilxyr_recorded": false,
+        "classification": "external_public",
+        "forecast_risked": false,
+        "source_attested": false,
+        "cold_replayable": false
+      },
+      "summary": "Byte-BPE512 was selected after using 57.07% fewer validation content tokens than byte264 at the fixed model size.",
+      "next_decision": "Use the selected tokenizer for the native C training proof."
+    },
+    {
+      "id": "zero5-c1-v1",
+      "display_name": "ZERO5-C1-NATIVE-C-TRAINING",
+      "family": "zero",
+      "model_line_id": "model-line://zero/zero5",
+      "category": "scientific",
+      "question": "Can the fixed-size native C model learn a stable validation signal across three seeds with an exact repeat?",
+      "state": "completed",
+      "outcome": "pass",
+      "parameter_count": 4852992,
+      "promotion_authorized": false,
+      "prospective_contract": true,
+      "inputs": [],
+      "depends_on": ["zero5-c0-v1"],
+      "source": {
+        "repository_id": "repo://zero",
+        "observed_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+        "contract_path": "benchmarks/zero5-c1-v1/contract.json",
+        "contract_sha256": "28dc228d86bec18754270f93fb36f8c7ad11cd51c30fe226e1efa92a00d1f49e",
+        "result_path": "benchmarks/zero5-c1-v1/result.json",
+        "result_sha256": "3aff6a11ef5aa13329c5246ade87d9e5e52a954b3aeb4633155f259dd2c1de3c"
+      },
+      "evidence": {
+        "ilxyr_recorded": false,
+        "classification": "external_public",
+        "forecast_risked": false,
+        "source_attested": false,
+        "cold_replayable": false
+      },
+      "summary": "All mechanics and training-signal gates passed across three seeds; generation remained incoherent and no model promotion followed.",
+      "next_decision": "Continue the selected checkpoint through the larger Atlas corpus."
+    },
+    {
+      "id": "zero5-c2-v1",
+      "display_name": "ZERO5-C2-ATLAS-CONTINUATION",
+      "family": "zero",
+      "model_line_id": "model-line://zero/zero5",
+      "category": "scientific",
+      "question": "Does a larger factual prose corpus improve held-out modeling before parameter scale?",
+      "state": "completed",
+      "outcome": "pass",
+      "parameter_count": 4852992,
+      "promotion_authorized": false,
+      "prospective_contract": true,
+      "inputs": [],
+      "depends_on": ["zero5-c1-v1"],
+      "source": {
+        "repository_id": "repo://zero",
+        "observed_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+        "contract_path": "benchmarks/zero5-c2-v1/contract.json",
+        "contract_sha256": "f1dd47396dc1e659234ce02040ae870d5eee10c699f6789fb76bf667ead684c3",
+        "result_path": "benchmarks/zero5-c2-v1/result.json",
+        "result_sha256": "38e6835efa099d6883a5c2192aa052234412448a93230d5d2d252b108acbf5cb"
+      },
+      "evidence": {
+        "ilxyr_recorded": false,
+        "classification": "external_public",
+        "forecast_risked": false,
+        "source_attested": false,
+        "cold_replayable": false
+      },
+      "summary": "Atlas validation loss fell 54.26% and the C1 anchor improved, establishing the selected C2 checkpoint as the later experiment baseline.",
+      "next_decision": "Test evidence-linked tasks at the same model size."
+    },
+    {
+      "id": "zero5-c3-v1",
+      "display_name": "ZERO5-C3-EVIDENCE-CURRICULUM",
+      "family": "zero",
+      "model_line_id": "model-line://zero/zero5",
+      "category": "scientific",
+      "question": "Does one ordered evidence-task pass improve answer completion without forgetting earlier corpora?",
+      "state": "completed",
+      "outcome": "no_go",
+      "parameter_count": 4852992,
+      "promotion_authorized": false,
+      "prospective_contract": true,
+      "inputs": ["checkpoint://zero/zero5/c2/selected"],
+      "depends_on": ["zero5-c2-v1"],
+      "source": {
+        "repository_id": "repo://zero",
+        "observed_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+        "contract_path": "benchmarks/zero5-c3-v1/contract.json",
+        "contract_sha256": "e497a76bcd8800ce593b2b4cc796bafbccc381665e0f7f2e5824525274f8becc",
+        "result_path": "benchmarks/zero5-c3-v1/result.json",
+        "result_sha256": "b3770868cb30017649f5dc662e5a8487c96cf9bb8132ebdcc81817501fef3421"
+      },
+      "evidence": {
+        "ilxyr_recorded": false,
+        "classification": "external_public",
+        "forecast_risked": false,
+        "source_attested": false,
+        "cold_replayable": false
+      },
+      "summary": "Combined loss improved, but claim, cloze, and retrieval decision gates exposed weak answer learning and task-order interference.",
+      "next_decision": "Interleave intact records and test explicit answer weighting."
+    },
+    {
+      "id": "zero5-c31-v1",
+      "display_name": "ZERO5-C3.1-RECORD-SAFE-BRAID",
+      "family": "zero",
+      "model_line_id": "model-line://zero/zero5",
+      "category": "scientific",
+      "question": "Do smooth task interleaving and explicit answer weighting produce balanced gains at fixed compute?",
+      "state": "completed",
+      "outcome": "no_go",
+      "parameter_count": 4852992,
+      "promotion_authorized": false,
+      "prospective_contract": true,
+      "inputs": ["checkpoint://zero/zero5/c2/selected"],
+      "depends_on": ["zero5-c3-v1"],
+      "source": {
+        "repository_id": "repo://zero",
+        "observed_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+        "contract_path": "benchmarks/zero5-c31-v1/contract.json",
+        "contract_sha256": "40ffb6968e5d8dafb418568de95fcc04eb88defc7a608c95c9aedd21c605d706",
+        "result_path": "benchmarks/zero5-c31-v1/result.json",
+        "result_sha256": "dbe4dd29d5f4ea20180c5cc5b76cb48e77edfba8a013563b1a4b6178205d453f"
+      },
+      "evidence": {
+        "ilxyr_recorded": false,
+        "classification": "external_public",
+        "forecast_risked": false,
+        "source_attested": false,
+        "cold_replayable": false
+      },
+      "summary": "Interleaving fixed cloze interference and answer weighting improved retrieval, but no arm cleared the complete gate.",
+      "next_decision": "Repair task definitions and balance answer influence by task."
+    },
+    {
+      "id": "zero5-c32-v1",
+      "display_name": "ZERO5-C3.2-PAIRED-INVARIANCE",
+      "family": "zero",
+      "model_line_id": "model-line://zero/zero5",
+      "category": "scientific",
+      "question": "Can repaired task definitions and task-balanced loss make paired decisions stable under swapped evidence order?",
+      "state": "completed",
+      "outcome": "no_go",
+      "parameter_count": 4852992,
+      "promotion_authorized": false,
+      "prospective_contract": true,
+      "inputs": ["checkpoint://zero/zero5/c2/selected"],
+      "depends_on": ["zero5-c31-v1"],
+      "source": {
+        "repository_id": "repo://zero",
+        "observed_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+        "contract_path": "benchmarks/zero5-c32-v1/contract.json",
+        "contract_sha256": "f47f9283ee8a111bb816079803824bee77de930eac9e4ef5ecdbb8733dd01b7e",
+        "result_path": "benchmarks/zero5-c32-v1/result.json",
+        "result_sha256": "e87305b52d229a71483c49a9aed09258211e118dd14b2f09855b77f89a059688"
+      },
+      "evidence": {
+        "ilxyr_recorded": false,
+        "classification": "external_public",
+        "forecast_risked": false,
+        "source_attested": false,
+        "cold_replayable": false
+      },
+      "summary": "Task balancing removed much aggregate position bias but failed the per-example swap-consistency and pair-exact gates.",
+      "next_decision": "Train mirrored examples as one atomic update group."
+    },
+    {
+      "id": "zero5-c33-v1",
+      "display_name": "ZERO5-C3.3-PAIR-ATOMIC",
+      "family": "zero",
+      "model_line_id": "model-line://zero/zero5",
+      "category": "scientific",
+      "question": "Does putting both orientations of each mirrored pair in one optimizer update improve relational consistency?",
+      "state": "completed",
+      "outcome": "no_go",
+      "parameter_count": 4852992,
+      "promotion_authorized": false,
+      "prospective_contract": true,
+      "inputs": ["checkpoint://zero/zero5/c2/selected"],
+      "depends_on": ["zero5-c32-v1"],
+      "source": {
+        "repository_id": "repo://zero",
+        "observed_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+        "contract_path": "benchmarks/zero5-c33-v1/contract.json",
+        "contract_sha256": "f06365554a16ec0557503fe35ff6e074a0720312dd4295e3d54e1a7df6fa73d1",
+        "result_path": "benchmarks/zero5-c33-v1/result.json",
+        "result_sha256": "7c0ee03f157ed0bdefa24b99e08e20fab8cb0c863ef448e22a17f1675c9caa57"
+      },
+      "evidence": {
+        "ilxyr_recorded": false,
+        "classification": "external_public",
+        "forecast_risked": false,
+        "source_attested": false,
+        "cold_replayable": false
+      },
+      "summary": "Pair co-location moved swap consistency in the wrong direction and did not support an invariance claim.",
+      "next_decision": "Change the representation or objective rather than rearranging ordinary next-token loss again."
+    },
+    {
+      "id": "zero5-c42-v1",
+      "display_name": "ZERO5-C4.2-GROUPED-TRAINING",
+      "family": "zero",
+      "model_line_id": "model-line://zero/zero5",
+      "category": "scientific",
+      "question": "Can the repaired grouped corpus improve cloze and hard retrieval while preserving paired and retention gates?",
+      "state": "completed",
+      "outcome": "no_go",
+      "parameter_count": 4852992,
+      "promotion_authorized": false,
+      "prospective_contract": true,
+      "inputs": ["checkpoint://zero/zero5/c2/selected"],
+      "depends_on": ["zero5-c33-v1"],
+      "source": {
+        "repository_id": "repo://zero",
+        "observed_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+        "contract_path": "benchmarks/zero5-c42-v1/contract.json",
+        "contract_sha256": "80026e32956bb9fe0092fa0b867633850c20bb615c687c4d8eaa9422551a6250",
+        "result_path": "benchmarks/zero5-c42-v1/result.json",
+        "result_sha256": "63e4209b19637e2b09e3798f3cf0c32e84d983f09b33b161b39463c4b3d8c279"
+      },
+      "evidence": {
+        "ilxyr_recorded": false,
+        "classification": "external_public",
+        "forecast_risked": false,
+        "source_attested": false,
+        "cold_replayable": false
+      },
+      "summary": "Claim choice improved strongly, but cloze, retrieval, and frozen swap-improvement gates did not all pass.",
+      "next_decision": "Increase hard retrieval and raw cloze coverage under achievable swap gates."
+    },
+    {
+      "id": "zero5-c43-v1",
+      "display_name": "ZERO5-C4.3-DATA-REPAIR",
+      "family": "zero",
+      "model_line_id": "model-line://zero/zero5",
+      "category": "scientific",
+      "question": "Does the governed C4.3 data repair clear exact cloze and retrieval gates at fixed compute?",
+      "state": "completed",
+      "outcome": "no_go",
+      "parameter_count": 4852992,
+      "promotion_authorized": false,
+      "prospective_contract": true,
+      "inputs": ["checkpoint://zero/zero5/c2/selected"],
+      "depends_on": ["zero5-c42-v1"],
+      "source": {
+        "repository_id": "repo://zero",
+        "observed_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+        "contract_path": "benchmarks/zero5-c43-v1/contract.json",
+        "contract_sha256": "0cf7390dbc188d444d723eee6ca7c0ceba3c5c00aec23b1de3f1a827fa3f16dc",
+        "result_path": "benchmarks/zero5-c43-v1/result.json",
+        "result_sha256": "ebcf20bf7214f7b99b1425bcd74e3545de7a079268536fde93aeb4d456dbfb74"
+      },
+      "evidence": {
+        "ilxyr_recorded": false,
+        "classification": "external_public",
+        "forecast_risked": false,
+        "source_attested": false,
+        "cold_replayable": false
+      },
+      "summary": "Claim and retention gates passed, but retrieval choice stopped at 53.76% and cloze exact did not improve.",
+      "next_decision": "Test whether a structured state stream supplies a denser useful learning signal."
+    },
+    {
+      "id": "zero5-c51-statebridge-v1",
+      "display_name": "ZERO5-C5.1-STATEBRIDGE-TEXT",
+      "family": "zero",
+      "model_line_id": "model-line://zero/zero5",
+      "category": "scientific",
+      "question": "Does replacing 25% of C4.3 with Braid structured-state text improve retrieval without breaking language retention?",
+      "state": "completed",
+      "outcome": "no_go",
+      "parameter_count": 4852992,
+      "promotion_authorized": false,
+      "prospective_contract": true,
+      "inputs": [
+        "checkpoint://zero/zero5/c2/selected",
+        "dataset://braid/corpus-five/statebridge/v0.3.0",
+        "representation://braid/corpus-five/zero5-512-text-c52/v0.3.0"
+      ],
+      "depends_on": ["zero5-c43-v1"],
+      "source": {
+        "repository_id": "repo://zero",
+        "observed_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+        "contract_path": "benchmarks/zero5-c51-statebridge-v1/contract.json",
+        "contract_sha256": "7bb9616e2d3c47bba90ca995aaebf43fcc613825dae64564627261d8be745b7d",
+        "private_result_sha256": "e2c98c4733873898c82419d0ad399cc5a82272949e2e8fdba39cfa0b68e2dd7c"
+      },
+      "evidence": {
+        "ilxyr_recorded": false,
+        "classification": "external_private_hash",
+        "forecast_risked": false,
+        "source_attested": false,
+        "cold_replayable": false
+      },
+      "summary": "Structured text alone did not transfer: retrieval choice was 52.57%, pair-exact 50.94%, claim choice 56.14%, and the choice orientation gap was 62.43 points.",
+      "next_decision": "Hold the stream fixed and test one verified auxiliary state-target loss."
+    },
+    {
+      "id": "zero5-c52-targetbridge-v1",
+      "display_name": "ZERO5-C5.2-TARGETBRIDGE-AUX",
+      "family": "zero",
+      "model_line_id": "model-line://zero/zero5",
+      "category": "scientific",
+      "question": "Does a factorized verified state-target loss transfer Braid state learning into the frozen retrieval audit?",
+      "state": "withheld",
+      "parameter_count": 5046256,
+      "promotion_authorized": false,
+      "prospective_contract": true,
+      "inputs": [
+        "checkpoint://zero/zero5/c2/selected",
+        "dataset://braid/corpus-five/statebridge/v0.3.0",
+        "representation://braid/corpus-five/zero5-512-text-c52/v0.3.0",
+        "vocabulary://braid/state-target/v2"
+      ],
+      "depends_on": ["zero5-c51-statebridge-v1"],
+      "source": {
+        "repository_id": "repo://zero",
+        "observed_revision": "ba7e24f65c4fa79b5b69d945acd6b47df6c9d7a6",
+        "contract_path": "benchmarks/zero5-c52-targetbridge-v1/contract.json",
+        "contract_sha256": "00c30aa5dc04033c0f7eb5375acbaeeba3eeecb92cc5da928bbd6b2ccb427a02"
+      },
+      "evidence": {
+        "ilxyr_recorded": false,
+        "classification": "private_withheld",
+        "forecast_risked": false,
+        "source_attested": false,
+        "cold_replayable": false
+      },
+      "summary": "The authorized run finished under its frozen private-result and no-publication boundary. Its outcome, metrics, checkpoint hashes, and result hash are intentionally absent from this public registry.",
+      "next_decision": "Keep the sealed test closed. Any later experiment must stand on its own public prospective contract without disclosing or relabelling this private terminal result."
+    },
+    {
+      "id": "zero5-c61-shared-state-v1",
+      "display_name": "ZERO5-C6.1-SHARED-STATE-BOTTLENECK",
+      "family": "zero",
+      "model_line_id": "model-line://zero/zero5",
+      "category": "scientific",
+      "question": "Does a verified state bottleneck improve retrieval when the same learned representation directly changes answer-token language logits?",
+      "state": "blocked",
+      "parameter_count": 5046024,
+      "promotion_authorized": false,
+      "prospective_contract": true,
+      "inputs": [
+        "checkpoint://zero/zero5/c2/selected",
+        "dataset://braid/corpus-five/statebridge/v0.3.0",
+        "representation://braid/corpus-five/zero5-512-text-c52/v0.3.0",
+        "vocabulary://braid/state-target/v2"
+      ],
+      "depends_on": ["zero5-c51-statebridge-v1"],
+      "source": {
+        "repository_id": "repo://zero",
+        "observed_revision": "8876c335f04966f09127e8e35c63558a2e2aaffb",
+        "contract_path": "benchmarks/zero5-c61-shared-state-v1/contract.json",
+        "contract_sha256": "e06a7fb3fa56890085f00531ff5802e147b018b52bf582cda65938a9a06236e4"
+      },
+      "evidence": {
+        "ilxyr_recorded": true,
+        "classification": "native",
+        "forecast_risked": false,
+        "source_attested": true,
+        "cold_replayable": false
+      },
+      "summary": "The 152-wide bottleneck, evaluator, runner, and frozen gates are built. The same-checkpoint bridge-off ablation is mandatory. Training remains blocked until a separate authorization is bound to this contract and ilXyr registration.",
+      "next_decision": "Review and merge the registry and implementation PRs. A separate explicit authorization may then permit exactly one local seed-0 run; this registration alone permits no compute."
+    }
+  ],
+  "governance": {
+    "system_of_record": "ilxyr",
+    "active_experiment": null,
+    "new_run_policy": "requires_ilxyr_registration",
+    "already_started_run_policy": "finish_then_import_honestly",
+    "naming_policy": "use_plane_prefixed_display_names"
+  }
+}
