@@ -107,19 +107,23 @@ class OracleServer {
     const takeSample = () => {
       if (!this.child?.pid || sampleInFlight) return;
       sampleInFlight = true;
-      execFile(
-        "ps",
-        ["-o", "rss=", "-p", String(this.child.pid)],
-        { encoding: "utf8" },
-        (error, stdout) => {
-          sampleInFlight = false;
-          if (error) return;
-          const text = stdout.trim();
-          if (!text) return;
-          const value = Number(text) * 1024;
-          sampledPeakRss = sampledPeakRss === null ? value : Math.max(sampledPeakRss, value);
-        },
-      );
+      try {
+        execFile(
+          "ps",
+          ["-o", "rss=", "-p", String(this.child.pid)],
+          { encoding: "utf8" },
+          (error, stdout) => {
+            sampleInFlight = false;
+            if (error) return;
+            const text = stdout.trim();
+            if (!text) return;
+            const value = Number(text) * 1024;
+            sampledPeakRss = sampledPeakRss === null ? value : Math.max(sampledPeakRss, value);
+          },
+        );
+      } catch {
+        sampleInFlight = false;
+      }
     };
     const sampleDelay = sample
       ? setTimeout(() => {
