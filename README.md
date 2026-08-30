@@ -244,7 +244,7 @@ started without producing a terminal run. `authorize` reports the same decision 
   exact source pins, and verified all-three-seeds family go.
 - `docs/experiments/NSRL-P10M-TARGET-MARGIN.md`: exact-check negative results for the
   output-matrix target-margin pilot, its fixed-schedule trust region, and the canonical-NLL
-  direct-head follow-up.
+  direct-head guard and exact safe-set follow-ups.
 - `docs/decisions/`: architectural decision records (ADR 0001–0004).
 
 ## Current non-goals and evidence gaps

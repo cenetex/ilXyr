@@ -79,3 +79,9 @@ The canonical-NLL head follow-up is registered in
 64-window proposal but worsened a different-document 32-window guard, so it was restored in round
 zero. Exact model and trace reruns passed. Development was unchanged; test, open-generation, and
 hidden evidence stayed closed.
+
+Its exact safe-set follow-up is registered in
+`examples/families/nsrl-direct-head-nll-safe-set-v1.retro.json`. Both unit directions were checked
+on the complete proposal and guard surfaces for all eight ranked coordinates. Every proposal-NLL
+descent direction worsened the guard, leaving no safe candidate. The source was retained with exact
+model and trace replay, and development, test, open-generation, and hidden evidence stayed closed.
