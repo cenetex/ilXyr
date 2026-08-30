@@ -23,32 +23,35 @@ async function render() {
   );
 }
 
-test("server-renders the ilXyr lab portal", async () => {
+test("server-renders the ilXyr protocol index", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>ilXyr — Lab Portal<\/title>/i);
-  assert.match(html, /Research worth funding starts as a/);
-  assert.match(html, /Submit an experiment/);
-  assert.match(html, /Funding queue/);
-  assert.match(html, /Evidence registry/);
+  assert.match(html, /<title>ilXyr — protocol index<\/title>/i);
+  assert.match(html, /This website is an index/);
+  assert.match(html, /GET \/api\/proposals/);
+  assert.match(html, /Command line API/);
+  assert.match(html, /Cloud executor protocol \(not implemented\)/);
+  assert.match(html, /normal frontier and a presized-memory audit/);
+  assert.match(html, /Experimental protocols and results/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
 });
 
-test("removes starter preview infrastructure and declares durable storage", async () => {
-  const [page, layout, portal, hosting, packageJson] = await Promise.all([
+test("keeps the site plain and declares durable storage", async () => {
+  const [page, layout, styles, hosting, packageJson] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/PortalApp.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../.openai/hosting.json", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
 
-  assert.match(page, /<PortalApp \/>/);
-  assert.match(layout, /const title = "ilXyr — Lab Portal"/);
-  assert.match(portal, /Freeze as funding candidate/);
+  assert.match(page, /HTTP API/);
+  assert.match(layout, /const title = "ilXyr — protocol index"/);
+  assert.doesNotMatch(page, /className=/);
+  assert.doesNotMatch(styles, /gradient|animation|box-shadow|border-radius/);
   assert.match(hosting, /"d1": "DB"/);
   assert.match(packageJson, /"name": "ilxyr-lab-portal"/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
