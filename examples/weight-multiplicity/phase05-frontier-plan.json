@@ -9,7 +9,7 @@
     "interface_version": 2,
     "cache_scope": "one_type_and_highest_weight_per_worker",
     "cache_eviction": "on_type_or_highest_weight_change",
-    "zero_revision": "to-be-frozen-before-binding-run"
+    "zero_revision": "4336160"
   },
   "generator": {
     "implementation": "ilxyr-weight-multiplicity-phase05-frontier",
@@ -29,14 +29,14 @@
       ],
       "tie_break": "lexicographic_highest_weight_dynkin_labels",
       "phase0_v2_first_timeout_cases": {
-        "B7": { "highest_weight": [1, 0, 1, 0, 1, 2, 1], "target_weight": [0, 1, 0, 1, 1, 0, 1] },
-        "B8": { "highest_weight": [0, 0, 0, 0, 1, 1, 2, 0], "target_weight": [0, 1, -1, 1, 0, 2, 0, 0] },
-        "C7": { "highest_weight": [0, 2, 0, 1, 2, 1, 0], "target_weight": [0, 1, 0, 1, 1, 1, 0] },
-        "C8": { "highest_weight": [0, 0, 0, 1, 0, 1, 1, 1], "target_weight": [0, 0, 0, 1, 1, 0, 0, 1] },
-        "D7": { "highest_weight": [1, 1, 1, 1, 2, 1, 1], "target_weight": [0, 0, 1, 2, 0, 0, 2] },
-        "D8": { "highest_weight": [0, 1, 0, 2, 0, 2, 0, 0], "target_weight": [0, 0, 0, 1, 0, 2, 0, 0] },
-        "E7": { "highest_weight": [0, 0, 2, 1, 0, 0, 0], "target_weight": [1, 1, 0, 1, 0, 0, 0] },
-        "E8": { "highest_weight": [0, 0, 1, 0, 0, 0, 0, 0], "target_weight": [0, 1, 0, 0, 0, 0, 0, 0] }
+        "B7": { "highest_weight": [1, 0, 1, 0, 1, 2, 1], "target_weight": [0, 1, 0, 1, 1, 0, 1], "target_depth": 39 },
+        "B8": { "highest_weight": [0, 0, 0, 0, 1, 1, 2, 0], "target_weight": [0, 1, -1, 1, 0, 2, 0, 0], "target_depth": 42 },
+        "C7": { "highest_weight": [0, 2, 0, 1, 2, 1, 0], "target_weight": [0, 1, 0, 1, 1, 1, 0], "target_depth": 38 },
+        "C8": { "highest_weight": [0, 0, 0, 1, 0, 1, 1, 1], "target_weight": [0, 0, 0, 1, 1, 0, 0, 1], "target_depth": 38 },
+        "D7": { "highest_weight": [1, 1, 1, 1, 2, 1, 1], "target_weight": [0, 0, 1, 2, 0, 0, 2], "target_depth": 39 },
+        "D8": { "highest_weight": [0, 1, 0, 2, 0, 2, 0, 0], "target_weight": [0, 0, 0, 1, 0, 2, 0, 0], "target_depth": 35 },
+        "E7": { "highest_weight": [0, 0, 2, 1, 0, 0, 0], "target_weight": [1, 1, 0, 1, 0, 0, 0], "target_depth": 46 },
+        "E8": { "highest_weight": [0, 0, 1, 0, 0, 0, 0, 0], "target_weight": [0, 1, 0, 0, 0, 0, 0, 0], "target_depth": 44 }
       }
     },
     "targets_per_representation": 32,
@@ -77,7 +77,7 @@
       { "id": "d12-15", "lower_inclusive": "1000000000000", "upper_exclusive": "1000000000000000" },
       { "id": "d15-20", "lower_inclusive": "1000000000000000", "upper_exclusive": "100000000000000000000" },
       { "id": "d20-30", "lower_inclusive": "100000000000000000000", "upper_exclusive": "1000000000000000000000000000000" },
-      { "id": "d30-40", "lower_inclusive": "1000000000000000000000000000000", "upper_exclusive": "10000000000000000000000000000000000000000" }
+      { "id": "d30-50", "lower_inclusive": "1000000000000000000000000000000", "upper_exclusive": "100000000000000000000000000000000000000000000000000" }
     ],
     "binding_target_order": "ascending_depth_dominant_first_lexicographic",
     "sensitivity_target_orders": [

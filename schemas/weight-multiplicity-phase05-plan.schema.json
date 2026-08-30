@@ -60,14 +60,14 @@
             "selectors_per_populated_dimension_band": ["minimum_dimension", "nearest_geometric_midpoint", "maximum_dimension"],
             "tie_break": "lexicographic_highest_weight_dynkin_labels",
             "phase0_v2_first_timeout_cases": {
-              "B7": { "highest_weight": [1, 0, 1, 0, 1, 2, 1], "target_weight": [0, 1, 0, 1, 1, 0, 1] },
-              "B8": { "highest_weight": [0, 0, 0, 0, 1, 1, 2, 0], "target_weight": [0, 1, -1, 1, 0, 2, 0, 0] },
-              "C7": { "highest_weight": [0, 2, 0, 1, 2, 1, 0], "target_weight": [0, 1, 0, 1, 1, 1, 0] },
-              "C8": { "highest_weight": [0, 0, 0, 1, 0, 1, 1, 1], "target_weight": [0, 0, 0, 1, 1, 0, 0, 1] },
-              "D7": { "highest_weight": [1, 1, 1, 1, 2, 1, 1], "target_weight": [0, 0, 1, 2, 0, 0, 2] },
-              "D8": { "highest_weight": [0, 1, 0, 2, 0, 2, 0, 0], "target_weight": [0, 0, 0, 1, 0, 2, 0, 0] },
-              "E7": { "highest_weight": [0, 0, 2, 1, 0, 0, 0], "target_weight": [1, 1, 0, 1, 0, 0, 0] },
-              "E8": { "highest_weight": [0, 0, 1, 0, 0, 0, 0, 0], "target_weight": [0, 1, 0, 0, 0, 0, 0, 0] }
+              "B7": { "highest_weight": [1, 0, 1, 0, 1, 2, 1], "target_weight": [0, 1, 0, 1, 1, 0, 1], "target_depth": 39 },
+              "B8": { "highest_weight": [0, 0, 0, 0, 1, 1, 2, 0], "target_weight": [0, 1, -1, 1, 0, 2, 0, 0], "target_depth": 42 },
+              "C7": { "highest_weight": [0, 2, 0, 1, 2, 1, 0], "target_weight": [0, 1, 0, 1, 1, 1, 0], "target_depth": 38 },
+              "C8": { "highest_weight": [0, 0, 0, 1, 0, 1, 1, 1], "target_weight": [0, 0, 0, 1, 1, 0, 0, 1], "target_depth": 38 },
+              "D7": { "highest_weight": [1, 1, 1, 1, 2, 1, 1], "target_weight": [0, 0, 1, 2, 0, 0, 2], "target_depth": 39 },
+              "D8": { "highest_weight": [0, 1, 0, 2, 0, 2, 0, 0], "target_weight": [0, 0, 0, 1, 0, 2, 0, 0], "target_depth": 35 },
+              "E7": { "highest_weight": [0, 0, 2, 1, 0, 0, 0], "target_weight": [1, 1, 0, 1, 0, 0, 0], "target_depth": 46 },
+              "E8": { "highest_weight": [0, 0, 1, 0, 0, 0, 0, 0], "target_weight": [0, 1, 0, 0, 0, 0, 0, 0], "target_depth": 44 }
             }
           }
         },

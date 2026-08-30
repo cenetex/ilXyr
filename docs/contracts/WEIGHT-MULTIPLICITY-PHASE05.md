@@ -106,11 +106,17 @@ Time and memory are separate boundary facts:
 - `time_fail`: time limit exceeded while memory remains within limit;
 - `memory_fail`: memory limit exceeded while time remains within limit;
 - `time_and_memory_fail`: both limits exceeded;
+- `time_fail_memory_unresolved`: a hard timeout prevented a reliable memory
+  conclusion;
 - `order_sensitive`: the p95 result changes across frozen orders; and
 - `pass`: exactness, replay, time, and memory all pass in every required run.
 
 The report records memo entries before and after every query, insertions, hits,
 capacity bytes, group high-water entries, process RSS, and incremental RSS.
+For a query killed at the ten-second measurement limit, the controller samples
+worker RSS every 25 ms and labels that memory figure as sampled rather than as
+the oracle's exact process high-water mark. If sampling is unavailable, memory
+is reported as unresolved rather than silently classified as passing.
 Cold fresh-memo timing is a counterfactual comparison, not the production
 resource gate. The binding and sensitivity grouped orders determine fit; cold
 and grouped answers must still agree wherever both complete.
