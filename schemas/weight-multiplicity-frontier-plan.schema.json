@@ -36,7 +36,7 @@
       "required": ["implementation", "version", "seed", "deduplication"],
       "properties": {
         "implementation": { "const": "ilxyr-weight-multiplicity-frontier" },
-        "version": { "const": 1 },
+        "version": { "enum": [1, 2] },
         "seed": { "type": "integer", "minimum": 0, "maximum": 4294967295 },
         "deduplication": { "const": "report-unique-count-do-not-cache-labels" }
       }
@@ -138,6 +138,34 @@
     },
     "budget_rule": {
       "const": "upper_95_percent_estimate_plus_15_percent_operational_margin"
+    },
+    "supersedes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["plan_sha256", "result_sha256", "reason"],
+      "properties": {
+        "plan_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "result_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "reason": { "type": "string", "minLength": 1 }
+      }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "generator": {
+            "type": "object",
+            "properties": { "version": { "type": "integer", "const": 2 } },
+            "required": ["version"]
+          }
+        }
+      },
+      "then": {
+        "properties": { "supersedes": true },
+        "required": ["supersedes"]
+      },
+      "else": { "not": { "required": ["supersedes"] } }
+    }
+  ]
 }

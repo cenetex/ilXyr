@@ -259,7 +259,34 @@ const chooseMissingSlice = (counts, quotas, random) => {
   return choices.length === 0 ? null : choices[randomInteger(random, choices.length)];
 };
 
-const candidateFor = ({ type, height, description, desiredStratum, desiredStatus, random }) => {
+const loweringWalk = (highest, cartan, goal, random) => {
+  let state = {
+    weight: [...highest],
+    coefficient: Array(highest.length).fill(0),
+  };
+  for (let step = 0; step < goal; step += 1) {
+    const choices = state.weight
+      .map((value, index) => (value > 0 ? index : -1))
+      .filter((index) => index >= 0);
+    if (choices.length === 0) break;
+    const simple = choices[randomInteger(random, choices.length)];
+    state.weight = state.weight.map(
+      (value, row) => value - cartan[row][simple],
+    );
+    state.coefficient[simple] += 1;
+  }
+  return state;
+};
+
+const candidateFor = ({
+  type,
+  height,
+  description,
+  desiredStratum,
+  desiredStatus,
+  generatorVersion,
+  random,
+}) => {
   const rank = description.rank;
   const balanced = desiredStratum === "8-31" || desiredStratum === "2-7";
   const highest = weakComposition(height, rank, random, balanced);
@@ -288,6 +315,19 @@ const candidateFor = ({ type, height, description, desiredStratum, desiredStatus
       );
     }
     ({ weight: target, coefficient } = orbit);
+  } else if (
+    generatorVersion >= 2 &&
+    (desiredStratum === "2-7" || desiredStratum === "8-31")
+  ) {
+    const minimumFraction = desiredStratum === "8-31" ? 0.03 : 0.01;
+    const widthFraction = desiredStratum === "8-31" ? 0.15 : 0.08;
+    const goal = Math.max(
+      1,
+      Math.floor(maximumDepth * (minimumFraction + widthFraction * random())),
+    );
+    const walked = loweringWalk(highest, description.cartan, goal, random);
+    target = walked.weight;
+    coefficient = walked.coefficient;
   } else {
     let depth;
     if (desiredStratum === "0") {
@@ -535,6 +575,7 @@ const measureCell = async ({
         description,
         desiredStratum,
         desiredStatus,
+        generatorVersion: plan.generator.version,
         random,
       });
       if (!candidate) continue;

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "evidence_status": "sealed_superseded",
+  "binding": true,
+  "contract_revision": "3-final-execution-copy",
+  "plan_sha256": "c4b1ad5f9c15c3b76f3b214beae4d8fafa0ede6f51d4c3a3601a2ca9f937e05b",
+  "raw_result_sha256": "b1d4cf21c083ac2a52a929c7736c9ca1b570ff2b4a093bfc70ef8c56c3bc3c8b",
+  "compressed_result_sha256": "272917ddd5074f95abfc0cfcc52aac7f6ee4b34bf028d889b8ce823cf1dfd073",
+  "oracle_executable_sha256": "a613fc13263e6ca6b17eb89069554f4989a08191f9be0e1658c4fa8f95b77c49",
+  "oracle_revision": "2eaf1e4",
+  "cell_controller_revision": "dde7362",
+  "calibration_controller_revision": "3b6c152",
+  "started_at": "2026-08-30T09:26:16.712Z",
+  "completed_at": "2026-08-30T09:32:38.181Z",
+  "result": "resource_fail",
+  "cells": {
+    "total": 248,
+    "pass": 138,
+    "incomplete_yield": 105,
+    "resource_fail": 5
+  },
+  "oracle_attempts": 2397848,
+  "accepted_queries": 21481,
+  "resource_failures": [
+    { "type": "B8", "height": 7, "reason": "query_timeout" },
+    { "type": "C7", "height": 8, "reason": "query_timeout" },
+    { "type": "C8", "height": 6, "reason": "query_timeout" },
+    { "type": "C8", "height": 7, "reason": "query_timeout" },
+    { "type": "C8", "height": 8, "reason": "query_timeout" }
+  ],
+  "parallelism": {
+    "safe_parallel_workers": 1,
+    "one_worker_p95_ms": 626.683792,
+    "one_worker_peak_incremental_memory_bytes": 174538752,
+    "two_or_more_workers": "failed_query_timeout"
+  },
+  "supersession": {
+    "reason": "The Version 1 positive-stratum sampler used unconstrained simple-root compositions. In E7 and E8 these candidates were almost always zero-multiplicity targets, so the observed positive-label yield was not an interpretable measure of the oracle or representation family.",
+    "replacement_plan": "examples/weight-multiplicity/phase0-frontier-plan-v2.json",
+    "preservation_rule": "The raw Version 1 result remains byte-sealed and is not used for the binding Phase 0 decision."
+  }
+}

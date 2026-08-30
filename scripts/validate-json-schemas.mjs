@@ -97,6 +97,7 @@ const fixtures = {
   ],
   "weight-multiplicity-frontier-plan.schema.json": [
     "examples/weight-multiplicity/phase0-frontier-plan.json",
+    "examples/weight-multiplicity/phase0-frontier-plan-v2.json",
   ],
 };
 
@@ -404,6 +405,30 @@ if (
 ) {
   throw new Error("ACR-2 degradation rule makes the classical Pass floor unreachable");
 }
+
+const frontierV2WithoutPredecessor = await readJson(
+  "examples/weight-multiplicity/phase0-frontier-plan-v2.json",
+);
+delete frontierV2WithoutPredecessor.supersedes;
+expectInvalid(
+  "weight-multiplicity-frontier-plan.schema.json",
+  "frontier generator v2 without sealed predecessor evidence",
+  frontierV2WithoutPredecessor,
+);
+
+const frontierV1WithPredecessor = await readJson(
+  "examples/weight-multiplicity/phase0-frontier-plan.json",
+);
+frontierV1WithPredecessor.supersedes = {
+  plan_sha256: "0".repeat(64),
+  result_sha256: "0".repeat(64),
+  reason: "invalid retroactive predecessor",
+};
+expectInvalid(
+  "weight-multiplicity-frontier-plan.schema.json",
+  "frontier generator v1 with a retroactive predecessor",
+  frontierV1WithPredecessor,
+);
 
 console.log(
   `Validated ${schemaNames.length} Draft 2020-12 schemas, ${positiveCount} positive fixtures, and ${rejectionCount} rejection fixtures.`,

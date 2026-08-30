@@ -10,6 +10,8 @@
   [`schemas/weight-multiplicity-program.schema.json`](../../schemas/weight-multiplicity-program.schema.json)
 - Frontier plan:
   [`examples/weight-multiplicity/phase0-frontier-plan.json`](../../examples/weight-multiplicity/phase0-frontier-plan.json)
+- Corrected frontier plan:
+  [`examples/weight-multiplicity/phase0-frontier-plan-v2.json`](../../examples/weight-multiplicity/phase0-frontier-plan-v2.json)
 - Frontier-plan schema:
   [`schemas/weight-multiplicity-frontier-plan.schema.json`](../../schemas/weight-multiplicity-frontier-plan.schema.json)
 - Signed source:
@@ -28,6 +30,13 @@ The exact oracle and frontier controller are under review. No binding oracle fro
 training run, or scientific result has been recorded yet. A negative result is an accepted
 delivery outcome, but it must come from the frozen tests rather than from an implementation
 failure.
+
+The first binding frontier run is sealed but superseded. Its unconstrained positive-stratum
+sampler produced almost only zero-multiplicity targets for E7 and E8. That is a generator defect,
+not evidence that the positive strata do not exist. Version 2 keeps the same coordinates, seed,
+limits, and quotas, but generates positive candidates through valid simple-root lowering walks.
+The Version 1 plan and result hashes are recorded in the Version 2 plan; Version 1 is not deleted
+or reinterpreted.
 
 ## Frozen design
 
