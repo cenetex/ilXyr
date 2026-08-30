@@ -109,6 +109,15 @@
         "pattern": "^dataset://\\S+$"
       }
     },
+    "dataset_bindings": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^dataset://\\S+$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/artifact_ref"
+      }
+    },
     "models": {
       "type": "array",
       "uniqueItems": true,
@@ -295,6 +304,10 @@
       "type": "string",
       "minLength": 1,
       "pattern": "^[A-Za-z0-9._:/-]+$"
+    },
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$"
     },
     "handle": {
       "type": "string",

@@ -89,6 +89,8 @@ const fixtures = {
   "nsrl-registration.schema.json": [
     "examples/nsrl/p10m-v10-registration.json",
   ],
+  "oci-job-completion.schema.json": ["examples/cloud/oci-completion.json"],
+  "oci-job-dispatch.schema.json": ["examples/cloud/oci-dispatch.json"],
   "paper-contract.schema.json": ["examples/schema/paper-contract.json"],
   "proposal-compilation.schema.json": [
     "examples/schema/proposal-compilation.json",

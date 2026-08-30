@@ -73,11 +73,13 @@ academic claim, evaluation boundary, and publication gaps are stated in
 - Runs an authenticated, single-writer Corpus as a Service boundary that registers immutable
   Braid-style releases, checks complete S3 or Azure Blob materialization receipts, and emits
   digest-bound SageMaker or Azure ML training-input handoffs without storing cloud credentials.
+- Records resumable OCI training jobs with exact corpus bindings, digest-pinned images, versioned
+  outputs, and signed settlement before cloud results become promoted evidence.
 - Compiles supported upstream benchmark results into schema-validated review records without
   pretending that completed external runs were registered prospectively by ilXyr.
 
-Protected weights are handles, never local paths. The v1 local executor cannot run protected
-weight experiments; those require a future attested executor adapter.
+Protected weights are handles, never local paths. The local and first OCI executor profiles accept
+public weights only; protected weights need a stronger isolation profile.
 
 ## Quick start
 
@@ -302,6 +304,8 @@ started without producing a terminal run. `authorize` reports the same decision 
   registration.
 - `docs/CORPUS-SERVICE.md`: authenticated immutable corpus registry, materialization receipts, and
   provider training-input handoffs.
+- `docs/CLOUD-TRAINING.md`: provider-neutral OCI dispatch, reconciliation, attestation, and resume
+  flow.
 - `docs/SECURITY.md`: threat model, autonomous operation rules, weight protection.
 - `docs/ROADMAP.md`: sequenced milestones from protocol proof through federation.
 - `docs/V1_REVIEW.md`: V1 acceptance review, revisions, and residual limitations.

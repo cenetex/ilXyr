@@ -132,6 +132,15 @@ resolved run, retrying resumes missing evidence and settlements without re-execu
 If execution started but no terminal run exists, `run-auto` fails closed; the explicit manual path
 is required to decide whether rerunning is safe.
 
+### Attested OCI jobs
+
+The `oci-job` profile is asynchronous and provider-neutral. Compilation freezes exact corpus
+release refs and a digest-pinned OCI image. A dispatch binds those releases to verified S3 or Azure
+materializations and records the provider job ref. Reconciliation records exact metrics and
+versioned artifacts, but does not create evidence. Promotion happens only after a trusted executor
+key signs the run digest. This makes submission, completion, attestation, and settlement safe to
+resume independently.
+
 ### Research ledger
 
 Objects are canonicalized JSON addressed as `artifact://sha256/<digest>`. Events form a SHA-256

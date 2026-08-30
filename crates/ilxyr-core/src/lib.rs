@@ -1,6 +1,7 @@
 pub mod attestation;
 pub mod autonomy;
 pub mod claims;
+pub mod cloud;
 pub mod conditions;
 pub mod corpus;
 pub mod error;
@@ -26,6 +27,7 @@ pub mod workflow;
 pub use attestation::*;
 pub use autonomy::*;
 pub use claims::*;
+pub use cloud::*;
 pub use corpus::*;
 pub use error::{Error, Result};
 pub use family::*;
