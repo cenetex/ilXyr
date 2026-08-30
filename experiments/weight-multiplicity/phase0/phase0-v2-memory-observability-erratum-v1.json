@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "record_kind": "append_only_erratum",
+  "erratum_id": "weight-multiplicity-phase0-v2-memory-observability-erratum-v1",
+  "issued_at": "2026-08-30",
+  "evidence_category": "internal_same_effort_implementation_audit",
+  "independent_evidence": false,
+  "binds": {
+    "phase0_version": 2,
+    "plan_sha256": "0801102bae37e746f688b1f6f9d2e2198f5e702a0e536d85d333fb80dff4d176",
+    "raw_result_sha256": "45e77630a9dd4005256627970c853573e71537f1076400b26391efb9450a5052",
+    "compressed_result_sha256": "170803ee08bb5fa26dea5c9a983511e2eb740d90387af3d887c379b8469a8aa8",
+    "oracle_executable_sha256": "a613fc13263e6ca6b17eb89069554f4989a08191f9be0e1658c4fa8f95b77c49",
+    "oracle_revision": "2eaf1e4",
+    "controller_revision": "5bd403d"
+  },
+  "finding": {
+    "affected_cells": 35,
+    "affected_cell_status": "resource_fail",
+    "affected_types": ["B7", "B8", "C7", "C8", "D7", "D8", "E7", "E8"],
+    "all_affected_cells_timed_out": true,
+    "controller_behavior": "When a query timed out, the controller could not request post-query metrics from the blocked oracle process and assigned warmed_peak_rss to final_peak_rss.",
+    "fields_not_observed_after_timeout": [
+      "memory_bytes.final_peak_rss",
+      "memory_bytes.incremental_from_ready",
+      "memory_bytes.incremental_after_warmup"
+    ],
+    "e8_depth_44": {
+      "highest_weight": [0, 0, 1, 0, 0, 0, 0, 0],
+      "target_weight": [0, 1, 0, 0, 0, 0, 0, 0],
+      "target_depth": 44,
+      "recorded_incremental_from_ready": 0,
+      "correct_interpretation": "unknown_during_timed_out_query"
+    }
+  },
+  "corrected_interpretation": {
+    "supported": [
+      "The 35 affected cells exceeded the frozen one-second query limit.",
+      "The maximum measured incremental memory of 88735744 bytes applies to completed measurements inside the declared common safe rectangle.",
+      "The Phase 0 Stop remains binding because a time-limit failure alone is sufficient to stop Phase 1."
+    ],
+    "not_supported": [
+      "The 35 timed-out cells remained within the two-GiB per-worker memory limit.",
+      "The failed frontier was time-limited rather than memory-limited.",
+      "The zero incremental-memory value on the E8 depth-44 timeout was a post-query measurement."
+    ],
+    "required_status_for_affected_memory": "unknown"
+  },
+  "record_policy": {
+    "original_evidence_modified": false,
+    "original_decision_modified": false,
+    "phase1_authorized": false,
+    "future_time_memory_distinction": "must_be_observed_or_reported_unknown",
+    "independent_correctness_witness": "LiE cross-check remains a separate evidentiary category"
+  }
+}
