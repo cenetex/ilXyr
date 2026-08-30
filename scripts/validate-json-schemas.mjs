@@ -85,6 +85,9 @@ const fixtures = {
   "sandbox-run.schema.json": ["examples/schema/sandbox-run.json"],
   "sandbox-spec.schema.json": ["examples/schema/sandbox-spec.json"],
   "shared-task.schema.json": ["examples/schema/shared-task.json"],
+  "shared-task-v2.schema.json": [
+    "examples/shared-tasks/zero-solomon-q22-operation-v1.json",
+  ],
   "trusted-attestation-key.schema.json": [
     "examples/schema/trusted-attestation-key.json",
   ],
@@ -252,6 +255,16 @@ expectInvalid(
   "shared-task.schema.json",
   "shared task without both family bindings",
   sharedTask,
+);
+
+const executableSharedTask = await readJson(
+  "examples/shared-tasks/zero-solomon-q22-operation-v1.json",
+);
+delete executableSharedTask.family_bindings[1].implementation;
+expectInvalid(
+  "shared-task-v2.schema.json",
+  "executable shared task without a Solomon implementation snapshot",
+  executableSharedTask,
 );
 
 const huggingFaceModel = await readJson(
