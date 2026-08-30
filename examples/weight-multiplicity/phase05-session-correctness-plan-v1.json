@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "evidence_stage": "bounded_session_memo_correctness_addendum",
+  "purpose": "Resolve the five exactness-unknown representations in the sealed Phase 0.5 session frontier without changing its resource result.",
+  "resource_claims": false,
+  "bindings": {
+    "source_plan": {
+      "path": "examples/weight-multiplicity/phase05-frontier-plan-v3.json",
+      "sha256": "0af98a10412b085f204edb9ec58c8a5a10101f0956fc42b2b0aaeb972af30665"
+    },
+    "source_manifest": {
+      "path": "examples/weight-multiplicity/phase05-representation-manifest-v3.json",
+      "sha256": "e4345e005c28996fb17b3af5b7882bca35ea0ab6a97fe49df2190d0393497392"
+    },
+    "source_result": {
+      "path": "experiments/weight-multiplicity/phase05/session-frontier-v3.json.gz",
+      "sha256": "370361788e71538e357faa31d3179a1ba500d7661d243cd7030d5320c3cb97e2"
+    }
+  },
+  "oracles": {
+    "cold_reference": {
+      "zero_revision": "51b594fc4ca4f4613ab943f54e78668516d1b7b9",
+      "executable_sha256": "e09f8059d77598b969f33f24e6e9c38818c195b6f61aed699c771f45f1019914",
+      "role": "recursive-canonicalization-only fresh-memo reference"
+    },
+    "session": {
+      "zero_revision": "65e3523c340a9db82bee20c6daca96cb4c359965",
+      "executable_sha256": "626a28f53e6e94bc04724dabe3df71c9b1da9e0cb1cb56305ada07d95e9931a7",
+      "role": "recursive canonicalization plus bounded persistent session memo"
+    }
+  },
+  "correctness": {
+    "representation_ids": [
+      "D8:0,0,1,1,2,4,0,0",
+      "E7:1,1,5,1,0,0,0",
+      "E7:0,0,7,1,0,0,0",
+      "E8:0,0,2,1,2,0,0,3",
+      "E8:0,0,8,0,0,0,0,0"
+    ],
+    "binding_target_order": "ascending_depth_dominant_first_lexicographic",
+    "sensitivity_target_orders": [
+      "descending_depth_dominant_first_lexicographic",
+      "seeded_generation_order"
+    ],
+    "binding_replays": 2,
+    "hard_timeout_ms": 120000,
+    "memo_limit_bytes": 2147483648,
+    "hard_timeout_rss_sampling_start_ms": 1000,
+    "hard_timeout_rss_sampling_interval_ms": 25,
+    "pass_rule": "Every cold and session run completes, every session multiplicity equals its cold reference, and both binding replays are byte-identical to the binding run.",
+    "unknown_rule": "Any timeout or oracle error without an observed mismatch remains unknown.",
+    "resource_separation": "The longer timeout exists only to observe correctness. Its timing and memory values are excluded from the resource frontier."
+  },
+  "independent_witness": {
+    "existing_lie_v4_role": "separate independent witness for recursive canonicalization only",
+    "session_memo_independently_checked": false
+  },
+  "phase_1": {
+    "authorized": false,
+    "corpus_generation": false,
+    "model_training": false
+  }
+}

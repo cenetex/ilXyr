@@ -28,6 +28,10 @@ const sessionV3ManifestPath = "examples/weight-multiplicity/phase05-representati
 const sessionV3CompressedPath = "experiments/weight-multiplicity/phase05/session-frontier-v3.json.gz";
 const sessionV3SummaryPath = "experiments/weight-multiplicity/phase05/session-frontier-v3-summary.json";
 const sessionV3DecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V3-HOLD.md";
+const sessionCorrectnessPlanPath = "examples/weight-multiplicity/phase05-session-correctness-plan-v1.json";
+const sessionCorrectnessResultPath = "experiments/weight-multiplicity/phase05/session-correctness-addendum-v1.json";
+const sessionCorrectnessDecisionPath = "experiments/weight-multiplicity/phase05/SESSION-CORRECTNESS-ADDENDUM-V1-HOLD.md";
+const sessionCorrectnessControllerPath = "scripts/run-weight-multiplicity-phase05-session-correctness.mjs";
 
 const [
   coldPlanBytes,
@@ -46,6 +50,10 @@ const [
   sessionV3CompressedBytes,
   sessionV3SummaryBytes,
   sessionV3DecisionBytes,
+  sessionCorrectnessPlanBytes,
+  sessionCorrectnessResultBytes,
+  sessionCorrectnessDecisionBytes,
+  sessionCorrectnessControllerBytes,
 ] = await Promise.all([
   read(coldPlanPath),
   read(coldSummaryPath),
@@ -63,6 +71,10 @@ const [
   read(sessionV3CompressedPath),
   read(sessionV3SummaryPath),
   read(sessionV3DecisionPath),
+  read(sessionCorrectnessPlanPath),
+  read(sessionCorrectnessResultPath),
+  read(sessionCorrectnessDecisionPath),
+  read(sessionCorrectnessControllerPath),
 ]);
 
 const coldRawBytes = gunzipSync(coldCompressedBytes);
@@ -76,6 +88,9 @@ const sessionSummary = JSON.parse(sessionSummaryBytes.toString("utf8"));
 const sessionDecision = sessionDecisionBytes.toString("utf8");
 const sessionV3Summary = JSON.parse(sessionV3SummaryBytes.toString("utf8"));
 const sessionV3Decision = sessionV3DecisionBytes.toString("utf8");
+const sessionCorrectnessPlan = JSON.parse(sessionCorrectnessPlanBytes.toString("utf8"));
+const sessionCorrectnessResult = JSON.parse(sessionCorrectnessResultBytes.toString("utf8"));
+const sessionCorrectnessDecision = sessionCorrectnessDecisionBytes.toString("utf8");
 
 assert.equal(sha256(coldPlanBytes), "4355bc8a9d156fb7ae3ae9f3867bb0d91f80e76d6b6ac9c56f85cb4bcc4611a1");
 assert.equal(sha256(coldSummaryBytes), "7aea6035dbabe4b53423df03b9e495b81377628a39528a3ed59314708319690b");
@@ -293,6 +308,119 @@ assert.match(sessionV3Decision, /Exactness is unknown, not\s+passed, for five/);
 assert.match(sessionV3Decision, /separate independent correctness witness/);
 assert.match(sessionV3Decision, /No corpus generation or training is authorized/);
 
+assert.equal(
+  sha256(sessionCorrectnessPlanBytes),
+  "804ceb2977508d6553e83fa3b525cbad69dfac50ccd50a156537805036d833fd",
+);
+assert.equal(
+  sha256(sessionCorrectnessResultBytes),
+  "2c36e7fea57806c0265c9983e982c25a88aec1a6aa770a146b8966b114347617",
+);
+assert.equal(
+  sha256(sessionCorrectnessDecisionBytes),
+  "61196453cc1ba14328fa5c10c169d523a4235fd2b497e476efa8cec8107cea53",
+);
+assert.equal(
+  sha256(sessionCorrectnessControllerBytes),
+  "d5a54e17b050175845dd9d47a928fa4f27ae2b91073a254a240b0dd7408118e8",
+);
+assert.equal(sessionCorrectnessPlan.resource_claims, false);
+assert.equal(
+  sessionCorrectnessPlan.bindings.source_plan.sha256,
+  sha256(sessionV3PlanBytes),
+);
+assert.equal(
+  sessionCorrectnessPlan.bindings.source_manifest.sha256,
+  sha256(sessionV3ManifestBytes),
+);
+assert.equal(
+  sessionCorrectnessPlan.bindings.source_result.sha256,
+  sha256(sessionV3CompressedBytes),
+);
+assert.equal(
+  sessionCorrectnessResult.plan_sha256,
+  sha256(sessionCorrectnessPlanBytes),
+);
+assert.deepEqual(
+  sessionCorrectnessPlan.correctness.representation_ids,
+  sessionV3Summary.exactness_unknown.map((entry) => entry.id),
+);
+assert.equal(sessionCorrectnessResult.resource_claims, false);
+assert.equal(
+  sessionCorrectnessResult.evidence_status,
+  "correctness_addendum_hold",
+);
+assert.deepEqual(sessionCorrectnessResult.summary.statuses, {
+  pass: 4,
+  fail: 0,
+  unknown_after_hard_timeout_or_oracle_error: 1,
+});
+assert.equal(sessionCorrectnessResult.summary.target_requests, 160);
+assert.equal(
+  sessionCorrectnessResult.summary.observed_session_to_reference_comparisons,
+  640,
+);
+assert.equal(sessionCorrectnessResult.summary.disagreements, 0);
+assert.equal(sessionCorrectnessResult.summary.replay_failures, 0);
+assert.equal(sessionCorrectnessResult.summary.replay_unknown, 1);
+assert.deepEqual(
+  sessionCorrectnessResult.measurements
+    .filter((measurement) => measurement.exactness.status === "pass")
+    .map((measurement) => measurement.representation.id),
+  [
+    "D8:0,0,1,1,2,4,0,0",
+    "E7:1,1,5,1,0,0,0",
+    "E7:0,0,7,1,0,0,0",
+    "E8:0,0,2,1,2,0,0,3",
+  ],
+);
+for (const measurement of sessionCorrectnessResult.measurements.slice(0, 4)) {
+  assert.equal(measurement.exactness.all_runs_complete, true);
+  assert.equal(measurement.exactness.observed_comparisons, 160);
+  assert.deepEqual(measurement.exactness.mismatches, []);
+  assert.equal(measurement.exactness.replay_observed, true);
+  assert.equal(measurement.exactness.replay_byte_identical, true);
+  assert.equal(measurement.cold_reference.complete, true);
+  assert(measurement.session_runs.every((run) => run.complete));
+  assert.equal("latency_ms" in measurement.cold_reference, false);
+  assert.equal("memory_bytes" in measurement.cold_reference, false);
+  assert(
+    measurement.session_runs.every(
+      (run) => !("latency_ms" in run) && !("memory_bytes" in run),
+    ),
+  );
+}
+const unresolvedSessionCorrectness = sessionCorrectnessResult.measurements[4];
+assert.equal(
+  unresolvedSessionCorrectness.representation.id,
+  "E8:0,0,8,0,0,0,0,0",
+);
+assert.equal(
+  unresolvedSessionCorrectness.exactness.status,
+  "unknown_after_hard_timeout_or_oracle_error",
+);
+assert.equal(unresolvedSessionCorrectness.exactness.observed_comparisons, 0);
+assert.equal(unresolvedSessionCorrectness.exactness.replay_observed, false);
+assert.equal(unresolvedSessionCorrectness.exactness.replay_byte_identical, null);
+assert.equal(unresolvedSessionCorrectness.cold_reference.completed_queries, 0);
+assert(unresolvedSessionCorrectness.cold_reference.hard_timeout);
+assert(
+  unresolvedSessionCorrectness.session_runs.every(
+    (run) => run.completed_queries === 0 && run.hard_timeout,
+  ),
+);
+assert.deepEqual(sessionCorrectnessResult.phase_1, {
+  authorized: false,
+  corpus_generated: false,
+  models_trained: false,
+});
+assert.match(sessionCorrectnessDecision, /makes no time or memory claim/);
+assert.match(sessionCorrectnessDecision, /four prior unknowns become observed passes/);
+assert.match(sessionCorrectnessDecision, /one\s+remains unknown/);
+assert.match(sessionCorrectnessDecision, /Empty output is not treated as agreement/);
+assert.match(sessionCorrectnessDecision, /separate independent witness/);
+assert.match(sessionCorrectnessDecision, /No corpus generation or model training is authorized/);
+
 console.log(JSON.stringify({
   status: "pass",
   cold_replay: {
@@ -324,5 +452,16 @@ console.log(JSON.stringify({
       sessionV3Summary.coverage.classifications.time_fail_memory_unknown,
     exactness_unknown:
       sessionV3Summary.coverage.exactness_unknown_representations,
+  },
+  session_correctness_addendum: {
+    decision: sessionCorrectnessResult.evidence_status,
+    pass: sessionCorrectnessResult.summary.statuses.pass,
+    fail: sessionCorrectnessResult.summary.statuses.fail,
+    unknown:
+      sessionCorrectnessResult.summary.statuses
+        .unknown_after_hard_timeout_or_oracle_error,
+    comparisons:
+      sessionCorrectnessResult.summary
+        .observed_session_to_reference_comparisons,
   },
 }));

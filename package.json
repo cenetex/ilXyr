@@ -9,6 +9,7 @@
     "test:schemas": "node scripts/validate-json-schemas.mjs && node scripts/validate-lab-registry.mjs && node scripts/validate-research-pathways.mjs && node scripts/test-import-benchmark.mjs",
     "test:weight-multiplicity-frontier": "node scripts/run-weight-multiplicity-frontier.mjs --self-test",
     "test:weight-multiplicity-phase05": "node scripts/run-weight-multiplicity-phase05.mjs --self-test",
+    "run:weight-multiplicity-phase05-session-correctness": "node scripts/run-weight-multiplicity-phase05-session-correctness.mjs",
     "generate:weight-multiplicity-lie-cross-check": "node scripts/generate-weight-multiplicity-lie-cross-check.mjs",
     "run:weight-multiplicity-lie-cross-check": "node scripts/run-weight-multiplicity-lie-cross-check.mjs",
     "test:weight-multiplicity-evidence": "node scripts/check-weight-multiplicity-phase0-evidence.mjs",

@@ -3,6 +3,11 @@
 This directory holds the client-approved Phase 0.5 correctness witness,
 dimension-indexed resource frontier, integrity hashes, and decision report.
 
+`SESSION-CORRECTNESS-ADDENDUM-V1-HOLD.md` appends the separate 120-second
+correctness-only follow-up for the five exactness-unknown Version 3
+representations. It closes four gaps and leaves one E8 representation unknown;
+it does not change the resource frontier.
+
 No corpus or model-training artifact belongs here. Corpus generation remains
 unauthorized until the client accepts the completed Phase 0.5 report.
 
