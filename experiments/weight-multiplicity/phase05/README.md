@@ -16,3 +16,6 @@ Current append-only evidence:
 - `SESSION-FRONTIER-V2-HOLD.md`, `session-frontier-v2.json.gz`, and the compact
   summary record the separate bounded-session memo and order-sensitivity
   stage. The raw result is compressed; the summary is the review surface.
+- `SESSION-FRONTIER-V3-HOLD.md`, `session-frontier-v3.json.gz`, and its compact
+  summary repeat that stage against the current Zero PR head. Version 3 is the
+  controlling merge evidence; Version 2 remains an append-only predecessor.
