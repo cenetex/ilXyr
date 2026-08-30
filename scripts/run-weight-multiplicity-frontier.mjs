@@ -351,6 +351,105 @@ const replayRecords = async (oracle, timeoutMs, records, repeats) => {
   return { byte_identical: true, completed_replays: repeats };
 };
 
+const calibrateParallelism = async ({ oracle, plan, records, candidates }) => {
+  const stressRecords = [...records]
+    .sort((left, right) => right.elapsed_ms - left.elapsed_ms)
+    .slice(0, 32);
+  if (stressRecords.length === 0) {
+    return { status: "not_run", reason: "no accepted frontier records" };
+  }
+  const levels = [];
+  for (const workers of candidates) {
+    const servers = [];
+    const baselineRss = [];
+    const latenciesMs = [];
+    let errors = 0;
+    let byteIdentical = true;
+    let queryStarted;
+    try {
+      for (let index = 0; index < workers; index += 1) {
+        const server = new OracleServer(oracle, plan.frontier.query_timeout_ms);
+        await server.start();
+        baselineRss.push(await server.metrics());
+        const warm = stressRecords[index % stressRecords.length];
+        const response = await server.request(warm.request);
+        if (response.raw !== warm.response) byteIdentical = false;
+        servers.push(server);
+      }
+      queryStarted = process.hrtime.bigint();
+      for (let round = 0; round < 20; round += 1) {
+        const responses = await Promise.all(
+          servers.map((server, worker) => {
+            const record =
+              stressRecords[(round * workers + worker) % stressRecords.length];
+            return server.request(record.request).then((response) => ({ response, record }));
+          }),
+        );
+        for (const { response, record } of responses) {
+          latenciesMs.push(response.elapsedNs / 1e6);
+          if (response.value.status === "error") errors += 1;
+          if (response.raw !== record.response) byteIdentical = false;
+        }
+      }
+      const finalRss = await Promise.all(servers.map((server) => server.metrics()));
+      const elapsedSeconds = Number(process.hrtime.bigint() - queryStarted) / 1e9;
+      const incremental = finalRss.map((value, index) =>
+        Math.max(0, value - baselineRss[index]),
+      );
+      const p95Ms = percentile(latenciesMs, 0.95);
+      const pass =
+        errors === 0 &&
+        byteIdentical &&
+        p95Ms <= plan.frontier.p95_limit_ms &&
+        incremental.every(
+          (value) => value <= plan.frontier.peak_incremental_memory_limit_bytes,
+        ) &&
+        finalRss.reduce((sum, value) => sum + value, 0) <= totalmem() * 0.8;
+      levels.push({
+        workers,
+        status: pass ? "pass" : "fail",
+        queries: latenciesMs.length,
+        errors,
+        byte_identical: byteIdentical,
+        elapsed_seconds: elapsedSeconds,
+        throughput_queries_per_second: latenciesMs.length / elapsedSeconds,
+        latency_ms: {
+          mean: mean(latenciesMs),
+          p50: percentile(latenciesMs, 0.5),
+          p95: p95Ms,
+          maximum: Math.max(...latenciesMs),
+        },
+        worker_peak_rss_bytes: finalRss,
+        worker_incremental_bytes: incremental,
+      });
+    } catch (error) {
+      errors += 1;
+      for (const server of servers) server.kill();
+      levels.push({
+        workers,
+        status: "fail",
+        errors,
+        byte_identical: false,
+        error: error.message,
+      });
+    } finally {
+      for (const server of servers) {
+        if (server.child?.exitCode === null) await server.close();
+      }
+    }
+  }
+  const passing = levels.filter((level) => level.status === "pass");
+  return {
+    status: passing.length > 0 ? "pass" : "fail",
+    stress_record_count: stressRecords.length,
+    selection_rule:
+      "largest tested worker count meeting exactness, latency, per-worker memory, and 80%-host-memory limits",
+    safe_parallel_workers:
+      passing.length === 0 ? 0 : Math.max(...passing.map((level) => level.workers)),
+    levels,
+  };
+};
+
 const measureCell = async ({
   oracle,
   plan,
@@ -371,12 +470,19 @@ const measureCell = async ({
     Object.keys(quotas).map((key) => [key, { dominant: 0, non_dominant: 0 }]),
   );
   const observed = { "0": 0, "1": 0, "2-7": 0, "8-31": 0, ">31": 0 };
+  const requestedObserved = Object.fromEntries(
+    Object.keys(quotas).map((requested) => [
+      requested,
+      { "0": 0, "1": 0, "2-7": 0, "8-31": 0, ">31": 0 },
+    ]),
+  );
   const statuses = { dominant: 0, non_dominant: 0 };
   const depthCounts = Object.fromEntries(
     plan.frontier.depth_bands.map((band) => [band.id, 0]),
   );
   const latenciesMs = [];
   const accepted = [];
+  const stressRecords = [];
   const unique = new Set();
   let attempts = 0;
   let errors = 0;
@@ -428,7 +534,15 @@ const measureCell = async ({
         break;
       }
       const observedStratum = stratum(BigInt(response.value.multiplicity));
+      stressRecords.push({
+        request: queryLine(candidate),
+        response: response.raw,
+        elapsed_ms: response.elapsedNs / 1e6,
+      });
+      stressRecords.sort((left, right) => right.elapsed_ms - left.elapsed_ms);
+      if (stressRecords.length > 32) stressRecords.length = 32;
       observed[observedStratum] += 1;
+      requestedObserved[desiredStratum][observedStratum] += 1;
       if (
         observedStratum === ">31" ||
         counts[observedStratum] >= quotas[observedStratum] ||
@@ -508,6 +622,7 @@ const measureCell = async ({
     unique_accepted_queries: unique.size,
     accepted_strata: counts,
     observed_attempt_strata: observed,
+    requested_by_observed_strata: requestedObserved,
     accepted_target_status: statuses,
     accepted_target_status_by_stratum: sliceCounts,
     accepted_depth_bands: depthCounts,
@@ -532,6 +647,7 @@ const measureCell = async ({
       incremental_after_warmup: Math.max(0, peakRss - warmRss),
     },
     accepted_records: accepted,
+    stress_records: stressRecords,
   };
 };
 
@@ -671,8 +787,21 @@ const main = async () => {
     }
   }
   result.completed_at = new Date().toISOString();
+  const allStressRecords = result.cells.flatMap((cell) => cell.stress_records);
+  result.parallelism = await calibrateParallelism({
+    oracle,
+    plan: effectivePlan,
+    records: allStressRecords,
+    candidates: options.smoke
+      ? plan.frontier.parallelism_candidates.filter((value) => value <= 2)
+      : plan.frontier.parallelism_candidates.filter(
+          (value) => value <= result.reference_hardware.logical_cpus,
+        ),
+  });
   result.status = result.cells.every((cell) => cell.status === "pass")
-    ? "pass"
+    ? result.parallelism.status === "pass"
+      ? "pass"
+      : "resource_fail"
     : result.cells.some((cell) => cell.status === "resource_fail")
       ? "resource_fail"
       : "incomplete_yield";
