@@ -12,7 +12,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 const parseArguments = (values) => {
   const options = {
-    plan: "examples/weight-multiplicity/phase05-frontier-plan.json",
+    plan: "examples/weight-multiplicity/phase05-frontier-plan-v2.json",
     oracle: null,
     manifest: null,
     manifestOut: null,
@@ -585,22 +585,20 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
   );
   const records = [];
   let readyMetrics;
-  let peakRss = 0;
+  let exactPeakRss = 0;
   let hardTimeout = null;
   let oracleError = null;
   const started = process.hrtime.bigint();
   try {
     await server.start();
     readyMetrics = await server.metrics();
-    peakRss = readyMetrics.max_rss_bytes;
+    exactPeakRss = readyMetrics.max_rss_bytes;
     for (const target of ordered) {
       let response;
       try {
         response = await server.request(queryLine(representation, target));
       } catch (error) {
         if (error.hardTimeout) {
-          if (error.sampledPeakRssBytes !== null)
-            peakRss = Math.max(peakRss, error.sampledPeakRssBytes);
           hardTimeout = {
             request: queryLine(representation, target),
             target_depth: target.target_depth,
@@ -610,8 +608,6 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
         }
         throw error;
       }
-      if (response.sampled_peak_rss_bytes !== null)
-        peakRss = Math.max(peakRss, response.sampled_peak_rss_bytes);
       if (response.value.status === "error") {
         oracleError = {
           request: queryLine(representation, target),
@@ -621,7 +617,7 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
       let metrics = null;
       if (!oracleError) {
         metrics = await server.metrics();
-        peakRss = Math.max(peakRss, metrics.max_rss_bytes);
+        exactPeakRss = Math.max(exactPeakRss, metrics.max_rss_bytes);
       }
       records.push({
         generation_index: target.generation_index,
@@ -644,6 +640,7 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
         memo_capacity_bytes: response.value.memo_capacity_bytes ?? null,
         memo_peak_allocated_bytes: response.value.memo_peak_allocated_bytes ?? null,
         recurrence_terms: response.value.recurrence_terms ?? null,
+        recursive_weyl_folds: response.value.recursive_weyl_folds ?? null,
       });
       if (oracleError) break;
     }
@@ -651,9 +648,34 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
     await server.close();
   }
   const latencies = records.map((record) => record.elapsed_ms);
-  const incrementalRss = readyMetrics ? Math.max(0, peakRss - readyMetrics.max_rss_bytes) : null;
+  const completedPrefixIncrementalRss = readyMetrics
+    ? Math.max(0, exactPeakRss - readyMetrics.max_rss_bytes)
+    : null;
+  const timeoutPeakRssLowerBound = hardTimeout
+    ? Math.max(exactPeakRss, hardTimeout.sampled_peak_rss_bytes ?? 0)
+    : null;
+  const timeoutIncrementalRssLowerBound =
+    readyMetrics && timeoutPeakRssLowerBound !== null
+      ? Math.max(0, timeoutPeakRssLowerBound - readyMetrics.max_rss_bytes)
+      : null;
+  const memoryObservation = hardTimeout
+    ? timeoutIncrementalRssLowerBound !== null &&
+      timeoutIncrementalRssLowerBound > plan.frontier.peak_incremental_memory_limit_bytes
+      ? "lower_bound_limit_exceeded"
+      : "unknown_after_hard_timeout"
+    : oracleError
+      ? "unknown_after_oracle_error"
+      : "exact_process_high_water";
+  const incrementalRss =
+    memoryObservation === "exact_process_high_water"
+      ? completedPrefixIncrementalRss
+      : null;
   return {
     mode,
+    optimization_stage:
+      mode === "fresh"
+        ? plan.frontier.optimization_sequence[0]
+        : plan.frontier.optimization_sequence[1],
     order,
     records,
     completed_queries: records.length,
@@ -668,8 +690,14 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
     },
     memory_bytes: {
       ready_peak_rss: readyMetrics?.max_rss_bytes ?? null,
-      group_peak_rss: peakRss || null,
+      group_peak_rss:
+        memoryObservation === "exact_process_high_water" ? exactPeakRss || null : null,
       incremental_from_ready: incrementalRss,
+      completed_prefix_peak_rss: exactPeakRss || null,
+      completed_prefix_incremental_from_ready: completedPrefixIncrementalRss,
+      hard_timeout_peak_rss_lower_bound: timeoutPeakRssLowerBound,
+      hard_timeout_incremental_rss_lower_bound: timeoutIncrementalRssLowerBound,
+      observation: memoryObservation,
       maximum_memo_entries: Math.max(0, ...records.map((record) => record.memo_entries ?? 0)),
       maximum_memo_capacity: Math.max(0, ...records.map((record) => record.memo_capacity_bytes ?? 0)),
       maximum_memo_peak_allocated: Math.max(0, ...records.map((record) => record.memo_peak_allocated_bytes ?? 0)),
@@ -710,10 +738,16 @@ const runPassesTime = (run, plan) =>
   !run.oracle_error &&
   run.latency_ms.p95 !== null &&
   run.latency_ms.p95 <= plan.frontier.p95_limit_ms;
-const runPassesMemory = (run, plan) =>
-  run.memory_bytes.incremental_from_ready !== null &&
-  run.memory_bytes.incremental_from_ready <=
-    plan.frontier.peak_incremental_memory_limit_bytes;
+const runMemoryStatus = (run, plan) => {
+  if (run.memory_bytes.observation === "lower_bound_limit_exceeded") return "fail";
+  if (run.memory_bytes.observation !== "exact_process_high_water") return "unknown";
+  if (run.memory_bytes.incremental_from_ready === null) return "unknown";
+  return run.memory_bytes.incremental_from_ready <=
+    plan.frontier.peak_incremental_memory_limit_bytes
+    ? "pass"
+    : "fail";
+};
+const runPassesMemory = (run, plan) => runMemoryStatus(run, plan) === "pass";
 
 const measureRepresentation = async ({ oracle, representation, description, plan, replayCount, targetLimit = null }) => {
   let targets = generateTargets(representation, description, plan);
@@ -769,13 +803,7 @@ const measureRepresentation = async ({ oracle, representation, description, plan
   ];
   const groupedRuns = [binding, ...sensitivities];
   const timePasses = groupedRuns.map((run) => runPassesTime(run, plan));
-  const memoryStatuses = groupedRuns.map((run) =>
-    run.hard_timeout && run.hard_timeout.sampled_peak_rss_bytes === null
-      ? "unresolved"
-      : runPassesMemory(run, plan)
-        ? "pass"
-        : "fail",
-  );
+  const memoryStatuses = groupedRuns.map((run) => runMemoryStatus(run, plan));
   const orderSensitive = timePasses.some((value) => value !== timePasses[0]);
   const replayByteIdentical = replays.every(
     (run) =>
@@ -785,14 +813,16 @@ const measureRepresentation = async ({ oracle, representation, description, plan
   const exactnessPass = mismatches.length === 0 && replayByteIdentical;
   const timePass = timePasses.every(Boolean);
   const memoryPass = memoryStatuses.every((status) => status === "pass");
-  const memoryUnresolved = memoryStatuses.includes("unresolved");
+  const memoryUnknown = memoryStatuses.includes("unknown");
+  const memoryFail = memoryStatuses.includes("fail");
   let classification = "pass";
   if (!exactnessPass) classification = "exactness_fail";
   else if (orderSensitive) classification = "order_sensitive";
-  else if (!timePass && memoryUnresolved) classification = "time_fail_memory_unresolved";
-  else if (!timePass && !memoryPass) classification = "time_and_memory_fail";
+  else if (!timePass && memoryFail) classification = "time_and_memory_fail";
+  else if (!timePass && memoryUnknown) classification = "time_fail_memory_unknown";
   else if (!timePass) classification = "time_fail";
-  else if (!memoryPass) classification = "memory_fail";
+  else if (memoryFail) classification = "memory_fail";
+  else if (memoryUnknown) classification = "memory_unknown";
   return {
     representation,
     targets: {
@@ -801,7 +831,7 @@ const measureRepresentation = async ({ oracle, representation, description, plan
       unique_dominant_targets: new Set(targets.map((target) => target.dominant_target_key)).size,
     },
     classification,
-    boundary: { exactness_pass: exactnessPass, time_pass: timePass, memory_pass: memoryPass, memory_statuses: memoryStatuses, order_sensitive: orderSensitive },
+    boundary: { exactness_pass: exactnessPass, time_pass: timePass, memory_pass: memoryPass, memory_known: !memoryUnknown, memory_statuses: memoryStatuses, order_sensitive: orderSensitive },
     exactness: { mismatches, replay_byte_identical: replayByteIdentical, replay_runs: replays.length },
     cold,
     binding,
@@ -916,7 +946,18 @@ const selfTest = () => {
   const ascending = orderTargets(targets, "ascending_depth_dominant_first_lexicographic");
   if (ascending.map((target) => target.generation_index).join(",") !== "2,1,0")
     throw new Error("target-order self-test failed");
-  console.log(JSON.stringify({ status: "pass", exact_weyl_dimension: true, target_order: true }));
+  const memoryPlan = { frontier: { peak_incremental_memory_limit_bytes: 100 } };
+  const memoryRun = (observation, incremental) => ({
+    memory_bytes: { observation, incremental_from_ready: incremental },
+  });
+  if (
+    runMemoryStatus(memoryRun("exact_process_high_water", 100), memoryPlan) !== "pass" ||
+    runMemoryStatus(memoryRun("exact_process_high_water", 101), memoryPlan) !== "fail" ||
+    runMemoryStatus(memoryRun("unknown_after_hard_timeout", null), memoryPlan) !== "unknown" ||
+    runMemoryStatus(memoryRun("lower_bound_limit_exceeded", null), memoryPlan) !== "fail"
+  )
+    throw new Error("memory-observation self-test failed");
+  console.log(JSON.stringify({ status: "pass", exact_weyl_dimension: true, target_order: true, hard_timeout_memory_unknown: true }));
 };
 
 const main = async () => {
@@ -974,6 +1015,7 @@ const main = async () => {
       manifest_sha256: sha256(manifestRecord.bytes),
       oracle_executable_sha256: manifest.oracle_executable_sha256,
       oracle_declared_revision: plan.oracle.zero_revision,
+      optimization_sequence: plan.frontier.optimization_sequence,
       controller_revision: execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim(),
       reference_hardware: {
         cpu: cpus()[0]?.model ?? "unknown",

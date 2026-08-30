@@ -5,10 +5,18 @@
 Client-approved scope revision to Revision 3. Phase 0.5 lasts one week. It
 does not authorize corpus generation, model training, or blind evaluation.
 
-The sealed Phase 0 Version 1 and Version 2 evidence remains unchanged. Version
-2 is a valid measurement of the frozen height-indexed, uncached Zero frontier
+The sealed Phase 0 Version 1 and Version 2 evidence remains unchanged. The
+append-only memory-observability erratum is sealed beside that evidence. It
+records that memory is unknown for the 35 timed-out cells; their substituted
+RSS values are not measurements of the blocked queries. Version 2 remains a
+valid measurement of the frozen height-indexed, uncached Zero time frontier
 and its Stop remains valid under Revision 3. Phase 0.5 measures a new surface;
 it does not relabel the old result.
+
+The corrected binding plan is
+`examples/weight-multiplicity/phase05-frontier-plan-v2.json`. Version 1 and its
+representation manifest remain unchanged because the sealed LiE witness binds
+their hashes.
 
 ## Jointly owned ambiguity defect
 
@@ -45,29 +53,41 @@ The roster is a tested surface, not proof about every representation below a
 reported dimension. Reports must say `tested ceiling`, list holes, and retain
 the exact highest weights behind every boundary.
 
-## Zero algorithm and allowed optimization
+## Zero algorithm and optimization order
 
-Zero reduces each target to its dominant Weyl representative, then applies the
-exact Freudenthal recurrence. The existing implementation memoizes recursive
-states within one query and discards the memo after the response.
+The Phase 0 oracle reduced the requested target to its dominant Weyl
+representative, then applied the exact Freudenthal recurrence. It did not fold
+recursive dependency weights before memo lookup.
 
-Phase 0.5 may retain one bounded memo per worker for one exact `(type, lambda)`
-group. The memo:
+Phase 0.5 has two ordered optimization stages. They must not be reported as one
+combined speedup:
+
+1. Fold every recursive dependency weight to its dominant Weyl representative
+   before memo lookup and recurrence evaluation. Measure and record a cold
+   fresh-memo frontier first. Exact answers must match the frozen Phase 0
+   evidence wherever both runs complete.
+2. Only after the cold result is recorded, add one bounded session memo per
+   worker for one exact `(type, lambda)` group and measure grouped reuse.
+
+The session memo:
 
 - is reused only while type and highest weight are unchanged;
 - is evicted on type or highest-weight change;
 - does not enumerate unrequested weights;
-- uses the dominant representative as the recurrence key;
+- uses the dominant representative of every recursive weight as the key;
 - must remain below the total two-GiB per-worker RSS limit; and
 - must produce exactly the same answer as a fresh-memo query.
 
-Weyl folding already exists and is not new work. SageMath and LiE are not
+Requested-target folding is historical. Recursive folding is new Phase 0.5
+work and remains a separate measured stage. SageMath and LiE are not
 production-oracle replacements in this phase.
 
 ## Target order and order sensitivity
 
-Target order affects a persistent recurrence memo. The binding production
-order is:
+The code audit predicts that target order affects grouped cost because the
+recursion is per-target depth-first and the session memo is populated by each
+request. This is a design result, not a measured Phase 0.5 result. The binding
+production order for testing the prediction is:
 
 1. increasing signed target depth;
 2. dominant targets before non-dominant targets at equal depth; and
@@ -81,10 +101,10 @@ Each representation is also run in:
 - decreasing depth with the same tie-breaks; and
 - deterministic seeded generation order.
 
-The report gives cold fresh-memo latency, binding grouped latency, both
-sensitivity-order latencies, and p95 pass/fail for each. If the one-second p95
-decision changes with order, the cell is marked `order_sensitive`; this fact
-cannot be absorbed into an unconditional Pass.
+The report gives the recursive-folding cold fresh-memo latency, binding grouped
+latency, both sensitivity-order latencies, and p95 pass/fail for each. If the
+one-second p95 decision changes with order, the cell is marked
+`order_sensitive`; this fact cannot be absorbed into an unconditional Pass.
 
 ## Time and memory decisions
 
@@ -106,17 +126,20 @@ Time and memory are separate boundary facts:
 - `time_fail`: time limit exceeded while memory remains within limit;
 - `memory_fail`: memory limit exceeded while time remains within limit;
 - `time_and_memory_fail`: both limits exceeded;
-- `time_fail_memory_unresolved`: a hard timeout prevented a reliable memory
+- `time_fail_memory_unknown`: a hard timeout prevented a reliable memory
   conclusion;
 - `order_sensitive`: the p95 result changes across frozen orders; and
 - `pass`: exactness, replay, time, and memory all pass in every required run.
 
 The report records memo entries before and after every query, insertions, hits,
 capacity bytes, group high-water entries, process RSS, and incremental RSS.
-For a query killed at the ten-second measurement limit, the controller samples
-worker RSS every 25 ms and labels that memory figure as sampled rather than as
-the oracle's exact process high-water mark. If sampling is unavailable, memory
-is reported as unresolved rather than silently classified as passing.
+For a completed query, memory uses the worker's process high-water mark. For a
+query killed at the ten-second measurement limit, exact peak and incremental
+RSS are `null`. The controller may sample worker RSS every 25 ms, but that
+sample is only a lower bound. A sample above the limit can prove a memory
+failure; a sample below the limit cannot prove a memory pass. Such a timeout is
+reported as `time_fail_memory_unknown`, never as `time_fail`, unless the sample
+itself proves that both limits failed.
 Cold fresh-memo timing is a counterfactual comparison, not the production
 resource gate. The binding and sensitivity grouped orders determine fit; cold
 and grouped answers must still agree wherever both complete.
@@ -138,6 +161,12 @@ cases in the Phase 0.5 roster.
 Any unresolved Zero/LiE disagreement produces `Hold`. It outranks the resource
 frontier and stops further execution until root cause is established. LiE is
 not added as a distributed or production dependency in Phase 0.5.
+
+The sealed LiE Version 3 result is a separate evidentiary category from the
+internal Zero/ilXyr audit. It remains bound to the unchanged Version 1 plan and
+representation manifest. Version 2 keeps the same 828-representation roster,
+but it does not rewrite, reseal, or absorb the LiE record. Any later claim that
+the witness covers Version 2 must be made by exact case identity.
 
 ## Deliverables and closure
 

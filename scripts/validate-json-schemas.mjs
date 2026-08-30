@@ -105,8 +105,12 @@ const fixtures = {
   "weight-multiplicity-phase05-plan.schema.json": [
     "examples/weight-multiplicity/phase05-frontier-plan.json",
   ],
+  "weight-multiplicity-phase05-plan-v2.schema.json": [
+    "examples/weight-multiplicity/phase05-frontier-plan-v2.json",
+  ],
   "weight-multiplicity-phase05-manifest.schema.json": [
     "examples/weight-multiplicity/phase05-representation-manifest.json",
+    "examples/weight-multiplicity/phase05-representation-manifest-v2.json",
   ],
   "weight-multiplicity-phase05-lie-cross-check.schema.json": [
     "examples/weight-multiplicity/phase05-lie-cross-check-manifest-v3.json",

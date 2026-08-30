@@ -1,0 +1,127 @@
+{
+  "schema_version": 2,
+  "scope_revision": "phase-0.5-client-approved-2026-08-30",
+  "parent_contract_revision": "3-final-execution-copy",
+  "parent_contract_received_sha256": "e77a6341155242a7e08e8a0675100fd347fbf1d637c58092561ea2c052dc6b3c",
+  "oracle": {
+    "implementation": "zero-freudenthal-exact-c11",
+    "algorithm": "freudenthal_recurrence",
+    "interface_version": 2,
+    "cache_scope": "one_type_and_highest_weight_per_worker",
+    "cache_eviction": "on_type_or_highest_weight_change",
+    "recursive_weyl_canonicalization_revision": "51b594f",
+    "zero_revision": "d2ce00c"
+  },
+  "generator": {
+    "implementation": "ilxyr-weight-multiplicity-phase05-frontier",
+    "version": 2,
+    "seed": 230917,
+    "candidate_envelope": {
+      "minimum_highest_weight_height": 1,
+      "maximum_highest_weight_height": 8
+    },
+    "representation_selection": {
+      "include_all_fundamental_representations": true,
+      "include_phase0_v2_first_timeout_highest_weights": true,
+      "selectors_per_populated_dimension_band": [
+        "minimum_dimension",
+        "nearest_geometric_midpoint",
+        "maximum_dimension"
+      ],
+      "tie_break": "lexicographic_highest_weight_dynkin_labels",
+      "phase0_v2_first_timeout_cases": {
+        "B7": { "highest_weight": [1, 0, 1, 0, 1, 2, 1], "target_weight": [0, 1, 0, 1, 1, 0, 1], "target_depth": 39 },
+        "B8": { "highest_weight": [0, 0, 0, 0, 1, 1, 2, 0], "target_weight": [0, 1, -1, 1, 0, 2, 0, 0], "target_depth": 42 },
+        "C7": { "highest_weight": [0, 2, 0, 1, 2, 1, 0], "target_weight": [0, 1, 0, 1, 1, 1, 0], "target_depth": 38 },
+        "C8": { "highest_weight": [0, 0, 0, 1, 0, 1, 1, 1], "target_weight": [0, 0, 0, 1, 1, 0, 0, 1], "target_depth": 38 },
+        "D7": { "highest_weight": [1, 1, 1, 1, 2, 1, 1], "target_weight": [0, 0, 1, 2, 0, 0, 2], "target_depth": 39 },
+        "D8": { "highest_weight": [0, 1, 0, 2, 0, 2, 0, 0], "target_weight": [0, 0, 0, 1, 0, 2, 0, 0], "target_depth": 35 },
+        "E7": { "highest_weight": [0, 0, 2, 1, 0, 0, 0], "target_weight": [1, 1, 0, 1, 0, 0, 0], "target_depth": 46 },
+        "E8": { "highest_weight": [0, 0, 1, 0, 0, 0, 0, 0], "target_weight": [0, 1, 0, 0, 0, 0, 0, 0], "target_depth": 44 }
+      }
+    },
+    "targets_per_representation": 32,
+    "target_depth_anchors_per_mille": [125, 250, 375, 500, 625, 750, 875, 950],
+    "targets_per_depth_anchor": 4,
+    "non_dominant_target_index_per_anchor": 3,
+    "deduplication": "report_raw_and_unique_dominant_targets"
+  },
+  "coordinates": {
+    "cartan": "A_ij=<alpha_i_coroot,alpha_j>",
+    "weights": "integer_dynkin_labels",
+    "roots": "integer_simple_root_coefficients",
+    "representation_dimension": "exact_weyl_dimension_formula",
+    "highest_weight_height": "sum_of_highest_weight_dynkin_labels_secondary_only",
+    "target_depth": "signed_sum_of_integer_simple_root_coefficients_in_lambda_minus_mu",
+    "dominance": "all_target_dynkin_labels_nonnegative",
+    "weyl_action": "s_i(mu)=mu-mu_i*cartan_column_i"
+  },
+  "frontier": {
+    "types": [
+      "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8",
+      "B2", "B3", "B4", "B5", "B6", "B7", "B8",
+      "C3", "C4", "C5", "C6", "C7", "C8",
+      "D4", "D5", "D6", "D7", "D8",
+      "G2", "F4", "E6", "E7", "E8"
+    ],
+    "dimension_bands": [
+      { "id": "d00-02", "lower_inclusive": "1", "upper_exclusive": "100" },
+      { "id": "d02-03", "lower_inclusive": "100", "upper_exclusive": "1000" },
+      { "id": "d03-04", "lower_inclusive": "1000", "upper_exclusive": "10000" },
+      { "id": "d04-05", "lower_inclusive": "10000", "upper_exclusive": "100000" },
+      { "id": "d05-06", "lower_inclusive": "100000", "upper_exclusive": "1000000" },
+      { "id": "d06-07", "lower_inclusive": "1000000", "upper_exclusive": "10000000" },
+      { "id": "d07-08", "lower_inclusive": "10000000", "upper_exclusive": "100000000" },
+      { "id": "d08-09", "lower_inclusive": "100000000", "upper_exclusive": "1000000000" },
+      { "id": "d09-10", "lower_inclusive": "1000000000", "upper_exclusive": "10000000000" },
+      { "id": "d10-12", "lower_inclusive": "10000000000", "upper_exclusive": "1000000000000" },
+      { "id": "d12-15", "lower_inclusive": "1000000000000", "upper_exclusive": "1000000000000000" },
+      { "id": "d15-20", "lower_inclusive": "1000000000000000", "upper_exclusive": "100000000000000000000" },
+      { "id": "d20-30", "lower_inclusive": "100000000000000000000", "upper_exclusive": "1000000000000000000000000000000" },
+      { "id": "d30-50", "lower_inclusive": "1000000000000000000000000000000", "upper_exclusive": "100000000000000000000000000000000000000000000000000" }
+    ],
+    "binding_target_order": "ascending_depth_dominant_first_lexicographic",
+    "sensitivity_target_orders": [
+      "descending_depth_dominant_first_lexicographic",
+      "seeded_generation_order"
+    ],
+    "optimization_sequence": [
+      "recursive_weyl_canonicalization_fresh_memo_frontier",
+      "bounded_session_memo_grouped_frontier"
+    ],
+    "phase0_control": "frozen_phase0_v2_uncanonicalized_evidence",
+    "cold_baseline": "recursive_weyl_canonicalization_fresh_memo_every_query",
+    "query_timeout_ms": 1000,
+    "measurement_hard_timeout_ms": 10000,
+    "p95_limit_ms": 1000,
+    "peak_incremental_memory_limit_bytes": 2147483648,
+    "hard_timeout_memory_policy": "unknown_unless_external_sample_proves_limit_exceeded",
+    "replays": 2,
+    "parallelism_candidates": [1, 2, 4, 8],
+    "parallelism_basis": "grouped_persistent_stress_representations"
+  },
+  "cross_check": {
+    "implementation": "lie-2.2.2-separate-executable",
+    "purpose": "independent_correctness_witness",
+    "minimum_cases_per_type": 12,
+    "include_all_e7_e8_fundamental_representations": true,
+    "unresolved_disagreement_decision": "hold",
+    "production_dependency": false
+  },
+  "decision": {
+    "time_limit_is_binding": true,
+    "memory_limit_is_binding": true,
+    "order_sensitivity_is_reportable_boundary": true,
+    "outcomes": ["proceed", "rescope", "hold", "stop"],
+    "corpus_requires_separate_client_approval": true
+  },
+  "predecessor": {
+    "phase05_v1_plan_sha256": "eda8b220d8a15d6eb267f215a8d019b36a3bf3250278619301c4ee5092003bab",
+    "phase05_v1_representation_manifest_sha256": "57d553145e9e376930479551a30c1b13bb76b39a98b5ef06ee98eef41d10635f",
+    "phase05_v1_relationship": "retained_unchanged_for_sealed_lie_witness_v3",
+    "phase0_v2_plan_sha256": "0801102bae37e746f688b1f6f9d2e2198f5e702a0e536d85d333fb80dff4d176",
+    "phase0_v2_raw_result_sha256": "45e77630a9dd4005256627970c853573e71537f1076400b26391efb9450a5052",
+    "phase0_v2_compressed_result_sha256": "170803ee08bb5fa26dea5c9a983511e2eb740d90387af3d887c379b8469a8aa8",
+    "relationship": "new_client_approved_surface_old_evidence_remains_binding_for_revision_3"
+  }
+}
