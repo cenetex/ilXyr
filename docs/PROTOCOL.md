@@ -237,6 +237,9 @@ Evidence carries a `promoted` or `sandbox` designation.
 A shared task freezes SHA-256 bindings for its dataset and eval set, an ordered metric and seed
 contract, and a family-specific encoding, verifier, and designated proposer for both Zero and
 Solomon. Compilation resolves the contract to an immutable artifact and rejects binding drift.
+Executable v2 contracts also require a public repository, exact Git commit, and SHA-256-bound
+encoding and verifier entry points for each family. V1 remains available for historical contracts
+that name interfaces without claiming an executable source snapshot.
 
 A retro-registration plan freezes a source repository/commit, external artifact SHA-256 values,
 replay command, exact metric keys, seeds, and authority before execution. Only exact checks and

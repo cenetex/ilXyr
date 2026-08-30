@@ -129,12 +129,16 @@ function validateNode(node) {
   }
 
   if (node.execution_status === "not_run") {
-    assert(node.lifecycle_status === "blocked" && node.blockers?.length > 0,
-      `${node.id} not-run pathway must be blocked with a reason`);
+    assert(node.lifecycle_status === "blocked" || node.lifecycle_status === "open",
+      `${node.id} not-run pathway must be blocked or open`);
   }
   if (node.lifecycle_status === "blocked") {
     assert(node.execution_status === "not_run" && node.blockers?.length > 0,
       `${node.id} blocked pathway has an invalid execution state`);
+  }
+  if (node.lifecycle_status === "open" && node.execution_status === "not_run") {
+    assert(node.scientific_outcome === "unknown" && !node.blockers?.length,
+      `${node.id} open not-run pathway must be an unblocked question`);
   }
   if (node.lifecycle_status === "promoted") {
     assert(node.execution_status === "completed"

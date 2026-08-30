@@ -72,8 +72,8 @@ The families develop in parallel and meet at declared joints:
   sandbox-tier on family-specific benchmarks.
 
 **Spine rule:** a claim enters the promoted spine only if stated on a shared task contract.
-Substrate-private results stay sandbox-tier until they are. The first shared contract is
-Zero's q22r quantity-faculty task.
+Substrate-private results stay sandbox-tier until they are. The first executable shared contract
+is Zero's q22 operation-routing task, `zero-solomon.q22-operation.v1`.
 
 ## Flagship: the Zero→Solomon replication bridge
 
@@ -95,7 +95,8 @@ resolved go after 700 full-scale commits; the selected public checkpoint and one
 promotion evaluation passed. EXP-005 then executed seeds 1 and 3 as separate runs under the
 unchanged design. Both resolved go after 600 full-scale commits, so the all-three-seeds
 conjunction passed and ZERO.4 is current upstream. The Zero family gate is now clear. The bridge
-still needs frozen shared-task data bindings and a Solomon-compatible encoding and verifier.
+now freezes the training and evaluation bytes plus source-pinned Zero and Solomon encodings and
+verifiers in `zero-solomon.q22-operation.v1`. No Solomon training or replication result exists yet.
 The verified Braid StateBridge symbolic view is not admitted as a shared task while the C5
 decision remains private. It stays an input artifact and does not replace q22r by declaration.
 
@@ -124,15 +125,15 @@ provenance failed; independent evidence remains unopened. The lineage continues 
 2. Retro-registration and family replay adapters — implemented; Solomon replay passes from a
    fresh remote checkout for authorized NSRL access, Zero q22r seed 2 is grounded from a public,
    hash-pinned selected model, and the completed three-seed no-go decision is separately grounded.
-3. Shared-task contracts and the continuous loop-cycle driver — implemented; the real q22r shared
-   task remains blocked until both family encodings/verifiers and data hashes exist.
+3. Shared-task contracts and the continuous loop-cycle driver — implemented; the executable q22
+   bridge now binds both family implementations and exact data hashes.
 4. EXP-001 grounds Q2.3's local-guard no-go, EXP-002 records Q2.4's prospective cumulative-guard
    no-go, and EXP-003 records Q2.5's prospective deterministic-backtracking no-go. EXP-004 records
    Q2.6's prospective seed-2 replay-tangent go while preserving full gates for spine claims.
    EXP-005 records independent seed-1 and seed-3 go results and the verified family go. Its
    upstream evidence still needs to be imported into the local ilXyr ledger.
-5. Bind the ZERO.4 capability to a real shared task, add the Solomon-compatible encoding and
-   verifier, then preregister and execute the bridge.
+5. Preregister one Solomon training experiment against the frozen q22 bridge, then execute it
+   without changing the task bytes, seeds, verifier, or evaluation boundary.
 6. Implement the native NSRL checkpoint registration and source-pinned adapter, then execute the
    p10m intake and baseline defined by ADR 0005 without changing its experimental status.
 7. Reconcile the active ZERO.5 C0–C5 decision lineage and Braid inputs into the ilXyr registry.

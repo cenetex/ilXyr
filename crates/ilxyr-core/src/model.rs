@@ -98,6 +98,8 @@ pub struct FamilyTaskBinding {
     pub encoding: String,
     pub verifier: String,
     pub designated_proposer: ActorRef,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub implementation: Option<SourceSnapshot>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]

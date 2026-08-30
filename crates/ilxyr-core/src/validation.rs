@@ -273,7 +273,17 @@ pub fn external_registration_receipt(receipt: &ExternalRegistrationReceipt) -> R
 
 pub fn shared_task(contract: &SharedTaskContract) -> Result<()> {
     let mut errors = Vec::new();
-    schema(&contract.schema, "ilxyr.shared_task.v1", &mut errors);
+    let executable = match contract.schema.as_str() {
+        "ilxyr.shared_task.v1" => false,
+        "ilxyr.shared_task.v2" => true,
+        _ => {
+            errors.push(
+                "shared_task.schema must equal ilxyr.shared_task.v1 or ilxyr.shared_task.v2"
+                    .to_owned(),
+            );
+            false
+        }
+    };
     identifier(&contract.id, "shared_task.id", &mut errors);
     nonempty(&contract.title, "shared_task.title", &mut errors);
     artifact_binding(
@@ -340,6 +350,19 @@ pub fn shared_task(contract: &SharedTaskContract) -> Result<()> {
             &mut errors,
         );
         actor(&binding.designated_proposer, &mut errors);
+        match (&binding.implementation, executable) {
+            (Some(source), true) => source_snapshot(
+                source,
+                "shared_task.family_bindings[].implementation",
+                &mut errors,
+            ),
+            (None, true) => errors.push(
+                "shared_task v2 requires an implementation snapshot for each family".to_owned(),
+            ),
+            (Some(_), false) => errors
+                .push("shared_task v1 cannot declare implementation snapshots; use v2".to_owned()),
+            (None, false) => {}
+        }
     }
     finish(errors)
 }
@@ -912,6 +935,55 @@ fn artifact_binding(
         errors,
     );
     sha256(&binding.sha256, &format!("{field}.sha256"), errors);
+}
+
+fn source_snapshot(source: &crate::SourceSnapshot, field: &str, errors: &mut Vec<String>) {
+    handle(
+        &source.repository,
+        &format!("{field}.repository"),
+        Some("https://"),
+        errors,
+    );
+    if source.commit.len() != 40
+        || !source
+            .commit
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
+    {
+        errors.push(format!(
+            "{field}.commit must be a 40-character lowercase Git hash"
+        ));
+    }
+    if source.artifacts.len() < 2 {
+        errors.push(format!(
+            "{field}.artifacts must bind at least the encoding and verifier entry points"
+        ));
+    }
+    let paths = source
+        .artifacts
+        .iter()
+        .map(|artifact| artifact.path.as_str())
+        .collect::<BTreeSet<_>>();
+    if paths.len() != source.artifacts.len() {
+        errors.push(format!("{field}.artifacts contains duplicate paths"));
+    }
+    for artifact in &source.artifacts {
+        let valid_relative_path = !artifact.path.starts_with('/')
+            && !artifact
+                .path
+                .split('/')
+                .any(|part| part.is_empty() || part == "." || part == ".." || part.contains('\\'));
+        if !valid_relative_path {
+            errors.push(format!(
+                "{field}.artifacts[].path must be a normalized repository-relative path"
+            ));
+        }
+        sha256(
+            &artifact.sha256,
+            &format!("{field}.artifacts[].sha256"),
+            errors,
+        );
+    }
 }
 
 fn sha256(value: &str, field: &str, errors: &mut Vec<String>) {
