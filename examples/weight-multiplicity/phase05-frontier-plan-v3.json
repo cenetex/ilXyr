@@ -10,7 +10,7 @@
     "cache_scope": "one_type_and_highest_weight_per_worker",
     "cache_eviction": "on_type_or_highest_weight_change",
     "recursive_weyl_canonicalization_revision": "51b594f",
-    "zero_revision": "d2ce00c"
+    "zero_revision": "65e3523c340a9db82bee20c6daca96cb4c359965"
   },
   "generator": {
     "implementation": "ilxyr-weight-multiplicity-phase05-frontier",
