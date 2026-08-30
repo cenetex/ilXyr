@@ -121,3 +121,29 @@ a wider coordinate set, a joint move, or a different training surface. The
 exact-check registration is
 `examples/families/nsrl-direct-head-nll-safe-set-v1.retro.json`, binding NSRL
 merge commit `241424758a4d84f7cb1fa89aab3f622283aa2623`.
+
+## Cross-document stability audit
+
+The prospectively frozen next step tested whether any of the eight earlier
+proposal-descent directions was stable beyond the proposal and guard pair. It
+made no model update. Instead, it measured each fixed direction on the first 32
+complete 64-token windows of training documents 2 through 9. Those eight
+documents were new to this direct-head lineage. A direction counted as stable
+only if it strictly improved at least six documents and had positive aggregate
+NLL improvement.
+
+Both complete runs produced the same 64-cell trace bytes. Seven directions
+were mixed, improving three or four documents and regressing on the rest.
+Coordinate 8,310 with delta -1 improved two documents and regressed on six.
+Every direction had negative aggregate improvement, from -1,925 to -3,607 Q20
+units. The stable set was empty. The source model and frozen-trunk hashes stayed
+unchanged.
+
+The frozen gate therefore does not support a joint move or another follow-up in
+this coordinate family. Public development, public test, open generation,
+hidden evidence, larger-model execution, and paid scaling remained closed. The
+result shows that all eight earlier proposal descents were document-specific;
+it does not rule out the wider head or a different training method. The
+exact-check registration is
+`examples/families/nsrl-direct-head-cross-document-stability-v1.retro.json`,
+binding NSRL merge commit `bc7701b94b8c6a0bb27c426df77cb7c5289c8adb`.
