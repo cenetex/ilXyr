@@ -139,6 +139,18 @@ The import records metadata and exact file identities; it does not download weig
 inference. See [docs/HUGGINGFACE.md](docs/HUGGINGFACE.md) for the linked Qwen3.5 checkpoint,
 revision-pinned loading, and the executor boundary.
 
+Native NSRL checkpoints use a separate registry that verifies local source and artifact bytes
+before creating model and continuation handles:
+
+```bash
+cargo run -p ilxyr-cli -- nsrl-register . examples/nsrl/p10m-v10-registration.json /path/to/nsrl --execute
+cargo run -p ilxyr-cli -- nsrl-gate-record . examples/nsrl/p10m-v10-generation-gate.json /path/to/ilxyr
+cargo run -p ilxyr-cli -- nsrl-status . MODEL_REF
+```
+
+See [docs/NSRL.md](docs/NSRL.md) for the custody boundary and
+[the executed p10m intake](docs/experiments/NSRL-P10M-PILOT.md) for its failing public baseline.
+
 Claim and replication operations are explicit:
 
 ```bash
@@ -221,6 +233,8 @@ started without producing a terminal run. `authorize` reports the same decision 
 - `docs/INTEROPERABILITY.md`: MLflow, OSF, RO-Crate/PROV, in-toto/SLSA, and research-agent
   boundaries plus the integration roadmap.
 - `docs/HUGGINGFACE.md`: immutable Hub import, model/weight handles, and revision-pinned loading.
+- `docs/NSRL.md`: native NSRL checkpoint, continuation, local-verification, and gate-evidence
+  registration.
 - `docs/SECURITY.md`: threat model, autonomous operation rules, weight protection.
 - `docs/ROADMAP.md`: sequenced milestones from protocol proof through federation.
 - `docs/V1_REVIEW.md`: V1 acceptance review, revisions, and residual limitations.
@@ -235,6 +249,9 @@ started without producing a terminal run. `authorize` reports the same decision 
   settled forecasts, exact evidence, and newly eligible replication boundary.
 - `docs/experiments/EXP-005.md`: the completed Q2.6 seeds 1 and 3 replication, settled forecasts,
   exact source pins, and verified all-three-seeds family go.
+- `docs/experiments/NSRL-P10M-TARGET-MARGIN.md`: exact-check negative results for the
+  output-matrix target-margin pilot, its fixed-schedule trust region, and the canonical-NLL
+  direct-head guard and exact safe-set follow-ups.
 - `docs/decisions/`: architectural decision records (ADR 0001–0004).
 
 ## Current non-goals and evidence gaps

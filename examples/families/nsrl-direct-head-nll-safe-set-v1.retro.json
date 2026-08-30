@@ -1,0 +1,79 @@
+{
+  "schema": "ilxyr.retro_registration_spec.v1",
+  "id": "solomon.nsrl-p10m-direct-head-nll-safe-set-v1.negative.v1",
+  "claim": "A prospectively frozen exact two-surface output-head search evaluated both unit directions for all eight ranked coordinates. Every proposal-descent direction worsened the document-disjoint guard, so the safe set was empty, exact rerun replay passed, the source model was retained, and public development plus all later gates stayed closed.",
+  "family": "solomon",
+  "source": {
+    "repository": "https://github.com/atimics/nsrl.git",
+    "commit": "241424758a4d84f7cb1fa89aab3f622283aa2623",
+    "artifacts": [
+      {
+        "path": "benchmarks/production-model-v1/p10m-direct-head-nll-safe-set-v1-contract.json",
+        "sha256": "fcac9263a4c5366a0ed05034f87a4c0f5c15e40469e18b31ee275e91da5be404"
+      },
+      {
+        "path": "benchmarks/production-model-v1/p10m-direct-head-nll-safe-set-v1-training-gate.json",
+        "sha256": "3c97f55120f1d2cf4ebd1f48eaa570d05f3b41ee927323bd0687d2f6d36c17f8"
+      },
+      {
+        "path": "scripts/run-production-direct-head-nll-safe-set-v1.sh",
+        "sha256": "5936075d4e9eb9b594512a094d80b5cee2b0ed009b88a3e2894033bbad11fb4c"
+      },
+      {
+        "path": "scripts/check-production-direct-head-nll-safe-set-training-v1.mjs",
+        "sha256": "a4c90511cb943208f043ba0622afb7c68b267c3844b62ecacfcfe777646b9ebc"
+      }
+    ]
+  },
+  "metrics": [
+    { "name": "candidate_coordinates_evaluated", "unit": "count", "description": "Gradient-ranked output-head coordinates evaluated in round zero" },
+    { "name": "exact_directions_evaluated", "unit": "count", "description": "Exact positive and negative unit directions evaluated across the complete proposal and guard surfaces" },
+    { "name": "proposal_descent_directions", "unit": "count", "description": "Directions that strictly improved exact proposal NLL" },
+    { "name": "safe_candidates", "unit": "count", "description": "Proposal-descent directions that did not worsen guard NLL" },
+    { "name": "guard_rejected_directions", "unit": "count", "description": "Proposal-descent directions excluded for worsening guard NLL" },
+    { "name": "maximum_proposal_nll_improvement_q20", "unit": "q20_nll", "description": "Largest exact proposal NLL improvement among the rejected directions" },
+    { "name": "minimum_guard_nll_regression_q20", "unit": "q20_nll", "description": "Smallest exact guard regression among proposal-descent directions" },
+    { "name": "maximum_guard_nll_regression_q20", "unit": "q20_nll", "description": "Largest exact guard regression among proposal-descent directions" },
+    { "name": "descent_steps_applied", "unit": "count", "description": "Output-head coordinate moves committed to the candidate" },
+    { "name": "model_movement", "unit": "boolean", "description": "Whether the final model differed from the source" },
+    { "name": "exact_model_rerun_replay", "unit": "boolean", "description": "Independent full rerun reproduced candidate model bytes" },
+    { "name": "exact_trace_rerun_replay", "unit": "boolean", "description": "Independent full rerun reproduced training trace bytes" },
+    { "name": "frozen_parameters_unchanged", "unit": "boolean", "description": "The frozen p10m trunk hash stayed unchanged" },
+    { "name": "zero_weight_saturation", "unit": "boolean", "description": "The bounded search reported zero weight saturation" },
+    { "name": "public_development_opened", "unit": "boolean", "description": "Whether public development evaluation was opened" },
+    { "name": "public_test_opened", "unit": "boolean", "description": "Whether public test evaluation was opened" },
+    { "name": "open_generation_opened", "unit": "boolean", "description": "Whether open-generation evaluation was opened" },
+    { "name": "hidden_panel_opened", "unit": "boolean", "description": "Whether hidden evidence was opened" }
+  ],
+  "seeds": [0],
+  "replay": {
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-nsrl-direct-head-nll-safe-set-v1.mjs",
+      "--repo", "/workspace/nsrl",
+      "--repository", "https://github.com/atimics/nsrl.git",
+      "--commit", "241424758a4d84f7cb1fa89aab3f622283aa2623",
+      "--git", "/usr/bin/git"
+    ],
+    "timeout_seconds": 300,
+    "network": "open"
+  },
+  "authority": {
+    "level": "exact_check",
+    "scope": {
+      "seeds": [0],
+      "eval_set": "artifact://sha256/3c97f55120f1d2cf4ebd1f48eaa570d05f3b41ee927323bd0687d2f6d36c17f8",
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [
+        "artifact://sha256/fcac9263a4c5366a0ed05034f87a4c0f5c15e40469e18b31ee275e91da5be404",
+        "artifact://sha256/3c97f55120f1d2cf4ebd1f48eaa570d05f3b41ee927323bd0687d2f6d36c17f8",
+        "artifact://sha256/5936075d4e9eb9b594512a094d80b5cee2b0ed009b88a3e2894033bbad11fb4c",
+        "artifact://sha256/a4c90511cb943208f043ba0622afb7c68b267c3844b62ecacfcfe777646b9ebc"
+      ],
+      "model_lineage": "model://nsrl/nsrlpm1-p10m-causal-tail-representation-v9/14f568de85931696dfd2c7b4cb35883d7b8c88430e5395b0c9c7f9f2660d5c22",
+      "checker": "checker://nsrl/p10m-direct-head-nll-safe-set/v1"
+    }
+  }
+}

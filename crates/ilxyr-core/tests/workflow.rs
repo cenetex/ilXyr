@@ -2,10 +2,12 @@ use std::{fs, path::PathBuf, process, time::SystemTime};
 
 use ilxyr_core::{
     CodePolicy, ExperimentSpec, ExportPolicy, Forecast, FundingCommitment, HuggingFaceModel,
-    NetworkPolicy, ResearchContribution, WeightClass, Workspace, commit_funding,
-    compile_experiment, decide_admission, experiment_status, register_huggingface_model,
+    NetworkPolicy, NsrlArtifact, NsrlCheckpoint, NsrlContinuation, NsrlRegistration,
+    ResearchContribution, WeightClass, Workspace, commit_funding, compile_experiment,
+    decide_admission, experiment_status, register_huggingface_model, register_nsrl_model,
     run_experiment, submit_contribution, submit_forecast,
 };
+use sha2::{Digest, Sha256};
 
 /// Process-global uniqueness for temporary test directories. Parallel tests
 /// can read the same coarse clock tick on macOS, so timestamps alone are not
@@ -327,6 +329,106 @@ fn hugging_face_actor_and_weight_handles_require_a_registered_manifest() {
     register_huggingface_model(&workspace, model).expect("model must register");
     submit_contribution(&workspace, model_contribution).expect("model actor must resolve");
     compile_experiment(&workspace, experiment).expect("model weights must resolve");
+}
+
+#[test]
+fn nsrl_actor_and_weight_handles_require_a_registered_checkpoint() {
+    let directory = TestDirectory::create("nsrl-binding");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let registration: NsrlRegistration = serde_json::from_str(include_str!(
+        "../../../examples/nsrl/p10m-v10-registration.json"
+    ))
+    .expect("NSRL fixture must parse");
+    let registration = hydrate_nsrl_registration(&workspace, registration);
+
+    let mut model_contribution =
+        contribution(include_str!("../../../examples/toy/hypothesis.json"));
+    model_contribution.id = "nsrl.hypothesis.v1".to_owned();
+    model_contribution.actor.model_ref = Some(registration.checkpoint.model_ref.clone());
+    assert!(submit_contribution(&workspace, model_contribution.clone()).is_err());
+
+    submit_lineage(&workspace);
+    let mut experiment = experiment();
+    experiment.models = vec![registration.checkpoint.weight_ref.clone()];
+    assert!(compile_experiment(&workspace, experiment.clone()).is_err());
+
+    register_nsrl_model(&workspace, registration).expect("NSRL checkpoint must register");
+    submit_contribution(&workspace, model_contribution).expect("model actor must resolve");
+    compile_experiment(&workspace, experiment).expect("model weights must resolve");
+}
+
+fn hydrate_nsrl_registration(
+    workspace: &Workspace,
+    mut registration: NsrlRegistration,
+) -> NsrlRegistration {
+    import_nsrl_test_artifact(
+        workspace,
+        &mut registration.checkpoint.model,
+        "test/model.nsrlpm",
+        b"model bytes",
+    );
+    import_nsrl_test_artifact(
+        workspace,
+        &mut registration.checkpoint.tokenizer,
+        "test/tokenizer.nsrlbpe",
+        b"tokenizer bytes",
+    );
+    import_nsrl_test_artifact(
+        workspace,
+        &mut registration.checkpoint.model_card,
+        "test/MODEL_CARD.md",
+        b"model card",
+    );
+    import_nsrl_test_artifact(
+        workspace,
+        &mut registration.checkpoint.executable,
+        "test/nsrl-production-model",
+        b"executable bytes",
+    );
+    let model_ref = NsrlCheckpoint::model_ref_for(
+        &registration.checkpoint.lineage,
+        &registration.checkpoint.model.sha256,
+    );
+    registration.checkpoint.model_ref = model_ref.clone();
+    registration.checkpoint.weight_ref = NsrlCheckpoint::weight_ref_for(
+        &registration.checkpoint.lineage,
+        &registration.checkpoint.model.sha256,
+    );
+    registration.checkpoint.parent_checkpoint = None;
+    let continuation = registration.continuation.as_mut().expect("continuation");
+    import_nsrl_test_artifact(
+        workspace,
+        &mut continuation.optimizer,
+        "test/optimizer.nsrlpo",
+        b"optimizer bytes",
+    );
+    continuation.checkpoint_ref = model_ref;
+    continuation.source_model_sha256 = registration.checkpoint.model.sha256.clone();
+    continuation.continuation_ref = NsrlContinuation::continuation_ref_for(
+        &registration.checkpoint.lineage,
+        &continuation.optimizer.sha256,
+    );
+    registration.checkpoint.continuation_ref = Some(continuation.continuation_ref.clone());
+    registration
+}
+
+fn import_nsrl_test_artifact(
+    workspace: &Workspace,
+    artifact: &mut NsrlArtifact,
+    path: &str,
+    bytes: &[u8],
+) {
+    let source = workspace.root().join(path);
+    fs::create_dir_all(source.parent().expect("parent")).expect("artifact directory");
+    fs::write(&source, bytes).expect("artifact source");
+    let sha256 = format!("{:x}", Sha256::digest(bytes));
+    let blob_ref = workspace.put_blob(&source, &sha256).expect("import blob");
+    *artifact = NsrlArtifact {
+        path: path.to_owned(),
+        sha256,
+        size_bytes: u64::try_from(bytes.len()).expect("test bytes fit"),
+        blob_ref,
+    };
 }
 
 #[test]

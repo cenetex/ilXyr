@@ -48,6 +48,18 @@ const fixtures = {
     "examples/schema/huggingface-model.json",
   ],
   "lab-registry.schema.json": ["docs/lab-registry.json"],
+  "nsrl-gate-evidence.schema.json": [
+    "examples/nsrl/p10m-v10-context-gate.json",
+    "examples/nsrl/p10m-v10-generation-gate.json",
+    "examples/nsrl/p10m-v10-integrity-gate.json",
+    "examples/nsrl/p10m-v10-learning-gate.json",
+    "examples/nsrl/p10m-v10-numeric-health-gate.json",
+    "examples/nsrl/p10m-v10-provenance-gate.json",
+    "examples/nsrl/p10m-v10-serving-gate.json",
+  ],
+  "nsrl-registration.schema.json": [
+    "examples/nsrl/p10m-v10-registration.json",
+  ],
   "paper-contract.schema.json": ["examples/schema/paper-contract.json"],
   "program-overview.schema.json": [],
   "replication-contract.schema.json": ["examples/schema/replication-contract.json"],
@@ -59,6 +71,10 @@ const fixtures = {
   ],
   "retro-registration.schema.json": [
     "examples/schema/retro-registration.json",
+    "examples/families/nsrl-target-margin-v1.retro.json",
+    "examples/families/nsrl-target-margin-trust-region-v1.retro.json",
+    "examples/families/nsrl-direct-head-nll-guard-v1.retro.json",
+    "examples/families/nsrl-direct-head-nll-safe-set-v1.retro.json",
     "examples/families/solomon-successor-v2.retro.json",
     "examples/families/zero-q22r-multiseed.retro.json",
     "examples/families/zero-q22r-seed2.retro.json",
@@ -261,6 +277,26 @@ expectInvalid(
   "upstream-benchmark.schema.json",
   "upstream benchmark without an explicit outcome",
   upstreamBenchmark,
+);
+
+const nsrlRegistration = await readJson(
+  "examples/nsrl/p10m-v10-registration.json",
+);
+nsrlRegistration.checkpoint.source.commit = "main";
+expectInvalid(
+  "nsrl-registration.schema.json",
+  "NSRL checkpoint with mutable source revision",
+  nsrlRegistration,
+);
+
+const nsrlGate = await readJson(
+  "examples/nsrl/p10m-v10-generation-gate.json",
+);
+nsrlGate.outcome = "unopened";
+expectInvalid(
+  "nsrl-gate-evidence.schema.json",
+  "NSRL gate evidence with an unsettled outcome",
+  nsrlGate,
 );
 
 console.log(

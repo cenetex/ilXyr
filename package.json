@@ -6,7 +6,7 @@
     "test:importer": "node scripts/test-import-benchmark.mjs",
     "test:pages": "node scripts/validate-pages-publication.mjs",
     "test:registry": "node scripts/validate-lab-registry.mjs",
-    "test:schemas": "node scripts/validate-json-schemas.mjs"
+    "test:schemas": "node scripts/validate-json-schemas.mjs && node scripts/validate-lab-registry.mjs && node scripts/test-import-benchmark.mjs"
   },
   "devDependencies": {
     "ajv": "8.20.0"

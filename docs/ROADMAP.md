@@ -102,6 +102,9 @@ cross-family replication, OSF-side authentication, hardware attestation, or SLSA
   bundle and source-pinned adapter, settle the frozen baseline and exact-restart checks, then record
   a continue, candidate, or freeze decision. Stewardship does not change the model's
   `experimental` status.
+  Initial intake and public baseline completed on 2026-08-28 with a continue-experimental decision;
+  the exact source commit and weight licence remain provenance blockers, five measured gates fail,
+  and independent evidence remains unopened.
 - Braid StateBridge is not admitted as a second cross-family task while the C5.2 decision remains
   private. Its symbolic representation remains an input artifact, not a Solomon-compatible
   contract or capability claim.
