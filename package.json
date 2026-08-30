@@ -11,7 +11,8 @@
     "test:weight-multiplicity-phase05": "node scripts/run-weight-multiplicity-phase05.mjs --self-test",
     "generate:weight-multiplicity-lie-cross-check": "node scripts/generate-weight-multiplicity-lie-cross-check.mjs",
     "run:weight-multiplicity-lie-cross-check": "node scripts/run-weight-multiplicity-lie-cross-check.mjs",
-    "test:weight-multiplicity-evidence": "node scripts/check-weight-multiplicity-phase0-evidence.mjs"
+    "test:weight-multiplicity-evidence": "node scripts/check-weight-multiplicity-phase0-evidence.mjs",
+    "test:weight-multiplicity-phase05-evidence": "node scripts/check-weight-multiplicity-phase05-evidence.mjs"
   },
   "devDependencies": {
     "ajv": "8.20.0"
