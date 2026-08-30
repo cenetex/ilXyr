@@ -3,17 +3,17 @@ use std::{env, fs, path::Path, process::ExitCode};
 use ilxyr_core::{
     ActorKind, ActorRef, Certificate, ClaimNode, DsseEnvelope, EpochBudget, EvidenceGraphEdge,
     ExperimentSpec, ExternalRegistrationReceipt, Forecast, FundingCommitment, HuggingFaceModel,
-    InteropFormat, LoopCycle, NsrlGateEvidence, NsrlRegistration, ReplicationContract,
-    ResearchContribution, Result, RetroRegistrationSpec, SandboxSpec, SharedTaskContract,
-    Workspace, allocate_epoch, allocate_replication, authorize_unattended_run, calibration_for,
-    claim_status, claim_support, commit_funding, compile_experiment, decide_admission,
-    epoch_budget_signing_payload, execute_loop_cycle, experiment_status, export_evidence,
-    load_paper_contract, prepare_registration, program_status, record_certificate,
+    InteropFormat, LoopCycle, MechanismTournament, NsrlGateEvidence, NsrlRegistration,
+    ReplicationContract, ResearchContribution, Result, RetroRegistrationSpec, SandboxSpec,
+    SharedTaskContract, Workspace, allocate_epoch, allocate_replication, authorize_unattended_run,
+    calibration_for, claim_status, claim_support, commit_funding, compile_experiment,
+    decide_admission, epoch_budget_signing_payload, execute_loop_cycle, experiment_status,
+    export_evidence, load_paper_contract, prepare_registration, program_status, record_certificate,
     record_evidence_edge, record_executor_attestation, record_external_registration,
-    register_claim, register_epoch_budget, register_nsrl_model, register_replication_contract,
-    register_shared_task, retro_register, run_experiment, run_experiment_unattended, run_sandbox,
-    settle_replication, submit_contribution, submit_forecast, trust_attestation_key,
-    trust_policy_key,
+    register_claim, register_epoch_budget, register_mechanism_tournament, register_nsrl_model,
+    register_replication_contract, register_shared_task, retro_register, run_experiment,
+    run_experiment_unattended, run_sandbox, settle_mechanism_tournament, settle_replication,
+    submit_contribution, submit_forecast, trust_attestation_key, trust_policy_key,
 };
 use serde::{Serialize, de::DeserializeOwned};
 use serde_json::json;
@@ -261,6 +261,25 @@ fn run() -> Result<()> {
             let forecast = read_json::<Forecast>(&args[2])?;
             let artifact_ref = submit_forecast(&workspace, forecast)?;
             print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "tournament-register" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr tournament-register <workspace> <tournament.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let tournament = read_json::<MechanismTournament>(&args[2])?;
+            print_json(&register_mechanism_tournament(&workspace, tournament)?)?;
+        }
+        "tournament-settle" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr tournament-settle <workspace> <tournament-id>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&settle_mechanism_tournament(&workspace, &args[2])?)?;
         }
         "fund" => {
             require_len(&args, 3, "ilxyr fund <workspace> <funding.json>")?;
@@ -565,6 +584,8 @@ fn usage() {
            ilxyr preregister-record <workspace> <receipt.json>\n\
            ilxyr retro <workspace> <retro-registration.json> --execute\n\
            ilxyr forecast <workspace> <forecast.json>\n\
+           ilxyr tournament-register <workspace> <tournament.json>\n\
+           ilxyr tournament-settle <workspace> <tournament-id>\n\
            ilxyr fund <workspace> <funding.json>\n\
            ilxyr trust-key <workspace> <human-id> <key-id> <public-key-base64>\n\
            ilxyr trust-attestation-key <workspace> <service-id> <key-id> <public-key-base64>\n\

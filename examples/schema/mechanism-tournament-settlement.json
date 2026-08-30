@@ -1,0 +1,26 @@
+{
+  "schema": "ilxyr.mechanism_tournament_settlement.v1",
+  "tournament_id": "toy.score-mechanisms.v1",
+  "experiment_id": "toy.score.v1",
+  "decision_row_id": "threshold_only",
+  "observations": [
+    {
+      "observation_id": "clears_required",
+      "outcome": "satisfied",
+      "detail": "condition satisfied"
+    },
+    {
+      "observation_id": "clears_stretch",
+      "outcome": "unsatisfied",
+      "detail": "toy.score.v1:score = 0.82 does not satisfy Gte 0.9"
+    }
+  ],
+  "rival_scores": [
+    { "rival_id": "threshold_fit", "brier_score": 0.025 },
+    { "rival_id": "broad_margin", "brier_score": 0.325 }
+  ],
+  "lowest_scoring_rival_ids": ["threshold_fit"],
+  "supported_rival_ids": ["threshold_fit"],
+  "next_action": "Design a focused margin intervention without changing the required gate.",
+  "settled_at_ms": 1788060000000
+}

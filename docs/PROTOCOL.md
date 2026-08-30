@@ -29,6 +29,9 @@ trusted attestation key + ledgered run + signed DSSE envelope -> verified execut
 
 claim + frozen replication contract -> reserved allocation -> forward evidence
     -> independence/tolerance settlement -> replicates edge -> passive claim status
+
+rival mechanisms + metric predictions + exhaustive decision table
+    -> ranked discriminating observations -> evidence -> mechanism tournament settlement
 ```
 
 The steps are monotonic. Objects are immutable; revisions create new objects and experiment
@@ -117,6 +120,8 @@ The reference implementation emits:
 - `EvidenceEdgeRecorded`
 - `ReplicationContractRegistered`
 - `ReplicationSettled`
+- `MechanismTournamentRegistered`
+- `MechanismTournamentSettled`
 
 Each event contains the preceding event hash. Events that materialize an object contain its
 content-addressed artifact reference.
@@ -299,6 +304,29 @@ actors. It ensures contributions, compilation, and forecasts, invokes the existi
 allocator, runs only when unattended authorization passes, and returns the settled result. It is
 safe to call repeatedly with the same cycle. Daemon scheduling and proposal generation are outside
 the core so they cannot bypass the same policy boundary.
+
+### Rival-mechanism tournaments
+
+A mechanism tournament is registered against a compiled experiment before accepted admission or
+execution. It freezes at least two rival explanations, one or more evidence-metric condition sets,
+each rival's probability that every condition will be satisfied, estimated observation costs, and
+an exhaustive decision table over all boolean observation patterns. The registration event is
+attributed to the tournament's validated author.
+
+Registration is idempotent for identical content. Reusing a tournament ID with different content
+is a conflict, including after experiment admission.
+
+The planner ranks observations by cross-rival probability variance divided by estimated credits.
+This is a deterministic information-value proxy, not an execution authorization or a claim that
+the observations are statistically independent. Existing funding and signed-policy gates still
+control compute.
+
+Settlement evaluates the frozen conditions against the latest ledgered evidence, records a mean
+binary Brier score for each rival, selects the exact predeclared decision row, and records its
+supported rivals and next action. Missing facts fail closed without creating a settlement, so a
+safe retry can occur after the required evidence arrives. The lowest Brier score and the authored
+decision row are both retained: predictive accuracy does not silently rewrite the investigator's
+causal decision rule.
 
 ### Roles and separation
 

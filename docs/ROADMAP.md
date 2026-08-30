@@ -37,7 +37,7 @@ into a promoted claim.
 - Implemented shared task contracts for SHA-256 data/eval bindings, metric and seed contracts,
   family encodings/verifiers, and one designated proposer per family.
 - Implemented Zero q22r and Solomon successor-v2 `local-command` metric adapters. Solomon replayed
-  successfully from a clean remote checkout for authorized NSRL access. Zero seed 2 replays from a
+  successfully from an unauthenticated clean checkout of public NSRL. Zero seed 2 replays from a
   public, hash-pinned model artifact, and the completed three-seed aggregate independently registers
   the grounded one-go/two-no-go family decision.
 - Implemented the idempotent library/CLI cycle: propose → forecast → allocate → run → settle,
@@ -90,6 +90,9 @@ cross-family replication, OSF-side authentication, hardware attestation, or SLSA
 - Implemented additive evidence graph with `supports`, `contradicts`, `replicates`, `depends_on`,
   `supersedes`, `subsumes`, and `derived_from` edges; contradictions coexist and the query
   interface returns evidence state, never truth values.
+- Implemented rival-mechanism tournaments with prospectively frozen metric predictions,
+  disagreement-per-credit observation ranking, exhaustive decision tables, fail-closed evidence
+  resolution, and per-rival Brier settlement.
 - Implemented replication contracts with pre-run tolerance bounds: capability replication and
   computational equivalence as distinct declared targets.
 - Implemented promoted-spine eligibility from an exact shared-task anchor, forward risk, cold

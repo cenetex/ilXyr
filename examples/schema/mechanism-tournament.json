@@ -1,0 +1,102 @@
+{
+  "schema": "ilxyr.mechanism_tournament.v1",
+  "id": "toy.score-mechanisms.v1",
+  "title": "Toy score mechanism tournament",
+  "experiment_id": "toy.score.v1",
+  "author": {
+    "id": "model://toy/mechanism-designer",
+    "kind": "model",
+    "model_ref": "model://toy/mechanism-designer/v1"
+  },
+  "question": "Does the procedure only clear the required threshold, or does it have a larger quality margin?",
+  "rivals": [
+    {
+      "id": "threshold_fit",
+      "statement": "The procedure is tuned closely to the required threshold.",
+      "predictions": [
+        { "observation_id": "clears_required", "probability_satisfied": 0.9 },
+        { "observation_id": "clears_stretch", "probability_satisfied": 0.2 }
+      ]
+    },
+    {
+      "id": "broad_margin",
+      "statement": "The procedure has enough margin to clear both thresholds.",
+      "predictions": [
+        { "observation_id": "clears_required", "probability_satisfied": 0.9 },
+        { "observation_id": "clears_stretch", "probability_satisfied": 0.8 }
+      ]
+    }
+  ],
+  "observations": [
+    {
+      "id": "clears_required",
+      "description": "The recorded score clears the required 0.80 threshold.",
+      "estimated_cost_credits": 1,
+      "condition": {
+        "schema": "ilxyr.condition.v1",
+        "id": "toy.score.required.v1",
+        "root": {
+          "kind": "metric",
+          "experiment_id": "toy.score.v1",
+          "metric": "score",
+          "operator": "gte",
+          "threshold": 0.8
+        }
+      }
+    },
+    {
+      "id": "clears_stretch",
+      "description": "The recorded score clears the stronger 0.90 threshold.",
+      "estimated_cost_credits": 1,
+      "condition": {
+        "schema": "ilxyr.condition.v1",
+        "id": "toy.score.stretch.v1",
+        "root": {
+          "kind": "metric",
+          "experiment_id": "toy.score.v1",
+          "metric": "score",
+          "operator": "gte",
+          "threshold": 0.9
+        }
+      }
+    }
+  ],
+  "decision_table": [
+    {
+      "id": "no_signal",
+      "expectations": [
+        { "observation_id": "clears_required", "satisfied": false },
+        { "observation_id": "clears_stretch", "satisfied": false }
+      ],
+      "supported_rival_ids": ["threshold_fit"],
+      "next_action": "Repair the base procedure before testing mechanism margin."
+    },
+    {
+      "id": "threshold_only",
+      "expectations": [
+        { "observation_id": "clears_required", "satisfied": true },
+        { "observation_id": "clears_stretch", "satisfied": false }
+      ],
+      "supported_rival_ids": ["threshold_fit"],
+      "next_action": "Design a focused margin intervention without changing the required gate."
+    },
+    {
+      "id": "inconsistent_thresholds",
+      "expectations": [
+        { "observation_id": "clears_required", "satisfied": false },
+        { "observation_id": "clears_stretch", "satisfied": true }
+      ],
+      "supported_rival_ids": [],
+      "next_action": "Audit metric definitions because the observed threshold relation is inconsistent."
+    },
+    {
+      "id": "broad_margin_observed",
+      "expectations": [
+        { "observation_id": "clears_required", "satisfied": true },
+        { "observation_id": "clears_stretch", "satisfied": true }
+      ],
+      "supported_rival_ids": ["broad_margin"],
+      "next_action": "Replicate the stronger margin claim on a new seed."
+    }
+  ]
+}

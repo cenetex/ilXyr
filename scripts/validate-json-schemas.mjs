@@ -59,6 +59,12 @@ const fixtures = {
   "huggingface-model.schema.json": [
     "examples/schema/huggingface-model.json",
   ],
+  "mechanism-tournament.schema.json": [
+    "examples/schema/mechanism-tournament.json",
+  ],
+  "mechanism-tournament-settlement.schema.json": [
+    "examples/schema/mechanism-tournament-settlement.json",
+  ],
   "lab-registry.schema.json": ["docs/lab-registry.json"],
   "nsrl-gate-evidence.schema.json": [
     "examples/nsrl/p10m-v10-context-gate.json",
@@ -364,6 +370,31 @@ expectInvalid(
   nsrlRegistration,
 );
 
+const nsrlRegistrationWithoutContinuation = await readJson(
+  "examples/nsrl/p10m-v10-registration.json",
+);
+delete nsrlRegistrationWithoutContinuation.continuation;
+delete nsrlRegistrationWithoutContinuation.checkpoint.continuation_ref;
+const validateNsrlRegistration = validators.get(
+  "nsrl-registration.schema.json",
+);
+if (!validateNsrlRegistration(nsrlRegistrationWithoutContinuation)) {
+  throw new Error(
+    `NSRL registration without continuation failed nsrl-registration.schema.json: ${JSON.stringify(validateNsrlRegistration.errors)}`,
+  );
+}
+positiveCount += 1;
+
+const unpairedNsrlRegistration = await readJson(
+  "examples/nsrl/p10m-v10-registration.json",
+);
+delete unpairedNsrlRegistration.continuation;
+expectInvalid(
+  "nsrl-registration.schema.json",
+  "NSRL checkpoint continuation reference without continuation",
+  unpairedNsrlRegistration,
+);
+
 const nsrlGate = await readJson(
   "examples/nsrl/p10m-v10-generation-gate.json",
 );
@@ -372,6 +403,24 @@ expectInvalid(
   "nsrl-gate-evidence.schema.json",
   "NSRL gate evidence with an unsettled outcome",
   nsrlGate,
+);
+
+const tournament = await readJson("examples/schema/mechanism-tournament.json");
+delete tournament.decision_table[0].next_action;
+expectInvalid(
+  "mechanism-tournament.schema.json",
+  "mechanism tournament decision without a next action",
+  tournament,
+);
+
+const tournamentSettlement = await readJson(
+  "examples/schema/mechanism-tournament-settlement.json",
+);
+tournamentSettlement.rival_scores[0].brier_score = 1.1;
+expectInvalid(
+  "mechanism-tournament-settlement.schema.json",
+  "mechanism tournament settlement with invalid Brier score",
+  tournamentSettlement,
 );
 
 const weightMultiplicityContract = await readJson(

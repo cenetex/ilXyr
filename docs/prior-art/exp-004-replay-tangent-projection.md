@@ -71,7 +71,7 @@ projection over *all* trainable weights of the *AdamW displacement* against the
 mean gradient of six *frozen* replay-validation windows, where the projection
 constructs candidates but never supplies authority — every commit still passes
 direct functional evaluation against an immutable baseline under a frozen,
-prospectively registered 2% cumulative replay ceiling — executed as a
+prospectively frozen 2% cumulative replay ceiling — executed as a
 deterministic, fully replayable, hash-pinned 4.85M-parameter C11 micromodel run,
 with weights and both AdamW moment arrays committed and restored jointly; plus
 the specific empirical finding that this direction change reopened the
@@ -119,7 +119,7 @@ Hu et al. 2026 (arXiv:2604.22407), Singh et al. 2026 (arXiv:2603.26671).
     {"title": "Orthogonal Subspace Learning for Language Model Continual Learning", "authors": "Wang, Chen, Ge, Xia, Bao, Zheng, Zhang, Gui, Huang", "year": 2023, "venue": "EMNLP 2023 Findings", "relation": "domain_overlap", "url": "https://arxiv.org/abs/2310.14152"},
     {"title": "Revisiting Replay and Gradient Alignment for Continual Pre-Training of Large Language Models", "authors": "Abbes, Subbaraj, Riemer, Islah, Therien, Tabaru, Kingetsu, Chandar, Rish", "year": 2025, "venue": "arXiv preprint", "relation": "domain_overlap", "url": "https://arxiv.org/abs/2508.01908"}
   ],
-  "novelty_boundary": "The projection operator is not claimable: A-GEM (2019) is the same conditional projection against the average replay-memory gradient for the same anti-forgetting purpose, GEM (2017) established the replay-gradient constraint, and Adam-NSCL (2021) already projects the Adam candidate update rather than the raw gradient. The lab's claim is the stricter conjunction of: one global projection of the AdamW displacement over all trainable weights against the mean gradient of six frozen replay-validation windows; projection as candidate construction only, with authority reserved to direct functional evaluation under a frozen prospectively registered 2% cumulative replay ceiling; a deterministic, fully replayable, hash-pinned 4.85M-parameter C11 micromodel run with joint weight and AdamW-moment commit/restore; and the empirical result that this direction change reopened the quantity-learning path that scalar continuation (EXP-003/Q2.5) could not, with 700/700 full-scale commits.",
+  "novelty_boundary": "The projection operator is not claimable: A-GEM (2019) is the same conditional projection against the average replay-memory gradient for the same anti-forgetting purpose, GEM (2017) established the replay-gradient constraint, and Adam-NSCL (2021) already projects the Adam candidate update rather than the raw gradient. The lab's claim is the stricter conjunction of: one global projection of the AdamW displacement over all trainable weights against the mean gradient of six frozen replay-validation windows; projection as candidate construction only, with authority reserved to direct functional evaluation under a prospectively frozen 2% cumulative replay ceiling; a deterministic, fully replayable, hash-pinned 4.85M-parameter C11 micromodel run with joint weight and AdamW-moment commit/restore; and the empirical result that this direction change reopened the quantity-learning path that scalar continuation (EXP-003/Q2.5) could not, with 700/700 full-scale commits.",
   "authority": "review"
 }
 ```
