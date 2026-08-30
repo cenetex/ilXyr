@@ -4,8 +4,8 @@
 - Scope: shared-task contracts, retro-registration, Zero and Solomon local harness adapters,
   and the policy-bounded loop-cycle driver
 - Verdict: protocol implementation accepted; the available frozen family evidence is registered.
-  Solomon is remotely checkoutable for authorized users but not public, and Zero's completed
-  Q2.2-R family and Q2.3 diagnostic results are grounded no-go evidence.
+  Solomon is publicly checkoutable, and Zero's completed Q2.2-R family and Q2.3 diagnostic results
+  are grounded no-go evidence.
 
 ## Implemented
 
@@ -93,7 +93,7 @@ the later Q2.6 family replication passed in EXP-005 and made ZERO.4 current upst
 
 ### EXP-001 — Zero Q2.3 seed 2
 
-The next Zero experiment was preregistered upstream as a transactional AdamW diagnostic with a
+The next Zero experiment was prospectively frozen upstream as a transactional AdamW diagnostic with a
 local direct functional replay guard. Its observer stage passed exact learned-state equivalence
 over 200 attempts and calibrated a 0.25% hard band. The first-order drift predictor was
 non-predictive (Pearson 0.0076), so projection remained disabled.
@@ -113,13 +113,18 @@ produced four content-addressed objects across five hash-linked events and passe
 The experiment guide is
 [`docs/experiments/EXP-001.md`](experiments/EXP-001.md).
 
-### First q22r shared task
+### First q22 shared task
 
-The shared-task protocol is ready, but a real q22r contract has not been registered. A contract
-consumed by both harnesses requires the actual dataset and eval-set SHA-256 values plus a Solomon
-q22r encoding/verifier. Those inputs do not exist in the inspected repositories. Publishing a
-contract with placeholders or treating the Zero report itself as the dataset would overstate the
-evidence, so registration remains deliberately blocked.
+The bridge follow-up now publishes an executable v2 contract. It binds a training-only 9,500-row
+JSONL file, the disjoint 500-row promotion TSV, the Zero channel adapter, and the Solomon byte
+encoder and kernel-aware verifier to exact public commits and source hashes. Local registration is
+covered by the onboarding suite. This closes the infrastructure blocker only: no Solomon model has
+been trained and no cross-family replication outcome has been observed.
+
+Post-review update, 2026-08-30: EXP-007 prospectively froze and ran the Solomon class head against
+this contract. Seeds 1, 2, and 3 each scored 500/500 and agreed on every case. The original review
+statement remains the correct boundary at review time; the later result is recorded separately in
+`docs/experiments/EXP-007.md`.
 
 ## Verification
 

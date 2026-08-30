@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "solomon.q22.engineering_review.v1",
+  "stage": "engineering_review",
+  "actor": {
+    "id": "service://ilxyr/solomon-q22-source-review",
+    "kind": "service"
+  },
+  "title": "Independent source and firewall review",
+  "body": "NSRL commit 5de132b52b361b8b79638969bb0f0ab6c04111a6 fixes the model, trainer, data hashes, compute cap, and outcome rule. Training accepts only the frozen Solomon encoding. All three model artifacts are hashed before evaluation opens. Prediction accepts only ID and input columns, while the separate verifier retains the gold labels.",
+  "input_refs": ["solomon.q22.hypothesis.v1", "solomon.q22.foundation.v1"],
+  "claims": [
+    "No paid compute is allowed.",
+    "No retraining, hyperparameter change, or model selection is allowed after evaluation opens.",
+    "All three seeds run even if an earlier seed would miss the gate."
+  ],
+  "confidence": 0.99
+}

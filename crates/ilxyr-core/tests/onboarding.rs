@@ -98,6 +98,62 @@ fn shared_tasks_are_immutable_and_bind_both_family_harnesses() {
 }
 
 #[test]
+fn executable_q22_task_binds_both_source_snapshots() {
+    let directory = TestDirectory::create("q22-shared-task-v2");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let contract: SharedTaskContract = serde_json::from_str(include_str!(
+        "../../../examples/shared-tasks/zero-solomon-q22-operation-v1.json"
+    ))
+    .expect("Q22 shared-task fixture must parse");
+    let task_ref =
+        register_shared_task(&workspace, contract.clone()).expect("Q22 shared task must register");
+    assert_eq!(
+        task_ref,
+        "artifact://sha256/b5c374b548a52e457577524b131cc52f12b875b85506cb1c470770dcf16e6dd6"
+    );
+    assert!(contract.family_bindings.iter().all(|binding| {
+        binding
+            .implementation
+            .as_ref()
+            .is_some_and(|source| source.artifacts.len() >= 2)
+    }));
+
+    for fixture in [
+        include_str!("../../../examples/experiments/solomon-q22/hypothesis.json"),
+        include_str!("../../../examples/experiments/solomon-q22/foundation.json"),
+        include_str!("../../../examples/experiments/solomon-q22/engineering-review.json"),
+        include_str!("../../../examples/experiments/solomon-q22/experiment-design.json"),
+    ] {
+        let contribution: ResearchContribution =
+            serde_json::from_str(fixture).expect("Solomon Q22 contribution must parse");
+        submit_contribution(&workspace, contribution)
+            .expect("Solomon Q22 contribution must register");
+    }
+    let experiment: ExperimentSpec = serde_json::from_str(include_str!(
+        "../../../examples/experiments/solomon-q22/experiment.json"
+    ))
+    .expect("Solomon Q22 experiment must parse");
+    let compiled_ref = compile_experiment(&workspace, experiment)
+        .expect("Solomon Q22 experiment must bind the registered task");
+    let compiled: ilxyr_core::CompiledExperiment = workspace
+        .get(&compiled_ref)
+        .expect("compiled Solomon Q22 experiment must load");
+    assert_eq!(compiled.shared_task_ref.as_deref(), Some(task_ref.as_str()));
+
+    let mut drifted = contract;
+    drifted.family_bindings[1]
+        .implementation
+        .as_mut()
+        .expect("Solomon implementation must exist")
+        .artifacts[0]
+        .sha256 = "f".repeat(64);
+    let error = register_shared_task(&workspace, drifted)
+        .expect_err("implementation drift must not replace the registered task");
+    assert!(error.to_string().contains("immutable"));
+    assert!(workspace.verify().expect("ledger must verify").valid);
+}
+
+#[test]
 fn retro_registration_replays_once_and_never_claims_forecast_risk() {
     let directory = TestDirectory::create("retro");
     let workspace = Workspace::init(&directory.0).expect("workspace must initialize");

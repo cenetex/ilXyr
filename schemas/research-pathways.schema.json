@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/research-pathways.v2.json",
+  "title": "ilXyr research pathway map v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "as_of",
+    "scope",
+    "factor_spaces",
+    "nodes",
+    "edges",
+    "method_assessment"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.research_pathways.v2" },
+    "as_of": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "scope": { "type": "string", "minLength": 1 },
+    "factor_spaces": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/factorSpace" }
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "edges": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/edge" }
+    },
+    "method_assessment": { "$ref": "#/$defs/methodAssessment" }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:/-]+$"
+    },
+    "outcome": {
+      "enum": ["positive", "negative", "mixed", "unknown"]
+    },
+    "factorName": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "factorSpace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lineage", "track", "axes"],
+      "properties": {
+        "lineage": { "$ref": "#/$defs/identifier" },
+        "track": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9]*$"
+        },
+        "axes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/factorName" }
+        }
+      }
+    },
+    "researchCoordinate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["track", "parts", "slug"],
+      "properties": {
+        "track": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9]*$"
+        },
+        "parts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647
+          }
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*[0-9](?:_[0-9]+)*$"
+        }
+      }
+    },
+    "factorState": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "$ref": "#/$defs/factorName" },
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 2147483647
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path"],
+      "properties": {
+        "kind": {
+          "enum": [
+            "lab_registry_experiment",
+            "retro_registration",
+            "experiment_record",
+            "pilot_record",
+            "program_record"
+          ]
+        },
+        "path": { "type": "string", "minLength": 1 },
+        "record_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "claimResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim", "outcome"],
+      "properties": {
+        "claim": { "type": "string", "minLength": 1 },
+        "outcome": { "$ref": "#/$defs/outcome" }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "coordinate",
+        "record_revision",
+        "factor_state",
+        "display_name",
+        "family",
+        "lineage",
+        "kind",
+        "execution_status",
+        "scientific_outcome",
+        "disclosure_status",
+        "lifecycle_status",
+        "evidence_status",
+        "claim_results",
+        "summary",
+        "next_boundary",
+        "sources"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "coordinate": { "$ref": "#/$defs/researchCoordinate" },
+        "record_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "factor_state": { "$ref": "#/$defs/factorState" },
+        "display_name": { "type": "string", "minLength": 1 },
+        "family": {
+          "enum": ["zero", "solomon", "cross_family", "external"]
+        },
+        "lineage": { "$ref": "#/$defs/identifier" },
+        "kind": {
+          "enum": [
+            "enabling_experiment",
+            "scientific_experiment",
+            "replication",
+            "managed_checkpoint",
+            "replication_bridge"
+          ]
+        },
+        "execution_status": { "enum": ["completed", "not_run"] },
+        "scientific_outcome": { "$ref": "#/$defs/outcome" },
+        "disclosure_status": {
+          "enum": ["public", "private_hash", "withheld"]
+        },
+        "lifecycle_status": {
+          "enum": [
+            "promoted",
+            "selected_base",
+            "experimental",
+            "closed",
+            "blocked",
+            "terminal_private",
+            "open"
+          ]
+        },
+        "evidence_status": {
+          "enum": [
+            "native",
+            "retro",
+            "external_public",
+            "external_private_hash",
+            "private_withheld",
+            "corpus_proxy",
+            "documented"
+          ]
+        },
+        "claim_results": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/claimResult" }
+        },
+        "blockers": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "summary": { "type": "string", "minLength": 1 },
+        "next_boundary": { "type": "string", "minLength": 1 },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source" }
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to", "relation", "summary"],
+      "properties": {
+        "from": { "$ref": "#/$defs/identifier" },
+        "to": { "$ref": "#/$defs/identifier" },
+        "relation": {
+          "enum": [
+            "motivated",
+            "superseded_by",
+            "opened",
+            "replicated_by",
+            "depends_on",
+            "branched_to",
+            "enables"
+          ]
+        },
+        "summary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "methodAssessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "verdict",
+        "strengths",
+        "failure_modes",
+        "proposed_rules",
+        "priority_order"
+      ],
+      "properties": {
+        "verdict": { "type": "string", "minLength": 1 },
+        "strengths": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "failure_modes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "proposed_rules": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "priority_order": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

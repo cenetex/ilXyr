@@ -6,14 +6,16 @@
 
 ilxyr is the research control plane for a certified-micromodel lab. It turns research
 proposals into immutable experiment contracts, admits runs only after forecast, funding,
-methodology, and security gates pass, and records the result in a tamper-evident event
-ledger. The research program it serves — the Zero and Solomon model families and the
-certified-gate method — is defined in [docs/PROGRAM.md](docs/PROGRAM.md).
+methodology, and security gates pass, and records the result in a locally integrity-checkable,
+hash-linked event ledger. The research program it serves — the Zero and Solomon model families
+and the certified-gate method — is defined in [docs/PROGRAM.md](docs/PROGRAM.md).
 
 **Experiment guide:** [cenetex.github.io/ilXyr](https://cenetex.github.io/ilXyr/)
 
-This repository is a local V1 vertical slice. It proves the research lifecycle and its autonomous
-policy boundary provider-neutral, before any service or cloud binding.
+This repository is a local V1 vertical slice. It demonstrates the research lifecycle and its
+provider-neutral autonomous policy boundary before any service or cloud binding. The supported
+academic claim, evaluation boundary, and publication gaps are stated in
+[docs/ACADEMIC-SCOPE.md](docs/ACADEMIC-SCOPE.md).
 
 ## What v1 does
 
@@ -60,9 +62,16 @@ policy boundary provider-neutral, before any service or cloud binding.
   replication tolerances against exact shared-task bindings, funds replication from the signed
   reserve, mechanically settles provenance independence, and derives spine eligibility without
   computing a truth score.
+- Freezes rival-mechanism tournaments with metric-level predictions, ranks observations by
+  disagreement per estimated credit, and settles an exhaustive predeclared decision table from
+  ledgered evidence.
 - Provides clean-commit metric adapters for Zero q22r seed and multi-seed decisions and the
   Solomon successor-v2 harness, plus ledgered Q2.3–Q2.6 prospective transaction experiments
   and the completed Q2.6 seed-1/3 family replication workflow.
+- Publishes a machine-readable lab registry that separates Braid data inputs, the promoted ZERO.4
+  line, the active ZERO.5 research line, upstream evidence debt, and C5.2's private terminal state.
+- Compiles supported upstream benchmark results into schema-validated review records without
+  pretending that completed external runs were registered prospectively by ilXyr.
 
 Protected weights are handles, never local paths. The v1 local executor cannot run protected
 weight experiments; those require a future attested executor adapter.
@@ -192,6 +201,20 @@ many independent replications succeeded, and whether all conditions make the cla
 the promoted spine. Private claims may omit a task binding and remain queryable, but cannot become
 spine-eligible.
 
+Mechanism tournaments turn a broad outcome into a discriminating causal test:
+
+```bash
+cargo run -p ilxyr-cli -- tournament-register . examples/schema/mechanism-tournament.json
+# Run and settle the referenced experiment through its normal lifecycle.
+cargo run -p ilxyr-cli -- tournament-settle . toy.score-mechanisms.v1
+```
+
+Registration must happen before accepted admission or execution. Every rival predicts every
+observation, and the decision table must cover all boolean observation patterns. Settlement fails
+closed while any declared metric condition is unresolved. Rival Brier scores and the authored
+next action are recorded without changing the experiment's scientific outcome. Identical
+registration retries are safe; changing a frozen tournament under the same ID is rejected.
+
 V1.1 adds:
 
 ```bash
@@ -237,19 +260,26 @@ started without producing a terminal run. `authorize` reports the same decision 
 - `portal`: the hosted submission and review portal used for the conventional web deployment.
 - `crates/ilxyr-core`: protocol objects, validation, ledger, gates, execution, settlement.
 - `crates/ilxyr-cli`: a small reference control-plane CLI.
-- `schemas`: portable JSON contracts for non-Rust producers and consumers (35 strict Draft
-  2020-12 schemas, including evidence authority, certificates, epoch budgets, sandbox runs,
+- `schemas`: portable JSON contracts for non-Rust producers and consumers (strict Draft 2020-12
+  schemas, including evidence authority, certificates, epoch budgets, sandbox runs,
   calibration records, evidence/registration bundles, external registration receipts, trusted
-  attestation keys, verified executor attestations, claims/edges/status, and replication
-  contracts/settlements).
+  attestation keys, verified executor attestations, claims/edges/status, replication
+  contracts/settlements, and mechanism tournaments/settlements).
 - `examples/proposals`: decision-complete experiment drafts, including three symmetry-informed ML
   tests.
 - `examples/toy`: one end-to-end funded experiment.
 - `examples/schema`: positive fixtures for the published protocol schemas.
 - `docs/PROGRAM.md`: the research program — Zero and Solomon micromodel families,
   certified-gate method, autonomous operating model, flagship replication bridge.
+- `docs/RESEARCH-PATHWAYS.md`: the checked research-pathway map — successful,
+  negative, blocked, withheld, and experimental branches plus exploration-method rules.
+- `docs/research-pathways.json`: machine-readable pathway nodes, causal edges,
+  independent status axes, evidence bindings, and method assessment.
 - `docs/decisions/0005-nsrl-p10m-operational-stewardship.md`: the approved 30-day experimental
   stewardship pilot, ownership boundary, checkpoint bundle, and promotion gates for NSRL p10m.
+- `docs/lab-registry.json`: the reviewed cross-project program inventory for Braid and ZERO,
+  including active controls, artifact hashes, model-line boundaries, and evidence state.
+- `docs/program-registry.html`: the public, readable view of that inventory.
 - `docs/ARCHITECTURE.md`: two-lane structure, system boundaries, future cloud adapters.
 - `docs/PROTOCOL.md`: object lifecycle, events, gate semantics, decided and deferred extensions.
 - `docs/INTEROPERABILITY.md`: MLflow, OSF, RO-Crate/PROV, in-toto/SLSA, and research-agent
@@ -265,13 +295,20 @@ started without producing a terminal run. `authorize` reports the same decision 
   question, no-go result, replay contract, and next decision boundary.
 - `docs/experiments/EXP-002.md`: the prospective Q2.4 cumulative-guard no-go and preserved retry
   settlement histories.
-- `docs/experiments/EXP-003.md`: the prospectively registered Q2.5 deterministic-backtracking
+- `docs/experiments/EXP-003.md`: the prospectively frozen Q2.5 deterministic-backtracking
   no-go, settled forecasts, exact evidence, and sealed downstream gates.
 - `docs/experiments/EXP-004.md`: the prospective Q2.6 global replay-tangent projection go,
   settled forecasts, exact evidence, and newly eligible replication boundary.
 - `docs/experiments/EXP-005.md`: the completed Q2.6 seeds 1 and 3 replication, settled forecasts,
   exact source pins, and verified all-three-seeds family go.
-- `docs/decisions/`: architectural decision records (ADR 0001–0004).
+- `docs/experiments/EXP-006.md`: the recovered public-corpus Holo HRR protocol verification and
+  its bounded negative performance comparison.
+- `docs/experiments/EXP-007.md`: the prospectively frozen three-seed Zero→Solomon Q22 bridge,
+  exact public evidence, forecast settlement, and narrow claim boundary.
+- `docs/experiments/NSRL-P10M-TARGET-MARGIN.md`: exact-check negative results for the
+  output-matrix target-margin pilot, its fixed-schedule trust region, and the canonical-NLL
+  direct-head guard, exact safe-set, and cross-document stability follow-ups.
+- `docs/decisions/`: architectural decision records (ADR 0001–0005).
 
 ## Current non-goals and evidence gaps
 
@@ -284,9 +321,9 @@ The registration workflow does not authenticate to OSF or independently inspect 
 an authorized actor or adapter freezes the package and supplies the receipt, whose exact local
 package binding ilxyr enforces.
 Graph-wide weakest-link authority composition, demotion windows, authenticated multi-writer
-queries, and an OSF network adapter remain later milestones. Solomon's frozen
-successor-v2 commit is advertised on a remote branch and replays from a fresh checkout, but the
-NSRL repository is private, so unauthenticated public checkout is still unavailable. Zero q22r
+queries, and an OSF network adapter remain later milestones. Solomon's frozen successor-v2 commit
+is published in the public NSRL repository and has replayed from an unauthenticated fresh checkout.
+Zero q22r
 seed 2 replays independently from a public hash-pinned model; seeds 1 and 3 completed as valid
 no-go results. That earlier Q2.2-R family decision remains one go and two no-go. EXP-001 grounds
 the Q2.3 seed-2 local-guard no-go. EXP-002
@@ -298,6 +335,18 @@ replay and quantity gates unchanged. Seed 2 resolved go after 700 full-scale com
 public checkpoint and exactly one promotion-split evaluation both passed. EXP-005 then executed
 seeds 1 and 3 independently under the frozen Q2.6-R contract. Both resolved go after 600 commits,
 so the all-three-seeds family rule passed and ZERO.4 is current upstream. The result commit is
-published and verified; local ilXyr ledger import remains pending. The cross-family bridge is no
-longer blocked by the Zero family gate, but it still needs shared data bindings and a Solomon
-encoding/verifier. See `docs/V1_1_REVIEW.md` for the earlier Q2.2-R audit.
+published and verified; local ilXyr ledger import remains pending. EXP-007 then completed the
+cross-family Q22 operation-routing bridge prospectively: all three Solomon seeds scored 500/500
+and agreed on every promotion case. This closes the narrow routing claim, not arithmetic answer
+generation or broad language quality. See `docs/V1_1_REVIEW.md` for the earlier Q2.2-R audit.
+
+## Academic terminology and citation
+
+An experiment is **prospectively frozen** when its ilxyr contract and outcome rules are immutable
+before execution. It is described as **externally preregistered** only when a matching receipt from
+the declared external registry is bound to that contract. A multi-seed run in one research program
+tests within-program robustness; it is not called an external reproduction unless a separate team
+obtains the result.
+
+Citation metadata is provided in [`CITATION.cff`](CITATION.cff). No DOI is claimed until a tagged
+release and its complete evidence package are deposited in a long-term archive.

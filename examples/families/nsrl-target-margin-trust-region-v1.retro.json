@@ -1,0 +1,75 @@
+{
+  "schema": "ilxyr.retro_registration_spec.v1",
+  "id": "solomon.nsrl-p10m-target-margin-trust-region-v1.negative.v1",
+  "claim": "A prospectively frozen hard-negative trust-region preflight bound all rates to one update schedule and one disjoint canonical-NLL guard. Every proposed batch at feature shifts 13, 14, and 15 worsened guard NLL and was atomically rejected, so no candidate was selected and all later evaluation stayed closed.",
+  "family": "solomon",
+  "source": {
+    "repository": "https://github.com/atimics/nsrl.git",
+    "commit": "e2a9e9558ce5811e904a9d8e68e66ba6dac8306f",
+    "artifacts": [
+      {
+        "path": "benchmarks/production-model-v1/p10m-target-margin-trust-region-v1-contract.json",
+        "sha256": "e2dd108669787c077ab3da8085e3dfd011f250bd4abd586201b0f86183265be7"
+      },
+      {
+        "path": "benchmarks/production-model-v1/p10m-target-margin-trust-region-v1-preflight.json",
+        "sha256": "e111e0f85a212f8990b1a9241f7c5f3d229c9676029cf8f502f306eee46b1010"
+      },
+      {
+        "path": "scripts/run-production-target-margin-trust-region-v1.sh",
+        "sha256": "3dd02fead117a7ac93c0ce775ceeaa9fcaf8dac8daac617d09988ef84185c56d"
+      },
+      {
+        "path": "scripts/select-production-target-margin-trust-region-preflight-v1.mjs",
+        "sha256": "058de7062bd783999318f85bbd9072a4bea30c7efdc8a36f160d71bf883c2466"
+      }
+    ]
+  },
+  "metrics": [
+    { "name": "feature_shift_candidates", "unit": "count", "description": "Prospectively frozen feature-shift candidates evaluated" },
+    { "name": "passing_feature_shifts", "unit": "count", "description": "Feature shifts that passed every disjoint-guard preflight gate" },
+    { "name": "guard_batches_evaluated", "unit": "count", "description": "Total proposed batches evaluated across all three candidates" },
+    { "name": "guard_batches_accepted", "unit": "count", "description": "Batches accepted by canonical-NLL trust-region checks" },
+    { "name": "guard_batches_rejected", "unit": "count", "description": "Batches atomically restored after worsening guard NLL" },
+    { "name": "guard_nll_delta_millibits", "unit": "millibits", "description": "Final minus initial canonical guard NLL for each identical no-movement candidate" },
+    { "name": "output_matrix_movement_l1", "unit": "integer_l1", "description": "Accepted output-matrix movement across candidates" },
+    { "name": "zero_weight_saturation", "unit": "boolean", "description": "Every preflight candidate reported zero weight saturation" },
+    { "name": "update_schedule_hash_consistent", "unit": "boolean", "description": "All candidates used one fixed 2,048-window update schedule" },
+    { "name": "guard_rank_hash_consistent", "unit": "boolean", "description": "All candidates used one fixed 32-window disjoint guard" },
+    { "name": "full_run_started", "unit": "boolean", "description": "Whether a feature shift was selected for full training" },
+    { "name": "development_opened", "unit": "boolean", "description": "Whether public development evaluation was opened" },
+    { "name": "public_test_opened", "unit": "boolean", "description": "Whether public test evaluation was opened" },
+    { "name": "hidden_panel_opened", "unit": "boolean", "description": "Whether hidden evidence was opened" }
+  ],
+  "seeds": [0],
+  "replay": {
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-nsrl-target-margin-trust-region-v1.mjs",
+      "--repo", "/workspace/nsrl",
+      "--repository", "https://github.com/atimics/nsrl.git",
+      "--commit", "e2a9e9558ce5811e904a9d8e68e66ba6dac8306f",
+      "--git", "/usr/bin/git"
+    ],
+    "timeout_seconds": 300,
+    "network": "open"
+  },
+  "authority": {
+    "level": "exact_check",
+    "scope": {
+      "seeds": [0],
+      "eval_set": "artifact://sha256/e111e0f85a212f8990b1a9241f7c5f3d229c9676029cf8f502f306eee46b1010",
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [
+        "artifact://sha256/e2dd108669787c077ab3da8085e3dfd011f250bd4abd586201b0f86183265be7",
+        "artifact://sha256/e111e0f85a212f8990b1a9241f7c5f3d229c9676029cf8f502f306eee46b1010",
+        "artifact://sha256/3dd02fead117a7ac93c0ce775ceeaa9fcaf8dac8daac617d09988ef84185c56d",
+        "artifact://sha256/058de7062bd783999318f85bbd9072a4bea30c7efdc8a36f160d71bf883c2466"
+      ],
+      "model_lineage": "model://nsrl/nsrlpm1-p10m-causal-tail-representation-v9/14f568de85931696dfd2c7b4cb35883d7b8c88430e5395b0c9c7f9f2660d5c22",
+      "checker": "checker://nsrl/p10m-target-margin-trust-region/v1"
+    }
+  }
+}

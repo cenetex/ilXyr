@@ -113,6 +113,32 @@ if (fs.existsSync(exp006Page) &&
   report(exp006Page, "must link its public evidence summary");
 }
 
+const exp007Page = path.join(docsRoot, "experiments", "exp-007.html");
+const exp007Evidence = path.join(docsRoot, "experiments", "exp-007-evidence.json");
+if (!fs.existsSync(exp007Page)) report(exp007Page, "publication page is missing");
+if (!fs.existsSync(exp007Evidence)) report(exp007Evidence, "public evidence summary is missing");
+if (fs.existsSync(exp007Page) &&
+    !fs.readFileSync(exp007Page, "utf8").includes('href="exp-007-evidence.json"')) {
+  report(exp007Page, "must link its public evidence summary");
+}
+
+const programPage = path.join(docsRoot, "program-registry.html");
+const labRegistry = path.join(docsRoot, "lab-registry.json");
+const indexPage = path.join(docsRoot, "index.html");
+if (!fs.existsSync(programPage)) report(programPage, "program registry page is missing");
+if (!fs.existsSync(labRegistry)) report(labRegistry, "machine-readable lab registry is missing");
+if (fs.existsSync(programPage) &&
+    !fs.readFileSync(programPage, "utf8").includes('href="lab-registry.json"')) {
+  report(programPage, "must link the machine-readable lab registry");
+}
+if (fs.existsSync(indexPage)) {
+  const indexContents = fs.readFileSync(indexPage, "utf8");
+  for (const required of ["program-registry.html", "ZERO5 C5.1", "ZERO5 C5.2",
+    "ZERO5 C6.1"]) {
+    if (!indexContents.includes(required)) report(indexPage, `must surface ${required}`);
+  }
+}
+
 if (errors.length > 0) {
   console.error(`GitHub Pages publication validation failed with ${errors.length} error(s):`);
   errors.forEach((error) => console.error(`- ${error}`));

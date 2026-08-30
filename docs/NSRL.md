@@ -63,3 +63,32 @@ are in `examples/nsrl/p10m-v10-pilot-evidence.json`.
 The hidden panel was not opened. Integrity and public learning pass. Numeric health, generation,
 context, serving, and provenance fail. Independent evidence stays unopened. The checkpoint remains
 `experimental` and is not candidate-eligible.
+
+The later output-matrix target-margin pilot is recorded separately as a negative exact-check
+result in `examples/families/nsrl-target-margin-v1.retro.json`. It replayed exactly and stayed
+numerically safe, but failed its public-development rank and NLL gates; public test and hidden
+evidence remained closed. See `docs/experiments/NSRL-P10M-TARGET-MARGIN.md`.
+
+Its fixed-schedule trust-region follow-up is registered in
+`examples/families/nsrl-target-margin-trust-region-v1.retro.json`. All 48 proposed batches across
+three rates worsened canonical NLL on the same disjoint guard and were rejected. No full candidate
+was selected, and development, test, open-generation, and hidden evidence stayed closed.
+
+The canonical-NLL head follow-up is registered in
+`examples/families/nsrl-direct-head-nll-guard-v1.retro.json`. Its selected unit move improved the
+64-window proposal but worsened a different-document 32-window guard, so it was restored in round
+zero. Exact model and trace reruns passed. Development was unchanged; test, open-generation, and
+hidden evidence stayed closed.
+
+Its exact safe-set follow-up is registered in
+`examples/families/nsrl-direct-head-nll-safe-set-v1.retro.json`. Both unit directions were checked
+on the complete proposal and guard surfaces for all eight ranked coordinates. Every proposal-NLL
+descent direction worsened the guard, leaving no safe candidate. The source was retained with exact
+model and trace replay, and development, test, open-generation, and hidden evidence stayed closed.
+
+The cross-document stability audit is registered in
+`examples/families/nsrl-direct-head-cross-document-stability-v1.retro.json`. It replayed the eight
+proposal-descent directions over eight previously unused training documents. None met the frozen
+six-document and positive-aggregate stability rule; every aggregate was negative. Exact trace
+replay passed, the source stayed unchanged, and another same-coordinate-family follow-up plus all
+public, hidden, and scaling stages stayed closed.

@@ -27,6 +27,33 @@ ilxyr protocol objects.
   operators, certificates, and the promoted/sandbox boundary, absorbed into the protocol
   (`docs/PROTOCOL.md`, decided extensions). The predecessor repository is then frozen as an
   archive; its C library is not maintained.
+- **Braid — data plane.** Braid compiles governed datasets, representations, target streams,
+  rights records, split seals, and verification evidence. Braid releases are immutable inputs;
+  they never authorize model training or promotion.
+
+## Active model lines
+
+ZERO.4 and ZERO.5 are separate states, not one checkpoint chain.
+
+- **ZERO.4 is promoted.** Q2.6 passed all three declared seeds and remains the deployed quantity
+  model.
+- **ZERO.5 is active research.** It is the dependency-free C11 training line at a fixed
+  4,852,992-parameter base. Its C experiments start from the selected C2 checkpoint, not from
+  ZERO.4. The line is not promoted.
+- **C5 is a private terminal lineage.** C5.1 tested a 25% Braid structured-text mixture and
+  resolved no-go outside the ilXyr ledger. C5.2 keeps that stream fixed and adds a 193,264-
+  parameter verified state-target head, for 5,046,256 total parameters. Its authorized run
+  finished, but the frozen contract forbids public results. No follow-up run is authorized while
+  the decision remains private.
+
+The machine-readable source of truth is [`docs/lab-registry.json`](lab-registry.json), with the
+public view at [`docs/program-registry.html`](program-registry.html). External runs remain marked
+external until ilXyr imports them; their chronology is never rewritten as forecast-risked.
+
+The cross-lineage decision map is [`docs/RESEARCH-PATHWAYS.md`](RESEARCH-PATHWAYS.md), backed by
+the validated [`docs/research-pathways.json`](research-pathways.json). It separates scientific
+outcome, execution, disclosure, lifecycle, and evidence maturity so a completed no-go cannot be
+confused with a blocked or withheld experiment.
 
 ## Parallel substrates, shared surface, directed flow
 
@@ -45,8 +72,8 @@ The families develop in parallel and meet at declared joints:
   sandbox-tier on family-specific benchmarks.
 
 **Spine rule:** a claim enters the promoted spine only if stated on a shared task contract.
-Substrate-private results stay sandbox-tier until they are. The first shared contract is
-Zero's q22r quantity-faculty task.
+Substrate-private results stay sandbox-tier until they are. The first executable shared contract
+is Zero's q22 operation-routing task, `zero-solomon.q22-operation.v1`.
 
 ## Flagship: the Zero→Solomon replication bridge
 
@@ -68,7 +95,14 @@ resolved go after 700 full-scale commits; the selected public checkpoint and one
 promotion evaluation passed. EXP-005 then executed seeds 1 and 3 as separate runs under the
 unchanged design. Both resolved go after 600 full-scale commits, so the all-three-seeds
 conjunction passed and ZERO.4 is current upstream. The Zero family gate is now clear. The bridge
-still needs frozen shared-task data bindings and a Solomon-compatible encoding and verifier.
+now freezes the training and evaluation bytes plus source-pinned Zero and Solomon encodings and
+verifiers in `zero-solomon.q22-operation.v1`. EXP-007 then froze an 8,192-feature integer class
+head, four epochs, seeds 1–3, a 950,000 ppm per-seed gate, and exact cross-seed agreement before
+evaluation. Every seed scored 500/500 and all predictions agreed, so the narrow operation-routing
+bridge resolved go. This does not establish arithmetic generation or broad language quality; a
+successor must remove command-prefix shortcuts and freeze a harder transfer claim.
+The verified Braid StateBridge symbolic view is not admitted as a shared task while the C5
+decision remains private. It stays an input artifact and does not replace q22r by declaration.
 
 ## NSRL p10m managed pilot
 
@@ -88,24 +122,43 @@ reproduced deterministic generation and the public development baseline, and kep
 unopened. Integrity and learning passed; numeric health, generation, context, serving, and
 provenance failed; independent evidence remains unopened. The lineage continues as experimental.
 
+## Verified-oracle weight-multiplicity transfer
+
+The signed Revision 3 program asks whether a small exact-domain model transfers weight
+multiplicity to unseen classical ranks and non-dominant Weyl-orbit targets. ilXyr owns the frozen
+contract and evidence. Zero supplies the symbolic oracle. Three float models test transfer, one
+restricted-input model measures the height/depth shortcut, and NSRL provides only a later integer
+feasibility note.
+
+The program is prospective and has not started its oracle frontier. Its source-pinned contract is
+[`weight-multiplicity-transfer-r3`](../examples/weight-multiplicity/rev3-contract.json), and the
+plain-language execution record is
+[`WEIGHT-MULTIPLICITY-TRANSFER.md`](experiments/WEIGHT-MULTIPLICITY-TRANSFER.md). It may not be
+described as an active or successful model line until the corresponding stages run and settle.
+
 ## Bootstrap
 
 1. V1 control plane: authority records, certificates, signed budgets, sandbox/promoted lanes,
    allocation, thresholds, and calibration — implemented in this repository.
-2. Retro-registration and family replay adapters — implemented; Solomon replay passes from a
-   fresh remote checkout for authorized NSRL access, Zero q22r seed 2 is grounded from a public,
+2. Retro-registration and family replay adapters — implemented; Solomon replay passes from an
+   unauthenticated fresh checkout of public NSRL, Zero q22r seed 2 is grounded from a public,
    hash-pinned selected model, and the completed three-seed no-go decision is separately grounded.
-3. Shared-task contracts and the continuous loop-cycle driver — implemented; the real q22r shared
-   task remains blocked until both family encodings/verifiers and data hashes exist.
+3. Shared-task contracts and the continuous loop-cycle driver — implemented; the executable q22
+   bridge now binds both family implementations and exact data hashes.
 4. EXP-001 grounds Q2.3's local-guard no-go, EXP-002 records Q2.4's prospective cumulative-guard
    no-go, and EXP-003 records Q2.5's prospective deterministic-backtracking no-go. EXP-004 records
    Q2.6's prospective seed-2 replay-tangent go while preserving full gates for spine claims.
    EXP-005 records independent seed-1 and seed-3 go results and the verified family go. Its
    upstream evidence still needs to be imported into the local ilXyr ledger.
-5. Bind the ZERO.4 capability to a real shared task, add the Solomon-compatible encoding and
-   verifier, then preregister and execute the bridge.
+5. The Solomon Q22 experiment was preregistered and completed unchanged as EXP-007. Preserve it
+   as terminal evidence; any successor must use a new task and a new prospective claim.
 6. Implement the native NSRL checkpoint registration and source-pinned adapter, then execute the
    p10m intake and baseline defined by ADR 0005 without changing its experimental status.
+7. Reconcile the active ZERO.5 C0–C5 decision lineage and Braid inputs into the ilXyr registry.
+   This public registry now identifies the evidence debt. Completed upstream runs must be
+   imported honestly; no new run may bypass ilXyr registration.
+8. Freeze and validate the verified-oracle weight-multiplicity contract, then measure its oracle
+   frontier before generating a corpus or training a model.
 
 ## Operating model
 
@@ -118,6 +171,9 @@ policy and audits the ledger.
   forecasts close before execution; settlement builds per-handle calibration records.
 - **Ratchet** — a sandbox result beating a registered baseline at sufficient authority
   becomes eligible for promoted compilation. Computed, never granted.
+- **Cross-project admission** — Braid may deliver a verified input and ZERO may freeze an
+  executable contract, but a new run starts only after ilXyr registration. A run already in
+  progress may finish and must then be imported with its real chronology.
 - **Scholars** — researcher agents (`.claude/agents/prior-art-scholar.md`) find verified
   prior art before a claim is preregistered or published. Reports carry `review` authority
   and only fetch-verified citations; each promoted claim states its novelty boundary. This

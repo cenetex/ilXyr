@@ -2,7 +2,7 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use serde::{Deserialize, Serialize};
 
-use crate::{ActorKind, ActorRef, Error, Result, Workspace};
+use crate::{ActorKind, ActorRef, CompiledExperiment, Error, Evidence, Result, Workspace};
 
 const NSRL_MODEL_REGISTERED: &str = "NsrlModelRegistered";
 const NSRL_CONTINUATION_REGISTERED: &str = "NsrlContinuationRegistered";
@@ -267,6 +267,7 @@ pub fn record_nsrl_gate_evidence(
     for artifact in &evaluation.artifacts {
         require_blob(workspace, artifact)?;
     }
+    validate_ledgered_gate_refs(workspace, &checkpoint, &evaluation)?;
     if evaluation.gate == NsrlGate::Provenance
         && evaluation.outcome == NsrlGateOutcome::Passed
         && (!checkpoint.source.published || checkpoint.licences.weights.is_none())
@@ -663,6 +664,84 @@ fn validate_gate_evidence(evaluation: &NsrlGateEvidence) -> Result<()> {
     finish_validation(errors)
 }
 
+fn validate_ledgered_gate_refs(
+    workspace: &Workspace,
+    checkpoint: &NsrlCheckpoint,
+    evaluation: &NsrlGateEvidence,
+) -> Result<()> {
+    if evaluation.gate == NsrlGate::IndependentEvidence
+        && evaluation.outcome == NsrlGateOutcome::Passed
+        && (evaluation.evidence_refs.is_empty() || evaluation.experiment_refs.is_empty())
+    {
+        return Err(Error::Validation(vec![
+            "a passing independent-evidence gate must include ledgered evidence_refs and experiment_refs"
+                .to_owned(),
+        ]));
+    }
+
+    for experiment_id in &evaluation.experiment_refs {
+        let compiled = ledgered_compiled_experiment(workspace, experiment_id)?;
+        require_experiment_bound_to_checkpoint(&compiled, checkpoint)?;
+    }
+
+    let events = workspace.events()?;
+    for evidence_ref in &evaluation.evidence_refs {
+        let evidence_event = events.iter().find(|event| {
+            event.event_type == "EvidenceRecorded"
+                && event.artifact_ref.as_deref() == Some(evidence_ref)
+        });
+        if evidence_event.is_none() {
+            return Err(Error::NotFound(format!("ledgered evidence {evidence_ref}")));
+        }
+        let evidence: Evidence = workspace.get(evidence_ref)?;
+        if !evaluation.experiment_refs.contains(&evidence.experiment_id) {
+            return Err(Error::Validation(vec![format!(
+                "evidence {evidence_ref} belongs to experiment {}, which is not listed in experiment_refs",
+                evidence.experiment_id
+            )]));
+        }
+        let compiled = ledgered_compiled_experiment(workspace, &evidence.experiment_id)?;
+        require_experiment_bound_to_checkpoint(&compiled, checkpoint)?;
+    }
+    Ok(())
+}
+
+fn ledgered_compiled_experiment(
+    workspace: &Workspace,
+    experiment_id: &str,
+) -> Result<CompiledExperiment> {
+    let event = workspace
+        .latest_event("ExperimentCompiled", experiment_id)?
+        .ok_or_else(|| Error::NotFound(format!("compiled experiment {experiment_id}")))?;
+    let artifact_ref = event.artifact_ref.ok_or_else(|| {
+        Error::Conflict(format!(
+            "ExperimentCompiled event for {experiment_id} has no artifact"
+        ))
+    })?;
+    workspace.get(&artifact_ref)
+}
+
+fn require_experiment_bound_to_checkpoint(
+    compiled: &CompiledExperiment,
+    checkpoint: &NsrlCheckpoint,
+) -> Result<()> {
+    let proposer_matches =
+        compiled.spec.proposer.model_ref.as_deref() == Some(checkpoint.model_ref.as_str());
+    let weights_match = compiled
+        .spec
+        .models
+        .iter()
+        .any(|model| model == &checkpoint.weight_ref);
+    if proposer_matches || weights_match {
+        Ok(())
+    } else {
+        Err(Error::Validation(vec![format!(
+            "experiment {} is not bound to NSRL model {} or weight {}",
+            compiled.spec.id, checkpoint.model_ref, checkpoint.weight_ref
+        )]))
+    }
+}
+
 fn validate_artifact(artifact: &NsrlArtifact, field: &str, errors: &mut Vec<String>) {
     if !valid_repo_path(&artifact.path) {
         errors.push(format!(
@@ -743,18 +822,27 @@ fn finish_validation(errors: Vec<String>) -> Result<()> {
 
 #[cfg(test)]
 mod tests {
-    use std::{fs, process, time::SystemTime};
+    use std::{
+        fs, process,
+        sync::atomic::{AtomicU64, Ordering},
+        time::SystemTime,
+    };
 
     use sha2::{Digest, Sha256};
 
     use super::*;
 
     fn workspace() -> Workspace {
+        static COUNTER: AtomicU64 = AtomicU64::new(0);
+        let unique = COUNTER.fetch_add(1, Ordering::Relaxed);
         let nonce = SystemTime::now()
             .duration_since(SystemTime::UNIX_EPOCH)
             .expect("clock")
             .as_nanos();
-        let root = std::env::temp_dir().join(format!("ilxyr-nsrl-test-{}-{nonce}", process::id()));
+        let root = std::env::temp_dir().join(format!(
+            "ilxyr-nsrl-test-{}-{nonce}-{unique}",
+            process::id()
+        ));
         fs::create_dir(&root).expect("test workspace root");
         Workspace::init(root).expect("workspace")
     }
@@ -873,6 +961,18 @@ mod tests {
     }
 
     #[test]
+    fn checkpoint_registration_without_continuation_is_valid() {
+        let mut registration = registration();
+        registration.checkpoint.continuation_ref = None;
+        registration.continuation = None;
+
+        validate_nsrl_registration(&registration).expect("standalone checkpoint");
+        let value = serde_json::to_value(registration).expect("serialize");
+        assert!(value.get("continuation").is_none());
+        assert!(value["checkpoint"].get("continuation_ref").is_none());
+    }
+
+    #[test]
     fn registration_requires_custodied_blobs() {
         let workspace = workspace();
         let error = register_nsrl_model(&workspace, registration()).expect_err("missing blobs");
@@ -902,6 +1002,7 @@ mod tests {
         ))
         .expect("gate fixture");
         evaluation.model_ref = model_ref.clone();
+        evaluation.experiment_refs.clear();
         import_test_artifact(
             &workspace,
             &mut evaluation.artifacts[0],
@@ -921,5 +1022,61 @@ mod tests {
         let error = record_nsrl_gate_evidence(&workspace, evaluation)
             .expect_err("unpublished source and unlicensed weights must fail closed");
         assert!(error.to_string().contains("provenance gate cannot pass"));
+    }
+
+    #[test]
+    fn independent_evidence_must_resolve_to_model_bound_ledger_records() {
+        let workspace = workspace();
+        let registration = hydrated_registration(&workspace);
+        let model_ref = registration.checkpoint.model_ref.clone();
+        register_nsrl_model(&workspace, registration).expect("register");
+
+        let mut evaluation: NsrlGateEvidence = serde_json::from_str(include_str!(
+            "../../../examples/nsrl/p10m-v10-generation-gate.json"
+        ))
+        .expect("gate fixture");
+        evaluation.id = "nsrl.p10m.v10.independent.dangling".to_owned();
+        evaluation.model_ref = model_ref;
+        evaluation.gate = NsrlGate::IndependentEvidence;
+        evaluation.outcome = NsrlGateOutcome::Passed;
+        evaluation.artifacts.clear();
+        evaluation.evidence_refs = vec![format!("artifact://sha256/{}", "f".repeat(64))];
+        evaluation.experiment_refs = vec!["nsrl.missing.experiment.v1".to_owned()];
+
+        let error = record_nsrl_gate_evidence(&workspace, evaluation)
+            .expect_err("dangling independent evidence must fail closed");
+        assert!(error.to_string().contains("compiled experiment"));
+    }
+
+    #[test]
+    fn independent_evidence_cannot_pass_with_an_arbitrary_blob() {
+        let workspace = workspace();
+        let registration = hydrated_registration(&workspace);
+        let model_ref = registration.checkpoint.model_ref.clone();
+        register_nsrl_model(&workspace, registration).expect("register");
+
+        let mut evaluation: NsrlGateEvidence = serde_json::from_str(include_str!(
+            "../../../examples/nsrl/p10m-v10-generation-gate.json"
+        ))
+        .expect("gate fixture");
+        evaluation.id = "nsrl.p10m.v10.independent.blob-only".to_owned();
+        evaluation.model_ref = model_ref;
+        evaluation.gate = NsrlGate::IndependentEvidence;
+        evaluation.outcome = NsrlGateOutcome::Passed;
+        evaluation.experiment_refs.clear();
+        import_test_artifact(
+            &workspace,
+            &mut evaluation.artifacts[0],
+            "test/blob-only-evidence.json",
+            b"not ledgered evidence",
+        );
+
+        let error = record_nsrl_gate_evidence(&workspace, evaluation)
+            .expect_err("an arbitrary blob is not independent evidence");
+        assert!(
+            error
+                .to_string()
+                .contains("must include ledgered evidence_refs")
+        );
     }
 }

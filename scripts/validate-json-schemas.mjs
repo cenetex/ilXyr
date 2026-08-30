@@ -1,4 +1,5 @@
 import { readFile, readdir } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -19,6 +20,10 @@ const fixtures = {
     "examples/toy/foundation.json",
     "examples/toy/engineering-review.json",
     "examples/toy/experiment-design.json",
+    "examples/experiments/solomon-q22/hypothesis.json",
+    "examples/experiments/solomon-q22/foundation.json",
+    "examples/experiments/solomon-q22/engineering-review.json",
+    "examples/experiments/solomon-q22/experiment-design.json",
   ],
   "epoch-budget.schema.json": ["examples/schema/epoch-budget.json"],
   "evidence-bundle.schema.json": ["examples/schema/evidence-bundle.json"],
@@ -29,7 +34,10 @@ const fixtures = {
   "executor-attestation.schema.json": [
     "examples/schema/executor-attestation.json",
   ],
-  "experiment.schema.json": ["examples/toy/experiment.json"],
+  "experiment.schema.json": [
+    "examples/toy/experiment.json",
+    "examples/experiments/solomon-q22/experiment.json",
+  ],
   "external-registration-receipt.schema.json": [
     "examples/schema/external-registration-receipt.json",
   ],
@@ -39,6 +47,8 @@ const fixtures = {
   "forecast.schema.json": [
     "examples/toy/forecast-model.json",
     "examples/toy/forecast-human.json",
+    "examples/experiments/solomon-q22/forecast-mechanistic.json",
+    "examples/experiments/solomon-q22/forecast-empirical.json",
   ],
   "frozen-proposal-candidate.schema.json": [
     "examples/schema/frozen-proposal-candidate.json",
@@ -46,10 +56,19 @@ const fixtures = {
   "funding.schema.json": [
     "examples/toy/funding-a.json",
     "examples/toy/funding-b.json",
+    "examples/experiments/solomon-q22/funding-a.json",
+    "examples/experiments/solomon-q22/funding-b.json",
   ],
   "huggingface-model.schema.json": [
     "examples/schema/huggingface-model.json",
   ],
+  "mechanism-tournament.schema.json": [
+    "examples/schema/mechanism-tournament.json",
+  ],
+  "mechanism-tournament-settlement.schema.json": [
+    "examples/schema/mechanism-tournament-settlement.json",
+  ],
+  "lab-registry.schema.json": ["docs/lab-registry.json"],
   "nsrl-gate-evidence.schema.json": [
     "examples/nsrl/p10m-v10-context-gate.json",
     "examples/nsrl/p10m-v10-generation-gate.json",
@@ -80,11 +99,17 @@ const fixtures = {
   "replication-settlement.schema.json": [
     "examples/schema/replication-settlement.json",
   ],
+  "research-pathways.schema.json": ["docs/research-pathways.json"],
   "registration-package.schema.json": [
     "examples/schema/registration-package.json",
   ],
   "retro-registration.schema.json": [
     "examples/schema/retro-registration.json",
+    "examples/families/nsrl-target-margin-v1.retro.json",
+    "examples/families/nsrl-target-margin-trust-region-v1.retro.json",
+    "examples/families/nsrl-direct-head-nll-guard-v1.retro.json",
+    "examples/families/nsrl-direct-head-nll-safe-set-v1.retro.json",
+    "examples/families/nsrl-direct-head-cross-document-stability-v1.retro.json",
     "examples/families/solomon-successor-v2.retro.json",
     "examples/families/zero-q22r-multiseed.retro.json",
     "examples/families/zero-q22r-seed2.retro.json",
@@ -93,8 +118,34 @@ const fixtures = {
   "sandbox-run.schema.json": ["examples/schema/sandbox-run.json"],
   "sandbox-spec.schema.json": ["examples/schema/sandbox-spec.json"],
   "shared-task.schema.json": ["examples/schema/shared-task.json"],
+  "shared-task-v2.schema.json": [
+    "examples/shared-tasks/zero-solomon-q22-operation-v1.json",
+  ],
   "trusted-attestation-key.schema.json": [
     "examples/schema/trusted-attestation-key.json",
+  ],
+  "upstream-benchmark.schema.json": [
+    "examples/schema/upstream-benchmark.json",
+  ],
+  "weight-multiplicity-program.schema.json": [
+    "examples/weight-multiplicity/rev3-contract.json",
+  ],
+  "weight-multiplicity-frontier-plan.schema.json": [
+    "examples/weight-multiplicity/phase0-frontier-plan.json",
+    "examples/weight-multiplicity/phase0-frontier-plan-v2.json",
+  ],
+  "weight-multiplicity-phase05-plan.schema.json": [
+    "examples/weight-multiplicity/phase05-frontier-plan.json",
+  ],
+  "weight-multiplicity-phase05-plan-v2.schema.json": [
+    "examples/weight-multiplicity/phase05-frontier-plan-v2.json",
+  ],
+  "weight-multiplicity-phase05-manifest.schema.json": [
+    "examples/weight-multiplicity/phase05-representation-manifest.json",
+    "examples/weight-multiplicity/phase05-representation-manifest-v2.json",
+  ],
+  "weight-multiplicity-phase05-lie-cross-check.schema.json": [
+    "examples/weight-multiplicity/phase05-lie-cross-check-manifest-v3.json",
   ],
 };
 
@@ -280,6 +331,16 @@ expectInvalid(
   sharedTask,
 );
 
+const executableSharedTask = await readJson(
+  "examples/shared-tasks/zero-solomon-q22-operation-v1.json",
+);
+delete executableSharedTask.family_bindings[1].implementation;
+expectInvalid(
+  "shared-task-v2.schema.json",
+  "executable shared task without a Solomon implementation snapshot",
+  executableSharedTask,
+);
+
 const huggingFaceModel = await readJson(
   "examples/schema/huggingface-model.json",
 );
@@ -288,6 +349,55 @@ expectInvalid(
   "huggingface-model.schema.json",
   "Hugging Face model with mutable revision",
   huggingFaceModel,
+);
+
+const labRegistry = await readJson("docs/lab-registry.json");
+labRegistry.experiments.at(-1).state = "authorized";
+labRegistry.experiments.at(-1).outcome = "pass";
+expectInvalid(
+  "lab-registry.schema.json",
+  "authorized lab experiment with an outcome",
+  labRegistry,
+);
+
+const pathwaysWithoutCoordinate = await readJson("docs/research-pathways.json");
+delete pathwaysWithoutCoordinate.nodes[0].coordinate;
+expectInvalid(
+  "research-pathways.schema.json",
+  "research pathway without an integer coordinate",
+  pathwaysWithoutCoordinate,
+);
+
+const pathwaysWithDecimalCoordinate = await readJson("docs/research-pathways.json");
+pathwaysWithDecimalCoordinate.nodes[0].coordinate.parts[0] = 2.2;
+expectInvalid(
+  "research-pathways.schema.json",
+  "research pathway with a decimal coordinate",
+  pathwaysWithDecimalCoordinate,
+);
+
+const pathwaysWithoutFactorVector = await readJson("docs/research-pathways.json");
+delete pathwaysWithoutFactorVector.nodes[0].factor_state;
+expectInvalid(
+  "research-pathways.schema.json",
+  "research pathway without a factor vector",
+  pathwaysWithoutFactorVector,
+);
+
+const pathwaysWithZeroRevision = await readJson("docs/research-pathways.json");
+pathwaysWithZeroRevision.nodes[0].record_revision = 0;
+expectInvalid(
+  "research-pathways.schema.json",
+  "research pathway with a zero record revision",
+  pathwaysWithZeroRevision,
+);
+
+const upstreamBenchmark = await readJson("examples/schema/upstream-benchmark.json");
+delete upstreamBenchmark.outcome.resolved_outcome;
+expectInvalid(
+  "upstream-benchmark.schema.json",
+  "upstream benchmark without an explicit outcome",
+  upstreamBenchmark,
 );
 
 const nsrlRegistration = await readJson(
@@ -300,6 +410,31 @@ expectInvalid(
   nsrlRegistration,
 );
 
+const nsrlRegistrationWithoutContinuation = await readJson(
+  "examples/nsrl/p10m-v10-registration.json",
+);
+delete nsrlRegistrationWithoutContinuation.continuation;
+delete nsrlRegistrationWithoutContinuation.checkpoint.continuation_ref;
+const validateNsrlRegistration = validators.get(
+  "nsrl-registration.schema.json",
+);
+if (!validateNsrlRegistration(nsrlRegistrationWithoutContinuation)) {
+  throw new Error(
+    `NSRL registration without continuation failed nsrl-registration.schema.json: ${JSON.stringify(validateNsrlRegistration.errors)}`,
+  );
+}
+positiveCount += 1;
+
+const unpairedNsrlRegistration = await readJson(
+  "examples/nsrl/p10m-v10-registration.json",
+);
+delete unpairedNsrlRegistration.continuation;
+expectInvalid(
+  "nsrl-registration.schema.json",
+  "NSRL checkpoint continuation reference without continuation",
+  unpairedNsrlRegistration,
+);
+
 const nsrlGate = await readJson(
   "examples/nsrl/p10m-v10-generation-gate.json",
 );
@@ -308,6 +443,145 @@ expectInvalid(
   "nsrl-gate-evidence.schema.json",
   "NSRL gate evidence with an unsettled outcome",
   nsrlGate,
+);
+
+const tournament = await readJson("examples/schema/mechanism-tournament.json");
+delete tournament.decision_table[0].next_action;
+expectInvalid(
+  "mechanism-tournament.schema.json",
+  "mechanism tournament decision without a next action",
+  tournament,
+);
+
+const tournamentSettlement = await readJson(
+  "examples/schema/mechanism-tournament-settlement.json",
+);
+tournamentSettlement.rival_scores[0].brier_score = 1.1;
+expectInvalid(
+  "mechanism-tournament-settlement.schema.json",
+  "mechanism tournament settlement with invalid Brier score",
+  tournamentSettlement,
+);
+
+const weightMultiplicityContract = await readJson(
+  "examples/weight-multiplicity/rev3-contract.json",
+);
+
+const canonicalContractBytes = await readFile(
+  join(root, weightMultiplicityContract.source_document.canonical_repository_path),
+);
+const canonicalContractDigest = createHash("sha256")
+  .update(canonicalContractBytes)
+  .digest("hex");
+if (canonicalContractDigest !== weightMultiplicityContract.source_document.canonical_sha256) {
+  throw new Error(
+    `canonical weight-multiplicity contract digest is ${canonicalContractDigest}, expected ${weightMultiplicityContract.source_document.canonical_sha256}`,
+  );
+}
+
+const wrongAcr2Order = structuredClone(weightMultiplicityContract);
+wrongAcr2Order.gates.acr2.pass_per_mille.median_non_dominant = 950;
+expectInvalid(
+  "weight-multiplicity-program.schema.json",
+  "weight-multiplicity contract with the old unreachable ACR-2 threshold",
+  wrongAcr2Order,
+);
+
+const dominantOnlyTraining = structuredClone(weightMultiplicityContract);
+dominantOnlyTraining.datasets.training_target_mix_per_mille = {
+  dominant: 1000,
+  non_dominant: 0,
+};
+expectInvalid(
+  "weight-multiplicity-program.schema.json",
+  "weight-multiplicity contract without non-dominant training inputs",
+  dominantOnlyTraining,
+);
+
+const unboundedTail = structuredClone(weightMultiplicityContract);
+unboundedTail.task.maximum_exact_label = 1024;
+expectInvalid(
+  "weight-multiplicity-program.schema.json",
+  "weight-multiplicity contract with an unbounded decision tail",
+  unboundedTail,
+);
+
+const rootAwareShortcut = structuredClone(weightMultiplicityContract);
+rootAwareShortcut.models.shortcut.allowed_inputs.push("root_set");
+expectInvalid(
+  "weight-multiplicity-program.schema.json",
+  "shortcut baseline that can read root data",
+  rootAwareShortcut,
+);
+
+const prematureIntegrityStop = structuredClone(weightMultiplicityContract);
+prematureIntegrityStop.gates.acr1.fixable_failure_policy = "stop";
+expectInvalid(
+  "weight-multiplicity-program.schema.json",
+  "ACR-1 policy that stops before diagnosing a repairable integrity defect",
+  prematureIntegrityStop,
+);
+
+const acceptedRecordFields = Object.entries(
+  weightMultiplicityContract.datasets.accepted_records,
+).filter(([name]) => name !== "total");
+const acceptedRecordSum = acceptedRecordFields.reduce(
+  (sum, [, count]) => sum + count,
+  0,
+);
+if (acceptedRecordSum !== weightMultiplicityContract.datasets.accepted_records.total) {
+  throw new Error(
+    `weight-multiplicity accepted-record total is ${weightMultiplicityContract.datasets.accepted_records.total}, expected ${acceptedRecordSum}`,
+  );
+}
+
+const acr1 = weightMultiplicityContract.gates.acr1;
+if (acr1.root_queries + acr1.doubled_root_queries + acr1.zero_weight_queries !== acr1.total) {
+  throw new Error("weight-multiplicity ACR-1 component counts do not match its total");
+}
+
+const stratumShare = weightMultiplicityContract.task.strata.reduce(
+  (sum, stratum) => sum + stratum.share_per_mille,
+  0,
+);
+if (stratumShare !== 1000) {
+  throw new Error(`weight-multiplicity strata sum to ${stratumShare} per mille, expected 1000`);
+}
+
+const classical = weightMultiplicityContract.gates.classical_cross_rank;
+const acr2Pass = weightMultiplicityContract.gates.acr2.pass_per_mille;
+if (acr2Pass.median_non_dominant >= classical.pass_median_per_mille) {
+  throw new Error("ACR-2 absolute median threshold must stay below classical cross-rank Pass");
+}
+if (
+  classical.pass_median_per_mille - acr2Pass.maximum_dominant_drop <
+  acr2Pass.median_non_dominant
+) {
+  throw new Error("ACR-2 degradation rule makes the classical Pass floor unreachable");
+}
+
+const frontierV2WithoutPredecessor = await readJson(
+  "examples/weight-multiplicity/phase0-frontier-plan-v2.json",
+);
+delete frontierV2WithoutPredecessor.supersedes;
+expectInvalid(
+  "weight-multiplicity-frontier-plan.schema.json",
+  "frontier generator v2 without sealed predecessor evidence",
+  frontierV2WithoutPredecessor,
+);
+
+const frontierV1WithPredecessor = await readJson(
+  "examples/weight-multiplicity/phase0-frontier-plan.json",
+);
+frontierV1WithPredecessor.supersedes = {
+  plan_sha256: "0".repeat(64),
+  result_sha256: "0".repeat(64),
+  reason: "invalid retroactive predecessor",
+};
+expectInvalid(
+  "weight-multiplicity-frontier-plan.schema.json",
+  "frontier generator v1 with a retroactive predecessor",
+  frontierV1WithPredecessor,
 );
 
 console.log(

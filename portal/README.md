@@ -17,7 +17,7 @@ treated as a substitute for the ledgered draft → review → freeze → package
 ## Local development
 
 ```bash
-npm install
+npm ci
 npm run dev
 npm run build
 npm test

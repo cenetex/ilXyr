@@ -1,0 +1,93 @@
+{
+  "schema": "ilxyr.shared_task.v2",
+  "id": "zero-solomon.q22-operation.v1",
+  "title": "Zero to Solomon Q22 operation routing",
+  "dataset": {
+    "handle": "dataset://zero/q22-operation/train/v1",
+    "sha256": "815fac312664f49eaaa33942828ffa1511fd81091ccd88d47b4480b6c27a5fa4"
+  },
+  "eval_set": {
+    "handle": "dataset://zero/q22-operation/promotion/v1",
+    "sha256": "9270ea2b72af90235407bd7924a0864b8eba35b2969e1657ed1c15bf04449519"
+  },
+  "metrics": [
+    {
+      "name": "operation_exact_rate_ppm",
+      "unit": "parts_per_million",
+      "description": "Exact operation selections per one million frozen evaluation cases"
+    }
+  ],
+  "seeds": [1, 2, 3],
+  "family_bindings": [
+    {
+      "family": "zero",
+      "encoding": "zero.quantity-operation-request.v1",
+      "verifier": "verifier://zero/quantity-request/v1",
+      "designated_proposer": {
+        "id": "service://zero/q22r-proposer-v1",
+        "kind": "service"
+      },
+      "implementation": {
+        "repository": "https://github.com/atimics/zero-grounded-literary-lm",
+        "commit": "91d7c49586e402db6fb1ad9d40886d5092ce8d48",
+        "artifacts": [
+          {
+            "path": "benchmarks/zero4-q22-shared-task-v1/manifest.json",
+            "sha256": "2f8145e5111a887dd05c23dc7a9781133acaf359b2ae168e250b4cf1ec68407c"
+          },
+          {
+            "path": "scripts/generate_zero4_q2.mjs",
+            "sha256": "de34a72d158127fd12cad86a353b81aad7b3790090d839a359be1766405f2ded"
+          },
+          {
+            "path": "scripts/materialize_zero4_q22_shared_task.mjs",
+            "sha256": "dde58f4d77b861d9e51ea323c8f6e664ffa4ed95cb7ccebde7a2233ec3174d9f"
+          },
+          {
+            "path": "quantity_request_eval.c",
+            "sha256": "1627c00a2a49846170b8ee49160ac55ae02e1f4f687397f3e46641e271537902"
+          }
+        ]
+      }
+    },
+    {
+      "family": "solomon",
+      "encoding": "solomon.q22-operation.byte-v1",
+      "verifier": "verifier://solomon/q22-operation/v1",
+      "designated_proposer": {
+        "id": "service://solomon/q22-proposer-v1",
+        "kind": "service"
+      },
+      "implementation": {
+        "repository": "https://github.com/atimics/nsrl",
+        "commit": "5de132b52b361b8b79638969bb0f0ab6c04111a6",
+        "artifacts": [
+          {
+            "path": "benchmarks/q22-shared-task-v1/manifest.tsv",
+            "sha256": "8bc20345afea89735b742139b7c78942812b025605c034b59736b4f7458545a5"
+          },
+          {
+            "path": "crates/nsrl-eval/src/q22.rs",
+            "sha256": "05f057a8217190709ff5965ea3e8d488a15770b8b84d7d216efaf36ce24f5135"
+          },
+          {
+            "path": "crates/nsrl-eval/src/main.rs",
+            "sha256": "4aa1d35ea0468c310c52e09f0051c6a5afd4f0bfa02111f6d9a8b5535bc22d4f"
+          },
+          {
+            "path": "crates/nsrl-train/src/bin/nsrl-q22-proposer.rs",
+            "sha256": "2bf5350717679210f694c4453d70882e39130a5b3965f169692705d78f7a849e"
+          },
+          {
+            "path": "benchmarks/q22-solomon-prospective-v1/contract.json",
+            "sha256": "b3b2e2d2648802ac99395c0d1110207409f240cc5e4b83d8c89186c36238ccc0"
+          },
+          {
+            "path": "scripts/run-q22-solomon-prospective.mjs",
+            "sha256": "631e95705577854381b8d8c10aa63b426c52a4beb067054403c72dbaa1ed7726"
+          }
+        ]
+      }
+    }
+  ]
+}

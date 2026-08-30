@@ -1,0 +1,81 @@
+{
+  "schema": "ilxyr.retro_registration_spec.v1",
+  "id": "solomon.nsrl-p10m-direct-head-cross-document-stability-v1.negative.v1",
+  "claim": "A prospectively frozen read-only audit replayed eight proposal-descent output-weight directions across eight previously unused training documents. No direction strictly improved at least six documents with positive aggregate NLL improvement, every aggregate was negative, exact trace replay passed, and the same-coordinate-family follow-up gate plus all public and hidden stages stayed closed.",
+  "family": "solomon",
+  "source": {
+    "repository": "https://github.com/atimics/nsrl.git",
+    "commit": "bc7701b94b8c6a0bb27c426df77cb7c5289c8adb",
+    "artifacts": [
+      {
+        "path": "benchmarks/production-model-v1/p10m-direct-head-cross-document-stability-v1-contract.json",
+        "sha256": "13dedcd040940e761c526d558be446076b10b157ebfe359a40d331a0242277c3"
+      },
+      {
+        "path": "benchmarks/production-model-v1/p10m-direct-head-cross-document-stability-v1-gate.json",
+        "sha256": "0756db8b0bc1c9dbd1b20e59429cbaca115d08855dde2434c97ef3026a7fcf08"
+      },
+      {
+        "path": "scripts/run-production-direct-head-cross-document-stability-v1.sh",
+        "sha256": "d68247581e702ec8f5ee2ce9fb95878c0b90545af5a7f9c20f9318f5537aedf9"
+      },
+      {
+        "path": "scripts/check-production-direct-head-cross-document-stability-v1.mjs",
+        "sha256": "b99df596065539bd3cb1c3b94d67588a8faf5b26c632ca7d77d0c9d5d64f30a9"
+      }
+    ]
+  },
+  "metrics": [
+    { "name": "documents_evaluated", "unit": "count", "description": "Previously unused training documents in the stability audit" },
+    { "name": "windows_per_document", "unit": "count", "description": "Complete 64-token windows measured on each document" },
+    { "name": "frozen_directions", "unit": "count", "description": "Previously observed proposal-descent output-weight directions replayed" },
+    { "name": "direction_document_cells", "unit": "count", "description": "Complete direction by document matrix cells" },
+    { "name": "stable_directions", "unit": "count", "description": "Directions meeting the prospective document-count and aggregate-improvement rule" },
+    { "name": "mixed_directions", "unit": "count", "description": "Directions improving three to five documents" },
+    { "name": "consistent_regression_directions", "unit": "count", "description": "Directions improving at most two documents" },
+    { "name": "maximum_descent_documents", "unit": "count", "description": "Largest document-level descent count for any direction" },
+    { "name": "least_negative_aggregate_nll_improvement_q20", "unit": "q20_nll", "description": "Largest, but still negative, aggregate NLL improvement" },
+    { "name": "most_negative_aggregate_nll_improvement_q20", "unit": "q20_nll", "description": "Smallest aggregate NLL improvement" },
+    { "name": "exact_trace_rerun_replay", "unit": "boolean", "description": "Independent full rerun reproduced audit trace bytes" },
+    { "name": "complete_direction_document_matrix", "unit": "boolean", "description": "Every frozen direction was measured on every frozen document" },
+    { "name": "source_model_unchanged", "unit": "boolean", "description": "The read-only audit retained the exact source model hash" },
+    { "name": "frozen_parameters_unchanged", "unit": "boolean", "description": "The frozen p10m trunk hash stayed unchanged" },
+    { "name": "same_coordinate_family_followup_supported", "unit": "boolean", "description": "Whether the prospective stability rule supports another same-family follow-up" },
+    { "name": "public_development_opened", "unit": "boolean", "description": "Whether public development evaluation was opened" },
+    { "name": "public_test_opened", "unit": "boolean", "description": "Whether public test evaluation was opened" },
+    { "name": "open_generation_opened", "unit": "boolean", "description": "Whether open-generation evaluation was opened" },
+    { "name": "hidden_panel_opened", "unit": "boolean", "description": "Whether hidden evidence was opened" },
+    { "name": "paid_scaling_opened", "unit": "boolean", "description": "Whether paid or larger-model scaling was opened" }
+  ],
+  "seeds": [0],
+  "replay": {
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-nsrl-direct-head-cross-document-stability-v1.mjs",
+      "--repo", "/workspace/nsrl",
+      "--repository", "https://github.com/atimics/nsrl.git",
+      "--commit", "bc7701b94b8c6a0bb27c426df77cb7c5289c8adb",
+      "--git", "/usr/bin/git"
+    ],
+    "timeout_seconds": 300,
+    "network": "open"
+  },
+  "authority": {
+    "level": "exact_check",
+    "scope": {
+      "seeds": [0],
+      "eval_set": "artifact://sha256/0756db8b0bc1c9dbd1b20e59429cbaca115d08855dde2434c97ef3026a7fcf08",
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [
+        "artifact://sha256/13dedcd040940e761c526d558be446076b10b157ebfe359a40d331a0242277c3",
+        "artifact://sha256/0756db8b0bc1c9dbd1b20e59429cbaca115d08855dde2434c97ef3026a7fcf08",
+        "artifact://sha256/d68247581e702ec8f5ee2ce9fb95878c0b90545af5a7f9c20f9318f5537aedf9",
+        "artifact://sha256/b99df596065539bd3cb1c3b94d67588a8faf5b26c632ca7d77d0c9d5d64f30a9"
+      ],
+      "model_lineage": "model://nsrl/nsrlpm1-p10m-causal-tail-representation-v9/14f568de85931696dfd2c7b4cb35883d7b8c88430e5395b0c9c7f9f2660d5c22",
+      "checker": "checker://nsrl/p10m-direct-head-cross-document-stability/v1"
+    }
+  }
+}
