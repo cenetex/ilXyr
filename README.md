@@ -60,6 +60,10 @@ academic claim, evaluation boundary, and publication gaps are stated in
 - Provides clean-commit metric adapters for Zero q22r seed and multi-seed decisions and the
   Solomon successor-v2 harness, plus ledgered Q2.3–Q2.6 prospective transaction experiments
   and the completed Q2.6 seed-1/3 family replication workflow.
+- Publishes a machine-readable lab registry that separates Braid data inputs, the promoted ZERO.4
+  line, the active ZERO.5 research line, upstream evidence debt, and C5.2's private terminal state.
+- Compiles supported upstream benchmark results into schema-validated review records without
+  pretending that completed external runs were registered prospectively by ilXyr.
 
 Protected weights are handles, never local paths. The v1 local executor cannot run protected
 weight experiments; those require a future attested executor adapter.
@@ -223,6 +227,9 @@ started without producing a terminal run. `authorize` reports the same decision 
   certified-gate method, autonomous operating model, flagship replication bridge.
 - `docs/decisions/0005-nsrl-p10m-operational-stewardship.md`: the approved 30-day experimental
   stewardship pilot, ownership boundary, checkpoint bundle, and promotion gates for NSRL p10m.
+- `docs/lab-registry.json`: the reviewed cross-project program inventory for Braid and ZERO,
+  including active controls, artifact hashes, model-line boundaries, and evidence state.
+- `docs/program-registry.html`: the public, readable view of that inventory.
 - `docs/ARCHITECTURE.md`: two-lane structure, system boundaries, future cloud adapters.
 - `docs/PROTOCOL.md`: object lifecycle, events, gate semantics, decided and deferred extensions.
 - `docs/INTEROPERABILITY.md`: MLflow, OSF, RO-Crate/PROV, in-toto/SLSA, and research-agent
@@ -246,7 +253,7 @@ started without producing a terminal run. `authorize` reports the same decision 
   exact source pins, and verified all-three-seeds family go.
 - `docs/experiments/NSRL-P10M-TARGET-MARGIN.md`: exact-check negative results for the
   output-matrix target-margin pilot, its fixed-schedule trust region, and the canonical-NLL
-  direct-head follow-up.
+  direct-head guard and exact safe-set follow-ups.
 - `docs/decisions/`: architectural decision records (ADR 0001–0005).
 
 ## Current non-goals and evidence gaps

@@ -1,0 +1,268 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/lab-registry.v1.json",
+  "title": "ilxyr lab program registry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "as_of",
+    "scope",
+    "repositories",
+    "artifacts",
+    "model_lines",
+    "experiments",
+    "governance"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.lab_registry.v1" },
+    "as_of": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "scope": { "type": "string", "minLength": 1 },
+    "repositories": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/repository" }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/artifact" }
+    },
+    "model_lines": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/modelLine" }
+    },
+    "experiments": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/experiment" }
+    },
+    "governance": { "$ref": "#/$defs/governance" }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:/-]+$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "commit": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "url", "observed_revision"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "role": {
+          "enum": ["evidence_plane", "dataset_plane", "model_engine"]
+        },
+        "url": { "type": "string", "pattern": "^https://" },
+        "observed_revision": { "$ref": "#/$defs/commit" }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "title",
+        "repository_id",
+        "source_revision",
+        "digest",
+        "visibility",
+        "status"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": {
+          "enum": ["dataset_release", "representation", "checkpoint", "vocabulary"]
+        },
+        "title": { "type": "string", "minLength": 1 },
+        "repository_id": { "$ref": "#/$defs/id" },
+        "source_revision": { "$ref": "#/$defs/commit" },
+        "digest": { "$ref": "#/$defs/digest" },
+        "visibility": { "enum": ["public", "private_hash_only", "sealed"] },
+        "status": { "enum": ["verified_input", "selected_baseline", "withheld"] },
+        "summary_url": { "type": "string", "pattern": "^https://" }
+      }
+    },
+    "modelLine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "title", "state", "promotion_state"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "family": { "enum": ["zero", "solomon"] },
+        "title": { "type": "string", "minLength": 1 },
+        "state": { "enum": ["promoted", "active_research", "frozen"] },
+        "promotion_state": { "enum": ["promoted", "not_promoted", "not_applicable"] },
+        "base_parameter_count": { "type": "integer", "minimum": 1 },
+        "active_experiment": {
+          "anyOf": [
+            { "$ref": "#/$defs/id" },
+            { "type": "null" }
+          ]
+        },
+        "summary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_id",
+        "observed_revision",
+        "contract_path",
+        "contract_sha256"
+      ],
+      "properties": {
+        "repository_id": { "$ref": "#/$defs/id" },
+        "observed_revision": { "$ref": "#/$defs/commit" },
+        "contract_path": { "type": "string", "minLength": 1 },
+        "contract_sha256": { "$ref": "#/$defs/digest" },
+        "result_path": { "type": "string", "minLength": 1 },
+        "result_sha256": { "$ref": "#/$defs/digest" },
+        "private_result_sha256": { "$ref": "#/$defs/digest" }
+      },
+      "dependentRequired": {
+        "result_path": ["result_sha256"],
+        "result_sha256": ["result_path"]
+      }
+    },
+    "evidenceState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ilxyr_recorded",
+        "classification",
+        "forecast_risked",
+        "source_attested",
+        "cold_replayable"
+      ],
+      "properties": {
+        "ilxyr_recorded": { "type": "boolean" },
+        "classification": {
+          "enum": ["native", "external_public", "external_private_hash", "contract_only", "private_withheld"]
+        },
+        "forecast_risked": { "type": "boolean" },
+        "source_attested": { "type": "boolean" },
+        "cold_replayable": { "type": "boolean" }
+      }
+    },
+    "experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "display_name",
+        "family",
+        "model_line_id",
+        "category",
+        "question",
+        "state",
+        "parameter_count",
+        "promotion_authorized",
+        "prospective_contract",
+        "inputs",
+        "depends_on",
+        "source",
+        "evidence",
+        "summary",
+        "next_decision"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "display_name": { "type": "string", "minLength": 1 },
+        "family": { "enum": ["zero", "solomon"] },
+        "model_line_id": { "$ref": "#/$defs/id" },
+        "category": { "enum": ["scientific", "mechanics", "engineering"] },
+        "question": { "type": "string", "minLength": 1 },
+        "state": { "enum": ["completed", "authorized", "running", "blocked", "withheld"] },
+        "outcome": { "enum": ["pass", "no_go", "selected", "not_run"] },
+        "parameter_count": { "type": "integer", "minimum": 1 },
+        "promotion_authorized": { "type": "boolean" },
+        "prospective_contract": { "type": "boolean" },
+        "inputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "depends_on": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "source": { "$ref": "#/$defs/source" },
+        "evidence": { "$ref": "#/$defs/evidenceState" },
+        "summary": { "type": "string", "minLength": 1 },
+        "next_decision": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "state": { "const": "completed" } } },
+          "then": {
+            "required": ["outcome"],
+            "properties": {
+              "outcome": true,
+              "source": {
+                "type": "object",
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": { "result_sha256": true },
+                    "required": ["result_sha256"]
+                  },
+                  {
+                    "type": "object",
+                    "properties": { "private_result_sha256": true },
+                    "required": ["private_result_sha256"]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": { "enum": ["authorized", "running", "blocked", "withheld"] }
+            }
+          },
+          "then": {
+            "properties": { "outcome": false }
+          }
+        }
+      ]
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system_of_record",
+        "active_experiment",
+        "new_run_policy",
+        "already_started_run_policy",
+        "naming_policy"
+      ],
+      "properties": {
+        "system_of_record": { "const": "ilxyr" },
+        "active_experiment": {
+          "anyOf": [
+            { "$ref": "#/$defs/id" },
+            { "type": "null" }
+          ]
+        },
+        "new_run_policy": { "const": "requires_ilxyr_registration" },
+        "already_started_run_policy": { "const": "finish_then_import_honestly" },
+        "naming_policy": { "const": "use_plane_prefixed_display_names" }
+      }
+    }
+  }
+}
