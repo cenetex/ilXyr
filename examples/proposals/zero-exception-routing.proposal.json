@@ -1,0 +1,25 @@
+{
+  "schema": "ilxyr.experiment_proposal.v1",
+  "id": "zero.exception_routing.proposal.v1",
+  "revision": 1,
+  "experiment_id": "zero.exception_routing.v1",
+  "proposer": {
+    "id": "model://ilxyr/zero-research-director",
+    "kind": "model",
+    "model_ref": "model://ilxyr/zero-research-director/v1"
+  },
+  "title": "Family-plus-exception routing under fixed capacity",
+  "summary": "Compare a shared family expert plus a small learned exception bank with a flat mixture of experts at identical active parameters and routing compute.",
+  "hypothesis": "A family-plus-exception router will lower worst-group loss by at least 5 percent while using no more active parameters than the flat mixture control.",
+  "novelty": "The architecture treats regular transformations and residual exceptions as different statistical objects, without assuming that mathematical sporadic groups directly describe the data.",
+  "family": "zero",
+  "baseline": "baseline://ilxyr/flat-moe-capacity-matched-v1",
+  "datasets": ["dataset://ilxyr/long-tail-transformations-frozen-v1"],
+  "primary_metric": "relative_worst_group_loss_delta",
+  "success_operator": "lte",
+  "success_threshold": -0.05,
+  "seeds": [13, 31, 61],
+  "compute_credits": 180,
+  "evidence_level": "deterministic_replay",
+  "export_policy": "artifacts"
+}

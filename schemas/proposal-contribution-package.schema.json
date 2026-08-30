@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/proposal-contribution-package.v1.json",
+  "title": "ilxyr proposal contribution package v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "proposal_id",
+    "proposal_ref",
+    "candidate_ref",
+    "review_refs",
+    "contributions",
+    "experiment"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.proposal_contribution_package.v1" },
+    "id": { "$ref": "https://ilxyr.dev/schemas/contribution.v1.json#/$defs/identifier" },
+    "proposal_id": { "$ref": "https://ilxyr.dev/schemas/contribution.v1.json#/$defs/identifier" },
+    "proposal_ref": { "$ref": "#/$defs/artifact_ref" },
+    "candidate_ref": { "$ref": "#/$defs/artifact_ref" },
+    "review_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/artifact_ref" }
+    },
+    "contributions": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": { "$ref": "https://ilxyr.dev/schemas/contribution.v1.json" }
+    },
+    "experiment": { "$ref": "https://ilxyr.dev/schemas/experiment.v1.json" }
+  },
+  "$defs": {
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+    }
+  }
+}

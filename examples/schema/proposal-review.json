@@ -1,0 +1,14 @@
+{
+  "schema": "ilxyr.proposal_review.v1",
+  "id": "zero.orbit_quotient.review.v1",
+  "proposal_id": "zero.orbit_quotient.proposal.v1",
+  "proposal_ref": "artifact://sha256/0000000000000000000000000000000000000000000000000000000000000000",
+  "reviewer": {
+    "id": "human://ilxyr/methodology-reviewer",
+    "kind": "human"
+  },
+  "category": "methodology",
+  "severity": "endorsement",
+  "comment": "The comparison is falsifiable and the controls isolate the claimed orbit-aware intervention.",
+  "confidence": 0.91
+}

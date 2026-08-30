@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/proposal-compilation.v1.json",
+  "title": "ilxyr proposal compilation receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "proposal_id",
+    "package_ref",
+    "contribution_refs",
+    "compiled_ref"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.proposal_compilation.v1" },
+    "id": { "$ref": "https://ilxyr.dev/schemas/contribution.v1.json#/$defs/identifier" },
+    "proposal_id": { "$ref": "https://ilxyr.dev/schemas/contribution.v1.json#/$defs/identifier" },
+    "package_ref": { "$ref": "#/$defs/artifact_ref" },
+    "contribution_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hypothesis",
+        "mathematical_foundation",
+        "engineering_review",
+        "experiment_design"
+      ],
+      "properties": {
+        "hypothesis": { "$ref": "#/$defs/artifact_ref" },
+        "mathematical_foundation": { "$ref": "#/$defs/artifact_ref" },
+        "engineering_review": { "$ref": "#/$defs/artifact_ref" },
+        "experiment_design": { "$ref": "#/$defs/artifact_ref" }
+      }
+    },
+    "compiled_ref": { "$ref": "#/$defs/artifact_ref" }
+  },
+  "$defs": {
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+    }
+  }
+}
