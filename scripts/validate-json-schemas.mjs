@@ -73,6 +73,7 @@ const fixtures = {
     "examples/families/nsrl-target-margin-v1.retro.json",
     "examples/families/nsrl-target-margin-trust-region-v1.retro.json",
     "examples/families/nsrl-direct-head-nll-guard-v1.retro.json",
+    "examples/families/nsrl-direct-head-nll-safe-set-v1.retro.json",
     "examples/families/solomon-successor-v2.retro.json",
     "examples/families/zero-q22r-multiseed.retro.json",
     "examples/families/zero-q22r-seed2.retro.json",
