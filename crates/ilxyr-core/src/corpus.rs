@@ -559,13 +559,13 @@ pub fn validate_corpus_materialization(
     }
     if materialization.verified_at_ms == 0 {
         errors.push("materialization.verified_at_ms must be positive".to_owned());
-    } else if let Ok(current) = now_ms()
-        && materialization.verified_at_ms > current.saturating_add(300_000)
-    {
-        errors.push(
-            "materialization.verified_at_ms cannot be more than five minutes in the future"
-                .to_owned(),
-        );
+    } else if let Ok(current) = now_ms() {
+        if materialization.verified_at_ms > current.saturating_add(300_000) {
+            errors.push(
+                "materialization.verified_at_ms cannot be more than five minutes in the future"
+                    .to_owned(),
+            );
+        }
     }
     if materialization.objects.len() != release.files.len() {
         errors.push(format!(
