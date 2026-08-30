@@ -18,6 +18,12 @@ The corrected binding plan is
 representation manifest remain unchanged because the sealed LiE witness binds
 their hashes.
 
+The append-only Version 3 plan repeats the same frozen roster and measurement
+rules against Zero commit `65e3523`, which added an optional presized-memo
+audit control after the Version 2 measurement began. Version 2 remains sealed
+against its original executable. Version 3 is the only result that may be used
+to decide the current session PR.
+
 ## Jointly owned ambiguity defect
 
 Revision 3 Section 3 assigns the exact symbolic-oracle role to Zero, and the
