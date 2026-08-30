@@ -1,0 +1,101 @@
+{
+  "schema": "ilxyr.experiment.v1",
+  "id": "solomon.q22-operation.three-seed.v1",
+  "title": "Solomon Q22 three-seed operation-routing test",
+  "hypothesis": "The frozen Solomon integer class head reaches at least 950000 exact-rate ppm on every Q22 seed; cross-seed agreement is recorded as a secondary robustness check.",
+  "rationale": "This is the first prospective Solomon execution on the shared Zero/Solomon Q22 task. It tests the smallest model surface that directly matches operation routing while preserving the Solomon integer class-head lineage.",
+  "proposer": {
+    "id": "service://solomon/q22-proposer-v1",
+    "kind": "service"
+  },
+  "family": "solomon",
+  "shared_task_id": "zero-solomon.q22-operation.v1",
+  "lineage": {
+    "hypothesis": "solomon.q22.hypothesis.v1",
+    "mathematical_foundation": "solomon.q22.foundation.v1",
+    "engineering_review": "solomon.q22.engineering_review.v1",
+    "experiment_design": "solomon.q22.experiment_design.v1"
+  },
+  "baseline": "baseline://zero-solomon/q22/majority-operation/v1",
+  "datasets": [
+    "dataset://zero/q22-operation/train/v1",
+    "dataset://zero/q22-operation/promotion/v1"
+  ],
+  "models": ["weight://solomon/q22-integer-class-head/prospective-v1"],
+  "metrics": [
+    {
+      "name": "operation_exact_rate_ppm",
+      "unit": "parts_per_million",
+      "description": "Exact operation selections per one million frozen evaluation cases"
+    }
+  ],
+  "seeds": [1, 2, 3],
+  "outcome_contract": {
+    "primary_metric": "operation_exact_rate_ppm",
+    "success_outcome": "go",
+    "outcomes": [
+      {
+        "id": "go",
+        "description": "Every seed reaches 950000 exact operation selections per million cases.",
+        "predicate": {"kind": "metric", "metric": "operation_exact_rate_ppm", "operator": "gte", "threshold": 950000}
+      },
+      {
+        "id": "no_go",
+        "description": "The run completes validly but at least one seed misses the exact-rate rule.",
+        "predicate": {"kind": "metric", "metric": "operation_exact_rate_ppm", "operator": "lt", "threshold": 950000}
+      },
+      {
+        "id": "execution_failure",
+        "description": "The run violates a source hash, compute cap, firewall step, artifact freeze, or process requirement.",
+        "predicate": {"kind": "execution_failure"}
+      }
+    ]
+  },
+  "execution": {
+    "executor": "local-command",
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-solomon-q22.mjs",
+      "--nsrl-repo", "/workspace/nsrl",
+      "--nsrl-repository", "https://github.com/atimics/nsrl.git",
+      "--nsrl-commit", "5de132b52b361b8b79638969bb0f0ab6c04111a6",
+      "--zero-repo", "/workspace/zero-grounded-literary-lm",
+      "--zero-repository", "https://github.com/atimics/zero-grounded-literary-lm.git",
+      "--zero-commit", "91d7c49586e402db6fb1ad9d40886d5092ce8d48",
+      "--git", "/usr/bin/git",
+      "--node", "/usr/local/bin/node",
+      "--cargo", "/usr/local/bin/cargo",
+      "--harness-sha256", "fe11f8ec3be09a0870f06cee1f9994763b851d3f88100f40fbc3e9ea1b4cfe3b"
+    ],
+    "timeout_seconds": 600,
+    "max_cost_credits": 3,
+    "network": "open"
+  },
+  "funding": {
+    "required_compute_credits": 3,
+    "minimum_forecasters": 2,
+    "minimum_total_stake": 20
+  },
+  "security": {
+    "weight_class": "public",
+    "code_policy": "arbitrary",
+    "export_policy": "artifacts"
+  },
+  "evidence_authority": {
+    "level": "exact_check",
+    "scope": {
+      "seeds": [1, 2, 3],
+      "eval_set": "dataset://zero/q22-operation/promotion/v1",
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [],
+      "checker": "verifier://solomon/q22-operation/v1"
+    }
+  },
+  "expected_outputs": [
+    "metrics.operation_exact_rate_ppm",
+    "resolved_outcome",
+    "forecast_settlements"
+  ]
+}
