@@ -66,6 +66,15 @@ const readJsonBytes = async (path) => {
   return { bytes, value: JSON.parse(bytes.toString("utf8")) };
 };
 const stableJson = (value) => `${JSON.stringify(value, null, 2)}\n`;
+const controllerRevision = () => {
+  const bound = process.env.ILXYR_CONTROLLER_REVISION;
+  if (bound) {
+    if (!/^[0-9a-f]{40}$/u.test(bound))
+      throw new Error("ILXYR_CONTROLLER_REVISION must be a full Git commit");
+    return bound;
+  }
+  return execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
+};
 
 const fnv1a = (text) => {
   let hash = 2166136261;
@@ -1020,7 +1029,7 @@ const main = async () => {
       manifest_sha256: sha256(manifestRecord.bytes),
       oracle_executable_sha256: manifest.oracle_executable_sha256,
       oracle_declared_revision: plan.oracle.zero_revision,
-      controller_revision: execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim(),
+      controller_revision: controllerRevision(),
       reference_hardware: {
         cpu: cpus()[0]?.model ?? "unknown",
         architecture: arch(),
