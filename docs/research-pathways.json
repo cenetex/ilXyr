@@ -1,0 +1,633 @@
+{
+  "schema": "ilxyr.research_pathways.v1",
+  "as_of": "2026-08-30",
+  "scope": "Decision-bearing Zero, Solomon and NSRL model-research pathways, the cross-family bridge, and the independent Holo verification recorded by ilXyr. Protocol-only engineering tests are excluded.",
+  "nodes": [
+    {
+      "id": "zero-q22r-family-v1",
+      "display_name": "ZERO.4 Q2.2-R family",
+      "family": "zero",
+      "lineage": "zero/zero4-quantity",
+      "kind": "replication",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "retro",
+      "claim_results": [
+        { "claim": "The quantity and replay result reproduces across all three declared seeds", "outcome": "negative" }
+      ],
+      "summary": "Seed 2 passed, while seeds 1 and 3 stopped no-go. The one-go and two-no-go family was not promotion eligible.",
+      "next_boundary": "Change the forgetting-control mechanism before another family attempt.",
+      "sources": [
+        { "kind": "retro_registration", "path": "examples/families/zero-q22r-seed2.retro.json", "record_id": "zero.q22r.seed2.headline.v1" },
+        { "kind": "retro_registration", "path": "examples/families/zero-q22r-multiseed.retro.json", "record_id": "zero.q22r.multiseed.decision.v1" }
+      ]
+    },
+    {
+      "id": "zero-q23-local-replay-guard-v1",
+      "display_name": "ZERO.4 Q2.3 local replay guard",
+      "family": "zero",
+      "lineage": "zero/zero4-quantity",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "retro",
+      "claim_results": [
+        { "claim": "A per-attempt local replay budget prevents cumulative public replay failure", "outcome": "negative" }
+      ],
+      "summary": "All 200 locally safe attempts committed, but their small changes accumulated to 2.685% public replay regression.",
+      "next_boundary": "Use immutable-baseline cumulative authority rather than independent local deltas.",
+      "sources": [
+        { "kind": "retro_registration", "path": "examples/families/zero-q23-seed2.retro.json", "record_id": "zero.q23.seed2.local-guard.no-go.v1" },
+        { "kind": "experiment_record", "path": "docs/experiments/EXP-001.md", "record_id": "EXP-001" }
+      ]
+    },
+    {
+      "id": "zero-q24-cumulative-replay-guard-v1",
+      "display_name": "ZERO.4 Q2.4 cumulative replay guard",
+      "family": "zero",
+      "lineage": "zero/zero4-quantity",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "native",
+      "claim_results": [
+        { "claim": "A cumulative replay guard preserves safety while retaining a path to the quantity gates", "outcome": "negative" }
+      ],
+      "summary": "The guard preserved the 1.5% commit boundary, then stopped learning after 66 commits and eight rollbacks before a public checkpoint.",
+      "next_boundary": "Test whether deterministic candidate backtracking can find a safe continuation without weakening the guard.",
+      "sources": [
+        { "kind": "experiment_record", "path": "docs/experiments/EXP-002.md", "record_id": "EXP-002" }
+      ]
+    },
+    {
+      "id": "zero-q25-deterministic-backtracking-v1",
+      "display_name": "ZERO.4 Q2.5 deterministic backtracking",
+      "family": "zero",
+      "lineage": "zero/zero4-quantity",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "native",
+      "claim_results": [
+        { "claim": "Scalar learning-rate backtracking reopens the quantity-learning path under the cumulative replay authority", "outcome": "negative" }
+      ],
+      "summary": "Five scaled updates committed, including one at 1/128, before eight attempts exhausted every registered scale.",
+      "next_boundary": "Change candidate direction, objective, or optimization geometry rather than step length.",
+      "sources": [
+        { "kind": "experiment_record", "path": "docs/experiments/EXP-003.md", "record_id": "EXP-003" }
+      ]
+    },
+    {
+      "id": "zero-q26-replay-tangent-seed2-v1",
+      "display_name": "ZERO.4 Q2.6 replay-tangent projection seed 2",
+      "family": "zero",
+      "lineage": "zero/zero4-quantity",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "positive",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "native",
+      "claim_results": [
+        { "claim": "Changing the update direction with a global replay-tangent projection preserves replay and reopens quantity learning", "outcome": "positive" }
+      ],
+      "summary": "All 700 attempts committed at full scale, six public checkpoints were jointly feasible, and update 500 passed the one-time promotion split.",
+      "next_boundary": "Replicate the unchanged intervention on seeds 1 and 3 before family promotion.",
+      "sources": [
+        { "kind": "experiment_record", "path": "docs/experiments/EXP-004.md", "record_id": "EXP-004" }
+      ]
+    },
+    {
+      "id": "zero-q26-family-replication-v1",
+      "display_name": "ZERO.4 Q2.6 three-seed replication",
+      "family": "zero",
+      "lineage": "zero/zero4-quantity",
+      "kind": "replication",
+      "execution_status": "completed",
+      "scientific_outcome": "positive",
+      "disclosure_status": "public",
+      "lifecycle_status": "promoted",
+      "evidence_status": "native",
+      "claim_results": [
+        { "claim": "The replay-tangent intervention passes unchanged on all three declared seeds", "outcome": "positive" }
+      ],
+      "summary": "Seeds 1 and 3 independently passed the unchanged public and promotion gates, completing the all-three-seed family conjunction and promoting ZERO.4.",
+      "next_boundary": "Bind the concrete ZERO.4 capability to a real shared task for cross-family replication.",
+      "sources": [
+        { "kind": "experiment_record", "path": "docs/experiments/EXP-005.md", "record_id": "EXP-005" }
+      ]
+    },
+    {
+      "id": "zero5-c0-v1",
+      "display_name": "ZERO5-C0 corpus and tokenizer",
+      "family": "zero",
+      "lineage": "zero/zero5-c",
+      "kind": "enabling_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "positive",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "A governed lossless tokenizer can be selected without parameter-budget drift", "outcome": "positive" }
+      ],
+      "summary": "Byte-BPE512 was selected after using 57.07% fewer validation content tokens than byte264 at fixed model size.",
+      "next_boundary": "Use the selected tokenizer for the native C training proof.",
+      "sources": [
+        { "kind": "lab_registry_experiment", "path": "docs/lab-registry.json", "record_id": "zero5-c0-v1" }
+      ]
+    },
+    {
+      "id": "zero5-c1-v1",
+      "display_name": "ZERO5-C1 native C training",
+      "family": "zero",
+      "lineage": "zero/zero5-c",
+      "kind": "enabling_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "positive",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "The fixed-size native C model learns a stable validation signal across three seeds with exact repeat", "outcome": "positive" }
+      ],
+      "summary": "Training mechanics and signal gates passed across three seeds, although generation remained incoherent and no promotion followed.",
+      "next_boundary": "Continue the selected checkpoint through the larger Atlas corpus.",
+      "sources": [
+        { "kind": "lab_registry_experiment", "path": "docs/lab-registry.json", "record_id": "zero5-c1-v1" }
+      ]
+    },
+    {
+      "id": "zero5-c2-v1",
+      "display_name": "ZERO5-C2 Atlas continuation",
+      "family": "zero",
+      "lineage": "zero/zero5-c",
+      "kind": "enabling_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "positive",
+      "disclosure_status": "public",
+      "lifecycle_status": "selected_base",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "A larger factual prose corpus improves held-out modeling before parameter scale", "outcome": "positive" }
+      ],
+      "summary": "Atlas validation loss fell 54.26% and the C1 anchor improved; C2 became the base for the later C experiments.",
+      "next_boundary": "Test evidence-linked tasks at the same model size.",
+      "sources": [
+        { "kind": "lab_registry_experiment", "path": "docs/lab-registry.json", "record_id": "zero5-c2-v1" }
+      ]
+    },
+    {
+      "id": "zero5-c3-v1",
+      "display_name": "ZERO5-C3 evidence curriculum",
+      "family": "zero",
+      "lineage": "zero/zero5-c",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "One ordered evidence-task pass improves answer completion without forgetting earlier corpora", "outcome": "negative" }
+      ],
+      "summary": "Combined loss improved, but claim, cloze, and retrieval gates exposed weak answer learning and task-order interference.",
+      "next_boundary": "Interleave intact records and test explicit answer weighting.",
+      "sources": [
+        { "kind": "lab_registry_experiment", "path": "docs/lab-registry.json", "record_id": "zero5-c3-v1" }
+      ]
+    },
+    {
+      "id": "zero5-c31-v1",
+      "display_name": "ZERO5-C3.1 record-safe interleaving",
+      "family": "zero",
+      "lineage": "zero/zero5-c",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "Smooth task interleaving and explicit answer weighting produce balanced gains at fixed compute", "outcome": "negative" }
+      ],
+      "summary": "Interleaving fixed cloze interference and answer weighting improved retrieval, but no arm cleared the complete gate.",
+      "next_boundary": "Repair task definitions and balance answer influence by task.",
+      "sources": [
+        { "kind": "lab_registry_experiment", "path": "docs/lab-registry.json", "record_id": "zero5-c31-v1" }
+      ]
+    },
+    {
+      "id": "zero5-c32-v1",
+      "display_name": "ZERO5-C3.2 paired invariance",
+      "family": "zero",
+      "lineage": "zero/zero5-c",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "Repaired tasks and balanced loss make paired decisions stable under swapped evidence order", "outcome": "negative" }
+      ],
+      "summary": "Aggregate position bias fell, but per-example swap consistency and pair-exact gates failed.",
+      "next_boundary": "Train mirrored examples as one atomic update group.",
+      "sources": [
+        { "kind": "lab_registry_experiment", "path": "docs/lab-registry.json", "record_id": "zero5-c32-v1" }
+      ]
+    },
+    {
+      "id": "zero5-c33-v1",
+      "display_name": "ZERO5-C3.3 pair-atomic updates",
+      "family": "zero",
+      "lineage": "zero/zero5-c",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "Putting both orientations of each mirrored pair in one optimizer update improves relational consistency", "outcome": "negative" }
+      ],
+      "summary": "Pair co-location moved swap consistency in the wrong direction and closed ordinary next-token rearrangement as the invariance solution.",
+      "next_boundary": "Change representation or objective rather than minibatch arrangement.",
+      "sources": [
+        { "kind": "lab_registry_experiment", "path": "docs/lab-registry.json", "record_id": "zero5-c33-v1" }
+      ]
+    },
+    {
+      "id": "zero5-c42-v1",
+      "display_name": "ZERO5-C4.2 grouped training",
+      "family": "zero",
+      "lineage": "zero/zero5-c",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "The repaired grouped corpus improves cloze and hard retrieval while preserving paired and retention gates", "outcome": "negative" }
+      ],
+      "summary": "Claim choice improved strongly, but cloze, retrieval, and frozen swap-improvement gates did not all pass.",
+      "next_boundary": "Increase hard retrieval and raw cloze coverage under achievable swap gates.",
+      "sources": [
+        { "kind": "lab_registry_experiment", "path": "docs/lab-registry.json", "record_id": "zero5-c42-v1" }
+      ]
+    },
+    {
+      "id": "zero5-c43-v1",
+      "display_name": "ZERO5-C4.3 data repair",
+      "family": "zero",
+      "lineage": "zero/zero5-c",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "Governed data repair clears exact cloze and retrieval gates at fixed compute", "outcome": "negative" }
+      ],
+      "summary": "Claim and retention passed, but retrieval stopped at 53.76% and exact cloze did not improve.",
+      "next_boundary": "Test whether a structured state stream supplies a denser useful learning signal.",
+      "sources": [
+        { "kind": "lab_registry_experiment", "path": "docs/lab-registry.json", "record_id": "zero5-c43-v1" }
+      ]
+    },
+    {
+      "id": "zero5-c51-statebridge-v1",
+      "display_name": "ZERO5-C5.1 StateBridge text",
+      "family": "zero",
+      "lineage": "zero/zero5-c",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "private_hash",
+      "lifecycle_status": "closed",
+      "evidence_status": "external_private_hash",
+      "claim_results": [
+        { "claim": "Replacing 25% of C4.3 with structured-state text improves retrieval without breaking language retention", "outcome": "negative" }
+      ],
+      "summary": "Structured text did not transfer into retrieval and retained a large choice-orientation gap.",
+      "next_boundary": "A future branch must connect a verified state representation directly to the language decision rather than add more text mixture.",
+      "sources": [
+        { "kind": "lab_registry_experiment", "path": "docs/lab-registry.json", "record_id": "zero5-c51-statebridge-v1" }
+      ]
+    },
+    {
+      "id": "zero5-c52-targetbridge-v1",
+      "display_name": "ZERO5-C5.2 TargetBridge auxiliary loss",
+      "family": "zero",
+      "lineage": "zero/zero5-c",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "unknown",
+      "disclosure_status": "withheld",
+      "lifecycle_status": "terminal_private",
+      "evidence_status": "private_withheld",
+      "claim_results": [
+        { "claim": "A factorized state-target loss transfers state learning into the frozen retrieval audit", "outcome": "unknown" }
+      ],
+      "blockers": [
+        "The frozen private-result boundary forbids publishing the outcome, metrics, checkpoint hashes, and result hash.",
+        "No follow-up run is authorized while the decision remains private."
+      ],
+      "summary": "The authorized run completed, but the result is intentionally absent from the public registry and cannot support a public inference.",
+      "next_boundary": "Keep this terminal result sealed; any later experiment needs an independent public prospective contract.",
+      "sources": [
+        { "kind": "lab_registry_experiment", "path": "docs/lab-registry.json", "record_id": "zero5-c52-targetbridge-v1" }
+      ]
+    },
+    {
+      "id": "zero5-c61-shared-state-v1",
+      "display_name": "ZERO5-C6.1 shared-state bottleneck",
+      "family": "zero",
+      "lineage": "zero/zero5-c",
+      "kind": "scientific_experiment",
+      "execution_status": "not_run",
+      "scientific_outcome": "unknown",
+      "disclosure_status": "public",
+      "lifecycle_status": "blocked",
+      "evidence_status": "native",
+      "claim_results": [
+        { "claim": "A verified state bottleneck improves retrieval when it directly changes answer-token logits", "outcome": "unknown" }
+      ],
+      "blockers": [
+        "Training requires a separate explicit authorization bound to the frozen contract and ilXyr registration."
+      ],
+      "summary": "The bottleneck, evaluator, runner, bridge-off ablation, and gates are built, but no compute is authorized.",
+      "next_boundary": "Review the preregistration and authorize at most the exact local seed-0 run if the representation-level question remains worth its budget.",
+      "sources": [
+        { "kind": "lab_registry_experiment", "path": "docs/lab-registry.json", "record_id": "zero5-c61-shared-state-v1" }
+      ]
+    },
+    {
+      "id": "solomon-successor-v2",
+      "display_name": "Solomon integer-transformer successor-v2",
+      "family": "solomon",
+      "lineage": "solomon/successor-v2",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "positive",
+      "disclosure_status": "public",
+      "lifecycle_status": "promoted",
+      "evidence_status": "retro",
+      "claim_results": [
+        { "claim": "The frozen integer transformer beats uniform, retrieval, byte-ngram, and float-transformer NLL baselines with no zero-probability windows", "outcome": "positive" }
+      ],
+      "summary": "The exact pipeline replayed from a clean public checkout and beat every declared baseline over 5,896 targets.",
+      "next_boundary": "Use a shared task to test whether a Zero-proven capability survives Solomon integer training.",
+      "sources": [
+        { "kind": "retro_registration", "path": "examples/families/solomon-successor-v2.retro.json", "record_id": "solomon.successor-v2.headline.v1" }
+      ]
+    },
+    {
+      "id": "nsrl-p10m-v10-intake",
+      "display_name": "NSRL p10m v10 managed intake",
+      "family": "solomon",
+      "lineage": "solomon/nsrl-p10m",
+      "kind": "managed_checkpoint",
+      "execution_status": "completed",
+      "scientific_outcome": "mixed",
+      "disclosure_status": "public",
+      "lifecycle_status": "experimental",
+      "evidence_status": "native",
+      "claim_results": [
+        { "claim": "Checkpoint integrity and restart behavior are deterministic", "outcome": "positive" },
+        { "claim": "Public development and test NLL improve against the parent", "outcome": "positive" },
+        { "claim": "The checkpoint is eligible for promotion", "outcome": "negative" }
+      ],
+      "blockers": [
+        "Numeric health failed because the candidate test recorded residual saturation.",
+        "Generation repetition, diversity, and entropy gates failed.",
+        "Context use and distractor resistance were both zero.",
+        "Serving limits were incomplete.",
+        "The exact source commit and weight licence were missing.",
+        "Independent hidden evidence remains unopened."
+      ],
+      "summary": "Integrity and learning passed, while five lifecycle gates failed and independent evidence stayed unopened; the model remains experimental.",
+      "next_boundary": "Repair provenance independently and test the conditional-output mechanism without opening the hidden panel.",
+      "sources": [
+        { "kind": "pilot_record", "path": "docs/experiments/NSRL-P10M-PILOT.md", "record_id": "nsrl-p10m-2026-08-28" }
+      ]
+    },
+    {
+      "id": "nsrl-p10m-target-margin-v1",
+      "display_name": "NSRL p10m hard-negative target margin",
+      "family": "solomon",
+      "lineage": "solomon/nsrl-p10m",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "retro",
+      "claim_results": [
+        { "claim": "Output-matrix hard-negative margin training generalizes from its preflight to public development", "outcome": "negative" }
+      ],
+      "summary": "The small preflight improved rank, but the full audit rank and public development NLL regressed sharply.",
+      "next_boundary": "Use a disjoint canonical-NLL trust region before any full candidate run.",
+      "sources": [
+        { "kind": "retro_registration", "path": "examples/families/nsrl-target-margin-v1.retro.json", "record_id": "solomon.nsrl-p10m-target-margin-head-v1.negative.v1" }
+      ]
+    },
+    {
+      "id": "nsrl-p10m-target-margin-trust-region-v1",
+      "display_name": "NSRL p10m target-margin trust region",
+      "family": "solomon",
+      "lineage": "solomon/nsrl-p10m",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "retro",
+      "claim_results": [
+        { "claim": "At least one fixed hard-negative rate produces guard-safe batch updates", "outcome": "negative" }
+      ],
+      "summary": "All 48 proposed batches across three feature shifts worsened the disjoint canonical-NLL guard and were restored.",
+      "next_boundary": "Change the objective or candidate family rather than weaken the guard.",
+      "sources": [
+        { "kind": "retro_registration", "path": "examples/families/nsrl-target-margin-trust-region-v1.retro.json", "record_id": "solomon.nsrl-p10m-target-margin-trust-region-v1.negative.v1" }
+      ]
+    },
+    {
+      "id": "nsrl-p10m-direct-head-nll-guard-v1",
+      "display_name": "NSRL p10m direct-head NLL guard",
+      "family": "solomon",
+      "lineage": "solomon/nsrl-p10m",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "retro",
+      "claim_results": [
+        { "claim": "The best proposal-selected canonical-NLL output-head unit move is safe on a disjoint guard", "outcome": "negative" }
+      ],
+      "summary": "Coordinate 8,445 improved proposal NLL but worsened guard NLL and was restored in round zero.",
+      "next_boundary": "Evaluate both directions of the whole ranked set with the source retained as an explicit candidate.",
+      "sources": [
+        { "kind": "retro_registration", "path": "examples/families/nsrl-direct-head-nll-guard-v1.retro.json", "record_id": "solomon.nsrl-p10m-direct-head-nll-guard-v1.negative.v1" }
+      ]
+    },
+    {
+      "id": "nsrl-p10m-direct-head-nll-safe-set-v1",
+      "display_name": "NSRL p10m direct-head exact safe set",
+      "family": "solomon",
+      "lineage": "solomon/nsrl-p10m",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "retro",
+      "claim_results": [
+        { "claim": "At least one of the sixteen exact directions improves proposal NLL without worsening the guard", "outcome": "negative" }
+      ],
+      "summary": "Every one of the eight proposal-descent directions worsened guard NLL, leaving an empty safe set and retaining the source.",
+      "next_boundary": "Measure whether the proposal-descent signs are stable across previously unused training documents before considering a joint move.",
+      "sources": [
+        { "kind": "retro_registration", "path": "examples/families/nsrl-direct-head-nll-safe-set-v1.retro.json", "record_id": "solomon.nsrl-p10m-direct-head-nll-safe-set-v1.negative.v1" }
+      ]
+    },
+    {
+      "id": "nsrl-p10m-direct-head-cross-document-stability-v1",
+      "display_name": "NSRL p10m cross-document direction stability",
+      "family": "solomon",
+      "lineage": "solomon/nsrl-p10m",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "retro",
+      "claim_results": [
+        { "claim": "At least one earlier proposal-descent direction improves six of eight new documents with positive aggregate NLL improvement", "outcome": "negative" }
+      ],
+      "summary": "No direction was stable, seven were mixed, one regressed on six documents, and every aggregate improvement was negative.",
+      "next_boundary": "Close this coordinate family; test frozen-representation sufficiency before another training method.",
+      "sources": [
+        { "kind": "retro_registration", "path": "examples/families/nsrl-direct-head-cross-document-stability-v1.retro.json", "record_id": "solomon.nsrl-p10m-direct-head-cross-document-stability-v1.negative.v1" }
+      ]
+    },
+    {
+      "id": "holo-hrr-t512-public-corpus-v1",
+      "display_name": "Holo HRR attention T=512 public-corpus verification",
+      "family": "external",
+      "lineage": "external/holo-hrr",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "mixed",
+      "disclosure_status": "public",
+      "lifecycle_status": "open",
+      "evidence_status": "corpus_proxy",
+      "claim_results": [
+        { "claim": "The public HRR implementation executes the declared T=512 three-arm protocol", "outcome": "positive" },
+        { "claim": "HRR has a T=512 quality or speed advantage over softmax on the public corpus", "outcome": "negative" },
+        { "claim": "The private Telegram and MPS result reproduces exactly", "outcome": "unknown" }
+      ],
+      "blockers": [
+        "The upstream Telegram corpus is private.",
+        "Matching MPS hardware conditions were unavailable in the lab execution context."
+      ],
+      "summary": "Both HRR arms ran successfully but were slower and had worse validation bits per byte than softmax on enwik8.",
+      "next_boundary": "Do not rerun the public proxy for an advantage claim; exact replication waits for the original corpus and hardware conditions.",
+      "sources": [
+        { "kind": "experiment_record", "path": "docs/experiments/EXP-006.md", "record_id": "EXP-006" }
+      ]
+    },
+    {
+      "id": "zero-solomon-shared-task-bridge-v1",
+      "display_name": "ZERO.4 to Solomon shared-task replication bridge",
+      "family": "cross_family",
+      "lineage": "cross-family/zero-solomon",
+      "kind": "replication_bridge",
+      "execution_status": "not_run",
+      "scientific_outcome": "unknown",
+      "disclosure_status": "public",
+      "lifecycle_status": "blocked",
+      "evidence_status": "documented",
+      "claim_results": [
+        { "claim": "A ZERO.4 capability survives Solomon integer training under one shared task and agreement contract", "outcome": "unknown" }
+      ],
+      "blockers": [
+        "The real shared-task dataset and evaluation hashes are not bound.",
+        "A Solomon-compatible encoding and verifier do not yet exist."
+      ],
+      "summary": "The Zero family gate is clear and the generic replication protocol exists, but the concrete cross-family task cannot yet be preregistered.",
+      "next_boundary": "Freeze the real q22r data bindings, implement the Solomon encoding and verifier, then preregister exactly one bridge experiment.",
+      "sources": [
+        { "kind": "program_record", "path": "docs/PROGRAM.md", "record_id": "zero-solomon-replication-bridge" }
+      ]
+    }
+  ],
+  "edges": [
+    { "from": "zero-q22r-family-v1", "to": "zero-q23-local-replay-guard-v1", "relation": "motivated", "summary": "Cross-seed replay failures motivated a direct forgetting guard." },
+    { "from": "zero-q23-local-replay-guard-v1", "to": "zero-q24-cumulative-replay-guard-v1", "relation": "superseded_by", "summary": "Cumulative authority replaced independent local-step authority." },
+    { "from": "zero-q24-cumulative-replay-guard-v1", "to": "zero-q25-deterministic-backtracking-v1", "relation": "superseded_by", "summary": "Backtracking tested whether step size, rather than direction, caused guard exhaustion." },
+    { "from": "zero-q25-deterministic-backtracking-v1", "to": "zero-q26-replay-tangent-seed2-v1", "relation": "superseded_by", "summary": "Projection changed update direction after every scalar continuation failed." },
+    { "from": "zero-q26-replay-tangent-seed2-v1", "to": "zero-q26-family-replication-v1", "relation": "replicated_by", "summary": "The diagnostic seed go prospectively opened seeds 1 and 3." },
+    { "from": "zero-q26-family-replication-v1", "to": "zero-solomon-shared-task-bridge-v1", "relation": "enables", "summary": "The all-three-seed go clears the Zero family gate for a cross-family bridge." },
+    { "from": "solomon-successor-v2", "to": "zero-solomon-shared-task-bridge-v1", "relation": "enables", "summary": "The replayed integer-transformer stack supplies the Solomon deployment substrate." },
+    { "from": "zero5-c0-v1", "to": "zero5-c1-v1", "relation": "opened", "summary": "Tokenizer selection opened the native training proof." },
+    { "from": "zero5-c1-v1", "to": "zero5-c2-v1", "relation": "opened", "summary": "Stable native training opened Atlas continuation." },
+    { "from": "zero5-c2-v1", "to": "zero5-c3-v1", "relation": "opened", "summary": "The selected C2 checkpoint became the fixed base for evidence-task research." },
+    { "from": "zero5-c3-v1", "to": "zero5-c31-v1", "relation": "superseded_by", "summary": "Interleaving and answer weighting addressed task-order interference." },
+    { "from": "zero5-c31-v1", "to": "zero5-c32-v1", "relation": "superseded_by", "summary": "Repaired task definitions and balancing targeted paired invariance." },
+    { "from": "zero5-c32-v1", "to": "zero5-c33-v1", "relation": "superseded_by", "summary": "Pair-atomic updates tested whether optimizer grouping caused the invariance failure." },
+    { "from": "zero5-c33-v1", "to": "zero5-c42-v1", "relation": "superseded_by", "summary": "The lineage moved from minibatch arrangement to a repaired grouped corpus." },
+    { "from": "zero5-c42-v1", "to": "zero5-c43-v1", "relation": "superseded_by", "summary": "Data repair increased hard retrieval and cloze coverage." },
+    { "from": "zero5-c43-v1", "to": "zero5-c51-statebridge-v1", "relation": "superseded_by", "summary": "The lineage moved from ordinary text repair to structured-state text." },
+    { "from": "zero5-c51-statebridge-v1", "to": "zero5-c52-targetbridge-v1", "relation": "branched_to", "summary": "One branch added a verified auxiliary state-target loss under a private-result boundary." },
+    { "from": "zero5-c51-statebridge-v1", "to": "zero5-c61-shared-state-v1", "relation": "branched_to", "summary": "A separate public branch connects the state bottleneck directly to answer-token logits." },
+    { "from": "nsrl-p10m-v10-intake", "to": "nsrl-p10m-target-margin-v1", "relation": "opened", "summary": "The managed experimental checkpoint opened a bounded output-head intervention." },
+    { "from": "nsrl-p10m-target-margin-v1", "to": "nsrl-p10m-target-margin-trust-region-v1", "relation": "superseded_by", "summary": "A disjoint canonical-NLL guard addressed the preflight-to-development generalization failure." },
+    { "from": "nsrl-p10m-target-margin-trust-region-v1", "to": "nsrl-p10m-direct-head-nll-guard-v1", "relation": "superseded_by", "summary": "The candidate objective changed from hard-negative margin to canonical NLL." },
+    { "from": "nsrl-p10m-direct-head-nll-guard-v1", "to": "nsrl-p10m-direct-head-nll-safe-set-v1", "relation": "superseded_by", "summary": "The full ranked safe set replaced single-winner selection." },
+    { "from": "nsrl-p10m-direct-head-nll-safe-set-v1", "to": "nsrl-p10m-direct-head-cross-document-stability-v1", "relation": "opened", "summary": "An empty two-surface safe set opened a read-only stability diagnosis on new documents." }
+  ],
+  "method_assessment": {
+    "verdict": "The program is strong at truth preservation and experimental discipline, but weaker at maximizing information gain and controlling serial local-repair lineages.",
+    "strengths": [
+      "Prospective contracts, immutable hashes, exact replay, and fail-closed gates prevent attractive partial results from becoming promotion claims.",
+      "Negative results remain first-class evidence and can close intervention families without opening hidden or downstream evaluation.",
+      "The ZERO.4 Q2.3 through Q2.6 sequence shows successful causal refinement: local budget, cumulative authority, scalar continuation, then update direction.",
+      "Surprising positive results are replicated across frozen seeds before family promotion."
+    ],
+    "failure_modes": [
+      "Some lineages perform serial nearest-neighbor repairs to schedules, data mixtures, or candidate selection before testing the underlying representation or direction.",
+      "Exact determinism can reproduce a low-information or surface-specific experiment perfectly.",
+      "Promotion gates are sometimes used as the only diagnostic, so a failed conjunction does not identify which causal explanation is correct.",
+      "Forecast coverage and evidence maturity are uneven across native, retro, external, private, and withheld results.",
+      "Repeated adaptive use of a public development surface can consume its decision value even while the hidden panel remains sealed."
+    ],
+    "proposed_rules": [
+      "Freeze competing explanations for data, representation, objective, and optimization geometry, and require each major run to distinguish at least two.",
+      "Run cheap cross-document or cross-seed stability audits before optimizing a local surface.",
+      "After two consecutive failures within one intervention family, require a change in abstraction rather than another parameter tweak.",
+      "Keep promotion gates unchanged but add non-authoritative diagnostic measurements that identify the failed mechanism.",
+      "Track lineage-level experiment count, compute, and public-evaluation exposure budgets in addition to per-run limits.",
+      "Record scientific outcome, execution, disclosure, lifecycle, and evidence maturity as separate axes.",
+      "Require major branches to declare rules_out, supports, supersedes, and next_allowed intervention edges."
+    ],
+    "priority_order": [
+      "Complete the ZERO.4 to Solomon shared-task bindings and verifier.",
+      "Run a read-only NSRL frozen-representation sufficiency audit before another training method.",
+      "Decide whether ZERO5-C6.1 earns its separately authorized representation-level run.",
+      "Import outstanding external evidence and settle verified upstream family evidence locally.",
+      "Do not reopen closed local-coordinate, scalar-backtracking, ordinary paired-next-token, or public-proxy HRR-advantage branches without a new causal hypothesis."
+    ]
+  }
+}
