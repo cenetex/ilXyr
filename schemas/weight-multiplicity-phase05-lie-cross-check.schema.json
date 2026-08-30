@@ -21,7 +21,7 @@
   ],
   "properties": {
     "schema_version": { "const": 1 },
-    "witness_version": { "const": 2 },
+    "witness_version": { "const": 3 },
     "scope_revision": { "const": "phase-0.5-client-approved-2026-08-30" },
     "purpose": { "const": "independent_correctness_witness" },
     "plan_sha256": { "$ref": "#/$defs/sha256" },

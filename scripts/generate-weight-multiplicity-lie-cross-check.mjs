@@ -53,18 +53,7 @@ const compareRepresentations = (left, right) => {
 
 const chooseRepresentationPool = (representations) => {
   const ordered = [...representations].sort(compareRepresentations);
-  const selected = new Map();
-  for (const minimumHeight of [1, 2, 4, 8]) {
-    const representation = ordered.find(
-      (entry) => entry.highest_weight_height >= minimumHeight,
-    );
-    if (representation) selected.set(representation.id, representation);
-  }
-  for (const representation of ordered) {
-    if (selected.size >= 4) break;
-    selected.set(representation.id, representation);
-  }
-  return [...selected.values()];
+  return ordered.slice(0, 4);
 };
 
 const caseKey = (representation, target) =>
@@ -120,12 +109,19 @@ const buildCasesForType = ({ type, representations, description, plan }) => {
         right.highest_weight.findIndex((value) => value === 1),
     );
     for (const representation of fundamentals) {
-      const target = generated.get(representation.id)
-        .filter((entry) => entry.target_depth > 0)
-        .sort((left, right) =>
-          left.target_depth - right.target_depth ||
-          left.generation_index - right.generation_index,
-        )[0];
+      const simple = representation.highest_weight.findIndex((value) => value === 1);
+      const targetWeight = representation.highest_weight.map(
+        (value, row) => value - description.cartan[row][simple],
+      );
+      const target = {
+        target_weight: targetWeight,
+        target_depth: 1,
+        target_status: targetWeight.every((value) => value >= 0)
+          ? "dominant"
+          : "non_dominant",
+        anchor_per_mille: null,
+        trajectory: null,
+      };
       add(representation, target, "all_e7_e8_fundamentals_shallow_nontrivial");
     }
   }
@@ -140,11 +136,21 @@ const buildCasesForType = ({ type, representations, description, plan }) => {
   const candidates = orderedRepresentations.flatMap((representation) =>
     generated.get(representation.id).map((target) => ({ representation, target })),
   ).sort((left, right) => {
-    const representationOrder = orderedRepresentations.findIndex(
+    const leftRepresentationOrder = orderedRepresentations.findIndex(
       (entry) => entry.id === left.representation.id,
-    ) - orderedRepresentations.findIndex((entry) => entry.id === right.representation.id);
-    if (representationOrder !== 0) return representationOrder;
-    return comparePriority(targetPriority(left.target), targetPriority(right.target));
+    );
+    const rightRepresentationOrder = orderedRepresentations.findIndex(
+      (entry) => entry.id === right.representation.id,
+    );
+    const preferredDepthOrder = Number(left.target.target_depth > 24) -
+      Number(right.target.target_depth > 24);
+    if (preferredDepthOrder !== 0) return preferredDepthOrder;
+    const smallPoolOrder = Number(leftRepresentationOrder >= initialPool.length) -
+      Number(rightRepresentationOrder >= initialPool.length);
+    if (smallPoolOrder !== 0) return smallPoolOrder;
+    const priorityOrder = comparePriority(targetPriority(left.target), targetPriority(right.target));
+    if (priorityOrder !== 0) return priorityOrder;
+    return leftRepresentationOrder - rightRepresentationOrder;
   });
   for (const candidate of candidates) {
     if (cases.size >= 16) break;
@@ -207,7 +213,7 @@ const main = async () => {
   }
   const result = {
     schema_version: 1,
-    witness_version: 2,
+    witness_version: 3,
     scope_revision: plan.scope_revision,
     purpose: "independent_correctness_witness",
     plan_sha256: sha256(planRecord.bytes),
@@ -248,9 +254,10 @@ const main = async () => {
       minimum_cases_per_type: plan.cross_check.minimum_cases_per_type,
       target_cases_per_type: 16,
       all_e7_e8_fundamentals: true,
+      e7_e8_fundamental_target: "depth_1_simple_reflection_of_highest_weight",
       only_nontrivial_positive_depth: true,
-      general_pool: "smallest_dimension_representations_at_minimum_heights_1_2_4_8_then_dimension_fill",
-      target_priority: "anchors_250_500_750_950_then_trajectory_0_then_3_then_remaining",
+      general_pool: "four_smallest_exact_representation_dimensions_then_dimension_fill",
+      target_priority: "positive_depth_at_most_24_then_anchors_250_500_750_950_then_trajectory_0_then_3_then_remaining",
       a1_fill: "candidate_envelope_heights_1_through_8_because_the_frontier_roster_has_fewer_than_12_unique_nontrivial_queries",
     },
     cases,

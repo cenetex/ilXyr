@@ -7,9 +7,13 @@ weight-multiplicity answers. It is not a speed candidate, a production oracle,
 or a project dependency. The source and executable are not committed to this
 repository.
 
-The frozen case manifest contains 16 nontrivial cases for every supported type,
+The frozen Version 3 case manifest contains 16 nontrivial cases for every supported type,
 which is more than the contractual minimum of 12. It includes one case for
-every E7 and E8 fundamental representation. A1 uses additional representations
+every E7 and E8 fundamental representation. Non-mandatory cases use the four
+smallest available exact representation dimensions and prefer positive target
+depths no greater than 24 before filling by increasing dimension. Each mandatory
+E7/E8 fundamental case uses the exact depth-one simple reflection of its
+highest weight. A1 uses additional representations
 from the already-frozen height-one-through-eight candidate envelope because its
 frontier roster alone has fewer than 12 unique nontrivial queries.
 
@@ -59,6 +63,7 @@ Zero coordinates into LiE coordinates as follows:
 - E8: `[z0, z7, z1, z2, z3, z4, z5, z6]`.
 
 Each permutation is applied to both the highest and target weights before the
-LiE query. The type and coordinate mappings are part of the frozen Version 2
-case manifest and evidence output. Version 1's identity-mapping Hold remains
-preserved as evidence of the witness defect and its correction.
+LiE query. The type and coordinate mappings are part of the frozen Version 3
+case manifest and evidence output. Version 1's identity-mapping Hold and
+Version 2's depth-101 timeout Hold remain preserved as evidence of both witness
+defects and their corrections.
