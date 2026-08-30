@@ -85,3 +85,10 @@ Its exact safe-set follow-up is registered in
 on the complete proposal and guard surfaces for all eight ranked coordinates. Every proposal-NLL
 descent direction worsened the guard, leaving no safe candidate. The source was retained with exact
 model and trace replay, and development, test, open-generation, and hidden evidence stayed closed.
+
+The cross-document stability audit is registered in
+`examples/families/nsrl-direct-head-cross-document-stability-v1.retro.json`. It replayed the eight
+proposal-descent directions over eight previously unused training documents. None met the frozen
+six-document and positive-aggregate stability rule; every aggregate was negative. Exact trace
+replay passed, the source stayed unchanged, and another same-coordinate-family follow-up plus all
+public, hidden, and scaling stages stayed closed.
