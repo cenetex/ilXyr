@@ -72,6 +72,7 @@ const fixtures = {
   "replication-settlement.schema.json": [
     "examples/schema/replication-settlement.json",
   ],
+  "research-pathways.schema.json": ["docs/research-pathways.json"],
   "registration-package.schema.json": [
     "examples/schema/registration-package.json",
   ],

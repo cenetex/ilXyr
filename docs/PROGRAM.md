@@ -50,6 +50,11 @@ The machine-readable source of truth is [`docs/lab-registry.json`](lab-registry.
 public view at [`docs/program-registry.html`](program-registry.html). External runs remain marked
 external until ilXyr imports them; their chronology is never rewritten as forecast-risked.
 
+The cross-lineage decision map is [`docs/RESEARCH-PATHWAYS.md`](RESEARCH-PATHWAYS.md), backed by
+the validated [`docs/research-pathways.json`](research-pathways.json). It separates scientific
+outcome, execution, disclosure, lifecycle, and evidence maturity so a completed no-go cannot be
+confused with a blocked or withheld experiment.
+
 ## Parallel substrates, shared surface, directed flow
 
 The families develop in parallel and meet at declared joints:

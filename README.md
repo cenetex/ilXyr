@@ -242,6 +242,10 @@ started without producing a terminal run. `authorize` reports the same decision 
 - `examples/schema`: positive fixtures for the published protocol schemas.
 - `docs/PROGRAM.md`: the research program — Zero and Solomon micromodel families,
   certified-gate method, autonomous operating model, flagship replication bridge.
+- `docs/RESEARCH-PATHWAYS.md`: the checked research-pathway map — successful,
+  negative, blocked, withheld, and experimental branches plus exploration-method rules.
+- `docs/research-pathways.json`: machine-readable pathway nodes, causal edges,
+  independent status axes, evidence bindings, and method assessment.
 - `docs/decisions/0005-nsrl-p10m-operational-stewardship.md`: the approved 30-day experimental
   stewardship pilot, ownership boundary, checkpoint bundle, and promotion gates for NSRL p10m.
 - `docs/lab-registry.json`: the reviewed cross-project program inventory for Braid and ZERO,
