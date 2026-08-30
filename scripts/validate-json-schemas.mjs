@@ -303,6 +303,38 @@ expectInvalid(
   labRegistry,
 );
 
+const pathwaysWithoutCoordinate = await readJson("docs/research-pathways.json");
+delete pathwaysWithoutCoordinate.nodes[0].coordinate;
+expectInvalid(
+  "research-pathways.schema.json",
+  "research pathway without an integer coordinate",
+  pathwaysWithoutCoordinate,
+);
+
+const pathwaysWithDecimalCoordinate = await readJson("docs/research-pathways.json");
+pathwaysWithDecimalCoordinate.nodes[0].coordinate.parts[0] = 2.2;
+expectInvalid(
+  "research-pathways.schema.json",
+  "research pathway with a decimal coordinate",
+  pathwaysWithDecimalCoordinate,
+);
+
+const pathwaysWithoutFactorVector = await readJson("docs/research-pathways.json");
+delete pathwaysWithoutFactorVector.nodes[0].factor_state;
+expectInvalid(
+  "research-pathways.schema.json",
+  "research pathway without a factor vector",
+  pathwaysWithoutFactorVector,
+);
+
+const pathwaysWithZeroRevision = await readJson("docs/research-pathways.json");
+pathwaysWithZeroRevision.nodes[0].record_revision = 0;
+expectInvalid(
+  "research-pathways.schema.json",
+  "research pathway with a zero record revision",
+  pathwaysWithZeroRevision,
+);
+
 const upstreamBenchmark = await readJson("examples/schema/upstream-benchmark.json");
 delete upstreamBenchmark.outcome.resolved_outcome;
 expectInvalid(

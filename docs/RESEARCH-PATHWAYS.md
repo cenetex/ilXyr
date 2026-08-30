@@ -10,6 +10,38 @@ Its validator requires exact coverage of every experiment in
 every numbered experiment record from EXP-001 through EXP-006. Supporting
 engineering and protocol tests are intentionally outside this scientific map.
 
+## Research coordinates and factor vectors
+
+Every pathway node has three separate version concepts:
+
+| Field | Meaning | Example for C3.1 |
+| --- | --- | --- |
+| `coordinate.parts` | Exact integer research coordinate | `[3, 1]` |
+| `coordinate.slug` | Delimited file and URL form | `c3_1` |
+| `record_revision` | Revision of the frozen record | `1` |
+
+The integer array is canonical. A coordinate is never stored as a decimal or
+as joined digits. This keeps C3.1 distinct from C31. Existing IDs such as
+`zero5-c31-v1` remain unchanged because evidence and hashes already refer to
+them. The structured coordinate removes their ambiguity without rewriting
+history. New code should derive `c3_1` from `C` and `[3, 1]`; it must not infer
+`[3, 1]` by parsing the legacy text `c31`.
+
+Each lineage also declares a fixed factor space. A node's `factor_state` gives
+the integer revision of every factor in that space. For the ZERO.5 C lineage,
+the axes are checkpoint, tokenizer, data, schedule, representation, objective,
+and evaluation. The numbers identify lineage-local states; they are labels,
+not quality scores or an ordering of the full experiment. Comparing two node
+vectors shows which scientific factors changed and helps planners propose
+branches that test different explanations.
+
+Coordinates name nodes, but they do not establish ancestry. The explicit
+directed edges remain authoritative for questions such as “superseded by,”
+“branched to,” “replicated by,” and “enables.” This matters because C3.1,
+C3.2, and C3.3 are a serial chain even though their coordinates look like peer
+labels, while C5.1 opens branches at C5.2 and C6.1. Multiple incoming edges can
+represent a later merge without forcing that history into one number.
+
 ## Status model
 
 Every pathway has five independent status axes:
@@ -267,6 +299,9 @@ npm run test:registry
 
 The pathway validator fails when a lab-registry experiment, family
 retro-registration, or numbered EXP record is added without a corresponding
-pathway node. It also rejects duplicate identifiers, missing source files,
-dangling or cyclic edges, inconsistent outcome axes, leaked terminal-private
-status, and promoted nodes that are not completed positive results.
+pathway node. It also rejects missing or decimal coordinates, delimiter-free
+coordinate slugs, duplicate coordinates, incomplete factor vectors, invalid
+record revisions, same-lineage edges that change no factor, missing source
+files, dangling or cyclic edges, inconsistent outcome axes, leaked
+terminal-private status, and promoted nodes that are not completed positive
+results.
