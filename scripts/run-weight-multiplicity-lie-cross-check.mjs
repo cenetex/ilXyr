@@ -44,6 +44,9 @@ const runProcess = ({ executable, arguments: args, input, timeoutMs, cwd }) =>
     child.stderr.setEncoding("utf8");
     child.stdout.on("data", (chunk) => { stdout += chunk; });
     child.stderr.on("data", (chunk) => { stderr += chunk; });
+    child.stdin.on("error", (error) => {
+      if (error.code !== "EPIPE") stderr += `\nstdin: ${error.message}`;
+    });
     const timer = setTimeout(() => {
       timedOut = true;
       child.kill("SIGKILL");
