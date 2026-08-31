@@ -821,10 +821,12 @@ mod tests {
             "evaluation://feral-7b/finqa/base"
         );
         assert_eq!(measured[0].state, LifecycleState::Completed);
-        assert_eq!(
-            measured[0].metrics.get("finqa_accuracy"),
-            Some(&0.14646904969485613)
-        );
+        let accuracy = measured[0]
+            .metrics
+            .get("finqa_accuracy")
+            .copied()
+            .expect("FinQA accuracy");
+        assert!((accuracy - 0.14646904969485613).abs() < 1e-15);
         assert!(
             status
                 .project
