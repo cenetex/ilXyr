@@ -11,6 +11,19 @@ it does not change the resource frontier.
 No corpus or model-training artifact belongs here. Corpus generation remains
 unauthorized until the client accepts the completed Phase 0.5 report.
 
+## Execution venue
+
+Full frontier reruns are reportable, resource-heavy jobs. They run in the
+approved cloud environment under `docs/CLOUD-EXECUTION.md`; the local
+workstation is limited to builds, self-tests, schema checks, and a small smoke
+test. If the cloud runner for a new frontier version does not exist, add or
+repair it before starting the full run. Do not fall back to a full local run.
+
+Performance comparisons must run both the sealed baseline and candidate on
+the same frozen provider, instance type, image, compiler, worker count,
+limits, roster, and target order. A new cloud comparison is append-only and
+does not rewrite an older local frontier.
+
 The authorized Phase 0.6 execution is frozen by the Phase 0.6 plan and
 canonical request manifest under `examples/weight-multiplicity/`. It tests
 the exact corrected 256-representation non-pass surface with two persistent
@@ -19,6 +32,11 @@ and contain no corpus-generation or training path.
 
 Current append-only evidence:
 
+- `PHASE06-PERSISTENT-LIE-BAKEOFF-HOLD.md` and `phase06-cloud-v1/`
+  seal the completed Phase 0.6 bake-off. LiE passes 253 of 256 frozen
+  representations, with one E7 and two E8 time failures. The formal outcome
+  is Hold because license acceptance and a named maintenance owner are still
+  missing. No corpus or training is authorized.
 - `PHASE05-CLOUD-CORRECTIVE-CLOSEOUT-V1.md` is the final closeout for the
   corrective cloud audit. The binding Revision 3 outcome remains Stop and no
   corpus is authorized.
