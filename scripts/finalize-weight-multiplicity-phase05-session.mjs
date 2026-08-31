@@ -192,6 +192,9 @@ const runBoundary = (run) => ({
     run.memory_bytes.maximum_working_set_peak_allocated,
   maximum_prepared_graph_capacity_bytes:
     run.memory_bytes.maximum_prepared_graph_capacity,
+  maximum_ray_graph_capacity_bytes:
+    run.memory_bytes.maximum_ray_graph_capacity,
+  maximum_ray_capacity_bytes: run.memory_bytes.maximum_ray_capacity,
 });
 
 const normalizeParallelism = (parallelism, plan) => {
@@ -236,6 +239,14 @@ const summarize = (result, hashes, lie, plan) => {
   const completedPreparedGraphValues = groupedRuns
     .flatMap((run) => run.records)
     .map((record) => record.prepared_graph_capacity_bytes)
+    .filter((value) => value !== null && value !== undefined);
+  const completedRayGraphValues = groupedRuns
+    .flatMap((run) => run.records)
+    .map((record) => record.ray_graph_capacity_bytes)
+    .filter((value) => value !== null && value !== undefined);
+  const completedRayCapacityValues = groupedRuns
+    .flatMap((run) => run.records)
+    .map((record) => record.ray_capacity_bytes)
     .filter((value) => value !== null && value !== undefined);
   const hardTimeoutIncrementalMemoryLowerBounds = groupedRuns
     .filter((run) => run.hard_timeout)
@@ -359,10 +370,22 @@ const summarize = (result, hashes, lie, plan) => {
         completedWorkingSetValues.length === 0
           ? null
           : Math.max(...completedWorkingSetValues),
+      maximum_completed_working_set_peak_allocated_bytes:
+        completedWorkingSetValues.length === 0
+          ? null
+          : Math.max(...completedWorkingSetValues),
       maximum_completed_prepared_graph_capacity_bytes:
         completedPreparedGraphValues.length === 0
           ? null
           : Math.max(...completedPreparedGraphValues),
+      maximum_completed_ray_graph_capacity_bytes:
+        completedRayGraphValues.length === 0
+          ? null
+          : Math.max(...completedRayGraphValues),
+      maximum_completed_ray_capacity_bytes:
+        completedRayCapacityValues.length === 0
+          ? null
+          : Math.max(...completedRayCapacityValues),
       maximum_hard_timeout_incremental_rss_lower_bound_bytes:
         hardTimeoutIncrementalMemoryLowerBounds.length === 0
           ? null

@@ -23,13 +23,14 @@
     "scope_revision": {
       "enum": [
         "phase-0.5-client-approved-2026-08-30",
-        "phase-0.5-prepared-dag-2026-08-30"
+        "phase-0.5-prepared-dag-2026-08-30",
+        "phase-0.5-parallel-root-ray-dag-2026-08-31"
       ]
     },
     "plan_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
     "oracle_implementation": { "const": "zero-freudenthal-exact-c11" },
     "oracle_algorithm": { "const": "freudenthal_recurrence" },
-    "oracle_interface_version": { "enum": [2, 3] },
+    "oracle_interface_version": { "enum": [2, 3, 4] },
     "oracle_declared_revision": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" },
     "oracle_executable_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
     "candidate_envelope": {

@@ -475,6 +475,7 @@ class OracleServer {
       fresh: "--serve",
       grouped: "--serve-grouped",
       prepared: "--serve-prepared",
+      ray: "--serve-ray",
     }[this.mode];
     if (!serverArgument) throw new Error(`unsupported oracle mode: ${this.mode}`);
     this.child = spawn(
@@ -495,7 +496,7 @@ class OracleServer {
     });
     this.iterator = createInterface({ input: this.child.stdout })[Symbol.asyncIterator]();
     const ready = JSON.parse(await this.nextLine());
-    const expectedVersion = { fresh: 1, grouped: 2, prepared: 3 }[this.mode];
+    const expectedVersion = { fresh: 1, grouped: 2, prepared: 3, ray: 4 }[this.mode];
     if (ready.status !== "ready" || ready.schema_version !== expectedVersion)
       throw new Error(`oracle returned unexpected ready record: ${JSON.stringify(ready)}`);
     this.ready = ready;
@@ -671,6 +672,29 @@ const preparedReplayProjection = (value) => ({
   maximum_level: value.maximum_level ?? null,
 });
 
+const rayReplayProjection = (value) => ({
+  multiplicity: value.multiplicity ?? null,
+  engine: value.engine ?? null,
+  cache_mode: value.cache_mode ?? null,
+  session_generation: value.session_generation ?? null,
+  memo_entries_before: value.memo_entries_before ?? null,
+  memo_entries: value.memo_entries ?? null,
+  memo_entries_added: value.memo_entries_added ?? null,
+  memo_hits: value.memo_hits ?? null,
+  recurrence_terms: value.recurrence_terms ?? null,
+  recursive_weyl_folds: value.recursive_weyl_folds ?? null,
+  ray_states: value.ray_states ?? null,
+  ray_state_hits: value.ray_state_hits ?? null,
+  ray_transitions: value.ray_transitions ?? null,
+  ray_nodes_before: value.ray_nodes_before ?? null,
+  ray_nodes: value.ray_nodes ?? null,
+  ray_nodes_added: value.ray_nodes_added ?? null,
+  ray_worker_count: value.ray_worker_count ?? null,
+  ray_parallel_groups: value.ray_parallel_groups ?? null,
+  ray_parallel_nodes: value.ray_parallel_nodes ?? null,
+  maximum_level: value.maximum_level ?? null,
+});
+
 const runOrderedGroup = async ({
   oracle,
   representation,
@@ -739,7 +763,11 @@ const runOrderedGroup = async ({
         request: queryLine(representation, target),
         response: response.raw,
         replay_projection:
-          mode === "prepared" ? preparedReplayProjection(response.value) : null,
+          mode === "prepared"
+            ? preparedReplayProjection(response.value)
+            : mode === "ray"
+              ? rayReplayProjection(response.value)
+              : null,
         multiplicity: response.value.multiplicity ?? null,
         elapsed_ms: response.elapsed_ms,
         sampled_peak_rss_bytes: response.sampled_peak_rss_bytes,
@@ -767,16 +795,36 @@ const runOrderedGroup = async ({
         prepared_graph_capacity_bytes:
           response.value.prepared_graph_capacity_bytes ?? null,
         prepared_worker_count: response.value.prepared_worker_count ?? null,
+        ray_states: response.value.ray_states ?? null,
+        ray_state_hits: response.value.ray_state_hits ?? null,
+        ray_transitions: response.value.ray_transitions ?? null,
+        ray_nodes_before: response.value.ray_nodes_before ?? null,
+        ray_nodes: response.value.ray_nodes ?? null,
+        ray_nodes_added: response.value.ray_nodes_added ?? null,
+        ray_graph_capacity_bytes:
+          response.value.ray_graph_capacity_bytes ?? null,
+        ray_capacity_bytes: response.value.ray_capacity_bytes ?? null,
+        ray_peak_allocated_bytes:
+          response.value.ray_peak_allocated_bytes ?? null,
+        ray_discovery_nanoseconds:
+          response.value.ray_discovery_nanoseconds ?? null,
+        ray_evaluation_nanoseconds:
+          response.value.ray_evaluation_nanoseconds ?? null,
+        ray_worker_count: response.value.ray_worker_count ?? null,
+        ray_parallel_groups: response.value.ray_parallel_groups ?? null,
+        ray_parallel_nodes: response.value.ray_parallel_nodes ?? null,
         working_set_capacity_bytes:
           response.value.working_set_capacity_bytes ?? null,
         working_set_peak_allocated_bytes:
           response.value.working_set_peak_allocated_bytes ?? null,
         cache_state:
-          mode !== "prepared"
+          mode !== "prepared" && mode !== "ray"
             ? null
             : records.length === 0
               ? "cold_session_query"
-              : (response.value.prepared_nodes_added ?? 0) === 0
+              : (mode === "prepared"
+                  ? response.value.prepared_nodes_added
+                  : response.value.ray_nodes_added) === 0
                 ? "no_graph_extension"
                 : "extended_graph",
       });
@@ -837,6 +885,10 @@ const runOrderedGroup = async ({
             mode === "prepared"
               ? Number(oracleEnvironment.ZERO_WEIGHT_PREPARED_WORKERS)
               : null,
+          ray_workers:
+            mode === "ray"
+              ? Number(oracleEnvironment.ZERO_WEIGHT_RAY_WORKERS)
+              : null,
         }
       : null,
     records,
@@ -882,6 +934,16 @@ const runOrderedGroup = async ({
         ...records.map(
           (record) => record.prepared_graph_capacity_bytes ?? 0,
         ),
+      ),
+      maximum_ray_graph_capacity: Math.max(
+        0,
+        ...records.map(
+          (record) => record.ray_graph_capacity_bytes ?? 0,
+        ),
+      ),
+      maximum_ray_capacity: Math.max(
+        0,
+        ...records.map((record) => record.ray_capacity_bytes ?? 0),
       ),
       hard_timeout_rss_sampling: hardTimeout
         ? hardTimeout.sampled_peak_rss_bytes === null
@@ -940,7 +1002,8 @@ const assessExactness = ({
     runComplete(binding, expectedQueries) &&
     replays.length === requiredReplays &&
     replays.every((run) => runComplete(run, expectedQueries));
-  const replayProjection = binding.mode === "prepared";
+  const replayProjection =
+    binding.mode === "prepared" || binding.mode === "ray";
   const replayIdentityObserved = replayObserved
     ? replays.every(
         (run) =>
@@ -985,16 +1048,25 @@ const runMemoryStatus = (run, plan) => {
 };
 const runPassesMemory = (run, plan) => runMemoryStatus(run, plan) === "pass";
 
+const sessionOracleEnvironment = (plan) => {
+  if (plan.frontier.session_mode === "prepared")
+    return {
+      ZERO_WEIGHT_PREPARED_WORKERS: String(
+        plan.frontier.prepared_workers_per_process,
+      ),
+    };
+  if (plan.frontier.session_mode === "ray")
+    return {
+      ZERO_WEIGHT_RAY_WORKERS: String(
+        plan.frontier.ray_workers_per_process,
+      ),
+    };
+  return {};
+};
+
 const measureRepresentation = async ({ oracle, representation, description, plan, replayCount, targetLimit = null }) => {
   const sessionMode = plan.frontier.session_mode ?? "grouped";
-  const oracleEnvironment =
-    sessionMode === "prepared"
-      ? {
-          ZERO_WEIGHT_PREPARED_WORKERS: String(
-            plan.frontier.prepared_workers_per_process,
-          ),
-        }
-      : {};
+  const oracleEnvironment = sessionOracleEnvironment(plan);
   let targets = generateTargets(representation, description, plan);
   targets = limitTargets(targets, targetLimit);
   const cold = await runOrderedGroup({
@@ -1165,14 +1237,7 @@ const calibrateParallelism = async ({ oracle, measurements, descriptions, plan, 
           plan,
           mode: plan.frontier.session_mode ?? "grouped",
           order: plan.frontier.binding_target_order,
-          oracleEnvironment:
-            plan.frontier.session_mode === "prepared"
-              ? {
-                  ZERO_WEIGHT_PREPARED_WORKERS: String(
-                    plan.frontier.prepared_workers_per_process,
-                  ),
-                }
-              : {},
+          oracleEnvironment: sessionOracleEnvironment(plan),
         });
       }),
     );
@@ -1298,6 +1363,28 @@ const selfTest = () => {
     JSON.stringify(
       preparedReplayProjection({ multiplicity: "1", recurrence_terms: 8 }),
     );
+  const rayCapacityOnlyDifferenceIgnored =
+    JSON.stringify(
+      rayReplayProjection({
+        multiplicity: "1",
+        ray_transitions: 7,
+        ray_graph_capacity_bytes: 1024,
+      }),
+    ) ===
+    JSON.stringify(
+      rayReplayProjection({
+        multiplicity: "1",
+        ray_transitions: 7,
+        ray_graph_capacity_bytes: 2048,
+      }),
+    );
+  const rayStructuralDifferenceDetected =
+    JSON.stringify(
+      rayReplayProjection({ multiplicity: "1", ray_transitions: 7 }),
+    ) !==
+    JSON.stringify(
+      rayReplayProjection({ multiplicity: "1", ray_transitions: 8 }),
+    );
   if (
     incompleteExactness.status !== "unknown_after_hard_timeout_or_oracle_error" ||
     incompleteExactness.replay_byte_identical !== null ||
@@ -1307,10 +1394,12 @@ const selfTest = () => {
     preparedExactness.replay_byte_identical !== null ||
     preparedExactness.replay_projection_identical !== true ||
     !capacityOnlyDifferenceIgnored ||
-    !structuralDifferenceDetected
+    !structuralDifferenceDetected ||
+    !rayCapacityOnlyDifferenceIgnored ||
+    !rayStructuralDifferenceDetected
   )
     throw new Error("exactness-observation self-test failed");
-  console.log(JSON.stringify({ status: "pass", exact_weyl_dimension: true, target_order: true, hard_timeout_memory_unknown: true, incomplete_replay_exactness_unknown: true, prepared_projection_replay: true, prepared_capacity_is_resource_only: true, prepared_structural_counter_differential: true }));
+  console.log(JSON.stringify({ status: "pass", exact_weyl_dimension: true, target_order: true, hard_timeout_memory_unknown: true, incomplete_replay_exactness_unknown: true, prepared_projection_replay: true, prepared_capacity_is_resource_only: true, prepared_structural_counter_differential: true, ray_capacity_is_resource_only: true, ray_structural_counter_differential: true }));
 };
 
 const main = async () => {
@@ -1366,7 +1455,9 @@ const main = async () => {
       evidence_stage:
         plan.frontier.session_mode === "prepared"
           ? "parallel_prepared_dependency_dag_and_order_sensitivity"
-          : "bounded_session_memo_and_order_sensitivity",
+          : plan.frontier.session_mode === "ray"
+            ? "parallel_root_ray_dag_and_order_sensitivity"
+            : "bounded_session_memo_and_order_sensitivity",
       scope_revision: plan.scope_revision,
       plan_sha256: manifest.plan_sha256,
       manifest_sha256: sha256(manifestRecord.bytes),
