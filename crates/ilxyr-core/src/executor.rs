@@ -127,6 +127,7 @@ pub fn execute_local(spec: &ExperimentSpec, workspace_root: &Path) -> Result<Run
         output_truncated: stdout_truncated || stderr_truncated,
         output_error,
         metrics,
+        artifacts: Vec::new(),
         source_attestation,
     })
 }

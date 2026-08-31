@@ -149,6 +149,33 @@ pub fn experiment(spec: &ExperimentSpec) -> Result<()> {
             &mut errors,
         );
     }
+    if !spec.dataset_bindings.is_empty() {
+        let datasets = spec
+            .datasets
+            .iter()
+            .map(String::as_str)
+            .collect::<BTreeSet<_>>();
+        let bindings = spec
+            .dataset_bindings
+            .keys()
+            .map(String::as_str)
+            .collect::<BTreeSet<_>>();
+        if datasets != bindings {
+            errors.push(
+                "experiment.dataset_bindings must bind every declared dataset exactly once"
+                    .to_owned(),
+            );
+        }
+        for (dataset, corpus_ref) in &spec.dataset_bindings {
+            handle(
+                dataset,
+                "experiment.dataset_bindings key",
+                Some("dataset://"),
+                &mut errors,
+            );
+            artifact_ref(corpus_ref, "experiment.dataset_bindings value", &mut errors);
+        }
+    }
     unique_strings(&spec.models, "experiment.models", &mut errors);
     for model in &spec.models {
         handle(model, "experiment.models[]", Some("weight://"), &mut errors);
@@ -244,6 +271,12 @@ pub fn experiment(spec: &ExperimentSpec) -> Result<()> {
     if spec.execution.program.contains('\0') {
         errors.push("execution.program must not contain a NUL byte".to_owned());
     }
+    if spec.execution.executor == "oci-job" && !valid_oci_image(&spec.execution.program) {
+        errors.push(
+            "oci-job execution.program must be an oci:// image pinned by a lowercase sha256 digest"
+                .to_owned(),
+        );
+    }
     if spec.execution.args.iter().any(|arg| arg.contains('\0')) {
         errors.push("execution.args must not contain NUL bytes".to_owned());
     }
@@ -311,6 +344,21 @@ pub fn experiment(spec: &ExperimentSpec) -> Result<()> {
     }
 
     finish(errors)
+}
+
+fn valid_oci_image(value: &str) -> bool {
+    let Some((repository, digest)) = value
+        .strip_prefix("oci://")
+        .and_then(|value| value.rsplit_once("@sha256:"))
+    else {
+        return false;
+    };
+    !repository.is_empty()
+        && !repository.chars().any(char::is_whitespace)
+        && digest.len() == 64
+        && digest
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
 }
 
 pub fn external_registration_receipt(receipt: &ExternalRegistrationReceipt) -> Result<()> {

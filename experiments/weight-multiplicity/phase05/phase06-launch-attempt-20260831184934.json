@@ -1,0 +1,20 @@
+{
+  "schema": "ilxyr.weight_multiplicity_phase06_launch_attempt.v1",
+  "run_id": "20260831184934",
+  "instance_id": "i-0473a620f8aea1833",
+  "launched_at": "2026-08-31T18:50:20Z",
+  "terminal_state": "terminated",
+  "execution_status": "lie_build_failed_before_oracle_execution",
+  "cause": "the LiE makefile regenerates parser.c and requires bison, but the Ubuntu dependency list omitted bison",
+  "package_sha256": "46a2d2546973f5dfe93534c51b06e583f8f7afdbeca7499e9dc8437ef4d0fb6a",
+  "ilxyr_commit": "79145a224eeed30544d5de123d476688921fa8df",
+  "phase06_plan_sha256": "9bdcc7c965d88dd2041cdd56f0a47be03d813f623e818d7a35dc1aba0c43a405",
+  "manifest_sha256": "59aafe3a3e06c685861fd73875cfc322faaa3a8e317111728ad5d3fb5bc15925",
+  "terminal_elapsed_instance_seconds": 70,
+  "terminal_estimated_ec2_usd": 0.013222222222,
+  "oracle_queries_started": 0,
+  "corpus_generation_started": false,
+  "model_training_started": false,
+  "evidence_produced": false,
+  "corrective_action": "install bison as an explicit pinned-environment build dependency before compiling the unchanged LiE 2.2.2 source"
+}

@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "audit_id": "weight-multiplicity-phase05-cloud-corrective-audit-2026-08-30-v1",
+  "scope": "correct_false_exactness_labels_test_allocator_policy_and_cross_check_the_exact_cloud_binary",
+  "phase_1_authorized": false,
+  "corpus_generation_authorized": false,
+  "model_training_authorized": false,
+  "bindings": {
+    "prior_cloud_run_id": "33329981839",
+    "prior_cloud_package_key": "jobs/33329981839/weight-multiplicity-phase05-package.tar.gz",
+    "prior_cloud_package_sha256": "f876ce7342cabe344e95eb798750ce1f705fdb586ec24e65ef76ab2778d3ec7f",
+    "prior_cloud_frontier_gzip_sha256": "7d74654ebb16fe62b3e20a5f49c5a32312de14a3a2b3feaf8d79ae0ffb291c9c",
+    "prior_cloud_plan_sha256": "350ed67272f534a0d8bc7df1ae35a5da55485c04d1184e4e5ce92de8a8e57314",
+    "prior_cloud_manifest_sha256": "1dd5da84c123af247eb849d9fbd4cab2f91e0ddc6d4a8c458e0e18800766fa11",
+    "prior_cloud_controller_revision": "4e45ed31f6771a8cc03b00244ba008fb1ca7d0a1",
+    "oracle_source_revision": "53eaa6c2fcce514d1183e19445daeaf151e7ec04",
+    "oracle_executable_sha256": "274d00071b33b9e4d4f495e629b0af96867cea382a8e7c4dc3174d13ca56a621",
+    "old_local_safe_prefix_gzip_sha256": "c23c68aa1b0a5f61ab359534c094e4c7a28b6830fbffb5056b2b99985293c67a",
+    "old_local_safe_prefix_measurements": 432,
+    "lie_case_manifest_path": "examples/weight-multiplicity/phase05-lie-cross-check-manifest-v3.json",
+    "lie_case_manifest_sha256": "644b5a7b787767ab596cdc641f500982ad3f97d1ccac2f784793eec335b91a00"
+  },
+  "exactness_correction": {
+    "required_replays": 2,
+    "rule": "Only an observed multiplicity mismatch or a complete replay with different response bytes is an exactness failure. An incomplete replay is exactness unknown and a resource failure.",
+    "expected_prior_false_labels": [
+      "B6:0,0,1,2,1,0",
+      "F4:0,2,5,0"
+    ]
+  },
+  "allocator_audit": {
+    "instance_type": "c6i.4xlarge",
+    "region": "us-east-1",
+    "binding_target_order": "ascending_depth_dominant_first_lexicographic",
+    "measurement_hard_timeout_ms": 10000,
+    "query_p95_limit_ms": 1000,
+    "peak_incremental_memory_limit_bytes": 2147483648,
+    "hard_timeout_rss_sampling_start_ms": 10,
+    "hard_timeout_rss_sampling_interval_ms": 25,
+    "policies": [
+      {
+        "id": "default",
+        "initial_capacity": 1024
+      },
+      {
+        "id": "presized",
+        "initial_capacity": 8388608
+      }
+    ],
+    "maximum_instance_seconds": 2647,
+    "workload_timeout_seconds": 2100,
+    "maximum_ec2_usd": 0.5,
+    "hourly_price_usd": 0.68,
+    "representations": [
+      {
+        "old_local_measurement_index": 140,
+        "generated_targets_sha256": "273be04c2f544b1114bf74f011537c4151103b44ee807d71d40ac11b2374100d",
+        "representation": {
+          "id": "A8:2,0,0,3,0,1,1,1",
+          "type": "A8",
+          "rank": 8,
+          "highest_weight": [2, 0, 0, 3, 0, 1, 1, 1],
+          "highest_weight_height": 8,
+          "representation_dimension": "9989179200",
+          "dimension_band": "d09-10",
+          "selection_reasons": ["d09-10:maximum_dimension"],
+          "required_targets": []
+        }
+      },
+      {
+        "old_local_measurement_index": 246,
+        "generated_targets_sha256": "040efa9f8ce5b7b17c97110674ab8b4a2ccdb68133e6a6279d746ae9a3124ecb",
+        "representation": {
+          "id": "B6:2,0,5,0,0,0",
+          "type": "B6",
+          "rank": 6,
+          "highest_weight": [2, 0, 5, 0, 0, 0],
+          "highest_weight_height": 7,
+          "representation_dimension": "3145546976",
+          "dimension_band": "d09-10",
+          "selection_reasons": ["d09-10:nearest_geometric_midpoint"],
+          "required_targets": []
+        }
+      },
+      {
+        "old_local_measurement_index": 278,
+        "generated_targets_sha256": "611aa131be14b2864dde1aa4dd98fa164a3fcbabcb7cd030b6cdd734e2ef82da",
+        "representation": {
+          "id": "B7:0,2,0,1,0,1,0",
+          "type": "B7",
+          "rank": 7,
+          "highest_weight": [0, 2, 0, 1, 0, 1, 0],
+          "highest_weight_height": 4,
+          "representation_dimension": "992261270",
+          "dimension_band": "d08-09",
+          "selection_reasons": ["d08-09:maximum_dimension"],
+          "required_targets": []
+        }
+      },
+      {
+        "old_local_measurement_index": 310,
+        "generated_targets_sha256": "0a6e79a98320adc0d1185974ddedf2332b7c39a898ee0df028fe06c872d6167c",
+        "representation": {
+          "id": "B8:0,0,0,0,2,0,0,0",
+          "type": "B8",
+          "rank": 8,
+          "highest_weight": [0, 0, 0, 0, 2, 0, 0, 0],
+          "highest_weight_height": 2,
+          "representation_dimension": "3162816",
+          "dimension_band": "d06-07",
+          "selection_reasons": ["d06-07:nearest_geometric_midpoint"],
+          "required_targets": []
+        }
+      },
+      {
+        "old_local_measurement_index": 429,
+        "generated_targets_sha256": "f82a3139364ea30dda747660f7078f949f4240e230fd65b03be3d2577f09978c",
+        "representation": {
+          "id": "C6:0,6,1,0,0,0",
+          "type": "C6",
+          "rank": 6,
+          "highest_weight": [0, 6, 1, 0, 0, 0],
+          "highest_weight_height": 7,
+          "representation_dimension": "1017616600",
+          "dimension_band": "d09-10",
+          "selection_reasons": ["d09-10:minimum_dimension"],
+          "required_targets": []
+        }
+      }
+    ]
+  },
+  "lie_cross_check": {
+    "cases": 496,
+    "cases_per_type": 16,
+    "timeout_ms_per_case": 60000,
+    "hold_on_any_disagreement_timeout_error_or_parse_failure": true,
+    "production_dependency": false
+  }
+}
