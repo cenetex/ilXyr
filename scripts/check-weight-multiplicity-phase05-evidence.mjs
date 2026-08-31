@@ -76,6 +76,19 @@ const correctiveChecksumsPath = `${correctiveRoot}/results/sha256sums.txt`;
 const correctiveCloseoutPath = "experiments/weight-multiplicity/phase05/PHASE05-CLOUD-CORRECTIVE-CLOSEOUT-V1.md";
 const phase06ProposalPath = "experiments/weight-multiplicity/phase05/PHASE06-PERSISTENT-LIE-ORACLE-BAKEOFF-PROPOSAL-V1.md";
 const bcErratumPath = "experiments/weight-multiplicity/phase05/BC-FAMILY-LABEL-ERRATUM-V1.md";
+const phase06PreflightPlanPath = "examples/weight-multiplicity/phase06-lie-preflight-plan-v1.json";
+const phase06PreflightManifestPath = "examples/weight-multiplicity/phase06-lie-preflight-manifest-v1.json.gz";
+const phase06ReducedManifestPath = "examples/weight-multiplicity/phase06-reduced-corpus-manifest-v1.json";
+const phase06PreflightCloseoutPath = "experiments/weight-multiplicity/phase05/phase06-lie-preflight-closeout-v1.json";
+const phase06PreflightDecisionPath = "experiments/weight-multiplicity/phase05/PHASE06-LIE-PREFLIGHT-CLOSEOUT-V1.md";
+const phase06PreflightRoot = "experiments/weight-multiplicity/phase05/phase06-preflight-cloud-v1";
+const phase06PreflightLaunchPath = `${phase06PreflightRoot}/launch.json`;
+const phase06PreflightStatusPath = `${phase06PreflightRoot}/terminal-status.json`;
+const phase06PreflightEvidencePath = `${phase06PreflightRoot}/results/preflight-evidence.json.gz`;
+const phase06PreflightSummaryPath = `${phase06PreflightRoot}/results/runner-summary.json`;
+const phase06PreflightBuildPath = `${phase06PreflightRoot}/results/lie-build.json`;
+const phase06PreflightStderrPath = `${phase06PreflightRoot}/results/runner-stderr.log`;
+const phase06PreflightChecksumsPath = `${phase06PreflightRoot}/results/sha256sums.txt`;
 
 const [
   coldPlanBytes,
@@ -134,6 +147,18 @@ const [
   correctiveCloseoutBytes,
   phase06ProposalBytes,
   bcErratumBytes,
+  phase06PreflightPlanBytes,
+  phase06PreflightManifestBytes,
+  phase06ReducedManifestBytes,
+  phase06PreflightCloseoutBytes,
+  phase06PreflightDecisionBytes,
+  phase06PreflightLaunchBytes,
+  phase06PreflightStatusBytes,
+  phase06PreflightEvidenceBytes,
+  phase06PreflightSummaryBytes,
+  phase06PreflightBuildBytes,
+  phase06PreflightStderrBytes,
+  phase06PreflightChecksumsBytes,
 ] = await Promise.all([
   read(coldPlanPath),
   read(coldSummaryPath),
@@ -191,6 +216,18 @@ const [
   read(correctiveCloseoutPath),
   read(phase06ProposalPath),
   read(bcErratumPath),
+  read(phase06PreflightPlanPath),
+  read(phase06PreflightManifestPath),
+  read(phase06ReducedManifestPath),
+  read(phase06PreflightCloseoutPath),
+  read(phase06PreflightDecisionPath),
+  read(phase06PreflightLaunchPath),
+  read(phase06PreflightStatusPath),
+  read(phase06PreflightEvidencePath),
+  read(phase06PreflightSummaryPath),
+  read(phase06PreflightBuildPath),
+  read(phase06PreflightStderrPath),
+  read(phase06PreflightChecksumsPath),
 ]);
 
 const coldRawBytes = gunzipSync(coldCompressedBytes);
@@ -241,6 +278,17 @@ const correctiveChecksums = correctiveChecksumsBytes.toString("utf8");
 const correctiveCloseout = correctiveCloseoutBytes.toString("utf8");
 const phase06Proposal = phase06ProposalBytes.toString("utf8");
 const bcErratum = bcErratumBytes.toString("utf8");
+const phase06PreflightPlan = JSON.parse(phase06PreflightPlanBytes.toString("utf8"));
+const phase06ReducedManifest = JSON.parse(phase06ReducedManifestBytes.toString("utf8"));
+const phase06PreflightCloseout = JSON.parse(phase06PreflightCloseoutBytes.toString("utf8"));
+const phase06PreflightDecision = phase06PreflightDecisionBytes.toString("utf8");
+const phase06PreflightLaunch = JSON.parse(phase06PreflightLaunchBytes.toString("utf8"));
+const phase06PreflightStatus = JSON.parse(phase06PreflightStatusBytes.toString("utf8"));
+const phase06PreflightEvidenceRaw = gunzipSync(phase06PreflightEvidenceBytes);
+const phase06PreflightEvidence = JSON.parse(phase06PreflightEvidenceRaw.toString("utf8"));
+const phase06PreflightSummary = JSON.parse(phase06PreflightSummaryBytes.toString("utf8"));
+const phase06PreflightBuild = JSON.parse(phase06PreflightBuildBytes.toString("utf8"));
+const phase06PreflightChecksums = phase06PreflightChecksumsBytes.toString("utf8");
 
 assert.equal(sha256(coldPlanBytes), "4355bc8a9d156fb7ae3ae9f3867bb0d91f80e76d6b6ac9c56f85cb4bcc4611a1");
 assert.equal(sha256(coldSummaryBytes), "7aea6035dbabe4b53423df03b9e495b81377628a39528a3ed59314708319690b");
@@ -1459,6 +1507,155 @@ assert.match(phase06Proposal, /does not authorize corpus generation or model tra
 assert.match(bcErratum, /Historical Zero weight-multiplicity outputs transpose/);
 assert.match(bcErratum, /A corpus generated before repair/);
 
+assert.equal(
+  sha256(phase06PreflightPlanBytes),
+  phase06PreflightCloseout.identity.plan_sha256,
+);
+assert.equal(
+  sha256(phase06PreflightManifestBytes),
+  phase06PreflightCloseout.identity.manifest_gzip_sha256,
+);
+assert.equal(
+  sha256(gunzipSync(phase06PreflightManifestBytes)),
+  phase06PreflightCloseout.identity.manifest_uncompressed_sha256,
+);
+assert.equal(
+  sha256(phase06PreflightEvidenceBytes),
+  phase06PreflightCloseout.evidence.preflight_evidence_gzip_sha256,
+);
+assert.equal(
+  sha256(phase06PreflightEvidenceRaw),
+  phase06PreflightCloseout.evidence.preflight_evidence_uncompressed_sha256,
+);
+assert.equal(
+  sha256(phase06PreflightSummaryBytes),
+  phase06PreflightCloseout.evidence.runner_summary_sha256,
+);
+assert.equal(
+  sha256(phase06PreflightBuildBytes),
+  phase06PreflightCloseout.evidence.lie_build_sha256,
+);
+assert.equal(
+  sha256(phase06PreflightStatusBytes),
+  phase06PreflightCloseout.evidence.terminal_status_sha256,
+);
+
+const phase06PreflightChecksumMap = new Map(
+  phase06PreflightChecksums
+    .trim()
+    .split("\n")
+    .map((line) => {
+      const [digest, filename] = line.trim().split(/\s+/);
+      return [filename, digest];
+    }),
+);
+assert.equal(
+  phase06PreflightChecksumMap.get("results/preflight-evidence.json.gz"),
+  sha256(phase06PreflightEvidenceBytes),
+);
+assert.equal(
+  phase06PreflightChecksumMap.get("results/lie-build.json"),
+  sha256(phase06PreflightBuildBytes),
+);
+assert.equal(
+  phase06PreflightChecksumMap.get("results/runner-summary.json"),
+  sha256(phase06PreflightSummaryBytes),
+);
+assert.equal(
+  phase06PreflightChecksumMap.get("results/runner-stderr.log"),
+  sha256(phase06PreflightStderrBytes),
+);
+assert.equal(
+  phase06PreflightChecksumMap.get("terminal-status.json"),
+  sha256(phase06PreflightStatusBytes),
+);
+assert.equal(
+  phase06PreflightChecksumMap.get("launch.json"),
+  sha256(phase06PreflightLaunchBytes),
+);
+
+assert.equal(phase06PreflightPlan.status, "authorized");
+assert.equal(phase06PreflightPlan.source.authorized_representations, 572);
+assert.deepEqual(phase06PreflightPlan.closures, {
+  corpus_generation_authorized: false,
+  model_training_authorized: false,
+  promotion_authorized: false,
+});
+assert.equal(phase06ReducedManifest.representations.length, 825);
+assert.equal(phase06ReducedManifest.exclusions.length, 3);
+assert.equal(phase06ReducedManifest.summary.direct_phase06_lie_pass, 253);
+assert.equal(
+  phase06ReducedManifest.summary.prior_zero_pass_requiring_lie_preflight,
+  572,
+);
+
+assert.equal(phase06PreflightEvidence.status, "complete");
+assert.equal(phase06PreflightEvidence.decision, "preflight_pass");
+assert.equal(phase06PreflightEvidence.representations.length, 572);
+assert(
+  phase06PreflightEvidence.representations.every(
+    (representation) => representation.classification === "pass",
+  ),
+);
+assert.equal(phase06PreflightEvidence.primary_resource_gate.passed, true);
+assert.equal(phase06PreflightEvidence.differential.coverage_fraction, "4218/4218");
+assert.equal(phase06PreflightEvidence.differential.agreements, 4218);
+assert.equal(phase06PreflightEvidence.differential.disagreements.length, 0);
+assert.equal(phase06PreflightEvidence.differential.lie_unavailable.length, 0);
+assert.equal(phase06PreflightEvidence.replay.compared, 4218);
+assert.equal(phase06PreflightEvidence.replay.agreements, 4218);
+assert.equal(
+  phase06PreflightEvidence.replay.incomplete_or_non_deterministic.length,
+  0,
+);
+assert.equal(phase06PreflightEvidence.safe_persistent_worker_count, 8);
+assert.deepEqual(
+  phase06PreflightEvidence.calibration.map(({ workers, status }) => ({
+    workers,
+    status,
+  })),
+  [
+    { workers: 1, status: "pass" },
+    { workers: 2, status: "pass" },
+    { workers: 4, status: "pass" },
+    { workers: 8, status: "pass" },
+  ],
+);
+
+assert.equal(phase06PreflightSummary.decision, "preflight_pass");
+assert.equal(phase06PreflightSummary.differential.agreements, 4218);
+assert.equal(phase06PreflightSummary.replay.agreements, 4218);
+assert.equal(phase06PreflightBuild.executable_hashes_match, true);
+assert.equal(phase06PreflightBuild.source_modified, false);
+assert.deepEqual(
+  phase06PreflightBuild.independent_build_executable_sha256s,
+  [
+    phase06PreflightBuild.executable_sha256,
+    phase06PreflightBuild.executable_sha256,
+  ],
+);
+assert.equal(phase06PreflightLaunch.run_id, "20260831212800");
+assert.equal(phase06PreflightLaunch.instance_type, "c6i.4xlarge");
+assert.equal(phase06PreflightLaunch.automatic_termination_confirmed, true);
+assert.equal(phase06PreflightLaunch.corpus_generation_started, false);
+assert.equal(phase06PreflightStatus.status, "complete");
+assert.equal(phase06PreflightStatus.exit_code, 0);
+assert.equal(phase06PreflightStatus.elapsed_instance_seconds, 83);
+assert.equal(phase06PreflightCloseout.decision, "preflight_pass");
+assert.deepEqual(phase06PreflightCloseout.closures, {
+  corpus_generation_authorized: false,
+  model_training_authorized: false,
+  oracle_promotion_authorized: false,
+});
+assert.equal(
+  phase06PreflightCloseout.aggregate_reduced_surface
+    .retained_representations_with_measured_lie_coverage,
+  825,
+);
+assert.match(phase06PreflightDecision, /825 of 825/);
+assert.match(phase06PreflightDecision, /does not authorize\s+corpus generation/);
+assert.match(phase06PreflightDecision, /corpus-generation decision/);
+
 console.log(JSON.stringify({
   status: "pass",
   cold_replay: {
@@ -1572,5 +1769,18 @@ console.log(JSON.stringify({
       correctiveExactness.corrected_exactness_statuses.fail,
     lie_agreements: correctiveLie.summary.agreements,
     phase_1_authorized: correctiveExecution.closures.phase_1_authorized,
+  },
+  phase06_lie_preflight: {
+    decision: phase06PreflightEvidence.decision,
+    representations: phase06PreflightEvidence.representations.length,
+    agreements: phase06PreflightEvidence.differential.agreements,
+    replay_agreements: phase06PreflightEvidence.replay.agreements,
+    safe_persistent_workers:
+      phase06PreflightEvidence.safe_persistent_worker_count,
+    retained_surface_with_lie_coverage:
+      phase06PreflightCloseout.aggregate_reduced_surface
+        .retained_representations_with_measured_lie_coverage,
+    corpus_generation_authorized:
+      phase06PreflightCloseout.closures.corpus_generation_authorized,
   },
 }));
