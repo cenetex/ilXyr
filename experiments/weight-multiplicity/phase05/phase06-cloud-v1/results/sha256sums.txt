@@ -1,0 +1,4 @@
+a14a111046806c55d5c2acbfb4768c1bf9161fc9c8ac2c149de953fa3bb16a21  phase06-evidence.json.gz
+497766be7f84b02b9be189a923d32daa083c7634a95cc70678de271b7307bc58  lie-build.json
+c9ae20d1f7073c4d2bffe10a046119d77bc6fe268e0fe04ae3e5a0f3ff731d1a  runner-summary.json
+8450999225c978a296ab71a18bb4ed436b37c8895ec6dfdb898ab1f80abdeb0b  ../terminal-status.json
