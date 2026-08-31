@@ -6,6 +6,11 @@ BOOT_LOG=/var/log/weight-multiplicity-phase06.log
 exec > >(tee -a "$BOOT_LOG" >/dev/console) 2>&1
 set -x
 
+# This conservative watchdog is armed before metadata is read. It prevents an
+# idle host if bootstrap fails before the exact launch-epoch timer is ready.
+systemd-run --unit=phase06-emergency-shutdown --on-active=1700 \
+  /usr/sbin/shutdown -h now
+
 IMDS=http://169.254.169.254/latest
 TOKEN=$(curl --fail --silent --show-error --request PUT \
   --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' "$IMDS/api/token")
@@ -13,7 +18,18 @@ metadata() {
   curl --fail --silent --show-error \
     --header "X-aws-ec2-metadata-token: $TOKEN" "$IMDS/meta-data/$1"
 }
-tag() { metadata "tags/instance/$1"; }
+tag() {
+  name=$1
+  for _attempt in $(seq 1 30); do
+    if value=$(metadata "tags/instance/$name" 2>/dev/null); then
+      printf '%s\n' "$value"
+      return 0
+    fi
+    sleep 1
+  done
+  echo "instance metadata tag did not become available: $name" >&2
+  return 1
+}
 
 RUN_ID=$(tag RunId)
 PACKAGE_KEY=$(tag PackageKey)
