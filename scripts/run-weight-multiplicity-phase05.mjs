@@ -455,6 +455,7 @@ class OracleServer {
     memoLimitBytes,
     samplingStartMs,
     samplingIntervalMs,
+    oracleEnvironment = {},
   ) {
     this.executable = executable;
     this.mode = mode;
@@ -462,9 +463,11 @@ class OracleServer {
     this.memoLimitBytes = memoLimitBytes;
     this.samplingStartMs = samplingStartMs;
     this.samplingIntervalMs = samplingIntervalMs;
+    this.oracleEnvironment = oracleEnvironment;
     this.child = null;
     this.iterator = null;
     this.stderr = "";
+    this.ready = null;
   }
 
   async start() {
@@ -476,6 +479,7 @@ class OracleServer {
         env: {
           ...process.env,
           ZERO_WEIGHT_MEMO_LIMIT_BYTES: String(this.memoLimitBytes),
+          ...this.oracleEnvironment,
         },
       },
     );
@@ -488,6 +492,20 @@ class OracleServer {
     const expectedVersion = this.mode === "grouped" ? 2 : 1;
     if (ready.status !== "ready" || ready.schema_version !== expectedVersion)
       throw new Error(`oracle returned unexpected ready record: ${JSON.stringify(ready)}`);
+    this.ready = ready;
+  }
+
+  latestMemoProgress() {
+    const lines = this.stderr.trim().split(/\r?\n/u).reverse();
+    for (const line of lines) {
+      try {
+        const value = JSON.parse(line);
+        if (value.schema === "zero.weight_memo_progress.v1") return value;
+      } catch {
+        // Keep non-JSON diagnostics in the retained stderr text.
+      }
+    }
+    return null;
   }
 
   async nextLine() {
@@ -534,6 +552,27 @@ class OracleServer {
     });
   }
 
+  async samplePeakResidentBytes() {
+    if (!this.child?.pid) return { bytes: null, observation: "unavailable" };
+    if (platform() === "linux") {
+      try {
+        const status = await readFile(`/proc/${this.child.pid}/status`, "utf8");
+        const match = status.match(/^VmHWM:\s+(\d+)\s+kB$/mu);
+        if (match)
+          return {
+            bytes: Number(match[1]) * 1024,
+            observation: "linux_proc_vmhwm_at_hard_timeout",
+          };
+      } catch {
+        // Fall back to a current-RSS sample when procfs is unavailable.
+      }
+    }
+    return {
+      bytes: await this.sampleResidentBytes(),
+      observation: "current_rss_sample_at_hard_timeout",
+    };
+  }
+
   async request(line, sampleProcess = true) {
     const started = process.hrtime.bigint();
     let sampledPeakRss = null;
@@ -560,7 +599,15 @@ class OracleServer {
       };
     } catch (error) {
       if (error.hardTimeout) {
-        error.sampledPeakRssBytes = sampledPeakRss;
+        const finalPeak = await this.samplePeakResidentBytes();
+        error.sampledPeakRssBytes =
+          finalPeak.bytes === null
+            ? sampledPeakRss
+            : sampledPeakRss === null
+              ? finalPeak.bytes
+              : Math.max(sampledPeakRss, finalPeak.bytes);
+        error.peakRssObservation = finalPeak.observation;
+        error.memoProgress = this.latestMemoProgress();
         this.child.kill("SIGKILL");
       }
       throw error;
@@ -596,7 +643,15 @@ class OracleServer {
 const queryLine = (representation, target) =>
   `${representation.type}\t${representation.highest_weight.join(",")}\t${target.target_weight.join(",")}`;
 
-const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, order }) => {
+const runOrderedGroup = async ({
+  oracle,
+  representation,
+  targets,
+  plan,
+  mode,
+  order,
+  oracleEnvironment = {},
+}) => {
   const ordered = orderTargets(targets, order);
   const server = new OracleServer(
     oracle,
@@ -605,6 +660,7 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
     plan.frontier.peak_incremental_memory_limit_bytes,
     plan.frontier.hard_timeout_rss_sampling_start_ms,
     plan.frontier.hard_timeout_rss_sampling_interval_ms,
+    oracleEnvironment,
   );
   const records = [];
   let readyMetrics;
@@ -626,6 +682,8 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
             request: queryLine(representation, target),
             target_depth: target.target_depth,
             sampled_peak_rss_bytes: error.sampledPeakRssBytes,
+            peak_rss_observation: error.peakRssObservation,
+            memo_progress: error.memoProgress,
           };
           break;
         }
@@ -693,6 +751,11 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
     memoryObservation === "exact_process_high_water"
       ? completedPrefixIncrementalRss
       : null;
+  const maximumMemoEntries = Math.max(
+    0,
+    ...records.map((record) => record.memo_entries ?? 0),
+    hardTimeout?.memo_progress?.memo_entries ?? 0,
+  );
   return {
     mode,
     optimization_stage:
@@ -700,6 +763,18 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
         ? plan.frontier.optimization_sequence[0]
         : plan.frontier.optimization_sequence[1],
     order,
+    memo_configuration: server.ready
+      ? {
+          limit_bytes: server.ready.memo_limit_bytes ?? null,
+          initial_capacity: server.ready.memo_initial_capacity ?? null,
+          entry_bytes: server.ready.memo_entry_bytes ?? null,
+          allocation_policy: server.ready.memo_allocation_policy ?? null,
+          progress_schema:
+            oracleEnvironment.ZERO_WEIGHT_MEMO_PROGRESS === "1"
+              ? "zero.weight_memo_progress.v1"
+              : null,
+        }
+      : null,
     records,
     completed_queries: records.length,
     hard_timeout: hardTimeout,
@@ -721,7 +796,11 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
       hard_timeout_peak_rss_lower_bound: timeoutPeakRssLowerBound,
       hard_timeout_incremental_rss_lower_bound: timeoutIncrementalRssLowerBound,
       observation: memoryObservation,
-      maximum_memo_entries: Math.max(0, ...records.map((record) => record.memo_entries ?? 0)),
+      maximum_memo_entries: maximumMemoEntries,
+      maximum_live_entry_bytes:
+        server.ready?.memo_entry_bytes === undefined
+          ? null
+          : maximumMemoEntries * server.ready.memo_entry_bytes,
       maximum_memo_capacity: Math.max(0, ...records.map((record) => record.memo_capacity_bytes ?? 0)),
       maximum_memo_peak_allocated: Math.max(0, ...records.map((record) => record.memo_peak_allocated_bytes ?? 0)),
       hard_timeout_rss_sampling: hardTimeout
@@ -729,6 +808,7 @@ const runOrderedGroup = async ({ oracle, representation, targets, plan, mode, or
           ? "unavailable"
           : `sampled_after_${plan.frontier.hard_timeout_rss_sampling_start_ms}ms_every_${plan.frontier.hard_timeout_rss_sampling_interval_ms}ms`
         : "not_needed",
+      hard_timeout_peak_observation: hardTimeout?.peak_rss_observation ?? null,
     },
     total_elapsed_ms: Number(process.hrtime.bigint() - started) / 1e6,
   };
@@ -761,6 +841,42 @@ const runPassesTime = (run, plan) =>
   !run.oracle_error &&
   run.latency_ms.p95 !== null &&
   run.latency_ms.p95 <= plan.frontier.p95_limit_ms;
+const runComplete = (run, expectedQueries) =>
+  !run.hard_timeout &&
+  !run.oracle_error &&
+  run.completed_queries === expectedQueries;
+const assessExactness = ({
+  runs,
+  binding,
+  replays,
+  expectedQueries,
+  requiredReplays,
+  mismatches,
+}) => {
+  const replayObserved =
+    runComplete(binding, expectedQueries) &&
+    replays.length === requiredReplays &&
+    replays.every((run) => runComplete(run, expectedQueries));
+  const replayByteIdentical = replayObserved
+    ? replays.every(
+        (run) =>
+          run.records.length === binding.records.length &&
+          run.records.every(
+            (record, index) => record.response === binding.records[index].response,
+          ),
+      )
+    : null;
+  const allRunsComplete =
+    replays.length === requiredReplays &&
+    runs.every((run) => runComplete(run, expectedQueries));
+  const status =
+    mismatches.length > 0 || replayByteIdentical === false
+      ? "fail"
+      : replayObserved && (requiredReplays === 0 || replayByteIdentical === true)
+        ? "pass"
+        : "unknown_after_hard_timeout_or_oracle_error";
+  return { status, all_runs_complete: allRunsComplete, replay_observed: replayObserved, replay_byte_identical: replayByteIdentical };
+};
 const runMemoryStatus = (run, plan) => {
   if (run.memory_bytes.observation === "lower_bound_limit_exceeded") return "fail";
   if (run.memory_bytes.observation !== "exact_process_high_water") return "unknown";
@@ -824,22 +940,28 @@ const measureRepresentation = async ({ oracle, representation, description, plan
     ...sensitivities.flatMap((run) => compareRuns(binding, run)),
     ...replays.flatMap((run) => compareRuns(binding, run)),
   ];
-  const groupedRuns = [binding, ...sensitivities];
-  const timePasses = groupedRuns.map((run) => runPassesTime(run, plan));
-  const memoryStatuses = groupedRuns.map((run) => runMemoryStatus(run, plan));
-  const orderSensitive = timePasses.some((value) => value !== timePasses[0]);
-  const replayByteIdentical = replays.every(
-    (run) =>
-      run.records.length === binding.records.length &&
-      run.records.every((record, index) => record.response === binding.records[index].response),
-  );
-  const exactnessPass = mismatches.length === 0 && replayByteIdentical;
-  const timePass = timePasses.every(Boolean);
+  const orderRuns = [binding, ...sensitivities];
+  const requiredGroupedRuns = [...orderRuns, ...replays];
+  const orderTimePasses = orderRuns.map((run) => runPassesTime(run, plan));
+  const memoryStatuses = requiredGroupedRuns.map((run) => runMemoryStatus(run, plan));
+  const orderSensitive = orderTimePasses.some((value) => value !== orderTimePasses[0]);
+  const exactness = assessExactness({
+    runs: [cold, ...requiredGroupedRuns],
+    binding,
+    replays,
+    expectedQueries: targets.length,
+    requiredReplays: replayCount,
+    mismatches,
+  });
+  const exactnessPass = exactness.status === "pass";
+  const timePass =
+    replays.length === replayCount &&
+    requiredGroupedRuns.every((run) => runPassesTime(run, plan));
   const memoryPass = memoryStatuses.every((status) => status === "pass");
   const memoryUnknown = memoryStatuses.includes("unknown");
   const memoryFail = memoryStatuses.includes("fail");
   let classification = "pass";
-  if (!exactnessPass) classification = "exactness_fail";
+  if (exactness.status === "fail") classification = "exactness_fail";
   else if (orderSensitive) classification = "order_sensitive";
   else if (!timePass && memoryFail) classification = "time_and_memory_fail";
   else if (!timePass && memoryUnknown) classification = "time_fail_memory_unknown";
@@ -854,8 +976,8 @@ const measureRepresentation = async ({ oracle, representation, description, plan
       unique_dominant_targets: new Set(targets.map((target) => target.dominant_target_key)).size,
     },
     classification,
-    boundary: { exactness_pass: exactnessPass, time_pass: timePass, memory_pass: memoryPass, memory_known: !memoryUnknown, memory_statuses: memoryStatuses, order_sensitive: orderSensitive },
-    exactness: { mismatches, replay_byte_identical: replayByteIdentical, replay_runs: replays.length },
+    boundary: { exactness_pass: exactnessPass, exactness_known: exactness.status !== "unknown_after_hard_timeout_or_oracle_error", exactness_status: exactness.status, time_pass: timePass, memory_pass: memoryPass, memory_known: !memoryUnknown, memory_statuses: memoryStatuses, order_sensitive: orderSensitive },
+    exactness: { mismatches, all_runs_complete: exactness.all_runs_complete, replay_observed: exactness.replay_observed, replay_byte_identical: exactness.replay_byte_identical, replay_runs: replays.length, required_replay_runs: replayCount },
     cold,
     binding,
     sensitivities,
@@ -980,7 +1102,43 @@ const selfTest = () => {
     runMemoryStatus(memoryRun("lower_bound_limit_exceeded", null), memoryPlan) !== "fail"
   )
     throw new Error("memory-observation self-test failed");
-  console.log(JSON.stringify({ status: "pass", exact_weyl_dimension: true, target_order: true, hard_timeout_memory_unknown: true }));
+  const completeRun = (responses) => ({
+    hard_timeout: null,
+    oracle_error: null,
+    completed_queries: responses.length,
+    records: responses.map((response) => ({ response })),
+  });
+  const binding = completeRun(["one", "two"]);
+  const incompleteReplay = {
+    hard_timeout: { request: "second" },
+    oracle_error: null,
+    completed_queries: 1,
+    records: [{ response: "one" }],
+  };
+  const incompleteExactness = assessExactness({
+    runs: [binding, incompleteReplay],
+    binding,
+    replays: [incompleteReplay],
+    expectedQueries: 2,
+    requiredReplays: 1,
+    mismatches: [],
+  });
+  const disagreementExactness = assessExactness({
+    runs: [binding, completeRun(["one", "different"])],
+    binding,
+    replays: [completeRun(["one", "different"])],
+    expectedQueries: 2,
+    requiredReplays: 1,
+    mismatches: [],
+  });
+  if (
+    incompleteExactness.status !== "unknown_after_hard_timeout_or_oracle_error" ||
+    incompleteExactness.replay_byte_identical !== null ||
+    disagreementExactness.status !== "fail" ||
+    disagreementExactness.replay_byte_identical !== false
+  )
+    throw new Error("exactness-observation self-test failed");
+  console.log(JSON.stringify({ status: "pass", exact_weyl_dimension: true, target_order: true, hard_timeout_memory_unknown: true, incomplete_replay_exactness_unknown: true }));
 };
 
 const main = async () => {
@@ -1106,11 +1264,13 @@ const main = async () => {
 };
 
 export {
+  assessExactness,
   compareRuns,
   describeType,
   exactWeylDimension,
   generateTargets,
   runOrderedGroup,
+  summarize,
   sha256,
   stableJson,
 };
