@@ -28,6 +28,11 @@ const sessionV3ManifestPath = "examples/weight-multiplicity/phase05-representati
 const sessionV3CompressedPath = "experiments/weight-multiplicity/phase05/session-frontier-v3.json.gz";
 const sessionV3SummaryPath = "experiments/weight-multiplicity/phase05/session-frontier-v3-summary.json";
 const sessionV3DecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V3-HOLD.md";
+const sessionV4PlanPath = "examples/weight-multiplicity/phase05-frontier-plan-v4.json";
+const sessionV4ManifestPath = "examples/weight-multiplicity/phase05-representation-manifest-v4.json";
+const sessionV4CompressedPath = "experiments/weight-multiplicity/phase05/session-frontier-v4.json.gz";
+const sessionV4SummaryPath = "experiments/weight-multiplicity/phase05/session-frontier-v4-summary.json";
+const sessionV4DecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V4-HOLD.md";
 const sessionCorrectnessPlanPath = "examples/weight-multiplicity/phase05-session-correctness-plan-v1.json";
 const sessionCorrectnessResultPath = "experiments/weight-multiplicity/phase05/session-correctness-addendum-v1.json";
 const sessionCorrectnessDecisionPath = "experiments/weight-multiplicity/phase05/SESSION-CORRECTNESS-ADDENDUM-V1-HOLD.md";
@@ -61,6 +66,11 @@ const [
   sessionV3CompressedBytes,
   sessionV3SummaryBytes,
   sessionV3DecisionBytes,
+  sessionV4PlanBytes,
+  sessionV4ManifestBytes,
+  sessionV4CompressedBytes,
+  sessionV4SummaryBytes,
+  sessionV4DecisionBytes,
   sessionCorrectnessPlanBytes,
   sessionCorrectnessResultBytes,
   sessionCorrectnessDecisionBytes,
@@ -92,6 +102,11 @@ const [
   read(sessionV3CompressedPath),
   read(sessionV3SummaryPath),
   read(sessionV3DecisionPath),
+  read(sessionV4PlanPath),
+  read(sessionV4ManifestPath),
+  read(sessionV4CompressedPath),
+  read(sessionV4SummaryPath),
+  read(sessionV4DecisionPath),
   read(sessionCorrectnessPlanPath),
   read(sessionCorrectnessResultPath),
   read(sessionCorrectnessDecisionPath),
@@ -119,6 +134,9 @@ const sessionSummary = JSON.parse(sessionSummaryBytes.toString("utf8"));
 const sessionDecision = sessionDecisionBytes.toString("utf8");
 const sessionV3Summary = JSON.parse(sessionV3SummaryBytes.toString("utf8"));
 const sessionV3Decision = sessionV3DecisionBytes.toString("utf8");
+const sessionV4Result = JSON.parse(gunzipSync(sessionV4CompressedBytes).toString("utf8"));
+const sessionV4Summary = JSON.parse(sessionV4SummaryBytes.toString("utf8"));
+const sessionV4Decision = sessionV4DecisionBytes.toString("utf8");
 const sessionCorrectnessPlan = JSON.parse(sessionCorrectnessPlanBytes.toString("utf8"));
 const sessionCorrectnessResult = JSON.parse(sessionCorrectnessResultBytes.toString("utf8"));
 const sessionCorrectnessDecision = sessionCorrectnessDecisionBytes.toString("utf8");
@@ -348,6 +366,99 @@ assert.match(sessionV3Decision, /controlling bounded-session result/);
 assert.match(sessionV3Decision, /Exactness is unknown, not\s+passed, for five/);
 assert.match(sessionV3Decision, /separate independent correctness witness/);
 assert.match(sessionV3Decision, /No corpus generation or training is authorized/);
+
+assert.equal(sha256(sessionV4PlanBytes), "3124323d7f5d7b236adeeef6d529fb2a9a1b6f36fffaa911df07d126145bd71a");
+assert.equal(sha256(sessionV4ManifestBytes), "50d0bd848f145edc08e963bb173fff6e055218fc04569f5f257a70bc568cacdb");
+assert.equal(sha256(gunzipSync(sessionV4CompressedBytes)), "d2f91c4d898b5c48929ace5d5cc00858a1950d2346b5f216f7900ed28c33563d");
+assert.equal(sha256(sessionV4CompressedBytes), "1dc6fd54cf8236f8ef78ec4776ec769e4ef8da52f02efd352ce6d8b2d2e44db9");
+assert.equal(sha256(sessionV4SummaryBytes), "b98a27f96092d85b484525a3e188299df2fe603ca6c20ad5ff2df3623946afd8");
+assert.equal(sessionV4Result.decision, "hold");
+assert.equal(sessionV4Summary.decision, "hold");
+assert.equal(
+  sessionV4Summary.bindings.oracle_executable_sha256,
+  "7483043242d6fabf2fcaa72fc4746e7a13a858a4a3bcb6efefa37a5079d937ab",
+);
+assert.equal(
+  sessionV4Summary.capture.measurement_controller_revision,
+  "b220efee5294c42e6529a99068138ad4164f4532",
+);
+assert.equal(
+  sessionV4Summary.capture.finalizer_revision,
+  "9bf7088d93a06321f01d863fac6af3a67f9e10b1",
+);
+assert.deepEqual(sessionV4Summary.coverage.classifications, {
+  pass: 825,
+  time_fail: 1,
+  order_sensitive: 1,
+  time_fail_memory_unknown: 1,
+});
+assert.equal(sessionV4Summary.coverage.representations, 828);
+assert.equal(sessionV4Summary.coverage.grouped_runs, 2484);
+assert.equal(sessionV4Summary.coverage.grouped_runs_with_hard_timeout, 3);
+assert.equal(sessionV4Summary.coverage.exactness_pass_representations, 827);
+assert.equal(sessionV4Summary.coverage.exactness_unknown_representations, 1);
+assert.equal(sessionV4Summary.coverage.exactness_disagreements, 0);
+assert.equal(sessionV4Summary.coverage.replay_failures, 0);
+assert.equal(
+  sessionV4Summary.resource.maximum_known_grouped_incremental_memory_bytes,
+  21528576,
+);
+assert.equal(
+  sessionV4Summary.resource.safe_parallel_workers_under_full_time_contract,
+  0,
+);
+assert.deepEqual(
+  sessionV4Summary.order_sensitive.map((entry) => entry.id),
+  ["E8:0,0,2,1,2,0,0,3"],
+);
+assert.deepEqual(
+  sessionV4Summary.time_failures.map((entry) => entry.id),
+  ["E7:0,0,7,1,0,0,0"],
+);
+assert.deepEqual(
+  sessionV4Summary.hard_timeouts.map((entry) => entry.id),
+  ["E8:0,0,8,0,0,0,0,0"],
+);
+assert.deepEqual(
+  sessionV4Summary.exactness_unknown.map((entry) => entry.id),
+  ["E8:0,0,8,0,0,0,0,0"],
+);
+assert(
+  sessionV4Summary.hard_timeouts.every(
+    (entry) =>
+      entry.exactness_status === "unknown_after_hard_timeout" &&
+      entry.cold.memory_observation === "unknown_after_hard_timeout" &&
+      entry.cold.incremental_memory_bytes === null &&
+      entry.grouped_orders.every(
+        (run) =>
+          run.memory_observation === "unknown_after_hard_timeout" &&
+          run.incremental_memory_bytes === null,
+      ),
+  ),
+);
+assert.equal(
+  sessionV4Summary.independent_lie_witness.category,
+  "independent_predecessor_correctness_witness_separate_from_current_internal_resource_evidence",
+);
+assert.equal(
+  sessionV4Summary.independent_lie_witness.direct_current_oracle_witness,
+  false,
+);
+assert.equal(
+  sessionV4Summary.independent_lie_witness.current_oracle_relationship,
+  "predecessor_independent_witness_linked_by_internal_every_recursive_state_differential",
+);
+assert.deepEqual(sessionV4Summary.phase_1, {
+  authorized: false,
+  corpus_generated: false,
+  models_trained: false,
+});
+assert.match(sessionV4Decision, /825 passes, up from 812/);
+assert.match(sessionV4Decision, /5\.57x/);
+assert.match(sessionV4Decision, /4\.35x fixed-work Amdahl ceiling/);
+assert.match(sessionV4Decision, /requires 80\s+unsigned bits/);
+assert.match(sessionV4Decision, /separate independent predecessor correctness witness/);
+assert.match(sessionV4Decision, /No corpus generation or training is authorized/);
 
 assert.equal(
   sha256(sessionCorrectnessPlanBytes),
@@ -694,15 +805,15 @@ console.log(JSON.stringify({
       sessionSummary.coverage.classifications.time_fail_memory_unknown,
   },
   current_session_frontier: {
-    decision: sessionV3Summary.decision,
-    pass: sessionV3Summary.coverage.classifications.pass,
-    time_fail: sessionV3Summary.coverage.classifications.time_fail,
+    decision: sessionV4Summary.decision,
+    pass: sessionV4Summary.coverage.classifications.pass,
+    time_fail: sessionV4Summary.coverage.classifications.time_fail,
     order_sensitive:
-      sessionV3Summary.coverage.classifications.order_sensitive,
+      sessionV4Summary.coverage.classifications.order_sensitive,
     time_fail_memory_unknown:
-      sessionV3Summary.coverage.classifications.time_fail_memory_unknown,
+      sessionV4Summary.coverage.classifications.time_fail_memory_unknown,
     exactness_unknown:
-      sessionV3Summary.coverage.exactness_unknown_representations,
+      sessionV4Summary.coverage.exactness_unknown_representations,
   },
   session_correctness_addendum: {
     decision: sessionCorrectnessResult.evidence_status,
