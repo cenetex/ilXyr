@@ -1,5 +1,9 @@
 [workspace]
-members = ["crates/ilxyr-core", "crates/ilxyr-cli"]
+members = [
+  "crates/ilxyr-core",
+  "crates/ilxyr-cli",
+  "crates/ilxyr-corpus-service",
+]
 resolver = "2"
 
 [workspace.package]
@@ -10,10 +14,13 @@ rust-version = "1.85"
 
 [workspace.dependencies]
 base64 = "0.22"
+axum = "0.8"
 ed25519-dalek = "2.2"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sha2 = "0.10"
+tokio = { version = "1", features = ["macros", "net", "rt-multi-thread", "signal"] }
+tower = { version = "0.5", features = ["util"] }
 ureq = { version = "2.12", features = ["json"] }
 
 [workspace.lints.rust]

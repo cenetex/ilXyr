@@ -1,0 +1,31 @@
+{
+  "schema": "ilxyr.corpus_materialization.v1",
+  "id": "materialization://aws/example-corpora/braid-corpus-five-v030",
+  "corpus_ref": "artifact://sha256/0000000000000000000000000000000000000000000000000000000000000000",
+  "location": {
+    "kind": "amazon_s3",
+    "region": "us-west-2",
+    "uri": "s3://example-corpora/braid/corpus-five/v0.3.0"
+  },
+  "objects": [
+    {
+      "path": "train/statebridge.jsonl",
+      "uri": "s3://example-corpora/braid/corpus-five/v0.3.0/train/statebridge.jsonl",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "size_bytes": 100,
+      "provider_version": "replace-with-s3-version-id"
+    },
+    {
+      "path": "validation/statebridge.jsonl",
+      "uri": "s3://example-corpora/braid/corpus-five/v0.3.0/validation/statebridge.jsonl",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "size_bytes": 25,
+      "provider_version": "replace-with-s3-version-id"
+    }
+  ],
+  "verified_by": {
+    "id": "service://example/s3-materializer-v1",
+    "kind": "service"
+  },
+  "verified_at_ms": 1
+}

@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/corpus-materialization.v1.json",
+  "title": "ilxyr corpus materialization v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "corpus_ref",
+    "location",
+    "objects",
+    "verified_by",
+    "verified_at_ms"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.corpus_materialization.v1" },
+    "id": { "type": "string", "pattern": "^materialization://\\S+$" },
+    "corpus_ref": { "$ref": "#/$defs/artifactRef" },
+    "location": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "region", "uri"],
+          "properties": {
+            "kind": { "const": "amazon_s3" },
+            "region": { "$ref": "#/$defs/cloudName" },
+            "uri": { "type": "string", "pattern": "^s3://[^/\\s]+/.+[^/]$" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "uri"],
+          "properties": {
+            "kind": { "const": "azure_blob" },
+            "uri": {
+              "type": "string",
+              "pattern": "^(?:https://[^/\\s]+\\.blob\\.core\\.windows\\.net/|azureml://datastores/).+[^/]$"
+            }
+          }
+        }
+      ]
+    },
+    "objects": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "uri", "sha256", "size_bytes", "provider_version"],
+        "properties": {
+          "path": { "$ref": "#/$defs/portablePath" },
+          "uri": { "type": "string", "minLength": 1 },
+          "sha256": { "$ref": "#/$defs/sha256" },
+          "size_bytes": { "type": "integer", "minimum": 0 },
+          "provider_version": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "verified_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^service://\\S+$" },
+        "kind": { "const": "service" }
+      }
+    },
+    "verified_at_ms": { "type": "integer", "minimum": 1 }
+  },
+  "$defs": {
+    "artifactRef": { "type": "string", "pattern": "^artifact://sha256/[0-9a-f]{64}$" },
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "cloudName": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$", "maxLength": 128 },
+    "portablePath": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "schema": "ilxyr.sagemaker_corpus_handoff.v1",
+  "corpus_ref": "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "materialization_ref": "artifact://sha256/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "expected_files": [
+    {
+      "path": "train/statebridge.jsonl",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "size_bytes": 100,
+      "media_type": "application/x-jsonlines"
+    },
+    {
+      "path": "validation/statebridge.jsonl",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "size_bytes": 25,
+      "media_type": "application/x-jsonlines"
+    }
+  ],
+  "materialized_objects": [
+    {
+      "path": "train/statebridge.jsonl",
+      "uri": "s3://example-corpora/braid/corpus-five/v0.3.0/train/statebridge.jsonl",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "size_bytes": 100,
+      "provider_version": "example-version-1"
+    },
+    {
+      "path": "validation/statebridge.jsonl",
+      "uri": "s3://example-corpora/braid/corpus-five/v0.3.0/validation/statebridge.jsonl",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "size_bytes": 25,
+      "provider_version": "example-version-2"
+    }
+  ],
+  "region": "us-west-2",
+  "input_data_config": [
+    {
+      "ChannelName": "training",
+      "ContentType": "application/x-jsonlines",
+      "InputMode": "File",
+      "DataSource": {
+        "S3DataSource": {
+          "S3DataType": "S3Prefix",
+          "S3Uri": "s3://example-corpora/braid/corpus-five/v0.3.0",
+          "S3DataDistributionType": "FullyReplicated"
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "Key": "ilxyr:corpus-sha256",
+      "Value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "Key": "ilxyr:materialization-sha256",
+      "Value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ]
+}

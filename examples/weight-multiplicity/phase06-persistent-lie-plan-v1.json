@@ -1,0 +1,88 @@
+{
+  "schema": "ilxyr.weight_multiplicity_phase06_plan.v1",
+  "status": "authorized",
+  "authorization": {
+    "approval": "merged lets run it",
+    "approved_date": "2026-08-31",
+    "proposal_merge_commit": "9dffc2e8feeebf6bc6e4b3fbd114dae069d7c076"
+  },
+  "source": {
+    "launch_run_id": "33329981839",
+    "collection_run_id": "33350642153",
+    "package_sha256": "f876ce7342cabe344e95eb798750ce1f705fdb586ec24e65ef76ab2778d3ec7f",
+    "frontier_gzip_sha256": "7d74654ebb16fe62b3e20a5f49c5a32312de14a3a2b3feaf8d79ae0ffb291c9c",
+    "frontier_plan_sha256": "350ed67272f534a0d8bc7df1ae35a5da55485c04d1184e4e5ce92de8a8e57314",
+    "representation_manifest_sha256": "1dd5da84c123af247eb849d9fbd4cab2f91e0ddc6d4a8c458e0e18800766fa11",
+    "exactness_correction_sha256": "a530708ef55415a84beeab3522e0be3f378bcbd6ee6e08e45e7bd3fb68c4c77a",
+    "legacy_zero_source_revision": "53eaa6c2fcce514d1183e19445daeaf151e7ec04",
+    "legacy_zero_executable_sha256": "274d00071b33b9e4d4f495e629b0af96867cea382a8e7c4dc3174d13ca56a621",
+    "corrected_classifications": {
+      "pass": 572,
+      "order_sensitive": 17,
+      "time_fail": 239
+    },
+    "non_pass_representations": 256,
+    "raw_requests_per_representation": 32,
+    "raw_request_maximum": 8192
+  },
+  "canonical_names": {
+    "zero_repair_commit": "c4dd08ba74b829a0a121689b8e224dd5561ba55f",
+    "zero_repair_merge_commit": "aac7e40cc4144335125849c9433af2710b2287c4",
+    "legacy_to_canonical": {
+      "B2": "B2/C2",
+      "B3": "C3",
+      "B4": "C4",
+      "B5": "C5",
+      "B6": "C6",
+      "B7": "C7",
+      "B8": "C8",
+      "C3": "B3",
+      "C4": "B4",
+      "C5": "B5",
+      "C6": "B6",
+      "C7": "B7",
+      "C8": "B8"
+    },
+    "rank_two_edge_case": "B2/C2"
+  },
+  "lie": {
+    "version": "2.2.2",
+    "source_url": "https://mirror.metanet.ch/sage/spkg/upstream/lie/lie-2.2.2.tar.gz",
+    "source_sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e",
+    "execution": "unmodified_separate_executable",
+    "persistent_processes": true,
+    "complete_passes": 2,
+    "binding_order": "ascending_depth_dominant_first_lexicographic",
+    "replay_order": "seeded_generation_order",
+    "coordinate_mapping": {
+      "F4": [3, 2, 1, 0],
+      "E6": [0, 5, 1, 2, 3, 4],
+      "E7": [0, 6, 1, 2, 3, 4, 5],
+      "E8": [0, 7, 1, 2, 3, 4, 5, 6]
+    }
+  },
+  "resource_gate": {
+    "per_query_limit_ms": 1000,
+    "global_p95_limit_ms": 1000,
+    "per_representation_p95_limit_ms": 1000,
+    "query_hard_timeout_ms": 10000,
+    "peak_incremental_worker_rss_limit_bytes": 2147483648,
+    "calibration_workers": [1, 2, 4, 8],
+    "stress_subset": "one_maximum_depth_unique_request_per_representation_with_non_dominant_then_lexicographic_tie_break"
+  },
+  "cloud": {
+    "venue": "aws_ec2",
+    "region": "us-east-1",
+    "instance_type": "c6i.4xlarge",
+    "instance_count": 1,
+    "maximum_instance_seconds": 1800,
+    "maximum_ec2_usd": 1.0,
+    "planning_usd_per_hour": 0.68,
+    "automatic_termination": true
+  },
+  "closures": {
+    "corpus_generation_authorized": false,
+    "model_training_authorized": false,
+    "promotion_authorized": false
+  }
+}

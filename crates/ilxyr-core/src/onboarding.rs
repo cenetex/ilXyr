@@ -1,3 +1,5 @@
+use std::collections::BTreeMap;
+
 use serde::{Serialize, de::DeserializeOwned};
 
 use crate::{
@@ -366,6 +368,7 @@ fn retro_execution_spec(spec: &RetroRegistrationSpec) -> ExperimentSpec {
         },
         baseline: "evidence://historical/frozen".to_owned(),
         datasets: Vec::new(),
+        dataset_bindings: BTreeMap::new(),
         models: Vec::new(),
         metrics: spec.metrics.clone(),
         seeds: spec.seeds.clone(),
