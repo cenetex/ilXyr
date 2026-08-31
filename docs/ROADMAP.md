@@ -128,6 +128,11 @@ The next executor milestone is a package and adapter contract, not a cloud launc
 the boundary and adapts the proven parts of Zero's AWS workflows without making AWS workflow YAML
 the ilXyr protocol.
 
+Experiment-specific AWS execution already exists and is the preferred venue
+for approved resource-heavy runs. The milestone below generalizes that proven
+path; it is not the project's first cloud capability. See
+`docs/CLOUD-EXECUTION.md` for the current venue and run rules.
+
 - Publish the plain public API and protocol index at `ilxyr.cenetex.com`; keep proposal data and
   write routes off that hosted surface, keep it outside the authoritative ledger, and give it no
   cloud-launch route.
