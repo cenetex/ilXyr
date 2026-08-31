@@ -52,6 +52,12 @@ const sessionV6CompressedPath = "experiments/weight-multiplicity/phase05/session
 const sessionV6SummaryPath = "experiments/weight-multiplicity/phase05/session-frontier-v6-summary.json";
 const sessionV6HashesPath = "experiments/weight-multiplicity/phase05/session-frontier-v6.sha256";
 const sessionV6DecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V6-HOLD.md";
+const sessionV7PlanPath = "examples/weight-multiplicity/phase05-frontier-plan-v7.json";
+const sessionV7ManifestPath = "examples/weight-multiplicity/phase05-representation-manifest-v7.json";
+const sessionV7CompressedPath = "experiments/weight-multiplicity/phase05/session-frontier-v7.json.gz";
+const sessionV7SummaryPath = "experiments/weight-multiplicity/phase05/session-frontier-v7-summary.json";
+const sessionV7HashesPath = "experiments/weight-multiplicity/phase05/session-frontier-v7.sha256";
+const sessionV7DecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V7-HOLD.md";
 const sessionV5CorrectnessResultPath = "experiments/weight-multiplicity/phase05/session-frontier-v5-correctness-addendum-v1.json";
 const sessionV5CorrectnessHashesPath = "experiments/weight-multiplicity/phase05/session-frontier-v5-correctness-addendum-v1.sha256";
 const sessionV5CorrectnessDecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V5-CORRECTNESS-ADDENDUM-V1.md";
@@ -105,6 +111,12 @@ const [
   sessionV6SummaryBytes,
   sessionV6HashesBytes,
   sessionV6DecisionBytes,
+  sessionV7PlanBytes,
+  sessionV7ManifestBytes,
+  sessionV7CompressedBytes,
+  sessionV7SummaryBytes,
+  sessionV7HashesBytes,
+  sessionV7DecisionBytes,
   sessionV5CorrectnessResultBytes,
   sessionV5CorrectnessHashesBytes,
   sessionV5CorrectnessDecisionBytes,
@@ -156,6 +168,12 @@ const [
   read(sessionV6SummaryPath),
   read(sessionV6HashesPath),
   read(sessionV6DecisionPath),
+  read(sessionV7PlanPath),
+  read(sessionV7ManifestPath),
+  read(sessionV7CompressedPath),
+  read(sessionV7SummaryPath),
+  read(sessionV7HashesPath),
+  read(sessionV7DecisionPath),
   read(sessionV5CorrectnessResultPath),
   read(sessionV5CorrectnessHashesPath),
   read(sessionV5CorrectnessDecisionPath),
@@ -198,6 +216,11 @@ const sessionV6Manifest = JSON.parse(sessionV6ManifestBytes.toString("utf8"));
 const sessionV6Summary = JSON.parse(sessionV6SummaryBytes.toString("utf8"));
 const sessionV6Hashes = sessionV6HashesBytes.toString("utf8");
 const sessionV6Decision = sessionV6DecisionBytes.toString("utf8");
+const sessionV7Plan = JSON.parse(sessionV7PlanBytes.toString("utf8"));
+const sessionV7Manifest = JSON.parse(sessionV7ManifestBytes.toString("utf8"));
+const sessionV7Summary = JSON.parse(sessionV7SummaryBytes.toString("utf8"));
+const sessionV7Hashes = sessionV7HashesBytes.toString("utf8");
+const sessionV7Decision = sessionV7DecisionBytes.toString("utf8");
 const sessionV5CorrectnessResult = JSON.parse(
   sessionV5CorrectnessResultBytes.toString("utf8"),
 );
@@ -802,6 +825,213 @@ assert.match(sessionV6Decision, /not\s+as a direct independent witness/);
 assert.match(sessionV6Decision, /No corpus generation or training is authorized/);
 
 assert.equal(
+  sha256(sessionV7PlanBytes),
+  "74a16761d1fef3c3dea04624fe9e5b2d491bb285bd810cb41514493e160f5a6f",
+);
+assert.equal(
+  sha256(sessionV7ManifestBytes),
+  "7b4d83e01b3af05195bfe92d2c08d8d76da8a33b4ce83953df909e98dedf37ff",
+);
+assert.equal(
+  await gunzipSha256(sessionV7CompressedPath),
+  "5b935cb61846c570f3ba573be92a9d3a9143257701225e4a478b6ac2bf716530",
+);
+assert.equal(
+  sha256(sessionV7CompressedBytes),
+  "997efbe48f6d1025e49f8befa7cb06899a33e70ca94d5e254d47f64438f481e7",
+);
+assert.equal(
+  sha256(sessionV7SummaryBytes),
+  "c08bba3348deeaa3ab8a55e910b9695d4918bc2ada0ccdf95644a7b633768fb0",
+);
+assert.equal(
+  sessionV7Hashes,
+  "997efbe48f6d1025e49f8befa7cb06899a33e70ca94d5e254d47f64438f481e7  session-frontier-v7.json.gz\nc08bba3348deeaa3ab8a55e910b9695d4918bc2ada0ccdf95644a7b633768fb0  session-frontier-v7-summary.json\n",
+);
+assert.equal(sessionV7Plan.schema_version, 5);
+assert.equal(sessionV7Plan.oracle.interface_version, 4);
+assert.equal(
+  sessionV7Plan.oracle.zero_revision,
+  "443d8e99a7b6e9045a8a9ee6735c3c75f2b29b66",
+);
+assert.equal(
+  sessionV7Plan.oracle.root_ray_factorization_revision,
+  "bb9644ca2d93be2f92411bea9ff8764810373021",
+);
+assert.equal(
+  sessionV7Plan.oracle.parallel_root_ray_dag_revision,
+  "443d8e99a7b6e9045a8a9ee6735c3c75f2b29b66",
+);
+assert.equal(sessionV7Plan.frontier.session_mode, "ray");
+assert.equal(sessionV7Plan.frontier.ray_workers_per_process, 8);
+assert.equal(
+  sessionV7Plan.frontier.optimization_sequence.at(-1),
+  "parallel_level_order_root_ray_dag",
+);
+assert.equal(
+  sessionV7Plan.predecessor.session_frontier_v6_compressed_result_sha256,
+  sha256(sessionV6CompressedBytes),
+);
+assert.equal(
+  sessionV7Plan.predecessor.session_frontier_v6_summary_sha256,
+  sha256(sessionV6SummaryBytes),
+);
+assert.deepEqual(
+  sessionV7Manifest.representations,
+  sessionV6Manifest.representations,
+);
+assert.equal(sessionV7Summary.decision, "hold");
+assert.equal(
+  sessionV7Summary.bindings.capture_sha256,
+  "ea024d1234c2afc37ab578b7ab3c134ed3d1a7c6f86a56feaf7f298a55d696e6",
+);
+assert.equal(
+  sessionV7Summary.bindings.oracle_executable_sha256,
+  "245ee35504604014f562e4c1916a8cf987569aef72533a1c06218b90e270fcdf",
+);
+assert.equal(
+  sessionV7Summary.capture.measurement_controller_revision,
+  "dcb15c0c7b33c52dd739cb1fd403f58ca53a0310",
+);
+assert.equal(
+  sessionV7Summary.capture.checkpoint_writer_revision,
+  "ecdc1f0ae16e7b52f5fbd56e1de380ab3da95ba7",
+);
+assert.equal(
+  sessionV7Summary.capture.finalizer_revision,
+  "56655d36618eb2372519643f7f980e032acd9547",
+);
+assert.deepEqual(sessionV7Summary.coverage.classifications, {
+  pass: 826,
+  time_fail: 1,
+  order_sensitive: 1,
+});
+assert.equal(sessionV7Summary.coverage.representations, 828);
+assert.equal(sessionV7Summary.coverage.grouped_runs, 2484);
+assert.equal(sessionV7Summary.coverage.grouped_runs_with_hard_timeout, 0);
+assert.equal(sessionV7Summary.coverage.exactness_pass_representations, 828);
+assert.equal(sessionV7Summary.coverage.exactness_unknown_representations, 0);
+assert.equal(sessionV7Summary.coverage.exactness_disagreements, 0);
+assert.equal(sessionV7Summary.coverage.replay_failures, 0);
+assert.equal(sessionV7Summary.coverage.replay_projection_pass_representations, 828);
+assert.deepEqual(
+  sessionV7Summary.order_sensitive.map((entry) => entry.id),
+  ["E8:0,0,8,0,0,0,0,0"],
+);
+assert.deepEqual(
+  sessionV7Summary.time_failures.map((entry) => entry.id),
+  ["E8:0,0,2,1,2,0,0,3"],
+);
+assert.deepEqual(sessionV7Summary.hard_timeouts, []);
+assert.deepEqual(sessionV7Summary.exactness_unknown, []);
+assert.deepEqual(
+  sessionV7Summary.order_sensitive[0].grouped_orders.map((run) => ({
+    order: run.order,
+    p95_ms: run.p95_ms,
+    maximum_ms: run.maximum_ms,
+    threshold_exceedances: run.threshold_exceedances,
+    memory_observation: run.memory_observation,
+  })),
+  [
+    {
+      order: "descending_depth_dominant_first_lexicographic",
+      p95_ms: 0.115625,
+      maximum_ms: 4263.395208,
+      threshold_exceedances: 1,
+      memory_observation: "exact_process_high_water",
+    },
+    {
+      order: "ascending_depth_dominant_first_lexicographic",
+      p95_ms: 3235.453375,
+      maximum_ms: 3454.100708,
+      threshold_exceedances: 2,
+      memory_observation: "exact_process_high_water",
+    },
+    {
+      order: "seeded_generation_order",
+      p95_ms: 2722.60275,
+      maximum_ms: 9497.799291,
+      threshold_exceedances: 2,
+      memory_observation: "exact_process_high_water",
+    },
+  ],
+);
+assert.deepEqual(
+  sessionV7Summary.time_failures[0].grouped_orders.map((run) => ({
+    order: run.order,
+    p95_ms: run.p95_ms,
+    maximum_ms: run.maximum_ms,
+    threshold_exceedances: run.threshold_exceedances,
+  })),
+  [
+    {
+      order: "descending_depth_dominant_first_lexicographic",
+      p95_ms: 0.073292,
+      maximum_ms: 1172.780292,
+      threshold_exceedances: 1,
+    },
+    {
+      order: "ascending_depth_dominant_first_lexicographic",
+      p95_ms: 369.770292,
+      maximum_ms: 557.081875,
+      threshold_exceedances: 0,
+    },
+    {
+      order: "seeded_generation_order",
+      p95_ms: 236.934459,
+      maximum_ms: 581.014334,
+      threshold_exceedances: 0,
+    },
+  ],
+);
+assert.equal(
+  sessionV7Summary.resource.maximum_known_grouped_incremental_memory_bytes,
+  1445609472,
+);
+assert.equal(
+  sessionV7Summary.resource.maximum_completed_working_set_peak_allocated_bytes,
+  1324881920,
+);
+assert.equal(
+  sessionV7Summary.resource.maximum_completed_ray_graph_capacity_bytes,
+  111149056,
+);
+assert.equal(
+  sessionV7Summary.resource.maximum_completed_ray_capacity_bytes,
+  1087903744,
+);
+assert.equal(
+  sessionV7Summary.resource.maximum_hard_timeout_incremental_rss_lower_bound_bytes,
+  null,
+);
+assert.equal(
+  sessionV7Summary.resource.safe_parallel_workers_under_full_time_contract,
+  8,
+);
+assert.equal(
+  sessionV7Summary.independent_lie_witness.category,
+  "independent_predecessor_correctness_witness_separate_from_current_internal_resource_evidence",
+);
+assert.equal(
+  sessionV7Summary.independent_lie_witness.direct_current_oracle_witness,
+  false,
+);
+assert.deepEqual(sessionV7Summary.phase_1, {
+  authorized: false,
+  corpus_generated: false,
+  models_trained: false,
+});
+assert.match(sessionV7Decision, /826 passes/);
+assert.match(sessionV7Decision, /one E8 time failure/);
+assert.match(sessionV7Decision, /one order-sensitive E8 representation/);
+assert.match(sessionV7Decision, /zero grouped hard timeouts/);
+assert.match(sessionV7Decision, /no\s+unknown-memory cells/);
+assert.match(sessionV7Decision, /changed storage only/);
+assert.match(sessionV7Decision, /separate independent predecessor witness/);
+assert.match(sessionV7Decision, /not\s+as a direct independent witness/);
+assert.match(sessionV7Decision, /No corpus generation or training is authorized/);
+
+assert.equal(
   sha256(sessionV5CorrectnessResultBytes),
   "4ad0ef7ec7787798e89fcb285b9b9a0bf244a156f8151f3509e4cfbe81d598c9",
 );
@@ -1275,7 +1505,7 @@ console.log(JSON.stringify({
     safe_parallel_workers:
       sessionV5Summary.resource.safe_parallel_workers_under_full_time_contract,
   },
-  current_session_frontier: {
+  predecessor_session_frontier_v6: {
     decision: sessionV6Summary.decision,
     pass: sessionV6Summary.coverage.classifications.pass,
     time_fail:
@@ -1290,6 +1520,22 @@ console.log(JSON.stringify({
       sessionV6Summary.coverage.grouped_runs_with_hard_timeout,
     safe_parallel_workers:
       sessionV6Summary.resource.safe_parallel_workers_under_full_time_contract,
+  },
+  current_session_frontier: {
+    decision: sessionV7Summary.decision,
+    pass: sessionV7Summary.coverage.classifications.pass,
+    time_fail:
+      sessionV7Summary.coverage.classifications.time_fail ?? 0,
+    order_sensitive:
+      sessionV7Summary.coverage.classifications.order_sensitive ?? 0,
+    time_fail_memory_unknown:
+      sessionV7Summary.coverage.classifications.time_fail_memory_unknown ?? 0,
+    exactness_unknown:
+      sessionV7Summary.coverage.exactness_unknown_representations,
+    grouped_hard_timeouts:
+      sessionV7Summary.coverage.grouped_runs_with_hard_timeout,
+    safe_parallel_workers:
+      sessionV7Summary.resource.safe_parallel_workers_under_full_time_contract,
   },
   predecessor_session_frontier_v5_correctness_addendum: {
     representation:
