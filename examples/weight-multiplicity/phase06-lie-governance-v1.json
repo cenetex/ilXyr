@@ -1,0 +1,44 @@
+{
+  "schema": "ilxyr.weight_multiplicity_phase06_lie_governance.v1",
+  "status": "accepted_with_conditions",
+  "accepted_date": "2026-08-31",
+  "scope": {
+    "component": "LiE",
+    "version": "2.2.2",
+    "source_url": "https://mirror.metanet.ch/sage/spkg/upstream/lie/lie-2.2.2.tar.gz",
+    "source_sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e",
+    "license_position_accepted_by_client_counsel": "LGPL-2.1-or-later",
+    "execution": "unmodified_separate_executable",
+    "linked_into_delivery": false,
+    "source_modified": false
+  },
+  "distribution_conditions": {
+    "ship_pinned_source_archive_with_every_delivery": true,
+    "ship_reproducible_build_instructions_with_every_delivery": true,
+    "retain_lgpl_notice_intact": true,
+    "notice_reference": "https://sources.debian.org/copyright/license/lie/2.2.2%2Bdfsg-2/",
+    "modification_policy": "Any patch or source modification lapses this acceptance and requires a new counsel review before use or delivery."
+  },
+  "maintenance": {
+    "accountable_owner": "Codex, IlXYr Research Operations",
+    "role": "custodian of the pinned LiE 2.2.2 oracle build",
+    "escalation_contact": "cenetex/ilXyr GitHub issue tracker, addressed to Codex / IlXYr Research Operations",
+    "supported_build_target": {
+      "operating_system": "Ubuntu 24.04 LTS",
+      "architecture": "x86_64",
+      "compiler": "GCC 13.3.0",
+      "build_command": "make noreadline CFLAGS='-O -D_POSIX_C_SOURCE=200809L'",
+      "expected_executable_sha256": "d2478e3cf9abed5cc0105da52fb6580a8c85b66ec74b7cfd3192d3eb6953f391"
+    },
+    "upstream_status": "No active upstream is known or relied upon.",
+    "security_patching": "No security patching service is provided or implied.",
+    "support_commitment": "Build reproducibility and pinned-artifact custody only; no general maintenance or security support promise."
+  },
+  "authorization": {
+    "prepare_rescoped_manifest": true,
+    "generate_corpus": false,
+    "train_models": false,
+    "promote_oracle": false
+  },
+  "not_legal_advice": true
+}
