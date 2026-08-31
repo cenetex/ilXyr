@@ -329,6 +329,8 @@ const summarize = (result, hashes, lie, plan) => {
       started_at: result.started_at,
       completed_at: result.completed_at,
       measurement_controller_revision: result.controller_revision,
+      checkpoint_writer_revision:
+        result.checkpoint_writer_revision ?? result.controller_revision,
       finalizer_revision: result.finalizer_revision,
       reference_hardware: result.reference_hardware,
     },
