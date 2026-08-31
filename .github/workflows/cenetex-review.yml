@@ -1,72 +1,104 @@
 name: cenetex-review
 
-# The cenetex gatekeeper: reviews every pull request and either approves it
-# (review:approved semantics) or escalates it for human review by commenting
-# and labelling review:human-required. Branch protection requires one
-# approval, so a PR is mergeable only when this bot has approved it or a
-# human has.
+# pull_request_target keeps the policy on the trusted base branch. This
+# workflow never checks out or executes pull-request code.
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize, reopened, ready_for_review]
 
 permissions:
   contents: read
-  pull-requests: write
   issues: write
+  pull-requests: write
+  statuses: write
+
+concurrency:
+  group: cenetex-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
-  gatekeep:
+  policy-evaluation:
     runs-on: ubuntu-latest
     steps:
-      - name: Review pull request against policy
+      - name: Review exact pull request head against base policy
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.pull_request.number }}
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          set -euo pipefail
+          set -Eeuo pipefail
 
-          # Protected paths: changes here always require human review.
-          protected='^(\.github/workflows/|\.github/CODEOWNERS|LICENSE|docs/SECURITY\.md|AGENTS\.md)'
+          publish_status() {
+            state=$1
+            description=$2
+            gh api "repos/$REPO/statuses/$EXPECTED_SHA" -X POST \
+              -f state="$state" -f context=gatekeep \
+              -f description="$description" -f target_url="$RUN_URL" >/dev/null
+          }
+          failed() {
+            publish_status failure "Governance policy evaluation failed" || true
+          }
+          trap failed ERR
+          publish_status pending "Governance policy evaluation is running"
 
-          changed="$(gh pr diff "$NUMBER" --repo "$REPO" --name-only)"
-          echo "Changed files:"
-          echo "$changed"
+          current_sha=$(gh api "repos/$REPO/pulls/$NUMBER" --jq .head.sha)
+          test "$current_sha" = "$EXPECTED_SHA"
 
-          escalate_body="$(printf '%s\n' \
-            '**cenetex review: `review:human-required`**' \
-            '' \
-            'This pull request touches a protected path (.github/workflows/**,' \
-            'CODEOWNERS, LICENSE, docs/SECURITY.md, or AGENTS.md). Per the' \
-            'governance contract it escalates for human approval before merge.' \
-            'The bot does not approve protected-path changes.')"
+          policy="$RUNNER_TEMP/governance-path-policy.mjs"
+          gh api "repos/$REPO/contents/scripts/governance-path-policy.mjs?ref=$BASE_SHA" \
+            --jq .content | tr -d '\n' | base64 --decode > "$policy"
 
-          approve_body="$(printf '%s\n' \
+          changed=$(gh api --paginate "repos/$REPO/pulls/$NUMBER/files?per_page=100" \
+            --jq '.[] | .filename, (.previous_filename // empty)')
+          decision=$(printf '%s\n' "$changed" | node "$policy" --stdin)
+
+          current_sha=$(gh api "repos/$REPO/pulls/$NUMBER" --jq .head.sha)
+          test "$current_sha" = "$EXPECTED_SHA"
+
+          protected_count=$(jq '.protected_files | length' <<< "$decision")
+          if [ "$protected_count" -gt 0 ]; then
+            protected_files=$(jq -r '.protected_files[].path' <<< "$decision")
+            # Markdown code spans are intentionally single quoted.
+            # shellcheck disable=SC2016
+            body=$(printf '%s\n' \
+              '**cenetex review: `review:human-required`**' \
+              '' \
+              'This pull request changes protected governance files:' \
+              '' \
+              "$protected_files" \
+              '' \
+              'An administrator must authorize this exact head with:' \
+              '' \
+              "\`/approve-protected $EXPECTED_SHA\`" \
+              '' \
+              'The command records owner authorization. The resulting' \
+              'github-actions approval is not an independent human review.')
+            gh api "repos/$REPO/pulls/$NUMBER/reviews" -X POST \
+              -f event=COMMENT -f commit_id="$EXPECTED_SHA" -f body="$body" >/dev/null
+            gh pr edit "$NUMBER" --repo "$REPO" --remove-label review:approved \
+              >/dev/null 2>&1 || true
+            gh pr edit "$NUMBER" --repo "$REPO" --add-label review:human-required \
+              >/dev/null
+            trap - ERR
+            publish_status success "Protected change awaits SHA-bound owner authorization"
+            exit 0
+          fi
+
+          # Markdown code spans are intentionally single quoted.
+          # shellcheck disable=SC2016
+          body=$(printf '%s\n' \
             '**cenetex review: `review:approved`**' \
             '' \
-            'Automated policy review passed:' \
-            '' \
-            '- No protected paths touched (workflows, CODEOWNERS, LICENSE,' \
-            'docs/SECURITY.md, AGENTS.md).' \
-            '- Required status checks (rust, msrv, schemas, validate) are the' \
-            'merge gate for code health; this review covers governance policy' \
-            'only.' \
-            '' \
-            "Merge remains subject to required checks passing on GitHub's side.")"
-
-          if [ -z "$changed" ]; then
-            gh pr review "$NUMBER" --repo "$REPO" --comment --body "cenetex review: empty diff; nothing to approve." || true
-            exit 0
-          fi
-
-          if echo "$changed" | grep -Eq "$protected"; then
-            echo "Verdict: human-required (protected path touched)"
-            gh pr review "$NUMBER" --repo "$REPO" --comment --body "$escalate_body"
-            gh pr edit "$NUMBER" --repo "$REPO" --add-label "review:human-required" \
-              || echo "label already present or failed; continuing"
-            exit 0
-          fi
-
-          echo "Verdict: approved"
-          gh pr review "$NUMBER" --repo "$REPO" --approve --body "$approve_body"
+            "Automated path-policy review passed for \`$EXPECTED_SHA\`." \
+            'Required CI checks remain the code-health gate.')
+          gh api "repos/$REPO/pulls/$NUMBER/reviews" -X POST \
+            -f event=APPROVE -f commit_id="$EXPECTED_SHA" -f body="$body" >/dev/null
+          gh pr edit "$NUMBER" --repo "$REPO" --remove-label review:human-required \
+            >/dev/null 2>&1 || true
+          gh pr edit "$NUMBER" --repo "$REPO" --add-label review:approved >/dev/null
+          trap - ERR
+          publish_status success "Automated path-policy review passed"
