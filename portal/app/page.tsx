@@ -70,7 +70,11 @@ export default function Home() {
       ))}
 
       <h2>Remote execution protocol</h2>
-      <p>The package and signed-report verifier are implemented. A general cloud launcher and report intake service are not.</p>
+      <p>
+        The sealed package verifier, provider-neutral adapter boundary, fake execution node, and
+        local single-writer report intake are implemented. A general cloud launcher and
+        authenticated network intake are not.
+      </p>
       <ul>
         <li>one experiment ID and one compiled experiment digest</li>
         <li>exact source commits and source archive digests</li>
@@ -82,9 +86,15 @@ export default function Home() {
         <li>write-once launch, identity, status, result, and attestation receipts</li>
       </ul>
       <p>
-        The execution node will submit a signed report to a separate authenticated service. An
-        independent verifier decides whether it can enter the ledger. This website only reads the
-        public projection.
+        The adapter exposes only preflight, launch, observe, and collect. A durable reservation is
+        written before launch, so a lost provider response is retried with the same idempotency
+        key. Observation and collection cannot launch, restart, or extend compute.
+      </p>
+      <p>
+        The execution node will submit a signed report to a separate authenticated service when
+        that service exists. The single writer resolves keys, authorization, launch, package,
+        environment, signed budget, allocation, metrics, outputs, runtime, and outcome from its own
+        ledger before acceptance. This website only reads the public projection.
       </p>
       <p>
         A normal frontier and a presized-memory audit must use separate experiment IDs, packages,

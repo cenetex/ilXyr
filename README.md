@@ -35,6 +35,9 @@ academic claim, evaluation boundary, and publication gaps are stated in
 - Closes forecasts and funding at accepted admission, and permits only one forecast per actor
   identity and one completed run per experiment ID.
 - Runs public-weight, unrestricted-export toy experiments through a shell-free local executor.
+- Defines a provider-neutral `remote-v1` boundary over digest-bound packages, signed-budget
+  authorization, reserve-before-launch idempotency, read-only observation/collection, and durable
+  single-writer report intake. Its fake adapter starts no process and uses no cloud resource.
 - Resolves the declared outcome, scores forecasts with the Brier rule, and records evidence.
 - Records grounding authority and additive certificates over declared decidable domains.
 - Runs a budget-capped sandbox lane and deterministically evaluates promotion eligibility.
@@ -78,8 +81,9 @@ academic claim, evaluation boundary, and publication gaps are stated in
 - Compiles supported upstream benchmark results into schema-validated review records without
   pretending that completed external runs were registered prospectively by ilXyr.
 
-Protected weights are handles, never local paths. The local and first OCI executor profiles accept
-public weights only; protected weights need a stronger isolation profile.
+Protected weights are handles, never local paths. The local executor and the first `oci-job` and
+`remote-v1` profiles accept public weights only; protected weights need a stronger, separately
+reviewed attested profile.
 
 ## Quick start
 
@@ -171,6 +175,18 @@ cargo run -p ilxyr-cli -- attest . RUN_REF path/to/dsse-envelope.json
 `attest` verifies the DSSE signature over the exact decoded payload, then parses that same payload.
 The current profile accepts SLSA provenance v1 or the ilXyr executor predicate and requires the
 statement subjects and predicate to bind the ledgered run.
+
+The remote control and intake steps are available without a cloud adapter:
+
+```bash
+cargo run -p ilxyr-cli -- remote-package-verify . environment.json job-package.json
+cargo run -p ilxyr-cli -- remote-authorize . environment.json job-package.json BUDGET_ID AUTHORIZATION_ID EXPIRES_AT_MS
+cargo run -p ilxyr-cli -- remote-report-accept . execution-report.json
+```
+
+These commands do not launch compute or publish an HTTP write endpoint. See
+[docs/REMOTE_EXECUTION.md](docs/REMOTE_EXECUTION.md) for the execution-node and public-site
+responsibility boundary.
 
 Hugging Face models can be pinned before they are named by an actor or experiment:
 
@@ -328,6 +344,8 @@ started without producing a terminal run. `authorize` reports the same decision 
 - `docs/HUGGINGFACE.md`: immutable Hub import, model/weight handles, and revision-pinned loading.
 - `docs/NSRL.md`: native NSRL checkpoint, continuation, local-verification, and gate-evidence
   registration.
+- `docs/REMOTE_EXECUTION.md`: sealed-package execution, adapter operations, one-run authorization,
+  report intake, and the read-only public projection boundary.
 - `docs/CORPUS-SERVICE.md`: authenticated immutable corpus registry, materialization receipts, and
   provider training-input handoffs.
 - `docs/CLOUD-TRAINING.md`: provider-neutral OCI dispatch, reconciliation, attestation, and resume
@@ -355,7 +373,7 @@ started without producing a terminal run. `authorize` reports the same decision 
 - `docs/experiments/NSRL-P10M-TARGET-MARGIN.md`: exact-check negative results for the
   output-matrix target-margin pilot, its fixed-schedule trust region, and the canonical-NLL
   direct-head guard, exact safe-set, and cross-document stability follow-ups.
-- `docs/decisions/`: architectural decision records (ADR 0001–0005).
+- `docs/decisions/`: architectural decision records.
 
 ## Current non-goals and evidence gaps
 

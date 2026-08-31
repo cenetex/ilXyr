@@ -7,18 +7,19 @@ use ilxyr_core::{
     InteropFormat, LoopCycle, MechanismTournament, NsrlGateEvidence, NsrlRegistration,
     OciJobCompletion, OciJobDispatch, ProposalReview, ReplicationContract, ResearchContribution,
     ResearchRegistry, Result, RetroRegistrationSpec, SandboxSpec, SharedTaskContract,
-    TrustedAttestationKey, Workspace, allocate_epoch, allocate_replication,
-    authorize_unattended_run, calibration_for, claim_status, claim_support, commit_funding,
-    compile_experiment, compile_proposal, decide_admission, epoch_budget_signing_payload,
-    execute_loop_cycle, experiment_status, export_evidence, freeze_proposal, load_paper_contract,
-    package_proposal, prepare_registration, program_status, proposal_status, record_certificate,
-    record_evidence_edge, record_executor_attestation, record_external_registration,
-    record_oci_job_completion, record_oci_job_dispatch, register_claim, register_epoch_budget,
-    register_mechanism_tournament, register_nsrl_model, register_replication_contract,
-    register_shared_task, retro_register, review_proposal, run_experiment,
-    run_experiment_unattended, run_sandbox, settle_mechanism_tournament, settle_oci_job,
-    settle_replication, submit_contribution, submit_forecast, submit_proposal,
-    trust_attestation_key, trust_policy_key, verify_environment_manifest, verify_execution_report,
+    TrustedAttestationKey, Workspace, accept_remote_execution_report, allocate_epoch,
+    allocate_replication, authorize_remote_execution, authorize_unattended_run, calibration_for,
+    claim_status, claim_support, commit_funding, compile_experiment, compile_proposal,
+    decide_admission, epoch_budget_signing_payload, execute_loop_cycle, experiment_status,
+    export_evidence, freeze_proposal, load_paper_contract, package_proposal, prepare_registration,
+    program_status, proposal_status, record_certificate, record_evidence_edge,
+    record_executor_attestation, record_external_registration, record_oci_job_completion,
+    record_oci_job_dispatch, register_claim, register_epoch_budget, register_mechanism_tournament,
+    register_nsrl_model, register_replication_contract, register_shared_task, retro_register,
+    review_proposal, run_experiment, run_experiment_unattended, run_sandbox,
+    settle_mechanism_tournament, settle_oci_job, settle_replication, submit_contribution,
+    submit_forecast, submit_proposal, trust_attestation_key, trust_policy_key,
+    verify_compiled_job_package, verify_environment_manifest, verify_execution_report,
     verify_job_package,
 };
 use serde::{Serialize, de::DeserializeOwned};
@@ -461,6 +462,56 @@ fn run() -> Result<()> {
                 &report,
             )?)?;
         }
+        "remote-package-verify" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr remote-package-verify <workspace> <environment.json> <job-package.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[2])?;
+            let package = read_json::<ExecutorJobPackage>(&args[3])?;
+            print_json(&json!({
+                "job_package_ref": verify_compiled_job_package(
+                    &workspace,
+                    &environment,
+                    &package,
+                )?
+            }))?;
+        }
+        "remote-authorize" => {
+            require_len(
+                &args,
+                7,
+                "ilxyr remote-authorize <workspace> <environment.json> <job-package.json> <budget-id> <authorization-id> <expires-at-ms>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[2])?;
+            let package = read_json::<ExecutorJobPackage>(&args[3])?;
+            let expires_at_ms = args[6].parse::<u128>().map_err(|error| {
+                ilxyr_core::Error::Validation(vec![format!(
+                    "expires-at-ms must be an integer: {error}"
+                )])
+            })?;
+            print_json(&authorize_remote_execution(
+                &workspace,
+                &environment,
+                &package,
+                &args[4],
+                &args[5],
+                expires_at_ms,
+            )?)?;
+        }
+        "remote-report-accept" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr remote-report-accept <workspace> <execution-report.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let report = read_json::<ExecutionReport>(&args[2])?;
+            print_json(&accept_remote_execution_report(&workspace, &report)?)?;
+        }
         "budget-payload" => {
             require_len(&args, 2, "ilxyr budget-payload <budget.json>")?;
             let budget = read_json::<EpochBudget>(&args[1])?;
@@ -832,6 +883,9 @@ fn usage() {
            ilxyr executor-environment-verify <environment.json>\n\
            ilxyr executor-package-verify <environment.json> <job-package.json>\n\
            ilxyr execution-report-verify <environment.json> <job-package.json> <trusted-keys.json> <execution-report.json>\n\
+           ilxyr remote-package-verify <workspace> <environment.json> <job-package.json>\n\
+           ilxyr remote-authorize <workspace> <environment.json> <job-package.json> <budget-id> <authorization-id> <expires-at-ms>\n\
+           ilxyr remote-report-accept <workspace> <execution-report.json>\n\
            ilxyr budget-payload <budget.json>\n\
            ilxyr budget-register <workspace> <budget.json>\n\
            ilxyr allocate <workspace> <budget-id> <experiment-id>...\n\

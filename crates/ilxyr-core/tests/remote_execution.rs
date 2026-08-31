@@ -205,6 +205,7 @@ fn fixture(
         environment_ref: environment_ref.clone(),
         inputs: vec![resource("input", '3')],
         executable: resource("executable", '4'),
+        arguments: vec![],
         oracle: resource("oracle", '5'),
         harness: resource("harness", '6'),
         provider: ProviderBinding {
@@ -223,6 +224,7 @@ fn fixture(
             watchdog_grace_seconds: 30,
         },
         targets: vec!["target-a".to_owned(), "target-b".to_owned()],
+        expected_outputs: vec!["metrics".to_owned()],
         allocation: AllocationPolicy {
             concurrency: 1,
             retry_limit: 1,

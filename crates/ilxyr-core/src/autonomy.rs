@@ -624,14 +624,17 @@ fn allocation_candidate(
     }
     let compiled = load_compiled(workspace, experiment_id)?;
     let spec = &compiled.spec;
-    if spec.execution.executor != "local-command"
-        || spec.security.weight_class != WeightClass::Public
-        || spec.security.code_policy != CodePolicy::Arbitrary
-        || spec.security.export_policy != ExportPolicy::Artifacts
-        || spec.execution.network != NetworkPolicy::Open
-    {
+    let local_profile = spec.execution.executor == "local-command"
+        && spec.security.code_policy == CodePolicy::Arbitrary
+        && spec.security.export_policy == ExportPolicy::Artifacts
+        && spec.execution.network == NetworkPolicy::Open;
+    let remote_profile = spec.execution.executor == "remote-v1"
+        && spec.security.code_policy == CodePolicy::ApprovedImageOnly
+        && spec.security.export_policy == ExportPolicy::MetricsOnly
+        && spec.execution.network == NetworkPolicy::Denied;
+    if spec.security.weight_class != WeightClass::Public || (!local_profile && !remote_profile) {
         return Err(Error::Security(
-            "candidate does not fit the local executor capability set".to_owned(),
+            "candidate does not fit an installed executor capability set".to_owned(),
         ));
     }
     let cap = budget

@@ -35,11 +35,12 @@ The verifier checks signatures and every binding before any ledger write. An exa
 idempotent. A second report for the same launch is a conflict. The execution node cannot mark its
 own report verified.
 
-This report check establishes signature and package binding only. The single-writer ingestion
-step must also resolve the compiled experiment and one-run authorization from its own ledger,
-recompute admission, check returned metric names and outcomes against the compiled contract, and
-atomically reserve the launch ID. A caller-supplied key file, authorization reference, or package
-is not a trust root by itself.
+The pure report check establishes signature and package binding only. The implemented local
+single-writer ingestion step additionally resolves trusted keys, the compiled experiment,
+one-run authorization, signed budget, allocation, durable launch reservation and receipt,
+environment, and package from its own ledger. It rechecks authorization, metric and output names,
+runtime, provider identity, and the frozen outcome contract before a write. A caller-supplied key
+file, authorization reference, or package is not a trust root by itself.
 
 An executor environment is a content-addressed manifest over its source release, build recipe,
 runner, kernel, root filesystem, SBOM, build provenance, isolation policy, capabilities, and
@@ -95,5 +96,5 @@ build status requires independent matching builds; it is not inferred from a Nix
 - The Cenetex environment remains honestly marked as a candidate until real artifacts and an
   independently accepted conformance receipt exist.
 - A later AWS adapter can use Zero's proven controls without making AWS the protocol.
-- Operating the report intake, transparency log, and independent conformance runner remains
-  roadmap work.
+- The local single-writer intake exists; operating the authenticated network intake, transparency
+  log, and independent conformance runner remains roadmap work.

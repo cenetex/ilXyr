@@ -6,8 +6,8 @@ use crate::{
     ActorKind, ActorRef, AdmissionDecision, CodePolicy, ComparisonOperator, CompiledExperiment,
     CompletedExperiment, ContributionStage, Error, Evidence, EvidenceLane, ExperimentSpec,
     ExperimentStatus, ExportPolicy, Forecast, ForecastSettlement, FundingCommitment, GateCheck,
-    OutcomePredicate, ResearchContribution, Result, RunRecord, SharedTaskContract, WeightClass,
-    Workspace, autonomy, corpus, executor, onboarding, registration,
+    NetworkPolicy, OutcomePredicate, ResearchContribution, Result, RunRecord, SharedTaskContract,
+    WeightClass, Workspace, autonomy, corpus, executor, onboarding, registration,
     require_registered_huggingface_actor, require_registered_huggingface_weight,
     require_registered_nsrl_actor, require_registered_nsrl_weight, store::now_ms, validation,
 };
@@ -326,6 +326,9 @@ pub(crate) fn evaluate_admission(
         "compute funding",
     )?;
     let spec = &compiled.spec;
+    let local = spec.execution.executor == "local-command";
+    let remote = spec.execution.executor == "remote-v1";
+    let oci = spec.execution.executor == "oci-job";
 
     Ok(vec![
         check(
@@ -371,11 +374,15 @@ pub(crate) fn evaluate_admission(
         ),
         check(
             "executor_available",
-            matches!(spec.execution.executor.as_str(), "local-command" | "oci-job"),
-            match spec.execution.executor.as_str() {
-                "local-command" => "local-command adapter is installed".to_owned(),
-                "oci-job" => "provider-neutral OCI job adapter is installed".to_owned(),
-                executor => format!("{executor} adapter is not installed"),
+            local || remote || oci,
+            if local {
+                "local-command adapter is installed".to_owned()
+            } else if remote {
+                "provider-neutral remote-v1 adapter boundary is installed".to_owned()
+            } else if oci {
+                "provider-neutral OCI job adapter is installed".to_owned()
+            } else {
+                format!("{} adapter is not installed", spec.execution.executor)
             },
         ),
         check(
@@ -384,35 +391,54 @@ pub(crate) fn evaluate_admission(
             if spec.security.weight_class == WeightClass::Public {
                 "this executor contract is limited to public-weight handles".to_owned()
             } else {
-                "protected weights require a future attested executor".to_owned()
+                "protected weights require a later attested executor profile".to_owned()
             },
         ),
         check(
             "execution_policy",
-            if spec.execution.executor == "local-command" {
-                spec.execution.network == crate::NetworkPolicy::Open
-                    && std::path::Path::new(&spec.execution.program).is_absolute()
+            (local
+                && spec.execution.network == NetworkPolicy::Open
+                && std::path::Path::new(&spec.execution.program).is_absolute())
+                || (remote && spec.execution.network == NetworkPolicy::Denied)
+                || (oci
+                    && spec.execution.network == NetworkPolicy::Denied
+                    && spec.execution.program.starts_with("oci://")),
+            if remote {
+                "remote-v1 requires network=denied".to_owned()
+            } else if oci {
+                "oci-job requires a digest-pinned image with network=denied".to_owned()
             } else {
-                spec.execution.executor == "oci-job"
-                    && spec.execution.network == crate::NetworkPolicy::Denied
-                    && spec.execution.program.starts_with("oci://")
+                "local execution requires network=open and an absolute executable path".to_owned()
             },
-            "local jobs require an absolute executable with open networking; OCI jobs require a digest-pinned image with denied networking".to_owned(),
         ),
         check(
             "code_policy",
-            if spec.execution.executor == "local-command" {
-                spec.security.code_policy == CodePolicy::Arbitrary
+            (local && spec.security.code_policy == CodePolicy::Arbitrary)
+                || ((remote || oci) && spec.security.code_policy == CodePolicy::ApprovedImageOnly),
+            if local && spec.security.code_policy == CodePolicy::Arbitrary {
+                "local-command directly executes the declared program".to_owned()
+            } else if remote && spec.security.code_policy == CodePolicy::ApprovedImageOnly {
+                "remote-v1 requires a digest-bound approved executable".to_owned()
+            } else if oci && spec.security.code_policy == CodePolicy::ApprovedImageOnly {
+                "oci-job requires a digest-pinned approved image".to_owned()
             } else {
-                spec.execution.executor == "oci-job"
-                    && spec.security.code_policy == CodePolicy::ApprovedImageOnly
+                "code policy does not match the selected executor".to_owned()
             },
-            "local jobs permit declared programs; OCI jobs require approved_image_only".to_owned(),
         ),
         check(
             "export_policy",
-            spec.security.export_policy == ExportPolicy::Artifacts,
-            "this executor records declared metrics and versioned output artifacts".to_owned(),
+            (local && spec.security.export_policy == ExportPolicy::Artifacts)
+                || (remote && spec.security.export_policy == ExportPolicy::MetricsOnly)
+                || (oci && spec.security.export_policy == ExportPolicy::Artifacts),
+            if local && spec.security.export_policy == ExportPolicy::Artifacts {
+                "local-command records stdout, stderr, and metric artifacts".to_owned()
+            } else if remote && spec.security.export_policy == ExportPolicy::MetricsOnly {
+                "remote-v1 exports only frozen metrics and outcome records".to_owned()
+            } else if oci && spec.security.export_policy == ExportPolicy::Artifacts {
+                "oci-job records declared metrics and versioned output artifacts".to_owned()
+            } else {
+                "export policy does not match the selected executor".to_owned()
+            },
         ),
         role_separation_check(workspace, compiled, &forecasts, true)?,
         role_separation_check(workspace, compiled, &forecasts, false)?,
@@ -422,10 +448,16 @@ pub(crate) fn evaluate_admission(
 pub fn run_experiment(workspace: &Workspace, experiment_id: &str) -> Result<CompletedExperiment> {
     let compiled = load_compiled(workspace, experiment_id)?;
     if compiled.spec.execution.executor != "local-command" {
-        return Err(Error::Security(
+        let message = if compiled.spec.execution.executor == "oci-job" {
             "oci-job experiments must use oci-dispatch-record, oci-complete-record, and oci-settle"
-                .to_owned(),
-        ));
+                .to_owned()
+        } else {
+            format!(
+                "experiment {experiment_id} requires the {} dispatcher; the local run path is disabled",
+                compiled.spec.execution.executor
+            )
+        };
+        return Err(Error::Security(message));
     }
     if let Some((run_ref, run)) =
         latest_typed_with_ref::<RunRecord>(workspace, EXPERIMENT_COMPLETED, experiment_id)?
@@ -763,7 +795,7 @@ fn check(gate: &str, passed: bool, detail: String) -> GateCheck {
     }
 }
 
-fn resolve_outcome(spec: &ExperimentSpec, run: &RunRecord) -> Result<String> {
+pub(crate) fn resolve_outcome(spec: &ExperimentSpec, run: &RunRecord) -> Result<String> {
     let matched = spec
         .outcome_contract
         .outcomes
