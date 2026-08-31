@@ -122,6 +122,31 @@ cross-family replication, OSF-side authentication, hardware attestation, or SLSA
 - Extend the implemented passive one-claim query to graph traversal and authenticated service
   access while preserving the same agent admission and signed-policy boundary.
 
+## V1.3 — digest-bound executor contract (next)
+
+The next executor milestone is a package and adapter contract, not a cloud launch. ADR 0006 defines
+the boundary and adapts the proven parts of Zero's AWS workflows without making AWS workflow YAML
+the ilXyr protocol.
+
+- Publish the plain public API and protocol index at `ilxyr.cenetex.com`; keep proposal data and
+  write routes off that hosted surface, keep it outside the authoritative ledger, and give it no
+  cloud-launch route.
+- Add a strict executor-job-package schema plus deterministic pack/verify commands. Freeze exact
+  source commits, archives, executables, oracles, harnesses, data, models, machine shape and image,
+  budget, target order, allocation, network/export policy, and expected receipts by SHA-256.
+- Add a provider-neutral adapter boundary with preflight, launch, observe, and collect operations;
+  prove it first with a fake adapter and tamper/recovery tests.
+- Extract an AWS adapter from Zero's OIDC, conditional-write locks, resolved machine identity,
+  launch-relative watchdog, independent-target, and read-only collection patterns. All preflight
+  and conformance tests must avoid paid compute.
+- Freeze the normal frontier and presized-memory audit as separate experiment IDs, packages,
+  budgets, locks, and results. Do not transfer unused budget or state between them.
+- Require explicit approval for one minimal-cost diagnostic package. Admit scientific cloud work
+  only after its result bundle and signed executor attestation verify end to end.
+
+No paid cloud work is authorized by the V1.3 roadmap itself. See
+`docs/decisions/0006-digest-bound-cloud-executor.md`.
+
 ## V2 — service boundary (when multi-writer need is real)
 
 - The first single-writer corpus service slice now exposes immutable Braid-style releases,
