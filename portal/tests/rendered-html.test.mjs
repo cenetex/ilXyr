@@ -41,6 +41,11 @@ test("server-renders the public ilXyr protocol index", async () => {
   assert.match(html, /href="\/api\/status"/);
   assert.match(html, /href="\/api\/protocols"/);
   assert.match(html, /href="\/api\/experiments"/);
+  assert.match(html, /href="\/api\/environments"/);
+  assert.match(html, /href="\/api\/results"/);
+  assert.match(html, /href="\/.well-known\/ilxyr.json"/);
+  assert.match(html, /Known does not mean compatible/);
+  assert.match(html, /No remote result has passed independent ilXyr verification/);
   assert.match(html, /There are no write or cloud-launch routes/);
   assert.doesNotMatch(html, /\/api\/proposals|proposal database/i);
 });
@@ -51,6 +56,9 @@ test("public API returns only static protocol data", async () => {
     ["/api/status", "ilxyr.public_status.v1"],
     ["/api/protocols", "ilxyr.public_protocol_index.v1"],
     ["/api/experiments", "ilxyr.public_experiment_index.v1"],
+    ["/api/environments", "ilxyr.public_environment_index.v1"],
+    ["/api/results", "ilxyr.public_verified_result_index.v1"],
+    ["/.well-known/ilxyr.json", "ilxyr.discovery.v1"],
   ]);
 
   for (const [path, schema] of expectedSchemas) {
@@ -63,14 +71,31 @@ test("public API returns only static protocol data", async () => {
     assert.doesNotMatch(JSON.stringify(body), /owner_id|reviewer_id|proposal_id|authenticated-user/i);
   }
 
-  const writeResponse = await request("/api/status", { method: "POST" });
-  assert.equal(writeResponse.status, 405);
-  assert.equal(writeResponse.headers.get("allow"), "GET, HEAD");
-  assert.equal(await writeResponse.text(), "");
+  for (const path of expectedSchemas.keys()) {
+    const writeResponse = await request(path, { method: "POST" });
+    assert.equal(writeResponse.status, 405, path);
+    assert.equal(writeResponse.headers.get("allow"), "GET, HEAD", path);
+    assert.equal(await writeResponse.text(), "", path);
+  }
 
   const headResponse = await request("/api/status", { method: "HEAD" });
   assert.equal(headResponse.status, 200);
   assert.equal(await headResponse.text(), "");
+
+  const discoveryResponse = await request("/.well-known/ilxyr.json");
+  const discovery = await discoveryResponse.json();
+  assert.equal(discovery.reporting.status, "not_available");
+  assert.equal(discovery.reporting.endpoint, null);
+
+  const environmentResponse = await request("/api/environments");
+  const environmentIndex = await environmentResponse.json();
+  assert.equal(environmentIndex.environments[0].state, "reference_candidate");
+  assert.equal(environmentIndex.environments[0].compatibility, "not_yet_verified");
+  assert.equal(environmentIndex.environments[0].manifest_ref, null);
+
+  const resultsResponse = await request("/api/results");
+  const results = await resultsResponse.json();
+  assert.deepEqual(results.results, []);
 
   const imageOptimizerResponse = await request("/_vinext/image?url=%2Fog.png&w=640&q=75");
   assert.equal(imageOptimizerResponse.status, 404);

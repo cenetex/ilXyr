@@ -2,15 +2,20 @@ export const repository = "https://github.com/cenetex/ilXyr";
 export const guide = "https://cenetex.github.io/ilXyr";
 
 export const publicRoutes = [
+  { method: "GET", path: "/.well-known/ilxyr.json", description: "discover the public protocol and reporting status" },
   { method: "GET", path: "/api", description: "list public API routes" },
   { method: "GET", path: "/api/status", description: "read executor and compute status" },
   { method: "GET", path: "/api/protocols", description: "list protocol documents and command line calls" },
   { method: "GET", path: "/api/experiments", description: "list published experiments and decisions" },
+  { method: "GET", path: "/api/environments", description: "list known execution environments and compatibility state" },
+  { method: "GET", path: "/api/results", description: "list independently verified remote results" },
 ] as const;
 
 export const siteStatus = [
   { key: "local_executor", value: "available_for_public_weight_experiments" },
-  { key: "general_cloud_executor", value: "roadmap" },
+  { key: "remote_report_verifier", value: "implemented" },
+  { key: "general_cloud_launcher", value: "roadmap" },
+  { key: "report_intake_service", value: "not_available" },
   { key: "paid_cloud_experiment_work", value: "not_launched" },
   { key: "protected_weight_execution", value: "not_available" },
   { key: "mutable_cloud_checkouts", value: "not_accepted_as_reproducible_jobs" },
@@ -62,6 +67,9 @@ export const cliGroups = [
       "allocate <workspace> <budget-id> <experiment-id>...",
       "authorize <workspace> <budget-id> <experiment-id>",
       "run-auto <workspace> <budget-id> <experiment-id>",
+      "executor-environment-verify <environment.json>",
+      "executor-package-verify <environment.json> <job-package.json>",
+      "execution-report-verify <environment.json> <job-package.json> <trusted-keys.json> <execution-report.json>",
     ],
   },
   {
@@ -110,6 +118,11 @@ export const protocolDocuments = [
     title: "digest-bound cloud executor decision",
     url: `${repository}/blob/582dc88d702982ec2568ce02cd6f9a72f4fbacb1/docs/decisions/0006-digest-bound-cloud-executor.md`,
   },
+  {
+    id: "remote-reporting-decision",
+    title: "remote reporting and well-known executors",
+    url: `${repository}/blob/main/docs/decisions/0007-remote-reporting-and-well-known-executors.md`,
+  },
   { id: "schemas", title: "JSON schemas", url: `${repository}/tree/main/schemas` },
   { id: "security", title: "security boundary", url: `${repository}/blob/main/docs/SECURITY.md` },
   {
@@ -118,6 +131,48 @@ export const protocolDocuments = [
     url: `${repository}/blob/main/docs/INTEROPERABILITY.md`,
   },
 ] as const;
+
+export const executionEnvironments = [
+  {
+    id: "environment://cenetex/public-v1",
+    operator: "Cenetex",
+    state: "reference_candidate",
+    compatibility: "not_yet_verified",
+    weight_classes: ["public"],
+    network_modes: ["denied"],
+    export_policies: ["metrics_only"],
+    manifest_ref: null,
+    conformance_ref: null,
+    verified_results: 0,
+    source: `${repository}/tree/main/executor/cenetex-public-v1`,
+    note: "Open reference profile; build artifacts and independent conformance are still pending.",
+  },
+] as const;
+
+export type VerifiedExecutionResult = {
+  id: string;
+  experiment_id: string;
+  run_ref: string;
+  environment_ref: string;
+  verification_summary_ref: string;
+};
+
+export const verifiedExecutionResults: readonly VerifiedExecutionResult[] = [];
+
+export const discovery = {
+  schema: "ilxyr.discovery.v1",
+  service: "ilXyr public protocol index",
+  canonical_url: "https://ilxyr.cenetex.com",
+  public_api: "https://ilxyr.cenetex.com/api",
+  environments: "https://ilxyr.cenetex.com/api/environments",
+  verified_results: "https://ilxyr.cenetex.com/api/results",
+  reporting: {
+    protocol: "ilxyr.execution_report.v1",
+    status: "not_available",
+    endpoint: null,
+    note: "Execution nodes will submit to a separate authenticated intake service. This public site remains read-only.",
+  },
+} as const;
 
 export const experiments = [
   { id: "EXP-001", title: "Q2.3 local replay guard", status: "no-go", url: `${guide}/experiments/exp-001.html` },
