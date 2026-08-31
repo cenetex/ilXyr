@@ -9,6 +9,9 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const schemaDirectory = join(root, "schemas");
 
 const fixtures = {
+  "braid-corpus-import.schema.json": [
+    "examples/corpus/feral-7b-braid-import.json",
+  ],
   "azure-ml-corpus-handoff.schema.json": [
     "examples/corpus/azure-ml-handoff.json",
   ],

@@ -1,8 +1,8 @@
 use std::{env, fs, path::Path, process::ExitCode};
 
 use ilxyr_core::{
-    ActorKind, ActorRef, Certificate, ClaimNode, DsseEnvelope, EpochBudget, EvidenceGraphEdge,
-    ExecutionReport, ExecutorArtifactMaterialization, ExecutorConformanceReport,
+    ActorKind, ActorRef, BraidCorpusImport, Certificate, ClaimNode, DsseEnvelope, EpochBudget,
+    EvidenceGraphEdge, ExecutionReport, ExecutorArtifactMaterialization, ExecutorConformanceReport,
     ExecutorConformanceSuite, ExecutorEnvironmentManifest, ExecutorJobPackage, ExperimentProposal,
     ExperimentSpec, ExternalRegistrationReceipt, Forecast, FundingCommitment, HuggingFaceModel,
     InteropFormat, LoopCycle, MechanismTournament, NsrlGateEvidence, NsrlRegistration,
@@ -15,14 +15,14 @@ use ilxyr_core::{
     export_evidence, freeze_proposal, load_paper_contract, package_proposal, prepare_registration,
     program_status, proposal_status, record_certificate, record_evidence_edge,
     record_executor_attestation, record_external_registration, record_oci_job_completion,
-    record_oci_job_dispatch, register_claim, register_epoch_budget, register_mechanism_tournament,
-    register_nsrl_model, register_replication_contract, register_shared_task, retro_register,
-    review_proposal, run_experiment, run_experiment_unattended, run_sandbox,
-    settle_mechanism_tournament, settle_oci_job, settle_replication, submit_contribution,
-    submit_forecast, submit_proposal, trust_attestation_key, trust_policy_key,
-    verify_compiled_job_package, verify_conformance_report, verify_conformance_suite,
-    verify_environment_manifest, verify_execution_report, verify_executor_materialization,
-    verify_job_package,
+    record_oci_job_dispatch, register_braid_corpus_release, register_claim, register_epoch_budget,
+    register_mechanism_tournament, register_nsrl_model, register_replication_contract,
+    register_shared_task, retro_register, review_proposal, run_experiment,
+    run_experiment_unattended, run_sandbox, settle_mechanism_tournament, settle_oci_job,
+    settle_replication, submit_contribution, submit_forecast, submit_proposal,
+    trust_attestation_key, trust_policy_key, verify_compiled_job_package,
+    verify_conformance_report, verify_conformance_suite, verify_environment_manifest,
+    verify_execution_report, verify_executor_materialization, verify_job_package,
 };
 use serde::{Serialize, de::DeserializeOwned};
 use serde_json::json;
@@ -86,6 +86,21 @@ fn run() -> Result<()> {
                 "projects": registry.projects.len(),
                 "valid": true
             }))?;
+        }
+        "braid-corpus-register" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr braid-corpus-register <workspace> <release.json> <import.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let manifest_bytes = fs::read(&args[2])?;
+            let import = read_json::<BraidCorpusImport>(&args[3])?;
+            print_json(&register_braid_corpus_release(
+                &workspace,
+                import,
+                &manifest_bytes,
+            )?)?;
         }
         "mcp" => {
             let query = registry_query_args(&args[1..], 0, "ilxyr mcp [--registry <path>]")?;
@@ -897,6 +912,7 @@ fn usage() {
            ilxyr lineage <experiment-id> [--json] [--registry <path>]\n\
            ilxyr artifact-metadata <artifact-id-or-digest> [--json] [--registry <path>]\n\
            ilxyr registry-verify [--registry <path>]\n\
+           ilxyr braid-corpus-register <workspace> <release.json> <import.json>\n\
            ilxyr mcp [--registry <path>]\n\
            ilxyr family freeze <workspace> <family-manifest.json>\n\
            ilxyr family check <workspace> <family-manifest.json>\n\

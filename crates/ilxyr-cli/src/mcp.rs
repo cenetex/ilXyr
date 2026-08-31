@@ -203,7 +203,7 @@ mod tests {
         .expect("response");
         assert_eq!(
             response["result"]["structuredContent"]["project"]["project_id"],
-            "project://runner-watch/feral-7b-sec"
+            "project://ilxyr/feral-7b"
         );
         assert_eq!(
             response["result"]["structuredContent"]["running"]

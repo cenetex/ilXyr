@@ -8,12 +8,13 @@ use std::{
 };
 
 use ilxyr_core::{
-    ActorRef, AzureInputMode, AzureMlHandoffRequest, CorpusFile, CorpusLocation,
+    ActorRef, AzureInputMode, AzureMlHandoffRequest, BraidCorpusImport, CorpusFile, CorpusLocation,
     CorpusMaterialization, CorpusRelease, CorpusRights, CorpusSource, MaterializedCorpusFile,
     SageMakerHandoffRequest, SageMakerInputMode, Workspace, azure_ml_corpus_handoff,
-    record_corpus_materialization, register_corpus_release, registered_corpus_release,
-    sagemaker_corpus_handoff,
+    record_corpus_materialization, register_braid_corpus_release, register_corpus_release,
+    registered_corpus_release, sagemaker_corpus_handoff,
 };
+use sha2::{Digest, Sha256};
 
 struct TestDirectory(PathBuf);
 
@@ -62,6 +63,155 @@ fn corpus_registration_is_immutable_and_idempotent() {
     let error = register_corpus_release(&workspace, changed).expect_err("drift must fail");
     assert!(error.to_string().contains("different content"));
     assert!(workspace.verify().expect("ledger must verify").valid);
+}
+
+#[test]
+fn released_braid_manifest_imports_as_an_immutable_ilxyr_corpus() {
+    let directory = TestDirectory::create("braid-import");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let release_digest = "d".repeat(64);
+    let release_id = format!("feral-7b-sec-v1-{release_digest}");
+    let manifest = serde_json::to_vec(&serde_json::json!({
+        "schemaVersion": "braid.release/v2",
+        "releaseId": release_id,
+        "status": "RELEASED",
+        "digests": { "release": release_digest },
+        "artifacts": [
+            { "path": "data/train.jsonl", "sha256": "a".repeat(64), "bytes": 123 },
+            { "path": "data/validation.jsonl", "sha256": "b".repeat(64), "bytes": 45 }
+        ]
+    }))
+    .expect("manifest must serialize");
+    let manifest_sha256 = format!("{:x}", Sha256::digest(&manifest));
+    let import = BraidCorpusImport {
+        schema: "ilxyr.braid_corpus_import.v1".to_owned(),
+        id: "dataset://braid/feral-7b-sec/v1".to_owned(),
+        title: "FERAL-7B SEC training corpus v1".to_owned(),
+        version: "v1".to_owned(),
+        source: CorpusSource {
+            repository: "https://github.com/cenetex/braid".to_owned(),
+            revision: "0123456789abcdef0123456789abcdef01234567".to_owned(),
+            path: "src/release.ts".to_owned(),
+        },
+        rights: CorpusRights {
+            license: "REVIEWED-TRAINING-RIGHTS".to_owned(),
+            use_constraints: vec!["training-only".to_owned()],
+        },
+        expected_release_id: release_id.clone(),
+        expected_manifest_sha256: manifest_sha256.clone(),
+        required_files: vec![
+            "data/train.jsonl".to_owned(),
+            "data/validation.jsonl".to_owned(),
+        ],
+    };
+
+    let registered = register_braid_corpus_release(&workspace, import.clone(), &manifest)
+        .expect("register Braid release");
+    assert_eq!(registered.release.id, "dataset://braid/feral-7b-sec/v1");
+    assert_eq!(registered.release.files.len(), 3);
+    assert_eq!(
+        registered.release.metadata.get("braid_release_id"),
+        Some(&release_id)
+    );
+    assert_eq!(
+        registered.release.metadata.get("braid_manifest_sha256"),
+        Some(&manifest_sha256)
+    );
+    assert_eq!(
+        register_braid_corpus_release(&workspace, import, &manifest)
+            .expect("idempotent Braid import")
+            .artifact_ref,
+        registered.artifact_ref
+    );
+    assert!(workspace.verify().expect("ledger must verify").valid);
+}
+
+#[test]
+fn braid_import_rejects_manifest_drift_and_unreleased_data() {
+    let directory = TestDirectory::create("braid-reject");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let release_digest = "d".repeat(64);
+    let release_id = format!("feral-7b-sec-v1-{release_digest}");
+    let manifest = serde_json::to_vec(&serde_json::json!({
+        "schemaVersion": "braid.release/v2",
+        "releaseId": release_id,
+        "status": "BLOCKED",
+        "digests": { "release": release_digest },
+        "artifacts": [
+            { "path": "data/train.jsonl", "sha256": "a".repeat(64), "bytes": 1 },
+            { "path": "data/validation.jsonl", "sha256": "b".repeat(64), "bytes": 1 }
+        ]
+    }))
+    .expect("manifest must serialize");
+    let mut import = BraidCorpusImport {
+        schema: "ilxyr.braid_corpus_import.v1".to_owned(),
+        id: "dataset://braid/feral-7b-sec/v1".to_owned(),
+        title: "FERAL-7B SEC training corpus v1".to_owned(),
+        version: "v1".to_owned(),
+        source: CorpusSource {
+            repository: "https://github.com/cenetex/braid".to_owned(),
+            revision: "0123456789abcdef0123456789abcdef01234567".to_owned(),
+            path: "src/release.ts".to_owned(),
+        },
+        rights: CorpusRights {
+            license: "REVIEWED-TRAINING-RIGHTS".to_owned(),
+            use_constraints: vec![],
+        },
+        expected_release_id: release_id,
+        expected_manifest_sha256: "f".repeat(64),
+        required_files: vec![
+            "data/train.jsonl".to_owned(),
+            "data/validation.jsonl".to_owned(),
+        ],
+    };
+    let error = register_braid_corpus_release(&workspace, import.clone(), &manifest)
+        .expect_err("manifest drift must fail");
+    assert!(error.to_string().contains("SHA-256"));
+
+    import.expected_manifest_sha256 = format!("{:x}", Sha256::digest(&manifest));
+    let error = register_braid_corpus_release(&workspace, import, &manifest)
+        .expect_err("unreleased Braid data must fail");
+    assert!(error.to_string().contains("status must be RELEASED"));
+}
+
+#[test]
+fn braid_import_rejects_duplicate_required_files() {
+    let directory = TestDirectory::create("braid-duplicate-required-files");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let release_digest = "d".repeat(64);
+    let release_id = format!("feral-7b-sec-v1-{release_digest}");
+    let manifest = serde_json::to_vec(&serde_json::json!({
+        "schemaVersion": "braid.release/v2",
+        "releaseId": release_id,
+        "status": "RELEASED",
+        "digests": { "release": release_digest },
+        "artifacts": [
+            { "path": "data/train.jsonl", "sha256": "a".repeat(64), "bytes": 123 }
+        ]
+    }))
+    .expect("manifest must serialize");
+    let import = BraidCorpusImport {
+        schema: "ilxyr.braid_corpus_import.v1".to_owned(),
+        id: "dataset://braid/feral-7b-sec/v1".to_owned(),
+        title: "FERAL-7B SEC training corpus v1".to_owned(),
+        version: "v1".to_owned(),
+        source: CorpusSource {
+            repository: "https://github.com/cenetex/braid".to_owned(),
+            revision: "0123456789abcdef0123456789abcdef01234567".to_owned(),
+            path: "src/release.ts".to_owned(),
+        },
+        rights: CorpusRights {
+            license: "REVIEWED-TRAINING-RIGHTS".to_owned(),
+            use_constraints: vec!["training-only".to_owned()],
+        },
+        expected_release_id: release_id,
+        expected_manifest_sha256: format!("{:x}", Sha256::digest(&manifest)),
+        required_files: vec!["data/train.jsonl".to_owned(), "data/train.jsonl".to_owned()],
+    };
+
+    let error = register_braid_corpus_release(&workspace, import, &manifest)
+        .expect_err("duplicate required files must fail");
+    assert!(error.to_string().contains("required training file"));
 }
 
 #[test]

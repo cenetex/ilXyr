@@ -776,22 +776,17 @@ mod tests {
     #[test]
     fn aliases_and_experiment_id_resolve_to_one_project() {
         let registry = ResearchRegistry::builtin().expect("built-in registry");
-        for query in ["qwen-sec", "FERAL-7B", "feral-7b.sec-analysis.v1"] {
+        for query in ["qwen-sec", "FERAL-7B", "feral-7b.sec-analysis.v2"] {
             let response = registry.search(query).expect("search");
             assert_eq!(response.matches.len(), 1);
-            assert_eq!(
-                response.matches[0].project_id,
-                "project://runner-watch/feral-7b-sec"
-            );
+            assert_eq!(response.matches[0].project_id, "project://ilxyr/feral-7b");
         }
     }
 
     #[test]
     fn qwen_status_is_truthful_before_paid_training() {
         let registry = ResearchRegistry::builtin().expect("built-in registry");
-        let status = registry
-            .status("project://runner-watch/feral-7b-sec")
-            .expect("status");
+        let status = registry.status("project://ilxyr/feral-7b").expect("status");
         assert_eq!(status.project.lifecycle_state, LifecycleState::Blocked);
         assert!(status.running.is_empty());
         assert_eq!(status.completed.len(), 1);
@@ -842,7 +837,7 @@ mod tests {
     fn lineage_has_model_corpus_and_planned_evaluations() {
         let registry = ResearchRegistry::builtin().expect("built-in registry");
         let lineage = registry
-            .lineage("feral-7b.sec-analysis.v1")
+            .lineage("feral-7b.sec-analysis.v2")
             .expect("lineage");
         assert_eq!(
             lineage.model.weight_revision,
