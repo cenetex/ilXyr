@@ -21,6 +21,7 @@ test "$WM06_REGION" = us-east-1
 [[ "$WM06_MANIFEST_SHA256" =~ ^[0-9a-f]{64}$ ]]
 
 tags="ResourceType=instance,Tags=[{Key=Project,Value=ilxyr},{Key=Name,Value=weight-multiplicity-phase06},{Key=Experiment,Value=weight-multiplicity-phase06-persistent-lie-v1},{Key=RunId,Value=${WM06_RUN_ID}},{Key=PackageKey,Value=${WM06_PACKAGE_KEY}},{Key=PackageSha256,Value=${WM06_PACKAGE_SHA256}},{Key=Bucket,Value=${WM06_BUCKET}},{Key=Region,Value=${WM06_REGION}},{Key=IlxyrCommit,Value=${WM06_ILXYR_COMMIT}},{Key=PlanSha256,Value=${WM06_PLAN_SHA256}},{Key=ManifestSha256,Value=${WM06_MANIFEST_SHA256}},{Key=ApprovalId,Value=weight-multiplicity-phase06-2026-08-31-v1},{Key=LaunchEpoch,Value=${WM06_LAUNCH_EPOCH}},{Key=MaxInstanceSeconds,Value=1800},{Key=WorkloadTimeoutSeconds,Value=1200},{Key=MaxComputeUsd,Value=1.00},{Key=HourlyPrice,Value=0.68}]"
+volume_tags="ResourceType=volume,Tags=[{Key=Project,Value=ilxyr},{Key=Experiment,Value=weight-multiplicity-phase06-persistent-lie-v1},{Key=RunId,Value=${WM06_RUN_ID}}]"
 
 arguments=(
   --image-id "$WM06_AMI"
@@ -31,8 +32,7 @@ arguments=(
   --metadata-options "HttpTokens=required,HttpEndpoint=enabled,InstanceMetadataTags=enabled"
   --block-device-mappings 'DeviceName=/dev/sda1,Ebs={VolumeSize=20,VolumeType=gp3,DeleteOnTermination=true,Encrypted=true}'
   --user-data file://scripts/aws/weight-multiplicity-phase06-user-data.sh
-  --tag-specifications "$tags"
-  --tag-specifications "ResourceType=volume,Tags=[{Key=Project,Value=ilxyr},{Key=Experiment,Value=weight-multiplicity-phase06-persistent-lie-v1},{Key=RunId,Value=${WM06_RUN_ID}}]"
+  --tag-specifications "$tags" "$volume_tags"
   --region "$WM06_REGION"
   --no-cli-pager
 )
