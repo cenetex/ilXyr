@@ -32,6 +32,14 @@ and contain no corpus-generation or training path.
 
 Current append-only evidence:
 
+- `PHASE06-LIE-PREFLIGHT-CLOSEOUT-V1.md`,
+  `phase06-lie-preflight-closeout-v1.json`, and
+  `phase06-preflight-cloud-v1/` seal the completed retained-surface preflight.
+  All 572 representations pass, all 4,218 Zero/LiE comparisons agree, and all
+  4,218 replay comparisons are exact. Combined with the earlier 253 LiE
+  passes, all 825 retained representations now have measured LiE coverage.
+  This closes the preflight gate but does not authorize corpus generation,
+  training, or oracle promotion.
 - `PHASE06-LIE-BUILD-IDENTITY-ERRATUM-V1.md` and
   `phase06-preflight-launch-attempt-20260831211713.json` record the
   build-phase-only first preflight attempt. No query ran. The correction

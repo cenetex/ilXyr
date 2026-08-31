@@ -1,0 +1,14 @@
+{
+  "schema": "ilxyr.weight_multiplicity_phase06_lie_preflight_build.v1",
+  "source_sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e",
+  "executable_sha256": "bc1099ccfa0f890868e2261c106ede4fd0e52dcd86a4d03b16318ba39674e974",
+  "independent_build_executable_sha256s": [
+    "bc1099ccfa0f890868e2261c106ede4fd0e52dcd86a4d03b16318ba39674e974",
+    "bc1099ccfa0f890868e2261c106ede4fd0e52dcd86a4d03b16318ba39674e974"
+  ],
+  "executable_hashes_match": true,
+  "source_date_epoch": 1112054400,
+  "command": "SOURCE_DATE_EPOCH=1112054400 make noreadline CFLAGS=-O_-D_POSIX_C_SOURCE=200809L",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "source_modified": false
+}
