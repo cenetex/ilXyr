@@ -16,11 +16,13 @@ use ilxyr_core::{
     ProviderLaunchReceipt, RemoteExecutionObservation, RemoteExecutionState, RemoteExecutorAdapter,
     RemoteLaunchReceipt, RemoteLaunchRequest, RemotePreflightReceipt, ReportingPolicy,
     ResearchContribution, RunRecord, SourceRelease, WeightClass, Workspace,
-    accept_remote_execution_report, allocate_epoch, authorize_remote_execution,
+    accept_authenticated_remote_report, accept_remote_execution_report, allocate_epoch,
+    authenticate_report_intake_credential, authorize_remote_execution,
     collect_remote_execution_report, compile_experiment, dsse_pae, epoch_budget_signing_payload,
-    launch_remote_execution, observe_remote_execution, preflight_remote_execution,
-    register_epoch_budget, run_experiment, submit_contribution, submit_forecast,
-    trust_attestation_key, trust_policy_key, verify_compiled_job_package,
+    issue_report_intake_credential, launch_remote_execution, observe_remote_execution,
+    preflight_remote_execution, record_authenticated_report_rejection, register_epoch_budget,
+    run_experiment, submit_contribution, submit_forecast, trust_attestation_key, trust_policy_key,
+    verify_compiled_job_package,
 };
 use serde::Serialize;
 use serde_json::{Value, json};
@@ -144,6 +146,156 @@ fn fake_adapter_recovers_idempotently_and_intake_is_durable() {
     let error = accept_remote_execution_report(&fixture.workspace, &second_report)
         .expect_err("one launch cannot publish a second report");
     assert!(error.to_string().contains("already bound"));
+    assert!(fixture.workspace.verify().expect("ledger verifies").valid);
+}
+
+#[test]
+fn network_intake_credential_is_secret_one_run_and_durable() {
+    let fixture = Fixture::new();
+    let mut adapter = FakeAdapter::new(false);
+    let authorization = authorize_remote_execution(
+        &fixture.workspace,
+        &fixture.environment,
+        &fixture.package,
+        &fixture.budget_id,
+        AUTHORIZATION_ID,
+        future_expiry(),
+    )
+    .expect("remote run is authorized");
+    launch_remote_execution(&fixture.workspace, &mut adapter, AUTHORIZATION_ID)
+        .expect("remote launch is recorded");
+    let report =
+        collect_remote_execution_report(&fixture.workspace, &mut adapter, AUTHORIZATION_ID)
+            .expect("signed report is collected");
+
+    let expiry = authorization.expires_at_ms - 1;
+    let issued = issue_report_intake_credential(&fixture.workspace, AUTHORIZATION_ID, expiry, 2)
+        .expect("one-run credential is issued");
+    let token = issued
+        .bearer_token
+        .as_deref()
+        .expect("secret is returned exactly once");
+    assert_eq!(token.len(), 43);
+    assert!(!issued.credential.token_sha256.contains(token));
+    for object in fs::read_dir(fixture.workspace.root().join(".ilxyr/objects/sha256"))
+        .expect("object directory is readable")
+    {
+        let contents = fs::read_to_string(object.expect("object entry").path())
+            .expect("ledger object is readable");
+        assert!(
+            !contents.contains(token),
+            "plaintext token entered the ledger"
+        );
+    }
+    assert_eq!(
+        authenticate_report_intake_credential(&fixture.workspace, token)
+            .expect("secret authenticates"),
+        issued.credential
+    );
+    let events_after_issue = fixture.workspace.events().expect("events load").len();
+    let retry = issue_report_intake_credential(&fixture.workspace, AUTHORIZATION_ID, expiry, 2)
+        .expect("exact issuance retry is read-only");
+    assert!(retry.bearer_token.is_none());
+    assert_eq!(
+        fixture.workspace.events().expect("events load").len(),
+        events_after_issue
+    );
+
+    let invalid_events = fixture.workspace.events().expect("events load").len();
+    let error = authenticate_report_intake_credential(
+        &fixture.workspace,
+        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    )
+    .expect_err("unknown token is rejected");
+    assert!(
+        error
+            .to_string()
+            .contains("invalid report intake credential")
+    );
+    assert_eq!(
+        fixture.workspace.events().expect("events load").len(),
+        invalid_events,
+        "unknown tokens never write to the ledger"
+    );
+
+    let accepted = accept_authenticated_remote_report(&fixture.workspace, token, &report)
+        .expect("valid signed report is accepted");
+    assert!(!accepted.idempotent);
+    assert_eq!(accepted.intake.report_ref, artifact_ref(&report));
+    assert_eq!(
+        event_count(&fixture.workspace, "ReportIntakeCredentialUsed"),
+        1
+    );
+    let events_after_accept = fixture.workspace.events().expect("events load").len();
+    let accepted_retry = accept_authenticated_remote_report(&fixture.workspace, token, &report)
+        .expect("exact report retry is idempotent");
+    assert!(accepted_retry.idempotent);
+    assert_eq!(
+        fixture.workspace.events().expect("events load").len(),
+        events_after_accept
+    );
+
+    let mut different = report;
+    different.reported_at_ms += 1;
+    let error = accept_authenticated_remote_report(&fixture.workspace, token, &different)
+        .expect_err("used token cannot bind a second report");
+    assert!(error.to_string().contains("already been used"));
+    assert!(fixture.workspace.verify().expect("ledger verifies").valid);
+}
+
+#[test]
+fn authenticated_rejections_are_bounded_and_malformed_bodies_are_not_stored() {
+    let fixture = Fixture::new();
+    let mut adapter = FakeAdapter::new(false);
+    let authorization = authorize_remote_execution(
+        &fixture.workspace,
+        &fixture.environment,
+        &fixture.package,
+        &fixture.budget_id,
+        AUTHORIZATION_ID,
+        future_expiry(),
+    )
+    .expect("remote run is authorized");
+    launch_remote_execution(&fixture.workspace, &mut adapter, AUTHORIZATION_ID)
+        .expect("remote launch is recorded");
+    let issued = issue_report_intake_credential(
+        &fixture.workspace,
+        AUTHORIZATION_ID,
+        authorization.expires_at_ms - 1,
+        2,
+    )
+    .expect("one-run credential is issued");
+    let token = issued.bearer_token.as_deref().expect("secret is returned");
+
+    let malformed = br#"{"not":"an execution report"}"#;
+    record_authenticated_report_rejection(&fixture.workspace, token, malformed, "invalid_json")
+        .expect("authenticated malformed body is counted");
+    assert_eq!(event_count(&fixture.workspace, "ReportIntakeRejected"), 1);
+    let ledger_text = fs::read_to_string(fixture.workspace.root().join(".ilxyr/events.jsonl"))
+        .expect("ledger is readable");
+    assert!(!ledger_text.contains("not an execution report"));
+
+    let mut wrong_launch =
+        collect_remote_execution_report(&fixture.workspace, &mut adapter, AUTHORIZATION_ID)
+            .expect("report is collected");
+    wrong_launch.launch_ref = format!("artifact://sha256/{}", "0".repeat(64));
+    accept_authenticated_remote_report(&fixture.workspace, token, &wrong_launch)
+        .expect_err("wrong launch is rejected and counted");
+    assert_eq!(event_count(&fixture.workspace, "ReportIntakeRejected"), 2);
+
+    let events_at_limit = fixture.workspace.events().expect("events load").len();
+    let error = record_authenticated_report_rejection(
+        &fixture.workspace,
+        token,
+        b"another malformed body",
+        "invalid_json",
+    )
+    .expect_err("credential locks after its rejected-attempt limit");
+    assert!(error.to_string().contains("rejected-attempt limit"));
+    assert_eq!(
+        fixture.workspace.events().expect("events load").len(),
+        events_at_limit
+    );
     assert!(fixture.workspace.verify().expect("ledger verifies").valid);
 }
 

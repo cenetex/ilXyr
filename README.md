@@ -38,6 +38,9 @@ academic claim, evaluation boundary, and publication gaps are stated in
 - Defines a provider-neutral `remote-v1` boundary over digest-bound packages, signed-budget
   authorization, reserve-before-launch idempotency, read-only observation/collection, and durable
   single-writer report intake. Its fake adapter starts no process and uses no cloud resource.
+- Provides a separate report-intake service with hashed one-run credentials, strict request limits,
+  bounded authenticated failures, durable replay handling, and no cloud-launch code. It is built
+  for deployment behind a TLS reverse proxy but is not yet operated as a public endpoint.
 - Resolves the declared outcome, scores forecasts with the Brier rule, and records evidence.
 - Records grounding authority and additive certificates over declared decidable domains.
 - Runs a budget-capped sandbox lane and deterministically evaluates promotion eligibility.

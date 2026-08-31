@@ -96,5 +96,6 @@ build status requires independent matching builds; it is not inferred from a Nix
 - The Cenetex environment remains honestly marked as a candidate until real artifacts and an
   independently accepted conformance receipt exist.
 - A later AWS adapter can use Zero's proven controls without making AWS the protocol.
-- The local single-writer intake exists; operating the authenticated network intake, transparency
-  log, and independent conformance runner remains roadmap work.
+- The local single-writer intake and its authenticated HTTP boundary exist. Operating it with real
+  TLS and authoritative trust roots, plus a transparency log and independent conformance runner,
+  remains roadmap work.
