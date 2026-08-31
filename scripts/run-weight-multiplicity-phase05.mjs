@@ -471,9 +471,15 @@ class OracleServer {
   }
 
   async start() {
+    const serverArgument = {
+      fresh: "--serve",
+      grouped: "--serve-grouped",
+      prepared: "--serve-prepared",
+    }[this.mode];
+    if (!serverArgument) throw new Error(`unsupported oracle mode: ${this.mode}`);
     this.child = spawn(
       this.executable,
-      [this.mode === "grouped" ? "--serve-grouped" : "--serve"],
+      [serverArgument],
       {
         stdio: ["pipe", "pipe", "pipe"],
         env: {
@@ -489,7 +495,7 @@ class OracleServer {
     });
     this.iterator = createInterface({ input: this.child.stdout })[Symbol.asyncIterator]();
     const ready = JSON.parse(await this.nextLine());
-    const expectedVersion = this.mode === "grouped" ? 2 : 1;
+    const expectedVersion = { fresh: 1, grouped: 2, prepared: 3 }[this.mode];
     if (ready.status !== "ready" || ready.schema_version !== expectedVersion)
       throw new Error(`oracle returned unexpected ready record: ${JSON.stringify(ready)}`);
     this.ready = ready;
@@ -643,6 +649,29 @@ class OracleServer {
 const queryLine = (representation, target) =>
   `${representation.type}\t${representation.highest_weight.join(",")}\t${target.target_weight.join(",")}`;
 
+const preparedReplayProjection = (value) => ({
+  multiplicity: value.multiplicity ?? null,
+  engine: value.engine ?? null,
+  cache_mode: value.cache_mode ?? null,
+  session_generation: value.session_generation ?? null,
+  memo_entries_before: value.memo_entries_before ?? null,
+  memo_entries: value.memo_entries ?? null,
+  memo_entries_added: value.memo_entries_added ?? null,
+  memo_hits: value.memo_hits ?? null,
+  recurrence_terms: value.recurrence_terms ?? null,
+  recursive_weyl_folds: value.recursive_weyl_folds ?? null,
+  prepared_nodes_before: value.prepared_nodes_before ?? null,
+  prepared_nodes: value.prepared_nodes ?? null,
+  prepared_nodes_added: value.prepared_nodes_added ?? null,
+  prepared_edges_before: value.prepared_edges_before ?? null,
+  prepared_edges: value.prepared_edges ?? null,
+  prepared_edges_added: value.prepared_edges_added ?? null,
+  prepared_raw_transitions: value.prepared_raw_transitions ?? null,
+  prepared_graph_capacity_bytes: value.prepared_graph_capacity_bytes ?? null,
+  prepared_worker_count: value.prepared_worker_count ?? null,
+  maximum_level: value.maximum_level ?? null,
+});
+
 const runOrderedGroup = async ({
   oracle,
   representation,
@@ -701,6 +730,7 @@ const runOrderedGroup = async ({
         exactPeakRss = Math.max(exactPeakRss, metrics.max_rss_bytes);
       }
       records.push({
+        session_query_index: records.length,
         generation_index: target.generation_index,
         source: target.source,
         target_weight: target.target_weight,
@@ -709,6 +739,8 @@ const runOrderedGroup = async ({
         dominant_target_key: target.dominant_target_key,
         request: queryLine(representation, target),
         response: response.raw,
+        replay_projection:
+          mode === "prepared" ? preparedReplayProjection(response.value) : null,
         multiplicity: response.value.multiplicity ?? null,
         elapsed_ms: response.elapsed_ms,
         sampled_peak_rss_bytes: response.sampled_peak_rss_bytes,
@@ -722,6 +754,32 @@ const runOrderedGroup = async ({
         memo_peak_allocated_bytes: response.value.memo_peak_allocated_bytes ?? null,
         recurrence_terms: response.value.recurrence_terms ?? null,
         recursive_weyl_folds: response.value.recursive_weyl_folds ?? null,
+        prepared_nodes_before: response.value.prepared_nodes_before ?? null,
+        prepared_nodes: response.value.prepared_nodes ?? null,
+        prepared_nodes_added: response.value.prepared_nodes_added ?? null,
+        prepared_edges_before: response.value.prepared_edges_before ?? null,
+        prepared_edges: response.value.prepared_edges ?? null,
+        prepared_edges_added: response.value.prepared_edges_added ?? null,
+        prepared_raw_transitions: response.value.prepared_raw_transitions ?? null,
+        prepared_discovery_nanoseconds:
+          response.value.prepared_discovery_nanoseconds ?? null,
+        prepared_evaluation_nanoseconds:
+          response.value.prepared_evaluation_nanoseconds ?? null,
+        prepared_graph_capacity_bytes:
+          response.value.prepared_graph_capacity_bytes ?? null,
+        prepared_worker_count: response.value.prepared_worker_count ?? null,
+        working_set_capacity_bytes:
+          response.value.working_set_capacity_bytes ?? null,
+        working_set_peak_allocated_bytes:
+          response.value.working_set_peak_allocated_bytes ?? null,
+        cache_state:
+          mode !== "prepared"
+            ? null
+            : records.length === 0
+              ? "cold_session_query"
+              : (response.value.prepared_nodes_added ?? 0) === 0
+                ? "no_graph_extension"
+                : "extended_graph",
       });
       if (oracleError) break;
     }
@@ -761,7 +819,9 @@ const runOrderedGroup = async ({
     optimization_stage:
       mode === "fresh"
         ? plan.frontier.optimization_sequence[0]
-        : plan.frontier.optimization_sequence[1],
+        : mode === "grouped"
+          ? plan.frontier.optimization_sequence[1]
+          : plan.frontier.optimization_sequence.at(-1),
     order,
     memo_configuration: server.ready
       ? {
@@ -772,6 +832,11 @@ const runOrderedGroup = async ({
           progress_schema:
             oracleEnvironment.ZERO_WEIGHT_MEMO_PROGRESS === "1"
               ? "zero.weight_memo_progress.v1"
+              : null,
+          cache_mode: server.ready.cache_mode ?? null,
+          prepared_workers:
+            mode === "prepared"
+              ? Number(oracleEnvironment.ZERO_WEIGHT_PREPARED_WORKERS)
               : null,
         }
       : null,
@@ -803,6 +868,22 @@ const runOrderedGroup = async ({
           : maximumMemoEntries * server.ready.memo_entry_bytes,
       maximum_memo_capacity: Math.max(0, ...records.map((record) => record.memo_capacity_bytes ?? 0)),
       maximum_memo_peak_allocated: Math.max(0, ...records.map((record) => record.memo_peak_allocated_bytes ?? 0)),
+      maximum_working_set_capacity: Math.max(
+        0,
+        ...records.map((record) => record.working_set_capacity_bytes ?? 0),
+      ),
+      maximum_working_set_peak_allocated: Math.max(
+        0,
+        ...records.map(
+          (record) => record.working_set_peak_allocated_bytes ?? 0,
+        ),
+      ),
+      maximum_prepared_graph_capacity: Math.max(
+        0,
+        ...records.map(
+          (record) => record.prepared_graph_capacity_bytes ?? 0,
+        ),
+      ),
       hard_timeout_rss_sampling: hardTimeout
         ? hardTimeout.sampled_peak_rss_bytes === null
           ? "unavailable"
@@ -836,6 +917,9 @@ const compareRuns = (left, right) => {
   return mismatches;
 };
 
+const replayIdentity = (record, projection) =>
+  projection ? JSON.stringify(record.replay_projection) : record.response;
+
 const runPassesTime = (run, plan) =>
   !run.hard_timeout &&
   !run.oracle_error &&
@@ -857,25 +941,39 @@ const assessExactness = ({
     runComplete(binding, expectedQueries) &&
     replays.length === requiredReplays &&
     replays.every((run) => runComplete(run, expectedQueries));
-  const replayByteIdentical = replayObserved
+  const replayProjection = binding.mode === "prepared";
+  const replayIdentityObserved = replayObserved
     ? replays.every(
         (run) =>
           run.records.length === binding.records.length &&
           run.records.every(
-            (record, index) => record.response === binding.records[index].response,
+            (record, index) =>
+              replayIdentity(record, replayProjection) ===
+              replayIdentity(binding.records[index], replayProjection),
           ),
       )
+    : null;
+  const replayByteIdentical = replayProjection ? null : replayIdentityObserved;
+  const replayProjectionIdentical = replayProjection
+    ? replayIdentityObserved
     : null;
   const allRunsComplete =
     replays.length === requiredReplays &&
     runs.every((run) => runComplete(run, expectedQueries));
   const status =
-    mismatches.length > 0 || replayByteIdentical === false
+    mismatches.length > 0 || replayIdentityObserved === false
       ? "fail"
-      : replayObserved && (requiredReplays === 0 || replayByteIdentical === true)
+      : replayObserved &&
+          (requiredReplays === 0 || replayIdentityObserved === true)
         ? "pass"
         : "unknown_after_hard_timeout_or_oracle_error";
-  return { status, all_runs_complete: allRunsComplete, replay_observed: replayObserved, replay_byte_identical: replayByteIdentical };
+  return {
+    status,
+    all_runs_complete: allRunsComplete,
+    replay_observed: replayObserved,
+    replay_byte_identical: replayByteIdentical,
+    replay_projection_identical: replayProjectionIdentical,
+  };
 };
 const runMemoryStatus = (run, plan) => {
   if (run.memory_bytes.observation === "lower_bound_limit_exceeded") return "fail";
@@ -889,6 +987,15 @@ const runMemoryStatus = (run, plan) => {
 const runPassesMemory = (run, plan) => runMemoryStatus(run, plan) === "pass";
 
 const measureRepresentation = async ({ oracle, representation, description, plan, replayCount, targetLimit = null }) => {
+  const sessionMode = plan.frontier.session_mode ?? "grouped";
+  const oracleEnvironment =
+    sessionMode === "prepared"
+      ? {
+          ZERO_WEIGHT_PREPARED_WORKERS: String(
+            plan.frontier.prepared_workers_per_process,
+          ),
+        }
+      : {};
   let targets = generateTargets(representation, description, plan);
   targets = limitTargets(targets, targetLimit);
   const cold = await runOrderedGroup({
@@ -904,8 +1011,9 @@ const measureRepresentation = async ({ oracle, representation, description, plan
     representation,
     targets,
     plan,
-    mode: "grouped",
+    mode: sessionMode,
     order: plan.frontier.binding_target_order,
+    oracleEnvironment,
   });
   const sensitivities = [];
   for (const order of plan.frontier.sensitivity_target_orders) {
@@ -915,8 +1023,9 @@ const measureRepresentation = async ({ oracle, representation, description, plan
         representation,
         targets,
         plan,
-        mode: "grouped",
+        mode: sessionMode,
         order,
+        oracleEnvironment,
       }),
     );
   }
@@ -929,8 +1038,9 @@ const measureRepresentation = async ({ oracle, representation, description, plan
           representation,
           targets,
           plan,
-          mode: "grouped",
+          mode: sessionMode,
           order: plan.frontier.binding_target_order,
+          oracleEnvironment,
         }),
       );
     }
@@ -977,7 +1087,15 @@ const measureRepresentation = async ({ oracle, representation, description, plan
     },
     classification,
     boundary: { exactness_pass: exactnessPass, exactness_known: exactness.status !== "unknown_after_hard_timeout_or_oracle_error", exactness_status: exactness.status, time_pass: timePass, memory_pass: memoryPass, memory_known: !memoryUnknown, memory_statuses: memoryStatuses, order_sensitive: orderSensitive },
-    exactness: { mismatches, all_runs_complete: exactness.all_runs_complete, replay_observed: exactness.replay_observed, replay_byte_identical: exactness.replay_byte_identical, replay_runs: replays.length, required_replay_runs: replayCount },
+    exactness: {
+      mismatches,
+      all_runs_complete: exactness.all_runs_complete,
+      replay_observed: exactness.replay_observed,
+      replay_byte_identical: exactness.replay_byte_identical,
+      replay_projection_identical: exactness.replay_projection_identical,
+      replay_runs: replays.length,
+      required_replay_runs: replayCount,
+    },
     cold,
     binding,
     sensitivities,
@@ -1046,8 +1164,16 @@ const calibrateParallelism = async ({ oracle, measurements, descriptions, plan, 
           representation,
           targets,
           plan,
-          mode: "grouped",
+          mode: plan.frontier.session_mode ?? "grouped",
           order: plan.frontier.binding_target_order,
+          oracleEnvironment:
+            plan.frontier.session_mode === "prepared"
+              ? {
+                  ZERO_WEIGHT_PREPARED_WORKERS: String(
+                    plan.frontier.prepared_workers_per_process,
+                  ),
+                }
+              : {},
         });
       }),
     );
@@ -1131,14 +1257,37 @@ const selfTest = () => {
     requiredReplays: 1,
     mismatches: [],
   });
+  const preparedBinding = {
+    ...completeRun(["timing-one", "timing-two"]),
+    mode: "prepared",
+  };
+  preparedBinding.records[0].replay_projection = { multiplicity: "1" };
+  preparedBinding.records[1].replay_projection = { multiplicity: "2" };
+  const preparedReplay = {
+    ...completeRun(["different-timing-one", "different-timing-two"]),
+    mode: "prepared",
+  };
+  preparedReplay.records[0].replay_projection = { multiplicity: "1" };
+  preparedReplay.records[1].replay_projection = { multiplicity: "2" };
+  const preparedExactness = assessExactness({
+    runs: [preparedBinding, preparedReplay],
+    binding: preparedBinding,
+    replays: [preparedReplay],
+    expectedQueries: 2,
+    requiredReplays: 1,
+    mismatches: [],
+  });
   if (
     incompleteExactness.status !== "unknown_after_hard_timeout_or_oracle_error" ||
     incompleteExactness.replay_byte_identical !== null ||
     disagreementExactness.status !== "fail" ||
-    disagreementExactness.replay_byte_identical !== false
+    disagreementExactness.replay_byte_identical !== false ||
+    preparedExactness.status !== "pass" ||
+    preparedExactness.replay_byte_identical !== null ||
+    preparedExactness.replay_projection_identical !== true
   )
     throw new Error("exactness-observation self-test failed");
-  console.log(JSON.stringify({ status: "pass", exact_weyl_dimension: true, target_order: true, hard_timeout_memory_unknown: true, incomplete_replay_exactness_unknown: true }));
+  console.log(JSON.stringify({ status: "pass", exact_weyl_dimension: true, target_order: true, hard_timeout_memory_unknown: true, incomplete_replay_exactness_unknown: true, prepared_projection_replay: true }));
 };
 
 const main = async () => {
@@ -1191,7 +1340,10 @@ const main = async () => {
     result = {
       schema_version: 1,
       evidence_status: options.smoke ? "nonbinding_smoke" : "binding_in_progress",
-      evidence_stage: "bounded_session_memo_and_order_sensitivity",
+      evidence_stage:
+        plan.frontier.session_mode === "prepared"
+          ? "parallel_prepared_dependency_dag_and_order_sensitivity"
+          : "bounded_session_memo_and_order_sensitivity",
       scope_revision: plan.scope_revision,
       plan_sha256: manifest.plan_sha256,
       manifest_sha256: sha256(manifestRecord.bytes),

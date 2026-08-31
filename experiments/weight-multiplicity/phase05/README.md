@@ -39,6 +39,11 @@ Current append-only evidence:
   append-only predecessor.
 - `SESSION-FRONTIER-V4-HOLD.md`, `session-frontier-v4.json.gz`, and its compact
   summary repeat the same frozen roster after direct coefficient-space Weyl
-  folding. Version 4 is the controlling frontier evidence: 825 of 828
-  representations pass, while one time failure, one order-sensitive case, and
-  one time-fail/memory-unknown case keep the decision at Hold.
+  folding. Version 4 remains a sealed predecessor.
+- `SESSION-FRONTIER-V5-HOLD.md`, `session-frontier-v5.json.gz`, and its compact
+  summary repeat the frozen roster with Zero's parallel prepared dependency
+  DAG. Version 5 is the controlling frontier evidence: 827 of 828
+  representations pass and eight calibration workers are safe under the full
+  time contract. One E8 time-fail/memory-unknown case keeps the decision at
+  Hold. LiE Version 4 is kept in the separate predecessor-witness category; it
+  is not a direct independent witness for the Version 5 binary.
