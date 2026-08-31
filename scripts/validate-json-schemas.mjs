@@ -30,6 +30,10 @@ const fixtures = {
     "examples/experiments/solomon-q22/foundation.json",
     "examples/experiments/solomon-q22/engineering-review.json",
     "examples/experiments/solomon-q22/experiment-design.json",
+    "examples/experiments/solomon-q22-compositional/hypothesis.json",
+    "examples/experiments/solomon-q22-compositional/foundation.json",
+    "examples/experiments/solomon-q22-compositional/engineering-review.json",
+    "examples/experiments/solomon-q22-compositional/experiment-design.json",
   ],
   "corpus-materialization.schema.json": [
     "examples/corpus/s3-materialization.json",
@@ -73,6 +77,7 @@ const fixtures = {
   "experiment.schema.json": [
     "examples/toy/experiment.json",
     "examples/experiments/solomon-q22/experiment.json",
+    "examples/experiments/solomon-q22-compositional/experiment.json",
   ],
   "external-registration-receipt.schema.json": [
     "examples/schema/external-registration-receipt.json",
@@ -85,6 +90,8 @@ const fixtures = {
     "examples/toy/forecast-human.json",
     "examples/experiments/solomon-q22/forecast-mechanistic.json",
     "examples/experiments/solomon-q22/forecast-empirical.json",
+    "examples/experiments/solomon-q22-compositional/forecast-mechanistic.json",
+    "examples/experiments/solomon-q22-compositional/forecast-empirical.json",
   ],
   "frozen-proposal-candidate.schema.json": [
     "examples/schema/frozen-proposal-candidate.json",
@@ -94,6 +101,8 @@ const fixtures = {
     "examples/toy/funding-b.json",
     "examples/experiments/solomon-q22/funding-a.json",
     "examples/experiments/solomon-q22/funding-b.json",
+    "examples/experiments/solomon-q22-compositional/funding-a.json",
+    "examples/experiments/solomon-q22-compositional/funding-b.json",
   ],
   "huggingface-model.schema.json": [
     "examples/schema/huggingface-model.json",
@@ -162,6 +171,7 @@ const fixtures = {
   "shared-task.schema.json": ["examples/schema/shared-task.json"],
   "shared-task-v2.schema.json": [
     "examples/shared-tasks/zero-solomon-q22-operation-v1.json",
+    "examples/shared-tasks/zero-solomon-q22-compositional-routing-v1.json",
   ],
   "trusted-attestation-key.schema.json": [
     "examples/schema/trusted-attestation-key.json",
