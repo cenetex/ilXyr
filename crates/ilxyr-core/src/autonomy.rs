@@ -995,6 +995,7 @@ fn sandbox_execution_spec(spec: &SandboxSpec) -> ExperimentSpec {
         },
         baseline: "baseline://sandbox/not-applicable".to_owned(),
         datasets: Vec::new(),
+        dataset_bindings: BTreeMap::new(),
         models: Vec::new(),
         metrics: spec.metrics.clone(),
         seeds: spec.authority.scope.seeds.clone(),

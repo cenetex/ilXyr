@@ -428,6 +428,8 @@ fn validate_event_type(event_type: &str) -> Result<()> {
             | "CertificateRecorded"
             | "ClaimRegistered"
             | "ContributionSubmitted"
+            | "CorpusMaterializationRecorded"
+            | "CorpusReleaseRegistered"
             | "EpochBudgetRegistered"
             | "EvidenceEdgeRecorded"
             | "EvidenceRecorded"

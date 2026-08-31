@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "scope_revision": "phase-0.5-client-approved-2026-08-30",
-  "plan_sha256": "d5aaff97cda8069afbbce343e8a376d49890a21ddc33beb12d73ec5de9e31812",
+  "plan_sha256": "343bc1501db9505ed7b709c7bf36dab4357ef1f47347039149c0382a60393de0",
   "oracle_implementation": "zero-freudenthal-exact-c11",
   "oracle_algorithm": "freudenthal_recurrence",
   "oracle_interface_version": 2,

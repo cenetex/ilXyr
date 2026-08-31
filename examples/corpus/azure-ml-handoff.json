@@ -1,0 +1,51 @@
+{
+  "schema": "ilxyr.azure_ml_corpus_handoff.v1",
+  "corpus_ref": "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "materialization_ref": "artifact://sha256/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "expected_files": [
+    {
+      "path": "train/statebridge.jsonl",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "size_bytes": 100,
+      "media_type": "application/x-jsonlines"
+    },
+    {
+      "path": "validation/statebridge.jsonl",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "size_bytes": 25,
+      "media_type": "application/x-jsonlines"
+    }
+  ],
+  "materialized_objects": [
+    {
+      "path": "train/statebridge.jsonl",
+      "uri": "https://example.blob.core.windows.net/corpora/braid/corpus-five/v0.3.0/train/statebridge.jsonl",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "size_bytes": 100,
+      "provider_version": "example-version-1"
+    },
+    {
+      "path": "validation/statebridge.jsonl",
+      "uri": "https://example.blob.core.windows.net/corpora/braid/corpus-five/v0.3.0/validation/statebridge.jsonl",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "size_bytes": 25,
+      "provider_version": "example-version-2"
+    }
+  ],
+  "data_asset": {
+    "name": "braid-corpus-five",
+    "version": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "type": "uri_folder",
+    "path": "https://example.blob.core.windows.net/corpora/braid/corpus-five/v0.3.0",
+    "properties": {
+      "ilxyr_corpus_ref": "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "ilxyr_materialization_ref": "artifact://sha256/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  },
+  "job_input": {
+    "name": "training_data",
+    "type": "uri_folder",
+    "path": "azureml:braid-corpus-five:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "mode": "ro_mount"
+  }
+}

@@ -9,6 +9,9 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const schemaDirectory = join(root, "schemas");
 
 const fixtures = {
+  "azure-ml-corpus-handoff.schema.json": [
+    "examples/corpus/azure-ml-handoff.json",
+  ],
   "calibration-record.schema.json": ["examples/schema/calibration-record.json"],
   "cenetex-reference-build-contract.schema.json": [
     "executor/cenetex-public-v1/build-contract.json",
@@ -28,6 +31,11 @@ const fixtures = {
     "examples/experiments/solomon-q22/engineering-review.json",
     "examples/experiments/solomon-q22/experiment-design.json",
   ],
+  "corpus-materialization.schema.json": [
+    "examples/corpus/s3-materialization.json",
+    "examples/corpus/azure-materialization.json",
+  ],
+  "corpus-release.schema.json": ["examples/corpus/braid-corpus-five.json"],
   "epoch-budget.schema.json": ["examples/schema/epoch-budget.json"],
   "evidence-bundle.schema.json": ["examples/schema/evidence-bundle.json"],
   "evidence-graph-edge.schema.json": [
@@ -109,6 +117,8 @@ const fixtures = {
   "nsrl-registration.schema.json": [
     "examples/nsrl/p10m-v10-registration.json",
   ],
+  "oci-job-completion.schema.json": ["examples/cloud/oci-completion.json"],
+  "oci-job-dispatch.schema.json": ["examples/cloud/oci-dispatch.json"],
   "paper-contract.schema.json": ["examples/schema/paper-contract.json"],
   "proposal-compilation.schema.json": [
     "examples/schema/proposal-compilation.json",
@@ -131,6 +141,7 @@ const fixtures = {
   "registration-package.schema.json": [
     "examples/schema/registration-package.json",
   ],
+  "research-registry.schema.json": ["registry/research-registry.json"],
   "retro-registration.schema.json": [
     "examples/schema/retro-registration.json",
     "examples/families/nsrl-target-margin-v1.retro.json",
@@ -145,6 +156,9 @@ const fixtures = {
   ],
   "sandbox-run.schema.json": ["examples/schema/sandbox-run.json"],
   "sandbox-spec.schema.json": ["examples/schema/sandbox-spec.json"],
+  "sagemaker-corpus-handoff.schema.json": [
+    "examples/corpus/sagemaker-handoff.json",
+  ],
   "shared-task.schema.json": ["examples/schema/shared-task.json"],
   "shared-task-v2.schema.json": [
     "examples/shared-tasks/zero-solomon-q22-operation-v1.json",
@@ -170,13 +184,37 @@ const fixtures = {
   ],
   "weight-multiplicity-phase05-plan-v2.schema.json": [
     "examples/weight-multiplicity/phase05-frontier-plan-v2.json",
+    "examples/weight-multiplicity/phase05-frontier-plan-v3.json",
+  ],
+  "weight-multiplicity-phase05-plan-v3.schema.json": [
+    "examples/weight-multiplicity/phase05-frontier-plan-v4.json",
+  ],
+  "weight-multiplicity-phase05-plan-v4.schema.json": [
+    "examples/weight-multiplicity/phase05-frontier-plan-v5.json",
+  ],
+  "weight-multiplicity-phase05-plan-v5.schema.json": [
+    "examples/weight-multiplicity/phase05-frontier-plan-v6.json",
+  ],
+  "weight-multiplicity-phase05-plan-v6.schema.json": [
+    "examples/weight-multiplicity/phase05-frontier-plan-v7.json",
+  ],
+  "weight-multiplicity-phase05-cold-replay-plan.schema.json": [
+    "examples/weight-multiplicity/phase05-cold-replay-plan-v1.json",
   ],
   "weight-multiplicity-phase05-manifest.schema.json": [
     "examples/weight-multiplicity/phase05-representation-manifest.json",
     "examples/weight-multiplicity/phase05-representation-manifest-v2.json",
+    "examples/weight-multiplicity/phase05-representation-manifest-v3.json",
+    "examples/weight-multiplicity/phase05-representation-manifest-v4.json",
+    "examples/weight-multiplicity/phase05-representation-manifest-v5.json",
+    "examples/weight-multiplicity/phase05-representation-manifest-v6.json",
+    "examples/weight-multiplicity/phase05-representation-manifest-v7.json",
   ],
   "weight-multiplicity-phase05-lie-cross-check.schema.json": [
     "examples/weight-multiplicity/phase05-lie-cross-check-manifest-v3.json",
+  ],
+  "weight-multiplicity-phase05-lie-cross-check-v4.schema.json": [
+    "examples/weight-multiplicity/phase05-lie-cross-check-manifest-v4.json",
   ],
 };
 

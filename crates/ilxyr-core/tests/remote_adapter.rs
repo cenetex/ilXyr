@@ -564,6 +564,7 @@ impl RemoteExecutorAdapter for FakeAdapter {
             output_truncated: false,
             output_error: None,
             metrics: BTreeMap::from([("score".to_owned(), 0.82)]),
+            artifacts: Vec::new(),
             source_attestation: None,
         };
         let outputs = vec![resource_with_uri(

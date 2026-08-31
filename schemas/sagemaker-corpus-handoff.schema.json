@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/sagemaker-corpus-handoff.v1.json",
+  "title": "ilxyr SageMaker corpus handoff v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "corpus_ref",
+    "materialization_ref",
+    "expected_files",
+    "materialized_objects",
+    "region",
+    "input_data_config",
+    "tags"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.sagemaker_corpus_handoff.v1" },
+    "corpus_ref": { "$ref": "#/$defs/artifactRef" },
+    "materialization_ref": { "$ref": "#/$defs/artifactRef" },
+    "expected_files": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/corpusFile" }
+    },
+    "materialized_objects": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/materializedObject" }
+    },
+    "region": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+    "input_data_config": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ChannelName", "ContentType", "InputMode", "DataSource"],
+        "properties": {
+          "ChannelName": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+          "ContentType": { "type": "string", "minLength": 1 },
+          "InputMode": { "enum": ["File", "FastFile", "Pipe"] },
+          "DataSource": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["S3DataSource"],
+            "properties": {
+              "S3DataSource": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["S3DataType", "S3Uri", "S3DataDistributionType"],
+                "properties": {
+                  "S3DataType": { "const": "S3Prefix" },
+                  "S3Uri": { "type": "string", "pattern": "^s3://" },
+                  "S3DataDistributionType": { "const": "FullyReplicated" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["Key", "Value"],
+        "properties": {
+          "Key": { "type": "string", "minLength": 1 },
+          "Value": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "artifactRef": { "type": "string", "pattern": "^artifact://sha256/[0-9a-f]{64}$" },
+    "corpusFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes", "media_type"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "media_type": { "type": "string", "minLength": 1 }
+      }
+    },
+    "materializedObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "uri", "sha256", "size_bytes", "provider_version"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "uri": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "provider_version": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

@@ -18,6 +18,12 @@ The corrected binding plan is
 representation manifest remain unchanged because the sealed LiE witness binds
 their hashes.
 
+The append-only Version 3 plan repeats the same frozen roster and measurement
+rules against Zero commit `65e3523`, which added an optional presized-memo
+audit control after the Version 2 measurement began. Version 2 remains sealed
+against its original executable. Version 3 is the only result that may be used
+to decide the current session PR.
+
 ## Jointly owned ambiguity defect
 
 Revision 3 Section 3 assigns the exact symbolic-oracle role to Zero, and the
@@ -136,10 +142,11 @@ capacity bytes, group high-water entries, process RSS, and incremental RSS.
 For a completed query, memory uses the worker's process high-water mark. For a
 query killed at the ten-second measurement limit, exact peak and incremental
 RSS are `null`. The controller may sample worker RSS every 25 ms, but that
-sample is only a lower bound. A sample above the limit can prove a memory
-failure; a sample below the limit cannot prove a memory pass. Such a timeout is
-reported as `time_fail_memory_unknown`, never as `time_fail`, unless the sample
-itself proves that both limits failed.
+sampling starts only after the one-second decision threshold and does not block
+the query. The sample is only a lower bound. A sample above the limit can prove
+a memory failure; a sample below the limit cannot prove a memory pass. Such a
+timeout is reported as `time_fail_memory_unknown`, never as `time_fail`, unless
+the sample itself proves that both limits failed.
 Cold fresh-memo timing is a counterfactual comparison, not the production
 resource gate. The binding and sensitivity grouped orders determine fit; cold
 and grouped answers must still agree wherever both complete.

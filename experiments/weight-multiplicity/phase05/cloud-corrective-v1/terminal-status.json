@@ -1,0 +1,14 @@
+{
+  "schema": "ilxyr.weight_multiplicity_corrective_cloud_status.v1",
+  "status": "complete",
+  "phase": "complete",
+  "run_id": "33353839104",
+  "instance_id": "i-07ed6044d7463a155",
+  "package_sha256": "55876ed37f596976457620f63e96e5aa2b992c60a4328b2d60ffe405d6c5bc04",
+  "source_commit": "cb09bcd5121cdc799749173963bda4cc54a32e9b",
+  "ilxyr_commit": "ad39f923c5b1c489afec24b461ef922cdd2db561",
+  "contract_sha256": "0d783bb4579138320480cc8d61a776ac955fc56f31be4c081d286cf8069b6dd9",
+  "exit_code": 0,
+  "elapsed_instance_seconds": 247,
+  "estimated_ec2_usd": 0.046655555556
+}

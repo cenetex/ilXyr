@@ -76,12 +76,17 @@ academic claim, evaluation boundary, and publication gaps are stated in
   and the completed Q2.6 seed-1/3 family replication workflow.
 - Publishes a machine-readable lab registry that separates Braid data inputs, the promoted ZERO.4
   line, the active ZERO.5 research line, upstream evidence debt, and C5.2's private terminal state.
+- Runs an authenticated, single-writer Corpus as a Service boundary that registers immutable
+  Braid-style releases, checks complete S3 or Azure Blob materialization receipts, and emits
+  digest-bound SageMaker or Azure ML training-input handoffs without storing cloud credentials.
+- Records resumable OCI training jobs with exact corpus bindings, digest-pinned images, versioned
+  outputs, and signed settlement before cloud results become promoted evidence.
 - Compiles supported upstream benchmark results into schema-validated review records without
   pretending that completed external runs were registered prospectively by ilXyr.
 
-Protected weights are handles, never local paths. Neither the local executor nor the first
-public-weight `remote-v1` profile can run protected-weight experiments; those require a later,
-separately reviewed attested profile.
+Protected weights are handles, never local paths. The local executor and the first `oci-job` and
+`remote-v1` profiles accept public weights only; protected weights need a stronger, separately
+reviewed attested profile.
 
 ## Quick start
 
@@ -131,6 +136,16 @@ cargo run -p ilxyr-cli -- status . toy.score.v1
 cargo run -p ilxyr-cli -- export-evidence . EVIDENCE_REF ro-crate
 cargo run -p ilxyr-cli -- verify .
 ```
+
+The corpus service runs over a separate or existing initialized workspace:
+
+```bash
+export ILXYR_CORPUS_TOKEN='replace-with-a-random-secret-of-at-least-32-bytes'
+cargo run -p ilxyr-corpus-service -- /path/to/initialized-workspace
+```
+
+See [docs/CORPUS-SERVICE.md](docs/CORPUS-SERVICE.md) for release registration, materialization
+receipts, and SageMaker/Azure ML handoffs.
 
 Multi-seed replications can use one family manifest while retaining separate ledger objects for
 every contribution, experiment, forecast, funding commitment, run, and evidence record:
@@ -201,6 +216,32 @@ cargo run -p ilxyr-cli -- nsrl-status . MODEL_REF
 
 See [docs/NSRL.md](docs/NSRL.md) for the custody boundary and
 [the executed p10m intake](docs/experiments/NSRL-P10M-PILOT.md) for its failing public baseline.
+
+## Research discovery
+
+The read-only research registry joins project aliases, pinned repositories and weights, corpora,
+experiments, evaluations, dispatches, artifacts, costs, blockers, and missing work. It is a
+rebuildable view over approved publication indexes and ledger heads. It never registers an object
+or changes lifecycle state.
+
+The built-in pilot reports Qwen-SEC as blocked before paid training: the code and 403-example
+development export exist, but the full corpus, baselines, compiled experiment, adapter, and cloud
+dispatch do not.
+
+```bash
+cargo run -p ilxyr-cli -- search qwen-sec --json
+cargo run -p ilxyr-cli -- status project://runner-watch/feral-7b-sec --json
+cargo run -p ilxyr-cli -- lineage feral-7b.sec-analysis.v1 --json
+cargo run -p ilxyr-cli -- artifact-metadata artifact://runner-watch/feral-7b-experiment-card --json
+cargo run -p ilxyr-cli -- registry-verify
+```
+
+Use `--registry path/to/research-registry.json` or `ILXYR_REGISTRY` to query another validated
+snapshot. Every response includes the indexed source heads, age, and stale flag.
+
+`ilxyr mcp` starts a stdio MCP server with four read-only tools: `ilxyr.search`, `ilxyr.status`,
+`ilxyr.lineage`, and `ilxyr.artifact_metadata`. The CLI and MCP server call the same core read
+model, so aliases and visibility rules behave the same way.
 
 Claim and replication operations are explicit:
 
@@ -308,6 +349,10 @@ started without producing a terminal run. `authorize` reports the same decision 
   registration.
 - `docs/REMOTE_EXECUTION.md`: sealed-package execution, adapter operations, one-run authorization,
   report intake, and the read-only public projection boundary.
+- `docs/CORPUS-SERVICE.md`: authenticated immutable corpus registry, materialization receipts, and
+  provider training-input handoffs.
+- `docs/CLOUD-TRAINING.md`: provider-neutral OCI dispatch, reconciliation, attestation, and resume
+  flow.
 - `docs/SECURITY.md`: threat model, autonomous operation rules, weight protection.
 - `docs/ROADMAP.md`: sequenced milestones from protocol proof through federation.
 - `docs/V1_REVIEW.md`: V1 acceptance review, revisions, and residual limitations.
