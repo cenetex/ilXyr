@@ -19,9 +19,15 @@ and no more than $1.00 of planned EC2 compute. Automatic termination is
 mandatory.
 
 A pass requires all 572 representations to pass, 4,218 exact Zero/LiE
-agreements, 4,218 deterministic replays, matching pinned LiE source and
-executable hashes, and the accepted governance record. Any failure is Hold.
+agreements, 4,218 deterministic replays, matching pinned LiE source, two
+matching independent fixed-epoch executable builds, and the accepted
+governance record. Any failure is Hold.
 
 This authorization does not permit corpus generation, model training, source
 modification, or oracle promotion. A successful preflight returns evidence
 for client review; corpus generation remains a separate approval.
+
+The build-identity correction in `PHASE06-LIE-BUILD-IDENTITY-ERRATUM-V1.md`
+replaces comparison to a timestamped historical executable with two
+independent fixed-epoch builds. The source remains unmodified and the
+authorized query surface is unchanged.
