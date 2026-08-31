@@ -8,14 +8,24 @@
   "passed": true,
   "tests": [
     {
-      "name": "guest-cannot-read-signing-key",
+      "name": "digest-drift-fails-closed",
       "status": "pass",
       "evidence_ref": "artifact://sha256/3333333333333333333333333333333333333333333333333333333333333333"
     },
     {
-      "name": "metadata-service-is-unreachable",
+      "name": "guest-network-is-denied",
       "status": "pass",
       "evidence_ref": "artifact://sha256/4444444444444444444444444444444444444444444444444444444444444444"
     }
-  ]
+  ],
+  "attestation": {
+    "payloadType": "application/vnd.in-toto.provenance+json",
+    "payload": "eyJleGFtcGxlIjoidGhpcyBmaXh0dXJlIGlzIG5vdCBhIHRydXN0ZWQgc2lnbmF0dXJlIn0=",
+    "signatures": [
+      {
+        "keyid": "key://independent/conformance-runner-v1/example",
+        "sig": "ZXhhbXBsZS1vbmx5"
+      }
+    ]
+  }
 }

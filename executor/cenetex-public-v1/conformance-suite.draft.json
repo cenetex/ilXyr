@@ -1,0 +1,47 @@
+{
+  "schema": "ilxyr.executor_conformance_suite.v1",
+  "id": "conformance://cenetex/public-v1",
+  "environment_id": "environment://cenetex/public-v1",
+  "tests": [
+    {
+      "name": "all-frozen-resources-rehashed-before-launch",
+      "execution_class": "offline",
+      "requirement": "Every environment and job resource is present exactly once and its SHA-256 digest and byte size match before launch."
+    },
+    {
+      "name": "frozen-identity-drift-fails-closed",
+      "execution_class": "offline",
+      "requirement": "Changed package bytes, executable, oracle, target order, provider image, or materialized resource fail before launch."
+    },
+    {
+      "name": "guest-has-no-host-or-secret-access",
+      "execution_class": "linux_microvm",
+      "requirement": "The guest cannot access host mounts, instance metadata, report credentials, cloud credentials, or signing keys."
+    },
+    {
+      "name": "guest-network-is-denied",
+      "execution_class": "linux_microvm",
+      "requirement": "The guest cannot reach local, metadata, private, or public network destinations."
+    },
+    {
+      "name": "runtime-and-output-limits-stop-the-job",
+      "execution_class": "linux_microvm",
+      "requirement": "Frozen wall-clock, scratch, stdout, stderr, and result limits stop or reject excess work without extending the launch."
+    },
+    {
+      "name": "report-retry-is-idempotent",
+      "execution_class": "offline",
+      "requirement": "An exact authenticated report retry is read-only and launch reuse with different report bytes is rejected."
+    },
+    {
+      "name": "signed-provenance-binds-the-run",
+      "execution_class": "offline",
+      "requirement": "Trusted DSSE and SLSA provenance bind the run, package, environment, authorization, launch, outputs, machine image, and executor."
+    },
+    {
+      "name": "collection-has-no-launch-authority",
+      "execution_class": "offline",
+      "requirement": "Observe and collect cannot launch, restart, replace, or extend compute."
+    }
+  ]
+}

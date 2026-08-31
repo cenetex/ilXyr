@@ -29,6 +29,23 @@ A job package for that environment is verified with:
 ilxyr executor-package-verify environment.json job-package.json
 ```
 
+Materialized files are checked without launching anything with:
+
+```text
+ilxyr executor-preflight-verify environment.json job-package.json materialization.json /absolute/artifact/root
+```
+
+The receipt always says `launch_authorized: false`. It proves only that the supplied files match
+the frozen environment and package. Paths must stay below the artifact root and may not cross a
+symlink. The materialization format has no field for guest credentials.
+
+The exact conformance suite and a signed report from a separately trusted runner are checked with:
+
+```text
+ilxyr executor-conformance-suite-verify environment.json suite.json
+ilxyr executor-conformance-report-verify environment.json suite.json trusted-keys.json report.json
+```
+
 A result is verified before ledger ingestion with:
 
 ```text
@@ -56,10 +73,15 @@ These commands do not launch compute or write to an ilXyr workspace.
 
 ## Reproducible build plan
 
-The build will be expressed as a locked Nix flake and produce the runner, kernel, and rootfs as
-fixed outputs. CI will publish the source archive, lock file, SBOM, and SLSA provenance beside the
-artifacts. At least one independent builder must build the same source commit and compare output
-digests before the registry may say `reproduced_build`.
+`build-contract.json` freezes the acceptance rules. The build will be expressed as a locked Nix
+flake on Linux and produce the supervisor, kernel, and rootfs as fixed outputs. CI will publish the
+source archive, lock file, SBOM, and SLSA provenance beside the artifacts. At least one independent
+builder must build the same source commit and compare output digests before the registry may say
+`reproduced_build`.
+
+`conformance-suite.draft.json` makes every required test explicit. Offline verification is now
+implemented, but the Linux microVM tests have not run. The draft is not the accepted suite until a
+release manifest binds its canonical digest and byte size.
 
 The build recipe alone is not proof of reproducibility. Until matching independent outputs exist,
 the public site says `reference_candidate` and `not_yet_verified`.
@@ -78,5 +100,7 @@ The frozen suite must test at least:
   and
 - collection cannot launch, restart, or extend compute.
 
-Conformance is necessary for compatibility. It is not a scientific result and does not make the
-operator its own verifier.
+Conformance is necessary for compatibility. The report must carry a trusted DSSE signature from a
+runner other than the environment operator. It is not a scientific result and does not make the
+operator its own verifier. A valid signature on a failed report preserves the failure; only a
+verified receipt with `passed: true` can satisfy the compatibility gate.
