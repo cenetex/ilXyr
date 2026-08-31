@@ -14,7 +14,7 @@ Version 4 records:
 - one `order_sensitive`, down from four; and
 - one `time_fail_memory_unknown`, down from three.
 
-Fourteen representations moved from a non-pass classification to pass. Two
+Thirteen representations moved from a non-pass classification to pass. Two
 former hard-timeout cells now complete and expose measured time boundaries.
 The one remaining hard-timeout cell still has unknown memory; no warm or
 placeholder RSS value is presented as a measurement.
