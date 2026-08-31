@@ -150,8 +150,12 @@ path; it is not the project's first cloud capability. See
 - Implemented the local single-writer report-intake path. It resolves trusted keys, authorization,
   launch receipt, environment, package, signed budget, allocation, compiled metrics, output set,
   runtime, and outcome from the ledger; exact retries are idempotent and launch reuse conflicts.
-- Publish the separate authenticated network report-intake service and read-only public projection
-  defined by ADR 0007. The public site must not become the intake service.
+- Implemented the separate authenticated network report-intake service defined by ADR 0007. It
+  uses hashed, short-lived, one-run credentials, strict body and peer-rate limits, bounded durable
+  rejection records, single-writer serialization, and no launch code. It remains undeployed.
+- Operate that intake behind TLS with a dedicated authoritative workspace and trust roots, then
+  publish its endpoint in discovery. Add the separate read-only projector from accepted ledger
+  records. The public site must not become the intake service.
 - Extract an AWS adapter from Zero's OIDC, conditional-write locks, resolved machine identity,
   launch-relative watchdog, independent-target, and read-only collection patterns. All preflight
   and conformance tests must avoid paid compute.

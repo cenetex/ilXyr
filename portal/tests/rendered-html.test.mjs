@@ -48,6 +48,8 @@ test("server-renders the public ilXyr protocol index", async () => {
   assert.match(html, /No remote result has passed independent ilXyr verification/);
   assert.match(html, /There are no write or cloud-launch routes/);
   assert.match(html, /provider-neutral adapter boundary/);
+  assert.match(html, /Separate report intake API — implemented, not deployed/);
+  assert.match(html, /There is no public intake address yet/);
   assert.match(html, /remote-package-verify/);
   assert.match(html, /remote-report-accept/);
   assert.doesNotMatch(html, /\/api\/proposals|proposal database/i);
@@ -96,7 +98,7 @@ test("public API returns only static protocol data", async () => {
     item.key === "provider_neutral_adapter_boundary" && item.value === "implemented_with_fake_node"
   ));
   assert.ok(status.status.some((item) =>
-    item.key === "authenticated_network_report_intake" && item.value === "not_available"
+    item.key === "authenticated_network_report_intake" && item.value === "implemented_not_deployed"
   ));
 
   const environmentResponse = await request("/api/environments");

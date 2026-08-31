@@ -72,8 +72,8 @@ export default function Home() {
       <h2>Remote execution protocol</h2>
       <p>
         The sealed package verifier, provider-neutral adapter boundary, fake execution node, and
-        local single-writer report intake are implemented. A general cloud launcher and
-        authenticated network intake are not.
+        authenticated single-writer report intake are implemented. The network intake is not
+        deployed. A general cloud launcher is still roadmap work.
       </p>
       <ul>
         <li>one experiment ID and one compiled experiment digest</li>
@@ -91,10 +91,22 @@ export default function Home() {
         key. Observation and collection cannot launch, restart, or extend compute.
       </p>
       <p>
-        The execution node will submit a signed report to a separate authenticated service when
-        that service exists. The single writer resolves keys, authorization, launch, package,
-        environment, signed budget, allocation, metrics, outputs, runtime, and outcome from its own
-        ledger before acceptance. This website only reads the public projection.
+        Reporting is the execution node&apos;s responsibility. Its host-side reporter receives one
+        short-lived credential after launch and submits one signed report to the separate intake.
+        The credential is never put inside the experiment guest. The single writer resolves keys,
+        authorization, launch, package, environment, signed budget, allocation, metrics, outputs,
+        runtime, and outcome from its own ledger before acceptance. This website only reads the
+        public projection.
+      </p>
+      <h3>Separate report intake API — implemented, not deployed</h3>
+      <ul>
+        <li><code>GET /healthz</code> — health only; states that launch authority is false</li>
+        <li><code>POST /v1/reports</code> — one signed report with a one-run bearer credential</li>
+      </ul>
+      <p>
+        There is no public intake address yet. Discovery keeps the endpoint null until TLS, the
+        authoritative ledger, trusted executor keys, monitoring, backups, and recovery are live.
+        The intake process has no cloud, signing, build, DNS, or website credentials.
       </p>
       <p>
         A normal frontier and a presized-memory audit must use separate experiment IDs, packages,

@@ -3,6 +3,7 @@ members = [
   "crates/ilxyr-core",
   "crates/ilxyr-cli",
   "crates/ilxyr-corpus-service",
+  "crates/ilxyr-intake",
 ]
 resolver = "2"
 
@@ -16,9 +17,12 @@ rust-version = "1.85"
 base64 = "0.22"
 axum = "0.8"
 ed25519-dalek = "2.2"
+getrandom = "0.3"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sha2 = "0.10"
+subtle = "2.6"
+tiny_http = "0.12"
 tokio = { version = "1", features = ["macros", "net", "rt-multi-thread", "signal"] }
 tower = { version = "0.5", features = ["util"] }
 ureq = { version = "2.12", features = ["json"] }

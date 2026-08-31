@@ -59,15 +59,17 @@ does not satisfy that identity. Exact retries are idempotent; a second report fo
 conflict.
 
 The pure report verifier does not establish that an authorization reference exists or that a key
-file supplied by its caller is trusted. The future single-writer ingestion service must load trust
+file supplied by its caller is trusted. The single-writer ingestion service therefore loads trust
 roots, the compiled experiment, authorization, and launch state from its own verified ledger and
-must validate returned metrics and outcomes before recording evidence.
+validates returned metrics and outcomes before recording evidence. Its network boundary stores
+only credential hashes, limits authenticated failures, and contains no launch adapter.
 
 The first public remote baseline keeps cloud metadata, cloud credentials, report credentials, and
 signing keys outside the guest; denies host mounts and interactive access; uses one job per
 read-only microVM; and assembles the signed report outside the guest. The public website is a
 read-only projection with no report intake, ledger write, or compute-launch authority. The separate
-intake and independent verifier defined by ADR 0007 are not deployed yet.
+intake is implemented but not deployed. The independent verifier defined by ADR 0007 is not yet
+operated.
 
 `run-auto` requires a budget allocation and proceeds only when the signed executable, exact
 argument vector, network, per-run, per-epoch, total-credit, and cumulative-spend policies pass.
