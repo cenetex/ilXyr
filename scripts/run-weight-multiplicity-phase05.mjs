@@ -667,7 +667,6 @@ const preparedReplayProjection = (value) => ({
   prepared_edges: value.prepared_edges ?? null,
   prepared_edges_added: value.prepared_edges_added ?? null,
   prepared_raw_transitions: value.prepared_raw_transitions ?? null,
-  prepared_graph_capacity_bytes: value.prepared_graph_capacity_bytes ?? null,
   prepared_worker_count: value.prepared_worker_count ?? null,
   maximum_level: value.maximum_level ?? null,
 });
@@ -1277,6 +1276,28 @@ const selfTest = () => {
     requiredReplays: 1,
     mismatches: [],
   });
+  const capacityOnlyDifferenceIgnored =
+    JSON.stringify(
+      preparedReplayProjection({
+        multiplicity: "1",
+        recurrence_terms: 7,
+        prepared_graph_capacity_bytes: 1024,
+      }),
+    ) ===
+    JSON.stringify(
+      preparedReplayProjection({
+        multiplicity: "1",
+        recurrence_terms: 7,
+        prepared_graph_capacity_bytes: 2048,
+      }),
+    );
+  const structuralDifferenceDetected =
+    JSON.stringify(
+      preparedReplayProjection({ multiplicity: "1", recurrence_terms: 7 }),
+    ) !==
+    JSON.stringify(
+      preparedReplayProjection({ multiplicity: "1", recurrence_terms: 8 }),
+    );
   if (
     incompleteExactness.status !== "unknown_after_hard_timeout_or_oracle_error" ||
     incompleteExactness.replay_byte_identical !== null ||
@@ -1284,10 +1305,12 @@ const selfTest = () => {
     disagreementExactness.replay_byte_identical !== false ||
     preparedExactness.status !== "pass" ||
     preparedExactness.replay_byte_identical !== null ||
-    preparedExactness.replay_projection_identical !== true
+    preparedExactness.replay_projection_identical !== true ||
+    !capacityOnlyDifferenceIgnored ||
+    !structuralDifferenceDetected
   )
     throw new Error("exactness-observation self-test failed");
-  console.log(JSON.stringify({ status: "pass", exact_weyl_dimension: true, target_order: true, hard_timeout_memory_unknown: true, incomplete_replay_exactness_unknown: true, prepared_projection_replay: true }));
+  console.log(JSON.stringify({ status: "pass", exact_weyl_dimension: true, target_order: true, hard_timeout_memory_unknown: true, incomplete_replay_exactness_unknown: true, prepared_projection_replay: true, prepared_capacity_is_resource_only: true, prepared_structural_counter_differential: true }));
 };
 
 const main = async () => {

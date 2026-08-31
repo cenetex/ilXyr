@@ -46,6 +46,12 @@ const sessionV5CompressedPath = "experiments/weight-multiplicity/phase05/session
 const sessionV5SummaryPath = "experiments/weight-multiplicity/phase05/session-frontier-v5-summary.json";
 const sessionV5HashesPath = "experiments/weight-multiplicity/phase05/session-frontier-v5.sha256";
 const sessionV5DecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V5-HOLD.md";
+const sessionV6PlanPath = "examples/weight-multiplicity/phase05-frontier-plan-v6.json";
+const sessionV6ManifestPath = "examples/weight-multiplicity/phase05-representation-manifest-v6.json";
+const sessionV6CompressedPath = "experiments/weight-multiplicity/phase05/session-frontier-v6.json.gz";
+const sessionV6SummaryPath = "experiments/weight-multiplicity/phase05/session-frontier-v6-summary.json";
+const sessionV6HashesPath = "experiments/weight-multiplicity/phase05/session-frontier-v6.sha256";
+const sessionV6DecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V6-HOLD.md";
 const sessionV5CorrectnessResultPath = "experiments/weight-multiplicity/phase05/session-frontier-v5-correctness-addendum-v1.json";
 const sessionV5CorrectnessHashesPath = "experiments/weight-multiplicity/phase05/session-frontier-v5-correctness-addendum-v1.sha256";
 const sessionV5CorrectnessDecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V5-CORRECTNESS-ADDENDUM-V1.md";
@@ -93,6 +99,12 @@ const [
   sessionV5SummaryBytes,
   sessionV5HashesBytes,
   sessionV5DecisionBytes,
+  sessionV6PlanBytes,
+  sessionV6ManifestBytes,
+  sessionV6CompressedBytes,
+  sessionV6SummaryBytes,
+  sessionV6HashesBytes,
+  sessionV6DecisionBytes,
   sessionV5CorrectnessResultBytes,
   sessionV5CorrectnessHashesBytes,
   sessionV5CorrectnessDecisionBytes,
@@ -138,6 +150,12 @@ const [
   read(sessionV5SummaryPath),
   read(sessionV5HashesPath),
   read(sessionV5DecisionPath),
+  read(sessionV6PlanPath),
+  read(sessionV6ManifestPath),
+  read(sessionV6CompressedPath),
+  read(sessionV6SummaryPath),
+  read(sessionV6HashesPath),
+  read(sessionV6DecisionPath),
   read(sessionV5CorrectnessResultPath),
   read(sessionV5CorrectnessHashesPath),
   read(sessionV5CorrectnessDecisionPath),
@@ -175,6 +193,11 @@ const sessionV5Plan = JSON.parse(sessionV5PlanBytes.toString("utf8"));
 const sessionV5Summary = JSON.parse(sessionV5SummaryBytes.toString("utf8"));
 const sessionV5Hashes = sessionV5HashesBytes.toString("utf8");
 const sessionV5Decision = sessionV5DecisionBytes.toString("utf8");
+const sessionV6Plan = JSON.parse(sessionV6PlanBytes.toString("utf8"));
+const sessionV6Manifest = JSON.parse(sessionV6ManifestBytes.toString("utf8"));
+const sessionV6Summary = JSON.parse(sessionV6SummaryBytes.toString("utf8"));
+const sessionV6Hashes = sessionV6HashesBytes.toString("utf8");
+const sessionV6Decision = sessionV6DecisionBytes.toString("utf8");
 const sessionV5CorrectnessResult = JSON.parse(
   sessionV5CorrectnessResultBytes.toString("utf8"),
 );
@@ -615,6 +638,168 @@ assert.match(
   /not\s+as a direct independent witness for the current oracle/,
 );
 assert.match(sessionV5Decision, /No corpus generation or training is authorized/);
+
+assert.equal(
+  sha256(sessionV6PlanBytes),
+  "384f9bc440dd3cc6184a56e345d80db313dd850dc045927807dce88caebb7208",
+);
+assert.equal(
+  sha256(sessionV6ManifestBytes),
+  "ea9594ace7983c46d02fb803153d063f63177e67cd1e374a012cdf6f6e09480d",
+);
+assert.equal(
+  await gunzipSha256(sessionV6CompressedPath),
+  "756fa0e70046d06bc2fb7997ba7661e3624b1dd958d9fffc51f1ed60e3c70f1c",
+);
+assert.equal(
+  sha256(sessionV6CompressedBytes),
+  "84d795a8d194f5344bb5b66065d6ed56acabada155d8ba0180b59cbe95e878a8",
+);
+assert.equal(
+  sha256(sessionV6SummaryBytes),
+  "7a6157f9bc7f1c122d326cc6c4145afa0011f797a2b2934c4303c34f9c959478",
+);
+assert.equal(
+  sessionV6Hashes,
+  "84d795a8d194f5344bb5b66065d6ed56acabada155d8ba0180b59cbe95e878a8  session-frontier-v6.json.gz\n7a6157f9bc7f1c122d326cc6c4145afa0011f797a2b2934c4303c34f9c959478  session-frontier-v6-summary.json\n",
+);
+assert.equal(sessionV6Plan.schema_version, 4);
+assert.equal(sessionV6Plan.oracle.interface_version, 3);
+assert.equal(
+  sessionV6Plan.oracle.zero_revision,
+  "349e6c2ef5487d4709a8dd525b2dbaac7d590f08",
+);
+assert.equal(
+  sessionV6Plan.oracle.prepared_dependency_dag_revision,
+  "da56686d84e9bee28636acd9fe723f11eb9a9160",
+);
+assert.equal(sessionV6Plan.frontier.session_mode, "prepared");
+assert.equal(sessionV6Plan.frontier.prepared_workers_per_process, 8);
+assert.equal(
+  sessionV6Plan.frontier.optimization_sequence.at(-1),
+  "lock_light_compact_prepared_dependency_edges",
+);
+assert.equal(
+  sessionV6Plan.predecessor.session_frontier_v5_compressed_result_sha256,
+  sha256(sessionV5CompressedBytes),
+);
+assert.equal(
+  sessionV6Plan.predecessor.session_frontier_v5_summary_sha256,
+  sha256(sessionV5SummaryBytes),
+);
+assert.deepEqual(
+  sessionV6Manifest.representations,
+  JSON.parse(sessionV5ManifestBytes.toString("utf8")).representations,
+);
+assert.equal(sessionV6Summary.decision, "hold");
+assert.equal(
+  sessionV6Summary.bindings.capture_sha256,
+  "4af7d6f6fe6545351d4274a17fb9a0ae266b7e2e4440db5f3b79e3bc9849fab6",
+);
+assert.equal(
+  sessionV6Summary.bindings.oracle_executable_sha256,
+  "e6ad8c85bbcfff1a6148020f7b97b4dabdcea7a703ed1cf5675550ac7ca342e4",
+);
+assert.equal(
+  sessionV6Summary.capture.measurement_controller_revision,
+  "0608b1d00b0e684a77da9449d6d1166935998ce4",
+);
+assert.equal(
+  sessionV6Summary.capture.finalizer_revision,
+  "0608b1d00b0e684a77da9449d6d1166935998ce4",
+);
+assert.deepEqual(sessionV6Summary.coverage.classifications, {
+  pass: 827,
+  order_sensitive: 1,
+});
+assert.equal(sessionV6Summary.coverage.representations, 828);
+assert.equal(sessionV6Summary.coverage.grouped_runs, 2484);
+assert.equal(sessionV6Summary.coverage.grouped_runs_with_hard_timeout, 0);
+assert.equal(sessionV6Summary.coverage.exactness_pass_representations, 828);
+assert.equal(sessionV6Summary.coverage.exactness_unknown_representations, 0);
+assert.equal(sessionV6Summary.coverage.exactness_disagreements, 0);
+assert.equal(sessionV6Summary.coverage.replay_failures, 0);
+assert.equal(sessionV6Summary.coverage.replay_projection_pass_representations, 828);
+assert.deepEqual(
+  sessionV6Summary.order_sensitive.map((entry) => entry.id),
+  ["E8:0,0,8,0,0,0,0,0"],
+);
+assert.deepEqual(sessionV6Summary.time_failures, []);
+assert.deepEqual(sessionV6Summary.hard_timeouts, []);
+assert.deepEqual(sessionV6Summary.exactness_unknown, []);
+assert.deepEqual(
+  sessionV6Summary.order_sensitive[0].grouped_orders.map((run) => ({
+    order: run.order,
+    p95_ms: run.p95_ms,
+    maximum_ms: run.maximum_ms,
+    threshold_exceedances: run.threshold_exceedances,
+    memory_observation: run.memory_observation,
+  })),
+  [
+    {
+      order: "descending_depth_dominant_first_lexicographic",
+      p95_ms: 0.047459,
+      maximum_ms: 9573.796667,
+      threshold_exceedances: 1,
+      memory_observation: "exact_process_high_water",
+    },
+    {
+      order: "ascending_depth_dominant_first_lexicographic",
+      p95_ms: 3414.887792,
+      maximum_ms: 4934.035209,
+      threshold_exceedances: 3,
+      memory_observation: "exact_process_high_water",
+    },
+    {
+      order: "seeded_generation_order",
+      p95_ms: 3442.4955,
+      maximum_ms: 4925.11525,
+      threshold_exceedances: 3,
+      memory_observation: "exact_process_high_water",
+    },
+  ],
+);
+assert.equal(
+  sessionV6Summary.resource.maximum_known_grouped_incremental_memory_bytes,
+  2054946816,
+);
+assert.equal(
+  sessionV6Summary.resource.maximum_completed_prepared_working_set_peak_allocated_bytes,
+  1809596416,
+);
+assert.equal(
+  sessionV6Summary.resource.maximum_completed_prepared_graph_capacity_bytes,
+  1564491776,
+);
+assert.equal(
+  sessionV6Summary.resource.maximum_hard_timeout_incremental_rss_lower_bound_bytes,
+  null,
+);
+assert.equal(
+  sessionV6Summary.resource.safe_parallel_workers_under_full_time_contract,
+  8,
+);
+assert.equal(
+  sessionV6Summary.independent_lie_witness.category,
+  "independent_predecessor_correctness_witness_separate_from_current_internal_resource_evidence",
+);
+assert.equal(
+  sessionV6Summary.independent_lie_witness.direct_current_oracle_witness,
+  false,
+);
+assert.deepEqual(sessionV6Summary.phase_1, {
+  authorized: false,
+  corpus_generated: false,
+  models_trained: false,
+});
+assert.match(sessionV6Decision, /827 passes/);
+assert.match(sessionV6Decision, /zero grouped hard timeouts/);
+assert.match(sessionV6Decision, /no remaining unknown-memory cells/);
+assert.match(sessionV6Decision, /capacity-only change is accepted/);
+assert.match(sessionV6Decision, /recurrence-counter change still fails/);
+assert.match(sessionV6Decision, /separate independent predecessor witness/);
+assert.match(sessionV6Decision, /not\s+as a direct independent witness/);
+assert.match(sessionV6Decision, /No corpus generation or training is authorized/);
 
 assert.equal(
   sha256(sessionV5CorrectnessResultBytes),
@@ -1068,7 +1253,7 @@ console.log(JSON.stringify({
     exactness_unknown:
       sessionV4Summary.coverage.exactness_unknown_representations,
   },
-  current_session_frontier: {
+  predecessor_session_frontier_v5: {
     decision: sessionV5Summary.decision,
     pass: sessionV5Summary.coverage.classifications.pass,
     time_fail:
@@ -1082,7 +1267,23 @@ console.log(JSON.stringify({
     safe_parallel_workers:
       sessionV5Summary.resource.safe_parallel_workers_under_full_time_contract,
   },
-  current_session_frontier_correctness_addendum: {
+  current_session_frontier: {
+    decision: sessionV6Summary.decision,
+    pass: sessionV6Summary.coverage.classifications.pass,
+    time_fail:
+      sessionV6Summary.coverage.classifications.time_fail ?? 0,
+    order_sensitive:
+      sessionV6Summary.coverage.classifications.order_sensitive ?? 0,
+    time_fail_memory_unknown:
+      sessionV6Summary.coverage.classifications.time_fail_memory_unknown ?? 0,
+    exactness_unknown:
+      sessionV6Summary.coverage.exactness_unknown_representations,
+    grouped_hard_timeouts:
+      sessionV6Summary.coverage.grouped_runs_with_hard_timeout,
+    safe_parallel_workers:
+      sessionV6Summary.resource.safe_parallel_workers_under_full_time_contract,
+  },
+  predecessor_session_frontier_v5_correctness_addendum: {
     representation:
       sessionV5CorrectnessResult.observation.representation_id,
     fresh_reference_completed:
