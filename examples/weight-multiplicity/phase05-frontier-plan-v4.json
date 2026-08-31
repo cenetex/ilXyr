@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "scope_revision": "phase-0.5-client-approved-2026-08-30",
   "parent_contract_revision": "3-final-execution-copy",
   "parent_contract_received_sha256": "e77a6341155242a7e08e8a0675100fd347fbf1d637c58092561ea2c052dc6b3c",
@@ -10,7 +10,8 @@
     "cache_scope": "one_type_and_highest_weight_per_worker",
     "cache_eviction": "on_type_or_highest_weight_change",
     "recursive_weyl_canonicalization_revision": "51b594f",
-    "zero_revision": "d2ce00c"
+    "direct_coefficient_weyl_folding_revision": "937ba49315aea7734503d30b0a210d576d331283",
+    "zero_revision": "5616b720f41927733010d5255fcea96d0eb77149"
   },
   "generator": {
     "implementation": "ilxyr-weight-multiplicity-phase05-frontier",
@@ -87,10 +88,11 @@
     ],
     "optimization_sequence": [
       "recursive_weyl_canonicalization_fresh_memo_frontier",
-      "bounded_session_memo_grouped_frontier"
+      "bounded_session_memo_grouped_frontier",
+      "direct_coefficient_space_recursive_weyl_folding"
     ],
     "phase0_control": "frozen_phase0_v2_uncanonicalized_evidence",
-    "cold_baseline": "recursive_weyl_canonicalization_fresh_memo_every_query",
+    "cold_baseline": "direct_coefficient_space_recursive_weyl_folding_fresh_memo_every_query",
     "query_timeout_ms": 1000,
     "measurement_hard_timeout_ms": 10000,
     "p95_limit_ms": 1000,
@@ -108,7 +110,9 @@
     "minimum_cases_per_type": 12,
     "include_all_e7_e8_fundamental_representations": true,
     "unresolved_disagreement_decision": "hold",
-    "production_dependency": false
+    "production_dependency": false,
+    "direct_current_oracle_witness": false,
+    "current_oracle_relationship": "predecessor_independent_witness_linked_by_internal_every_recursive_state_differential"
   },
   "decision": {
     "time_limit_is_binding": true,
@@ -128,7 +132,12 @@
     "phase05_cold_replay_v1_compressed_result_sha256": "68a37cbb77109144883849cf1313e9159750f28b4528a9c6f0d08e6a7fa90ef7",
     "phase05_cold_replay_v1_summary_sha256": "7aea6035dbabe4b53423df03b9e495b81377628a39528a3ed59314708319690b",
     "phase05_cold_replay_v1_decision": "hold",
-    "session_stage_relationship": "separate_follow_on_uses_cold_replay_as_predecessor_not_combined_speedup",
-    "relationship": "new_client_approved_surface_old_evidence_remains_binding_for_revision_3"
+    "session_frontier_v3_plan_sha256": "0af98a10412b085f204edb9ec58c8a5a10101f0956fc42b2b0aaeb972af30665",
+    "session_frontier_v3_manifest_sha256": "e4345e005c28996fb17b3af5b7882bca35ea0ab6a97fe49df2190d0393497392",
+    "session_frontier_v3_compressed_result_sha256": "370361788e71538e357faa31d3179a1ba500d7661d243cd7030d5320c3cb97e2",
+    "session_frontier_v3_summary_sha256": "e21ea0de680fe6313ce662ae8aee5455957c6edeefd3bb8e6f51a99b99f90a80",
+    "session_frontier_v3_decision": "hold",
+    "session_stage_relationship": "same_frozen_roster_orders_and_limits_after_direct_coefficient_space_folding",
+    "relationship": "append_only_post_optimization_rerun_version_3_remains_sealed"
   }
 }

@@ -198,6 +198,32 @@ cargo run -p ilxyr-cli -- nsrl-status . MODEL_REF
 See [docs/NSRL.md](docs/NSRL.md) for the custody boundary and
 [the executed p10m intake](docs/experiments/NSRL-P10M-PILOT.md) for its failing public baseline.
 
+## Research discovery
+
+The read-only research registry joins project aliases, pinned repositories and weights, corpora,
+experiments, evaluations, dispatches, artifacts, costs, blockers, and missing work. It is a
+rebuildable view over approved publication indexes and ledger heads. It never registers an object
+or changes lifecycle state.
+
+The built-in pilot reports Qwen-SEC as blocked before paid training: the code and 403-example
+development export exist, but the full corpus, baselines, compiled experiment, adapter, and cloud
+dispatch do not.
+
+```bash
+cargo run -p ilxyr-cli -- search qwen-sec --json
+cargo run -p ilxyr-cli -- status project://runner-watch/feral-7b-sec --json
+cargo run -p ilxyr-cli -- lineage feral-7b.sec-analysis.v1 --json
+cargo run -p ilxyr-cli -- artifact-metadata artifact://runner-watch/feral-7b-experiment-card --json
+cargo run -p ilxyr-cli -- registry-verify
+```
+
+Use `--registry path/to/research-registry.json` or `ILXYR_REGISTRY` to query another validated
+snapshot. Every response includes the indexed source heads, age, and stale flag.
+
+`ilxyr mcp` starts a stdio MCP server with four read-only tools: `ilxyr.search`, `ilxyr.status`,
+`ilxyr.lineage`, and `ilxyr.artifact_metadata`. The CLI and MCP server call the same core read
+model, so aliases and visibility rules behave the same way.
+
 Claim and replication operations are explicit:
 
 ```bash

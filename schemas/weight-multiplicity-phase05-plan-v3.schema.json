@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://ilxyr.cenetex.net/schemas/weight-multiplicity-phase05-plan-v2.schema.json",
-  "title": "Weight-multiplicity Phase 0.5 corrected dimension-indexed frontier plan Version 2",
+  "$id": "https://ilxyr.cenetex.net/schemas/weight-multiplicity-phase05-plan-v3.schema.json",
+  "title": "Weight-multiplicity Phase 0.5 direct-fold frontier plan Version 3",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -18,7 +18,7 @@
     "predecessor"
   ],
   "properties": {
-    "schema_version": { "const": 2 },
+    "schema_version": { "const": 3 },
     "scope_revision": { "const": "phase-0.5-client-approved-2026-08-30" },
     "parent_contract_revision": { "const": "3-final-execution-copy" },
     "parent_contract_received_sha256": {
@@ -27,7 +27,7 @@
     "oracle": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["implementation", "algorithm", "interface_version", "cache_scope", "cache_eviction", "recursive_weyl_canonicalization_revision", "zero_revision"],
+      "required": ["implementation", "algorithm", "interface_version", "cache_scope", "cache_eviction", "recursive_weyl_canonicalization_revision", "direct_coefficient_weyl_folding_revision", "zero_revision"],
       "properties": {
         "implementation": { "const": "zero-freudenthal-exact-c11" },
         "algorithm": { "const": "freudenthal_recurrence" },
@@ -35,12 +35,8 @@
         "cache_scope": { "const": "one_type_and_highest_weight_per_worker" },
         "cache_eviction": { "const": "on_type_or_highest_weight_change" },
         "recursive_weyl_canonicalization_revision": { "const": "51b594f" },
-        "zero_revision": {
-          "anyOf": [
-            { "const": "to-be-frozen-before-binding-run" },
-            { "type": "string", "pattern": "^[0-9a-f]{7,40}$" }
-          ]
-        }
+        "direct_coefficient_weyl_folding_revision": { "const": "937ba49315aea7734503d30b0a210d576d331283" },
+        "zero_revision": { "const": "5616b720f41927733010d5255fcea96d0eb77149" }
       }
     },
     "generator": {
@@ -115,9 +111,9 @@
         },
         "binding_target_order": { "const": "ascending_depth_dominant_first_lexicographic" },
         "sensitivity_target_orders": { "const": ["descending_depth_dominant_first_lexicographic", "seeded_generation_order"] },
-        "optimization_sequence": { "const": ["recursive_weyl_canonicalization_fresh_memo_frontier", "bounded_session_memo_grouped_frontier"] },
+        "optimization_sequence": { "const": ["recursive_weyl_canonicalization_fresh_memo_frontier", "bounded_session_memo_grouped_frontier", "direct_coefficient_space_recursive_weyl_folding"] },
         "phase0_control": { "const": "frozen_phase0_v2_uncanonicalized_evidence" },
-        "cold_baseline": { "const": "recursive_weyl_canonicalization_fresh_memo_every_query" },
+        "cold_baseline": { "const": "direct_coefficient_space_recursive_weyl_folding_fresh_memo_every_query" },
         "query_timeout_ms": { "const": 1000 },
         "measurement_hard_timeout_ms": { "const": 10000 },
         "p95_limit_ms": { "const": 1000 },
@@ -137,7 +133,9 @@
         "minimum_cases_per_type": 12,
         "include_all_e7_e8_fundamental_representations": true,
         "unresolved_disagreement_decision": "hold",
-        "production_dependency": false
+        "production_dependency": false,
+        "direct_current_oracle_witness": false,
+        "current_oracle_relationship": "predecessor_independent_witness_linked_by_internal_every_recursive_state_differential"
       }
     },
     "decision": {
@@ -161,8 +159,13 @@
         "phase05_cold_replay_v1_compressed_result_sha256": "68a37cbb77109144883849cf1313e9159750f28b4528a9c6f0d08e6a7fa90ef7",
         "phase05_cold_replay_v1_summary_sha256": "7aea6035dbabe4b53423df03b9e495b81377628a39528a3ed59314708319690b",
         "phase05_cold_replay_v1_decision": "hold",
-        "session_stage_relationship": "separate_follow_on_uses_cold_replay_as_predecessor_not_combined_speedup",
-        "relationship": "new_client_approved_surface_old_evidence_remains_binding_for_revision_3"
+        "session_frontier_v3_plan_sha256": "0af98a10412b085f204edb9ec58c8a5a10101f0956fc42b2b0aaeb972af30665",
+        "session_frontier_v3_manifest_sha256": "e4345e005c28996fb17b3af5b7882bca35ea0ab6a97fe49df2190d0393497392",
+        "session_frontier_v3_compressed_result_sha256": "370361788e71538e357faa31d3179a1ba500d7661d243cd7030d5320c3cb97e2",
+        "session_frontier_v3_summary_sha256": "e21ea0de680fe6313ce662ae8aee5455957c6edeefd3bb8e6f51a99b99f90a80",
+        "session_frontier_v3_decision": "hold",
+        "session_stage_relationship": "same_frozen_roster_orders_and_limits_after_direct_coefficient_space_folding",
+        "relationship": "append_only_post_optimization_rerun_version_3_remains_sealed"
       }
     }
   }

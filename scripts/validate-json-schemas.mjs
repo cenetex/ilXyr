@@ -113,6 +113,7 @@ const fixtures = {
   "registration-package.schema.json": [
     "examples/schema/registration-package.json",
   ],
+  "research-registry.schema.json": ["registry/research-registry.json"],
   "retro-registration.schema.json": [
     "examples/schema/retro-registration.json",
     "examples/families/nsrl-target-margin-v1.retro.json",
@@ -152,13 +153,33 @@ const fixtures = {
   ],
   "weight-multiplicity-phase05-plan-v2.schema.json": [
     "examples/weight-multiplicity/phase05-frontier-plan-v2.json",
+    "examples/weight-multiplicity/phase05-frontier-plan-v3.json",
+  ],
+  "weight-multiplicity-phase05-plan-v3.schema.json": [
+    "examples/weight-multiplicity/phase05-frontier-plan-v4.json",
+  ],
+  "weight-multiplicity-phase05-plan-v4.schema.json": [
+    "examples/weight-multiplicity/phase05-frontier-plan-v5.json",
+  ],
+  "weight-multiplicity-phase05-plan-v5.schema.json": [
+    "examples/weight-multiplicity/phase05-frontier-plan-v6.json",
+  ],
+  "weight-multiplicity-phase05-cold-replay-plan.schema.json": [
+    "examples/weight-multiplicity/phase05-cold-replay-plan-v1.json",
   ],
   "weight-multiplicity-phase05-manifest.schema.json": [
     "examples/weight-multiplicity/phase05-representation-manifest.json",
     "examples/weight-multiplicity/phase05-representation-manifest-v2.json",
+    "examples/weight-multiplicity/phase05-representation-manifest-v3.json",
+    "examples/weight-multiplicity/phase05-representation-manifest-v4.json",
+    "examples/weight-multiplicity/phase05-representation-manifest-v5.json",
+    "examples/weight-multiplicity/phase05-representation-manifest-v6.json",
   ],
   "weight-multiplicity-phase05-lie-cross-check.schema.json": [
     "examples/weight-multiplicity/phase05-lie-cross-check-manifest-v3.json",
+  ],
+  "weight-multiplicity-phase05-lie-cross-check-v4.schema.json": [
+    "examples/weight-multiplicity/phase05-lie-cross-check-manifest-v4.json",
   ],
 };
 

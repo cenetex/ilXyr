@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "scope_revision": "phase-0.5-client-approved-2026-08-30",
-  "plan_sha256": "343bc1501db9505ed7b709c7bf36dab4357ef1f47347039149c0382a60393de0",
+  "scope_revision": "phase-0.5-prepared-dag-2026-08-30",
+  "plan_sha256": "384f9bc440dd3cc6184a56e345d80db313dd850dc045927807dce88caebb7208",
   "oracle_implementation": "zero-freudenthal-exact-c11",
   "oracle_algorithm": "freudenthal_recurrence",
-  "oracle_interface_version": 2,
-  "oracle_declared_revision": "d2ce00c",
-  "oracle_executable_sha256": "9292f74a97cc6a6979137b53b67535c26e4897bc822fdbad6559ccb41ceabbfa",
+  "oracle_interface_version": 3,
+  "oracle_declared_revision": "349e6c2ef5487d4709a8dd525b2dbaac7d590f08",
+  "oracle_executable_sha256": "e6ad8c85bbcfff1a6148020f7b97b4dabdcea7a703ed1cf5675550ac7ca342e4",
   "candidate_envelope": {
     "minimum_highest_weight_height": 1,
     "maximum_highest_weight_height": 8
