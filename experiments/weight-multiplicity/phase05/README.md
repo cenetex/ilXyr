@@ -13,6 +13,19 @@ unauthorized until the client accepts the completed Phase 0.5 report.
 
 Current append-only evidence:
 
+- `PHASE05-CLOUD-CORRECTIVE-CLOSEOUT-V1.md` is the final closeout for the
+  corrective cloud audit. The binding Revision 3 outcome remains Stop and no
+  corpus is authorized.
+- `cloud-corrective-v1/` freezes the successful cloud evidence, exactness
+  correction, allocator comparison, LiE Version 5 witness, launch identity,
+  terminal cost receipt, and checksums.
+- `BC-FAMILY-LABEL-ERRATUM-V1.md` records that historical Zero B/C public
+  names are transposed relative to standard naming. Historical hashes remain
+  unchanged; canonical names are required before a corpus.
+- `PHASE06-PERSISTENT-LIE-ORACLE-BAKEOFF-PROPOSAL-V1.md` is an unsigned
+  proposal to test persistent LiE on every corrected non-pass representation.
+  It is not execution authority.
+
 - `COLD-REPLAY-V1-HOLD.md` and `cold-replay-v1.json.gz` record the
   canonicalization-only replay of the complete recoverable Phase 0 Version 2
   request stream.

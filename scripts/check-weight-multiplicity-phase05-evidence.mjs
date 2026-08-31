@@ -32,6 +32,17 @@ const sessionCorrectnessPlanPath = "examples/weight-multiplicity/phase05-session
 const sessionCorrectnessResultPath = "experiments/weight-multiplicity/phase05/session-correctness-addendum-v1.json";
 const sessionCorrectnessDecisionPath = "experiments/weight-multiplicity/phase05/SESSION-CORRECTNESS-ADDENDUM-V1-HOLD.md";
 const sessionCorrectnessControllerPath = "scripts/run-weight-multiplicity-phase05-session-correctness.mjs";
+const correctiveRoot = "experiments/weight-multiplicity/phase05/cloud-corrective-v1";
+const correctiveLaunchPath = `${correctiveRoot}/launch.json`;
+const correctiveStatusPath = `${correctiveRoot}/terminal-status.json`;
+const correctiveAllocatorPath = `${correctiveRoot}/results/allocator-audit-v1.json`;
+const correctiveExactnessPath = `${correctiveRoot}/results/exactness-correction-v1.json`;
+const correctiveLiePath = `${correctiveRoot}/results/lie-cross-check-v5.json`;
+const correctiveExecutionPath = `${correctiveRoot}/results/execution-record.json`;
+const correctiveChecksumsPath = `${correctiveRoot}/results/sha256sums.txt`;
+const correctiveCloseoutPath = "experiments/weight-multiplicity/phase05/PHASE05-CLOUD-CORRECTIVE-CLOSEOUT-V1.md";
+const phase06ProposalPath = "experiments/weight-multiplicity/phase05/PHASE06-PERSISTENT-LIE-ORACLE-BAKEOFF-PROPOSAL-V1.md";
+const bcErratumPath = "experiments/weight-multiplicity/phase05/BC-FAMILY-LABEL-ERRATUM-V1.md";
 
 const [
   coldPlanBytes,
@@ -54,6 +65,16 @@ const [
   sessionCorrectnessResultBytes,
   sessionCorrectnessDecisionBytes,
   sessionCorrectnessControllerBytes,
+  correctiveLaunchBytes,
+  correctiveStatusBytes,
+  correctiveAllocatorBytes,
+  correctiveExactnessBytes,
+  correctiveLieBytes,
+  correctiveExecutionBytes,
+  correctiveChecksumsBytes,
+  correctiveCloseoutBytes,
+  phase06ProposalBytes,
+  bcErratumBytes,
 ] = await Promise.all([
   read(coldPlanPath),
   read(coldSummaryPath),
@@ -75,6 +96,16 @@ const [
   read(sessionCorrectnessResultPath),
   read(sessionCorrectnessDecisionPath),
   read(sessionCorrectnessControllerPath),
+  read(correctiveLaunchPath),
+  read(correctiveStatusPath),
+  read(correctiveAllocatorPath),
+  read(correctiveExactnessPath),
+  read(correctiveLiePath),
+  read(correctiveExecutionPath),
+  read(correctiveChecksumsPath),
+  read(correctiveCloseoutPath),
+  read(phase06ProposalPath),
+  read(bcErratumPath),
 ]);
 
 const coldRawBytes = gunzipSync(coldCompressedBytes);
@@ -91,6 +122,16 @@ const sessionV3Decision = sessionV3DecisionBytes.toString("utf8");
 const sessionCorrectnessPlan = JSON.parse(sessionCorrectnessPlanBytes.toString("utf8"));
 const sessionCorrectnessResult = JSON.parse(sessionCorrectnessResultBytes.toString("utf8"));
 const sessionCorrectnessDecision = sessionCorrectnessDecisionBytes.toString("utf8");
+const correctiveLaunch = JSON.parse(correctiveLaunchBytes.toString("utf8"));
+const correctiveStatus = JSON.parse(correctiveStatusBytes.toString("utf8"));
+const correctiveAllocator = JSON.parse(correctiveAllocatorBytes.toString("utf8"));
+const correctiveExactness = JSON.parse(correctiveExactnessBytes.toString("utf8"));
+const correctiveLie = JSON.parse(correctiveLieBytes.toString("utf8"));
+const correctiveExecution = JSON.parse(correctiveExecutionBytes.toString("utf8"));
+const correctiveChecksums = correctiveChecksumsBytes.toString("utf8");
+const correctiveCloseout = correctiveCloseoutBytes.toString("utf8");
+const phase06Proposal = phase06ProposalBytes.toString("utf8");
+const bcErratum = bcErratumBytes.toString("utf8");
 
 assert.equal(sha256(coldPlanBytes), "4355bc8a9d156fb7ae3ae9f3867bb0d91f80e76d6b6ac9c56f85cb4bcc4611a1");
 assert.equal(sha256(coldSummaryBytes), "7aea6035dbabe4b53423df03b9e495b81377628a39528a3ed59314708319690b");
@@ -421,6 +462,216 @@ assert.match(sessionCorrectnessDecision, /Empty output is not treated as agreeme
 assert.match(sessionCorrectnessDecision, /separate independent witness/);
 assert.match(sessionCorrectnessDecision, /No corpus generation or model training is authorized/);
 
+assert.equal(
+  sha256(correctiveLaunchBytes),
+  "82e9ece8160bf52c0ea46351e1e186680b7c44d9a43a3410b4340b731353c9c8",
+);
+assert.equal(
+  sha256(correctiveStatusBytes),
+  "0a12b75e713bbf1668f9b2e5af2a3a984c6221169156739d83a15e7362333682",
+);
+assert.equal(
+  sha256(correctiveAllocatorBytes),
+  "dbe8459a5f97ae5df86de2a3682939cc0fe861536c87283b6ed0ae8313f5519d",
+);
+assert.equal(
+  sha256(correctiveExactnessBytes),
+  "a530708ef55415a84beeab3522e0be3f378bcbd6ee6e08e45e7bd3fb68c4c77a",
+);
+assert.equal(
+  sha256(correctiveLieBytes),
+  "937c52c4764f08544da01315761ccdd1d6fbd36da39922af42e90ae6c4e93759",
+);
+assert.equal(
+  sha256(correctiveExecutionBytes),
+  "ef9146fede0e6e336d76502907cda7fa5d5458a42c648bea09eefa3a2b3fd5e0",
+);
+
+const correctiveChecksumMap = new Map(
+  correctiveChecksums
+    .trim()
+    .split("\n")
+    .map((line) => {
+      const [digest, filename] = line.trim().split(/\s+/);
+      return [filename, digest];
+    }),
+);
+assert.equal(
+  correctiveChecksumMap.get("allocator-audit-v1.json"),
+  sha256(correctiveAllocatorBytes),
+);
+assert.equal(
+  correctiveChecksumMap.get("exactness-correction-v1.json"),
+  sha256(correctiveExactnessBytes),
+);
+assert.equal(
+  correctiveChecksumMap.get("lie-cross-check-v5.json"),
+  sha256(correctiveLieBytes),
+);
+assert.equal(
+  correctiveChecksumMap.get("execution-record.json"),
+  sha256(correctiveExecutionBytes),
+);
+
+assert.equal(correctiveLaunch.run_id, "33353839104");
+assert.equal(correctiveLaunch.instance_id, "i-07ed6044d7463a155");
+assert.equal(correctiveLaunch.instance_type, "c6i.4xlarge");
+assert.equal(correctiveLaunch.maximum_ec2_usd, 0.5);
+assert.equal(correctiveStatus.status, "complete");
+assert.equal(correctiveStatus.exit_code, 0);
+assert.equal(correctiveStatus.elapsed_instance_seconds, 247);
+assert.equal(correctiveStatus.estimated_ec2_usd, 0.046655555556);
+assert.deepEqual(correctiveExecution.closures, {
+  phase_1_authorized: false,
+  corpus_generated: false,
+  models_trained: false,
+});
+
+assert.equal(correctiveAllocator.evidence_status, "complete");
+assert.deepEqual(correctiveAllocator.summary, {
+  representations: 5,
+  policy_runs: 10,
+  observed_answer_disagreements: 0,
+  memory_classification_changes: 0,
+  default_limit_exceeded_before_termination: 0,
+  presized_limit_exceeded_before_termination: 0,
+});
+assert.deepEqual(correctiveAllocator.phase_1, {
+  authorized: false,
+  corpus_generated: false,
+  models_trained: false,
+});
+for (const measurement of correctiveAllocator.measurements) {
+  assert.deepEqual(measurement.observed_answer_disagreements, []);
+  assert.equal(measurement.observed_memory_classification_changed, false);
+  assert.equal(measurement.policies.length, 2);
+  const defaultPolicy = measurement.policies.find(
+    (entry) => entry.policy.id === "default",
+  );
+  const presizedPolicy = measurement.policies.find(
+    (entry) => entry.policy.id === "presized",
+  );
+  assert(defaultPolicy);
+  assert(presizedPolicy);
+  assert.equal(
+    defaultPolicy.run.hard_timeout.target_depth,
+    presizedPolicy.run.hard_timeout.target_depth,
+  );
+  for (const policy of measurement.policies) {
+    assert.equal(
+      policy.observed_memory.status,
+      "under_limit_until_hard_timeout",
+    );
+    assert(
+      policy.observed_memory.peak_rss_bytes <
+        policy.observed_memory.limit_bytes,
+    );
+  }
+}
+for (const id of ["B7:0,2,0,1,0,1,0", "C6:0,6,1,0,0,0"]) {
+  const measurement = correctiveAllocator.measurements.find(
+    (entry) => entry.representation.id === id,
+  );
+  const defaultPolicy = measurement.policies.find(
+    (entry) => entry.policy.id === "default",
+  );
+  assert.equal(
+    defaultPolicy.run.hard_timeout.memo_progress.projected_simultaneous_bytes,
+    2063597568,
+  );
+  assert.equal(defaultPolicy.observed_memory.memo_entries, 2936012);
+  assert.equal(defaultPolicy.observed_memory.live_entry_bytes, 481505968);
+}
+const correctiveB8 = correctiveAllocator.measurements.find(
+  (entry) => entry.representation.id === "B8:0,0,0,0,2,0,0,0",
+);
+assert(
+  correctiveB8.policies.find((entry) => entry.policy.id === "presized")
+    .observed_memory.capacity_to_live_entry_ratio > 11,
+);
+
+assert.equal(correctiveExactness.record_kind, "append_only_exactness_classification_correction");
+assert.deepEqual(
+  correctiveExactness.changes.map((entry) => ({
+    id: entry.representation_id,
+    prior: entry.prior_classification,
+    corrected: entry.corrected_classification,
+    mismatches: entry.observed_multiplicity_mismatches,
+  })),
+  [
+    {
+      id: "B6:0,0,1,2,1,0",
+      prior: "exactness_fail",
+      corrected: "time_fail",
+      mismatches: 0,
+    },
+    {
+      id: "F4:0,2,5,0",
+      prior: "exactness_fail",
+      corrected: "time_fail",
+      mismatches: 0,
+    },
+  ],
+);
+assert.deepEqual(correctiveExactness.corrected_summary.classifications, {
+  pass: 572,
+  order_sensitive: 17,
+  time_fail: 239,
+});
+assert.deepEqual(correctiveExactness.corrected_exactness_statuses, {
+  pass: 595,
+  fail: 0,
+  unknown_after_hard_timeout_or_oracle_error: 233,
+});
+
+assert.equal(correctiveLie.evidence_status, "pass");
+assert.equal(correctiveLie.summary.completed, 496);
+assert.equal(correctiveLie.summary.agreements, 496);
+assert.equal(correctiveLie.summary.disagreements, 0);
+assert(correctiveLie.results.every((result) => result.agreement));
+const legacyB8Fundamental = correctiveLie.results.find(
+  (result) =>
+    result.type === "B8" &&
+    result.highest_weight.join(",") === "1,0,0,0,0,0,0,0",
+);
+const legacyC8Fundamental = correctiveLie.results.find(
+  (result) =>
+    result.type === "C8" &&
+    result.highest_weight.join(",") === "1,0,0,0,0,0,0,0",
+);
+assert.equal(legacyB8Fundamental.representation_dimension, "16");
+assert.equal(legacyB8Fundamental.lie.query_type, "C8");
+assert.equal(legacyC8Fundamental.representation_dimension, "17");
+assert.equal(legacyC8Fundamental.lie.query_type, "B8");
+
+const percentile = (values, fraction) => {
+  const ordered = [...values].sort((left, right) => left - right);
+  return ordered[Math.floor((ordered.length - 1) * fraction)];
+};
+const lieTimes = correctiveLie.results.map((result) => result.lie.elapsed_ms);
+const zeroTimes = correctiveLie.results.map((result) => result.zero.elapsed_ms);
+assert.equal(percentile(lieTimes, 0.5).toFixed(3), "2.141");
+assert.equal(percentile(lieTimes, 0.95).toFixed(3), "2.404");
+assert.equal(percentile(zeroTimes, 0.5).toFixed(3), "2.284");
+assert.equal(percentile(zeroTimes, 0.95).toFixed(3), "3.767");
+assert.equal(Math.max(...zeroTimes).toFixed(3), "85.047");
+for (const id of ["C8:lie:07", "E8:lie:15", "E8:lie:16"]) {
+  const result = correctiveLie.results.find((entry) => entry.id === id);
+  assert(result.zero.elapsed_ms > 80);
+  assert(result.lie.elapsed_ms < 2.5);
+}
+
+assert.match(correctiveCloseout, /Contractual outcome:\*\* \*\*Stop under Revision 3/);
+assert.match(correctiveCloseout, /Estimated EC2 cost: \$0\.046655555556/);
+assert.match(correctiveCloseout, /No corpus may be generated/);
+assert.match(correctiveCloseout, /historical B\/C public labels are transposed/);
+assert.match(phase06Proposal, /includes all 256 corrected non-pass representations/);
+assert.match(phase06Proposal, /theoretical maximum before deduplication is 8,192 requests/);
+assert.match(phase06Proposal, /authorizes neither corpus generation nor model training/);
+assert.match(phase06Proposal, /one long-lived LiE interpreter per worker/);
+assert.match(bcErratum, /Historical Zero weight-multiplicity outputs transpose/);
+assert.match(bcErratum, /A corpus generated before repair/);
+
 console.log(JSON.stringify({
   status: "pass",
   cold_replay: {
@@ -463,5 +714,16 @@ console.log(JSON.stringify({
     comparisons:
       sessionCorrectnessResult.summary
         .observed_session_to_reference_comparisons,
+  },
+  corrective_cloud_audit: {
+    status: correctiveStatus.status,
+    cost_usd: correctiveStatus.estimated_ec2_usd,
+    allocator_representations: correctiveAllocator.summary.representations,
+    memory_classification_changes:
+      correctiveAllocator.summary.memory_classification_changes,
+    exactness_failures:
+      correctiveExactness.corrected_exactness_statuses.fail,
+    lie_agreements: correctiveLie.summary.agreements,
+    phase_1_authorized: correctiveExecution.closures.phase_1_authorized,
   },
 }));
