@@ -1218,6 +1218,14 @@ assert.match(phase06Proposal, /includes all 256 corrected non-pass representatio
 assert.match(phase06Proposal, /theoretical maximum before deduplication is 8,192 requests/);
 assert.match(phase06Proposal, /authorizes neither corpus generation nor model training/);
 assert.match(phase06Proposal, /one long-lived LiE interpreter per worker/);
+assert.match(phase06Proposal, /### `use_lie_reduced`/);
+assert.match(phase06Proposal, /### `lie_resource_fail`/);
+assert.doesNotMatch(phase06Proposal, /### `keep_zero`/);
+assert.match(phase06Proposal, /differential coverage as both a count and a fraction/);
+assert.match(phase06Proposal, /LiE-only cost frontier/);
+assert.match(phase06Proposal, /every tested hole below\s+that ceiling/);
+assert.match(phase06Proposal, /specific accountable name/);
+assert.match(phase06Proposal, /does not authorize corpus generation or model training/);
 assert.match(bcErratum, /Historical Zero weight-multiplicity outputs transpose/);
 assert.match(bcErratum, /A corpus generated before repair/);
 

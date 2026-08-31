@@ -22,7 +22,8 @@ signature. It authorizes neither corpus generation nor model training.
 - **Proposed duration:** five business days.
 - **Proposed cloud ceiling:** one c6i.4xlarge, 30 minutes, no more than $1.00
   EC2.
-- **Primary output:** `use_lie`, `keep_zero`, `hold`, or `stop`.
+- **Primary output:** `use_lie`, `use_lie_reduced`, `lie_resource_fail`,
+  `hold`, or `stop`.
 
 ## Frozen source surface
 
@@ -103,6 +104,11 @@ The correctness rules are:
 The existing 496-of-496 witness remains supporting evidence. It is not counted
 again as coverage of the failed surface.
 
+The final report states differential coverage as both a count and a fraction:
+completed historical Zero comparisons divided by the unique frozen LiE
+requests. Agreement is never presented without that denominator. Zero
+timeouts remain unavailable comparisons and do not validate either oracle.
+
 ## Workstream 4 — resource gate
 
 The Revision 3 limits remain unchanged:
@@ -118,6 +124,14 @@ the frozen stress subset and name the safe worker count. Report process
 startup, per-query latency, per-representation total cost, accepted-record
 cost, and peak RSS separately.
 
+Regardless of the aggregate outcome, publish a LiE-only cost frontier in the
+same tested-ceilings form as the corrected Zero frontier. For every canonical
+type, report the highest tested passing dimension, every tested hole below
+that ceiling, every passing representation above a hole, and the separate
+time, memory, parse, and replay classifications. A ceiling is a summary of
+tested cases, not a monotonicity claim. Preserve failed and untested cells;
+do not interpolate across them.
+
 ## License and maintenance gate
 
 [Sage records LiE](https://doc.sagemath.org/html/en/reference/spkg/lie.html)
@@ -132,8 +146,13 @@ state:
 - whether LiE is invoked as an unmodified separate executable;
 - what source, notice, relinking, and distribution duties apply;
 - how the client receives reproducible source and build instructions;
-- who owns maintenance of the older codebase; and
+- the named person or team that owns maintenance of the older codebase, with
+  an escalation contact and supported build target; and
 - whether client counsel accepts the arrangement.
+
+`IlXYr`, `the vendor`, or `we` is not a sufficient maintenance owner. A
+`use_lie` or `use_lie_reduced` decision requires a specific accountable name
+in the final report.
 
 An unresolved license or maintenance position is Hold. This proposal is not
 legal advice.
@@ -147,10 +166,31 @@ pass. Recommend LiE as the primary corpus oracle and Zero as a differential
 check. This outcome authorizes preparation of a new canonical, dimension-
 indexed frontier; it does not authorize a corpus automatically.
 
-### `keep_zero`
+### `use_lie_reduced`
 
-LiE is correct on all observed overlaps but fails the frozen time or memory
-gate. Close the LiE route. Any further Zero optimization requires a separately
+LiE fails the resource gate on one or more of the 256 representations, but a
+strict subset passes every naming, correctness, replay, license, maintenance,
+time, and memory gate. That measured subset must be large enough to support
+the Revision 3 family split and every retained evaluation stratum; otherwise
+the outcome is `lie_resource_fail`.
+
+Recommend LiE as the primary oracle only inside the measured passing frontier,
+with Zero as a differential check where a completed Zero answer exists. This
+outcome authorizes preparation of a re-scoped corpus manifest containing only
+measured passing representations and requests inside their tested envelopes.
+It does not authorize corpus generation or model training. The manifest must
+return for client approval with all excluded types, representations, and
+strata stated explicitly.
+
+### `lie_resource_fail`
+
+LiE fails the frozen time or memory gate and no reduced passing surface meets
+the predeclared corpus-viability rule above. This outcome says nothing about
+whether Zero is correct or production-ready. Report differential agreement
+separately as a count and coverage fraction, including when the available
+coverage is zero.
+
+Close the LiE route. Any further Zero optimization requires a separately
 priced and signed engineering scope. Incremental rehash is included only if
 memory becomes a measured failure.
 
@@ -162,9 +202,11 @@ another frontier or corpus decision.
 
 ### `stop`
 
-LiE does not clear the failed surface and no separate Zero engineering scope is
-approved. Accept the existing negative result and close the program without a
-corpus.
+The measured outcome is `lie_resource_fail`, the client declines a separate
+Zero engineering scope, and no approved reduced corpus surface exists. Accept
+the existing negative result and close the program without a corpus. The final
+report records the underlying resource result and must not describe Zero as
+validated.
 
 ## Deliverables
 
@@ -174,11 +216,14 @@ corpus.
 - frozen canonical request manifest and hashes;
 - two complete raw LiE passes and checksums;
 - differential agreement report against all available Zero answers;
+- differential coverage count and fraction over unique frozen requests;
 - per-representation and aggregate time/memory report;
+- LiE-only measured ceilings per canonical type, with holes preserved;
 - safe persistent-worker count;
-- license and maintenance note;
+- license and maintenance note naming the accountable maintenance owner;
 - canonical dimension-indexed frontier recommendation; and
-- final `use_lie`, `keep_zero`, `hold`, or `stop` decision.
+- final `use_lie`, `use_lie_reduced`, `lie_resource_fail`, `hold`, or `stop`
+  decision.
 
 ## Schedule
 
