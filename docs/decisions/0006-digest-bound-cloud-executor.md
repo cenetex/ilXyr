@@ -83,6 +83,18 @@ collector verifies those receipts and the result bundle before ilXyr ingests att
 
 No paid cloud work is authorized by steps 1 through 5.
 
+## Operational clarification
+
+This ADR proposes a common provider-neutral adapter. It does not prohibit use
+of an already approved, experiment-specific cloud path. Resource-heavy full
+runs should follow `docs/CLOUD-EXECUTION.md` and reuse the proven immutable
+package, preflight, watchdog, status, collection, and shutdown pattern.
+
+The absence of the common adapter is not a reason to run a full frontier or
+reportable performance benchmark on a developer workstation. It is a reason
+to add or repair the experiment-specific cloud path before the run. Any paid
+launch still requires its own frozen identity, budget, and explicit approval.
+
 ## Rejected alternatives
 
 - **Run a mutable checkout on AWS.** This moves the drift problem; it does not remove it.
