@@ -7,7 +7,7 @@ use crate::{
     CompletedExperiment, ContributionStage, Error, Evidence, EvidenceLane, ExperimentSpec,
     ExperimentStatus, ExportPolicy, Forecast, ForecastSettlement, FundingCommitment, GateCheck,
     NetworkPolicy, OutcomePredicate, ResearchContribution, Result, RunRecord, SharedTaskContract,
-    WeightClass, Workspace, autonomy, executor, onboarding, registration,
+    WeightClass, Workspace, autonomy, corpus, executor, onboarding, registration,
     require_registered_huggingface_actor, require_registered_huggingface_weight,
     require_registered_nsrl_actor, require_registered_nsrl_weight, store::now_ms, validation,
 };
@@ -99,6 +99,18 @@ pub fn compile_experiment(workspace: &Workspace, spec: ExperimentSpec) -> Result
         validate_shared_task_experiment(&spec, contract)?;
     }
 
+    let mut resolved_datasets = BTreeMap::new();
+    for (dataset, expected_ref) in &spec.dataset_bindings {
+        let registered = corpus::registered_corpus_release(workspace, dataset)?;
+        if registered.artifact_ref != *expected_ref {
+            return Err(Error::Conflict(format!(
+                "dataset {dataset} resolves to {}, expected {expected_ref}",
+                registered.artifact_ref
+            )));
+        }
+        resolved_datasets.insert(dataset.clone(), registered.artifact_ref);
+    }
+
     let source_digest = Workspace::digest(&spec)?;
     let proposer = spec.proposer.clone();
     let experiment_id = spec.id.clone();
@@ -128,12 +140,25 @@ pub fn compile_experiment(workspace: &Workspace, spec: ExperimentSpec) -> Result
                 .push(artifact_ref.clone());
         }
     }
+    for artifact_ref in resolved_datasets.values() {
+        if !evidence_authority
+            .provenance
+            .artifact_hashes
+            .contains(artifact_ref)
+        {
+            evidence_authority
+                .provenance
+                .artifact_hashes
+                .push(artifact_ref.clone());
+        }
+    }
     evidence_authority.provenance.artifact_hashes.sort();
     let compiled = CompiledExperiment {
         schema: "ilxyr.compiled_experiment.v1".to_owned(),
         spec,
         source_digest,
         resolved_lineage,
+        resolved_datasets,
         shared_task_ref,
         evidence_authority,
     };
@@ -278,7 +303,7 @@ pub fn decide_admission(workspace: &Workspace, experiment_id: &str) -> Result<Ad
     Ok(decision)
 }
 
-fn evaluate_admission(
+pub(crate) fn evaluate_admission(
     workspace: &Workspace,
     compiled: &CompiledExperiment,
 ) -> Result<Vec<GateCheck>> {
@@ -303,6 +328,7 @@ fn evaluate_admission(
     let spec = &compiled.spec;
     let local = spec.execution.executor == "local-command";
     let remote = spec.execution.executor == "remote-v1";
+    let oci = spec.execution.executor == "oci-job";
 
     Ok(vec![
         check(
@@ -348,11 +374,13 @@ fn evaluate_admission(
         ),
         check(
             "executor_available",
-            local || remote,
+            local || remote || oci,
             if local {
                 "local-command adapter is installed".to_owned()
             } else if remote {
                 "provider-neutral remote-v1 adapter boundary is installed".to_owned()
+            } else if oci {
+                "provider-neutral OCI job adapter is installed".to_owned()
             } else {
                 format!("{} adapter is not installed", spec.execution.executor)
             },
@@ -361,7 +389,7 @@ fn evaluate_admission(
             "weight_protection",
             spec.security.weight_class == WeightClass::Public,
             if spec.security.weight_class == WeightClass::Public {
-                "v1 execution is limited to public-weight handles".to_owned()
+                "this executor contract is limited to public-weight handles".to_owned()
             } else {
                 "protected weights require a later attested executor profile".to_owned()
             },
@@ -371,9 +399,14 @@ fn evaluate_admission(
             (local
                 && spec.execution.network == NetworkPolicy::Open
                 && std::path::Path::new(&spec.execution.program).is_absolute())
-                || (remote && spec.execution.network == NetworkPolicy::Denied),
+                || (remote && spec.execution.network == NetworkPolicy::Denied)
+                || (oci
+                    && spec.execution.network == NetworkPolicy::Denied
+                    && spec.execution.program.starts_with("oci://")),
             if remote {
                 "remote-v1 requires network=denied".to_owned()
+            } else if oci {
+                "oci-job requires a digest-pinned image with network=denied".to_owned()
             } else {
                 "local execution requires network=open and an absolute executable path".to_owned()
             },
@@ -381,11 +414,13 @@ fn evaluate_admission(
         check(
             "code_policy",
             (local && spec.security.code_policy == CodePolicy::Arbitrary)
-                || (remote && spec.security.code_policy == CodePolicy::ApprovedImageOnly),
+                || ((remote || oci) && spec.security.code_policy == CodePolicy::ApprovedImageOnly),
             if local && spec.security.code_policy == CodePolicy::Arbitrary {
                 "local-command directly executes the declared program".to_owned()
             } else if remote && spec.security.code_policy == CodePolicy::ApprovedImageOnly {
                 "remote-v1 requires a digest-bound approved executable".to_owned()
+            } else if oci && spec.security.code_policy == CodePolicy::ApprovedImageOnly {
+                "oci-job requires a digest-pinned approved image".to_owned()
             } else {
                 "code policy does not match the selected executor".to_owned()
             },
@@ -393,11 +428,14 @@ fn evaluate_admission(
         check(
             "export_policy",
             (local && spec.security.export_policy == ExportPolicy::Artifacts)
-                || (remote && spec.security.export_policy == ExportPolicy::MetricsOnly),
+                || (remote && spec.security.export_policy == ExportPolicy::MetricsOnly)
+                || (oci && spec.security.export_policy == ExportPolicy::Artifacts),
             if local && spec.security.export_policy == ExportPolicy::Artifacts {
                 "local-command records stdout, stderr, and metric artifacts".to_owned()
             } else if remote && spec.security.export_policy == ExportPolicy::MetricsOnly {
                 "remote-v1 exports only frozen metrics and outcome records".to_owned()
+            } else if oci && spec.security.export_policy == ExportPolicy::Artifacts {
+                "oci-job records declared metrics and versioned output artifacts".to_owned()
             } else {
                 "export policy does not match the selected executor".to_owned()
             },
@@ -410,10 +448,16 @@ fn evaluate_admission(
 pub fn run_experiment(workspace: &Workspace, experiment_id: &str) -> Result<CompletedExperiment> {
     let compiled = load_compiled(workspace, experiment_id)?;
     if compiled.spec.execution.executor != "local-command" {
-        return Err(Error::Security(format!(
-            "experiment {experiment_id} requires the {} dispatcher; the local run path is disabled",
-            compiled.spec.execution.executor
-        )));
+        let message = if compiled.spec.execution.executor == "oci-job" {
+            "oci-job experiments must use oci-dispatch-record, oci-complete-record, and oci-settle"
+                .to_owned()
+        } else {
+            format!(
+                "experiment {experiment_id} requires the {} dispatcher; the local run path is disabled",
+                compiled.spec.execution.executor
+            )
+        };
+        return Err(Error::Security(message));
     }
     if let Some((run_ref, run)) =
         latest_typed_with_ref::<RunRecord>(workspace, EXPERIMENT_COMPLETED, experiment_id)?
@@ -447,7 +491,7 @@ pub fn run_experiment(workspace: &Workspace, experiment_id: &str) -> Result<Comp
     finalize_completed_run(workspace, &compiled, run_ref, run)
 }
 
-fn finalize_completed_run(
+pub(crate) fn finalize_completed_run(
     workspace: &Workspace,
     compiled: &CompiledExperiment,
     run_ref: String,
@@ -629,7 +673,10 @@ pub fn experiment_status(workspace: &Workspace, experiment_id: &str) -> Result<E
     })
 }
 
-fn load_compiled(workspace: &Workspace, experiment_id: &str) -> Result<CompiledExperiment> {
+pub(crate) fn load_compiled(
+    workspace: &Workspace,
+    experiment_id: &str,
+) -> Result<CompiledExperiment> {
     latest_typed(workspace, EXPERIMENT_COMPILED, experiment_id)?
         .ok_or_else(|| Error::NotFound(format!("compiled experiment {experiment_id}")))
 }

@@ -163,6 +163,9 @@ No paid cloud work is authorized by the V1.3 roadmap itself. See ADR 0006 and AD
 
 ## V2 — service boundary (when multi-writer need is real)
 
+- The first single-writer corpus service slice now exposes immutable Braid-style releases,
+  verified S3/Azure Blob receipts, and SageMaker/Azure ML input handoffs. It deliberately does not
+  claim multi-tenant authorization or perform cloud API side effects.
 - HTTP API generated from the same protocol types; authenticated multi-writer event ingestion.
 - Identities, roles, quotas, and idempotency keys.
 - Cloud executor adapters consuming compiled experiments by immutable digest.

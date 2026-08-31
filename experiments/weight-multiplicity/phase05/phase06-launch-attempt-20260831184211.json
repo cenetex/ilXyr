@@ -1,0 +1,19 @@
+{
+  "schema": "ilxyr.weight_multiplicity_phase06_launch_attempt.v1",
+  "run_id": "20260831184211",
+  "instance_id": "i-0edf24252661d0e3d",
+  "launched_at": "2026-08-31T18:43:20Z",
+  "terminal_state": "terminated",
+  "execution_status": "bootstrap_failed_before_package_download",
+  "cause": "the AWS CLI accepts repeated --tag-specifications options but only sent the final volume value; the instance therefore had no metadata tags",
+  "cloudtrail_run_event_id": "2e11d33e-5b80-4d02-8d15-6354c7274596",
+  "package_sha256": "79ce53408b92b3abf16c399c57ef3faa9ee90c43208c159d6c0feb344cc09cdd",
+  "ilxyr_commit": "e44707190c772285bd65dc1cfecd091e9847d1fd",
+  "phase06_plan_sha256": "9bdcc7c965d88dd2041cdd56f0a47be03d813f623e818d7a35dc1aba0c43a405",
+  "manifest_sha256": "59aafe3a3e06c685861fd73875cfc322faaa3a8e317111728ad5d3fb5bc15925",
+  "oracle_queries_started": 0,
+  "corpus_generation_started": false,
+  "model_training_started": false,
+  "evidence_produced": false,
+  "corrective_action": "send instance and volume tag specifications in one AWS CLI option, retry metadata reads, and arm an emergency shutdown before metadata access"
+}

@@ -207,6 +207,42 @@ pub fn verify_executor_envelope_candidate(
     })
 }
 
+/// Returns true when a ledgered run has a verified signature from a key that is
+/// immutably bound to the expected executor service.
+pub fn has_verified_executor_attestation(
+    workspace: &Workspace,
+    run_ref: &str,
+    executor: &ActorRef,
+) -> Result<bool> {
+    if executor.kind != ActorKind::Service {
+        return Ok(false);
+    }
+    let executor_key_ids = trusted_attestation_keys(workspace)?
+        .into_iter()
+        .filter(|key| key.executor == *executor)
+        .map(|key| key.key_id)
+        .collect::<BTreeSet<_>>();
+    if executor_key_ids.is_empty() {
+        return Ok(false);
+    }
+    for event in workspace.events()? {
+        if event.event_type != EXECUTOR_ATTESTATION_RECORDED {
+            continue;
+        }
+        let artifact_ref = required_artifact(&event.event_type, event.artifact_ref)?;
+        let attestation: ExecutorAttestation = workspace.get(&artifact_ref)?;
+        if attestation.run_ref == run_ref
+            && attestation
+                .verified_key_ids
+                .iter()
+                .any(|key_id| executor_key_ids.contains(key_id))
+        {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
 #[must_use]
 pub fn dsse_pae(payload_type: &str, payload: &[u8]) -> Vec<u8> {
     let mut encoded = format!(

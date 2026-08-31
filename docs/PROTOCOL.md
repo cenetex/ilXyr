@@ -34,12 +34,20 @@ executor environment + immutable job package + one-run authorization
     -> remote execution -> signed DSSE/SLSA report -> independent verification
     -> single-writer ingestion -> read-only public projection
 
+compiled experiment + verified corpus materializations -> OCI dispatch
+OCI dispatch + provider result -> completed run
+completed run + trusted executor attestation -> promoted evidence
+
 claim + frozen replication contract -> reserved allocation -> forward evidence
     -> independence/tolerance settlement -> replicates edge -> passive claim status
 
 rival mechanisms + metric predictions + exhaustive decision table
     -> ranked discriminating observations -> evidence -> mechanism tournament settlement
 ```
+
+The OCI path freezes a digest-pinned image and resolves dataset handles to exact corpus artifacts
+at compilation, then to exact materialization artifacts at dispatch. Completion must match the
+frozen metric and `artifacts.*` output names. Recording completion never bypasses attestation.
 
 The steps are monotonic. Objects are immutable; revisions create new objects and experiment
 revisions use new experiment IDs. Events may add information but never mutate prior evidence.

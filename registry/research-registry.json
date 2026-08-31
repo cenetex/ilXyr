@@ -1,0 +1,375 @@
+{
+  "schema": "ilxyr.research_registry.v1",
+  "indexed_at_ms": 1788200252000,
+  "stale_after_ms": 604800000,
+  "heads": [
+    {
+      "source": "https://github.com/atimics/runner-watch/tree/c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+      "kind": "publication_index",
+      "head": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+      "indexed_at_ms": 1788200252000
+    },
+    {
+      "source": "https://github.com/atimics/runner-watch/tree/884428a564d4df500b95a2911014c672221f7e2e",
+      "kind": "publication_index",
+      "head": "884428a564d4df500b95a2911014c672221f7e2e",
+      "indexed_at_ms": 1788143332000
+    },
+    {
+      "source": "https://github.com/atimics/runner-watch/tree/25cc2783c8af8d1a45d286f28bb08f62a074c1dc",
+      "kind": "publication_index",
+      "head": "25cc2783c8af8d1a45d286f28bb08f62a074c1dc",
+      "indexed_at_ms": 1788121184000
+    }
+  ],
+  "projects": [
+    {
+      "schema": "ilxyr.project_record.v1",
+      "project_id": "project://runner-watch/feral-7b-sec",
+      "canonical_name": "FERAL-7B SEC",
+      "aliases": ["qwen-sec", "FERAL-7B", "feral-sec"],
+      "repositories": [
+        {
+          "repository": "https://github.com/atimics/runner-watch",
+          "revision": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+          "role": "FERAL-7B frozen FinQA suite, predictions, and base-model result",
+          "evidence": "externally_referenced"
+        },
+        {
+          "repository": "https://github.com/atimics/runner-watch",
+          "revision": "884428a564d4df500b95a2911014c672221f7e2e",
+          "role": "corpus export, profiling, and experiment draft",
+          "evidence": "externally_referenced"
+        },
+        {
+          "repository": "https://github.com/atimics/runner-watch",
+          "revision": "25cc2783c8af8d1a45d286f28bb08f62a074c1dc",
+          "role": "training, evaluation, release scoring, and completion tooling",
+          "evidence": "externally_referenced"
+        }
+      ],
+      "model": {
+        "model_id": "Qwen/Qwen2.5-7B-Instruct",
+        "weight_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "registration_ref": null,
+        "evidence": "externally_referenced",
+        "visibility": "public"
+      },
+      "corpora": [
+        {
+          "corpus_id": "dataset://runner-watch/feral-7b-sec/dev-403",
+          "title": "Qwen-SEC development export",
+          "example_count": 403,
+          "release_ref": null,
+          "materialization_ref": null,
+          "state": "completed",
+          "evidence": "externally_referenced",
+          "visibility": "private_metadata"
+        },
+        {
+          "corpus_id": "dataset://stonks/feral-7b-sec/v2",
+          "title": "FERAL-7B SEC full frozen corpus",
+          "example_count": null,
+          "release_ref": null,
+          "materialization_ref": null,
+          "state": "blocked",
+          "evidence": "missing",
+          "visibility": "private_metadata"
+        }
+      ],
+      "experiments": [
+        {
+          "experiment_id": "feral-7b.sec-analysis.v1",
+          "title": "FERAL-7B SEC analysis release gate",
+          "compiled_ref": null,
+          "source_ref": "artifact://runner-watch/feral-7b-experiment-card",
+          "state": "implemented",
+          "evidence": "externally_referenced"
+        }
+      ],
+      "dispatches": [],
+      "evaluations": [
+        {
+          "evaluation_id": "evaluation://feral-7b/sec-future/base",
+          "experiment_id": "feral-7b.sec-analysis.v1",
+          "role": "baseline",
+          "state": "planned",
+          "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+          "dataset_ref": null,
+          "evaluator_revision": null,
+          "predictions_ref": null,
+          "metrics": {},
+          "evidence": "missing",
+          "visibility": "sealed_hash_only"
+        },
+        {
+          "evaluation_id": "evaluation://feral-7b/sec-unseen-issuer/base",
+          "experiment_id": "feral-7b.sec-analysis.v1",
+          "role": "baseline",
+          "state": "planned",
+          "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+          "dataset_ref": null,
+          "evaluator_revision": null,
+          "predictions_ref": null,
+          "metrics": {},
+          "evidence": "missing",
+          "visibility": "sealed_hash_only"
+        },
+        {
+          "evaluation_id": "evaluation://feral-7b/finqa/base",
+          "experiment_id": "feral-7b.sec-analysis.v1",
+          "role": "baseline",
+          "state": "completed",
+          "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+          "dataset_ref": "https://github.com/atimics/runner-watch/blob/c78d953ab64ba5e295b44bc0e13c9015223a32d2/artifacts/feral-7b-sec-v2/evaluation/finqa-retrieved.manifest.json",
+          "evaluator_revision": "7bb1ce8d635fa1ce913a4d95f46c5031581bb140",
+          "predictions_ref": "https://github.com/atimics/runner-watch/blob/c78d953ab64ba5e295b44bc0e13c9015223a32d2/artifacts/feral-7b-sec-v2/evaluation/baseline-finqa-retrieved.jsonl",
+          "metrics": {
+            "finqa_accuracy": 0.14646904969485613
+          },
+          "evidence": "externally_referenced",
+          "visibility": "public"
+        },
+        {
+          "evaluation_id": "evaluation://feral-7b/citation-support/base",
+          "experiment_id": "feral-7b.sec-analysis.v1",
+          "role": "baseline",
+          "state": "planned",
+          "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+          "dataset_ref": null,
+          "evaluator_revision": null,
+          "predictions_ref": null,
+          "metrics": {},
+          "evidence": "missing",
+          "visibility": "sealed_hash_only"
+        },
+        {
+          "evaluation_id": "evaluation://feral-7b/sec-future/candidate",
+          "experiment_id": "feral-7b.sec-analysis.v1",
+          "role": "candidate",
+          "state": "planned",
+          "model_revision": null,
+          "dataset_ref": null,
+          "evaluator_revision": null,
+          "predictions_ref": null,
+          "metrics": {},
+          "evidence": "missing",
+          "visibility": "sealed_hash_only"
+        },
+        {
+          "evaluation_id": "evaluation://feral-7b/sec-unseen-issuer/candidate",
+          "experiment_id": "feral-7b.sec-analysis.v1",
+          "role": "candidate",
+          "state": "planned",
+          "model_revision": null,
+          "dataset_ref": null,
+          "evaluator_revision": null,
+          "predictions_ref": null,
+          "metrics": {},
+          "evidence": "missing",
+          "visibility": "sealed_hash_only"
+        },
+        {
+          "evaluation_id": "evaluation://feral-7b/release-gate/candidate",
+          "experiment_id": "feral-7b.sec-analysis.v1",
+          "role": "candidate",
+          "state": "planned",
+          "model_revision": null,
+          "dataset_ref": null,
+          "evaluator_revision": null,
+          "predictions_ref": null,
+          "metrics": {},
+          "evidence": "missing",
+          "visibility": "sealed_hash_only"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "artifact://runner-watch/feral-7b-experiment-card",
+          "experiment_id": "feral-7b.sec-analysis.v1",
+          "kind": "draft_experiment_spec",
+          "digest": "ba45166eac11f61470bbbea5aa58efc7090f7f49c845c6eda7bbf5521344e5c9",
+          "uri": "https://github.com/atimics/runner-watch/blob/884428a564d4df500b95a2911014c672221f7e2e/docs/feral-7b-ilxyr-experiment.example.json",
+          "source_revision": "884428a564d4df500b95a2911014c672221f7e2e",
+          "evidence": "externally_referenced",
+          "visibility": "public"
+        },
+        {
+          "artifact_id": "artifact://runner-watch/sec-qwen-training-guide",
+          "experiment_id": "feral-7b.sec-analysis.v1",
+          "kind": "implementation_documentation",
+          "digest": "b28f1cffa9040b1fccf51b8e0a8a74cbd6f2011e59c080da5cdc5938717786cb",
+          "uri": "https://github.com/atimics/runner-watch/blob/884428a564d4df500b95a2911014c672221f7e2e/docs/sec-qwen-training.md",
+          "source_revision": "884428a564d4df500b95a2911014c672221f7e2e",
+          "evidence": "externally_referenced",
+          "visibility": "public"
+        },
+        {
+          "artifact_id": "artifact://runner-watch/feral-7b-finqa-base-result",
+          "experiment_id": "feral-7b.sec-analysis.v1",
+          "kind": "baseline_evaluation_result",
+          "digest": "a9c2b7f456bc4101eb7b288761bea923298eb690d90fd10be89d32cba44beb8f",
+          "uri": "https://github.com/atimics/runner-watch/blob/c78d953ab64ba5e295b44bc0e13c9015223a32d2/artifacts/feral-7b-sec-v2/evaluation/finqa-baseline.json",
+          "source_revision": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+          "evidence": "externally_referenced",
+          "visibility": "public"
+        }
+      ],
+      "lifecycle_state": "blocked",
+      "stages": [
+        {
+          "stage_id": "implementation",
+          "title": "Training and evaluation code",
+          "state": "implemented",
+          "evidence": "externally_referenced",
+          "refs": ["artifact://runner-watch/sec-qwen-training-guide"],
+          "detail": "Corpus export, tokenizer profiling, LoRA training, evaluation, release scoring, and completion tooling exist in Runner Watch revisions."
+        },
+        {
+          "stage_id": "development_corpus_export",
+          "title": "403-example development corpus export",
+          "state": "completed",
+          "evidence": "externally_referenced",
+          "refs": ["dataset://runner-watch/feral-7b-sec/dev-403"],
+          "detail": "A development export exists, but it is not the full frozen training corpus and has no ilXyr release or materialization reference."
+        },
+        {
+          "stage_id": "full_corpus_freeze",
+          "title": "Full corpus freeze",
+          "state": "blocked",
+          "evidence": "missing",
+          "refs": [],
+          "detail": "The full corpus is not frozen or registered. Paid training must not begin."
+        },
+        {
+          "stage_id": "corpus_materialization",
+          "title": "Verified cloud materialization",
+          "state": "planned",
+          "evidence": "missing",
+          "refs": [],
+          "detail": "No hash-verified S3 or Azure materialization receipt is registered."
+        },
+        {
+          "stage_id": "tokenizer_profile",
+          "title": "Exact tokenizer and throughput profile",
+          "state": "planned",
+          "evidence": "missing",
+          "refs": [],
+          "detail": "The profiling tool is implemented; no full-corpus profile or provider cost ceiling is recorded."
+        },
+        {
+          "stage_id": "baseline_evaluations",
+          "title": "Base Qwen2.5 baselines",
+          "state": "implemented",
+          "evidence": "externally_referenced",
+          "refs": ["artifact://runner-watch/feral-7b-finqa-base-result"],
+          "detail": "The frozen retrieved-context FinQA baseline is complete at 0.14646904969485613 exact accuracy. Future-split, unseen-issuer, and deterministic citation-support baselines remain missing."
+        },
+        {
+          "stage_id": "experiment_registration",
+          "title": "Frozen experiment registration",
+          "state": "planned",
+          "evidence": "missing",
+          "refs": ["artifact://runner-watch/feral-7b-experiment-card"],
+          "detail": "The source file is an example with placeholder corpus and OCI digests; no ExperimentCompiled ledger event exists."
+        },
+        {
+          "stage_id": "cloud_dispatch",
+          "title": "Cloud training dispatch",
+          "state": "planned",
+          "evidence": "missing",
+          "refs": [],
+          "detail": "No signed dispatch, executor, image digest, input binding, or budget is registered."
+        },
+        {
+          "stage_id": "adapter_training",
+          "title": "LoRA adapter training",
+          "state": "planned",
+          "evidence": "missing",
+          "refs": [],
+          "detail": "No adapter has been trained and no output artifact exists."
+        },
+        {
+          "stage_id": "candidate_evaluations",
+          "title": "Candidate evaluations on identical IDs",
+          "state": "planned",
+          "evidence": "missing",
+          "refs": [],
+          "detail": "No candidate predictions or metrics are recorded."
+        },
+        {
+          "stage_id": "release_gate",
+          "title": "Final release-gate result",
+          "state": "planned",
+          "evidence": "missing",
+          "refs": [],
+          "detail": "No promotion decision or evidence bundle exists."
+        }
+      ],
+      "missing_requirements": [
+        {
+          "requirement_id": "missing://qwen-sec/full-corpus-release",
+          "title": "Frozen full corpus release",
+          "blocks_stage": "full_corpus_freeze",
+          "detail": "Register an immutable full corpus release with every file digest."
+        },
+        {
+          "requirement_id": "missing://qwen-sec/materialization",
+          "title": "Verified cloud corpus location",
+          "blocks_stage": "corpus_materialization",
+          "detail": "Record a read-back verified materialization receipt."
+        },
+        {
+          "requirement_id": "missing://qwen-sec/profile",
+          "title": "Tokenizer, throughput, and cost profile",
+          "blocks_stage": "tokenizer_profile",
+          "detail": "Profile the exact corpus, tokenizer, image, hardware, and provider price."
+        },
+        {
+          "requirement_id": "missing://qwen-sec/baselines",
+          "title": "Four registered base-model baselines",
+          "blocks_stage": "baseline_evaluations",
+          "detail": "Run and bind predictions for SEC future, unseen issuer, FinQA, and citation support."
+        },
+        {
+          "requirement_id": "missing://qwen-sec/compiled-experiment",
+          "title": "Compiled experiment with real digests",
+          "blocks_stage": "experiment_registration",
+          "detail": "Replace corpus and OCI placeholders, submit lineage records, and compile the contract."
+        },
+        {
+          "requirement_id": "missing://qwen-sec/dispatch",
+          "title": "Signed cloud dispatch",
+          "blocks_stage": "cloud_dispatch",
+          "detail": "Bind the image, inputs, executor, and approved budget in ilXyr."
+        },
+        {
+          "requirement_id": "missing://qwen-sec/adapter",
+          "title": "Trained LoRA adapter",
+          "blocks_stage": "adapter_training",
+          "detail": "Train only after the earlier evidence and budget gates pass."
+        },
+        {
+          "requirement_id": "missing://qwen-sec/candidate-evaluations",
+          "title": "Candidate predictions and metrics",
+          "blocks_stage": "candidate_evaluations",
+          "detail": "Evaluate the candidate on the exact registered baseline IDs and evaluator revisions."
+        },
+        {
+          "requirement_id": "missing://qwen-sec/release-decision",
+          "title": "Final evidence-bound release decision",
+          "blocks_stage": "release_gate",
+          "detail": "Record the promotion decision and complete evidence bundle."
+        }
+      ],
+      "costs": {
+        "unit": "compute_credits",
+        "spent": 0.0,
+        "approved_limit": null,
+        "evidence": "externally_referenced"
+      },
+      "visibility": "public",
+      "evidence": "externally_referenced"
+    }
+  ]
+}

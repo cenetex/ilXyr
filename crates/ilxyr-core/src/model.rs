@@ -293,6 +293,10 @@ pub struct ExperimentSpec {
     pub baseline: String,
     #[serde(default)]
     pub datasets: Vec<String>,
+    /// Optional immutable corpus release refs keyed by the dataset handles above.
+    /// When present, compilation resolves every handle and rejects registry drift.
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub dataset_bindings: BTreeMap<String, String>,
     #[serde(default)]
     pub models: Vec<String>,
     pub metrics: Vec<MetricSpec>,
@@ -424,6 +428,8 @@ pub struct CompiledExperiment {
     pub spec: ExperimentSpec,
     pub source_digest: String,
     pub resolved_lineage: BTreeMap<String, String>,
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub resolved_datasets: BTreeMap<String, String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub shared_task_ref: Option<String>,
     pub evidence_authority: GroundingAuthority,
@@ -747,8 +753,50 @@ pub struct RunRecord {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub output_error: Option<String>,
     pub metrics: BTreeMap<String, f64>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub artifacts: Vec<RunOutputArtifact>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub source_attestation: Option<SourceSnapshot>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct RunOutputArtifact {
+    pub name: String,
+    pub uri: String,
+    pub sha256: String,
+    pub size_bytes: u64,
+    pub media_type: String,
+    pub provider_version: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct OciJobDispatch {
+    pub schema: String,
+    pub id: String,
+    pub experiment_id: String,
+    pub compiled_ref: String,
+    pub executor: ActorRef,
+    pub provider_job_ref: String,
+    pub idempotency_key: String,
+    pub materializations: BTreeMap<String, String>,
+    pub dispatched_at_ms: u128,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct OciJobCompletion {
+    pub schema: String,
+    pub id: String,
+    pub dispatch_ref: String,
+    pub executor: ActorRef,
+    pub exit_code: i32,
+    pub timed_out: bool,
+    pub metrics: BTreeMap<String, f64>,
+    #[serde(default)]
+    pub artifacts: Vec<RunOutputArtifact>,
+    pub completed_at_ms: u128,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
