@@ -1105,7 +1105,15 @@ const main = async () => {
   console.log(JSON.stringify({ summary: result.summary, parallelism: result.parallelism }));
 };
 
-export { describeType, exactWeylDimension, generateTargets, sha256, stableJson };
+export {
+  compareRuns,
+  describeType,
+  exactWeylDimension,
+  generateTargets,
+  runOrderedGroup,
+  sha256,
+  stableJson,
+};
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url))
   await main();
