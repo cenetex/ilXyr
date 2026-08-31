@@ -1,11 +1,13 @@
 import {
   cliGroups,
+  executionEnvironments,
   experiments,
   guide,
   protocolDocuments,
   publicRoutes,
   repository,
   siteStatus,
+  verifiedExecutionResults,
 } from "./catalog";
 
 export default function Home() {
@@ -35,6 +37,27 @@ export default function Home() {
         ))}
       </ul>
 
+      <h2>Execution environments</h2>
+      <p>Known does not mean compatible. Compatible does not mean a result is verified.</p>
+      <ul>
+        {executionEnvironments.map((environment) => (
+          <li key={environment.id}>
+            <a href={environment.source}><code>{environment.id}</code></a> — {environment.state.replaceAll("_", " ")}; {environment.compatibility.replaceAll("_", " ")}. {environment.note}
+          </li>
+        ))}
+      </ul>
+
+      <h2>Verified remote results</h2>
+      {verifiedExecutionResults.length === 0 ? (
+        <p>None. No remote result has passed independent ilXyr verification.</p>
+      ) : (
+        <ul>
+          {verifiedExecutionResults.map((result) => (
+            <li key={result.id}><code>{result.experiment_id}</code> — {result.run_ref}</li>
+          ))}
+        </ul>
+      )}
+
       <h2>Command line API</h2>
       <p>Prefix each call with <code>ilxyr</code>.</p>
       {cliGroups.map((group) => (
@@ -46,8 +69,8 @@ export default function Home() {
         </section>
       ))}
 
-      <h2>Cloud executor protocol (not implemented)</h2>
-      <p>A cloud job will be admitted only as an immutable package bound by digest.</p>
+      <h2>Remote execution protocol</h2>
+      <p>The package and signed-report verifier are implemented. A general cloud launcher and report intake service are not.</p>
       <ul>
         <li>one experiment ID and one compiled experiment digest</li>
         <li>exact source commits and source archive digests</li>
@@ -58,6 +81,11 @@ export default function Home() {
         <li>network and export policy</li>
         <li>write-once launch, identity, status, result, and attestation receipts</li>
       </ul>
+      <p>
+        The execution node will submit a signed report to a separate authenticated service. An
+        independent verifier decides whether it can enter the ledger. This website only reads the
+        public projection.
+      </p>
       <p>
         A normal frontier and a presized-memory audit must use separate experiment IDs, packages,
         budgets, and result records. A package is not an authorization to spend.

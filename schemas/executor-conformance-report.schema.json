@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/executor-conformance-report.v1.json",
+  "title": "ilxyr executor conformance report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "environment_ref",
+    "suite_ref",
+    "runner",
+    "started_at_ms",
+    "completed_at_ms",
+    "passed",
+    "tests"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.executor_conformance_report.v1" },
+    "environment_ref": { "$ref": "#/$defs/artifactRef" },
+    "suite_ref": { "$ref": "#/$defs/artifactRef" },
+    "runner": { "$ref": "#/$defs/serviceActor" },
+    "started_at_ms": { "type": "integer", "minimum": 1 },
+    "completed_at_ms": { "type": "integer", "minimum": 1 },
+    "passed": { "type": "boolean" },
+    "tests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status", "evidence_ref"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["pass", "fail"] },
+          "evidence_ref": { "$ref": "#/$defs/artifactRef" }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "passed": { "const": true } }, "required": ["passed"] },
+      "then": {
+        "properties": {
+          "tests": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": { "status": { "const": "pass" } }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "passed": { "const": false } }, "required": ["passed"] },
+      "then": {
+        "properties": {
+          "tests": {
+            "type": "array",
+            "contains": {
+              "type": "object",
+              "properties": { "status": { "const": "fail" } },
+              "required": ["status"]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "artifactRef": { "type": "string", "pattern": "^artifact://sha256/[a-f0-9]{64}$" },
+    "serviceActor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^service://\\S+$" },
+        "kind": { "const": "service" }
+      }
+    }
+  }
+}

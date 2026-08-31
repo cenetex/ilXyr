@@ -30,6 +30,10 @@ recorded evidence -> verified native bundle -> RO-Crate | in-toto statement | ML
 
 trusted attestation key + ledgered run + signed DSSE envelope -> verified executor attestation
 
+executor environment + immutable job package + one-run authorization
+    -> remote execution -> signed DSSE/SLSA report -> independent verification
+    -> single-writer ingestion -> read-only public projection
+
 compiled experiment + verified corpus materializations -> OCI dispatch
 OCI dispatch + provider result -> completed run
 completed run + trusted executor attestation -> promoted evidence

@@ -33,6 +33,8 @@ The external specifications remain authoritative:
 - [RO-Crate 1.3](https://www.researchobject.org/ro-crate/specification/1.3/introduction.html)
 - [W3C PROV-O](https://www.w3.org/TR/prov-o/)
 - [in-toto Statement v1](https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md)
+- [SLSA provenance v1](https://slsa.dev/spec/v1.2/provenance)
+- [SLSA verification summary attestation](https://slsa.dev/spec/v1.2/verification_summary)
 - [OSF API](https://developer.osf.io/) and
   [OSF Registrations](https://help.osf.io/article/330-welcome-to-registrations)
 - [Hugging Face Hub download and revision model](https://huggingface.co/docs/huggingface_hub/guides/download)
@@ -165,6 +167,32 @@ The native executor predicate applies equivalent `runRef` and executor checks. A
 parsed statements, and verified key IDs are immutable additive records included in the evidence
 bundle and RO-Crate view. This is signature/binding verification, not a computed authority level,
 SLSA level, hardware-attestation result, or transparency-log proof.
+
+## Implemented remote report profile
+
+The remote report verifier accepts the environment manifest, immutable job package, trusted key
+set, and signed report as inputs. It verifies the DSSE signature before parsing the statement and
+requires the SLSA provenance to repeat the canonical run, package, environment, authorization, and
+launch references. It also requires the verified key to belong to the executor named by the job
+package and report. This check is pure and runs before the single-writer ledger records anything.
+It does not turn caller-supplied keys into trust roots or prove that the named authorization exists;
+ingestion must resolve both from the verifier's own ledger and recheck the compiled outcome
+contract.
+
+`schemas/execution-verification-summary.schema.json` profiles the SLSA verification summary
+attestation for public projection. It uses `ILXYR_REMOTE_EXECUTION_VERIFIED_V1` only after the
+independent verifier passes the remote report policy. It must not be emitted by the execution node
+as a self-declared status.
+
+The protocol deliberately keeps these claims separate:
+
+- a known environment has a public registry entry;
+- a compatible environment has an accepted manifest and conformance receipt;
+- a verified run has a signed report accepted by the independent verifier;
+- a reproduced result has a compatible result from a second independent trusted environment; and
+- a reproduced build has matching outputs from independent builders.
+
+No current Cenetex remote result or environment has crossed those acceptance boundaries.
 
 ## Implemented claim graph and replication settlement
 

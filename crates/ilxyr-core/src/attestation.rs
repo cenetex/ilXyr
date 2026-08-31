@@ -1,4 +1,4 @@
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 
 use base64::{
     Engine as _,
@@ -23,6 +23,13 @@ const IN_TOTO_PROVENANCE_PAYLOAD_TYPE: &str = "application/vnd.in-toto.provenanc
 const IN_TOTO_STATEMENT_V1: &str = "https://in-toto.io/Statement/v1";
 const SLSA_PROVENANCE_V1: &str = "https://slsa.dev/provenance/v1";
 const ILXYR_EXECUTOR_V1: &str = "https://ilxyr.dev/attestations/executor/v1";
+
+#[derive(Debug, Clone)]
+pub struct VerifiedExecutorEnvelope {
+    pub statement: Value,
+    pub predicate_type: String,
+    pub verified_key_ids: Vec<String>,
+}
 
 pub fn trust_attestation_key(
     workspace: &Workspace,
@@ -81,6 +88,69 @@ pub fn record_executor_attestation(
     envelope: DsseEnvelope,
 ) -> Result<String> {
     ensure_ledgered_run(workspace, run_ref)?;
+    let trusted_keys = trusted_attestation_keys(workspace)?;
+    let verified = verify_executor_envelope_candidate(run_ref, &envelope, &trusted_keys)?;
+    let envelope_digest = Workspace::digest(&envelope)?;
+    let id = format!("attestation:{envelope_digest}");
+    let record = ExecutorAttestation {
+        schema: "ilxyr.executor_attestation.v1".to_owned(),
+        id: id.clone(),
+        run_ref: run_ref.to_owned(),
+        envelope,
+        statement: verified.statement,
+        predicate_type: verified.predicate_type,
+        verified_key_ids: verified.verified_key_ids,
+        recorded_at_ms: now_ms()?,
+    };
+
+    if let Some(event) = workspace.latest_event(EXECUTOR_ATTESTATION_RECORDED, &id)? {
+        return required_artifact(&event.event_type, event.artifact_ref);
+    }
+    let artifact_ref = workspace.put(&record)?;
+    workspace.append_event(
+        EXECUTOR_ATTESTATION_RECORDED,
+        &id,
+        ActorRef::service("service://ilxyr/attestation-verifier-v1"),
+        Some(artifact_ref.clone()),
+    )?;
+    Ok(artifact_ref)
+}
+
+pub fn verify_executor_envelope_candidate(
+    run_ref: &str,
+    envelope: &DsseEnvelope,
+    trusted_keys: &[TrustedAttestationKey],
+) -> Result<VerifiedExecutorEnvelope> {
+    let mut key_ids = BTreeSet::new();
+    let mut public_key_owners = BTreeMap::new();
+    for key in trusted_keys {
+        if key.schema != "ilxyr.trusted_attestation_key.v1"
+            || key.algorithm != "ed25519"
+            || !key.key_id.starts_with("key://")
+            || key.trusted_at_ms == 0
+            || key.executor.kind != ActorKind::Service
+            || !key.executor.id.starts_with("service://")
+            || key.executor.model_ref.is_some()
+        {
+            return Err(Error::Security(
+                "attestation verifier received an invalid trusted key record".to_owned(),
+            ));
+        }
+        decode_verifying_key(&key.public_key)?;
+        if !key_ids.insert(key.key_id.as_str()) {
+            return Err(Error::Conflict(format!(
+                "trusted attestation key ID {} is duplicated",
+                key.key_id
+            )));
+        }
+        if let Some(owner) = public_key_owners.insert(&key.public_key, &key.executor.id) {
+            if owner != &key.executor.id {
+                return Err(Error::Conflict(
+                    "one trusted attestation key cannot represent multiple executors".to_owned(),
+                ));
+            }
+        }
+    }
     if envelope.payload_type != IN_TOTO_PAYLOAD_TYPE
         && envelope.payload_type != IN_TOTO_PROVENANCE_PAYLOAD_TYPE
     {
@@ -97,7 +167,6 @@ pub fn record_executor_attestation(
 
     let payload = decode_base64(&envelope.payload, "DSSE payload")?;
     let pae = dsse_pae(&envelope.payload_type, &payload);
-    let trusted_keys = trusted_attestation_keys(workspace)?;
     let mut verified_key_ids = BTreeSet::new();
     for envelope_signature in &envelope.signatures {
         let signature_bytes = decode_base64(&envelope_signature.sig, "DSSE signature")?;
@@ -105,7 +174,14 @@ pub fn record_executor_attestation(
             Error::Security("Ed25519 DSSE signature must contain 64 bytes".to_owned())
         })?;
         let signature = Signature::from_bytes(&signature_bytes);
-        for key in &trusted_keys {
+        for key in trusted_keys {
+            if envelope_signature
+                .keyid
+                .as_deref()
+                .is_some_and(|key_id| key_id != key.key_id)
+            {
+                continue;
+            }
             if verified_key_ids.contains(&key.key_id) {
                 continue;
             }
@@ -123,31 +199,12 @@ pub fn record_executor_attestation(
 
     let statement: Value = serde_json::from_slice(&payload)
         .map_err(|error| Error::Validation(vec![format!("invalid in-toto statement: {error}")]))?;
-    let predicate_type = validate_statement(&statement, run_ref, &trusted_keys, &verified_key_ids)?;
-    let envelope_digest = Workspace::digest(&envelope)?;
-    let id = format!("attestation:{envelope_digest}");
-    let record = ExecutorAttestation {
-        schema: "ilxyr.executor_attestation.v1".to_owned(),
-        id: id.clone(),
-        run_ref: run_ref.to_owned(),
-        envelope,
+    let predicate_type = validate_statement(&statement, run_ref, trusted_keys, &verified_key_ids)?;
+    Ok(VerifiedExecutorEnvelope {
         statement,
         predicate_type,
         verified_key_ids: verified_key_ids.into_iter().collect(),
-        recorded_at_ms: now_ms()?,
-    };
-
-    if let Some(event) = workspace.latest_event(EXECUTOR_ATTESTATION_RECORDED, &id)? {
-        return required_artifact(&event.event_type, event.artifact_ref);
-    }
-    let artifact_ref = workspace.put(&record)?;
-    workspace.append_event(
-        EXECUTOR_ATTESTATION_RECORDED,
-        &id,
-        ActorRef::service("service://ilxyr/attestation-verifier-v1"),
-        Some(artifact_ref.clone()),
-    )?;
-    Ok(artifact_ref)
+    })
 }
 
 /// Returns true when a ledgered run has a verified signature from a key that is

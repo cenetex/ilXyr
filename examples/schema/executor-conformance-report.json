@@ -1,0 +1,21 @@
+{
+  "schema": "ilxyr.executor_conformance_report.v1",
+  "environment_ref": "artifact://sha256/1111111111111111111111111111111111111111111111111111111111111111",
+  "suite_ref": "artifact://sha256/2222222222222222222222222222222222222222222222222222222222222222",
+  "runner": { "id": "service://independent/conformance-runner-v1", "kind": "service" },
+  "started_at_ms": 1000,
+  "completed_at_ms": 2000,
+  "passed": true,
+  "tests": [
+    {
+      "name": "guest-cannot-read-signing-key",
+      "status": "pass",
+      "evidence_ref": "artifact://sha256/3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    {
+      "name": "metadata-service-is-unreachable",
+      "status": "pass",
+      "evidence_ref": "artifact://sha256/4444444444444444444444444444444444444444444444444444444444444444"
+    }
+  ]
+}

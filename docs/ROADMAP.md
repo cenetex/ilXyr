@@ -122,7 +122,7 @@ cross-family replication, OSF-side authentication, hardware attestation, or SLSA
 - Extend the implemented passive one-claim query to graph traversal and authenticated service
   access while preserving the same agent admission and signed-policy boundary.
 
-## V1.3 — digest-bound executor contract (next)
+## V1.3 — digest-bound executor contract (in progress)
 
 The next executor milestone is a package and adapter contract, not a cloud launch. ADR 0006 defines
 the boundary and adapts the proven parts of Zero's AWS workflows without making AWS workflow YAML
@@ -133,12 +133,19 @@ for approved resource-heavy runs. The milestone below generalizes that proven
 path; it is not the project's first cloud capability. See
 `docs/CLOUD-EXECUTION.md` for the current venue and run rules.
 
-- Publish the plain public API and protocol index at `ilxyr.cenetex.com`; keep proposal data and
-  write routes off that hosted surface, keep it outside the authoritative ledger, and give it no
-  cloud-launch route.
-- Add a strict executor-job-package schema plus deterministic pack/verify commands. Freeze exact
+- Published the plain public API and protocol index at `ilxyr.cenetex.com`; proposal data, write
+  routes, the authoritative ledger, and cloud-launch authority remain off that hosted surface.
+- Implemented strict executor-environment, executor-job-package, signed execution-report,
+  conformance-report, and verification-summary schemas. The read-only CLI verifies environment,
+  package, and signed report bindings before ledger ingestion. These objects freeze exact
   source commits, archives, executables, oracles, harnesses, data, models, machine shape and image,
   budget, target order, allocation, network/export policy, and expected receipts by SHA-256.
+- Added the Cenetex public executor v1 open reference profile. It remains a
+  `reference_candidate`, not a compatible environment, until real build artifacts and an accepted
+  independent conformance receipt exist.
+- Publish the separate authenticated report-intake service, independent verifier, single-writer
+  ingestion path, and read-only public projection defined by ADR 0007. The public site must not
+  become the intake service.
 - Add a provider-neutral adapter boundary with preflight, launch, observe, and collect operations;
   prove it first with a fake adapter and tamper/recovery tests.
 - Extract an AWS adapter from Zero's OIDC, conditional-write locks, resolved machine identity,
@@ -149,8 +156,7 @@ path; it is not the project's first cloud capability. See
 - Require explicit approval for one minimal-cost diagnostic package. Admit scientific cloud work
   only after its result bundle and signed executor attestation verify end to end.
 
-No paid cloud work is authorized by the V1.3 roadmap itself. See
-`docs/decisions/0006-digest-bound-cloud-executor.md`.
+No paid cloud work is authorized by the V1.3 roadmap itself. See ADR 0006 and ADR 0007.
 
 ## V2 — service boundary (when multi-writer need is real)
 
