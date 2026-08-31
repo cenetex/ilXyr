@@ -54,9 +54,18 @@ Current append-only evidence:
   not an independent LiE witness, and the Version 5 Hold is unchanged.
 - `SESSION-FRONTIER-V6-HOLD.md`, `session-frontier-v6.json.gz`, and its compact
   summary repeat the frozen roster with Zero's lock-light compact prepared
-  edges. Version 6 is the controlling frontier evidence: 827 of 828
+  edges. Version 6 is a sealed predecessor: 827 of 828
   representations pass, all 2,484 grouped runs complete, all 828 exactness and
   replay projections pass, and no memory result is unknown. One E8
   order-sensitive time boundary keeps the decision at Hold. LiE Version 4
   remains a separate independent predecessor witness, not a direct witness for
   the Version 6 binary.
+- `SESSION-FRONTIER-V7-HOLD.md`, `session-frontier-v7.json.gz`, and its compact
+  summary repeat the frozen roster with Zero's parallel root-ray DAG. Version
+  7 is the controlling frontier evidence: 826 representations pass, one E8
+  representation is a time failure, and one is order-sensitive. All 2,484
+  grouped runs complete with exact memory observations; all 828 exactness and
+  replay projections pass. Peak incremental RSS falls to 1,445,609,472 bytes,
+  but the full time contract remains a Hold. LiE Version 4 stays in the
+  separate independent predecessor-witness category and is not a direct
+  witness for the Version 7 binary.

@@ -164,6 +164,9 @@ const fixtures = {
   "weight-multiplicity-phase05-plan-v5.schema.json": [
     "examples/weight-multiplicity/phase05-frontier-plan-v6.json",
   ],
+  "weight-multiplicity-phase05-plan-v6.schema.json": [
+    "examples/weight-multiplicity/phase05-frontier-plan-v7.json",
+  ],
   "weight-multiplicity-phase05-cold-replay-plan.schema.json": [
     "examples/weight-multiplicity/phase05-cold-replay-plan-v1.json",
   ],
@@ -174,6 +177,7 @@ const fixtures = {
     "examples/weight-multiplicity/phase05-representation-manifest-v4.json",
     "examples/weight-multiplicity/phase05-representation-manifest-v5.json",
     "examples/weight-multiplicity/phase05-representation-manifest-v6.json",
+    "examples/weight-multiplicity/phase05-representation-manifest-v7.json",
   ],
   "weight-multiplicity-phase05-lie-cross-check.schema.json": [
     "examples/weight-multiplicity/phase05-lie-cross-check-manifest-v3.json",
