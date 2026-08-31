@@ -1444,6 +1444,7 @@ export {
   describeType,
   exactWeylDimension,
   generateTargets,
+  orderTargets,
   runOrderedGroup,
   summarize,
   sha256,
