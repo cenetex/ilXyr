@@ -1,6 +1,6 @@
 export const repository = "https://github.com/cenetex/ilXyr";
 export const guide = "https://cenetex.github.io/ilXyr";
-export const remoteProtocolCommit = "63bea773ed20480d9ca9588bf03ff3f4ad340cb8";
+export const remoteProtocolCommit = "d246dcaa06669f7db1479c85bbbd6310f613f4a3";
 
 export const publicRoutes = [
   { method: "GET", path: "/.well-known/ilxyr.json", description: "discover the public protocol and reporting status" },
@@ -18,7 +18,7 @@ export const siteStatus = [
   { key: "provider_neutral_adapter_boundary", value: "implemented_with_fake_node" },
   { key: "local_single_writer_report_intake", value: "implemented" },
   { key: "general_cloud_launcher", value: "roadmap" },
-  { key: "authenticated_network_report_intake", value: "not_available" },
+  { key: "authenticated_network_report_intake", value: "implemented_not_deployed" },
   { key: "paid_cloud_experiment_work", value: "not_launched" },
   { key: "protected_weight_execution", value: "not_available" },
   { key: "mutable_cloud_checkouts", value: "not_accepted_as_reproducible_jobs" },
@@ -176,7 +176,7 @@ export const discovery = {
     protocol: "ilxyr.execution_report.v1",
     status: "not_available",
     endpoint: null,
-    note: "Execution nodes will submit to a separate authenticated intake service. This public site remains read-only.",
+    note: "The separate authenticated intake is implemented but has no deployed TLS endpoint or production trust roots. This public site remains read-only.",
   },
 } as const;
 
