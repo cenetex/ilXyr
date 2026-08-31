@@ -4,8 +4,8 @@ use ilxyr_core::{
     ActorKind, ActorRef, Certificate, ClaimNode, DsseEnvelope, EpochBudget, EvidenceGraphEdge,
     ExperimentProposal, ExperimentSpec, ExternalRegistrationReceipt, Forecast, FundingCommitment,
     HuggingFaceModel, InteropFormat, LoopCycle, MechanismTournament, NsrlGateEvidence,
-    NsrlRegistration, ProposalReview, ReplicationContract, ResearchContribution, Result,
-    RetroRegistrationSpec, SandboxSpec, SharedTaskContract, Workspace, allocate_epoch,
+    NsrlRegistration, ProposalReview, ReplicationContract, ResearchContribution, ResearchRegistry,
+    Result, RetroRegistrationSpec, SandboxSpec, SharedTaskContract, Workspace, allocate_epoch,
     allocate_replication, authorize_unattended_run, calibration_for, claim_status, claim_support,
     commit_funding, compile_experiment, compile_proposal, decide_admission,
     epoch_budget_signing_payload, execute_loop_cycle, experiment_status, export_evidence,
@@ -22,6 +22,7 @@ use serde_json::json;
 
 mod family;
 mod huggingface;
+mod mcp;
 mod nsrl;
 
 fn main() -> ExitCode {
@@ -42,6 +43,48 @@ fn run() -> Result<()> {
     };
     match command {
         "help" | "--help" | "-h" => usage(),
+        "search" => {
+            let query = registry_query_args(
+                &args[1..],
+                1,
+                "ilxyr search <query> [--json] [--registry <path>]",
+            )?;
+            let registry = load_registry(query.registry_path.as_deref())?;
+            print_json(&registry.search(&query.positionals[0])?)?;
+        }
+        "lineage" => {
+            let query = registry_query_args(
+                &args[1..],
+                1,
+                "ilxyr lineage <experiment-id> [--json] [--registry <path>]",
+            )?;
+            let registry = load_registry(query.registry_path.as_deref())?;
+            print_json(&registry.lineage(&query.positionals[0])?)?;
+        }
+        "artifact-metadata" => {
+            let query = registry_query_args(
+                &args[1..],
+                1,
+                "ilxyr artifact-metadata <artifact-id-or-digest> [--json] [--registry <path>]",
+            )?;
+            let registry = load_registry(query.registry_path.as_deref())?;
+            print_json(&registry.artifact_metadata(&query.positionals[0])?)?;
+        }
+        "registry-verify" => {
+            let query =
+                registry_query_args(&args[1..], 0, "ilxyr registry-verify [--registry <path>]")?;
+            let registry = load_registry(query.registry_path.as_deref())?;
+            print_json(&json!({
+                "schema": registry.schema,
+                "projects": registry.projects.len(),
+                "valid": true
+            }))?;
+        }
+        "mcp" => {
+            let query = registry_query_args(&args[1..], 0, "ilxyr mcp [--registry <path>]")?;
+            let registry = load_registry(query.registry_path.as_deref())?;
+            mcp::serve(&registry)?;
+        }
         "init" => {
             require_len(&args, 2, "ilxyr init <workspace>")?;
             Workspace::init(&args[1])?;
@@ -541,9 +584,18 @@ fn run() -> Result<()> {
             print_json(&calibration_for(&workspace, &args[2])?)?;
         }
         "status" => {
-            require_len(&args, 3, "ilxyr status <workspace> <experiment-id>")?;
-            let workspace = Workspace::open(&args[1])?;
-            print_json(&experiment_status(&workspace, &args[2])?)?;
+            if args.len() == 3 && args[2] != "--json" {
+                let workspace = Workspace::open(&args[1])?;
+                print_json(&experiment_status(&workspace, &args[2])?)?;
+            } else {
+                let query = registry_query_args(
+                    &args[1..],
+                    1,
+                    "ilxyr status <project-id-or-alias> [--json] [--registry <path>]",
+                )?;
+                let registry = load_registry(query.registry_path.as_deref())?;
+                print_json(&registry.status(&query.positionals[0])?)?;
+            }
         }
         "export-evidence" => {
             require_len(
@@ -577,6 +629,63 @@ fn read_json<T: DeserializeOwned>(path: impl AsRef<Path>) -> Result<T> {
 fn print_json<T: Serialize>(value: &T) -> Result<()> {
     println!("{}", serde_json::to_string_pretty(value)?);
     Ok(())
+}
+
+struct RegistryQueryArgs {
+    positionals: Vec<String>,
+    registry_path: Option<String>,
+}
+
+fn registry_query_args(
+    args: &[String],
+    expected_positionals: usize,
+    usage: &str,
+) -> Result<RegistryQueryArgs> {
+    let mut positionals = Vec::new();
+    let mut registry_path = None;
+    let mut index = 0;
+    while index < args.len() {
+        match args[index].as_str() {
+            "--json" => index += 1,
+            "--registry" => {
+                let Some(path) = args.get(index + 1) else {
+                    return Err(ilxyr_core::Error::Validation(vec![format!(
+                        "usage: {usage}"
+                    )]));
+                };
+                registry_path = Some(path.clone());
+                index += 2;
+            }
+            flag if flag.starts_with("--") => {
+                return Err(ilxyr_core::Error::Validation(vec![format!(
+                    "unknown option {flag}; usage: {usage}"
+                )]));
+            }
+            positional => {
+                positionals.push(positional.to_owned());
+                index += 1;
+            }
+        }
+    }
+    if positionals.len() != expected_positionals {
+        return Err(ilxyr_core::Error::Validation(vec![format!(
+            "usage: {usage}"
+        )]));
+    }
+    Ok(RegistryQueryArgs {
+        positionals,
+        registry_path,
+    })
+}
+
+fn load_registry(path: Option<&str>) -> Result<ResearchRegistry> {
+    if let Some(path) = path {
+        ResearchRegistry::load(path)
+    } else if let Ok(path) = env::var("ILXYR_REGISTRY") {
+        ResearchRegistry::load(path)
+    } else {
+        ResearchRegistry::builtin()
+    }
 }
 
 fn require_len(args: &[String], expected: usize, usage: &str) -> Result<()> {
@@ -614,6 +723,12 @@ fn usage() {
         "ilxyr v1 — Fund uncertainty. Settle in evidence.\n\n\
          Commands:\n\
            ilxyr init <workspace>\n\
+           ilxyr search <query> [--json] [--registry <path>]\n\
+           ilxyr status <project-id-or-alias> [--json] [--registry <path>]\n\
+           ilxyr lineage <experiment-id> [--json] [--registry <path>]\n\
+           ilxyr artifact-metadata <artifact-id-or-digest> [--json] [--registry <path>]\n\
+           ilxyr registry-verify [--registry <path>]\n\
+           ilxyr mcp [--registry <path>]\n\
            ilxyr family freeze <workspace> <family-manifest.json>\n\
            ilxyr family check <workspace> <family-manifest.json>\n\
            ilxyr family run <workspace> <family-manifest.json> --execute\n\

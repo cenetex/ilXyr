@@ -111,6 +111,7 @@ const fixtures = {
   "registration-package.schema.json": [
     "examples/schema/registration-package.json",
   ],
+  "research-registry.schema.json": ["registry/research-registry.json"],
   "retro-registration.schema.json": [
     "examples/schema/retro-registration.json",
     "examples/families/nsrl-target-margin-v1.retro.json",
