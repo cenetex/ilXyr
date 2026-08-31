@@ -1,0 +1,132 @@
+{
+  "schema": "ilxyr.weight_multiplicity_phase1_corpus_plan.v1",
+  "status": "authorized",
+  "authorization": {
+    "date": "2026-08-31",
+    "scope": "generate_validate_deduplicate_seal_and_hash_corpus_only",
+    "conditions": [
+      "measure sustained peak RSS during the actual eight-worker generation run and stop on material divergence",
+      "derive and freeze a LiE-based upper-95 oracle budget plus 15 percent margin before creating corpus records",
+      "sample generated records against Zero during generation and place the corpus on Hold on any arithmetic disagreement"
+    ],
+    "not_authorized": [
+      "model_training",
+      "model_evaluation",
+      "oracle_source_modification",
+      "oracle_promotion"
+    ]
+  },
+  "source_bindings": {
+    "revision3_contract_sha256": "91dca2253e0289db792a9886dad85aa35c7522d345b2f60905f9bb4dfe735b06",
+    "reduced_manifest_sha256": "1d097675fbff83e704cfd0128ea98caa116d6bcb3573fa7ef314b9d1f357a733",
+    "root_systems_sha256": "b8b175011909e6734bc6d6a6d55b3d09a67c34a5106a5908a5029206bf4f0271",
+    "preflight_closeout_sha256": "c8a289ce7af0795184ac4f320fed8d3718574f94bf1f2d51b7e519810bcf4550",
+    "lie_governance_sha256": "d32edfbfe42dd0770c7724f255a314684bf2c3c6631429d9f0294d850ceaf36a"
+  },
+  "oracle": {
+    "primary": {
+      "name": "LiE",
+      "version": "2.2.2",
+      "source_sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e",
+      "source_date_epoch": 1112054400,
+      "execution": "unmodified_separate_persistent_executable",
+      "workers": 8,
+      "coordinate_mapping": {
+        "F4": [3, 2, 1, 0],
+        "E6": [0, 5, 1, 2, 3, 4],
+        "E7": [0, 6, 1, 2, 3, 4, 5],
+        "E8": [0, 7, 1, 2, 3, 4, 5, 6]
+      }
+    },
+    "differential": {
+      "name": "Zero",
+      "source_commit": "7be2367458acc8b004bfb3646322048a233d1b09",
+      "source_archive_sha256": "9af79279246cbad8254a53289a3a83fe3a3a2a30bd87860112dd88bce408e783",
+      "canonical_bc_repair_commit": "c4dd08ba74b829a0a121689b8e224dd5561ba55f",
+      "execution": "canonical_name_fresh_memo_persistent_server",
+      "workers": 2,
+      "hard_timeout_ms": 10000
+    }
+  },
+  "partitions": {
+    "training": { "records": 300000, "distribution": "stratified", "role": "training_or_development", "dominant_per_mille": 750 },
+    "development": { "records": 30000, "distribution": "stratified", "role": "training_or_development", "dominant_per_mille": 750 },
+    "blind_in_range_stratified": { "records": 30000, "distribution": "stratified", "role": "training_or_development", "dominant_per_mille": 750 },
+    "blind_in_range_unstratified": { "records": 30000, "distribution": "natural", "role": "training_or_development", "dominant_per_mille": 750 },
+    "cross_rank_stratified": { "records": 24000, "distribution": "stratified", "role": "held_out_classical", "dominant_per_mille": 600 },
+    "cross_rank_unstratified": { "records": 24000, "distribution": "natural", "role": "held_out_classical", "dominant_per_mille": 600 },
+    "exceptional_stratified": { "records": 2500, "distribution": "stratified_per_type", "role": "held_out_exceptional", "records_per_type": 500, "records_per_type_stratum": 125 },
+    "exceptional_unstratified": { "records": 2500, "distribution": "natural_per_type", "role": "held_out_exceptional", "records_per_type": 500, "dominant_per_mille": 750 },
+    "acr1": { "records": 3750, "distribution": "adjoint_integrity", "excluded_type": "A1" },
+    "acr2_transformed": { "records": 12000, "distribution": "weyl_transformed", "base_partition": "cross_rank_stratified", "records_per_stratum": 3000, "coxeter_length_bands": 4 }
+  },
+  "generator": {
+    "version": 1,
+    "seed": 1378397233,
+    "candidate_batch_size": 512,
+    "label_minimum": 0,
+    "label_maximum": 31,
+    "strata": ["0", "1", "2-7", "8-31"],
+    "exact_query_deduplication": "global_across_all_model_facing_partitions",
+    "training_development_orbit_rule": "at_most_one_target_per_type_representation_dominant_orbit",
+    "natural_distribution": "same_frozen_candidate_generator_without_label_rejection_or_balancing",
+    "exceptional_allocation": "representation_balanced_round_robin_across_the_complete_500_record_type_surface",
+    "acr2_length_bands": [
+      "1_to_rank",
+      "rank_plus_1_to_2_rank",
+      "2_rank_plus_1_to_4_rank",
+      "4_rank_plus_1_to_number_of_positive_roots"
+    ]
+  },
+  "budget": {
+    "status_before_pilot": "formula_frozen_exact_number_not_yet_materialized",
+    "pilot_attempts_per_training_or_classical_slice": 1024,
+    "pilot_attempts_per_exceptional_type_stratum": 512,
+    "yield_interval": "one_sided_wilson_95_percent_lower_bound",
+    "preflight_mean_query_ms": 0.4005267091038173,
+    "preflight_p95_query_ms": 1.3405889999994542,
+    "binding_rule": "per_slice_upper_95_call_estimate_times_the_greater_of_preflight_or_pilot_slice_p95_latency_plus_fixed_direct_calls_and_15_percent_operational_margin",
+    "freeze_before_first_corpus_record": true,
+    "overrun_policy": "stop_and_hold_without_silent_extension",
+    "outer_maximum_instance_seconds": 5400,
+    "outer_workload_timeout_seconds": 4800,
+    "outer_maximum_ec2_usd": 1.02,
+    "planning_ec2_usd_per_hour": 0.68
+  },
+  "memory": {
+    "preflight_peak_incremental_worker_rss_bytes": 274432,
+    "sustained_divergence_stop_bytes_per_worker": 8388608,
+    "formal_limit_bytes_per_worker": 2147483648,
+    "aggregate_worker_rss_stop_bytes": 17179869184,
+    "sample_interval_ms": 20,
+    "stop_policy": "hold_before_further_records"
+  },
+  "zero_sample": {
+    "hash_sample_per_mille": 10,
+    "forced_coverage_key": "partition_canonical_type_multiplicity_stratum_target_status",
+    "acr1": "check_every_record",
+    "minimum_completed_fraction_per_mille": 950,
+    "arithmetic_disagreement": "immediate_hold",
+    "unavailable_result": "record_and_require_global_completion_floor"
+  },
+  "outputs": {
+    "format": "deterministic_gzip_ndjson_per_partition",
+    "blind_pair_metadata": "separate_control_manifest_not_in_model_facing_records",
+    "required": [
+      "corpus_manifest",
+      "partition_hashes",
+      "stratum_yields",
+      "frozen_budget",
+      "actual_cost_trace",
+      "sustained_memory_trace",
+      "zero_differential_sample",
+      "acr2_control_manifest"
+    ]
+  },
+  "closures": {
+    "corpus_generation_authorized": true,
+    "model_training_authorized": false,
+    "model_evaluation_authorized": false,
+    "oracle_promotion_authorized": false
+  }
+}
