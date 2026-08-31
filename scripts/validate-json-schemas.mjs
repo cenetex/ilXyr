@@ -10,6 +10,9 @@ const schemaDirectory = join(root, "schemas");
 
 const fixtures = {
   "calibration-record.schema.json": ["examples/schema/calibration-record.json"],
+  "cenetex-reference-build-contract.schema.json": [
+    "executor/cenetex-public-v1/build-contract.json",
+  ],
   "condition.schema.json": ["examples/schema/condition.json"],
   "certificate.schema.json": ["examples/schema/certificate.json"],
   "claim-status.schema.json": ["examples/schema/claim-status.json"],
@@ -34,14 +37,24 @@ const fixtures = {
   "executor-attestation.schema.json": [
     "examples/schema/executor-attestation.json",
   ],
+  "executor-artifact-materialization.schema.json": [
+    "examples/schema/executor-artifact-materialization.json",
+  ],
   "executor-conformance-report.schema.json": [
     "examples/schema/executor-conformance-report.json",
+  ],
+  "executor-conformance-suite.schema.json": [
+    "examples/schema/executor-conformance-suite.json",
+    "executor/cenetex-public-v1/conformance-suite.draft.json",
   ],
   "executor-environment.schema.json": [
     "examples/schema/executor-environment.json",
   ],
   "executor-job-package.schema.json": [
     "examples/schema/executor-job-package.json",
+  ],
+  "executor-preflight-receipt.schema.json": [
+    "examples/schema/executor-preflight-receipt.json",
   ],
   "execution-report.schema.json": [
     "examples/schema/execution-report.json",
@@ -141,6 +154,9 @@ const fixtures = {
   ],
   "upstream-benchmark.schema.json": [
     "examples/schema/upstream-benchmark.json",
+  ],
+  "verified-executor-conformance.schema.json": [
+    "examples/schema/verified-executor-conformance.json",
   ],
   "weight-multiplicity-program.schema.json": [
     "examples/weight-multiplicity/rev3-contract.json",
@@ -350,6 +366,56 @@ expectInvalid(
 
 const inconsistentConformance = await readJson(
   "examples/schema/executor-conformance-report.json",
+);
+
+const unsignedConformance = await readJson(
+  "examples/schema/executor-conformance-report.json",
+);
+unsignedConformance.attestation.signatures = [];
+expectInvalid(
+  "executor-conformance-report.schema.json",
+  "conformance report without a signature",
+  unsignedConformance,
+);
+
+const traversingMaterialization = await readJson(
+  "examples/schema/executor-artifact-materialization.json",
+);
+traversingMaterialization.resources[0].relative_path = "../outside";
+expectInvalid(
+  "executor-artifact-materialization.schema.json",
+  "artifact materialization with path traversal",
+  traversingMaterialization,
+);
+
+const launchAuthorizingPreflight = await readJson(
+  "examples/schema/executor-preflight-receipt.json",
+);
+launchAuthorizingPreflight.launch_authorized = true;
+expectInvalid(
+  "executor-preflight-receipt.schema.json",
+  "preflight receipt that authorizes launch",
+  launchAuthorizingPreflight,
+);
+
+const mutableReferenceBuild = await readJson(
+  "executor/cenetex-public-v1/build-contract.json",
+);
+mutableReferenceBuild.builder.mutable_dependency_resolution_allowed = true;
+expectInvalid(
+  "cenetex-reference-build-contract.schema.json",
+  "reference build that allows mutable dependency resolution",
+  mutableReferenceBuild,
+);
+
+const unknownConformanceClass = await readJson(
+  "examples/schema/executor-conformance-suite.json",
+);
+unknownConformanceClass.tests[0].execution_class = "cloud_claim";
+expectInvalid(
+  "executor-conformance-suite.schema.json",
+  "conformance suite with an unknown execution class",
+  unknownConformanceClass,
 );
 inconsistentConformance.tests[0].status = "fail";
 expectInvalid(
