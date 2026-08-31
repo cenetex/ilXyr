@@ -2,10 +2,11 @@ use std::{env, fs, path::Path, process::ExitCode};
 
 use ilxyr_core::{
     ActorKind, ActorRef, Certificate, ClaimNode, DsseEnvelope, EpochBudget, EvidenceGraphEdge,
-    ExperimentProposal, ExperimentSpec, ExternalRegistrationReceipt, Forecast, FundingCommitment,
-    HuggingFaceModel, InteropFormat, LoopCycle, MechanismTournament, NsrlGateEvidence,
-    NsrlRegistration, ProposalReview, ReplicationContract, ResearchContribution, Result,
-    RetroRegistrationSpec, SandboxSpec, SharedTaskContract, Workspace, allocate_epoch,
+    ExecutionReport, ExecutorEnvironmentManifest, ExecutorJobPackage, ExperimentProposal,
+    ExperimentSpec, ExternalRegistrationReceipt, Forecast, FundingCommitment, HuggingFaceModel,
+    InteropFormat, LoopCycle, MechanismTournament, NsrlGateEvidence, NsrlRegistration,
+    ProposalReview, ReplicationContract, ResearchContribution, Result, RetroRegistrationSpec,
+    SandboxSpec, SharedTaskContract, TrustedAttestationKey, Workspace, allocate_epoch,
     allocate_replication, authorize_unattended_run, calibration_for, claim_status, claim_support,
     commit_funding, compile_experiment, compile_proposal, decide_admission,
     epoch_budget_signing_payload, execute_loop_cycle, experiment_status, export_evidence,
@@ -16,6 +17,7 @@ use ilxyr_core::{
     register_shared_task, retro_register, review_proposal, run_experiment,
     run_experiment_unattended, run_sandbox, settle_mechanism_tournament, settle_replication,
     submit_contribution, submit_forecast, submit_proposal, trust_attestation_key, trust_policy_key,
+    verify_environment_manifest, verify_execution_report, verify_job_package,
 };
 use serde::{Serialize, de::DeserializeOwned};
 use serde_json::json;
@@ -374,6 +376,46 @@ fn run() -> Result<()> {
             )?;
             print_json(&key)?;
         }
+        "executor-environment-verify" => {
+            require_len(
+                &args,
+                2,
+                "ilxyr executor-environment-verify <environment.json>",
+            )?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[1])?;
+            print_json(&json!({
+                "environment_ref": verify_environment_manifest(&environment)?
+            }))?;
+        }
+        "executor-package-verify" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr executor-package-verify <environment.json> <job-package.json>",
+            )?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[1])?;
+            let package = read_json::<ExecutorJobPackage>(&args[2])?;
+            print_json(&json!({
+                "job_package_ref": verify_job_package(&environment, &package)?
+            }))?;
+        }
+        "execution-report-verify" => {
+            require_len(
+                &args,
+                5,
+                "ilxyr execution-report-verify <environment.json> <job-package.json> <trusted-keys.json> <execution-report.json>",
+            )?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[1])?;
+            let package = read_json::<ExecutorJobPackage>(&args[2])?;
+            let trusted_keys = read_json::<Vec<TrustedAttestationKey>>(&args[3])?;
+            let report = read_json::<ExecutionReport>(&args[4])?;
+            print_json(&verify_execution_report(
+                &environment,
+                &package,
+                &trusted_keys,
+                &report,
+            )?)?;
+        }
         "budget-payload" => {
             require_len(&args, 2, "ilxyr budget-payload <budget.json>")?;
             let budget = read_json::<EpochBudget>(&args[1])?;
@@ -643,6 +685,9 @@ fn usage() {
            ilxyr fund <workspace> <funding.json>\n\
            ilxyr trust-key <workspace> <human-id> <key-id> <public-key-base64>\n\
            ilxyr trust-attestation-key <workspace> <service-id> <key-id> <public-key-base64>\n\
+           ilxyr executor-environment-verify <environment.json>\n\
+           ilxyr executor-package-verify <environment.json> <job-package.json>\n\
+           ilxyr execution-report-verify <environment.json> <job-package.json> <trusted-keys.json> <execution-report.json>\n\
            ilxyr budget-payload <budget.json>\n\
            ilxyr budget-register <workspace> <budget.json>\n\
            ilxyr allocate <workspace> <budget-id> <experiment-id>...\n\

@@ -30,6 +30,10 @@ recorded evidence -> verified native bundle -> RO-Crate | in-toto statement | ML
 
 trusted attestation key + ledgered run + signed DSSE envelope -> verified executor attestation
 
+executor environment + immutable job package + one-run authorization
+    -> remote execution -> signed DSSE/SLSA report -> independent verification
+    -> single-writer ingestion -> read-only public projection
+
 claim + frozen replication contract -> reserved allocation -> forward evidence
     -> independence/tolerance settlement -> replicates edge -> passive claim status
 

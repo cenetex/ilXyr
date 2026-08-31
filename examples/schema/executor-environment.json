@@ -1,0 +1,72 @@
+{
+  "schema": "ilxyr.executor_environment.v1",
+  "id": "environment://toy/public-v1",
+  "operator": { "id": "service://toy/executor-v1", "kind": "service" },
+  "source": {
+    "repository": "https://github.com/example/toy-executor",
+    "commit": "1111111111111111111111111111111111111111",
+    "archive": {
+      "name": "source-archive",
+      "uri": "https://artifacts.example/source.tar.zst",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "size_bytes": 100
+    }
+  },
+  "build_recipe": {
+    "name": "build-recipe",
+    "uri": "https://artifacts.example/build.nix",
+    "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "size_bytes": 100
+  },
+  "runner": {
+    "name": "runner",
+    "uri": "https://artifacts.example/runner",
+    "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "size_bytes": 100
+  },
+  "kernel": {
+    "name": "kernel",
+    "uri": "https://artifacts.example/vmlinux",
+    "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "size_bytes": 100
+  },
+  "rootfs": {
+    "name": "rootfs",
+    "uri": "https://artifacts.example/rootfs.ext4",
+    "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "size_bytes": 100
+  },
+  "sbom": {
+    "name": "sbom",
+    "uri": "https://artifacts.example/sbom.spdx.json",
+    "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "size_bytes": 100
+  },
+  "provenance": {
+    "name": "build-provenance",
+    "uri": "https://artifacts.example/provenance.json",
+    "sha256": "1212121212121212121212121212121212121212121212121212121212121212",
+    "size_bytes": 100
+  },
+  "isolation": {
+    "boundary": "firecracker_microvm",
+    "one_job_per_vm": true,
+    "read_only_rootfs": true,
+    "host_mounts": false,
+    "interactive_access": false,
+    "metadata_service_in_guest": false,
+    "signing_key_in_guest": false,
+    "reporting_outside_guest": true
+  },
+  "capabilities": {
+    "weight_classes": ["public"],
+    "network_modes": ["denied"],
+    "export_policies": ["metrics_only"]
+  },
+  "conformance_suite": {
+    "name": "conformance-suite",
+    "uri": "https://artifacts.example/conformance-suite",
+    "sha256": "2323232323232323232323232323232323232323232323232323232323232323",
+    "size_bytes": 100
+  }
+}

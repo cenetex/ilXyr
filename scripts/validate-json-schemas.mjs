@@ -34,6 +34,21 @@ const fixtures = {
   "executor-attestation.schema.json": [
     "examples/schema/executor-attestation.json",
   ],
+  "executor-conformance-report.schema.json": [
+    "examples/schema/executor-conformance-report.json",
+  ],
+  "executor-environment.schema.json": [
+    "examples/schema/executor-environment.json",
+  ],
+  "executor-job-package.schema.json": [
+    "examples/schema/executor-job-package.json",
+  ],
+  "execution-report.schema.json": [
+    "examples/schema/execution-report.json",
+  ],
+  "execution-verification-summary.schema.json": [
+    "examples/schema/execution-verification-summary.json",
+  ],
   "experiment.schema.json": [
     "examples/toy/experiment.json",
     "examples/experiments/solomon-q22/experiment.json",
@@ -291,6 +306,66 @@ expectInvalid(
 
 const executorAttestation = await readJson(
   "examples/schema/executor-attestation.json",
+);
+
+const unsafeEnvironment = await readJson(
+  "examples/schema/executor-environment.json",
+);
+unsafeEnvironment.isolation.signing_key_in_guest = true;
+expectInvalid(
+  "executor-environment.schema.json",
+  "executor environment with a guest signing key",
+  unsafeEnvironment,
+);
+
+const mutableJobImage = await readJson(
+  "examples/schema/executor-job-package.json",
+);
+mutableJobImage.provider.image_sha256 = "latest";
+expectInvalid(
+  "executor-job-package.schema.json",
+  "executor job package without an image digest",
+  mutableJobImage,
+);
+
+const networkedDeniedJob = await readJson(
+  "examples/schema/executor-job-package.json",
+);
+networkedDeniedJob.allowed_hosts = ["example.com"];
+expectInvalid(
+  "executor-job-package.schema.json",
+  "network-denied job with an allowed host",
+  networkedDeniedJob,
+);
+
+const unsignedExecutionReport = await readJson(
+  "examples/schema/execution-report.json",
+);
+unsignedExecutionReport.attestation.signatures = [];
+expectInvalid(
+  "execution-report.schema.json",
+  "execution report without a signature",
+  unsignedExecutionReport,
+);
+
+const inconsistentConformance = await readJson(
+  "examples/schema/executor-conformance-report.json",
+);
+inconsistentConformance.tests[0].status = "fail";
+expectInvalid(
+  "executor-conformance-report.schema.json",
+  "passing conformance report with a failed test",
+  inconsistentConformance,
+);
+
+const weakVerificationSummary = await readJson(
+  "examples/schema/execution-verification-summary.json",
+);
+weakVerificationSummary.predicate.verifiedLevels = ["SLSA_BUILD_LEVEL_1"];
+expectInvalid(
+  "execution-verification-summary.schema.json",
+  "verification summary without the ilXyr remote execution level",
+  weakVerificationSummary,
 );
 executorAttestation.verified_key_ids = [];
 expectInvalid(

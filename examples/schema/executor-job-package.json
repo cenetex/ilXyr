@@ -1,0 +1,69 @@
+{
+  "schema": "ilxyr.executor_job_package.v1",
+  "experiment_id": "toy.remote.v1",
+  "compiled_ref": "artifact://sha256/0101010101010101010101010101010101010101010101010101010101010101",
+  "environment_ref": "artifact://sha256/0202020202020202020202020202020202020202020202020202020202020202",
+  "inputs": [
+    {
+      "name": "dataset",
+      "uri": "https://artifacts.example/dataset.json",
+      "sha256": "0303030303030303030303030303030303030303030303030303030303030303",
+      "size_bytes": 100
+    }
+  ],
+  "executable": {
+    "name": "executable",
+    "uri": "https://artifacts.example/executable",
+    "sha256": "0404040404040404040404040404040404040404040404040404040404040404",
+    "size_bytes": 100
+  },
+  "oracle": {
+    "name": "oracle",
+    "uri": "https://artifacts.example/oracle",
+    "sha256": "0505050505050505050505050505050505050505050505050505050505050505",
+    "size_bytes": 100
+  },
+  "harness": {
+    "name": "harness",
+    "uri": "https://artifacts.example/harness",
+    "sha256": "0606060606060606060606060606060606060606060606060606060606060606",
+    "size_bytes": 100
+  },
+  "provider": {
+    "provider": "aws",
+    "region": "ca-central-1",
+    "machine_type": "c7i.metal-24xl",
+    "architecture": "x86_64",
+    "image_id": "ami-immutable",
+    "image_sha256": "0707070707070707070707070707070707070707070707070707070707070707",
+    "storage_gib": 32
+  },
+  "budget": {
+    "max_runtime_seconds": 3600,
+    "max_cost_microusd": 5000000,
+    "price_evidence": {
+      "name": "price-evidence",
+      "uri": "https://artifacts.example/price.json",
+      "sha256": "0808080808080808080808080808080808080808080808080808080808080808",
+      "size_bytes": 100
+    },
+    "watchdog_grace_seconds": 30
+  },
+  "targets": ["target-a", "target-b"],
+  "allocation": {
+    "concurrency": 1,
+    "retry_limit": 1,
+    "failure_policy": "fail_closed"
+  },
+  "network": "denied",
+  "allowed_hosts": [],
+  "export_policy": "metrics_only",
+  "weight_class": "public",
+  "expected_executor": { "id": "service://toy/executor-v1", "kind": "service" },
+  "reporting": {
+    "endpoint": "https://submit.example/v1/reports",
+    "protocol": "ilxyr.execution_report.v1",
+    "max_report_bytes": 1048576,
+    "expected_verifier": "service://ilxyr/report-verifier-v1"
+  }
+}

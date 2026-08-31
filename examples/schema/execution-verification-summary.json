@@ -1,0 +1,24 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "ilxyr verified run",
+      "digest": { "sha256": "1111111111111111111111111111111111111111111111111111111111111111" }
+    }
+  ],
+  "predicateType": "https://slsa.dev/verification_summary/v1",
+  "predicate": {
+    "verifier": { "id": "service://ilxyr/report-verifier-v1" },
+    "timeVerified": "2026-08-30T12:00:00Z",
+    "resourceUri": "artifact://sha256/1111111111111111111111111111111111111111111111111111111111111111",
+    "policy": {
+      "uri": "https://ilxyr.dev/policies/remote-execution-report/v1",
+      "digest": { "sha256": "2222222222222222222222222222222222222222222222222222222222222222" }
+    },
+    "inputAttestations": [
+      "artifact://sha256/3333333333333333333333333333333333333333333333333333333333333333"
+    ],
+    "verificationResult": "PASSED",
+    "verifiedLevels": ["ILXYR_REMOTE_EXECUTION_VERIFIED_V1"]
+  }
+}

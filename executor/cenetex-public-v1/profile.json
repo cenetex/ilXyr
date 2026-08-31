@@ -1,0 +1,20 @@
+{
+  "schema": "ilxyr.public_environment_candidate.v1",
+  "id": "environment://cenetex/public-v1",
+  "operator": "Cenetex",
+  "state": "reference_candidate",
+  "compatibility": "not_yet_verified",
+  "weight_classes": ["public"],
+  "network_modes": ["denied"],
+  "export_policies": ["metrics_only"],
+  "source_repository": "https://github.com/cenetex/ilXyr",
+  "accepted_manifest_ref": null,
+  "accepted_conformance_ref": null,
+  "verified_results": 0,
+  "limitations": [
+    "build artifacts and final digests are not published",
+    "independent conformance has not run",
+    "report intake is not available",
+    "no cloud compute is authorized"
+  ]
+}

@@ -167,6 +167,21 @@ predicate has equivalent run/identity bindings. Accepted envelopes are additive 
 in native and RO-Crate evidence exports. This verifies an external assertion; it does not infer a
 SLSA level, prove platform isolation, or establish hardware remote attestation.
 
+### Remote execution reports
+
+The remote reporting boundary is implemented as pure verification before a ledger write. An
+environment manifest identifies one reproducible runtime by digest. A job package binds the
+compiled experiment, all executable and data bytes, provider shape and image, budget, ordered
+targets, allocation policy, network/export policy, and expected executor. A signed report then
+binds that package and environment to one authorization, one launch, one canonical run, and SLSA
+provenance from the expected executor.
+
+The execution node is responsible for submitting its signed report, but it is not allowed to
+publish the report as verified. ADR 0007 separates the future authenticated intake, independent
+verifier, single-writer ledger, public projection, and read-only site. The Cenetex public-v1
+environment is currently a source-visible reference candidate; no accepted environment manifest
+or verified remote result exists yet.
+
 ### External preregistration
 
 An experiment may freeze an OSF `public` or `embargoed` registration requirement. The registration

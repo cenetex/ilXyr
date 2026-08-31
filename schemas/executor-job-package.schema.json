@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/executor-job-package.v1.json",
+  "title": "ilxyr immutable executor job package v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "experiment_id",
+    "compiled_ref",
+    "environment_ref",
+    "inputs",
+    "executable",
+    "oracle",
+    "harness",
+    "provider",
+    "budget",
+    "targets",
+    "allocation",
+    "network",
+    "allowed_hosts",
+    "export_policy",
+    "weight_class",
+    "expected_executor",
+    "reporting"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.executor_job_package.v1" },
+    "experiment_id": { "type": "string", "minLength": 1 },
+    "compiled_ref": { "$ref": "#/$defs/artifactRef" },
+    "environment_ref": { "$ref": "#/$defs/artifactRef" },
+    "inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/digestResource" }
+    },
+    "executable": { "$ref": "#/$defs/digestResource" },
+    "oracle": { "$ref": "#/$defs/digestResource" },
+    "harness": { "$ref": "#/$defs/digestResource" },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "region",
+        "machine_type",
+        "architecture",
+        "image_id",
+        "image_sha256",
+        "storage_gib"
+      ],
+      "properties": {
+        "provider": { "type": "string", "minLength": 1 },
+        "region": { "type": "string", "minLength": 1 },
+        "machine_type": { "type": "string", "minLength": 1 },
+        "architecture": { "type": "string", "minLength": 1 },
+        "image_id": { "type": "string", "minLength": 1 },
+        "image_sha256": { "$ref": "#/$defs/sha256" },
+        "storage_gib": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_runtime_seconds",
+        "max_cost_microusd",
+        "price_evidence",
+        "watchdog_grace_seconds"
+      ],
+      "properties": {
+        "max_runtime_seconds": { "type": "integer", "minimum": 1 },
+        "max_cost_microusd": { "type": "integer", "minimum": 1 },
+        "price_evidence": { "$ref": "#/$defs/digestResource" },
+        "watchdog_grace_seconds": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "allocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["concurrency", "retry_limit", "failure_policy"],
+      "properties": {
+        "concurrency": { "type": "integer", "minimum": 1 },
+        "retry_limit": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "failure_policy": { "const": "fail_closed" }
+      }
+    },
+    "network": { "enum": ["denied", "allowlist", "open"] },
+    "allowed_hosts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "export_policy": { "enum": ["artifacts", "metrics_only", "none"] },
+    "weight_class": { "enum": ["public", "internal", "restricted"] },
+    "expected_executor": { "$ref": "#/$defs/serviceActor" },
+    "reporting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["endpoint", "protocol", "max_report_bytes", "expected_verifier"],
+      "properties": {
+        "endpoint": { "type": "string", "pattern": "^https://\\S+$" },
+        "protocol": { "const": "ilxyr.execution_report.v1" },
+        "max_report_bytes": { "type": "integer", "minimum": 1 },
+        "expected_verifier": { "const": "service://ilxyr/report-verifier-v1" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "network": { "const": "denied" } }, "required": ["network"] },
+      "then": { "properties": { "allowed_hosts": { "type": "array", "maxItems": 0 } } }
+    },
+    {
+      "if": { "properties": { "network": { "const": "allowlist" } }, "required": ["network"] },
+      "then": { "properties": { "allowed_hosts": { "type": "array", "minItems": 1 } } }
+    }
+  ],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "artifactRef": { "type": "string", "pattern": "^artifact://sha256/[a-f0-9]{64}$" },
+    "serviceActor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^service://\\S+$" },
+        "kind": { "const": "service" }
+      }
+    },
+    "digestResource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "uri", "sha256", "size_bytes"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "uri": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "size_bytes": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

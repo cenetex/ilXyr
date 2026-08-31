@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/executor-environment.v1.json",
+  "title": "ilxyr executor environment manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "operator",
+    "source",
+    "build_recipe",
+    "runner",
+    "kernel",
+    "rootfs",
+    "sbom",
+    "provenance",
+    "isolation",
+    "capabilities",
+    "conformance_suite"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.executor_environment.v1" },
+    "id": { "type": "string", "pattern": "^environment://\\S+$" },
+    "operator": { "$ref": "#/$defs/serviceActor" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit", "archive"],
+      "properties": {
+        "repository": { "type": "string", "pattern": "^https://\\S+$" },
+        "commit": { "type": "string", "pattern": "^(?:[a-f0-9]{40}|[a-f0-9]{64})$" },
+        "archive": { "$ref": "#/$defs/digestResource" }
+      }
+    },
+    "build_recipe": { "$ref": "#/$defs/digestResource" },
+    "runner": { "$ref": "#/$defs/digestResource" },
+    "kernel": { "$ref": "#/$defs/digestResource" },
+    "rootfs": { "$ref": "#/$defs/digestResource" },
+    "sbom": { "$ref": "#/$defs/digestResource" },
+    "provenance": { "$ref": "#/$defs/digestResource" },
+    "isolation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary",
+        "one_job_per_vm",
+        "read_only_rootfs",
+        "host_mounts",
+        "interactive_access",
+        "metadata_service_in_guest",
+        "signing_key_in_guest",
+        "reporting_outside_guest"
+      ],
+      "properties": {
+        "boundary": { "type": "string", "minLength": 1 },
+        "one_job_per_vm": { "const": true },
+        "read_only_rootfs": { "const": true },
+        "host_mounts": { "const": false },
+        "interactive_access": { "const": false },
+        "metadata_service_in_guest": { "const": false },
+        "signing_key_in_guest": { "const": false },
+        "reporting_outside_guest": { "const": true }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["weight_classes", "network_modes", "export_policies"],
+      "properties": {
+        "weight_classes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["public", "internal", "restricted"] }
+        },
+        "network_modes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["denied", "allowlist", "open"] }
+        },
+        "export_policies": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["artifacts", "metrics_only", "none"] }
+        }
+      }
+    },
+    "conformance_suite": { "$ref": "#/$defs/digestResource" }
+  },
+  "$defs": {
+    "serviceActor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^service://\\S+$" },
+        "kind": { "const": "service" }
+      }
+    },
+    "digestResource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "uri", "sha256", "size_bytes"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "uri": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "size_bytes": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}
