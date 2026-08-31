@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "record_kind": "append_only_correctness_addendum",
+  "addendum_id": "weight-multiplicity-session-frontier-v5-correctness-addendum-v1",
+  "created_at": "2026-08-31T05:49:31Z",
+  "frontier_decision": "hold_unchanged",
+  "phase_1_authorized": false,
+  "bindings": {
+    "session_frontier_v4_compressed_sha256": "1dc6fd54cf8236f8ef78ec4776ec769e4ef8da52f02efd352ce6d8b2d2e44db9",
+    "session_frontier_v4_summary_sha256": "b98a27f96092d85b484525a3e188299df2fe603ca6c20ad5ff2df3623946afd8",
+    "session_frontier_v5_plan_sha256": "f728ae0f21a757d3e0fc7dad60d18b90ab9c76e9f781bceb9ad66bdd02f038dd",
+    "session_frontier_v5_manifest_sha256": "66567ba15cf3743d0fa38bc96b5ff2709e1abcf46e946fe62f2166255a02d1d8",
+    "session_frontier_v5_compressed_sha256": "996232dace6728e1b669d3ae83b2750c92e4a61fd685033d9517ab32f3d413d4",
+    "session_frontier_v5_summary_sha256": "84e477eda7790440b0e88258ec357eb4ecb17af64bc1f4277f2c56cb85e98b6c"
+  },
+  "observation": {
+    "representation_id": "E8:0,0,2,1,2,0,0,3",
+    "raw_targets": 32,
+    "unique_requests": 12,
+    "version_5_same_run_fresh_reference": {
+      "completed_queries": 5,
+      "complete": false,
+      "hard_timeout_request": "E8\t0,0,2,1,2,0,0,3\t0,2,0,1,0,1,1,0",
+      "hard_timeout_target_depth": 374,
+      "interpretation": "prepared replay identity is determinism and does not by itself replace a complete fresh-reference comparison"
+    },
+    "version_5_prepared_runs": {
+      "complete_grouped_orders": 3,
+      "complete_replays": 2,
+      "queries_per_run": 32,
+      "replay_projection_identical": true,
+      "observed_disagreements": 0
+    },
+    "sealed_predecessor_comparison": {
+      "predecessor_engine": "version_4_direct_coefficient_space_recursive_freudenthal",
+      "current_engine": "version_5_parallel_prepared_dependency_dag",
+      "projection_fields": [
+        "request",
+        "multiplicity"
+      ],
+      "deduplication_key": "request",
+      "sort_key": "request",
+      "serialization": "compact_json_array_followed_by_lf",
+      "version_4_projection_sha256": "2bd8df410586f0a4f58e2e95ac667fba4da71b5afc9d1fa671aa68cb3c7d2f22",
+      "version_5_projection_sha256": "2bd8df410586f0a4f58e2e95ac667fba4da71b5afc9d1fa671aa68cb3c7d2f22",
+      "compared_unique_requests": 12,
+      "agreements": 12,
+      "disagreements": 0,
+      "answer_map": [
+        {
+          "request": "E8\t0,0,2,1,2,0,0,3\t0,0,0,0,0,0,0,0",
+          "multiplicity": "622653957675533038998077348495580"
+        },
+        {
+          "request": "E8\t0,0,2,1,2,0,0,3\t0,0,1,0,0,1,0,0",
+          "multiplicity": "32953133227223752203530526989551"
+        },
+        {
+          "request": "E8\t0,0,2,1,2,0,0,3\t0,1,-1,1,0,1,0,1",
+          "multiplicity": "32953133227223752203530526989551"
+        },
+        {
+          "request": "E8\t0,0,2,1,2,0,0,3\t0,1,0,2,0,0,0,1",
+          "multiplicity": "3280450050604311019959353376"
+        },
+        {
+          "request": "E8\t0,0,2,1,2,0,0,3\t0,1,1,0,1,0,0,1",
+          "multiplicity": "3671815430739026524634771867"
+        },
+        {
+          "request": "E8\t0,0,2,1,2,0,0,3\t0,1,2,-2,2,0,0,1",
+          "multiplicity": "3280450050604311019959353376"
+        },
+        {
+          "request": "E8\t0,0,2,1,2,0,0,3\t0,1,2,1,0,0,1,1",
+          "multiplicity": "26713268750473210642"
+        },
+        {
+          "request": "E8\t0,0,2,1,2,0,0,3\t0,2,0,1,0,1,1,0",
+          "multiplicity": "3669501709163493618267027056"
+        },
+        {
+          "request": "E8\t0,0,2,1,2,0,0,3\t1,0,4,-3,3,1,0,0",
+          "multiplicity": "26396795418179671768"
+        },
+        {
+          "request": "E8\t0,0,2,1,2,0,0,3\t1,1,0,0,0,1,0,0",
+          "multiplicity": "29821082571230055649671584489670"
+        },
+        {
+          "request": "E8\t0,0,2,1,2,0,0,3\t1,1,1,0,2,1,0,1",
+          "multiplicity": "47515433697913831608"
+        },
+        {
+          "request": "E8\t0,0,2,1,2,0,0,3\t1,3,1,0,1,0,1,0",
+          "multiplicity": "26705435878588586810"
+        }
+      ]
+    }
+  },
+  "interpretation": {
+    "classification_change": "none",
+    "version_5_pass_count": 827,
+    "evidence_category": "internal_cross_version_predecessor_differential",
+    "independent": false,
+    "lie_version_4_category": "separate_independent_predecessor_witness_not_direct_for_version_5",
+    "claim": "all 12 unique prepared answers for the affected representation match the sealed complete Version 4 recursive answer set",
+    "non_claim": "this addendum is not a direct independent LiE witness for the Version 5 executable"
+  }
+}
