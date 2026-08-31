@@ -1,8 +1,14 @@
 {
   "schema": "ilxyr.research_registry.v1",
-  "indexed_at_ms": 1788143332000,
+  "indexed_at_ms": 1788200252000,
   "stale_after_ms": 604800000,
   "heads": [
+    {
+      "source": "https://github.com/atimics/runner-watch/tree/c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+      "kind": "publication_index",
+      "head": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+      "indexed_at_ms": 1788200252000
+    },
     {
       "source": "https://github.com/atimics/runner-watch/tree/884428a564d4df500b95a2911014c672221f7e2e",
       "kind": "publication_index",
@@ -23,6 +29,12 @@
       "canonical_name": "FERAL-7B SEC",
       "aliases": ["qwen-sec", "FERAL-7B", "feral-sec"],
       "repositories": [
+        {
+          "repository": "https://github.com/atimics/runner-watch",
+          "revision": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+          "role": "FERAL-7B frozen FinQA suite, predictions, and base-model result",
+          "evidence": "externally_referenced"
+        },
         {
           "repository": "https://github.com/atimics/runner-watch",
           "revision": "884428a564d4df500b95a2911014c672221f7e2e",
@@ -107,14 +119,16 @@
           "evaluation_id": "evaluation://feral-7b/finqa/base",
           "experiment_id": "feral-7b.sec-analysis.v1",
           "role": "baseline",
-          "state": "planned",
+          "state": "completed",
           "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
-          "dataset_ref": null,
-          "evaluator_revision": null,
-          "predictions_ref": null,
-          "metrics": {},
-          "evidence": "missing",
-          "visibility": "sealed_hash_only"
+          "dataset_ref": "https://github.com/atimics/runner-watch/blob/c78d953ab64ba5e295b44bc0e13c9015223a32d2/artifacts/feral-7b-sec-v2/evaluation/finqa-retrieved.manifest.json",
+          "evaluator_revision": "7bb1ce8d635fa1ce913a4d95f46c5031581bb140",
+          "predictions_ref": "https://github.com/atimics/runner-watch/blob/c78d953ab64ba5e295b44bc0e13c9015223a32d2/artifacts/feral-7b-sec-v2/evaluation/baseline-finqa-retrieved.jsonl",
+          "metrics": {
+            "finqa_accuracy": 0.14646904969485613
+          },
+          "evidence": "externally_referenced",
+          "visibility": "public"
         },
         {
           "evaluation_id": "evaluation://feral-7b/citation-support/base",
@@ -189,6 +203,16 @@
           "source_revision": "884428a564d4df500b95a2911014c672221f7e2e",
           "evidence": "externally_referenced",
           "visibility": "public"
+        },
+        {
+          "artifact_id": "artifact://runner-watch/feral-7b-finqa-base-result",
+          "experiment_id": "feral-7b.sec-analysis.v1",
+          "kind": "baseline_evaluation_result",
+          "digest": "a9c2b7f456bc4101eb7b288761bea923298eb690d90fd10be89d32cba44beb8f",
+          "uri": "https://github.com/atimics/runner-watch/blob/c78d953ab64ba5e295b44bc0e13c9015223a32d2/artifacts/feral-7b-sec-v2/evaluation/finqa-baseline.json",
+          "source_revision": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+          "evidence": "externally_referenced",
+          "visibility": "public"
         }
       ],
       "lifecycle_state": "blocked",
@@ -236,10 +260,10 @@
         {
           "stage_id": "baseline_evaluations",
           "title": "Base Qwen2.5 baselines",
-          "state": "planned",
-          "evidence": "missing",
-          "refs": [],
-          "detail": "Future-split, unseen-issuer, sealed FinQA, and deterministic citation-support baselines have not run."
+          "state": "implemented",
+          "evidence": "externally_referenced",
+          "refs": ["artifact://runner-watch/feral-7b-finqa-base-result"],
+          "detail": "The frozen retrieved-context FinQA baseline is complete at 0.14646904969485613 exact accuracy. Future-split, unseen-issuer, and deterministic citation-support baselines remain missing."
         },
         {
           "stage_id": "experiment_registration",

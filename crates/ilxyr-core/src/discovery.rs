@@ -809,11 +809,30 @@ mod tests {
         );
         assert_eq!(status.project.costs.spent, 0.0);
         assert!(status.project.dispatches.is_empty());
+        let measured = status
+            .project
+            .evaluations
+            .iter()
+            .filter(|item| !item.metrics.is_empty())
+            .collect::<Vec<_>>();
+        assert_eq!(measured.len(), 1);
+        assert_eq!(
+            measured[0].evaluation_id,
+            "evaluation://feral-7b/finqa/base"
+        );
+        assert_eq!(measured[0].state, LifecycleState::Completed);
+        let accuracy = measured[0]
+            .metrics
+            .get("finqa_accuracy")
+            .copied()
+            .expect("FinQA accuracy");
+        assert!((accuracy - 0.14646904969485613).abs() < 1e-15);
         assert!(
             status
                 .project
                 .evaluations
                 .iter()
+                .filter(|item| item.role == EvaluationRole::Candidate)
                 .all(|item| item.metrics.is_empty())
         );
         assert!(status.missing.len() >= 8);
