@@ -127,11 +127,13 @@ pub struct ExecutorJobPackage {
     pub environment_ref: String,
     pub inputs: Vec<DigestResource>,
     pub executable: DigestResource,
+    pub arguments: Vec<String>,
     pub oracle: DigestResource,
     pub harness: DigestResource,
     pub provider: ProviderBinding,
     pub budget: BudgetPolicy,
     pub targets: Vec<String>,
+    pub expected_outputs: Vec<String>,
     pub allocation: AllocationPolicy,
     pub network: ExecutionNetworkMode,
     pub allowed_hosts: Vec<String>,
@@ -293,6 +295,9 @@ pub fn verify_job_package(
             return validation(format!("duplicate job resource name {}", resource.name));
         }
     }
+    if package.arguments.iter().any(|argument| argument.contains('\0')) {
+        return validation("job package arguments must not contain a NUL byte");
+    }
     validate_resource(&package.budget.price_evidence)?;
     validate_lower_sha256(&package.provider.image_sha256, "machine image digest")?;
     for (value, label) in [
@@ -323,6 +328,13 @@ pub fn verify_job_package(
     }
     for target in &package.targets {
         validate_nonempty(target, "job target")?;
+    }
+    if package.expected_outputs.is_empty() {
+        return validation("job package must contain at least one expected output");
+    }
+    validate_unique(&package.expected_outputs, "job package expected outputs")?;
+    for output in &package.expected_outputs {
+        validate_nonempty(output, "expected output")?;
     }
     if package.allocation.concurrency == 0
         || package.allocation.concurrency as usize > package.targets.len()

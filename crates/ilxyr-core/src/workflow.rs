@@ -6,10 +6,10 @@ use crate::{
     ActorKind, ActorRef, AdmissionDecision, CodePolicy, ComparisonOperator, CompiledExperiment,
     CompletedExperiment, ContributionStage, Error, Evidence, EvidenceLane, ExperimentSpec,
     ExperimentStatus, ExportPolicy, Forecast, ForecastSettlement, FundingCommitment, GateCheck,
-    OutcomePredicate, ResearchContribution, Result, RunRecord, SharedTaskContract, WeightClass,
-    Workspace, autonomy, executor, onboarding, registration, require_registered_huggingface_actor,
-    require_registered_huggingface_weight, require_registered_nsrl_actor,
-    require_registered_nsrl_weight, store::now_ms, validation,
+    NetworkPolicy, OutcomePredicate, ResearchContribution, Result, RunRecord, SharedTaskContract,
+    WeightClass, Workspace, autonomy, executor, onboarding, registration,
+    require_registered_huggingface_actor, require_registered_huggingface_weight,
+    require_registered_nsrl_actor, require_registered_nsrl_weight, store::now_ms, validation,
 };
 
 const CONTRIBUTION_SUBMITTED: &str = "ContributionSubmitted";
@@ -301,6 +301,8 @@ fn evaluate_admission(
         "compute funding",
     )?;
     let spec = &compiled.spec;
+    let local = spec.execution.executor == "local-command";
+    let remote = spec.execution.executor == "remote-v1";
 
     Ok(vec![
         check(
@@ -346,9 +348,11 @@ fn evaluate_admission(
         ),
         check(
             "executor_available",
-            spec.execution.executor == "local-command",
-            if spec.execution.executor == "local-command" {
+            local || remote,
+            if local {
                 "local-command adapter is installed".to_owned()
+            } else if remote {
+                "provider-neutral remote-v1 adapter boundary is installed".to_owned()
             } else {
                 format!("{} adapter is not installed", spec.execution.executor)
             },
@@ -357,33 +361,45 @@ fn evaluate_admission(
             "weight_protection",
             spec.security.weight_class == WeightClass::Public,
             if spec.security.weight_class == WeightClass::Public {
-                "local execution is limited to public-weight handles".to_owned()
+                "v1 execution is limited to public-weight handles".to_owned()
             } else {
-                "protected weights require a future attested executor".to_owned()
+                "protected weights require a later attested executor profile".to_owned()
             },
         ),
         check(
-            "local_execution_policy",
-            spec.execution.network == crate::NetworkPolicy::Open
-                && std::path::Path::new(&spec.execution.program).is_absolute(),
-            "local execution requires network=open and an absolute executable path".to_owned(),
+            "execution_policy",
+            (local
+                && spec.execution.network == NetworkPolicy::Open
+                && std::path::Path::new(&spec.execution.program).is_absolute())
+                || (remote && spec.execution.network == NetworkPolicy::Denied),
+            if remote {
+                "remote-v1 requires network=denied".to_owned()
+            } else {
+                "local execution requires network=open and an absolute executable path".to_owned()
+            },
         ),
         check(
             "code_policy",
-            spec.security.code_policy == CodePolicy::Arbitrary,
-            if spec.security.code_policy == CodePolicy::Arbitrary {
+            (local && spec.security.code_policy == CodePolicy::Arbitrary)
+                || (remote && spec.security.code_policy == CodePolicy::ApprovedImageOnly),
+            if local && spec.security.code_policy == CodePolicy::Arbitrary {
                 "local-command directly executes the declared program".to_owned()
+            } else if remote && spec.security.code_policy == CodePolicy::ApprovedImageOnly {
+                "remote-v1 requires a digest-bound approved executable".to_owned()
             } else {
-                "approved-image-only execution requires a future image executor".to_owned()
+                "code policy does not match the selected executor".to_owned()
             },
         ),
         check(
             "export_policy",
-            spec.security.export_policy == ExportPolicy::Artifacts,
-            if spec.security.export_policy == ExportPolicy::Artifacts {
+            (local && spec.security.export_policy == ExportPolicy::Artifacts)
+                || (remote && spec.security.export_policy == ExportPolicy::MetricsOnly),
+            if local && spec.security.export_policy == ExportPolicy::Artifacts {
                 "local-command records stdout, stderr, and metric artifacts".to_owned()
+            } else if remote && spec.security.export_policy == ExportPolicy::MetricsOnly {
+                "remote-v1 exports only frozen metrics and outcome records".to_owned()
             } else {
-                "local-command cannot enforce restricted output export".to_owned()
+                "export policy does not match the selected executor".to_owned()
             },
         ),
         role_separation_check(workspace, compiled, &forecasts, true)?,
@@ -393,6 +409,12 @@ fn evaluate_admission(
 
 pub fn run_experiment(workspace: &Workspace, experiment_id: &str) -> Result<CompletedExperiment> {
     let compiled = load_compiled(workspace, experiment_id)?;
+    if compiled.spec.execution.executor != "local-command" {
+        return Err(Error::Security(format!(
+            "experiment {experiment_id} requires the {} dispatcher; the local run path is disabled",
+            compiled.spec.execution.executor
+        )));
+    }
     if let Some((run_ref, run)) =
         latest_typed_with_ref::<RunRecord>(workspace, EXPERIMENT_COMPLETED, experiment_id)?
     {
@@ -726,7 +748,7 @@ fn check(gate: &str, passed: bool, detail: String) -> GateCheck {
     }
 }
 
-fn resolve_outcome(spec: &ExperimentSpec, run: &RunRecord) -> Result<String> {
+pub(crate) fn resolve_outcome(spec: &ExperimentSpec, run: &RunRecord) -> Result<String> {
     let matched = spec
         .outcome_contract
         .outcomes

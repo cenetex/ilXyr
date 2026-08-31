@@ -17,6 +17,7 @@
     "sha256": "0404040404040404040404040404040404040404040404040404040404040404",
     "size_bytes": 100
   },
+  "arguments": [],
   "oracle": {
     "name": "oracle",
     "uri": "https://artifacts.example/oracle",
@@ -50,6 +51,7 @@
     "watchdog_grace_seconds": 30
   },
   "targets": ["target-a", "target-b"],
+  "expected_outputs": ["metrics"],
   "allocation": {
     "concurrency": 1,
     "retry_limit": 1,

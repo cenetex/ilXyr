@@ -138,11 +138,15 @@ the ilXyr protocol.
 - Added the Cenetex public executor v1 open reference profile. It remains a
   `reference_candidate`, not a compatible environment, until real build artifacts and an accepted
   independent conformance receipt exist.
-- Publish the separate authenticated report-intake service, independent verifier, single-writer
-  ingestion path, and read-only public projection defined by ADR 0007. The public site must not
-  become the intake service.
-- Add a provider-neutral adapter boundary with preflight, launch, observe, and collect operations;
-  prove it first with a fake adapter and tamper/recovery tests.
+- Implemented the provider-neutral adapter boundary with preflight, launch, observe, and collect
+  operations. Its fake node proves side-effect-free preflight, reserve-before-launch recovery,
+  provider idempotency, read-only observation/collection, and no duplicate launch after a lost
+  response. The conformance path starts no process and creates no cloud resource.
+- Implemented the local single-writer report-intake path. It resolves trusted keys, authorization,
+  launch receipt, environment, package, signed budget, allocation, compiled metrics, output set,
+  runtime, and outcome from the ledger; exact retries are idempotent and launch reuse conflicts.
+- Publish the separate authenticated network report-intake service and read-only public projection
+  defined by ADR 0007. The public site must not become the intake service.
 - Extract an AWS adapter from Zero's OIDC, conditional-write locks, resolved machine identity,
   launch-relative watchdog, independent-target, and read-only collection patterns. All preflight
   and conformance tests must avoid paid compute.

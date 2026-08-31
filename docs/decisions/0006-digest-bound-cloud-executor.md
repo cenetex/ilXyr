@@ -70,8 +70,9 @@ collector verifies those receipts and the result bundle before ilXyr ingests att
    proposal data, write routes, and cloud-launch authority off the public site.
 2. Add a strict executor-job-package schema, a deterministic pack/verify command, positive fixtures,
    tamper fixtures, and golden digest tests. No cloud calls.
-3. Add the provider-neutral adapter interface and a fake adapter conformance suite. Preserve the
-   existing local executor behavior behind its current admission boundary.
+3. **Implemented:** add the provider-neutral adapter interface and a fake adapter conformance
+   suite. The remote profile uses the same admission, signed-budget, allocation, executable, and
+   argument gates while preserving the existing local executor behavior.
 4. Extract an AWS adapter from the proven Zero patterns: OIDC, conditional object writes, resolved
    AMI identity, instance watchdogs, independent targets, and a read-only collector. Tests and
    permission preflight must not start compute.

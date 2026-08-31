@@ -367,7 +367,9 @@ fn validate_ilxyr_executor(
     Ok(())
 }
 
-fn trusted_attestation_keys(workspace: &Workspace) -> Result<Vec<TrustedAttestationKey>> {
+pub(crate) fn trusted_attestation_keys(
+    workspace: &Workspace,
+) -> Result<Vec<TrustedAttestationKey>> {
     workspace
         .events()?
         .into_iter()

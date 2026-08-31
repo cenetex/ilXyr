@@ -15,8 +15,10 @@ export const publicRoutes = [
 export const siteStatus = [
   { key: "local_executor", value: "available_for_public_weight_experiments" },
   { key: "remote_report_verifier", value: "implemented" },
+  { key: "provider_neutral_adapter_boundary", value: "implemented_with_fake_node" },
+  { key: "local_single_writer_report_intake", value: "implemented" },
   { key: "general_cloud_launcher", value: "roadmap" },
-  { key: "report_intake_service", value: "not_available" },
+  { key: "authenticated_network_report_intake", value: "not_available" },
   { key: "paid_cloud_experiment_work", value: "not_launched" },
   { key: "protected_weight_execution", value: "not_available" },
   { key: "mutable_cloud_checkouts", value: "not_accepted_as_reproducible_jobs" },
@@ -71,6 +73,9 @@ export const cliGroups = [
       "executor-environment-verify <environment.json>",
       "executor-package-verify <environment.json> <job-package.json>",
       "execution-report-verify <environment.json> <job-package.json> <trusted-keys.json> <execution-report.json>",
+      "remote-package-verify <workspace> <environment.json> <job-package.json>",
+      "remote-authorize <workspace> <environment.json> <job-package.json> <budget-id> <authorization-id> <expires-at-ms>",
+      "remote-report-accept <workspace> <execution-report.json>",
     ],
   },
   {

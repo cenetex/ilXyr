@@ -11,11 +11,13 @@
     "environment_ref",
     "inputs",
     "executable",
+    "arguments",
     "oracle",
     "harness",
     "provider",
     "budget",
     "targets",
+    "expected_outputs",
     "allocation",
     "network",
     "allowed_hosts",
@@ -35,6 +37,10 @@
       "items": { "$ref": "#/$defs/digestResource" }
     },
     "executable": { "$ref": "#/$defs/digestResource" },
+    "arguments": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[^\\u0000]*$" }
+    },
     "oracle": { "$ref": "#/$defs/digestResource" },
     "harness": { "$ref": "#/$defs/digestResource" },
     "provider": {
@@ -76,6 +82,12 @@
       }
     },
     "targets": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "expected_outputs": {
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
