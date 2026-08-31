@@ -77,7 +77,7 @@ const normalizeMeasurement = (measurement, plan) => {
   const expectedQueries = measurement.targets.raw;
   const explicitExactnessFailure =
     measurement.exactness.mismatches.length > 0 ||
-    !measurement.exactness.replay_byte_identical;
+    measurement.exactness.replay_byte_identical === false;
   const correctnessObserved =
     measurement.replays.length === plan.frontier.replays &&
     correctnessRuns.every((run) => runComplete(run, expectedQueries));
