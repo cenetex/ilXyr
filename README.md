@@ -355,6 +355,8 @@ started without producing a terminal run. `authorize` reports the same decision 
   flow.
 - `docs/CLOUD-EXECUTION.md`: local-versus-cloud venue policy and the package, preflight, launch,
   observation, collection, and evidence-import runbook for resource-heavy work.
+- `docs/GOVERNANCE.md`: the enforced solo-maintainer PR, protected-path authorization, review,
+  merge, emergency-override, and live-settings policy.
 - `docs/SECURITY.md`: threat model, autonomous operation rules, weight protection.
 - `docs/ROADMAP.md`: sequenced milestones from protocol proof through federation.
 - `docs/V1_REVIEW.md`: V1 acceptance review, revisions, and residual limitations.
