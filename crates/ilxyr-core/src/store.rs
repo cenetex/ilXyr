@@ -104,6 +104,10 @@ impl Workspace {
         Ok(sha256_hex(&canonical_bytes(object)?))
     }
 
+    pub fn canonical_json_bytes<T: Serialize>(object: &T) -> Result<Vec<u8>> {
+        canonical_bytes(object)
+    }
+
     pub fn put_blob(&self, source: impl AsRef<Path>, expected_sha256: &str) -> Result<String> {
         validate_lower_sha256(expected_sha256)?;
         let source = source.as_ref();

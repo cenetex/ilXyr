@@ -1,0 +1,20 @@
+{
+  "schema": "ilxyr.executor_preflight_receipt.v1",
+  "environment_ref": "artifact://sha256/1111111111111111111111111111111111111111111111111111111111111111",
+  "job_package_ref": "artifact://sha256/2222222222222222222222222222222222222222222222222222222222222222",
+  "verified_resources": [
+    {
+      "scope": "job",
+      "name": "oracle",
+      "uri": "https://artifacts.example/oracle",
+      "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "size_bytes": 100,
+      "relative_path": "job/oracle"
+    }
+  ],
+  "weight_class": "public",
+  "network": "denied",
+  "export_policy": "metrics_only",
+  "guest_credentials_included": false,
+  "launch_authorized": false
+}

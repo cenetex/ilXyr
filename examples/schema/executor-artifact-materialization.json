@@ -1,0 +1,19 @@
+{
+  "schema": "ilxyr.executor_artifact_materialization.v1",
+  "environment_ref": "artifact://sha256/1111111111111111111111111111111111111111111111111111111111111111",
+  "job_package_ref": "artifact://sha256/2222222222222222222222222222222222222222222222222222222222222222",
+  "resources": [
+    {
+      "scope": "environment",
+      "name": "runner",
+      "uri": "https://artifacts.example/runner",
+      "relative_path": "environment/runner"
+    },
+    {
+      "scope": "job",
+      "name": "oracle",
+      "uri": "https://artifacts.example/oracle",
+      "relative_path": "job/oracle"
+    }
+  ]
+}

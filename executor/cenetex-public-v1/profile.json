@@ -14,7 +14,7 @@
   "limitations": [
     "build artifacts and final digests are not published",
     "independent conformance has not run",
-    "report intake is not available",
+    "authenticated report intake is implemented but not deployed",
     "no cloud compute is authorized"
   ]
 }

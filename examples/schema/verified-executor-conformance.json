@@ -1,0 +1,10 @@
+{
+  "schema": "ilxyr.verified_executor_conformance.v1",
+  "report_ref": "artifact://sha256/1111111111111111111111111111111111111111111111111111111111111111",
+  "report_body_ref": "artifact://sha256/2222222222222222222222222222222222222222222222222222222222222222",
+  "environment_ref": "artifact://sha256/3333333333333333333333333333333333333333333333333333333333333333",
+  "suite_ref": "artifact://sha256/4444444444444444444444444444444444444444444444444444444444444444",
+  "runner": { "id": "service://independent/conformance-runner-v1", "kind": "service" },
+  "passed": true,
+  "verified_key_ids": ["key://independent/conformance-runner-v1/release"]
+}

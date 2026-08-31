@@ -136,13 +136,19 @@ path; it is not the project's first cloud capability. See
 - Published the plain public API and protocol index at `ilxyr.cenetex.com`; proposal data, write
   routes, the authoritative ledger, and cloud-launch authority remain off that hosted surface.
 - Implemented strict executor-environment, executor-job-package, signed execution-report,
-  conformance-report, and verification-summary schemas. The read-only CLI verifies environment,
-  package, and signed report bindings before ledger ingestion. These objects freeze exact
+  conformance-suite, signed conformance-report, materialization, preflight-receipt, and
+  verification-summary schemas. The read-only CLI verifies environment, package, materialized
+  artifacts, independent conformance, and signed report bindings before ledger ingestion. These objects freeze exact
   source commits, archives, executables, oracles, harnesses, data, models, machine shape and image,
   budget, target order, allocation, network/export policy, and expected receipts by SHA-256.
 - Added the Cenetex public executor v1 open reference profile. It remains a
   `reference_candidate`, not a compatible environment, until real build artifacts and an accepted
-  independent conformance receipt exist.
+  independent conformance receipt exist. Its machine-readable build contract and draft suite now
+  separate portable offline checks from the Linux Firecracker checks that still must be built and
+  reproduced.
+- Implemented no-launch artifact preflight. It binds the exact environment and package, requires
+  every frozen resource once, rejects missing files, digest or size drift, changed target order,
+  traversal, and symlinks, and emits a receipt that cannot authorize launch or carry guest secrets.
 - Implemented the provider-neutral adapter boundary with preflight, launch, observe, and collect
   operations. Its fake node proves side-effect-free preflight, reserve-before-launch recovery,
   provider idempotency, read-only observation/collection, and no duplicate launch after a lost

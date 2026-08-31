@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/cenetex-reference-build-contract.v1.json",
+  "title": "Cenetex reference environment build contract v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "environment_id", "state", "source", "builder", "required_outputs", "runtime", "acceptance"],
+  "properties": {
+    "schema": { "const": "ilxyr.cenetex_reference_build_contract.v1" },
+    "environment_id": { "const": "environment://cenetex/public-v1" },
+    "state": { "const": "candidate" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "exact_commit_required", "content_addressed_archive_required"],
+      "properties": {
+        "repository": { "const": "https://github.com/cenetex/ilXyr" },
+        "exact_commit_required": { "const": true },
+        "content_addressed_archive_required": { "const": true }
+      }
+    },
+    "builder": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["system", "lock_file_required", "supported_host_os", "supported_architecture", "sandbox_required", "mutable_dependency_resolution_allowed"],
+      "properties": {
+        "system": { "const": "nix_flake" },
+        "lock_file_required": { "const": true },
+        "supported_host_os": { "const": "linux" },
+        "supported_architecture": { "const": "x86_64" },
+        "sandbox_required": { "const": true },
+        "mutable_dependency_resolution_allowed": { "const": false }
+      }
+    },
+    "required_outputs": {
+      "type": "array",
+      "minItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "supervisor",
+          "linux_kernel",
+          "read_only_rootfs",
+          "spdx_or_cyclonedx_sbom",
+          "slsa_build_provenance",
+          "canonical_conformance_suite"
+        ]
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["boundary", "one_job_per_vm", "host_mounts", "interactive_access", "guest_network", "guest_credentials", "reporting_outside_guest"],
+      "properties": {
+        "boundary": { "const": "firecracker_microvm" },
+        "one_job_per_vm": { "const": true },
+        "host_mounts": { "const": false },
+        "interactive_access": { "const": false },
+        "guest_network": { "const": "denied" },
+        "guest_credentials": { "const": false },
+        "reporting_outside_guest": { "const": true }
+      }
+    },
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum_independent_builders", "matching_output_digests_required", "signed_independent_conformance_required", "all_linux_microvm_tests_required"],
+      "properties": {
+        "minimum_independent_builders": { "type": "integer", "minimum": 1 },
+        "matching_output_digests_required": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "signed_independent_conformance_required": { "const": true },
+        "all_linux_microvm_tests_required": { "const": true }
+      }
+    }
+  }
+}

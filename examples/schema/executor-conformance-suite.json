@@ -1,0 +1,17 @@
+{
+  "schema": "ilxyr.executor_conformance_suite.v1",
+  "id": "conformance://toy/public-v1",
+  "environment_id": "environment://toy/public-v1",
+  "tests": [
+    {
+      "name": "digest-drift-fails-closed",
+      "execution_class": "offline",
+      "requirement": "Changed artifact bytes are rejected before launch."
+    },
+    {
+      "name": "guest-network-is-denied",
+      "execution_class": "linux_microvm",
+      "requirement": "The guest cannot reach network destinations."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/executor-artifact-materialization.v1.json",
+  "title": "ilxyr executor artifact materialization v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "environment_ref", "job_package_ref", "resources"],
+  "properties": {
+    "schema": { "const": "ilxyr.executor_artifact_materialization.v1" },
+    "environment_ref": { "$ref": "#/$defs/artifactRef" },
+    "job_package_ref": { "$ref": "#/$defs/artifactRef" },
+    "resources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["scope", "name", "uri", "relative_path"],
+        "properties": {
+          "scope": { "enum": ["environment", "job"] },
+          "name": { "type": "string", "minLength": 1 },
+          "uri": { "type": "string", "minLength": 1 },
+          "relative_path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*(?:^|/)\\.(?:/|$)).+$"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "artifactRef": { "type": "string", "pattern": "^artifact://sha256/[a-f0-9]{64}$" }
+  }
+}

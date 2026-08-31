@@ -8,11 +8,15 @@ use crate::{
 };
 
 const ENVIRONMENT_SCHEMA: &str = "ilxyr.executor_environment.v1";
+const CONFORMANCE_SUITE_SCHEMA: &str = "ilxyr.executor_conformance_suite.v1";
+const CONFORMANCE_REPORT_SCHEMA: &str = "ilxyr.executor_conformance_report.v1";
+const VERIFIED_CONFORMANCE_SCHEMA: &str = "ilxyr.verified_executor_conformance.v1";
 const JOB_PACKAGE_SCHEMA: &str = "ilxyr.executor_job_package.v1";
 const EXECUTION_REPORT_SCHEMA: &str = "ilxyr.execution_report.v1";
 const VERIFIED_REPORT_SCHEMA: &str = "ilxyr.verified_execution_report.v1";
 const SLSA_PROVENANCE_V1: &str = "https://slsa.dev/provenance/v1";
 const REMOTE_EXECUTION_BUILD_TYPE: &str = "https://ilxyr.dev/buildtypes/remote-execution/v1";
+const CONFORMANCE_BUILD_TYPE: &str = "https://ilxyr.dev/buildtypes/executor-conformance/v1";
 const REPORT_VERIFIER_ID: &str = "service://ilxyr/report-verifier-v1";
 const ARTIFACT_PREFIX: &str = "artifact://sha256/";
 
@@ -78,6 +82,84 @@ pub struct ExecutorEnvironmentManifest {
     pub isolation: IsolationProfile,
     pub capabilities: EnvironmentCapabilities,
     pub conformance_suite: DigestResource,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum ConformanceExecutionClass {
+    Offline,
+    LinuxMicrovm,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct ExecutorConformanceTest {
+    pub name: String,
+    pub execution_class: ConformanceExecutionClass,
+    pub requirement: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct ExecutorConformanceSuite {
+    pub schema: String,
+    pub id: String,
+    pub environment_id: String,
+    pub tests: Vec<ExecutorConformanceTest>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum ConformanceTestStatus {
+    Pass,
+    Fail,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct ExecutorConformanceTestResult {
+    pub name: String,
+    pub status: ConformanceTestStatus,
+    pub evidence_ref: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ExecutorConformanceReport {
+    pub schema: String,
+    pub environment_ref: String,
+    pub suite_ref: String,
+    pub runner: ActorRef,
+    pub started_at_ms: u128,
+    pub completed_at_ms: u128,
+    pub passed: bool,
+    pub tests: Vec<ExecutorConformanceTestResult>,
+    pub attestation: DsseEnvelope,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct VerifiedExecutorConformance {
+    pub schema: String,
+    pub report_ref: String,
+    pub report_body_ref: String,
+    pub environment_ref: String,
+    pub suite_ref: String,
+    pub runner: ActorRef,
+    pub passed: bool,
+    pub verified_key_ids: Vec<String>,
+}
+
+#[derive(Serialize)]
+struct ExecutorConformanceReportBody<'a> {
+    schema: &'a str,
+    environment_ref: &'a str,
+    suite_ref: &'a str,
+    runner: &'a ActorRef,
+    started_at_ms: u128,
+    completed_at_ms: u128,
+    passed: bool,
+    tests: &'a [ExecutorConformanceTestResult],
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -413,6 +495,175 @@ pub fn verify_job_package(
         return validation(format!("expected verifier must be {REPORT_VERIFIER_ID}"));
     }
     object_ref(package)
+}
+
+pub fn verify_conformance_suite(
+    environment: &ExecutorEnvironmentManifest,
+    suite: &ExecutorConformanceSuite,
+) -> Result<String> {
+    verify_environment_manifest(environment)?;
+    if suite.schema != CONFORMANCE_SUITE_SCHEMA {
+        return validation(format!(
+            "unsupported conformance suite schema {}; expected {CONFORMANCE_SUITE_SCHEMA}",
+            suite.schema
+        ));
+    }
+    if !suite.id.starts_with("conformance://") || suite.id.len() == "conformance://".len() {
+        return validation("conformance suite ID must start with conformance://");
+    }
+    if suite.environment_id != environment.id {
+        return Err(Error::Conflict(
+            "conformance suite does not name the supplied environment".to_owned(),
+        ));
+    }
+    if suite.tests.is_empty() {
+        return validation("conformance suite must contain at least one test");
+    }
+    let mut names = BTreeSet::new();
+    for test in &suite.tests {
+        validate_nonempty(&test.name, "conformance test name")?;
+        validate_nonempty(&test.requirement, "conformance test requirement")?;
+        if !names.insert(test.name.as_str()) {
+            return validation(format!("duplicate conformance test name {}", test.name));
+        }
+    }
+    let canonical_bytes = Workspace::canonical_json_bytes(suite)?;
+    let suite_digest = Workspace::digest(suite)?;
+    if environment.conformance_suite.sha256 != suite_digest
+        || environment.conformance_suite.size_bytes != canonical_bytes.len() as u64
+    {
+        return Err(Error::Conflict(
+            "environment conformance suite resource does not bind the canonical suite bytes"
+                .to_owned(),
+        ));
+    }
+    Ok(format!("{ARTIFACT_PREFIX}{suite_digest}"))
+}
+
+pub fn verify_conformance_report(
+    environment: &ExecutorEnvironmentManifest,
+    suite: &ExecutorConformanceSuite,
+    trusted_keys: &[TrustedAttestationKey],
+    report: &ExecutorConformanceReport,
+) -> Result<VerifiedExecutorConformance> {
+    let environment_ref = verify_environment_manifest(environment)?;
+    let suite_ref = verify_conformance_suite(environment, suite)?;
+    if report.schema != CONFORMANCE_REPORT_SCHEMA {
+        return validation(format!(
+            "unsupported conformance report schema {}; expected {CONFORMANCE_REPORT_SCHEMA}",
+            report.schema
+        ));
+    }
+    if report.environment_ref != environment_ref || report.suite_ref != suite_ref {
+        return Err(Error::Conflict(
+            "conformance report does not bind the supplied environment and suite".to_owned(),
+        ));
+    }
+    validate_service_actor(&report.runner, "conformance runner")?;
+    if report.runner == environment.operator {
+        return Err(Error::Security(
+            "the environment operator cannot independently verify its own environment".to_owned(),
+        ));
+    }
+    if report.started_at_ms == 0 || report.completed_at_ms < report.started_at_ms {
+        return validation("conformance report timestamps are invalid");
+    }
+    let expected_names = suite
+        .tests
+        .iter()
+        .map(|test| test.name.as_str())
+        .collect::<BTreeSet<_>>();
+    let mut actual_names = BTreeSet::new();
+    for test in &report.tests {
+        if !actual_names.insert(test.name.as_str()) {
+            return validation(format!("duplicate conformance result name {}", test.name));
+        }
+        validate_artifact_ref(&test.evidence_ref, "conformance evidence reference")?;
+    }
+    if actual_names != expected_names {
+        return Err(Error::Conflict(
+            "conformance report must contain exactly the frozen suite tests".to_owned(),
+        ));
+    }
+    let every_test_passed = report
+        .tests
+        .iter()
+        .all(|test| test.status == ConformanceTestStatus::Pass);
+    if report.passed != every_test_passed {
+        return Err(Error::Conflict(
+            "conformance report passed flag does not match its test results".to_owned(),
+        ));
+    }
+
+    let body = ExecutorConformanceReportBody {
+        schema: &report.schema,
+        environment_ref: &report.environment_ref,
+        suite_ref: &report.suite_ref,
+        runner: &report.runner,
+        started_at_ms: report.started_at_ms,
+        completed_at_ms: report.completed_at_ms,
+        passed: report.passed,
+        tests: &report.tests,
+    };
+    let report_body_ref = object_ref(&body)?;
+    let verified =
+        verify_executor_envelope_candidate(&report_body_ref, &report.attestation, trusted_keys)?;
+    if verified.predicate_type != SLSA_PROVENANCE_V1 {
+        return validation("executor conformance reports require SLSA provenance v1");
+    }
+    if !trusted_keys
+        .iter()
+        .any(|key| verified.verified_key_ids.contains(&key.key_id) && key.executor == report.runner)
+    {
+        return Err(Error::Security(
+            "conformance report has no verified signature from its declared runner".to_owned(),
+        ));
+    }
+    let definition = verified
+        .statement
+        .get("predicate")
+        .and_then(|value| value.get("buildDefinition"))
+        .ok_or_else(|| {
+            Error::Validation(vec![
+                "conformance provenance has no buildDefinition".to_owned(),
+            ])
+        })?;
+    if definition
+        .get("buildType")
+        .and_then(serde_json::Value::as_str)
+        != Some(CONFORMANCE_BUILD_TYPE)
+    {
+        return validation(format!(
+            "conformance provenance buildType must be {CONFORMANCE_BUILD_TYPE}"
+        ));
+    }
+    let parameters = definition.get("externalParameters").ok_or_else(|| {
+        Error::Validation(vec![
+            "conformance provenance has no externalParameters".to_owned(),
+        ])
+    })?;
+    for (field, expected) in [
+        ("ilxyrRunRef", report_body_ref.as_str()),
+        ("ilxyrEnvironmentRef", environment_ref.as_str()),
+        ("ilxyrSuiteRef", suite_ref.as_str()),
+    ] {
+        if parameters.get(field).and_then(serde_json::Value::as_str) != Some(expected) {
+            return Err(Error::Conflict(format!(
+                "conformance provenance {field} does not match the report"
+            )));
+        }
+    }
+
+    Ok(VerifiedExecutorConformance {
+        schema: VERIFIED_CONFORMANCE_SCHEMA.to_owned(),
+        report_ref: object_ref(report)?,
+        report_body_ref,
+        environment_ref,
+        suite_ref,
+        runner: report.runner.clone(),
+        passed: report.passed,
+        verified_key_ids: verified.verified_key_ids,
+    })
 }
 
 pub fn verify_execution_report(
