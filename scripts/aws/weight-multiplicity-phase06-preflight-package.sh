@@ -36,12 +36,15 @@ jq -n \
   --arg manifest_sha256 "$(shasum -a 256 "$manifest" | awk '{print $1}')" \
   --arg lie_source_sha256 "$actual_lie_sha" \
   --arg governance_sha256 "$(jq -r .governance.record_sha256 "$plan")" \
+  --argjson source_date_epoch "$(jq -r .lie.source_date_epoch "$plan")" \
   --argjson representations "$(jq -r .source.authorized_representations "$plan")" \
   --argjson unique_requests "$(jq -r .source.expected_unique_requests "$plan")" \
   '{schema:"ilxyr.weight_multiplicity_phase06_lie_preflight_execution.v1",
     ilxyr_commit:$ilxyr_commit,plan_sha256:$plan_sha256,
     manifest_sha256:$manifest_sha256,lie_source_sha256:$lie_source_sha256,
     governance_sha256:$governance_sha256,
+    source_date_epoch:$source_date_epoch,
+    build_reproducibility_gate:"two_independent_builds_must_match",
     authorized_representations:$representations,
     expected_unique_requests:$unique_requests,
     corpus_generation_authorized:false,model_training_authorized:false,

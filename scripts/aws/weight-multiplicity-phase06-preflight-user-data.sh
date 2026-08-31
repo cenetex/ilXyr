@@ -151,6 +151,9 @@ test "$(jq -r .plan_sha256 execution-record.json)" = "$PLAN_SHA256"
 test "$(jq -r .manifest_sha256 execution-record.json)" = "$MANIFEST_SHA256"
 test "$(jq -r .authorized_representations execution-record.json)" = 572
 test "$(jq -r .expected_unique_requests execution-record.json)" = 4218
+test "$(jq -r .source_date_epoch execution-record.json)" = 1112054400
+test "$(jq -r .build_reproducibility_gate execution-record.json)" = \
+  two_independent_builds_must_match
 test "$(sha256sum examples/weight-multiplicity/phase06-lie-governance-v1.json | awk '{print $1}')" = \
   "$(jq -r .governance_sha256 execution-record.json)"
 test "$(jq -r .corpus_generation_authorized execution-record.json)" = false
@@ -160,22 +163,36 @@ test "$(jq -r .oracle_promotion_authorized execution-record.json)" = false
 PHASE=build
 write_status running 0
 upload_status
-mkdir /opt/ilxyr/lie
-tar -xzf lie-2.2.2.tar.gz -C /opt/ilxyr/lie --strip-components=1
-cd /opt/ilxyr/lie
-make noreadline CFLAGS='-O -D_POSIX_C_SOURCE=200809L'
-LIE_EXECUTABLE=/opt/ilxyr/lie/Lie.exe
-test -x "$LIE_EXECUTABLE"
-expected_executable_sha256=$(jq -r .lie.expected_executable_sha256 \
+SOURCE_DATE_EPOCH=$(jq -r .lie.source_date_epoch \
   /opt/ilxyr/package/examples/weight-multiplicity/phase06-lie-preflight-plan-v1.json)
-actual_executable_sha256=$(sha256sum "$LIE_EXECUTABLE" | awk '{print $1}')
-test "$actual_executable_sha256" = "$expected_executable_sha256"
+export SOURCE_DATE_EPOCH
+build_lie() {
+  build_dir=$1
+  mkdir "$build_dir"
+  tar -xzf /opt/ilxyr/package/lie-2.2.2.tar.gz \
+    -C "$build_dir" --strip-components=1
+  cd "$build_dir"
+  make noreadline CFLAGS='-O -D_POSIX_C_SOURCE=200809L'
+  test -x "$build_dir/Lie.exe"
+}
+build_lie /opt/ilxyr/lie-build-a
+build_lie /opt/ilxyr/lie-build-b
+first_executable_sha256=$(sha256sum /opt/ilxyr/lie-build-a/Lie.exe | awk '{print $1}')
+second_executable_sha256=$(sha256sum /opt/ilxyr/lie-build-b/Lie.exe | awk '{print $1}')
+test "$first_executable_sha256" = "$second_executable_sha256"
+LIE_EXECUTABLE=/opt/ilxyr/lie-build-b/Lie.exe
 jq -n --arg source_sha256 "$(sha256sum /opt/ilxyr/package/lie-2.2.2.tar.gz | awk '{print $1}')" \
-  --arg executable_sha256 "$actual_executable_sha256" \
+  --arg executable_sha256 "$second_executable_sha256" \
+  --arg first_executable_sha256 "$first_executable_sha256" \
+  --arg second_executable_sha256 "$second_executable_sha256" \
+  --argjson source_date_epoch "$SOURCE_DATE_EPOCH" \
   --arg compiler "$(cc --version | head -n 1)" \
   '{schema:"ilxyr.weight_multiplicity_phase06_lie_preflight_build.v1",
     source_sha256:$source_sha256,executable_sha256:$executable_sha256,
-    command:"make noreadline CFLAGS=-O_-D_POSIX_C_SOURCE=200809L",
+    independent_build_executable_sha256s:[$first_executable_sha256,$second_executable_sha256],
+    executable_hashes_match:($first_executable_sha256==$second_executable_sha256),
+    source_date_epoch:$source_date_epoch,
+    command:"SOURCE_DATE_EPOCH=1112054400 make noreadline CFLAGS=-O_-D_POSIX_C_SOURCE=200809L",
     compiler:$compiler,source_modified:false}' > "$OUT/lie-build.json"
 
 ( while true; do sync_outputs || true; sleep 15; done ) &

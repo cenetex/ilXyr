@@ -32,6 +32,11 @@ and contain no corpus-generation or training path.
 
 Current append-only evidence:
 
+- `PHASE06-LIE-BUILD-IDENTITY-ERRATUM-V1.md` and
+  `phase06-preflight-launch-attempt-20260831211713.json` record the
+  build-phase-only first preflight attempt. No query ran. The correction
+  replaces an unreproducible timestamped executable hash with two independent
+  fixed-epoch builds whose hashes must match.
 - `PHASE06-LIE-PREFLIGHT-AUTHORIZATION-V1.md` records the client-approved,
   572-representation retained-surface LiE preflight. It freezes 4,218 unique
   queries with full historical Zero coverage under the existing 30-minute,

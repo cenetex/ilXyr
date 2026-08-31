@@ -43,8 +43,14 @@
     "version": "2.2.2",
     "source_url": "https://mirror.metanet.ch/sage/spkg/upstream/lie/lie-2.2.2.tar.gz",
     "source_sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e",
-    "expected_executable_sha256": "d2478e3cf9abed5cc0105da52fb6580a8c85b66ec74b7cfd3192d3eb6953f391",
     "execution": "unmodified_separate_executable",
+    "source_date_epoch": 1112054400,
+    "source_date_epoch_basis": "2005-03-29T00:00:00Z, the source archive top-directory date",
+    "build_reproducibility_gate": "two_independent_builds_must_have_identical_executable_sha256",
+    "superseded_executable_hash": {
+      "sha256": "d2478e3cf9abed5cc0105da52fb6580a8c85b66ec74b7cfd3192d3eb6953f391",
+      "reason": "LiE date.c embeds __DATE__ and __TIME__; the prior hash identified one timestamped build and cannot be a reproducible build-target gate."
+    },
     "persistent_processes": true,
     "complete_passes": 2,
     "binding_order": "ascending_depth_dominant_first_lexicographic",
@@ -80,7 +86,8 @@
       "4218_of_4218_historical_zero_comparisons_agree",
       "4218_of_4218_replays_agree",
       "all_resource_gates_pass",
-      "pinned_lie_source_and_executable_match",
+      "pinned_lie_source_matches",
+      "two_independent_fixed_epoch_executable_builds_match",
       "accepted_governance_record_matches"
     ],
     "any_failure": "hold",
