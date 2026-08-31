@@ -77,7 +77,8 @@ const normalizeMeasurement = (measurement, plan) => {
   const expectedQueries = measurement.targets.raw;
   const explicitExactnessFailure =
     measurement.exactness.mismatches.length > 0 ||
-    measurement.exactness.replay_byte_identical === false;
+    measurement.exactness.replay_byte_identical === false ||
+    measurement.exactness.replay_projection_identical === false;
   const correctnessObserved =
     measurement.replays.length === plan.frontier.replays &&
     correctnessRuns.every((run) => runComplete(run, expectedQueries));
@@ -171,6 +172,7 @@ const testedCeilings = (measurements) => {
 };
 
 const runBoundary = (run) => ({
+  mode: run.mode,
   order: run.order,
   p95_ms: run.latency_ms.p95,
   maximum_ms: run.latency_ms.maximum,
@@ -182,6 +184,10 @@ const runBoundary = (run) => ({
   hard_timeout_incremental_rss_lower_bound:
     run.memory_bytes.hard_timeout_incremental_rss_lower_bound,
   hard_timeout_rss_sampling: run.memory_bytes.hard_timeout_rss_sampling,
+  maximum_working_set_peak_allocated_bytes:
+    run.memory_bytes.maximum_working_set_peak_allocated,
+  maximum_prepared_graph_capacity_bytes:
+    run.memory_bytes.maximum_prepared_graph_capacity,
 });
 
 const normalizeParallelism = (parallelism, plan) => {
@@ -206,7 +212,7 @@ const normalizeParallelism = (parallelism, plan) => {
   return parallelism;
 };
 
-const summarize = (result, hashes, lie) => {
+const summarize = (result, hashes, lie, plan) => {
   const classifications = {};
   for (const measurement of result.measurements)
     classifications[measurement.classification] =
@@ -218,6 +224,18 @@ const summarize = (result, hashes, lie) => {
   const exactMemoryValues = groupedRuns
     .filter((run) => run.memory_bytes.observation === "exact_process_high_water")
     .map((run) => run.memory_bytes.incremental_from_ready)
+    .filter((value) => value !== null);
+  const completedWorkingSetValues = groupedRuns
+    .flatMap((run) => run.records)
+    .map((record) => record.working_set_peak_allocated_bytes)
+    .filter((value) => value !== null && value !== undefined);
+  const completedPreparedGraphValues = groupedRuns
+    .flatMap((run) => run.records)
+    .map((record) => record.prepared_graph_capacity_bytes)
+    .filter((value) => value !== null && value !== undefined);
+  const hardTimeoutIncrementalMemoryLowerBounds = groupedRuns
+    .filter((run) => run.hard_timeout)
+    .map((run) => run.memory_bytes.hard_timeout_incremental_rss_lower_bound)
     .filter((value) => value !== null);
   const orderSensitive = result.measurements
     .filter((measurement) => measurement.classification === "order_sensitive")
@@ -316,15 +334,35 @@ const summarize = (result, hashes, lie) => {
         0,
       ),
       replay_failures: result.measurements.filter(
-        (measurement) => measurement.exactness.replay_byte_identical === false,
+        (measurement) =>
+          measurement.exactness.replay_byte_identical === false ||
+          measurement.exactness.replay_projection_identical === false,
+      ).length,
+      replay_projection_pass_representations: result.measurements.filter(
+        (measurement) =>
+          measurement.exactness.replay_projection_identical === true,
       ).length,
     },
     resource: {
-      time_limit_ms: 1000,
-      measurement_hard_timeout_ms: 10000,
-      peak_incremental_memory_limit_bytes: 2147483648,
+      time_limit_ms: plan.frontier.query_timeout_ms,
+      p95_limit_ms: plan.frontier.p95_limit_ms,
+      measurement_hard_timeout_ms: plan.frontier.measurement_hard_timeout_ms,
+      peak_incremental_memory_limit_bytes:
+        plan.frontier.peak_incremental_memory_limit_bytes,
       maximum_known_grouped_incremental_memory_bytes:
         exactMemoryValues.length === 0 ? null : Math.max(...exactMemoryValues),
+      maximum_completed_prepared_working_set_peak_allocated_bytes:
+        completedWorkingSetValues.length === 0
+          ? null
+          : Math.max(...completedWorkingSetValues),
+      maximum_completed_prepared_graph_capacity_bytes:
+        completedPreparedGraphValues.length === 0
+          ? null
+          : Math.max(...completedPreparedGraphValues),
+      maximum_hard_timeout_incremental_rss_lower_bound_bytes:
+        hardTimeoutIncrementalMemoryLowerBounds.length === 0
+          ? null
+          : Math.max(...hardTimeoutIncrementalMemoryLowerBounds),
       unknown_memory_is_never_reported_as_pass: true,
       safe_parallel_workers_under_full_time_contract:
         result.parallelism.safe_parallel_workers,
@@ -403,7 +441,7 @@ const main = async () => {
     manifest_sha256: bindings.lie_manifest_sha256,
     result_sha256: bindings.lie_result_sha256,
   };
-  const summary = summarize(result, bindings, lie);
+  const summary = summarize(result, bindings, lie, plan.value);
   await Promise.all([
     writeFile(resolve(root, options.output), stableJson(result)),
     writeFile(resolve(root, options.summaryOut), stableJson(summary)),
