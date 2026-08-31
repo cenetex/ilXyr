@@ -2,7 +2,8 @@
 
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { gunzipSync } from "node:zlib";
+import { createReadStream } from "node:fs";
+import { gunzipSync, createGunzip } from "node:zlib";
 import { readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -11,6 +12,12 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const sha256 = (value) => createHash("sha256").update(value).digest("hex");
 const read = (path) => readFile(resolve(root, path));
 const readJson = async (path) => JSON.parse((await read(path)).toString("utf8"));
+const gunzipSha256 = async (path) => {
+  const hash = createHash("sha256");
+  const stream = createReadStream(resolve(root, path)).pipe(createGunzip());
+  for await (const chunk of stream) hash.update(chunk);
+  return hash.digest("hex");
+};
 
 const coldPlanPath = "examples/weight-multiplicity/phase05-cold-replay-plan-v1.json";
 const coldSummaryPath = "experiments/weight-multiplicity/phase05/cold-replay-v1-summary.json";
@@ -33,6 +40,12 @@ const sessionV4ManifestPath = "examples/weight-multiplicity/phase05-representati
 const sessionV4CompressedPath = "experiments/weight-multiplicity/phase05/session-frontier-v4.json.gz";
 const sessionV4SummaryPath = "experiments/weight-multiplicity/phase05/session-frontier-v4-summary.json";
 const sessionV4DecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V4-HOLD.md";
+const sessionV5PlanPath = "examples/weight-multiplicity/phase05-frontier-plan-v5.json";
+const sessionV5ManifestPath = "examples/weight-multiplicity/phase05-representation-manifest-v5.json";
+const sessionV5CompressedPath = "experiments/weight-multiplicity/phase05/session-frontier-v5.json.gz";
+const sessionV5SummaryPath = "experiments/weight-multiplicity/phase05/session-frontier-v5-summary.json";
+const sessionV5HashesPath = "experiments/weight-multiplicity/phase05/session-frontier-v5.sha256";
+const sessionV5DecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V5-HOLD.md";
 const sessionCorrectnessPlanPath = "examples/weight-multiplicity/phase05-session-correctness-plan-v1.json";
 const sessionCorrectnessResultPath = "experiments/weight-multiplicity/phase05/session-correctness-addendum-v1.json";
 const sessionCorrectnessDecisionPath = "experiments/weight-multiplicity/phase05/SESSION-CORRECTNESS-ADDENDUM-V1-HOLD.md";
@@ -71,6 +84,12 @@ const [
   sessionV4CompressedBytes,
   sessionV4SummaryBytes,
   sessionV4DecisionBytes,
+  sessionV5PlanBytes,
+  sessionV5ManifestBytes,
+  sessionV5CompressedBytes,
+  sessionV5SummaryBytes,
+  sessionV5HashesBytes,
+  sessionV5DecisionBytes,
   sessionCorrectnessPlanBytes,
   sessionCorrectnessResultBytes,
   sessionCorrectnessDecisionBytes,
@@ -107,6 +126,12 @@ const [
   read(sessionV4CompressedPath),
   read(sessionV4SummaryPath),
   read(sessionV4DecisionPath),
+  read(sessionV5PlanPath),
+  read(sessionV5ManifestPath),
+  read(sessionV5CompressedPath),
+  read(sessionV5SummaryPath),
+  read(sessionV5HashesPath),
+  read(sessionV5DecisionPath),
   read(sessionCorrectnessPlanPath),
   read(sessionCorrectnessResultPath),
   read(sessionCorrectnessDecisionPath),
@@ -137,6 +162,10 @@ const sessionV3Decision = sessionV3DecisionBytes.toString("utf8");
 const sessionV4Result = JSON.parse(gunzipSync(sessionV4CompressedBytes).toString("utf8"));
 const sessionV4Summary = JSON.parse(sessionV4SummaryBytes.toString("utf8"));
 const sessionV4Decision = sessionV4DecisionBytes.toString("utf8");
+const sessionV5Plan = JSON.parse(sessionV5PlanBytes.toString("utf8"));
+const sessionV5Summary = JSON.parse(sessionV5SummaryBytes.toString("utf8"));
+const sessionV5Hashes = sessionV5HashesBytes.toString("utf8");
+const sessionV5Decision = sessionV5DecisionBytes.toString("utf8");
 const sessionCorrectnessPlan = JSON.parse(sessionCorrectnessPlanBytes.toString("utf8"));
 const sessionCorrectnessResult = JSON.parse(sessionCorrectnessResultBytes.toString("utf8"));
 const sessionCorrectnessDecision = sessionCorrectnessDecisionBytes.toString("utf8");
@@ -459,6 +488,117 @@ assert.match(sessionV4Decision, /4\.35x fixed-work Amdahl ceiling/);
 assert.match(sessionV4Decision, /requires 80\s+unsigned bits/);
 assert.match(sessionV4Decision, /separate independent predecessor correctness witness/);
 assert.match(sessionV4Decision, /No corpus generation or training is authorized/);
+
+assert.equal(sha256(sessionV5PlanBytes), "f728ae0f21a757d3e0fc7dad60d18b90ab9c76e9f781bceb9ad66bdd02f038dd");
+assert.equal(sha256(sessionV5ManifestBytes), "66567ba15cf3743d0fa38bc96b5ff2709e1abcf46e946fe62f2166255a02d1d8");
+assert.equal(
+  await gunzipSha256(sessionV5CompressedPath),
+  "dad2926e23b9b711ce0d0ff5d8f2c14ba043c6058a8b5445e8390b9e0752e9e6",
+);
+assert.equal(sha256(sessionV5CompressedBytes), "996232dace6728e1b669d3ae83b2750c92e4a61fd685033d9517ab32f3d413d4");
+assert.equal(sha256(sessionV5SummaryBytes), "84e477eda7790440b0e88258ec357eb4ecb17af64bc1f4277f2c56cb85e98b6c");
+assert.equal(
+  sessionV5Hashes,
+  "996232dace6728e1b669d3ae83b2750c92e4a61fd685033d9517ab32f3d413d4  session-frontier-v5.json.gz\n84e477eda7790440b0e88258ec357eb4ecb17af64bc1f4277f2c56cb85e98b6c  session-frontier-v5-summary.json\n",
+);
+assert.equal(sessionV5Plan.schema_version, 4);
+assert.equal(sessionV5Plan.oracle.interface_version, 3);
+assert.equal(sessionV5Plan.oracle.zero_revision, "0714eb0b4f6d1e31497d819c6e8bd4b996c2f702");
+assert.equal(
+  sessionV5Plan.oracle.prepared_dependency_dag_revision,
+  "0eba7457e5edb63ce418adc3e07c0a7cc804d639",
+);
+assert.equal(sessionV5Plan.frontier.session_mode, "prepared");
+assert.equal(sessionV5Plan.frontier.prepared_workers_per_process, 8);
+assert.equal(
+  sessionV5Plan.predecessor.session_frontier_v4_compressed_result_sha256,
+  sha256(sessionV4CompressedBytes),
+);
+assert.equal(sessionV5Summary.decision, "hold");
+assert.equal(
+  sessionV5Summary.bindings.oracle_executable_sha256,
+  "4b4c9d24a7df7d07c9f84210d952a0fcd0a9b20e833e98d4432bb6c6c9150e87",
+);
+assert.equal(
+  sessionV5Summary.capture.measurement_controller_revision,
+  "518ed561dfe2abb15482a5976a653a9fed12ca09",
+);
+assert.equal(
+  sessionV5Summary.capture.finalizer_revision,
+  "f0966230568c454c49b635f31fa25e68bb6373a6",
+);
+assert.deepEqual(sessionV5Summary.coverage.classifications, {
+  pass: 827,
+  time_fail_memory_unknown: 1,
+});
+assert.equal(sessionV5Summary.coverage.representations, 828);
+assert.equal(sessionV5Summary.coverage.grouped_runs, 2484);
+assert.equal(sessionV5Summary.coverage.grouped_runs_with_hard_timeout, 3);
+assert.equal(sessionV5Summary.coverage.exactness_pass_representations, 827);
+assert.equal(sessionV5Summary.coverage.exactness_unknown_representations, 1);
+assert.equal(sessionV5Summary.coverage.exactness_disagreements, 0);
+assert.equal(sessionV5Summary.coverage.replay_failures, 0);
+assert.equal(sessionV5Summary.coverage.replay_projection_pass_representations, 827);
+assert.deepEqual(sessionV5Summary.order_sensitive, []);
+assert.deepEqual(sessionV5Summary.time_failures, []);
+assert.deepEqual(
+  sessionV5Summary.hard_timeouts.map((entry) => entry.id),
+  ["E8:0,0,8,0,0,0,0,0"],
+);
+assert.deepEqual(
+  sessionV5Summary.exactness_unknown.map((entry) => entry.id),
+  ["E8:0,0,8,0,0,0,0,0"],
+);
+assert(
+  sessionV5Summary.hard_timeouts[0].grouped_orders.every(
+    (run) =>
+      run.memory_observation === "unknown_after_hard_timeout" &&
+      run.incremental_memory_bytes === null,
+  ),
+);
+assert.equal(
+  sessionV5Summary.resource.maximum_known_grouped_incremental_memory_bytes,
+  164528128,
+);
+assert.equal(
+  sessionV5Summary.resource.maximum_completed_prepared_working_set_peak_allocated_bytes,
+  1139810304,
+);
+assert.equal(
+  sessionV5Summary.resource.maximum_completed_prepared_graph_capacity_bytes,
+  1024466944,
+);
+assert.equal(
+  sessionV5Summary.resource.maximum_hard_timeout_incremental_rss_lower_bound_bytes,
+  1197834240,
+);
+assert.equal(
+  sessionV5Summary.resource.safe_parallel_workers_under_full_time_contract,
+  8,
+);
+assert.equal(
+  sessionV5Summary.independent_lie_witness.category,
+  "independent_predecessor_correctness_witness_separate_from_current_internal_resource_evidence",
+);
+assert.equal(
+  sessionV5Summary.independent_lie_witness.direct_current_oracle_witness,
+  false,
+);
+assert.deepEqual(sessionV5Summary.phase_1, {
+  authorized: false,
+  corpus_generated: false,
+  models_trained: false,
+});
+assert.match(sessionV5Decision, /827 passes, up from 825/);
+assert.match(sessionV5Decision, /zero measured time failures/);
+assert.match(sessionV5Decision, /zero order-sensitive classifications/);
+assert.match(sessionV5Decision, /eight-worker candidate/);
+assert.match(sessionV5Decision, /memory is therefore unknown, not passed/);
+assert.match(
+  sessionV5Decision,
+  /not\s+as a direct independent witness for the current oracle/,
+);
+assert.match(sessionV5Decision, /No corpus generation or training is authorized/);
 
 assert.equal(
   sha256(sessionCorrectnessPlanBytes),
@@ -804,7 +944,7 @@ console.log(JSON.stringify({
     time_fail_memory_unknown:
       sessionSummary.coverage.classifications.time_fail_memory_unknown,
   },
-  current_session_frontier: {
+  predecessor_session_frontier: {
     decision: sessionV4Summary.decision,
     pass: sessionV4Summary.coverage.classifications.pass,
     time_fail: sessionV4Summary.coverage.classifications.time_fail,
@@ -814,6 +954,20 @@ console.log(JSON.stringify({
       sessionV4Summary.coverage.classifications.time_fail_memory_unknown,
     exactness_unknown:
       sessionV4Summary.coverage.exactness_unknown_representations,
+  },
+  current_session_frontier: {
+    decision: sessionV5Summary.decision,
+    pass: sessionV5Summary.coverage.classifications.pass,
+    time_fail:
+      sessionV5Summary.coverage.classifications.time_fail ?? 0,
+    order_sensitive:
+      sessionV5Summary.coverage.classifications.order_sensitive ?? 0,
+    time_fail_memory_unknown:
+      sessionV5Summary.coverage.classifications.time_fail_memory_unknown,
+    exactness_unknown:
+      sessionV5Summary.coverage.exactness_unknown_representations,
+    safe_parallel_workers:
+      sessionV5Summary.resource.safe_parallel_workers_under_full_time_contract,
   },
   session_correctness_addendum: {
     decision: sessionCorrectnessResult.evidence_status,
