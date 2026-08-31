@@ -385,11 +385,21 @@ const main = async () => {
     lie_manifest_sha256: sha256(lieManifest.bytes),
     lie_result_sha256: sha256(lieResult.bytes),
   };
+  const lieDirectForCurrentOracle =
+    lieResult.value.zero_executable_sha256 === result.oracle_executable_sha256;
   const lie = {
-    category: "independent_correctness_witness_separate_from_internal_resource_evidence",
+    category: lieDirectForCurrentOracle
+      ? "independent_correctness_witness_separate_from_internal_resource_evidence"
+      : "independent_predecessor_correctness_witness_separate_from_current_internal_resource_evidence",
     decision: "pass",
     agreements: lieResult.value.summary.agreements,
     disagreements: lieResult.value.summary.disagreements,
+    direct_current_oracle_witness: lieDirectForCurrentOracle,
+    current_oracle_relationship: lieDirectForCurrentOracle
+      ? "direct_execution_against_current_oracle"
+      : plan.value.cross_check.current_oracle_relationship ??
+        "not_a_direct_witness_for_the_current_oracle",
+    zero_executable_sha256: lieResult.value.zero_executable_sha256,
     manifest_sha256: bindings.lie_manifest_sha256,
     result_sha256: bindings.lie_result_sha256,
   };
