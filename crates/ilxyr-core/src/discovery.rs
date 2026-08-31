@@ -336,12 +336,13 @@ impl ResearchRegistry {
                 let normalized = normalize(&key);
                 if let Some(other) =
                     searchable.insert(normalized.clone(), project.project_id.clone())
-                    && other != project.project_id
                 {
-                    errors.push(format!(
-                        "search key {key} is shared by {other} and {}",
-                        project.project_id
-                    ));
+                    if other != project.project_id {
+                        errors.push(format!(
+                            "search key {key} is shared by {other} and {}",
+                            project.project_id
+                        ));
+                    }
                 }
             }
         }
@@ -644,13 +645,13 @@ fn validate_project(project: &ProjectRecord, errors: &mut Vec<String>) {
                 project.project_id, evaluation.evaluation_id
             ));
         }
-        if let Some(revision) = evaluation.model_revision.as_deref()
-            && !is_sha256_or_git_revision(revision)
-        {
-            errors.push(format!(
-                "project {} evaluation {} has invalid model revision {}",
-                project.project_id, evaluation.evaluation_id, revision
-            ));
+        if let Some(revision) = evaluation.model_revision.as_deref() {
+            if !is_sha256_or_git_revision(revision) {
+                errors.push(format!(
+                    "project {} evaluation {} has invalid model revision {}",
+                    project.project_id, evaluation.evaluation_id, revision
+                ));
+            }
         }
     }
     for artifact in &project.artifacts {
@@ -660,21 +661,21 @@ fn validate_project(project: &ProjectRecord, errors: &mut Vec<String>) {
                 project.project_id, artifact.artifact_id
             ));
         }
-        if let Some(digest) = artifact.digest.as_deref()
-            && !is_lower_sha256(digest)
-        {
-            errors.push(format!(
-                "project {} artifact {} has invalid SHA-256 {}",
-                project.project_id, artifact.artifact_id, digest
-            ));
+        if let Some(digest) = artifact.digest.as_deref() {
+            if !is_lower_sha256(digest) {
+                errors.push(format!(
+                    "project {} artifact {} has invalid SHA-256 {}",
+                    project.project_id, artifact.artifact_id, digest
+                ));
+            }
         }
-        if let Some(revision) = artifact.source_revision.as_deref()
-            && !is_sha256_or_git_revision(revision)
-        {
-            errors.push(format!(
-                "project {} artifact {} has invalid source revision {}",
-                project.project_id, artifact.artifact_id, revision
-            ));
+        if let Some(revision) = artifact.source_revision.as_deref() {
+            if !is_sha256_or_git_revision(revision) {
+                errors.push(format!(
+                    "project {} artifact {} has invalid source revision {}",
+                    project.project_id, artifact.artifact_id, revision
+                ));
+            }
         }
     }
     if project.costs.spent < 0.0
