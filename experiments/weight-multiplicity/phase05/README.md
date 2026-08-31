@@ -11,6 +11,12 @@ it does not change the resource frontier.
 No corpus or model-training artifact belongs here. Corpus generation remains
 unauthorized until the client accepts the completed Phase 0.5 report.
 
+The authorized Phase 0.6 execution is frozen by the Phase 0.6 plan and
+canonical request manifest under `examples/weight-multiplicity/`. It tests
+the exact corrected 256-representation non-pass surface with two persistent
+LiE passes. Its cloud scripts enforce the signed 30-minute and $1.00 ceilings
+and contain no corpus-generation or training path.
+
 Current append-only evidence:
 
 - `PHASE05-CLOUD-CORRECTIVE-CLOSEOUT-V1.md` is the final closeout for the
