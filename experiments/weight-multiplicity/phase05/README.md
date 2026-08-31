@@ -22,5 +22,10 @@ Current append-only evidence:
   summary record the separate bounded-session memo and order-sensitivity
   stage. The raw result is compressed; the summary is the review surface.
 - `SESSION-FRONTIER-V3-HOLD.md`, `session-frontier-v3.json.gz`, and its compact
-  summary repeat that stage against the current Zero PR head. Version 3 is the
-  controlling merge evidence; Version 2 remains an append-only predecessor.
+  summary repeat that stage against Zero PR #150. Version 3 remains an
+  append-only predecessor.
+- `SESSION-FRONTIER-V4-HOLD.md`, `session-frontier-v4.json.gz`, and its compact
+  summary repeat the same frozen roster after direct coefficient-space Weyl
+  folding. Version 4 is the controlling frontier evidence: 825 of 828
+  representations pass, while one time failure, one order-sensitive case, and
+  one time-fail/memory-unknown case keep the decision at Hold.
