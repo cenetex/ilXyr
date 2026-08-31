@@ -52,3 +52,11 @@ Current append-only evidence:
   reference. All 12 unique prepared answers match the sealed complete Version
   4 recursive answer set. This is internal predecessor-differential evidence,
   not an independent LiE witness, and the Version 5 Hold is unchanged.
+- `SESSION-FRONTIER-V6-HOLD.md`, `session-frontier-v6.json.gz`, and its compact
+  summary repeat the frozen roster with Zero's lock-light compact prepared
+  edges. Version 6 is the controlling frontier evidence: 827 of 828
+  representations pass, all 2,484 grouped runs complete, all 828 exactness and
+  replay projections pass, and no memory result is unknown. One E8
+  order-sensitive time boundary keeps the decision at Hold. LiE Version 4
+  remains a separate independent predecessor witness, not a direct witness for
+  the Version 6 binary.
