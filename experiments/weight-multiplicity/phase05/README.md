@@ -19,6 +19,11 @@ and contain no corpus-generation or training path.
 
 Current append-only evidence:
 
+- `PHASE06-PERSISTENT-LIE-BAKEOFF-HOLD.md` and `phase06-cloud-v1/`
+  seal the completed Phase 0.6 bake-off. LiE passes 253 of 256 frozen
+  representations, with one E7 and two E8 time failures. The formal outcome
+  is Hold because license acceptance and a named maintenance owner are still
+  missing. No corpus or training is authorized.
 - `PHASE05-CLOUD-CORRECTIVE-CLOSEOUT-V1.md` is the final closeout for the
   corrective cloud audit. The binding Revision 3 outcome remains Stop and no
   corpus is authorized.
