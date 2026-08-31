@@ -7,9 +7,9 @@ use crate::{
     CompletedExperiment, ContributionStage, Error, Evidence, EvidenceLane, ExperimentSpec,
     ExperimentStatus, ExportPolicy, Forecast, ForecastSettlement, FundingCommitment, GateCheck,
     OutcomePredicate, ResearchContribution, Result, RunRecord, SharedTaskContract, WeightClass,
-    Workspace, autonomy, executor, onboarding, registration, require_registered_huggingface_actor,
-    require_registered_huggingface_weight, require_registered_nsrl_actor,
-    require_registered_nsrl_weight, store::now_ms, validation,
+    Workspace, autonomy, corpus, executor, onboarding, registration,
+    require_registered_huggingface_actor, require_registered_huggingface_weight,
+    require_registered_nsrl_actor, require_registered_nsrl_weight, store::now_ms, validation,
 };
 
 const CONTRIBUTION_SUBMITTED: &str = "ContributionSubmitted";
@@ -99,6 +99,18 @@ pub fn compile_experiment(workspace: &Workspace, spec: ExperimentSpec) -> Result
         validate_shared_task_experiment(&spec, contract)?;
     }
 
+    let mut resolved_datasets = BTreeMap::new();
+    for (dataset, expected_ref) in &spec.dataset_bindings {
+        let registered = corpus::registered_corpus_release(workspace, dataset)?;
+        if registered.artifact_ref != *expected_ref {
+            return Err(Error::Conflict(format!(
+                "dataset {dataset} resolves to {}, expected {expected_ref}",
+                registered.artifact_ref
+            )));
+        }
+        resolved_datasets.insert(dataset.clone(), registered.artifact_ref);
+    }
+
     let source_digest = Workspace::digest(&spec)?;
     let proposer = spec.proposer.clone();
     let experiment_id = spec.id.clone();
@@ -128,12 +140,25 @@ pub fn compile_experiment(workspace: &Workspace, spec: ExperimentSpec) -> Result
                 .push(artifact_ref.clone());
         }
     }
+    for artifact_ref in resolved_datasets.values() {
+        if !evidence_authority
+            .provenance
+            .artifact_hashes
+            .contains(artifact_ref)
+        {
+            evidence_authority
+                .provenance
+                .artifact_hashes
+                .push(artifact_ref.clone());
+        }
+    }
     evidence_authority.provenance.artifact_hashes.sort();
     let compiled = CompiledExperiment {
         schema: "ilxyr.compiled_experiment.v1".to_owned(),
         spec,
         source_digest,
         resolved_lineage,
+        resolved_datasets,
         shared_task_ref,
         evidence_authority,
     };
@@ -278,7 +303,7 @@ pub fn decide_admission(workspace: &Workspace, experiment_id: &str) -> Result<Ad
     Ok(decision)
 }
 
-fn evaluate_admission(
+pub(crate) fn evaluate_admission(
     workspace: &Workspace,
     compiled: &CompiledExperiment,
 ) -> Result<Vec<GateCheck>> {
@@ -346,45 +371,48 @@ fn evaluate_admission(
         ),
         check(
             "executor_available",
-            spec.execution.executor == "local-command",
-            if spec.execution.executor == "local-command" {
-                "local-command adapter is installed".to_owned()
-            } else {
-                format!("{} adapter is not installed", spec.execution.executor)
+            matches!(spec.execution.executor.as_str(), "local-command" | "oci-job"),
+            match spec.execution.executor.as_str() {
+                "local-command" => "local-command adapter is installed".to_owned(),
+                "oci-job" => "provider-neutral OCI job adapter is installed".to_owned(),
+                executor => format!("{executor} adapter is not installed"),
             },
         ),
         check(
             "weight_protection",
             spec.security.weight_class == WeightClass::Public,
             if spec.security.weight_class == WeightClass::Public {
-                "local execution is limited to public-weight handles".to_owned()
+                "this executor contract is limited to public-weight handles".to_owned()
             } else {
                 "protected weights require a future attested executor".to_owned()
             },
         ),
         check(
-            "local_execution_policy",
-            spec.execution.network == crate::NetworkPolicy::Open
-                && std::path::Path::new(&spec.execution.program).is_absolute(),
-            "local execution requires network=open and an absolute executable path".to_owned(),
+            "execution_policy",
+            if spec.execution.executor == "local-command" {
+                spec.execution.network == crate::NetworkPolicy::Open
+                    && std::path::Path::new(&spec.execution.program).is_absolute()
+            } else {
+                spec.execution.executor == "oci-job"
+                    && spec.execution.network == crate::NetworkPolicy::Denied
+                    && spec.execution.program.starts_with("oci://")
+            },
+            "local jobs require an absolute executable with open networking; OCI jobs require a digest-pinned image with denied networking".to_owned(),
         ),
         check(
             "code_policy",
-            spec.security.code_policy == CodePolicy::Arbitrary,
-            if spec.security.code_policy == CodePolicy::Arbitrary {
-                "local-command directly executes the declared program".to_owned()
+            if spec.execution.executor == "local-command" {
+                spec.security.code_policy == CodePolicy::Arbitrary
             } else {
-                "approved-image-only execution requires a future image executor".to_owned()
+                spec.execution.executor == "oci-job"
+                    && spec.security.code_policy == CodePolicy::ApprovedImageOnly
             },
+            "local jobs permit declared programs; OCI jobs require approved_image_only".to_owned(),
         ),
         check(
             "export_policy",
             spec.security.export_policy == ExportPolicy::Artifacts,
-            if spec.security.export_policy == ExportPolicy::Artifacts {
-                "local-command records stdout, stderr, and metric artifacts".to_owned()
-            } else {
-                "local-command cannot enforce restricted output export".to_owned()
-            },
+            "this executor records declared metrics and versioned output artifacts".to_owned(),
         ),
         role_separation_check(workspace, compiled, &forecasts, true)?,
         role_separation_check(workspace, compiled, &forecasts, false)?,
@@ -393,6 +421,12 @@ fn evaluate_admission(
 
 pub fn run_experiment(workspace: &Workspace, experiment_id: &str) -> Result<CompletedExperiment> {
     let compiled = load_compiled(workspace, experiment_id)?;
+    if compiled.spec.execution.executor != "local-command" {
+        return Err(Error::Security(
+            "oci-job experiments must use oci-dispatch-record, oci-complete-record, and oci-settle"
+                .to_owned(),
+        ));
+    }
     if let Some((run_ref, run)) =
         latest_typed_with_ref::<RunRecord>(workspace, EXPERIMENT_COMPLETED, experiment_id)?
     {
@@ -425,7 +459,7 @@ pub fn run_experiment(workspace: &Workspace, experiment_id: &str) -> Result<Comp
     finalize_completed_run(workspace, &compiled, run_ref, run)
 }
 
-fn finalize_completed_run(
+pub(crate) fn finalize_completed_run(
     workspace: &Workspace,
     compiled: &CompiledExperiment,
     run_ref: String,
@@ -607,7 +641,10 @@ pub fn experiment_status(workspace: &Workspace, experiment_id: &str) -> Result<E
     })
 }
 
-fn load_compiled(workspace: &Workspace, experiment_id: &str) -> Result<CompiledExperiment> {
+pub(crate) fn load_compiled(
+    workspace: &Workspace,
+    experiment_id: &str,
+) -> Result<CompiledExperiment> {
     latest_typed(workspace, EXPERIMENT_COMPILED, experiment_id)?
         .ok_or_else(|| Error::NotFound(format!("compiled experiment {experiment_id}")))
 }

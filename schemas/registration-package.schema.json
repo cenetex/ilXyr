@@ -35,6 +35,11 @@
           "type": "object",
           "additionalProperties": { "$ref": "#/$defs/artifact_ref" }
         },
+        "resolved_datasets": {
+          "type": "object",
+          "propertyNames": { "pattern": "^dataset://\\S+$" },
+          "additionalProperties": { "$ref": "#/$defs/artifact_ref" }
+        },
         "shared_task_ref": { "$ref": "#/$defs/artifact_ref" },
         "evidence_authority": {
           "$ref": "https://ilxyr.dev/schemas/evidence.v1.json#/properties/authority"

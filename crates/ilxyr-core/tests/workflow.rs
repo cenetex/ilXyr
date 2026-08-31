@@ -1,12 +1,20 @@
 use std::{fs, path::PathBuf, process, time::SystemTime};
 
+use base64::{Engine as _, engine::general_purpose::STANDARD};
+use ed25519_dalek::{Signer, SigningKey};
 use ilxyr_core::{
-    CodePolicy, ExperimentSpec, ExportPolicy, Forecast, FundingCommitment, HuggingFaceModel,
+    ActorRef, CodePolicy, CompiledExperiment, CorpusFile, CorpusLocation, CorpusMaterialization,
+    CorpusRelease, CorpusRights, CorpusSource, DsseEnvelope, DsseSignature, ExperimentSpec,
+    ExportPolicy, Forecast, FundingCommitment, HuggingFaceModel, MaterializedCorpusFile,
     NetworkPolicy, NsrlArtifact, NsrlCheckpoint, NsrlContinuation, NsrlRegistration,
-    ResearchContribution, WeightClass, Workspace, commit_funding, compile_experiment,
-    decide_admission, experiment_status, register_huggingface_model, register_nsrl_model,
-    run_experiment, submit_contribution, submit_forecast,
+    OciJobCompletion, OciJobDispatch, ResearchContribution, RunOutputArtifact, WeightClass,
+    Workspace, commit_funding, compile_experiment, decide_admission, dsse_pae, experiment_status,
+    record_corpus_materialization, record_executor_attestation, record_oci_job_completion,
+    record_oci_job_dispatch, register_corpus_release, register_huggingface_model,
+    register_nsrl_model, run_experiment, settle_oci_job, submit_contribution, submit_forecast,
+    trust_attestation_key,
 };
+use serde_json::json;
 use sha2::{Digest, Sha256};
 
 /// Process-global uniqueness for temporary test directories. Parallel tests
@@ -108,6 +116,202 @@ fn funded_experiment_runs_and_settles_forecasts() {
         events_before_retry,
         "a completed experiment must not run or settle twice"
     );
+}
+
+#[test]
+fn oci_job_binds_corpus_reconciles_and_requires_attestation() {
+    let directory = TestDirectory::create("oci-job");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    submit_lineage(&workspace);
+
+    let release = CorpusRelease {
+        schema: "ilxyr.corpus_release.v1".to_owned(),
+        id: "dataset://stonks/sec-filings-v1".to_owned(),
+        title: "SEC filing training examples".to_owned(),
+        version: "v1".to_owned(),
+        source: CorpusSource {
+            repository: "https://github.com/ratimics/Stonks".to_owned(),
+            revision: "0123456789abcdef0123456789abcdef01234567".to_owned(),
+            path: "exports/sec-qwen-v1".to_owned(),
+        },
+        rights: CorpusRights {
+            license: "SEC-PUBLIC-DOMAIN".to_owned(),
+            use_constraints: vec!["preserve-source-provenance".to_owned()],
+        },
+        files: vec![CorpusFile {
+            path: "train.jsonl".to_owned(),
+            sha256: "a".repeat(64),
+            size_bytes: 100,
+            media_type: "application/x-jsonlines".to_owned(),
+        }],
+        metadata: std::collections::BTreeMap::new(),
+    };
+    let corpus = register_corpus_release(&workspace, release).expect("corpus must register");
+    let materialization = record_corpus_materialization(
+        &workspace,
+        CorpusMaterialization {
+            schema: "ilxyr.corpus_materialization.v1".to_owned(),
+            id: "materialization://aws/sec-qwen-v1".to_owned(),
+            corpus_ref: corpus.artifact_ref.clone(),
+            location: CorpusLocation::AmazonS3 {
+                region: "us-west-2".to_owned(),
+                uri: "s3://ilxyr-test/sec-qwen-v1".to_owned(),
+            },
+            objects: vec![MaterializedCorpusFile {
+                path: "train.jsonl".to_owned(),
+                uri: "s3://ilxyr-test/sec-qwen-v1/train.jsonl".to_owned(),
+                sha256: "a".repeat(64),
+                size_bytes: 100,
+                provider_version: "version-1".to_owned(),
+            }],
+            verified_by: ActorRef::service("service://ilxyr/corpus-verifier-v1"),
+            verified_at_ms: 1,
+        },
+    )
+    .expect("materialization must record");
+
+    let mut spec = experiment();
+    spec.id = "sec-qwen-v1".to_owned();
+    spec.datasets = vec![corpus.release.id.clone()];
+    spec.dataset_bindings
+        .insert(corpus.release.id.clone(), corpus.artifact_ref.clone());
+    spec.execution.executor = "oci-job".to_owned();
+    spec.execution.program = format!("oci://ghcr.io/ratimics/sec-qwen@sha256:{}", "b".repeat(64));
+    spec.execution.network = NetworkPolicy::Denied;
+    spec.security.code_policy = CodePolicy::ApprovedImageOnly;
+    spec.expected_outputs.push("artifacts.adapter".to_owned());
+    let compiled_ref = compile_experiment(&workspace, spec.clone()).expect("experiment compiles");
+    let compiled: CompiledExperiment = workspace.get(&compiled_ref).expect("compiled object");
+    assert_eq!(
+        compiled.resolved_datasets.get(&corpus.release.id),
+        Some(&corpus.artifact_ref)
+    );
+
+    let mut model_forecast = forecast_model();
+    model_forecast.id = "sec-qwen.forecast.model".to_owned();
+    model_forecast.experiment_id.clone_from(&spec.id);
+    let mut human_forecast = forecast_human();
+    human_forecast.id = "sec-qwen.forecast.human".to_owned();
+    human_forecast.experiment_id.clone_from(&spec.id);
+    let mut first_funding = funding_a();
+    first_funding.id = "sec-qwen.funding.a".to_owned();
+    first_funding.experiment_id.clone_from(&spec.id);
+    let mut second_funding = funding_b();
+    second_funding.id = "sec-qwen.funding.b".to_owned();
+    second_funding.experiment_id.clone_from(&spec.id);
+    submit_forecast(&workspace, model_forecast).expect("forecast must submit");
+    submit_forecast(&workspace, human_forecast).expect("forecast must submit");
+    commit_funding(&workspace, first_funding).expect("funding must commit");
+    commit_funding(&workspace, second_funding).expect("funding must commit");
+    assert!(
+        decide_admission(&workspace, &spec.id)
+            .expect("admission")
+            .accepted
+    );
+
+    let executor = ActorRef::service("service://ilxyr/aws-sagemaker-v1");
+    let dispatch = OciJobDispatch {
+        schema: "ilxyr.oci_job_dispatch.v1".to_owned(),
+        id: "dispatch:sec-qwen-v1".to_owned(),
+        experiment_id: spec.id.clone(),
+        compiled_ref,
+        executor: executor.clone(),
+        provider_job_ref: "sagemaker://us-west-2/training-jobs/sec-qwen-v1".to_owned(),
+        idempotency_key: "sec-qwen-v1".to_owned(),
+        materializations: std::collections::BTreeMap::from([(
+            corpus.release.id,
+            materialization.artifact_ref,
+        )]),
+        dispatched_at_ms: 2,
+    };
+    let mut incomplete_dispatch = dispatch.clone();
+    incomplete_dispatch.materializations.clear();
+    assert!(
+        record_oci_job_dispatch(&workspace, incomplete_dispatch)
+            .expect_err("all frozen datasets must be materialized")
+            .to_string()
+            .contains("match every frozen dataset")
+    );
+    let dispatch_ref = record_oci_job_dispatch(&workspace, dispatch.clone()).expect("dispatch");
+    assert_eq!(
+        record_oci_job_dispatch(&workspace, dispatch).expect("dispatch retry"),
+        dispatch_ref
+    );
+    let completion = OciJobCompletion {
+        schema: "ilxyr.oci_job_completion.v1".to_owned(),
+        id: "run:sec-qwen-v1".to_owned(),
+        dispatch_ref,
+        executor: executor.clone(),
+        exit_code: 0,
+        timed_out: false,
+        metrics: std::collections::BTreeMap::from([("score".to_owned(), 0.82)]),
+        artifacts: vec![RunOutputArtifact {
+            name: "adapter".to_owned(),
+            uri: "s3://ilxyr-test/sec-qwen-v1/adapter.tar".to_owned(),
+            sha256: "c".repeat(64),
+            size_bytes: 1_024,
+            media_type: "application/x-tar".to_owned(),
+            provider_version: "version-2".to_owned(),
+        }],
+        completed_at_ms: 3,
+    };
+    let mut undeclared_completion = completion.clone();
+    undeclared_completion.artifacts[0].name = "undeclared".to_owned();
+    assert!(
+        record_oci_job_completion(&workspace, undeclared_completion)
+            .expect_err("undeclared artifact must fail")
+            .to_string()
+            .contains("frozen successful-run contract")
+    );
+    let run_ref = record_oci_job_completion(&workspace, completion.clone()).expect("completion");
+    assert_eq!(
+        record_oci_job_completion(&workspace, completion).expect("completion retry"),
+        run_ref
+    );
+    assert!(
+        settle_oci_job(&workspace, &spec.id)
+            .expect_err("unsigned result must not settle")
+            .to_string()
+            .contains("no trusted attestation")
+    );
+
+    let signing_key = SigningKey::from_bytes(&[42_u8; 32]);
+    trust_attestation_key(
+        &workspace,
+        "key://ilxyr/aws-sagemaker-v1",
+        executor.clone(),
+        STANDARD.encode(signing_key.verifying_key().as_bytes()),
+    )
+    .expect("key must be trusted");
+    let statement = json!({
+        "_type": "https://in-toto.io/Statement/v1",
+        "subject": [{
+            "name": "ilxyr run record",
+            "digest": {"sha256": run_ref.strip_prefix("artifact://sha256/").expect("digest")}
+        }],
+        "predicateType": "https://ilxyr.dev/attestations/executor/v1",
+        "predicate": {"runRef": run_ref, "executor": executor.id}
+    });
+    let payload = serde_json::to_vec(&statement).expect("statement serializes");
+    let payload_type = "application/vnd.in-toto+json";
+    let signature = signing_key.sign(&dsse_pae(payload_type, &payload));
+    record_executor_attestation(
+        &workspace,
+        statement["predicate"]["runRef"].as_str().expect("run ref"),
+        DsseEnvelope {
+            payload_type: payload_type.to_owned(),
+            payload: STANDARD.encode(payload),
+            signatures: vec![DsseSignature {
+                keyid: Some("key://ilxyr/aws-sagemaker-v1".to_owned()),
+                sig: STANDARD.encode(signature.to_bytes()),
+            }],
+        },
+    )
+    .expect("attestation must record");
+    let settled = settle_oci_job(&workspace, &spec.id).expect("attested run settles");
+    assert_eq!(settled.evidence.resolved_outcome, "success");
+    assert_eq!(settled.run.artifacts[0].name, "adapter");
+    assert!(workspace.verify().expect("ledger verifies").valid);
 }
 
 #[test]

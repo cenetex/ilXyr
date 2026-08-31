@@ -4,18 +4,20 @@ use ilxyr_core::{
     ActorKind, ActorRef, Certificate, ClaimNode, DsseEnvelope, EpochBudget, EvidenceGraphEdge,
     ExperimentProposal, ExperimentSpec, ExternalRegistrationReceipt, Forecast, FundingCommitment,
     HuggingFaceModel, InteropFormat, LoopCycle, MechanismTournament, NsrlGateEvidence,
-    NsrlRegistration, ProposalReview, ReplicationContract, ResearchContribution, ResearchRegistry,
-    Result, RetroRegistrationSpec, SandboxSpec, SharedTaskContract, Workspace, allocate_epoch,
-    allocate_replication, authorize_unattended_run, calibration_for, claim_status, claim_support,
-    commit_funding, compile_experiment, compile_proposal, decide_admission,
-    epoch_budget_signing_payload, execute_loop_cycle, experiment_status, export_evidence,
-    freeze_proposal, load_paper_contract, package_proposal, prepare_registration, program_status,
-    proposal_status, record_certificate, record_evidence_edge, record_executor_attestation,
-    record_external_registration, register_claim, register_epoch_budget,
+    NsrlRegistration, OciJobCompletion, OciJobDispatch, ProposalReview, ReplicationContract,
+    ResearchContribution, ResearchRegistry, Result, RetroRegistrationSpec, SandboxSpec,
+    SharedTaskContract, Workspace, allocate_epoch, allocate_replication, authorize_unattended_run,
+    calibration_for, claim_status, claim_support, commit_funding, compile_experiment,
+    compile_proposal, decide_admission, epoch_budget_signing_payload, execute_loop_cycle,
+    experiment_status, export_evidence, freeze_proposal, load_paper_contract, package_proposal,
+    prepare_registration, program_status, proposal_status, record_certificate,
+    record_evidence_edge, record_executor_attestation, record_external_registration,
+    record_oci_job_completion, record_oci_job_dispatch, register_claim, register_epoch_budget,
     register_mechanism_tournament, register_nsrl_model, register_replication_contract,
     register_shared_task, retro_register, review_proposal, run_experiment,
-    run_experiment_unattended, run_sandbox, settle_mechanism_tournament, settle_replication,
-    submit_contribution, submit_forecast, submit_proposal, trust_attestation_key, trust_policy_key,
+    run_experiment_unattended, run_sandbox, settle_mechanism_tournament, settle_oci_job,
+    settle_replication, submit_contribution, submit_forecast, submit_proposal,
+    trust_attestation_key, trust_policy_key,
 };
 use serde::{Serialize, de::DeserializeOwned};
 use serde_json::json;
@@ -454,6 +456,33 @@ fn run() -> Result<()> {
             let workspace = Workspace::open(&args[1])?;
             print_json(&run_experiment(&workspace, &args[2])?)?;
         }
+        "oci-dispatch-record" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr oci-dispatch-record <workspace> <dispatch.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let dispatch = read_json::<OciJobDispatch>(&args[2])?;
+            let artifact_ref = record_oci_job_dispatch(&workspace, dispatch)?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "oci-complete-record" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr oci-complete-record <workspace> <completion.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let completion = read_json::<OciJobCompletion>(&args[2])?;
+            let run_ref = record_oci_job_completion(&workspace, completion)?;
+            print_json(&json!({ "run_ref": run_ref }))?;
+        }
+        "oci-settle" => {
+            require_len(&args, 3, "ilxyr oci-settle <workspace> <experiment-id>")?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&settle_oci_job(&workspace, &args[2])?)?;
+        }
         "authorize" => {
             require_len(
                 &args,
@@ -763,6 +792,9 @@ fn usage() {
            ilxyr allocate <workspace> <budget-id> <experiment-id>...\n\
            ilxyr admit <workspace> <experiment-id>\n\
            ilxyr run <workspace> <experiment-id> --execute\n\
+           ilxyr oci-dispatch-record <workspace> <dispatch.json>\n\
+           ilxyr oci-complete-record <workspace> <completion.json>\n\
+           ilxyr oci-settle <workspace> <experiment-id>\n\
            ilxyr authorize <workspace> <budget-id> <experiment-id>\n\
            ilxyr run-auto <workspace> <budget-id> <experiment-id>\n\
            ilxyr loop-cycle <workspace> <budget-id> <cycle.json>\n\
