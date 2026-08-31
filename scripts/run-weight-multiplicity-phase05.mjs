@@ -979,7 +979,27 @@ const compareRuns = (left, right) => {
 };
 
 const replayIdentity = (record, projection) =>
-  projection ? JSON.stringify(record.replay_projection) : record.response;
+  projection
+    ? JSON.stringify(record.replay_projection)
+    : record.response_sha256 ?? record.response;
+
+const compactMeasurementRecords = (measurement) => {
+  for (const run of [
+    measurement.cold,
+    measurement.binding,
+    ...measurement.sensitivities,
+    ...measurement.replays,
+  ]) {
+    for (const record of run.records) {
+      if (record.response !== undefined) {
+        record.response_sha256 = sha256(record.response);
+        delete record.response;
+      }
+      delete record.replay_projection;
+    }
+  }
+  return measurement;
+};
 
 const runPassesTime = (run, plan) =>
   !run.hard_timeout &&
@@ -1385,6 +1405,22 @@ const selfTest = () => {
     JSON.stringify(
       rayReplayProjection({ multiplicity: "1", ray_transitions: 8 }),
     );
+  const compactedMeasurement = {
+    cold: completeRun(["cold-response"]),
+    binding: completeRun(["binding-response"]),
+    sensitivities: [],
+    replays: [],
+  };
+  compactedMeasurement.binding.records[0].replay_projection = {
+    multiplicity: "1",
+  };
+  compactMeasurementRecords(compactedMeasurement);
+  const compactCapturePasses =
+    compactedMeasurement.binding.records[0].response === undefined &&
+    compactedMeasurement.binding.records[0].replay_projection === undefined &&
+    /^[0-9a-f]{64}$/u.test(
+      compactedMeasurement.binding.records[0].response_sha256,
+    );
   if (
     incompleteExactness.status !== "unknown_after_hard_timeout_or_oracle_error" ||
     incompleteExactness.replay_byte_identical !== null ||
@@ -1396,10 +1432,11 @@ const selfTest = () => {
     !capacityOnlyDifferenceIgnored ||
     !structuralDifferenceDetected ||
     !rayCapacityOnlyDifferenceIgnored ||
-    !rayStructuralDifferenceDetected
+    !rayStructuralDifferenceDetected ||
+    !compactCapturePasses
   )
     throw new Error("exactness-observation self-test failed");
-  console.log(JSON.stringify({ status: "pass", exact_weyl_dimension: true, target_order: true, hard_timeout_memory_unknown: true, incomplete_replay_exactness_unknown: true, prepared_projection_replay: true, prepared_capacity_is_resource_only: true, prepared_structural_counter_differential: true, ray_capacity_is_resource_only: true, ray_structural_counter_differential: true }));
+  console.log(JSON.stringify({ status: "pass", exact_weyl_dimension: true, target_order: true, hard_timeout_memory_unknown: true, incomplete_replay_exactness_unknown: true, prepared_projection_replay: true, prepared_capacity_is_resource_only: true, prepared_structural_counter_differential: true, ray_capacity_is_resource_only: true, ray_structural_counter_differential: true, compact_capture_response_hashes: true }));
 };
 
 const main = async () => {
@@ -1448,6 +1485,12 @@ const main = async () => {
     result = JSON.parse(await readFile(outPath, "utf8"));
     if (result.plan_sha256 !== manifest.plan_sha256 || result.manifest_sha256 !== sha256(manifestRecord.bytes))
       throw new Error("resume result does not bind the current plan and manifest");
+    result.measurements = result.measurements.map(compactMeasurementRecords);
+    result.checkpoint_writer_revision = execFileSync(
+      "git",
+      ["rev-parse", "HEAD"],
+      { cwd: root, encoding: "utf8" },
+    ).trim();
   } else {
     result = {
       schema_version: 1,
@@ -1496,14 +1539,14 @@ const main = async () => {
       descriptions.set(representation.type, describeType(oraclePath, representation.type));
   for (const representation of representations) {
     if (completed.has(representation.id)) continue;
-    const measurement = await measureRepresentation({
+    const measurement = compactMeasurementRecords(await measureRepresentation({
       oracle: oraclePath,
       representation,
       description: descriptions.get(representation.type),
       plan,
       replayCount: options.smoke ? 1 : plan.frontier.replays,
       targetLimit: options.smoke ? 8 : null,
-    });
+    }));
     result.measurements.push(measurement);
     result.summary = summarize(result.measurements);
     await writeFile(outPath, stableJson(result));
