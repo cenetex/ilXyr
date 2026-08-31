@@ -126,7 +126,7 @@ trap finish EXIT
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -qq
-apt-get install -y -qq build-essential ca-certificates curl jq nodejs unzip
+apt-get install -y -qq bison build-essential ca-certificates curl jq nodejs unzip
 if ! command -v aws >/dev/null 2>&1; then
   AWS_CLI_VERSION=2.34.7
   AWS_CLI_SHA256=d6b6e2291456704a441e970bbdb69466629510dd0b578e8812f7856ac64abba1

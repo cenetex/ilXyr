@@ -48,5 +48,5 @@ jq -n \
     xargs -0 shasum -a 256 > PACKAGE-SHA256SUMS
 )
 mkdir -p "$(dirname "$output")"
-tar -czf "$output" -C "$package_dir" .
+COPYFILE_DISABLE=1 tar -czf "$output" -C "$package_dir" .
 shasum -a 256 "$output"
