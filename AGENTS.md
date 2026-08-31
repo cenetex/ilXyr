@@ -3,8 +3,11 @@
 ## Governance
 
 Every change must use a branch and pull request. The repository-specific flow
-below replaces parent-workspace references to a separate merge-triage identity
-and hold period; neither exists in this solo-maintainer repository.
+below is the enforceable path for maintainer-authored pull requests. An
+external `cenetex` webhook also watches this repository, but its merge triage
+only discovers pull requests authored by configured coding-agent accounts and
+only trusts approvals from those accounts. It does not merge pull requests
+authored by `atimics` and approved by `github-actions`.
 
 - For ordinary paths, `github-actions` approves the exact pull-request head
   after the required path-policy check passes.
@@ -16,6 +19,10 @@ and hold period; neither exists in this solo-maintainer repository.
 - A new push invalidates the authorization. Use the new head SHA.
 - Merge only after the required review and the `rust`, `msrv`, `schemas`, and
   `gatekeep` checks pass. The author may merge the ready pull request.
+- The external webhook may post a 60-minute auto-merge notice when
+  `review:approved` is applied. For a maintainer-authored pull request, that
+  notice is advisory: it is not a branch-protection rule and the external
+  merge job does not discover the pull request.
 - Never change branch protection to merge an ordinary pull request. Emergency
   changes require explicit owner authorization and an append-only record under
   `docs/governance/`.

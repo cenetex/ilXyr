@@ -52,3 +52,22 @@ were fully installed.
 This is an owner-authorized operational record, not independent evidence. The
 follow-up pull request containing this file is the end-to-end test of the new
 protected-path approval procedure.
+
+## Follow-up verification
+
+- PR 96 carried this record at head
+  `8e328eb6f35d9de000ff066823ff56cc4ef9be80`.
+- The protected-path workflow withheld approval and requested
+  `/approve-protected 8e328eb6f35d9de000ff066823ff56cc4ef9be80`.
+- After `atimics` issued that exact command, `github-actions` approved the same
+  head and changed the label from `review:human-required` to
+  `review:approved`.
+- All required checks passed and PR 96 merged normally, without another
+  protection override, as `f5a7e818ab4d4ca0ad35f9f6bb53d1fea11ac004`
+  at `2026-08-31T22:01:23Z`.
+
+The `review:approved` label also caused an external `cenetex` webhook to post a
+60-minute auto-merge notice. Later inspection showed that its merge job does
+not discover maintainer-authored pull requests, so the notice was advisory.
+The repository governance document records that service separately from the
+branch-protection evidence.

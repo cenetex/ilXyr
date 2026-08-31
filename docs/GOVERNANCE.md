@@ -1,8 +1,9 @@
 # Governance
 
 This document records the governance that is actually enforced for this
-repository as of 2026-08-31. It does not claim an independent reviewer, a
-merge-triage service, or a hold period that does not exist.
+repository as of 2026-08-31. It separates the repository's branch-protection
+gate from an external merge-triage service whose notices are not enforcement
+for maintainer-authored pull requests.
 
 ## Enforced mechanics
 
@@ -62,10 +63,24 @@ maintainer supplies independent review.
 
 ## Merge behavior
 
-There is no separate merge-triage identity and no time-based hold. The author
-may merge after the required approval and checks pass. Branch protection is
-configured to require the branch to be current with `main`, so overlap is
+An external `cenetex` AWS service is installed as a repository webhook. When
+the `review:approved` label is applied, its webhook posts a 60-minute
+auto-merge notice. A scheduled merge-triage job runs every 15 minutes and
+includes `cenetex/ilXyr` in its monitored-repository list.
+
+That notice is not an enforced hold for the pull requests produced by this
+repository workflow. The external merge job discovers only pull requests
+authored by its configured coding-agent accounts, and it trusts approvals only
+from those accounts. Pull requests authored by `atimics` and approved by
+`github-actions` therefore never enter its merge queue. The author may merge
+such a pull request as soon as the required review and checks pass. Branch
+protection requires the branch to be current with `main`, so overlap is
 resolved and CI reruns before merge.
+
+The external service and the repository workflow are separate evidentiary
+categories. The webhook's schedule comment is evidence that it received a
+label event, not evidence that it independently reviewed the change or that it
+can merge that pull request.
 
 CI runs on pull requests and on pushes to `main`. It does not run a duplicate
 push suite for every feature-branch commit.
