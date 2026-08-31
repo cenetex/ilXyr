@@ -47,3 +47,8 @@ Current append-only evidence:
   time contract. One E8 time-fail/memory-unknown case keeps the decision at
   Hold. LiE Version 4 is kept in the separate predecessor-witness category; it
   is not a direct independent witness for the Version 5 binary.
+- `SESSION-FRONTIER-V5-CORRECTNESS-ADDENDUM-V1.md` and its JSON record clarify
+  that one newly passing E8 representation had only a partial same-run fresh
+  reference. All 12 unique prepared answers match the sealed complete Version
+  4 recursive answer set. This is internal predecessor-differential evidence,
+  not an independent LiE witness, and the Version 5 Hold is unchanged.

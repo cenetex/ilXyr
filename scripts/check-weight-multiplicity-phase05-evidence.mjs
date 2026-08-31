@@ -46,6 +46,9 @@ const sessionV5CompressedPath = "experiments/weight-multiplicity/phase05/session
 const sessionV5SummaryPath = "experiments/weight-multiplicity/phase05/session-frontier-v5-summary.json";
 const sessionV5HashesPath = "experiments/weight-multiplicity/phase05/session-frontier-v5.sha256";
 const sessionV5DecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V5-HOLD.md";
+const sessionV5CorrectnessResultPath = "experiments/weight-multiplicity/phase05/session-frontier-v5-correctness-addendum-v1.json";
+const sessionV5CorrectnessHashesPath = "experiments/weight-multiplicity/phase05/session-frontier-v5-correctness-addendum-v1.sha256";
+const sessionV5CorrectnessDecisionPath = "experiments/weight-multiplicity/phase05/SESSION-FRONTIER-V5-CORRECTNESS-ADDENDUM-V1.md";
 const sessionCorrectnessPlanPath = "examples/weight-multiplicity/phase05-session-correctness-plan-v1.json";
 const sessionCorrectnessResultPath = "experiments/weight-multiplicity/phase05/session-correctness-addendum-v1.json";
 const sessionCorrectnessDecisionPath = "experiments/weight-multiplicity/phase05/SESSION-CORRECTNESS-ADDENDUM-V1-HOLD.md";
@@ -90,6 +93,9 @@ const [
   sessionV5SummaryBytes,
   sessionV5HashesBytes,
   sessionV5DecisionBytes,
+  sessionV5CorrectnessResultBytes,
+  sessionV5CorrectnessHashesBytes,
+  sessionV5CorrectnessDecisionBytes,
   sessionCorrectnessPlanBytes,
   sessionCorrectnessResultBytes,
   sessionCorrectnessDecisionBytes,
@@ -132,6 +138,9 @@ const [
   read(sessionV5SummaryPath),
   read(sessionV5HashesPath),
   read(sessionV5DecisionPath),
+  read(sessionV5CorrectnessResultPath),
+  read(sessionV5CorrectnessHashesPath),
+  read(sessionV5CorrectnessDecisionPath),
   read(sessionCorrectnessPlanPath),
   read(sessionCorrectnessResultPath),
   read(sessionCorrectnessDecisionPath),
@@ -166,6 +175,13 @@ const sessionV5Plan = JSON.parse(sessionV5PlanBytes.toString("utf8"));
 const sessionV5Summary = JSON.parse(sessionV5SummaryBytes.toString("utf8"));
 const sessionV5Hashes = sessionV5HashesBytes.toString("utf8");
 const sessionV5Decision = sessionV5DecisionBytes.toString("utf8");
+const sessionV5CorrectnessResult = JSON.parse(
+  sessionV5CorrectnessResultBytes.toString("utf8"),
+);
+const sessionV5CorrectnessHashes =
+  sessionV5CorrectnessHashesBytes.toString("utf8");
+const sessionV5CorrectnessDecision =
+  sessionV5CorrectnessDecisionBytes.toString("utf8");
 const sessionCorrectnessPlan = JSON.parse(sessionCorrectnessPlanBytes.toString("utf8"));
 const sessionCorrectnessResult = JSON.parse(sessionCorrectnessResultBytes.toString("utf8"));
 const sessionCorrectnessDecision = sessionCorrectnessDecisionBytes.toString("utf8");
@@ -601,6 +617,103 @@ assert.match(
 assert.match(sessionV5Decision, /No corpus generation or training is authorized/);
 
 assert.equal(
+  sha256(sessionV5CorrectnessResultBytes),
+  "4ad0ef7ec7787798e89fcb285b9b9a0bf244a156f8151f3509e4cfbe81d598c9",
+);
+assert.equal(
+  sha256(sessionV5CorrectnessDecisionBytes),
+  "0c5c26f4fff66b9e2d749a8194de9deb1136a81dccc4c78a530567c440dcf3a2",
+);
+assert.equal(
+  sessionV5CorrectnessHashes,
+  "4ad0ef7ec7787798e89fcb285b9b9a0bf244a156f8151f3509e4cfbe81d598c9  session-frontier-v5-correctness-addendum-v1.json\n0c5c26f4fff66b9e2d749a8194de9deb1136a81dccc4c78a530567c440dcf3a2  SESSION-FRONTIER-V5-CORRECTNESS-ADDENDUM-V1.md\n",
+);
+assert.equal(
+  sha256(sessionV5DecisionBytes),
+  "9570eec4dcf3494ae46e3eba4cfd08e60b242af147cf00af85dac04a3b0f399b",
+);
+assert.equal(
+  sessionV5CorrectnessResult.bindings.session_frontier_v4_compressed_sha256,
+  sha256(sessionV4CompressedBytes),
+);
+assert.equal(
+  sessionV5CorrectnessResult.bindings.session_frontier_v5_compressed_sha256,
+  sha256(sessionV5CompressedBytes),
+);
+assert.equal(
+  sessionV5CorrectnessResult.bindings.session_frontier_v5_summary_sha256,
+  sha256(sessionV5SummaryBytes),
+);
+assert.equal(
+  sessionV5CorrectnessResult.observation.representation_id,
+  "E8:0,0,2,1,2,0,0,3",
+);
+assert.equal(sessionV5CorrectnessResult.observation.raw_targets, 32);
+assert.equal(sessionV5CorrectnessResult.observation.unique_requests, 12);
+assert.equal(
+  sessionV5CorrectnessResult.observation.version_5_same_run_fresh_reference
+    .completed_queries,
+  5,
+);
+assert.equal(
+  sessionV5CorrectnessResult.observation.version_5_same_run_fresh_reference
+    .complete,
+  false,
+);
+assert.equal(
+  sessionV5CorrectnessResult.observation.sealed_predecessor_comparison
+    .agreements,
+  12,
+);
+assert.equal(
+  sessionV5CorrectnessResult.observation.sealed_predecessor_comparison
+    .disagreements,
+  0,
+);
+const sessionV5CorrectnessAnswers =
+  sessionV5CorrectnessResult.observation.sealed_predecessor_comparison
+    .answer_map;
+assert.equal(sessionV5CorrectnessAnswers.length, 12);
+assert.equal(
+  new Set(sessionV5CorrectnessAnswers.map((entry) => entry.request)).size,
+  12,
+);
+assert.deepEqual(
+  sessionV5CorrectnessAnswers.map((entry) => entry.request),
+  [...sessionV5CorrectnessAnswers]
+    .map((entry) => entry.request)
+    .sort((left, right) => left.localeCompare(right)),
+);
+const sessionV5CorrectnessProjectionSha = sha256(
+  Buffer.from(`${JSON.stringify(sessionV5CorrectnessAnswers)}\n`),
+);
+assert.equal(
+  sessionV5CorrectnessProjectionSha,
+  "2bd8df410586f0a4f58e2e95ac667fba4da71b5afc9d1fa671aa68cb3c7d2f22",
+);
+assert.equal(
+  sessionV5CorrectnessResult.observation.sealed_predecessor_comparison
+    .version_4_projection_sha256,
+  sessionV5CorrectnessProjectionSha,
+);
+assert.equal(
+  sessionV5CorrectnessResult.observation.sealed_predecessor_comparison
+    .version_5_projection_sha256,
+  sessionV5CorrectnessProjectionSha,
+);
+assert.equal(
+  sessionV5CorrectnessResult.interpretation.classification_change,
+  "none",
+);
+assert.equal(sessionV5CorrectnessResult.interpretation.independent, false);
+assert.equal(sessionV5CorrectnessResult.phase_1_authorized, false);
+assert.match(sessionV5CorrectnessDecision, /completed only 5 entries/);
+assert.match(sessionV5CorrectnessDecision, /12 agreements and zero disagreements/);
+assert.match(sessionV5CorrectnessDecision, /It is not an independent audit/);
+assert.match(sessionV5CorrectnessDecision, /not a\s+direct independent witness/);
+assert.match(sessionV5CorrectnessDecision, /No corpus generation or training is\s+authorized/);
+
+assert.equal(
   sha256(sessionCorrectnessPlanBytes),
   "804ceb2977508d6553e83fa3b525cbad69dfac50ccd50a156537805036d833fd",
 );
@@ -968,6 +1081,20 @@ console.log(JSON.stringify({
       sessionV5Summary.coverage.exactness_unknown_representations,
     safe_parallel_workers:
       sessionV5Summary.resource.safe_parallel_workers_under_full_time_contract,
+  },
+  current_session_frontier_correctness_addendum: {
+    representation:
+      sessionV5CorrectnessResult.observation.representation_id,
+    fresh_reference_completed:
+      sessionV5CorrectnessResult.observation.version_5_same_run_fresh_reference
+        .completed_queries,
+    unique_predecessor_agreements:
+      sessionV5CorrectnessResult.observation.sealed_predecessor_comparison
+        .agreements,
+    disagreements:
+      sessionV5CorrectnessResult.observation.sealed_predecessor_comparison
+        .disagreements,
+    independent: sessionV5CorrectnessResult.interpretation.independent,
   },
   session_correctness_addendum: {
     decision: sessionCorrectnessResult.evidence_status,
