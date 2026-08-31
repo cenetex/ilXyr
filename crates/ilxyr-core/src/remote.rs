@@ -295,7 +295,11 @@ pub fn verify_job_package(
             return validation(format!("duplicate job resource name {}", resource.name));
         }
     }
-    if package.arguments.iter().any(|argument| argument.contains('\0')) {
+    if package
+        .arguments
+        .iter()
+        .any(|argument| argument.contains('\0'))
+    {
         return validation("job package arguments must not contain a NUL byte");
     }
     validate_resource(&package.budget.price_evidence)?;
