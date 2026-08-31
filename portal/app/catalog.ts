@@ -1,5 +1,6 @@
 export const repository = "https://github.com/cenetex/ilXyr";
 export const guide = "https://cenetex.github.io/ilXyr";
+export const remoteProtocolCommit = "63bea773ed20480d9ca9588bf03ff3f4ad340cb8";
 
 export const publicRoutes = [
   { method: "GET", path: "/.well-known/ilxyr.json", description: "discover the public protocol and reporting status" },
@@ -121,7 +122,7 @@ export const protocolDocuments = [
   {
     id: "remote-reporting-decision",
     title: "remote reporting and well-known executors",
-    url: `${repository}/blob/main/docs/decisions/0007-remote-reporting-and-well-known-executors.md`,
+    url: `${repository}/blob/${remoteProtocolCommit}/docs/decisions/0007-remote-reporting-and-well-known-executors.md`,
   },
   { id: "schemas", title: "JSON schemas", url: `${repository}/tree/main/schemas` },
   { id: "security", title: "security boundary", url: `${repository}/blob/main/docs/SECURITY.md` },
@@ -144,7 +145,7 @@ export const executionEnvironments = [
     manifest_ref: null,
     conformance_ref: null,
     verified_results: 0,
-    source: `${repository}/tree/main/executor/cenetex-public-v1`,
+    source: `${repository}/tree/${remoteProtocolCommit}/executor/cenetex-public-v1`,
     note: "Open reference profile; build artifacts and independent conformance are still pending.",
   },
 ] as const;
