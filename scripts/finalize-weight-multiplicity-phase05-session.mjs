@@ -79,14 +79,18 @@ const normalizeMeasurement = (measurement, plan) => {
     measurement.exactness.mismatches.length > 0 ||
     measurement.exactness.replay_byte_identical === false ||
     measurement.exactness.replay_projection_identical === false;
-  const correctnessObserved =
+  const replayObserved =
+    runComplete(measurement.binding, expectedQueries) &&
+    measurement.replays.length === plan.frontier.replays &&
+    measurement.replays.every((run) => runComplete(run, expectedQueries));
+  const allRunsComplete =
     measurement.replays.length === plan.frontier.replays &&
     correctnessRuns.every((run) => runComplete(run, expectedQueries));
   const hasHardTimeout = correctnessRuns.some((run) => run.hard_timeout);
   const hasOracleError = correctnessRuns.some((run) => run.oracle_error);
   const exactnessStatus = explicitExactnessFailure
     ? "fail"
-    : correctnessObserved
+    : replayObserved
       ? "pass"
       : hasHardTimeout
         ? "unknown_after_hard_timeout"
@@ -134,7 +138,7 @@ const normalizeMeasurement = (measurement, plan) => {
   };
   measurement.exactness.status = exactnessStatus;
   measurement.exactness.expected_queries_per_run = expectedQueries;
-  measurement.exactness.correctness_runs_complete = correctnessObserved;
+  measurement.exactness.correctness_runs_complete = allRunsComplete;
   measurement.exactness.replay_byte_identical =
     measurement.replays.length === 0
       ? null
