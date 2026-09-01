@@ -43,3 +43,10 @@ The complete result and evidence bundle are published at NSRL merge commit
 This closes the operation-routing bridge. It does not establish arithmetic
 answer generation or general language quality. See [`EXP-007`](EXP-007.md) for
 the result, forecast settlement, source pins, and next decision boundary.
+
+The shortcut-resistant successor completed prospectively as
+[`EXP-008`](EXP-008.md). It used a common prefix, balanced wrong-operation
+distractors, and held-out template families. The unchanged class head scored
+425,000, 430,000, and 533,000 ppm, with 531,000 ppm cross-seed agreement, so
+that harder transfer claim resolved `no_go`. The original EXP-007 result
+remains valid but narrow; the fixed sparse class-head successor path is closed.
