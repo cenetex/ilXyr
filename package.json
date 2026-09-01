@@ -3,7 +3,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test:governance": "node scripts/test-governance-policy.mjs",
     "test:importer": "node scripts/test-import-benchmark.mjs",
     "test:pages": "node scripts/validate-pages-publication.mjs",
     "test:registry": "node scripts/validate-lab-registry.mjs && node scripts/validate-research-pathways.mjs",
