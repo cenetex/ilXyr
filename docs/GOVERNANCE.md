@@ -1,119 +1,38 @@
-# Governance
+# Development flow
 
-This document records the governance that is actually enforced for this
-repository as of 2026-08-31. It separates the repository's branch-protection
-gate from an external merge-triage service whose notices are not enforcement
-for maintainer-authored pull requests.
+ilXyr is a solo project. Its development process is optimized for fast,
+traceable iteration:
 
-## Enforced mechanics
+```text
+request -> branch -> pull request -> checks -> merge -> verify
+```
 
-| Rule | Enforcement |
-| --- | --- |
-| Every change uses a pull request | Branch protection rejects direct pushes to `main` |
-| Required CI passes | `rust`, `msrv`, `schemas`, and `gatekeep` are required |
-| Ordinary paths receive automated review | The trusted base-branch workflow approves the exact pull-request head |
-| Protected paths need deliberate owner action | An administrator must comment `/approve-protected <exact-head-sha>` before the bot approves that commit |
-| A new push invalidates approval | Stale reviews are dismissed and the new head is reviewed again |
-| Administrators follow the same merge gate | Branch protection is enforced for administrators |
+The request authorizes the work. The pull request is the collaboration and
+tracking surface. The `rust`, `msrv`, and `schemas` checks protect the
+default branch. When they are green and GitHub reports the pull request
+mergeable, a developer or coding agent may merge it.
 
-The automated reviewer is the repository `github-actions` identity. Calling it
-an independent human reviewer or a separate `cenetex` principal would be
-false. For a protected change, the administrator command is owner
-authorization and the resulting review is an owner-authorized bot approval.
-It is not an independent review.
+No separate approval is required for workflow, security, license, governance,
+or agent-instruction changes. The former `gatekeep` status, automated review,
+`/approve-protected <sha>` command, protected-path labels, and external hold
+notice are retired.
 
-## Protected paths
+GitHub already records the request, diff, discussion, checks, author, merge, and
+resulting commit. Do not duplicate that record in an approval ledger.
 
-The path policy in `scripts/governance-path-policy.mjs` protects:
+Ask the owner only for a material decision that is ambiguous or difficult to
+reverse. Secret handling, data loss, external publication, and unbounded paid
+compute still need deliberate care; ordinary coding, merging, deployment, and
+rollback do not need extra paperwork.
 
-- `.github/workflows/**`;
-- `CODEOWNERS`, `.github/CODEOWNERS`, and `docs/CODEOWNERS`;
-- root license files beginning with `LICENSE`;
-- `docs/SECURITY.md` and this document;
-- append-only audit records under `docs/governance/`;
-- the governance path-policy program and its tests; and
-- every `AGENTS.md`.
+## Intended GitHub settings
 
-The review workflow uses `pull_request_target`, reads policy from the trusted
-base commit, never checks out pull-request code, binds its review to the event
-head SHA, checks old and new names for renamed files, checks that SHA again
-after reading the file list, and cancels stale runs. Protected paths receive a
-successful policy status but no approval, so the required-review gate remains
-unsatisfied until owner authorization.
+- Changes to `main` arrive through pull requests.
+- Required checks are `rust`, `msrv`, and `schemas`.
+- No approving review is required.
+- Branches must be current when GitHub needs that to give a reliable check
+  result.
+- Administrators and installed coding agents may merge green pull requests.
 
-## Protected approval procedure
-
-1. Wait for the protected-path comment from `github-actions`.
-2. Review the diff and copy the 40-character head SHA from that comment.
-3. As a repository administrator, add a comment containing only:
-
-   ```text
-   /approve-protected <exact-head-sha>
-   ```
-
-4. The default-branch approval workflow verifies administrator permission,
-   open pull-request state, the exact current head, and the presence of a
-   protected file. It then approves that SHA as `github-actions` and records a
-   receipt comment.
-5. Any later push dismisses the review. Repeat the process with the new SHA.
-
-This procedure exists because GitHub does not let an author approve their own
-pull request. It creates a clear owner decision without pretending that a solo
-maintainer supplies independent review.
-
-## Merge behavior
-
-An external `cenetex` AWS service is installed as a repository webhook. When
-the `review:approved` label is applied, its webhook posts a 60-minute
-auto-merge notice. A scheduled merge-triage job runs every 15 minutes and
-includes `cenetex/ilXyr` in its monitored-repository list.
-
-That notice is not an enforced hold for the pull requests produced by this
-repository workflow. The external merge job discovers only pull requests
-authored by its configured coding-agent accounts, and it trusts approvals only
-from those accounts. Pull requests authored by `atimics` and approved by
-`github-actions` therefore never enter its merge queue. The author may merge
-such a pull request as soon as the required review and checks pass. Branch
-protection requires the branch to be current with `main`, so overlap is
-resolved and CI reruns before merge.
-
-The external service and the repository workflow are separate evidentiary
-categories. The webhook's schedule comment is evidence that it received a
-label event, not evidence that it independently reviewed the change or that it
-can merge that pull request.
-
-CI runs on pull requests and on pushes to `main`. It does not run a duplicate
-push suite for every feature-branch commit.
-
-## Emergency override
-
-The normal protected command must be used whenever Actions works. If the
-governance workflow itself is broken, the owner may explicitly authorize a
-temporary protection change. The operator must:
-
-1. record the pull request, exact head, reason, old setting, and intended new
-   setting;
-2. make only the narrow change needed for the merge;
-3. restore protection in the same guarded operation;
-4. verify the merged commit and restored live settings; and
-5. add an append-only record under `docs/governance/`.
-
-The first such record is
-`docs/governance/2026-08-31-pr89-protection-override.md`.
-
-## Settings outside Git
-
-The repository files cannot enforce mutable GitHub settings by themselves.
-The intended live settings are:
-
-- pull requests required for `main`;
-- one approving review with stale reviews dismissed;
-- administrator enforcement enabled;
-- strict status checks enabled;
-- required contexts `rust`, `msrv`, `schemas`, and `gatekeep` from GitHub
-  Actions; and
-- default workflow permissions set to read, while the two governance
-  workflows request their narrow write permissions explicitly.
-
-After a governance change, verify these settings through the GitHub API and
-record any drift. Do not infer the live settings from this file alone.
+Historical files under `docs/governance/` describe the retired system. They
+are records, not current instructions.
