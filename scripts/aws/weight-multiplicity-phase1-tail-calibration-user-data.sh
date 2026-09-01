@@ -244,7 +244,7 @@ if [ "$result_status" = calibration_complete ]; then
   test "$(jq -r .closures.corpus_generation_authorized "$OUT/calibration/runner-summary.json")" = false
   test "$(jq -r .closures.model_training_authorized "$OUT/calibration/runner-summary.json")" = false
   test "$(jq -r .total_queries "$OUT/calibration/tail-top-50.json")" = 26624
-  test "$(jq -r .top | length "$OUT/calibration/tail-top-50.json")" = 50
+  test "$(jq -r '.top | length' "$OUT/calibration/tail-top-50.json")" = 50
   test ! -e "$OUT/calibration/corpus"
   cd "$OUT/calibration"
   sha256sum --check sha256sums.txt
