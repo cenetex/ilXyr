@@ -141,6 +141,14 @@ const percentile = (values, probability) => {
 const mean = (values) => values.length === 0 ? null
   : values.reduce((sum, value) => sum + value, 0) / values.length;
 
+const maximum = (values) => {
+  if (values.length === 0) return null;
+  let result = values[0];
+  for (let index = 1; index < values.length; index += 1)
+    if (values[index] > result) result = values[index];
+  return result;
+};
+
 const groupBy = (values, keyFor) => {
   const groups = {};
   for (const value of values) {
@@ -682,7 +690,7 @@ class BudgetTracker {
       mean_query_ms: mean(this.latencies),
       p50_query_ms: percentile(this.latencies, 0.5),
       p95_query_ms: percentile(this.latencies, 0.95),
-      maximum_query_ms: this.latencies.length ? Math.max(...this.latencies) : null,
+      maximum_query_ms: maximum(this.latencies),
       elapsed_wall_seconds: (performance.now() - this.started) / 1000,
       frozen_budget: this.frozen,
     };
@@ -1729,6 +1737,13 @@ const selfTest = () => {
     systems: { A2: system },
   });
   if (acr.length !== 13) throw new Error("ACR-1 construction failed");
+  const budget = new BudgetTracker({});
+  budget.latencies = Array.from({ length: 200_000 }, (_, index) => index % 1000);
+  budget.calls = budget.latencies.length;
+  budget.queryMs = budget.latencies.reduce((sum, value) => sum + value, 0);
+  const snapshot = budget.snapshot();
+  if (snapshot.maximum_query_ms !== 999 || snapshot.oracle_calls !== 200_000)
+    throw new Error("large budget snapshot failed");
   process.stdout.write(`${JSON.stringify({ status: "pass" })}\n`);
 };
 
