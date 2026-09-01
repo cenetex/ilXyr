@@ -7,6 +7,7 @@ import {
   createWriteStream,
 } from "node:fs";
 import {
+  appendFile,
   mkdir,
   readFile,
   rename,
@@ -68,6 +69,7 @@ const parseArguments = (values) => {
     out: null,
     smoke: false,
     pilotOnly: false,
+    calibrationPlan: null,
     selfTest: false,
   };
   const names = {
@@ -80,6 +82,7 @@ const parseArguments = (values) => {
     "--zero": "zero",
     "--zero-commit": "zeroCommit",
     "--out": "out",
+    "--calibration-plan": "calibrationPlan",
   };
   for (let index = 0; index < values.length; index += 1) {
     const value = values[index];
@@ -148,6 +151,137 @@ const maximum = (values) => {
     if (values[index] > result) result = values[index];
   return result;
 };
+
+const multiplicityBitLength = (value) => {
+  const magnitude = BigInt(value);
+  return magnitude === 0n ? 0 : magnitude.toString(2).length;
+};
+
+const depthBand = (value) => value <= 7 ? "0-7"
+  : value <= 15 ? "8-15"
+    : value <= 31 ? "16-31"
+      : value <= 63 ? "32-63" : "64+";
+
+const bitLengthBand = (value) => value === 0 ? "0"
+  : value <= 5 ? "1-5"
+    : value <= 15 ? "6-15"
+      : value <= 31 ? "16-31"
+        : value <= 63 ? "32-63" : "64+";
+
+const distributionSummary = (records) => {
+  const values = records.map((entry) => entry.elapsed_ms);
+  return {
+    calls: records.length,
+    mean_ms: mean(values),
+    p50_ms: percentile(values, 0.5),
+    p95_ms: percentile(values, 0.95),
+    p99_ms: percentile(values, 0.99),
+    p999_ms: percentile(values, 0.999),
+    maximum_ms: maximum(values),
+  };
+};
+
+const groupedDistribution = (records, keyFor) => Object.entries(groupBy(records, keyFor))
+  .map(([key, entries]) => ({ key, ...distributionSummary(entries) }))
+  .sort((left, right) => right.maximum_ms - left.maximum_ms || left.key.localeCompare(right.key));
+
+class CalibrationTrace {
+  constructor({ outDirectory, plan }) {
+    this.plan = plan;
+    this.records = [];
+    this.tracePath = resolve(outDirectory, "pilot-trace.jsonl");
+    this.tailPath = resolve(outDirectory, "tail-top-50.json");
+  }
+
+  async append(sliceId, candidates, results) {
+    const batch = results.map((result, index) => {
+      const candidate = candidates[index];
+      const bits = result.multiplicity === null ? null
+        : multiplicityBitLength(result.multiplicity);
+      return {
+        sequence: this.records.length + index + 1,
+        pilot_slice_id: sliceId,
+        slice_sequence: index + 1,
+        worker_id: result.worker_id,
+        canonical_type: candidate.canonical_type,
+        canonical_representation_id: candidate.canonical_representation_id,
+        representation_dimension: candidate.representation_dimension,
+        highest_weight: candidate.highest_weight,
+        target_weight: candidate.target_weight,
+        target_status: candidate.target_status,
+        target_depth: candidate.target_depth,
+        desired_stratum: candidate.desired_stratum,
+        query_key: candidate.query_key,
+        status: result.status,
+        elapsed_ms: result.elapsed_ms,
+        multiplicity: result.multiplicity,
+        multiplicity_bit_length: bits,
+        multiplicity_stratum: result.multiplicity === null ? null
+          : stratumFor(result.multiplicity),
+      };
+    });
+    this.records.push(...batch);
+    await appendFile(this.tracePath, `${batch.map((entry) => JSON.stringify(entry)).join("\n")}\n`);
+    const top = [...this.records]
+      .sort((left, right) => right.elapsed_ms - left.elapsed_ms || left.sequence - right.sequence)
+      .slice(0, this.plan.trace.continuous_top_count);
+    const temporary = `${this.tailPath}.tmp`;
+    await writeFile(temporary, stableJson({
+      schema: "ilxyr.weight_multiplicity_phase1_tail_checkpoint.v1",
+      status: "running",
+      observed_queries: this.records.length,
+      top,
+    }));
+    await rename(temporary, this.tailPath);
+  }
+
+  async finalize(frozenBudget) {
+    const complete = distributionSummary(this.records);
+    const p99Limit = Math.ceil(
+      complete.p99_ms * this.plan.threshold_policy.multiplier,
+    );
+    const top = [...this.records]
+      .sort((left, right) => right.elapsed_ms - left.elapsed_ms || left.sequence - right.sequence)
+      .slice(0, this.plan.trace.continuous_top_count);
+    const report = {
+      schema: "ilxyr.weight_multiplicity_phase1_tail_report.v1",
+      status: "complete",
+      total_queries: this.records.length,
+      overall: complete,
+      threshold_policy: this.plan.threshold_policy,
+      proposed_generation_p99_limit_ms: p99Limit,
+      hard_abort_ms: this.plan.threshold_policy.hard_abort_ms,
+      scale_context: {
+        calibration_calls: this.records.length,
+        projected_expected_generation_calls: frozenBudget.expected_total_calls,
+        projected_upper_95_generation_calls: frozenBudget.upper_95_total_calls,
+        projected_binding_call_limit: frozenBudget.binding_call_limit,
+      },
+      top,
+      breakdowns: {
+        canonical_type: groupedDistribution(this.records, (entry) => entry.canonical_type),
+        canonical_representation_id: groupedDistribution(
+          this.records,
+          (entry) => entry.canonical_representation_id,
+        ),
+        target_depth_band: groupedDistribution(
+          this.records,
+          (entry) => depthBand(entry.target_depth),
+        ),
+        multiplicity_bit_length_band: groupedDistribution(
+          this.records,
+          (entry) => bitLengthBand(entry.multiplicity_bit_length ?? 0),
+        ),
+        inside_or_outside_corpus_label_range: groupedDistribution(
+          this.records,
+          (entry) => BigInt(entry.multiplicity ?? "0") <= 31n ? "inside_0_31" : "outside_above_31",
+        ),
+      },
+    };
+    await writeFile(this.tailPath, stableJson(report));
+    return report;
+  }
+}
 
 const groupBy = (values, keyFor) => {
   const groups = {};
@@ -556,8 +690,9 @@ class ResourceMonitor {
 }
 
 class BudgetTracker {
-  constructor(plan) {
+  constructor(plan, { perQueryLimitMs = 1000 } = {}) {
     this.plan = plan;
+    this.perQueryLimitMs = perQueryLimitMs;
     this.started = performance.now();
     this.calls = 0;
     this.queryMs = 0;
@@ -606,8 +741,11 @@ class BudgetTracker {
     this.latencies.push(result.elapsed_ms);
     if (result.status !== "ok")
       throw new HoldError("lie_query_failure", result);
-    if (result.elapsed_ms > 1000)
-      throw new HoldError("lie_per_query_time_limit", result);
+    if (this.perQueryLimitMs !== null && result.elapsed_ms > this.perQueryLimitMs)
+      throw new HoldError("lie_per_query_time_limit", {
+        ...result,
+        limit_ms: this.perQueryLimitMs,
+      });
     if (this.frozen) {
       if (this.calls > this.frozen.binding_call_limit)
         throw new HoldError("frozen_oracle_call_budget_reached", this.snapshot());
@@ -844,9 +982,21 @@ class RepresentationPicker {
   }
 }
 
-const queryLieBatch = async ({ workers, candidates, coordinateMapping, budget, monitor }) => {
-  const results = await executeWithWorkers(workers, candidates, async (worker, candidate) =>
-    await worker.query(lieCommand(candidate, coordinateMapping)));
+const queryLieBatch = async ({
+  workers,
+  candidates,
+  coordinateMapping,
+  budget,
+  monitor,
+  calibrationTrace = null,
+  pilotSliceId = null,
+}) => {
+  const results = await executeWithWorkers(workers, candidates, async (worker, candidate) => ({
+    ...await worker.query(lieCommand(candidate, coordinateMapping)),
+    worker_id: worker.id,
+  }));
+  if (calibrationTrace)
+    await calibrationTrace.append(pilotSliceId, candidates, results);
   for (let index = 0; index < results.length; index += 1) {
     const candidate = candidates[index];
     budget.observe({
@@ -880,6 +1030,7 @@ const runPilotSlice = async ({
   coordinateMapping,
   budget,
   monitor,
+  calibrationTrace = null,
 }) => {
   const picker = new RepresentationPicker(representations, seed ^ fnv1a(id));
   const random = makeRandom(seed ^ fnv1a(`${id}:candidate`));
@@ -912,6 +1063,8 @@ const runPilotSlice = async ({
     coordinateMapping,
     budget,
     monitor,
+    calibrationTrace,
+    pilotSliceId: id,
   });
   const observed = { "0": 0, "1": 0, "2-7": 0, "8-31": 0, ">31": 0 };
   for (const result of results) observed[stratumFor(result.multiplicity)] += 1;
@@ -1724,6 +1877,35 @@ const validateInputs = async (options, plan, bytes) => {
     throw new Error("authority boundary is invalid");
 };
 
+const validateCalibration = (calibration, bytes) => {
+  if (!calibration) return;
+  const bindings = calibration.source_bindings;
+  const checks = [
+    ["Phase 1 corpus plan", sha256(bytes.plan), bindings.phase1_corpus_plan_sha256],
+    ["reduced manifest", sha256(bytes.manifest), bindings.reduced_manifest_sha256],
+    ["root systems", sha256(bytes.systems), bindings.root_systems_sha256],
+  ];
+  for (const [name, observed, expected] of checks)
+    if (observed !== expected)
+      throw new Error(`${name} calibration hash mismatch: ${observed} != ${expected}`);
+  if (calibration.threshold_policy.estimator !==
+      "exact_nearest_rank_p99_over_complete_pilot_trace" ||
+      calibration.threshold_policy.multiplier !== 1.25 ||
+      calibration.threshold_policy.rounding !== "ceil_to_next_whole_millisecond" ||
+      calibration.threshold_policy.discretionary_floor_or_adjustment !== false ||
+      calibration.threshold_policy.hard_abort_ms !== 30000)
+    throw new Error("calibration threshold policy is not frozen");
+  if (calibration.replay.expected_pilot_queries !== 26624 ||
+      calibration.replay.lie_workers !== 8 ||
+      calibration.replay.zero_workers !== 2)
+    throw new Error("calibration replay shape is not frozen");
+  if (calibration.closures.corpus_generation_authorized ||
+      calibration.closures.model_training_authorized ||
+      calibration.closures.model_evaluation_authorized ||
+      calibration.closures.oracle_promotion_authorized)
+    throw new Error("calibration authority boundary is invalid");
+};
+
 const selfTest = () => {
   const cartan = [[2, -1], [-1, 2]];
   const dominant = orientDominant([-1, 2], [1, 0], cartan);
@@ -1759,6 +1941,16 @@ const selfTest = () => {
   const snapshot = budget.snapshot();
   if (snapshot.maximum_query_ms !== 999 || snapshot.oracle_calls !== 200_000)
     throw new Error("large budget snapshot failed");
+  if (multiplicityBitLength("0") !== 0 ||
+      multiplicityBitLength("2633282666151119789") !== 62)
+    throw new Error("multiplicity bit length failed");
+  const calibrationValues = Array.from({ length: 100 }, (_, index) => ({
+    elapsed_ms: index + 1,
+  }));
+  const calibrationSummary = distributionSummary(calibrationValues);
+  if (calibrationSummary.p99_ms !== 99 ||
+      Math.ceil(calibrationSummary.p99_ms * 1.25) !== 124)
+    throw new Error("frozen p99 threshold rule failed");
   process.stdout.write(`${JSON.stringify({ status: "pass" })}\n`);
 };
 
@@ -1769,11 +1961,17 @@ const main = async () => {
     plan: await readFile(resolve(options.plan)),
     manifest: await readFile(resolve(options.manifest)),
     systems: await readFile(resolve(options.systems)),
+    calibration: options.calibrationPlan
+      ? await readFile(resolve(options.calibrationPlan)) : null,
   };
   const plan = JSON.parse(bytes.plan.toString("utf8"));
   const manifest = JSON.parse(bytes.manifest.toString("utf8"));
   const rootSystems = JSON.parse(bytes.systems.toString("utf8"));
+  const calibration = bytes.calibration
+    ? JSON.parse(bytes.calibration.toString("utf8")) : null;
+  if (calibration) options.pilotOnly = true;
   await validateInputs(options, plan, bytes);
+  validateCalibration(calibration, bytes);
   const outDirectory = resolve(options.out);
   await mkdir(outDirectory, { recursive: false });
   const corpusDirectory = resolve(outDirectory, "corpus");
@@ -1796,7 +1994,7 @@ const main = async () => {
   const lieWorkers = await startLieWorkers(effectivePlan.oracle.primary.workers, {
     executable: resolve(options.lie),
     stdbuf: options.stdbuf ? resolve(options.stdbuf) : null,
-    hardTimeoutMs: 10000,
+    hardTimeoutMs: calibration?.threshold_policy.hard_abort_ms ?? 10000,
   });
   const zeroWorkers = await startZeroWorkers(effectivePlan.oracle.differential.workers, {
     executable: resolve(options.zero),
@@ -1804,7 +2002,11 @@ const main = async () => {
   });
   const monitor = new ResourceMonitor({ lieWorkers, zeroWorkers, plan: effectivePlan });
   monitor.start();
-  const budget = new BudgetTracker(effectivePlan);
+  const budget = new BudgetTracker(effectivePlan, {
+    perQueryLimitMs: calibration ? null : 1000,
+  });
+  const calibrationTrace = calibration
+    ? new CalibrationTrace({ outDirectory, plan: calibration }) : null;
   const coordinateMapping = effectivePlan.oracle.primary.coordinate_mapping;
   const pilotSlices = [];
   let finalStatus = "hold";
@@ -1835,6 +2037,7 @@ const main = async () => {
           coordinateMapping,
           budget,
           monitor,
+          calibrationTrace,
         }));
         const classicalDominant = Math.round(
           classicalRequiredPerStratum *
@@ -1853,6 +2056,7 @@ const main = async () => {
           coordinateMapping,
           budget,
           monitor,
+          calibrationTrace,
         }));
       }
       for (const type of ["G2", "F4", "E6", "E7", "E8"]) {
@@ -1868,6 +2072,7 @@ const main = async () => {
           coordinateMapping,
           budget,
           monitor,
+          calibrationTrace,
         }));
       }
     }
@@ -1888,14 +2093,73 @@ const main = async () => {
     budget.setProgressPath(resolve(evidenceDirectory, "generation-progress.json"));
     await budget.checkpoint(true);
     if (options.pilotOnly) {
-      finalStatus = "pilot_complete";
+      finalStatus = calibration ? "calibration_complete" : "pilot_complete";
       await budget.checkpoint(true, finalStatus);
-      await writeFile(resolve(outDirectory, "runner-summary.json"), stableJson({
-        status: finalStatus,
-        frozen_budget_sha256: frozenBudgetSha256,
-        frozen_budget: frozenBudget,
-        closures: effectivePlan.closures,
-      }));
+      if (calibration) {
+        const tailReport = await calibrationTrace.finalize(frozenBudget);
+        const expectedCalibrationQueries = options.smoke ? 4608
+          : calibration.replay.expected_pilot_queries;
+        if (tailReport.total_queries !== expectedCalibrationQueries)
+          throw new HoldError("calibration_trace_count_mismatch", {
+            observed: tailReport.total_queries,
+            expected: expectedCalibrationQueries,
+          });
+        memoryEvidence = await monitor.stop();
+        monitor.assertOkay();
+        const tracePath = resolve(outDirectory, "pilot-trace.jsonl");
+        const tailPath = resolve(outDirectory, "tail-top-50.json");
+        const evidence = {
+          schema: "ilxyr.weight_multiplicity_phase1_tail_calibration_evidence.v1",
+          status: finalStatus,
+          source_bindings: calibration.source_bindings,
+          calibration_plan_sha256: sha256(bytes.calibration),
+          frozen_budget_sha256: frozenBudgetSha256,
+          trace_records: tailReport.total_queries,
+          trace_sha256: await hashFile(tracePath),
+          tail_report_sha256: await hashFile(tailPath),
+          proposed_generation_p99_limit_ms:
+            tailReport.proposed_generation_p99_limit_ms,
+          hard_abort_ms: tailReport.hard_abort_ms,
+          memory: memoryEvidence,
+          closures: calibration.closures,
+        };
+        const evidencePath = resolve(outDirectory, "calibration-evidence.json");
+        await writeFile(evidencePath, stableJson(evidence));
+        const summaryPath = resolve(outDirectory, "runner-summary.json");
+        await writeFile(summaryPath, stableJson({
+          status: finalStatus,
+          trace_records: tailReport.total_queries,
+          proposed_generation_p99_limit_ms:
+            tailReport.proposed_generation_p99_limit_ms,
+          hard_abort_ms: tailReport.hard_abort_ms,
+          trace_sha256: evidence.trace_sha256,
+          tail_report_sha256: evidence.tail_report_sha256,
+          calibration_evidence_sha256: await hashFile(evidencePath),
+          closures: calibration.closures,
+        }));
+        const targets = [
+          tracePath,
+          tailPath,
+          evidencePath,
+          summaryPath,
+          frozenBudgetPath,
+          resolve(evidenceDirectory, "generation-progress.json"),
+        ];
+        const checksums = [];
+        for (const path of targets)
+          checksums.push(`${await hashFile(path)}  ${path.slice(outDirectory.length + 1)}`);
+        await writeFile(
+          resolve(outDirectory, "sha256sums.txt"),
+          `${checksums.join("\n")}\n`,
+        );
+      } else {
+        await writeFile(resolve(outDirectory, "runner-summary.json"), stableJson({
+          status: finalStatus,
+          frozen_budget_sha256: frozenBudgetSha256,
+          frozen_budget: frozenBudget,
+          closures: effectivePlan.closures,
+        }));
+      }
       return;
     }
 
