@@ -329,8 +329,10 @@ started without producing a terminal run. `authorize` reports the same decision 
   tests.
 - `examples/toy`: one end-to-end funded experiment.
 - `examples/schema`: positive fixtures for the published protocol schemas.
-- `docs/PROGRAM.md`: the research program — Zero and Solomon micromodel families,
-  certified-gate method, autonomous operating model, flagship replication bridge.
+- `docs/PROGRAM.md`: the research program — the active Reasoner line, preserved Zero and Solomon
+  model evidence, certified gates, autonomous operation, and the replication bridge.
+- `docs/REASONER-LINE.md`: the Reasoner registration, evidence boundary, and proposed next
+  representation-transfer question.
 - `docs/RESEARCH-PATHWAYS.md`: the checked research-pathway map — successful,
   negative, blocked, withheld, and experimental branches plus exploration-method rules.
 - `docs/research-pathways.json`: machine-readable pathway nodes, causal edges,

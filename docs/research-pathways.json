@@ -1,7 +1,7 @@
 {
   "schema": "ilxyr.research_pathways.v2",
-  "as_of": "2026-08-31",
-  "scope": "Decision-bearing Zero, Solomon and NSRL model-research pathways, the cross-family bridge, and the independent Holo verification recorded by ilXyr. Protocol-only engineering tests are excluded.",
+  "as_of": "2026-09-01",
+  "scope": "Decision-bearing Reasoner, Zero, Solomon and NSRL model-research pathways, the cross-family bridge, and the independent Holo verification recorded by ilXyr. Protocol-only engineering tests are excluded.",
   "factor_spaces": [
     {
       "lineage": "zero/zero4-quantity",
@@ -12,6 +12,11 @@
       "lineage": "zero/zero5-c",
       "track": "C",
       "axes": ["checkpoint", "tokenizer", "data", "schedule", "representation", "objective", "evaluation"]
+    },
+    {
+      "lineage": "zero/reasoner",
+      "track": "R",
+      "axes": ["representation", "law_language", "query_policy", "verifier", "language_boundary", "evaluation"]
     },
     {
       "lineage": "solomon/successor-v2",
@@ -706,6 +711,52 @@
         { "kind": "program_record", "path": "examples/shared-tasks/zero-solomon-q22-compositional-routing-v1.json", "record_id": "zero-solomon.q22-compositional-routing.v1" },
         { "kind": "experiment_record", "path": "docs/experiments/EXP-008.md", "record_id": "EXP-008" }
       ]
+    },
+    {
+      "id": "reasoner-r3_9-active-law-v1",
+      "coordinate": { "track": "R", "parts": [3, 9], "slug": "r3_9" },
+      "record_revision": 1,
+      "factor_state": { "representation": 1, "law_language": 1, "query_policy": 1, "verifier": 1, "language_boundary": 1, "evaluation": 1 },
+      "display_name": "Reasoner (3,9) active compositional law induction",
+      "family": "zero",
+      "lineage": "zero/reasoner",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "positive",
+      "disclosure_status": "public",
+      "lifecycle_status": "experimental",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "Active evidence queries identify unseen compositions inside the registered typed integer program language without task labels or premature commits", "outcome": "positive" }
+      ],
+      "summary": "All 744 fresh sealed episodes, 2,844 active queries, 2,232 APPLY calls, 744 COMMIT calls, and 744 REPORT calls were exact; all registered controls failed as required.",
+      "next_boundary": "Freeze the (3,9) core and test whether a structured input adapter can be inferred from examples.",
+      "sources": [
+        { "kind": "program_record", "path": "docs/REASONER-LINE.md", "record_id": "reasoner-r3_9-active-law-v1" }
+      ]
+    },
+    {
+      "id": "reasoner-r4_0-representation-transfer",
+      "coordinate": { "track": "R", "parts": [4, 0], "slug": "r4_0" },
+      "record_revision": 1,
+      "factor_state": { "representation": 2, "law_language": 1, "query_policy": 1, "verifier": 1, "language_boundary": 1, "evaluation": 2 },
+      "display_name": "Reasoner 4.0 representation transfer",
+      "family": "zero",
+      "lineage": "zero/reasoner",
+      "kind": "scientific_experiment",
+      "execution_status": "not_run",
+      "scientific_outcome": "unknown",
+      "disclosure_status": "public",
+      "lifecycle_status": "open",
+      "evidence_status": "documented",
+      "claim_results": [
+        { "claim": "A frozen (3,9) core can infer a structured adapter from examples and solve a fresh sealed representation without a task label, hand-coded switch, or core change", "outcome": "unknown" }
+      ],
+      "summary": "This is the next research question, not a compiled experiment. No source contract, compute, training, or sealed evaluation is authorized.",
+      "next_boundary": "Write and review a prospective contract that separates adapter transfer from unseen law composition and includes exact shortcut controls.",
+      "sources": [
+        { "kind": "program_record", "path": "docs/REASONER-LINE.md", "record_id": "reasoner-r4_0-representation-transfer" }
+      ]
     }
   ],
   "edges": [
@@ -732,7 +783,8 @@
     { "from": "nsrl-p10m-target-margin-v1", "to": "nsrl-p10m-target-margin-trust-region-v1", "relation": "superseded_by", "summary": "A disjoint canonical-NLL guard addressed the preflight-to-development generalization failure." },
     { "from": "nsrl-p10m-target-margin-trust-region-v1", "to": "nsrl-p10m-direct-head-nll-guard-v1", "relation": "superseded_by", "summary": "The candidate objective changed from hard-negative margin to canonical NLL." },
     { "from": "nsrl-p10m-direct-head-nll-guard-v1", "to": "nsrl-p10m-direct-head-nll-safe-set-v1", "relation": "superseded_by", "summary": "The full ranked safe set replaced single-winner selection." },
-    { "from": "nsrl-p10m-direct-head-nll-safe-set-v1", "to": "nsrl-p10m-direct-head-cross-document-stability-v1", "relation": "opened", "summary": "An empty two-surface safe set opened a read-only stability diagnosis on new documents." }
+    { "from": "nsrl-p10m-direct-head-nll-safe-set-v1", "to": "nsrl-p10m-direct-head-cross-document-stability-v1", "relation": "opened", "summary": "An empty two-surface safe set opened a read-only stability diagnosis on new documents." },
+    { "from": "reasoner-r3_9-active-law-v1", "to": "reasoner-r4_0-representation-transfer", "relation": "opened", "summary": "Passing active law induction inside a fixed grammar exposes the hand-built input adapter as the next boundary." }
   ],
   "method_assessment": {
     "verdict": "The program is strong at truth preservation and experimental discipline, but weaker at maximizing information gain and controlling serial local-repair lineages.",
@@ -762,7 +814,7 @@
     "priority_order": [
       "Run a read-only representation-sufficiency diagnosis of the failed shortcut-resistant bridge before choosing a new representation- or objective-level successor on fresh evaluation templates.",
       "Run a read-only NSRL frozen-representation sufficiency audit before another training method.",
-      "Decide whether ZERO5-C6.1 earns its separately authorized representation-level run.",
+      "Write the Reasoner 4.0 representation-transfer contract without authorizing execution.",
       "Import outstanding external evidence and settle verified upstream family evidence locally.",
       "Do not reopen closed local-coordinate, scalar-backtracking, ordinary paired-next-token, or public-proxy HRR-advantage branches without a new causal hypothesis."
     ]
