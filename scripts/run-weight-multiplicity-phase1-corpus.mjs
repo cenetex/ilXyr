@@ -725,6 +725,16 @@ const interiorCoefficient = (representation, desired, random) => {
   );
 };
 
+const exteriorCoefficient = (representation, random) => {
+  const shellDepth = representation.maximum_depth + 1 + randomInteger(random, 256);
+  return weakComposition(
+    shellDepth,
+    representation.rank,
+    random,
+    random() < 0.5,
+  );
+};
+
 const candidateFor = (representation, desired, status, random, natural = false) => {
   const highest = representation.highest_weight;
   const cartan = representation.system.cartan;
@@ -732,18 +742,14 @@ const candidateFor = (representation, desired, status, random, natural = false) 
   if (natural) {
     const draw = random();
     if (draw < 0.15) {
-      coefficient = [...representation.anti_coefficient];
-      coefficient[randomInteger(random, representation.rank)] +=
-        1 + randomInteger(random, Math.max(2, representation.highest_weight_height + 1));
+      coefficient = exteriorCoefficient(representation, random);
     } else if (draw < 0.3) {
       coefficient = Array(representation.rank).fill(0);
     } else {
       coefficient = interiorCoefficient(representation, "natural", random);
     }
   } else if (desired === "0") {
-    coefficient = [...representation.anti_coefficient];
-    coefficient[randomInteger(random, representation.rank)] +=
-      1 + randomInteger(random, Math.max(2, representation.highest_weight_height + 1));
+    coefficient = exteriorCoefficient(representation, random);
   } else if (desired === "1" && random() < 0.2) {
     let orbit = { weight: [...highest], coefficient: Array(representation.rank).fill(0) };
     const steps = 1 + randomInteger(random, representation.rank * 4 + 1);
@@ -855,16 +861,26 @@ const runPilotSlice = async ({
   const picker = new RepresentationPicker(representations, seed ^ fnv1a(id));
   const random = makeRandom(seed ^ fnv1a(`${id}:candidate`));
   const candidates = [];
-  const keys = new Set();
+  const uniqueKeys = new Set();
+  const maximumDraws = attempts * 10000;
+  let candidateDraws = 0;
   while (candidates.length < attempts) {
+    candidateDraws += 1;
+    if (candidateDraws > maximumDraws)
+      throw new HoldError("pilot_candidate_generation_exhausted", {
+        id,
+        attempts,
+        accepted_candidates: candidates.length,
+        maximum_draws: maximumDraws,
+      });
     const representation = picker.pick(desired);
     if (!representation) throw new HoldError("pilot_no_eligible_representation", { id });
     const resolvedStatus = status === "mixed"
       ? (candidates.length % 4 === 0 ? "non_dominant" : "dominant")
       : status;
     const candidate = candidateFor(representation, desired, resolvedStatus, random);
-    if (!candidate || keys.has(candidate.query_key)) continue;
-    keys.add(candidate.query_key);
+    if (!candidate) continue;
+    uniqueKeys.add(candidate.query_key);
     candidates.push(candidate);
   }
   const results = await queryLieBatch({
@@ -881,6 +897,9 @@ const runPilotSlice = async ({
     desired_stratum: desired,
     target_status: status,
     attempts,
+    candidate_draws: candidateDraws,
+    unique_query_keys: uniqueKeys.size,
+    sampling: "bounded_with_replacement",
     hits: observed[desired],
     required,
     observed_strata: observed,
@@ -1691,6 +1710,13 @@ const selfTest = () => {
     throw new Error("stratum classification failed");
   if (!(wilsonLower(50, 100) < 0.5 && wilsonLower(50, 100) > 0))
     throw new Error("Wilson bound failed");
+  const exterior = exteriorCoefficient({
+    maximum_depth: 5,
+    rank: 2,
+  }, makeRandom(17));
+  const exteriorDepth = exterior.reduce((sum, value) => sum + value, 0);
+  if (exteriorDepth < 6 || exteriorDepth > 261)
+    throw new Error("exterior shell construction failed");
   const system = {
     rank: 2,
     cartan,

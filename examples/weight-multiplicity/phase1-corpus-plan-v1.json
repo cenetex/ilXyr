@@ -61,12 +61,15 @@
     "acr2_transformed": { "records": 12000, "distribution": "weyl_transformed", "base_partition": "cross_rank_stratified", "records_per_stratum": 3000, "coxeter_length_bands": 4 }
   },
   "generator": {
-    "version": 1,
+    "version": 2,
     "seed": 1378397233,
     "candidate_batch_size": 512,
     "label_minimum": 0,
     "label_maximum": 31,
     "strata": ["0", "1", "2-7", "8-31"],
+    "zero_candidate_shell": "random_root_composition_at_depth_maximum_plus_1_to_256",
+    "pilot_sampling": "bounded_with_replacement_and_no_corpus_writes",
+    "pilot_candidate_draw_limit_multiplier": 10000,
     "exact_query_deduplication": "global_across_all_model_facing_partitions",
     "training_development_orbit_rule": "at_most_one_target_per_type_representation_dominant_orbit",
     "natural_distribution": "same_frozen_candidate_generator_without_label_rejection_or_balancing",
