@@ -83,6 +83,32 @@ for (const forecast of q22Evidence.forecasts.analytical_settlement) {
     `EXP-007 forecast score drifted for ${forecast.forecast_id}`);
 }
 
+const compositionalEvidence = readJson("docs/experiments/exp-008-evidence.json");
+const compositionalBridge = nodes.get("zero-solomon-compositional-routing-v1");
+assert(compositionalEvidence.public_id === "EXP-008"
+    && compositionalEvidence.resolved_outcome === "no_go"
+    && compositionalEvidence.registration.merged_before_evaluation === true,
+  "EXP-008 must retain its prospective no-go registration boundary");
+assert(compositionalEvidence.scientific_run.seeds.length === 3
+    && JSON.stringify(compositionalEvidence.scientific_run.seeds.map(seed =>
+      seed.operation_exact_rate_ppm)) === JSON.stringify([425000, 430000, 533000])
+    && compositionalEvidence.scientific_run.minimum_per_class_exact_rate_ppm === 0
+    && compositionalEvidence.scientific_run.all_seed_agreement_cases === 531
+    && compositionalEvidence.scientific_run.all_seed_agreement_rate_ppm === 531000
+    && compositionalEvidence.scientific_run.family_passed === false,
+  "EXP-008 exact result, per-class gate, or agreement gate drifted");
+assert(compositionalBridge?.execution_status === "completed"
+    && compositionalBridge.scientific_outcome === "negative"
+    && compositionalBridge.lifecycle_status === "closed",
+  "the completed EXP-008 shortcut-resistant branch must remain a closed negative pathway");
+for (const forecast of compositionalEvidence.forecasts.analytical_settlement) {
+  const expected = Object.entries(forecast.probabilities)
+    .reduce((score, [outcome, probability]) =>
+      score + (probability - (outcome === forecast.resolved_outcome ? 1 : 0)) ** 2, 0);
+  assert(Math.abs(expected - forecast.brier_score) < 1e-12,
+    `EXP-008 forecast score drifted for ${forecast.forecast_id}`);
+}
+
 const edgeKeys = new Set();
 for (const edge of map.edges) {
   assert(nodes.has(edge.from), `research pathway edge source is missing: ${edge.from}`);

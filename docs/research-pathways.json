@@ -1,6 +1,6 @@
 {
   "schema": "ilxyr.research_pathways.v2",
-  "as_of": "2026-08-30",
+  "as_of": "2026-08-31",
   "scope": "Decision-bearing Zero, Solomon and NSRL model-research pathways, the cross-family bridge, and the independent Holo verification recorded by ilXyr. Protocol-only engineering tests are excluded.",
   "factor_spaces": [
     {
@@ -682,6 +682,30 @@
         { "kind": "program_record", "path": "examples/shared-tasks/zero-solomon-q22-operation-v1.json", "record_id": "zero-solomon.q22-operation.v1" },
         { "kind": "experiment_record", "path": "docs/experiments/EXP-007.md", "record_id": "EXP-007" }
       ]
+    },
+    {
+      "id": "zero-solomon-compositional-routing-v1",
+      "coordinate": { "track": "B", "parts": [2], "slug": "b2" },
+      "record_revision": 1,
+      "factor_state": { "zero_model": 1, "solomon_model": 1, "task": 2, "encoding": 2, "verifier": 2, "evaluation": 2 },
+      "display_name": "ZERO.4 to Solomon shortcut-resistant routing",
+      "family": "cross_family",
+      "lineage": "cross-family/zero-solomon",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "The unchanged Solomon sparse integer class head transfers Q22 routing across held-out template families after prefix shortcuts are removed and balanced distractors are added", "outcome": "negative" }
+      ],
+      "summary": "Training routing reached 100% on all seeds, but promotion rates were 42.5%, 43.0%, and 53.3%; the worst class was 0% and all-seed agreement was 53.1%. The fixed sparse class-head contract did not generalize.",
+      "next_boundary": "Do not tune against the opened promotion set. A successor needs a new frozen surface and a representation- or objective-level change with a representation-sufficiency diagnostic.",
+      "sources": [
+        { "kind": "program_record", "path": "examples/shared-tasks/zero-solomon-q22-compositional-routing-v1.json", "record_id": "zero-solomon.q22-compositional-routing.v1" },
+        { "kind": "experiment_record", "path": "docs/experiments/EXP-008.md", "record_id": "EXP-008" }
+      ]
     }
   ],
   "edges": [
@@ -692,6 +716,7 @@
     { "from": "zero-q26-replay-tangent-seed2-v1", "to": "zero-q26-family-replication-v1", "relation": "replicated_by", "summary": "The diagnostic seed go prospectively opened seeds 1 and 3." },
     { "from": "zero-q26-family-replication-v1", "to": "zero-solomon-shared-task-bridge-v1", "relation": "enables", "summary": "The all-three-seed go clears the Zero family gate for a cross-family bridge." },
     { "from": "solomon-successor-v2", "to": "zero-solomon-shared-task-bridge-v1", "relation": "enables", "summary": "The replayed integer-transformer stack supplies the Solomon deployment substrate." },
+    { "from": "zero-solomon-shared-task-bridge-v1", "to": "zero-solomon-compositional-routing-v1", "relation": "opened", "summary": "The prefix-separable go opened a harder transfer test with a common prefix, balanced distractors, and held-out template families." },
     { "from": "zero5-c0-v1", "to": "zero5-c1-v1", "relation": "opened", "summary": "Tokenizer selection opened the native training proof." },
     { "from": "zero5-c1-v1", "to": "zero5-c2-v1", "relation": "opened", "summary": "Stable native training opened Atlas continuation." },
     { "from": "zero5-c2-v1", "to": "zero5-c3-v1", "relation": "opened", "summary": "The selected C2 checkpoint became the fixed base for evidence-task research." },
@@ -715,7 +740,8 @@
       "Prospective contracts, immutable hashes, exact replay, and fail-closed gates prevent attractive partial results from becoming promotion claims.",
       "Negative results remain first-class evidence and can close intervention families without opening hidden or downstream evaluation.",
       "The ZERO.4 Q2.3 through Q2.6 sequence shows successful causal refinement: local budget, cumulative authority, scalar continuation, then update direction.",
-      "Surprising positive results are replicated across frozen seeds before family promotion."
+      "Surprising positive results are replicated across frozen seeds before family promotion.",
+      "The EXP-007 to EXP-008 transition shows an efficient abstraction change: a perfect prefix-separable result was challenged once on a shortcut-resistant surface and the fixed class-head boundary closed cleanly."
     ],
     "failure_modes": [
       "Some lineages perform serial nearest-neighbor repairs to schedules, data mixtures, or candidate selection before testing the underlying representation or direction.",
@@ -734,7 +760,7 @@
       "Require major branches to declare rules_out, supports, supersedes, and next_allowed intervention edges."
     ],
     "priority_order": [
-      "Use the completed bridge to design one harder cross-family task that cannot be solved by command-prefix routing.",
+      "Run a read-only representation-sufficiency diagnosis of the failed shortcut-resistant bridge before choosing a new representation- or objective-level successor on fresh evaluation templates.",
       "Run a read-only NSRL frozen-representation sufficiency audit before another training method.",
       "Decide whether ZERO5-C6.1 earns its separately authorized representation-level run.",
       "Import outstanding external evidence and settle verified upstream family evidence locally.",
