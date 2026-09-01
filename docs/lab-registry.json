@@ -1,13 +1,13 @@
 {
   "schema": "ilxyr.lab_registry.v1",
-  "as_of": "2026-08-28",
-  "scope": "Decision-bearing ZERO.5 experiments and their Braid inputs. Engineering calibrations are supporting evidence, not separate scientific decisions.",
+  "as_of": "2026-09-01",
+  "scope": "Active and historical scientific model lines, decision-bearing experiments, and their governed inputs. Engineering calibrations are supporting evidence, not separate scientific decisions.",
   "repositories": [
     {
       "id": "repo://zero",
       "role": "model_engine",
       "url": "https://github.com/atimics/zero-grounded-literary-lm",
-      "observed_revision": "8876c335f04966f09127e8e35c63558a2e2aaffb"
+      "observed_revision": "3b917b6f54d151a43dd65e45f094606272d166c5"
     },
     {
       "id": "repo://braid",
@@ -84,12 +84,21 @@
     {
       "id": "model-line://zero/zero5",
       "family": "zero",
-      "title": "ZERO.5 active C research line",
-      "state": "active_research",
+      "title": "ZERO.5 frozen C training line",
+      "state": "frozen",
       "promotion_state": "not_promoted",
       "base_parameter_count": 4852992,
       "active_experiment": null,
-      "summary": "Dependency-free C11 training at a fixed 4,852,992-parameter base. C5.2 has a terminal private result. C6.1 is built and preregistered but blocked from training, so the line has no active experiment and remains unpromoted."
+      "summary": "Dependency-free C11 training at a fixed 4,852,992-parameter base. Its completed and already-started evidence keeps its real chronology, but no new training experiment is active or authorized."
+    },
+    {
+      "id": "model-line://zero/reasoner",
+      "family": "zero",
+      "title": "Reasoner verified reasoning line",
+      "state": "active_research",
+      "promotion_state": "not_promoted",
+      "active_experiment": null,
+      "summary": "Primary scientific line. External public evidence through Reasoner (3,9) supports active compositional law induction inside a fixed typed integer program language. The lineage is not yet ilXyr-native, and no Reasoner 4.0 experiment or run is authorized."
     }
   ],
   "experiments": [

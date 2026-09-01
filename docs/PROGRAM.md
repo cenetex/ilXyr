@@ -15,9 +15,9 @@ them — never scale.
 Consolidation happens at the evidence layer: each family keeps its own codebase and emits
 ilxyr protocol objects.
 
-- **Zero — science substrate.** Float micro LM in dependency-free C11; one person can verify
-  the whole system by inspection. Validators live outside the model; fluency is never
-  validity. Role: fast falsification of architecture, curriculum, and faculty routing. Its
+- **Zero — science substrate.** Dependency-free C11 model and reasoning runtimes that one person
+  can verify by inspection. Validators live outside the learned policy; fluency is never
+  validity. Role: verified Reasoner research plus preserved model-training evidence. Its
   go/no-go registry is replaced by this ledger.
 - **Solomon — deployment substrate.** Integer-only Rust training stack for deterministic
   CPU/WASM artifacts: native-integer updates, exact replay, checked numeric health. Role:
@@ -33,13 +33,17 @@ ilxyr protocol objects.
 
 ## Active model lines
 
-ZERO.4 and ZERO.5 are separate states, not one checkpoint chain.
+Reasoner is the active scientific line. ZERO.4 and ZERO.5 remain separate
+historical model states, not one checkpoint chain.
 
 - **ZERO.4 is promoted.** Q2.6 passed all three declared seeds and remains the deployed quantity
   model.
-- **ZERO.5 is active research.** It is the dependency-free C11 training line at a fixed
-  4,852,992-parameter base. Its C experiments start from the selected C2 checkpoint, not from
-  ZERO.4. The line is not promoted.
+- **Reasoner is active research.** Its external public lineage through Reasoner (3,9) is the
+  strongest current evidence. It separates structured evidence requests, verified actions,
+  sealed answers, and downstream language. No Reasoner 4.0 experiment is active or authorized.
+- **ZERO.5 is frozen.** It is the dependency-free C11 training line at a fixed 4,852,992-parameter
+  base. Its completed and already-started work keeps its real chronology, but it receives no new
+  training authorization.
 - **C5 is a private terminal lineage.** C5.1 tested a 25% Braid structured-text mixture and
   resolved no-go outside the ilXyr ledger. C5.2 keeps that stream fixed and adds a 193,264-
   parameter verified state-target head, for 5,046,256 total parameters. Its authorized run
@@ -54,6 +58,24 @@ The cross-lineage decision map is [`docs/RESEARCH-PATHWAYS.md`](RESEARCH-PATHWAY
 the validated [`docs/research-pathways.json`](research-pathways.json). It separates scientific
 outcome, execution, disclosure, lifecycle, and evidence maturity so a completed no-go cannot be
 confused with a blocked or withheld experiment.
+
+## Primary line: Reasoner
+
+Reasoner (3,9) passed its sealed active-law gate across 744 fresh episodes. It
+identified every registered three-fold law, made all 2,844 active evidence
+queries exactly, and passed the fixed-law, lookup, no-query, shuffled-feedback,
+and coefficient-only controls. Earlier sealed passes established compact
+dimension transfer, composition, non-monotonic planning, witness-order
+robustness, joint tool routing, exact law induction, and a causally downstream
+language readout. The relational and raw-observation no-go results remain part
+of the evidence.
+
+The claim is deliberately narrow: active compositional law induction inside a
+fixed typed integer program language. The next proposed boundary is learned
+representation transfer with the (3,9) reasoning core frozen. See
+[`REASONER-LINE.md`](REASONER-LINE.md). Registration of the line does not
+authorize that experiment or turn historical external runs into native ilXyr
+evidence.
 
 ## Parallel substrates, shared surface, directed flow
 
@@ -159,9 +181,9 @@ described as an active or successful model line until the corresponding stages r
    do not tune the fixed class head against the opened EXP-008 promotion set.
 6. Implement the native NSRL checkpoint registration and source-pinned adapter, then execute the
    p10m intake and baseline defined by ADR 0005 without changing its experimental status.
-7. Reconcile the active ZERO.5 C0–C5 decision lineage and Braid inputs into the ilXyr registry.
-   This public registry now identifies the evidence debt. Completed upstream runs must be
-   imported honestly; no new run may bypass ilXyr registration.
+7. Keep Reasoner as the active scientific line and import its external 3.x evidence without
+   rewriting chronology. ZERO.5 remains frozen; completed upstream runs remain evidence debt
+   until imported honestly. No new run may bypass ilXyr registration.
 8. Freeze and validate the verified-oracle weight-multiplicity contract, then measure its oracle
    frontier before generating a corpus or training a model.
 
