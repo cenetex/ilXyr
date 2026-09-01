@@ -68,6 +68,11 @@ paths, and requires every named training file. It records the raw `release.json`
 ilXyr corpus file inventory. The resulting `artifact://sha256/...` is the exact value used in the
 experiment's `dataset_bindings` map.
 
+FERAL-7B uses the same importer for three separate Braid releases. The training contract requires
+`data/train.jsonl` and `data/validation.jsonl`; the future and unseen-issuer contracts each require
+their own `data/test.jsonl`. Keeping two evaluation releases prevents their preregistered scores
+from being silently combined.
+
 Registration does not authorize training and does not upload data. The later materialization
 receipt must cover the imported Braid artifacts and `release.json` exactly.
 

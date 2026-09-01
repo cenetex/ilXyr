@@ -18,18 +18,21 @@ not a Season 00 training input.
 | --- | --- |
 | ilXyr project | `project://ilxyr/feral-7b` |
 | Experiment draft | `feral-7b.sec-analysis.v2` |
-| Braid dataset | `dataset://braid/feral-7b-sec/v1` |
+| Braid training dataset | `dataset://braid/feral-7b-sec/v1` |
+| Braid future evaluation | `dataset://braid/feral-7b-sec-future-eval/v1` |
+| Braid unseen-issuer evaluation | `dataset://braid/feral-7b-sec-unseen-eval/v1` |
 | Base weights | `weight://huggingface/Qwen/Qwen2.5-7B-Instruct@a09a35458c702b33eeacc393d103063234e8bc28` |
 | OCI repository | `ghcr.io/atimics/feral-7b-sec-qwen` |
 
 ## Setup sequence
 
-1. Braid produces a `RELEASED` v2 release with `data/train.jsonl` and
-   `data/validation.jsonl` and the reviewed rights statement.
-2. Copy `examples/corpus/feral-7b-braid-import.json`, replace its release ID, raw manifest hash,
-   Braid revision, and rights, then run `ilxyr braid-corpus-register`.
-3. Materialize every imported file plus `release.json` into versioned cloud storage and record a
-   read-back verified receipt.
+1. Braid produces three `RELEASED` v2 releases: train/validation, sealed future evaluation, and
+   sealed unseen-issuer evaluation. Each carries the reviewed rights statement.
+2. Copy the three `examples/corpus/feral-7b-*-braid-import.json` contracts, replace their release
+   IDs, raw manifest hashes, exact Braid revision, and rights, then run
+   `ilxyr braid-corpus-register` once for each release.
+3. Materialize every imported file plus each `release.json` into versioned cloud storage and record
+   read-back verified receipts.
 4. Run Runner Watch's manual FERAL image workflow with a digest-pinned GPU base image. Publishing
    must be explicitly selected. Record the resulting complete OCI digest.
 5. Replace only the corpus artifact and OCI placeholders in the v2 experiment draft. Submit the

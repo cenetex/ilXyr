@@ -270,7 +270,7 @@
           "state": "blocked",
           "evidence": "missing",
           "refs": [],
-          "detail": "The Braid FERAL release is not frozen or registered. Paid training must not begin."
+          "detail": "The Braid FERAL training, future-evaluation, and unseen-issuer releases are not frozen or registered. Paid training must not begin."
         },
         {
           "stage_id": "braid_import_bridge",
@@ -278,7 +278,7 @@
           "state": "implemented",
           "evidence": "recorded",
           "refs": [],
-          "detail": "ilXyr can import an out-of-band Braid release ID and manifest digest, require RELEASED status and training files, and record the closed release as an immutable corpus artifact."
+          "detail": "ilXyr can import the three out-of-band Braid release IDs and manifest digests, require RELEASED status and the exact train, validation, or test files, and record each closed release as an immutable corpus artifact."
         },
         {
           "stage_id": "corpus_materialization",
@@ -358,7 +358,7 @@
           "requirement_id": "missing://feral-7b/full-corpus-release",
           "title": "Frozen full corpus release",
           "blocks_stage": "full_corpus_freeze",
-          "detail": "Build the FERAL corpus in Braid, review its rights, and import the immutable release ID and manifest digest into ilXyr."
+          "detail": "Build the FERAL training and two sealed evaluation corpora in Braid, review their rights, and import all three immutable release IDs and manifest digests into ilXyr."
         },
         {
           "requirement_id": "missing://feral-7b/materialization",
