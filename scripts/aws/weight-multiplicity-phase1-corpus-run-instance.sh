@@ -19,6 +19,14 @@ test "$WM1C_REGION" = us-east-1
 [[ "$WM1C_ILXYR_COMMIT" =~ ^[0-9a-f]{40}$ ]]
 [[ "$WM1C_PLAN_SHA256" =~ ^[0-9a-f]{64}$ ]]
 [[ "$WM1C_MANIFEST_SHA256" =~ ^[0-9a-f]{64}$ ]]
+[[ "$WM1C_LAUNCH_EPOCH" =~ ^[0-9]+$ ]]
+
+if [ "$mode" = launch ]; then
+  launch_now=$(date +%s)
+  launch_age=$((launch_now - WM1C_LAUNCH_EPOCH))
+  test "$launch_age" -ge 0
+  test "$launch_age" -le 60
+fi
 
 tags="ResourceType=instance,Tags=[{Key=Project,Value=ilxyr},{Key=Name,Value=weight-multiplicity-phase1-corpus},{Key=Experiment,Value=weight-multiplicity-phase1-corpus-v1},{Key=RunId,Value=${WM1C_RUN_ID}},{Key=PackageKey,Value=${WM1C_PACKAGE_KEY}},{Key=PackageSha256,Value=${WM1C_PACKAGE_SHA256}},{Key=Bucket,Value=${WM1C_BUCKET}},{Key=Region,Value=${WM1C_REGION}},{Key=IlxyrCommit,Value=${WM1C_ILXYR_COMMIT}},{Key=PlanSha256,Value=${WM1C_PLAN_SHA256}},{Key=ManifestSha256,Value=${WM1C_MANIFEST_SHA256}},{Key=ApprovalId,Value=weight-multiplicity-phase1-corpus-2026-08-31-v1},{Key=LaunchEpoch,Value=${WM1C_LAUNCH_EPOCH}},{Key=MaxInstanceSeconds,Value=5400},{Key=WorkloadTimeoutSeconds,Value=4800},{Key=MaxComputeUsd,Value=1.02},{Key=HourlyPrice,Value=0.68}]"
 volume_tags="ResourceType=volume,Tags=[{Key=Project,Value=ilxyr},{Key=Experiment,Value=weight-multiplicity-phase1-corpus-v1},{Key=RunId,Value=${WM1C_RUN_ID}}]"
