@@ -122,6 +122,15 @@ if (fs.existsSync(exp007Page) &&
   report(exp007Page, "must link its public evidence summary");
 }
 
+const exp008Page = path.join(docsRoot, "experiments", "exp-008.html");
+const exp008Evidence = path.join(docsRoot, "experiments", "exp-008-evidence.json");
+if (!fs.existsSync(exp008Page)) report(exp008Page, "publication page is missing");
+if (!fs.existsSync(exp008Evidence)) report(exp008Evidence, "public evidence summary is missing");
+if (fs.existsSync(exp008Page) &&
+    !fs.readFileSync(exp008Page, "utf8").includes('href="exp-008-evidence.json"')) {
+  report(exp008Page, "must link its public evidence summary");
+}
+
 const programPage = path.join(docsRoot, "program-registry.html");
 const labRegistry = path.join(docsRoot, "lab-registry.json");
 const indexPage = path.join(docsRoot, "index.html");

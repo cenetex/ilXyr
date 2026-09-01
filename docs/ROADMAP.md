@@ -101,7 +101,10 @@ cross-family replication, OSF-side authentication, hardware attestation, or SLSA
   replay, mechanically provenance-disjoint replication, and the reserved replication budget share.
 - The Zero→Solomon replication bridge is complete as EXP-007. The task, both family
   implementations, fixed compute budget, evaluation firewall, and agreement rule were bound
-  before the three-seed go. A successor must test a harder surface without prefix shortcuts.
+  before the three-seed go. EXP-008 tested a harder surface without prefix shortcuts and resolved
+  no-go: seed rates were 42.5–53.3%, the worst class was 0%, and agreement was 53.1%. The fixed
+  sparse class-head branch is closed at this boundary; a successor needs a new representation or
+  objective and fresh evaluation templates.
 - Execute the ADR 0005 NSRL p10m managed pilot: implement a native content-addressed checkpoint
   bundle and source-pinned adapter, settle the frozen baseline and exact-restart checks, then record
   a continue, candidate, or freeze decision. Stewardship does not change the model's
