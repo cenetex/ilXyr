@@ -247,8 +247,13 @@ sha256sum oracle-builds.json runner-stdout.log runner-stderr.log \
   generation/runner-summary.json > outer-sha256sums.txt
 aws s3 sync "$OUT/" "s3://${BUCKET}/${PREFIX}/results/" --only-show-errors
 
-PHASE=complete
-write_status complete "$runner_status"
+if [ "$result_status" = hold ]; then
+  PHASE=corpus_generation
+  write_status hold "$runner_status"
+else
+  PHASE=complete
+  write_status complete "$runner_status"
+fi
 awk -v cost="$(jq -r .estimated_ec2_usd "$STATUS")" \
   -v ceiling="$MAX_COMPUTE_USD" 'BEGIN { exit !(cost <= ceiling) }'
 upload_status

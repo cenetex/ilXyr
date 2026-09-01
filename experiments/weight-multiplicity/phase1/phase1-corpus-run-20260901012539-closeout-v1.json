@@ -1,0 +1,69 @@
+{
+  "schema": "ilxyr.weight_multiplicity_phase1_corpus_run_closeout.v1",
+  "status": "hold",
+  "classification": "oracle_resource_gate",
+  "run": {
+    "run_id": "20260901012539",
+    "instance_id": "i-0724ef8f4363530de",
+    "instance_type": "c6i.4xlarge",
+    "region": "us-east-1",
+    "launch_time": "2026-09-01T01:28:15Z",
+    "terminal_receipt_time": "2026-09-01T01:29:24Z",
+    "instance_terminated": true,
+    "instance_shutdown_reason": "Client.InstanceInitiatedShutdown",
+    "elapsed_instance_seconds": 70,
+    "estimated_ec2_usd": 0.013222222222
+  },
+  "source_bindings": {
+    "package_sha256": "dff583bfe635aefca8a7d4bb63615ed7ab5d2f88de61cd128debd1a150ebfa0d",
+    "package_s3_version_id": "C1NRCc.kpw0hcdCIFr9ExA_XAjV.dIK2",
+    "ilxyr_commit": "97da7e29c220a36d632e080f0a515a0c819b37f8",
+    "plan_sha256": "9311b0f28de0f3f42614fd17fa808d812ae7a0ad354fa723f55222b0b4116e18",
+    "manifest_sha256": "1d097675fbff83e704cfd0128ea98caa116d6bcb3573fa7ef314b9d1f357a733",
+    "lie_executable_sha256": "bc1099ccfa0f890868e2261c106ede4fd0e52dcd86a4d03b16318ba39674e974",
+    "zero_executable_sha256": "ebe34bf41f9deb1728628ebcb0d8046386ed0dc1cacccdd64ef643f616b505a1"
+  },
+  "gate": {
+    "name": "lie_per_query_time_limit",
+    "limit_ms": 1000,
+    "observed_ms": 1019.3888110000044,
+    "oracle_result_status": "ok",
+    "multiplicity": "2633282666151119789",
+    "oracle_calls_before_hold": 19105,
+    "total_query_ms": 32551.0799099996,
+    "mean_query_ms": 1.7037990007851138,
+    "p50_query_ms": 0.15711200000077952,
+    "p95_query_ms": 2.1647759999978007,
+    "generator_wall_seconds": 6.592979610999995,
+    "frozen_budget_created": false
+  },
+  "artifacts": {
+    "prefix": "s3://zero-training-022118847419/experiments/weight-multiplicity-phase1-corpus-v1/runs/20260901012539/",
+    "terminal_status_sha256": "6802237461c4e3525cfa6163317fef1484c3bbe724960eb6787cc68d9661e9ac",
+    "terminal_status_s3_version_id": "Y9inrH2eWnUHGdp0rEU_1Ra6FORpem_R",
+    "hold_sha256": "296382a7a0c30640d61c5d560b838c550ed75e16a11d43bb1011a57c6ac1b546",
+    "runner_summary_sha256": "296382a7a0c30640d61c5d560b838c550ed75e16a11d43bb1011a57c6ac1b546",
+    "oracle_builds_sha256": "061f25500632e95f1440ccbb23fd13b8cbb05cf727d7582493a1054c599f2b7a",
+    "outer_sha256sums_sha256": "c91c7252838cd776dbb93efde15ad5f854c4f09ef59041242dc83702bca84438",
+    "runner_stderr_sha256": "ebc9dc3389e92ccfd54d3f6b241337fc9f0f707d4c00cd72cdc3194d7abcbcce",
+    "bootstrap_log_sha256": "7c61c1cae603e5b03b9717c45fdb7497b8cdb66f699e3973ddcf33e7f15ddb38"
+  },
+  "receipt_erratum": {
+    "observed_outer_status": "complete",
+    "correct_status": "hold",
+    "cause": "cloud wrapper treated an accepted scientific Hold exit as operational completion",
+    "scientific_hold_was_preserved_in_runner_summary": true
+  },
+  "deliverables": {
+    "corpus_sealed": false,
+    "corpus_records": 0,
+    "corpus_manifest_available": false,
+    "stratum_yields_available": false
+  },
+  "closures": {
+    "retry_authorized": false,
+    "model_training_authorized": false,
+    "model_evaluation_authorized": false,
+    "oracle_promotion_authorized": false
+  }
+}

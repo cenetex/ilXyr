@@ -847,7 +847,22 @@ class RepresentationPicker {
 const queryLieBatch = async ({ workers, candidates, coordinateMapping, budget, monitor }) => {
   const results = await executeWithWorkers(workers, candidates, async (worker, candidate) =>
     await worker.query(lieCommand(candidate, coordinateMapping)));
-  for (const result of results) budget.observe(result);
+  for (let index = 0; index < results.length; index += 1) {
+    const candidate = candidates[index];
+    budget.observe({
+      ...results[index],
+      query: {
+        canonical_type: candidate.canonical_type,
+        canonical_representation_id: candidate.canonical_representation_id,
+        highest_weight: candidate.highest_weight,
+        target_weight: candidate.target_weight,
+        target_status: candidate.target_status,
+        target_depth: candidate.target_depth,
+        desired_stratum: candidate.desired_stratum,
+        query_key: candidate.query_key,
+      },
+    });
+  }
   await budget.checkpoint();
   monitor.assertOkay();
   return results;
