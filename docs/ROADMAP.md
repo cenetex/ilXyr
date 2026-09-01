@@ -65,7 +65,7 @@ into a promoted claim.
   without authorizing general Solomon promotion.
 - Per-project pipelines remain source harnesses; `ilxyr verify` can replace their evidence ledger
   only after each frozen replay has been registered.
-- The active ZERO.5 C line is now explicit in the lab registry. C0 selected the governed lossless
+- The frozen ZERO.5 C line remains explicit in the lab registry. C0 selected the governed lossless
   tokenizer, C1 proved native C training, C2 selected the Atlas checkpoint, C3 through C4.3
   recorded a sequence of useful no-go curriculum repairs, and C5.1 found that a 25% Braid
   structured-text mixture did not transfer into the frozen retrieval audit. C5.2 TargetBridge
@@ -75,6 +75,9 @@ into a promoted claim.
 - The checked-in machine-readable lab registry and its internal-reference validator now make
   Braid inputs, ZERO model lines, experiment controls, evidence state, and the current decision one
   reviewed surface. A new run must carry an ilXyr registration before execution.
+- Reasoner is now the active scientific model line. Its public 3.x lineage is registered as
+  external evidence through active compositional law induction; the next representation-transfer
+  question remains uncompiled and unauthorized.
 
 ## V1.2 — replication bridge and live gates
 

@@ -1,7 +1,7 @@
 # Research pathways and exploration method
 
 This document maps the decision-bearing model research recorded by ilXyr as of
-2026-08-31. It distinguishes a scientific no-go from an unexecuted blocker and
+2026-09-01. It distinguishes a scientific no-go from an unexecuted blocker and
 from a completed result whose disclosure is intentionally withheld.
 
 The machine-readable source is [`research-pathways.json`](research-pathways.json).
@@ -62,8 +62,8 @@ These axes must not be collapsed. In particular:
   public inference.
 - A **mixed** pathway contains separately stated positive and negative claims.
 
-The current graph contains 28 nodes: 27 completed and one not run. Seven have
-positive scientific outcomes, 17 negative, two mixed, and two unknown. These
+The current graph contains 30 nodes: 28 completed and two not run. Eight have
+positive scientific outcomes, 17 negative, two mixed, and three unknown. These
 counts are not a success rate: the nodes include enabling experiments,
 diagnostics, replications, managed checkpoints, and blocked questions at
 different levels of the same lineages.
@@ -230,6 +230,18 @@ The public proxy should not be rerun to search for an advantage. Exact
 replication remains open until the original Telegram corpus and matching MPS
 conditions are available.
 
+## Reasoner frontier
+
+Reasoner (3,9) is the active scientific frontier. Its external public result
+supports active compositional law induction inside a fixed typed integer
+program language. It does not establish open-ended reasoning or arbitrary
+representation transfer.
+
+Reasoner 4.0 records the next open question: infer a structured adapter from
+examples while the (3,9) core remains frozen. It is deliberately marked
+`not_run`, `unknown`, `open`, and `documented`. No prospective experiment has
+been compiled and no execution is authorized.
+
 ## Assessment of the exploration method
 
 The program is excellent at preserving truth. Prospective contracts, immutable
@@ -289,12 +301,12 @@ Apply these additional rules:
 
 ## Priority order
 
-1. Run a read-only representation-sufficiency diagnosis of EXP-008 before
+1. Write and review the Reasoner 4.0 representation-transfer contract without
+   authorizing execution.
+2. Run a read-only representation-sufficiency diagnosis of EXP-008 before
    choosing a representation- or objective-level successor on fresh templates.
-2. Run a read-only NSRL frozen-representation sufficiency audit before another
+3. Run a read-only NSRL frozen-representation sufficiency audit before another
    training method.
-3. Decide whether ZERO5-C6.1 earns its separately authorized
-   representation-level run.
 4. Import the remaining external evidence and settle the verified upstream
    family evidence locally.
 5. Do not reopen the closed local-coordinate, scalar-backtracking, ordinary
