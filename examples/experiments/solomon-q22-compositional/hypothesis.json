@@ -1,0 +1,17 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "solomon.q22-compositional.hypothesis.v1",
+  "stage": "hypothesis",
+  "actor": {
+    "id": "model://solomon/q22-compositional/research-director",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5.6-sol/2026-08-31"
+  },
+  "title": "Solomon Q22 compositional routing hypothesis",
+  "body": "The unchanged Solomon sparse integer class head can route five quantity operations from held-out sentence-template families after the inherited first-token shortcut is removed. Every input begins with the same four-token prefix, and every target class receives a balanced wrong-operation distractor. A go requires every seed to reach 900000 exact-rate ppm, every seed-class pair to reach 800000 ppm, and at least 950000 ppm prediction agreement across seeds.",
+  "claims": [
+    "The test concerns held-out paraphrase and distractor-resistant operation routing, not arithmetic answer generation.",
+    "A valid no-go would close the simple sparse class-head path for this stronger routing surface without rejecting the broader Solomon lineage."
+  ],
+  "confidence": 0.76
+}

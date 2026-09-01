@@ -100,7 +100,11 @@ verifiers in `zero-solomon.q22-operation.v1`. EXP-007 then froze an 8,192-featur
 head, four epochs, seeds 1–3, a 950,000 ppm per-seed gate, and exact cross-seed agreement before
 evaluation. Every seed scored 500/500 and all predictions agreed, so the narrow operation-routing
 bridge resolved go. This does not establish arithmetic generation or broad language quality; a
-successor must remove command-prefix shortcuts and freeze a harder transfer claim.
+successor must remove command-prefix shortcuts and freeze a harder transfer claim. EXP-008 ran
+that successor unchanged after registration: all inputs shared one prefix, distractors were
+balanced, and promotion template families were held out. Seed rates fell to 42.5%, 43.0%, and
+53.3%, with 53.1% agreement, so the fixed sparse class-head transfer claim resolved no-go. Any
+new successor must change representation or objective and use fresh evaluation templates.
 The verified Braid StateBridge symbolic view is not admitted as a shared task while the C5
 decision remains private. It stays an input artifact and does not replace q22r by declaration.
 
@@ -150,8 +154,9 @@ described as an active or successful model line until the corresponding stages r
    Q2.6's prospective seed-2 replay-tangent go while preserving full gates for spine claims.
    EXP-005 records independent seed-1 and seed-3 go results and the verified family go. Its
    upstream evidence still needs to be imported into the local ilXyr ledger.
-5. The Solomon Q22 experiment was preregistered and completed unchanged as EXP-007. Preserve it
-   as terminal evidence; any successor must use a new task and a new prospective claim.
+5. The Solomon Q22 experiment was preregistered and completed unchanged as EXP-007. EXP-008 then
+   tested a new shortcut-resistant task prospectively and resolved no-go. Preserve both results;
+   do not tune the fixed class head against the opened EXP-008 promotion set.
 6. Implement the native NSRL checkpoint registration and source-pinned adapter, then execute the
    p10m intake and baseline defined by ADR 0005 without changing its experimental status.
 7. Reconcile the active ZERO.5 C0–C5 decision lineage and Braid inputs into the ilXyr registry.

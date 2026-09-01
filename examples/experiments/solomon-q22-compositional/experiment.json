@@ -1,0 +1,118 @@
+{
+  "schema": "ilxyr.experiment.v1",
+  "id": "solomon.q22-compositional-routing.three-seed.v1",
+  "title": "Solomon Q22 held-out compositional routing test",
+  "hypothesis": "The inherited Solomon sparse integer class head passes all frozen overall, per-class, and cross-seed gates on surface-disjoint Q22 promotion templates with a common prefix and balanced wrong-operation distractors.",
+  "rationale": "EXP-007 established that the class head could solve a prefix-separable routing surface. This successor removes that shortcut and tests whether the same model can use later operation evidence across held-out paraphrases without being captured by a balanced contradictory cue.",
+  "proposer": {
+    "id": "service://solomon/q22-compositional-proposer-v1",
+    "kind": "service"
+  },
+  "family": "solomon",
+  "shared_task_id": "zero-solomon.q22-compositional-routing.v1",
+  "lineage": {
+    "hypothesis": "solomon.q22-compositional.hypothesis.v1",
+    "mathematical_foundation": "solomon.q22-compositional.foundation.v1",
+    "engineering_review": "solomon.q22-compositional.engineering-review.v1",
+    "experiment_design": "solomon.q22-compositional.experiment-design.v1"
+  },
+  "baseline": "baseline://zero-solomon/q22-compositional/prefix-only/v1",
+  "datasets": [
+    "dataset://zero/q22-compositional-routing/train/v1",
+    "dataset://zero/q22-compositional-routing/promotion/v1"
+  ],
+  "models": ["weight://solomon/q22-compositional-integer-class-head/prospective-v1"],
+  "metrics": [
+    {
+      "name": "family_gate_ppm",
+      "unit": "parts_per_million",
+      "description": "One million only when every frozen overall, per-class, and agreement gate passes; otherwise zero"
+    },
+    {
+      "name": "minimum_operation_exact_rate_ppm",
+      "unit": "parts_per_million",
+      "description": "Lowest exact operation-routing rate across the three frozen seeds"
+    },
+    {
+      "name": "minimum_per_class_exact_rate_ppm",
+      "unit": "parts_per_million",
+      "description": "Lowest exact rate across every frozen seed and operation class"
+    },
+    {
+      "name": "all_seed_agreement_rate_ppm",
+      "unit": "parts_per_million",
+      "description": "Promotion inputs receiving the same prediction from all three frozen seeds"
+    }
+  ],
+  "seeds": [1, 2, 3],
+  "outcome_contract": {
+    "primary_metric": "family_gate_ppm",
+    "success_outcome": "go",
+    "outcomes": [
+      {
+        "id": "go",
+        "description": "Every seed reaches 900000 overall ppm, every seed-class pair reaches 800000 ppm, and all-seed agreement reaches 950000 ppm.",
+        "predicate": {"kind": "metric", "metric": "family_gate_ppm", "operator": "gte", "threshold": 1000000}
+      },
+      {
+        "id": "no_go",
+        "description": "The run completes validly but at least one frozen overall, per-class, or agreement threshold is missed.",
+        "predicate": {"kind": "metric", "metric": "family_gate_ppm", "operator": "lt", "threshold": 1000000}
+      },
+      {
+        "id": "execution_failure",
+        "description": "The run violates a source hash, compute cap, firewall step, artifact freeze, or process requirement.",
+        "predicate": {"kind": "execution_failure"}
+      }
+    ]
+  },
+  "execution": {
+    "executor": "local-command",
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-solomon-q22-compositional.mjs",
+      "--nsrl-repo", "/workspace/nsrl",
+      "--nsrl-repository", "https://github.com/atimics/nsrl.git",
+      "--nsrl-commit", "fa60312f93ec859e42a57f383f5972b8df4cf807",
+      "--zero-repo", "/workspace/zero-grounded-literary-lm",
+      "--zero-commit", "8deeb138e4c01ba5b64bb22e5125d5c823c37f78",
+      "--git", "/usr/bin/git",
+      "--node", "/usr/local/bin/node",
+      "--cargo", "/usr/local/bin/cargo",
+      "--harness-sha256", "e3f84e9dbc3b5a2223f554aeb2966750d8df74e4148627a1da3f0d8f787e969c"
+    ],
+    "timeout_seconds": 600,
+    "max_cost_credits": 3,
+    "network": "open"
+  },
+  "funding": {
+    "required_compute_credits": 3,
+    "minimum_forecasters": 2,
+    "minimum_total_stake": 20
+  },
+  "security": {
+    "weight_class": "public",
+    "code_policy": "arbitrary",
+    "export_policy": "artifacts"
+  },
+  "evidence_authority": {
+    "level": "exact_check",
+    "scope": {
+      "seeds": [1, 2, 3],
+      "eval_set": "dataset://zero/q22-compositional-routing/promotion/v1",
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [],
+      "checker": "verifier://solomon/q22-compositional-operation/v1"
+    }
+  },
+  "expected_outputs": [
+    "metrics.family_gate_ppm",
+    "metrics.minimum_operation_exact_rate_ppm",
+    "metrics.minimum_per_class_exact_rate_ppm",
+    "metrics.all_seed_agreement_rate_ppm",
+    "resolved_outcome",
+    "forecast_settlements"
+  ]
+}

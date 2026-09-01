@@ -1,0 +1,118 @@
+{
+  "schema": "ilxyr.weight_multiplicity_phase06_lie_preflight_plan.v1",
+  "status": "authorized",
+  "authorization": {
+    "approval": "I approve it",
+    "approved_date": "2026-08-31",
+    "scope": "572-representation LiE preflight only"
+  },
+  "source": {
+    "phase05_frontier_gzip_sha256": "997efbe48f6d1025e49f8befa7cb06899a33e70ca94d5e254d47f64438f481e7",
+    "phase05_frontier_plan_sha256": "74a16761d1fef3c3dea04624fe9e5b2d491bb285bd810cb41514493e160f5a6f",
+    "phase05_representation_manifest_sha256": "7b4d83e01b3af05195bfe92d2c08d8d76da8a33b4ce83953df909e98dedf37ff",
+    "phase06_plan_sha256": "9bdcc7c965d88dd2041cdd56f0a47be03d813f623e818d7a35dc1aba0c43a405",
+    "phase06_manifest_sha256": "59aafe3a3e06c685861fd73875cfc322faaa3a8e317111728ad5d3fb5bc15925",
+    "phase06_evidence_gzip_sha256": "a14a111046806c55d5c2acbfb4768c1bf9161fc9c8ac2c149de953fa3bb16a21",
+    "reduced_manifest_sha256": "1d097675fbff83e704cfd0128ea98caa116d6bcb3573fa7ef314b9d1f357a733",
+    "governance_sha256": "d32edfbfe42dd0770c7724f255a314684bf2c3c6631429d9f0294d850ceaf36a",
+    "authorized_representations": 572,
+    "raw_requests_per_representation": 32,
+    "raw_request_maximum": 18304,
+    "expected_unique_requests": 4218,
+    "expected_historical_zero_available": 4218
+  },
+  "canonical_names": {
+    "legacy_to_canonical": {
+      "B2": "B2",
+      "B3": "C3",
+      "B4": "C4",
+      "B5": "C5",
+      "B6": "C6",
+      "B7": "C7",
+      "B8": "C8",
+      "C3": "B3",
+      "C4": "B4",
+      "C5": "B5",
+      "C6": "B6",
+      "C7": "B7",
+      "C8": "B8"
+    },
+    "legacy_B2_coordinate_rule": "reverse_coordinates_from_legacy_C2_orientation"
+  },
+  "lie": {
+    "version": "2.2.2",
+    "source_url": "https://mirror.metanet.ch/sage/spkg/upstream/lie/lie-2.2.2.tar.gz",
+    "source_sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e",
+    "execution": "unmodified_separate_executable",
+    "source_date_epoch": 1112054400,
+    "source_date_epoch_basis": "2005-03-29T00:00:00Z, the source archive top-directory date",
+    "build_reproducibility_gate": "two_independent_builds_must_have_identical_executable_sha256",
+    "superseded_executable_hash": {
+      "sha256": "d2478e3cf9abed5cc0105da52fb6580a8c85b66ec74b7cfd3192d3eb6953f391",
+      "reason": "LiE date.c embeds __DATE__ and __TIME__; the prior hash identified one timestamped build and cannot be a reproducible build-target gate."
+    },
+    "persistent_processes": true,
+    "complete_passes": 2,
+    "binding_order": "ascending_depth_dominant_first_lexicographic",
+    "replay_order": "seeded_generation_order",
+    "coordinate_mapping": {
+      "F4": [3, 2, 1, 0],
+      "E6": [0, 5, 1, 2, 3, 4],
+      "E7": [0, 6, 1, 2, 3, 4, 5],
+      "E8": [0, 7, 1, 2, 3, 4, 5, 6]
+    }
+  },
+  "resource_gate": {
+    "per_query_limit_ms": 1000,
+    "global_p95_limit_ms": 1000,
+    "per_representation_p95_limit_ms": 1000,
+    "query_hard_timeout_ms": 10000,
+    "peak_incremental_worker_rss_limit_bytes": 2147483648,
+    "calibration_workers": [1, 2, 4, 8],
+    "stress_subset": "one_maximum_depth_unique_request_per_representation_with_non_dominant_then_lexicographic_tie_break"
+  },
+  "governance": {
+    "status": "accepted_with_conditions",
+    "record_sha256": "d32edfbfe42dd0770c7724f255a314684bf2c3c6631429d9f0294d850ceaf36a",
+    "accountable_owner": "Codex, IlXYr Research Operations",
+    "supported_build_target": "Ubuntu 24.04 LTS x86_64 with GCC 13.3.0",
+    "active_upstream": false,
+    "security_patching": false,
+    "source_modification_policy": "return_to_client_counsel"
+  },
+  "decision": {
+    "preflight_pass_requires": [
+      "572_of_572_representations_pass",
+      "4218_of_4218_historical_zero_comparisons_agree",
+      "4218_of_4218_replays_agree",
+      "all_resource_gates_pass",
+      "pinned_lie_source_matches",
+      "two_independent_fixed_epoch_executable_builds_match",
+      "accepted_governance_record_matches"
+    ],
+    "any_failure": "hold",
+    "preflight_pass_authorizes": "return_evidence_for_client_review",
+    "preflight_pass_does_not_authorize": [
+      "corpus_generation",
+      "model_training",
+      "oracle_promotion"
+    ]
+  },
+  "cloud": {
+    "venue": "aws_ec2",
+    "region": "us-east-1",
+    "instance_type": "c6i.4xlarge",
+    "instance_count": 1,
+    "maximum_instance_seconds": 1800,
+    "workload_timeout_seconds": 1200,
+    "maximum_ec2_usd": 1.0,
+    "planning_usd_per_hour": 0.68,
+    "automatic_termination": true,
+    "approval_id": "weight-multiplicity-phase06-lie-preflight-2026-08-31-v1"
+  },
+  "closures": {
+    "corpus_generation_authorized": false,
+    "model_training_authorized": false,
+    "promotion_authorized": false
+  }
+}

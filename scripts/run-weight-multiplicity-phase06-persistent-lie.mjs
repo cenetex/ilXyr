@@ -6,9 +6,13 @@ import { readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 import { createInterface } from "node:readline";
+import { gunzipSync } from "node:zlib";
 
 const sha256 = (value) => createHash("sha256").update(value).digest("hex");
 const stableJson = (value) => `${JSON.stringify(value, null, 2)}\n`;
+
+const isPreflightPlan = (plan) =>
+  plan.schema === "ilxyr.weight_multiplicity_phase06_lie_preflight_plan.v1";
 
 const parseArguments = (values) => {
   const options = {
@@ -506,21 +510,35 @@ const main = async () => {
       .map((name) => [name, resolve(options[name])]),
   );
   const stdbuf = options.stdbuf ? resolve(options.stdbuf) : null;
-  const [planBytes, manifestBytes, lieBytes, sourceBytes] = await Promise.all([
+  const [planBytes, manifestFileBytes, lieBytes, sourceBytes] = await Promise.all([
     readFile(paths.plan),
     readFile(paths.manifest),
     readFile(paths.lie),
     readFile(paths.lieSource),
   ]);
+  const manifestBytes = paths.manifest.endsWith(".gz")
+    ? gunzipSync(manifestFileBytes)
+    : manifestFileBytes;
   const plan = JSON.parse(planBytes.toString("utf8"));
   const manifest = JSON.parse(manifestBytes.toString("utf8"));
   if (manifest.phase06_plan_sha256 !== sha256(planBytes))
     throw new Error("manifest does not bind the Phase 0.6 plan");
   if (sha256(sourceBytes) !== plan.lie.source_sha256)
     throw new Error("LiE source archive does not match the pinned hash");
-  if (manifest.summary.representations !== plan.source.non_pass_representations ||
+  if (plan.lie.expected_executable_sha256 &&
+      sha256(lieBytes) !== plan.lie.expected_executable_sha256)
+    throw new Error("LiE executable does not match the accepted pinned build");
+  const expectedRepresentations = plan.source.authorized_representations ??
+    plan.source.non_pass_representations;
+  if (manifest.summary.representations !== expectedRepresentations ||
       manifest.summary.raw_requests !== plan.source.raw_request_maximum)
     throw new Error("manifest surface does not match the authorized plan");
+  if (isPreflightPlan(plan) &&
+      (manifest.summary.unique_requests !== plan.source.expected_unique_requests ||
+       manifest.summary.historical_zero_available !==
+         plan.source.expected_historical_zero_available ||
+       manifest.source_bindings.governance_sha256 !== plan.governance.record_sha256))
+    throw new Error("preflight manifest counts or governance binding do not match the plan");
 
   const requestById = new Map(manifest.requests.map((entry) => [entry.id, entry]));
   const representationByRequest = new Map();
@@ -529,13 +547,17 @@ const main = async () => {
       representationByRequest.set(requestId, representation);
   const identity = {
     phase06_plan_sha256: sha256(planBytes),
-    manifest_sha256: sha256(manifestBytes),
+    manifest_sha256: sha256(manifestFileBytes),
+    manifest_uncompressed_sha256: sha256(manifestBytes),
     lie_source_sha256: sha256(sourceBytes),
     lie_executable_sha256: sha256(lieBytes),
   };
   const result = {
-    schema: "ilxyr.weight_multiplicity_phase06_evidence.v1",
+    schema: isPreflightPlan(plan)
+      ? "ilxyr.weight_multiplicity_phase06_lie_preflight_evidence.v1"
+      : "ilxyr.weight_multiplicity_phase06_evidence.v1",
     status: "running",
+    experiment_mode: isPreflightPlan(plan) ? "retained_surface_preflight" : "failed_surface_bakeoff",
     identity,
     environment: {
       platform: process.platform,
@@ -674,6 +696,16 @@ const main = async () => {
     };
   } catch (error) {
     result.status = error.evidenceStatus ?? "hold";
+    result.decision = "hold";
+    result.decision_reason = error.message;
+    if (isPreflightPlan(plan)) {
+      result.license_and_maintenance_gate = {
+        status: "pass",
+        governance_record_sha256: plan.governance.record_sha256,
+        accountable_owner: plan.governance.accountable_owner,
+        invocation: plan.lie.execution,
+      };
+    }
     result.error = {
       message: error.message,
       query_record: error.queryRecord ?? null,
@@ -718,18 +750,48 @@ const main = async () => {
   const passingRepresentations = result.representations.filter(
     (entry) => entry.classification === "pass",
   ).length;
-  result.technical_resource_outcome = result.primary_resource_gate.passed
-    ? "full_failed_surface_cleared"
-    : passingRepresentations > 0 ? "reduced_surface_only" : "resource_fail";
-  result.license_and_maintenance_gate = {
-    status: "hold",
-    reason: "client counsel acceptance and a named accountable maintenance owner were not supplied to this run",
-    invocation: "unmodified_separate_executable",
-  };
-  result.decision = "hold";
-  result.decision_reason = result.primary_resource_gate.passed
-    ? "technical bake-off completed; operational adoption remains blocked by the signed license and maintenance gate"
-    : "technical resource result is recorded; operational adoption also remains blocked by the signed license and maintenance gate";
+  if (isPreflightPlan(plan)) {
+    const everyRepresentationPass =
+      passingRepresentations === plan.source.authorized_representations;
+    const differentialPass =
+      result.differential.agreements === plan.source.expected_historical_zero_available &&
+      result.differential.disagreements.length === 0 &&
+      result.differential.lie_unavailable.length === 0;
+    const replayPass =
+      result.replay.agreements === plan.source.expected_unique_requests &&
+      result.replay.incomplete_or_non_deterministic.length === 0;
+    result.technical_resource_outcome = result.primary_resource_gate.passed &&
+        everyRepresentationPass
+      ? "preflight_surface_cleared"
+      : passingRepresentations > 0 ? "preflight_reduced_surface_only" : "resource_fail";
+    result.license_and_maintenance_gate = {
+      status: "pass",
+      governance_record_sha256: plan.governance.record_sha256,
+      accountable_owner: plan.governance.accountable_owner,
+      invocation: plan.lie.execution,
+      active_upstream: plan.governance.active_upstream,
+      security_patching: plan.governance.security_patching,
+    };
+    const passed = result.primary_resource_gate.passed && everyRepresentationPass &&
+      differentialPass && replayPass;
+    result.decision = passed ? "preflight_pass" : "hold";
+    result.decision_reason = passed
+      ? "All 572 retained representations passed resource, differential, replay, identity, and governance gates; evidence returns for client review and does not authorize corpus generation."
+      : "One or more retained-surface preflight gates failed; corpus generation remains closed.";
+  } else {
+    result.technical_resource_outcome = result.primary_resource_gate.passed
+      ? "full_failed_surface_cleared"
+      : passingRepresentations > 0 ? "reduced_surface_only" : "resource_fail";
+    result.license_and_maintenance_gate = {
+      status: "hold",
+      reason: "client counsel acceptance and a named accountable maintenance owner were not supplied to this run",
+      invocation: "unmodified_separate_executable",
+    };
+    result.decision = "hold";
+    result.decision_reason = result.primary_resource_gate.passed
+      ? "technical bake-off completed; operational adoption remains blocked by the signed license and maintenance gate"
+      : "technical resource result is recorded; operational adoption also remains blocked by the signed license and maintenance gate";
+  }
   result.status = "complete";
   result.completed_wall_ms = performance.now() - started;
   await persist();

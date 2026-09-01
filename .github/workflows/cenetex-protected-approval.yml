@@ -1,0 +1,75 @@
+name: cenetex-protected-approval
+
+# issue_comment workflows run from the trusted default branch. This workflow
+# never checks out or executes pull-request code.
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: cenetex-protected-approval-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    if: >-
+      github.event.issue.pull_request &&
+      startsWith(github.event.comment.body, '/approve-protected ')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Convert exact owner authorization into bot approval
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          ACTOR: ${{ github.event.comment.user.login }}
+          COMMENT: ${{ github.event.comment.body }}
+        run: |
+          set -Eeuo pipefail
+
+          read -r COMMAND REQUESTED_SHA EXTRA <<< "$COMMENT"
+          test "$COMMAND" = /approve-protected
+          [[ "$REQUESTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test -z "${EXTRA:-}"
+
+          permission=$(gh api "repos/$REPO/collaborators/$ACTOR/permission" --jq .permission)
+          test "$permission" = admin
+
+          pr=$(gh api "repos/$REPO/pulls/$NUMBER")
+          test "$(jq -r .state <<< "$pr")" = open
+          test "$(jq -r .head.sha <<< "$pr")" = "$REQUESTED_SHA"
+          base_sha=$(jq -r .base.sha <<< "$pr")
+
+          policy="$RUNNER_TEMP/governance-path-policy.mjs"
+          gh api "repos/$REPO/contents/scripts/governance-path-policy.mjs?ref=$base_sha" \
+            --jq .content | tr -d '\n' | base64 --decode > "$policy"
+          changed=$(gh api --paginate "repos/$REPO/pulls/$NUMBER/files?per_page=100" \
+            --jq '.[] | .filename, (.previous_filename // empty)')
+          decision=$(printf '%s\n' "$changed" | node "$policy" --stdin)
+          test "$(jq -r .protected <<< "$decision")" = true
+
+          current_sha=$(gh api "repos/$REPO/pulls/$NUMBER" --jq .head.sha)
+          test "$current_sha" = "$REQUESTED_SHA"
+
+          # Markdown code spans are intentionally single quoted.
+          # shellcheck disable=SC2016
+          body=$(printf '%s\n' \
+            '**cenetex review: `review:approved`**' \
+            '' \
+            "Administrator \`$ACTOR\` authorized protected head \`$REQUESTED_SHA\`." \
+            'github-actions converted that SHA-bound owner authorization into' \
+            'the review required by branch protection. This is not an' \
+            'independent human review.')
+          gh api "repos/$REPO/pulls/$NUMBER/reviews" -X POST \
+            -f event=APPROVE -f commit_id="$REQUESTED_SHA" -f body="$body" >/dev/null
+          gh pr edit "$NUMBER" --repo "$REPO" --remove-label review:human-required \
+            >/dev/null 2>&1 || true
+          gh pr edit "$NUMBER" --repo "$REPO" --add-label review:approved >/dev/null
+          gh pr comment "$NUMBER" --repo "$REPO" --body \
+            "Protected head \`$REQUESTED_SHA\` was authorized by \`$ACTOR\` and approved by github-actions."

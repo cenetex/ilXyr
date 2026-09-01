@@ -363,6 +363,8 @@ started without producing a terminal run. `authorize` reports the same decision 
   flow.
 - `docs/CLOUD-EXECUTION.md`: local-versus-cloud venue policy and the package, preflight, launch,
   observation, collection, and evidence-import runbook for resource-heavy work.
+- `docs/GOVERNANCE.md`: the enforced solo-maintainer PR, protected-path authorization, review,
+  merge, emergency-override, and live-settings policy.
 - `docs/SECURITY.md`: threat model, autonomous operation rules, weight protection.
 - `docs/ROADMAP.md`: sequenced milestones from protocol proof through federation.
 - `docs/V1_REVIEW.md`: V1 acceptance review, revisions, and residual limitations.
@@ -381,6 +383,8 @@ started without producing a terminal run. `authorize` reports the same decision 
   its bounded negative performance comparison.
 - `docs/experiments/EXP-007.md`: the prospectively frozen three-seed Zero→Solomon Q22 bridge,
   exact public evidence, forecast settlement, and narrow claim boundary.
+- `docs/experiments/EXP-008.md`: the shortcut-resistant Q22 successor, its prospective no-go,
+  exact public evidence, forecast settlement, and closed sparse class-head boundary.
 - `docs/experiments/NSRL-P10M-TARGET-MARGIN.md`: exact-check negative results for the
   output-matrix target-margin pilot, its fixed-schedule trust region, and the canonical-NLL
   direct-head guard, exact safe-set, and cross-document stability follow-ups.
@@ -414,7 +418,12 @@ so the all-three-seeds family rule passed and ZERO.4 is current upstream. The re
 published and verified; local ilXyr ledger import remains pending. EXP-007 then completed the
 cross-family Q22 operation-routing bridge prospectively: all three Solomon seeds scored 500/500
 and agreed on every promotion case. This closes the narrow routing claim, not arithmetic answer
-generation or broad language quality. See `docs/V1_1_REVIEW.md` for the earlier Q2.2-R audit.
+generation or broad language quality. EXP-008 then removed the prefix shortcut, balanced
+wrong-operation distractors, and held out whole template families. The unchanged sparse class
+head scored 42.5%, 43.0%, and 53.3%, with 53.1% all-seed agreement, so that harder transfer claim
+resolved no-go. The next branch must change representation or objective and use fresh evaluation
+templates rather than tune against the opened set. See `docs/V1_1_REVIEW.md` for the earlier
+Q2.2-R audit.
 
 ## Academic terminology and citation
 

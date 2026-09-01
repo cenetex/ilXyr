@@ -1,13 +1,13 @@
 # Research pathways and exploration method
 
 This document maps the decision-bearing model research recorded by ilXyr as of
-2026-08-30. It distinguishes a scientific no-go from an unexecuted blocker and
+2026-08-31. It distinguishes a scientific no-go from an unexecuted blocker and
 from a completed result whose disclosure is intentionally withheld.
 
 The machine-readable source is [`research-pathways.json`](research-pathways.json).
 Its validator requires exact coverage of every experiment in
 [`lab-registry.json`](lab-registry.json), every family retro-registration, and
-every numbered experiment record from EXP-001 through EXP-007. Supporting
+every numbered experiment record from EXP-001 through EXP-008. Supporting
 engineering and protocol tests are intentionally outside this scientific map.
 
 ## Research coordinates and factor vectors
@@ -62,8 +62,8 @@ These axes must not be collapsed. In particular:
   public inference.
 - A **mixed** pathway contains separately stated positive and negative claims.
 
-The current graph contains 27 nodes: 26 completed and one not run. Seven have
-positive scientific outcomes, 16 negative, two mixed, and two unknown. These
+The current graph contains 28 nodes: 27 completed and one not run. Seven have
+positive scientific outcomes, 17 negative, two mixed, and two unknown. These
 counts are not a success rate: the nodes include enabling experiments,
 diagnostics, replications, managed checkpoints, and blocked questions at
 different levels of the same lineages.
@@ -80,7 +80,8 @@ flowchart TD
     Z26["Q2.6 tangent projection<br/>SEED-2 GO"]
     Z26R["Seeds 1, 2, 3 GO<br/>ZERO.4 PROMOTED"]
     BRIDGE["Zero to Solomon bridge<br/>GO: 3 × 500/500<br/>perfect agreement"]
-    Z22 --> Z23 --> Z24 --> Z25 --> Z26 --> Z26R --> BRIDGE
+    HARD["Shortcut-resistant bridge<br/>NO-GO: 42.5–53.3%<br/>53.1% seed agreement"]
+    Z22 --> Z23 --> Z24 --> Z25 --> Z26 --> Z26R --> BRIDGE --> HARD
   end
 
   subgraph Z5["ZERO.5 C lineage"]
@@ -156,6 +157,11 @@ result for the narrow Q22 operation-routing surface. It is not evidence of
 arithmetic answer generation, broad language modeling, or general Solomon
 promotion; the task can be separated largely through command-prefix features.
 
+Its successor, EXP-008, used this boundary correctly. It removed the prefix
+shortcut, balanced wrong-operation distractors, and held out whole template
+families while preserving the model and trainer. That successor resolved
+no-go, so the EXP-007 claim remains valid but narrow.
+
 ### ZERO.5 enabling results
 
 C0 selected the lossless tokenizer, C1 proved stable native-C training, and C2
@@ -188,6 +194,8 @@ waiting for more execution:
 - The NSRL single direct-head winner, its complete exact safe set, and joint
   moves derived from the same eight document-specific directions.
 - A public-corpus T=512 HRR quality or speed advantage over softmax.
+- The unchanged 8,192-feature Solomon sparse class head as a solution to
+  shortcut-resistant Q22 routing across held-out template families.
 
 A closed result may motivate a new experiment only when the new proposal states
 a different causal hypothesis. Relaxing the failed gate or repeating a nearby
@@ -241,7 +249,8 @@ Three risks follow:
    direction.
 2. **Exact low-information experiments.** Determinism can reproduce a
    surface-specific result perfectly; replay is necessary but does not prove
-   generality.
+   generality. EXP-007 passed at 100% on every seed, while its shortcut-resistant
+   EXP-008 successor fell to 42.5–53.3% and only 53.1% seed agreement.
 3. **Promotion gates used as diagnostics.** A failed conjunction protects the
    lifecycle but may not identify the failed mechanism.
 
@@ -280,8 +289,8 @@ Apply these additional rules:
 
 ## Priority order
 
-1. Design one harder cross-family task that cannot be solved by command-prefix
-   routing and preregister its generalization claim before data generation.
+1. Run a read-only representation-sufficiency diagnosis of EXP-008 before
+   choosing a representation- or objective-level successor on fresh templates.
 2. Run a read-only NSRL frozen-representation sufficiency audit before another
    training method.
 3. Decide whether ZERO5-C6.1 earns its separately authorized

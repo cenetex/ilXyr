@@ -1,39 +1,119 @@
-# Governance (enforced)
+# Governance
 
-The workspace `AGENTS.md` describes the contract; this document records how
-it is actually enforced for this repository as of 2026-08-24.
+This document records the governance that is actually enforced for this
+repository as of 2026-08-31. It separates the repository's branch-protection
+gate from an external merge-triage service whose notices are not enforcement
+for maintainer-authored pull requests.
 
 ## Enforced mechanics
 
-| Contract rule | Enforcement |
+| Rule | Enforcement |
 | --- | --- |
-| Every change goes through a PR | Branch protection on `main`: direct pushes rejected, PR required |
-| cenetex bot reviews every PR | `.github/workflows/cenetex-review.yml` posts an approving review on policy-safe PRs |
-| Protected paths escalate to human review | The bot refuses to approve PRs touching `.github/workflows/**`, `CODEOWNERS`, `LICENSE`, `docs/SECURITY.md`, or `AGENTS.md`; it labels them `review:human-required` and comments. A human approval then satisfies the gate. |
-| Required CI checks pass | Required status checks: `rust`, `msrv`, `schemas`, `validate` |
-| Stale approvals don't count | Dismiss-stale-reviews is on: every new push resets the bot's approval, and the workflow re-reviews automatically |
+| Every change uses a pull request | Branch protection rejects direct pushes to `main` |
+| Required CI passes | `rust`, `msrv`, `schemas`, and `gatekeep` are required |
+| Ordinary paths receive automated review | The trusted base-branch workflow approves the exact pull-request head |
+| Protected paths need deliberate owner action | An administrator must comment `/approve-protected <exact-head-sha>` before the bot approves that commit |
+| A new push invalidates approval | Stale reviews are dismissed and the new head is reviewed again |
+| Administrators follow the same merge gate | Branch protection is enforced for administrators |
 
-## Not currently enforced
+The automated reviewer is the repository `github-actions` identity. Calling it
+an independent human reviewer or a separate `cenetex` principal would be
+false. For a protected change, the administrator command is owner
+authorization and the resulting review is an owner-authorized bot approval.
+It is not an independent review.
 
-- **Hold period**: GitHub branch protection cannot express time-based gates.
-  Merges are gated on approval + checks only.
-- **Merge triage**: merges are performed by the author once gates pass; there
-  is no separate merger identity.
+## Protected paths
 
-## Enforcement scope
+The path policy in `scripts/governance-path-policy.mjs` protects:
 
-Protection applies to **all** actors including repository admins
-(`enforce_admins` is on), so the sole maintainer is subject to the same
-gates as agents.
+- `.github/workflows/**`;
+- `CODEOWNERS`, `.github/CODEOWNERS`, and `docs/CODEOWNERS`;
+- root license files beginning with `LICENSE`;
+- `docs/SECURITY.md` and this document;
+- append-only audit records under `docs/governance/`;
+- the governance path-policy program and its tests; and
+- every `AGENTS.md`.
+
+The review workflow uses `pull_request_target`, reads policy from the trusted
+base commit, never checks out pull-request code, binds its review to the event
+head SHA, checks old and new names for renamed files, checks that SHA again
+after reading the file list, and cancels stale runs. Protected paths receive a
+successful policy status but no approval, so the required-review gate remains
+unsatisfied until owner authorization.
+
+## Protected approval procedure
+
+1. Wait for the protected-path comment from `github-actions`.
+2. Review the diff and copy the 40-character head SHA from that comment.
+3. As a repository administrator, add a comment containing only:
+
+   ```text
+   /approve-protected <exact-head-sha>
+   ```
+
+4. The default-branch approval workflow verifies administrator permission,
+   open pull-request state, the exact current head, and the presence of a
+   protected file. It then approves that SHA as `github-actions` and records a
+   receipt comment.
+5. Any later push dismisses the review. Repeat the process with the new SHA.
+
+This procedure exists because GitHub does not let an author approve their own
+pull request. It creates a clear owner decision without pretending that a solo
+maintainer supplies independent review.
+
+## Merge behavior
+
+An external `cenetex` AWS service is installed as a repository webhook. When
+the `review:approved` label is applied, its webhook posts a 60-minute
+auto-merge notice. A scheduled merge-triage job runs every 15 minutes and
+includes `cenetex/ilXyr` in its monitored-repository list.
+
+That notice is not an enforced hold for the pull requests produced by this
+repository workflow. The external merge job discovers only pull requests
+authored by its configured coding-agent accounts, and it trusts approvals only
+from those accounts. Pull requests authored by `atimics` and approved by
+`github-actions` therefore never enter its merge queue. The author may merge
+such a pull request as soon as the required review and checks pass. Branch
+protection requires the branch to be current with `main`, so overlap is
+resolved and CI reruns before merge.
+
+The external service and the repository workflow are separate evidentiary
+categories. The webhook's schedule comment is evidence that it received a
+label event, not evidence that it independently reviewed the change or that it
+can merge that pull request.
+
+CI runs on pull requests and on pushes to `main`. It does not run a duplicate
+push suite for every feature-branch commit.
 
 ## Emergency override
 
-There is no push-level bypass. If the Actions pipeline breaks and blocks
-merges, the recovery path is deliberate friction: disable branch protection
-via Settings or the API, land the fix, re-enable protection. Any such
-disable window should be recorded in an issue.
+The normal protected command must be used whenever Actions works. If the
+governance workflow itself is broken, the owner may explicitly authorize a
+temporary protection change. The operator must:
 
-Enforcement is live as of 2026-08-24. See docs/GOVERNANCE.md.
+1. record the pull request, exact head, reason, old setting, and intended new
+   setting;
+2. make only the narrow change needed for the merge;
+3. restore protection in the same guarded operation;
+4. verify the merged commit and restored live settings; and
+5. add an append-only record under `docs/governance/`.
 
-- 2026-08-24: adversarial test suite passed (5/5).
-- escalation path verified on protected-path PR.
+The first such record is
+`docs/governance/2026-08-31-pr89-protection-override.md`.
+
+## Settings outside Git
+
+The repository files cannot enforce mutable GitHub settings by themselves.
+The intended live settings are:
+
+- pull requests required for `main`;
+- one approving review with stale reviews dismissed;
+- administrator enforcement enabled;
+- strict status checks enabled;
+- required contexts `rust`, `msrv`, `schemas`, and `gatekeep` from GitHub
+  Actions; and
+- default workflow permissions set to read, while the two governance
+  workflows request their narrow write permissions explicitly.
+
+After a governance change, verify these settings through the GitHub API and
+record any drift. Do not infer the live settings from this file alone.

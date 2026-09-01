@@ -32,11 +32,32 @@ and contain no corpus-generation or training path.
 
 Current append-only evidence:
 
+- `PHASE06-LIE-PREFLIGHT-CLOSEOUT-V1.md`,
+  `phase06-lie-preflight-closeout-v1.json`, and
+  `phase06-preflight-cloud-v1/` seal the completed retained-surface preflight.
+  All 572 representations pass, all 4,218 Zero/LiE comparisons agree, and all
+  4,218 replay comparisons are exact. Combined with the earlier 253 LiE
+  passes, all 825 retained representations now have measured LiE coverage.
+  This closes the preflight gate but does not authorize corpus generation,
+  training, or oracle promotion.
+- `PHASE06-LIE-BUILD-IDENTITY-ERRATUM-V1.md` and
+  `phase06-preflight-launch-attempt-20260831211713.json` record the
+  build-phase-only first preflight attempt. No query ran. The correction
+  replaces an unreproducible timestamped executable hash with two independent
+  fixed-epoch builds whose hashes must match.
+- `PHASE06-LIE-PREFLIGHT-AUTHORIZATION-V1.md` records the client-approved,
+  572-representation retained-surface LiE preflight. It freezes 4,218 unique
+  queries with full historical Zero coverage under the existing 30-minute,
+  $1.00 cloud ceiling. It does not authorize corpus generation or training.
+- `PHASE06-REDUCED-MANIFEST-V1.md` and the corresponding machine-readable
+  manifest retain 825 of 828 representations, close the LiE governance gate,
+  and mark 572 prior Zero passes as requiring this preflight.
 - `PHASE06-PERSISTENT-LIE-BAKEOFF-HOLD.md` and `phase06-cloud-v1/`
   seal the completed Phase 0.6 bake-off. LiE passes 253 of 256 frozen
-  representations, with one E7 and two E8 time failures. The formal outcome
-  is Hold because license acceptance and a named maintenance owner are still
-  missing. No corpus or training is authorized.
+  representations, with one E7 and two E8 time failures. The run's formal
+  outcome was Hold; the later governance record closes its license and owner
+  conditions without rewriting that historical result. No corpus or training
+  is authorized.
 - `PHASE05-CLOUD-CORRECTIVE-CLOSEOUT-V1.md` is the final closeout for the
   corrective cloud audit. The binding Revision 3 outcome remains Stop and no
   corpus is authorized.
