@@ -27,7 +27,8 @@ not a Season 00 training input.
 ## Setup sequence
 
 1. Braid produces three `RELEASED` v2 releases: train/validation, sealed future evaluation, and
-   sealed unseen-issuer evaluation. Review and record their rights before any corpus use.
+   sealed unseen-issuer evaluation. Their United States project rights are reviewed and recorded;
+   every use must keep the recorded controls.
 2. Use the three exact `examples/corpus/feral-7b-*-braid-import.json` contracts and run
    `ilxyr braid-corpus-register` once for each matching local release manifest.
 3. Materialize every imported file plus each `release.json` into versioned cloud storage and record
@@ -50,10 +51,14 @@ records their manifests; it does not copy or publish their files.
 
 | Corpus | Examples | Braid release digest | ilXyr corpus artifact |
 | --- | ---: | --- | --- |
-| Training and validation | 228,110 | `8d33bb95710fc4d5eb2fe9677fe8268682249551cfaef0c6f473642f7a048162` | `artifact://sha256/a4ae2cbece507b641558a85aab68bd477ee0a154c8f5c61f40856ead710605ab` |
-| Sealed future evaluation | 44,704 | `63a772a749f1f57d8de29aa902047de6ac17bed72b800b95251554fabdc88d9c` | `artifact://sha256/4390fe6354c8c6b161c9d801d598383e2da6a7732c1bef5c36c19388e98ee8b4` |
-| Sealed unseen-issuer evaluation | 30,668 | `1769782e3ced8e14a945c55cecb21cc0518ebb03da970622125d2af4b870daf4` | `artifact://sha256/3b0d4b9d2b18df7b500ac189eaa6c911abe78e0e4a5943b5c3d0acdaf9d5d1cf` |
+| Training and validation | 228,110 | `8d33bb95710fc4d5eb2fe9677fe8268682249551cfaef0c6f473642f7a048162` | `artifact://sha256/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c` |
+| Sealed future evaluation | 44,704 | `63a772a749f1f57d8de29aa902047de6ac17bed72b800b95251554fabdc88d9c` | `artifact://sha256/5cb93c0d38000f0ca42e75b009df025e0557a448ea66865fb3c8c3b1d6f259f6` |
+| Sealed unseen-issuer evaluation | 30,668 | `1769782e3ced8e14a945c55cecb21cc0518ebb03da970622125d2af4b870daf4` | `artifact://sha256/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748` |
 
-The source releases declare `NOASSERTION` and contain no structured rights evidence. The import
-contracts therefore keep training, evaluation, and redistribution blocked until the rights review
-and the relevant explicit authorization are complete.
+The source releases retain their immutable `NOASSERTION` field because Braid made no license
+decision while building them. ilXyr's separate
+[`FERAL-7B SEC Season 00 rights review`](FERAL-7B-RIGHTS-REVIEW.md) conditionally clears the exact
+releases for private United States project materialization, training, and evaluation. The reviewed
+import contracts record the SEC public-filing reuse policy and the required controls. Raw corpus
+redistribution remains prohibited. Training, evaluation, paid compute, and public model release
+still require their own later decisions.

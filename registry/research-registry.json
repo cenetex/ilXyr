@@ -1,6 +1,6 @@
 {
   "schema": "ilxyr.research_registry.v1",
-  "indexed_at_ms": 1788310848065,
+  "indexed_at_ms": 1788318924000,
   "stale_after_ms": 604800000,
   "heads": [
     {
@@ -88,30 +88,30 @@
           "corpus_id": "dataset://braid/feral-7b-sec/v1",
           "title": "FERAL-7B Braid SEC training corpus v1",
           "example_count": 228110,
-          "release_ref": "artifact://sha256/a4ae2cbece507b641558a85aab68bd477ee0a154c8f5c61f40856ead710605ab",
+          "release_ref": "artifact://sha256/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c",
           "materialization_ref": null,
           "state": "registered",
-          "evidence": "recorded",
+          "evidence": "verified",
           "visibility": "private_metadata"
         },
         {
           "corpus_id": "dataset://braid/feral-7b-sec-future-eval/v1",
           "title": "FERAL-7B sealed future SEC evaluation v1",
           "example_count": 44704,
-          "release_ref": "artifact://sha256/4390fe6354c8c6b161c9d801d598383e2da6a7732c1bef5c36c19388e98ee8b4",
+          "release_ref": "artifact://sha256/5cb93c0d38000f0ca42e75b009df025e0557a448ea66865fb3c8c3b1d6f259f6",
           "materialization_ref": null,
           "state": "registered",
-          "evidence": "recorded",
+          "evidence": "verified",
           "visibility": "sealed_hash_only"
         },
         {
           "corpus_id": "dataset://braid/feral-7b-sec-unseen-eval/v1",
           "title": "FERAL-7B sealed unseen-issuer SEC evaluation v1",
           "example_count": 30668,
-          "release_ref": "artifact://sha256/3b0d4b9d2b18df7b500ac189eaa6c911abe78e0e4a5943b5c3d0acdaf9d5d1cf",
+          "release_ref": "artifact://sha256/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748",
           "materialization_ref": null,
           "state": "registered",
-          "evidence": "recorded",
+          "evidence": "verified",
           "visibility": "sealed_hash_only"
         }
       ],
@@ -133,7 +133,7 @@
           "role": "baseline",
           "state": "planned",
           "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
-          "dataset_ref": "artifact://sha256/4390fe6354c8c6b161c9d801d598383e2da6a7732c1bef5c36c19388e98ee8b4",
+          "dataset_ref": "artifact://sha256/5cb93c0d38000f0ca42e75b009df025e0557a448ea66865fb3c8c3b1d6f259f6",
           "evaluator_revision": null,
           "predictions_ref": null,
           "metrics": {},
@@ -146,7 +146,7 @@
           "role": "baseline",
           "state": "planned",
           "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
-          "dataset_ref": "artifact://sha256/3b0d4b9d2b18df7b500ac189eaa6c911abe78e0e4a5943b5c3d0acdaf9d5d1cf",
+          "dataset_ref": "artifact://sha256/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748",
           "evaluator_revision": null,
           "predictions_ref": null,
           "metrics": {},
@@ -187,7 +187,7 @@
           "role": "candidate",
           "state": "planned",
           "model_revision": null,
-          "dataset_ref": "artifact://sha256/4390fe6354c8c6b161c9d801d598383e2da6a7732c1bef5c36c19388e98ee8b4",
+          "dataset_ref": "artifact://sha256/5cb93c0d38000f0ca42e75b009df025e0557a448ea66865fb3c8c3b1d6f259f6",
           "evaluator_revision": null,
           "predictions_ref": null,
           "metrics": {},
@@ -200,7 +200,7 @@
           "role": "candidate",
           "state": "planned",
           "model_revision": null,
-          "dataset_ref": "artifact://sha256/3b0d4b9d2b18df7b500ac189eaa6c911abe78e0e4a5943b5c3d0acdaf9d5d1cf",
+          "dataset_ref": "artifact://sha256/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748",
           "evaluator_revision": null,
           "predictions_ref": null,
           "metrics": {},
@@ -261,6 +261,16 @@
           "source_revision": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
           "evidence": "externally_referenced",
           "visibility": "public"
+        },
+        {
+          "artifact_id": "artifact://sha256/4e418931e456d72e4ec0b6817202dad174e795c9d8e05e14fb1582d0441c8f42",
+          "experiment_id": "feral-7b.sec-analysis.v2",
+          "kind": "corpus_rights_review",
+          "digest": "4e418931e456d72e4ec0b6817202dad174e795c9d8e05e14fb1582d0441c8f42",
+          "uri": "https://github.com/cenetex/ilXyr/blob/main/examples/corpus/feral-7b-rights-review.json",
+          "source_revision": null,
+          "evidence": "verified",
+          "visibility": "public"
         }
       ],
       "lifecycle_state": "blocked",
@@ -290,23 +300,24 @@
           "state": "registered",
           "evidence": "recorded",
           "refs": [
-            "artifact://sha256/a4ae2cbece507b641558a85aab68bd477ee0a154c8f5c61f40856ead710605ab",
-            "artifact://sha256/4390fe6354c8c6b161c9d801d598383e2da6a7732c1bef5c36c19388e98ee8b4",
-            "artifact://sha256/3b0d4b9d2b18df7b500ac189eaa6c911abe78e0e4a5943b5c3d0acdaf9d5d1cf"
+            "artifact://sha256/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c",
+            "artifact://sha256/5cb93c0d38000f0ca42e75b009df025e0557a448ea66865fb3c8c3b1d6f259f6",
+            "artifact://sha256/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748"
           ],
           "detail": "Braid released and ilXyr registered the training, future-evaluation, and unseen-issuer corpora as three immutable artifacts. Registration copied no data and authorized no training."
         },
         {
           "stage_id": "corpus_rights_review",
           "title": "Corpus rights review",
-          "state": "blocked",
-          "evidence": "recorded",
+          "state": "completed",
+          "evidence": "verified",
           "refs": [
-            "artifact://sha256/a4ae2cbece507b641558a85aab68bd477ee0a154c8f5c61f40856ead710605ab",
-            "artifact://sha256/4390fe6354c8c6b161c9d801d598383e2da6a7732c1bef5c36c19388e98ee8b4",
-            "artifact://sha256/3b0d4b9d2b18df7b500ac189eaa6c911abe78e0e4a5943b5c3d0acdaf9d5d1cf"
+            "artifact://sha256/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c",
+            "artifact://sha256/5cb93c0d38000f0ca42e75b009df025e0557a448ea66865fb3c8c3b1d6f259f6",
+            "artifact://sha256/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748",
+            "artifact://sha256/4e418931e456d72e4ec0b6817202dad174e795c9d8e05e14fb1582d0441c8f42"
           ],
-          "detail": "All three releases declare NOASSERTION and contain no structured rights evidence. Training, evaluation, and redistribution remain blocked until review."
+          "detail": "The exact three releases are conditionally cleared for private United States project materialization, training, and evaluation under the SEC public-EDGAR reuse policy. Raw redistribution is prohibited, provenance and output controls are required, and dispatch, spend, and public model release remain separate decisions."
         },
         {
           "stage_id": "braid_import_bridge",
@@ -390,12 +401,6 @@
         }
       ],
       "missing_requirements": [
-        {
-          "requirement_id": "missing://feral-7b/corpus-rights-review",
-          "title": "Reviewed corpus rights",
-          "blocks_stage": "corpus_rights_review",
-          "detail": "Resolve the source releases' NOASSERTION status and record structured rights evidence before copying, evaluating, training, or redistributing the corpus."
-        },
         {
           "requirement_id": "missing://feral-7b/materialization",
           "title": "Verified cloud corpus location",
