@@ -41,6 +41,9 @@ const fixtures = {
   "corpus-materialization.schema.json": [
     "examples/corpus/s3-materialization.json",
     "examples/corpus/azure-materialization.json",
+    "examples/corpus/feral-7b-s3-materialization.json",
+    "examples/corpus/feral-7b-future-eval-s3-materialization.json",
+    "examples/corpus/feral-7b-unseen-eval-s3-materialization.json",
   ],
   "corpus-rights-review.schema.json": [
     "examples/corpus/feral-7b-rights-review.json",
