@@ -224,15 +224,16 @@ experiments, evaluations, dispatches, artifacts, costs, blockers, and missing wo
 rebuildable view over approved publication indexes and ledger heads. It never registers an object
 or changes lifecycle state.
 
-The built-in pilot reports Qwen-SEC as blocked before paid training: the code and 403-example
-development export exist, but the full corpus, baselines, compiled experiment, adapter, and cloud
-dispatch do not.
+The built-in pilot reports Qwen-SEC as blocked before paid training. The reviewed full corpus is
+frozen and materialized, but the tokenizer profile, remaining baselines, compiled experiment,
+adapter, and cloud dispatch do not exist yet.
 
 FERAL-7B is an ilXyr-owned training project. Braid produces its corpus, Runner Watch supplies the
 training image, and ilXyr owns the frozen experiment, admission, budget, cloud receipts,
 evaluation, and evidence settlement. Import the accepted Braid training, future-evaluation, and
 unseen-issuer releases with `braid-corpus-register`; do not substitute the legacy Runner Watch
-development export.
+development export. The Season 00 releases now have private, read-back verified S3
+materializations.
 See [the FERAL-7B training-lab guide](docs/FERAL-7B.md) for the prepared identities and remaining
 gates.
 

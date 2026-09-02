@@ -789,7 +789,7 @@ mod tests {
         let status = registry.status("project://ilxyr/feral-7b").expect("status");
         assert_eq!(status.project.lifecycle_state, LifecycleState::Blocked);
         assert!(status.running.is_empty());
-        assert_eq!(status.completed.len(), 2);
+        assert_eq!(status.completed.len(), 3);
         assert!(
             status
                 .completed
@@ -802,12 +802,24 @@ mod tests {
                 .iter()
                 .any(|stage| stage.stage_id == "corpus_rights_review")
         );
+        assert!(
+            status
+                .completed
+                .iter()
+                .any(|stage| stage.stage_id == "corpus_materialization")
+        );
         assert!(status.blocked.is_empty());
         assert!(
             status
                 .missing
                 .iter()
                 .all(|item| item.requirement_id != "missing://feral-7b/corpus-rights-review")
+        );
+        assert!(
+            status
+                .missing
+                .iter()
+                .all(|item| item.requirement_id != "missing://feral-7b/materialization")
         );
         assert!(status.project.stages.iter().any(|stage| {
             stage.stage_id == "full_corpus_freeze" && stage.state == LifecycleState::Registered

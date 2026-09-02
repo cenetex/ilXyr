@@ -10,6 +10,11 @@ The service records metadata and verified delivery receipts. It does not upload 
 credentials, submit training jobs, or authorize training. A materializer copies the files, reads
 them back, checks their sizes and SHA-256 digests, and submits the resulting receipt.
 
+For Amazon S3, `scripts/aws/corpus-materialization-s3.yaml` creates a private, encrypted,
+versioned, access-logged storage boundary. `scripts/aws/corpus-materialize-s3.sh` uploads one
+registered release, captures every S3 version ID, streams each exact version back through SHA-256,
+and writes the receipt that this service validates. The scripts do not start a training job.
+
 ```text
 Braid release manifest
         |

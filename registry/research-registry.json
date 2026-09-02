@@ -1,6 +1,6 @@
 {
   "schema": "ilxyr.research_registry.v1",
-  "indexed_at_ms": 1788318924000,
+  "indexed_at_ms": 1788324216000,
   "stale_after_ms": 604800000,
   "heads": [
     {
@@ -89,8 +89,8 @@
           "title": "FERAL-7B Braid SEC training corpus v1",
           "example_count": 228110,
           "release_ref": "artifact://sha256/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c",
-          "materialization_ref": null,
-          "state": "registered",
+          "materialization_ref": "artifact://sha256/b43f6b676af3e0e1ce1a4cd400cd3e7004c6fc6d048fe405b9742d326cde3732",
+          "state": "completed",
           "evidence": "verified",
           "visibility": "private_metadata"
         },
@@ -99,8 +99,8 @@
           "title": "FERAL-7B sealed future SEC evaluation v1",
           "example_count": 44704,
           "release_ref": "artifact://sha256/5cb93c0d38000f0ca42e75b009df025e0557a448ea66865fb3c8c3b1d6f259f6",
-          "materialization_ref": null,
-          "state": "registered",
+          "materialization_ref": "artifact://sha256/5085d3443f6cd56753e4c42a0f9a616e4425401d29812ac575f2d21394483949",
+          "state": "completed",
           "evidence": "verified",
           "visibility": "sealed_hash_only"
         },
@@ -109,8 +109,8 @@
           "title": "FERAL-7B sealed unseen-issuer SEC evaluation v1",
           "example_count": 30668,
           "release_ref": "artifact://sha256/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748",
-          "materialization_ref": null,
-          "state": "registered",
+          "materialization_ref": "artifact://sha256/4abc64fe2ebc474a853b4e446fc1ff7c6c74603a84963d5248e9498d44e1252b",
+          "state": "completed",
           "evidence": "verified",
           "visibility": "sealed_hash_only"
         }
@@ -271,6 +271,36 @@
           "source_revision": null,
           "evidence": "verified",
           "visibility": "public"
+        },
+        {
+          "artifact_id": "artifact://sha256/b43f6b676af3e0e1ce1a4cd400cd3e7004c6fc6d048fe405b9742d326cde3732",
+          "experiment_id": "feral-7b.sec-analysis.v2",
+          "kind": "corpus_materialization_receipt",
+          "digest": "b43f6b676af3e0e1ce1a4cd400cd3e7004c6fc6d048fe405b9742d326cde3732",
+          "uri": null,
+          "source_revision": null,
+          "evidence": "verified",
+          "visibility": "private_metadata"
+        },
+        {
+          "artifact_id": "artifact://sha256/5085d3443f6cd56753e4c42a0f9a616e4425401d29812ac575f2d21394483949",
+          "experiment_id": "feral-7b.sec-analysis.v2",
+          "kind": "corpus_materialization_receipt",
+          "digest": "5085d3443f6cd56753e4c42a0f9a616e4425401d29812ac575f2d21394483949",
+          "uri": null,
+          "source_revision": null,
+          "evidence": "verified",
+          "visibility": "sealed_hash_only"
+        },
+        {
+          "artifact_id": "artifact://sha256/4abc64fe2ebc474a853b4e446fc1ff7c6c74603a84963d5248e9498d44e1252b",
+          "experiment_id": "feral-7b.sec-analysis.v2",
+          "kind": "corpus_materialization_receipt",
+          "digest": "4abc64fe2ebc474a853b4e446fc1ff7c6c74603a84963d5248e9498d44e1252b",
+          "uri": null,
+          "source_revision": null,
+          "evidence": "verified",
+          "visibility": "sealed_hash_only"
         }
       ],
       "lifecycle_state": "blocked",
@@ -330,10 +360,14 @@
         {
           "stage_id": "corpus_materialization",
           "title": "Verified cloud materialization",
-          "state": "planned",
-          "evidence": "missing",
-          "refs": [],
-          "detail": "No hash-verified S3 or Azure materialization receipt is registered."
+          "state": "completed",
+          "evidence": "verified",
+          "refs": [
+            "artifact://sha256/b43f6b676af3e0e1ce1a4cd400cd3e7004c6fc6d048fe405b9742d326cde3732",
+            "artifact://sha256/5085d3443f6cd56753e4c42a0f9a616e4425401d29812ac575f2d21394483949",
+            "artifact://sha256/4abc64fe2ebc474a853b4e446fc1ff7c6c74603a84963d5248e9498d44e1252b"
+          ],
+          "detail": "All 25 files across the training, future-evaluation, and unseen-issuer releases are stored as immutable S3 versions in us-east-1. Each file was streamed back from its recorded version and matched against the reviewed SHA-256 and size. The private bucket is encrypted, versioned, TLS-only, public-access blocked, and writes server-access logs to a separate retained bucket."
         },
         {
           "stage_id": "tokenizer_profile",
@@ -401,12 +435,6 @@
         }
       ],
       "missing_requirements": [
-        {
-          "requirement_id": "missing://feral-7b/materialization",
-          "title": "Verified cloud corpus location",
-          "blocks_stage": "corpus_materialization",
-          "detail": "Record a read-back verified materialization receipt."
-        },
         {
           "requirement_id": "missing://feral-7b/profile",
           "title": "Tokenizer, throughput, and cost profile",
