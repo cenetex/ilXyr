@@ -21,7 +21,7 @@ async function request(path = "/", init = {}) {
   );
 }
 
-test("server-renders the public ilXyr protocol index", async () => {
+test("server-renders the interactive public ilXyr protocol index", async () => {
   const response = await request("/", { headers: { accept: "text/html" } });
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -36,18 +36,22 @@ test("server-renders the public ilXyr protocol index", async () => {
   assert.match(response.headers.get("cache-control") ?? "", /s-maxage=300/);
 
   const html = await response.text();
-  assert.match(html, /<title>ilXyr — protocol index<\/title>/i);
+  assert.match(html, /<title>ilXyr — Evidence before execution<\/title>/i);
+  assert.match(html, /Evidence before/);
+  assert.match(html, /Explore the system/);
+  assert.match(html, /Ask the ledger/);
+  assert.match(html, /EXP-008/);
+  assert.match(html, /REASONER-3.9/);
   assert.match(html, /This public website is a read-only/);
-  assert.match(html, /href="\/api\/status"/);
-  assert.match(html, /href="\/api\/protocols"/);
-  assert.match(html, /href="\/api\/experiments"/);
-  assert.match(html, /href="\/api\/environments"/);
-  assert.match(html, /href="\/api\/results"/);
-  assert.match(html, /href="\/.well-known\/ilxyr.json"/);
+  assert.match(html, /<code>\/api\/status<\/code>/);
+  assert.match(html, /<code>\/api\/protocols<\/code>/);
+  assert.match(html, /<code>\/api\/experiments<\/code>/);
+  assert.match(html, /<code>\/api\/environments<\/code>/);
+  assert.match(html, /<code>\/api\/results<\/code>/);
+  assert.match(html, /<code>\/\.well-known\/ilxyr.json<\/code>/);
   assert.match(html, /Known does not mean compatible/);
   assert.match(html, /No remote result has passed independent ilXyr verification/);
   assert.match(html, /There are no write or cloud-launch routes/);
-  assert.match(html, /provider-neutral adapter boundary/);
   assert.match(html, /Separate report intake API — implemented, not deployed/);
   assert.match(html, /There is no public intake address yet/);
   assert.match(html, /remote-package-verify/);
@@ -115,19 +119,22 @@ test("public API returns only static protocol data", async () => {
   assert.equal(imageOptimizerResponse.status, 404);
 });
 
-test("public deployment has no database or private proposal code", async () => {
-  const [page, layout, styles, hosting, packageJson] = await Promise.all([
+test("public deployment is interactive without adding private state", async () => {
+  const [page, portal, layout, styles, hosting, packageJson] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/ProtocolPortal.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../.openai/hosting.json", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
 
-  assert.match(page, /Public HTTP API/);
-  assert.match(layout, /const title = "ilXyr — protocol index"/);
-  assert.doesNotMatch(page, /className=/);
-  assert.doesNotMatch(styles, /gradient|animation|box-shadow|border-radius/);
+  assert.match(page, /publicRoutes/);
+  assert.match(portal, /useState/);
+  assert.match(portal, /fetch\(activeRoute/);
+  assert.match(portal, /There are no write or cloud-launch routes/);
+  assert.match(layout, /const title = "ilXyr — Evidence before execution"/);
+  assert.match(styles, /\.api-console/);
   assert.match(hosting, /"d1": null/);
   assert.doesNotMatch(packageJson, /drizzle|database|ilxyr-lab-portal/);
 

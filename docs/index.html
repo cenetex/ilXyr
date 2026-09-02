@@ -3,147 +3,130 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="ilXyr experiment guide and evidence ledger.">
-  <title>ilXyr — Experiment guide</title>
+  <meta name="description" content="ilXyr is a research control plane for frozen experiments, deterministic gates, and verifiable evidence.">
+  <meta property="og:title" content="ilXyr — Evidence before execution">
+  <meta property="og:description" content="A research control plane that turns uncertainty into frozen experiments and durable evidence.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://cenetex.github.io/ilXyr/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>ilXyr — Evidence before execution</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <nav class="shell" aria-label="Primary navigation">
-      <a class="brand" href="./">ilXyr / lab notebook</a>
-      <div class="nav-links">
-        <a href="experiments/exp-001.html">EXP-001</a>
-        <a href="experiments/exp-002.html">EXP-002</a>
-        <a href="experiments/exp-003.html">EXP-003</a>
-        <a href="experiments/exp-004.html">EXP-004</a>
-        <a href="experiments/exp-005.html">EXP-005</a>
-        <a href="experiments/exp-006.html">EXP-006</a>
-        <a href="experiments/exp-007.html">EXP-007</a>
-        <a href="experiments/exp-008.html">EXP-008</a>
-        <a href="program-registry.html">Program registry</a>
-        <a href="https://github.com/cenetex/ilXyr/blob/main/docs/PROTOCOL.md">Protocol</a>
-        <a href="https://github.com/cenetex/ilXyr">Repository</a>
-      </div>
+  <header class="deck-nav">
+    <a class="brand" href="#cover" aria-label="ilXyr project deck home">il<span>X</span>yr</a>
+    <nav aria-label="Project links">
+      <a href="program-registry.html">Program</a>
+      <a href="https://ilxyr.cenetex.com">Live index</a>
+      <a href="https://github.com/cenetex/ilXyr">GitHub</a>
     </nav>
   </header>
 
-  <main class="shell">
-    <div class="hero">
-      <div class="eyebrow">Certified micromodel research</div>
-      <h1>Fund uncertainty.<br>Settle in evidence.</h1>
-      <p class="lede">A public guide to frozen questions, exact execution contracts, negative results, and the decisions they earn. Failed gates stay visible. Promotion is never inferred.</p>
-    </div>
-
-    <div class="status-row" aria-label="Program status">
-      <div class="status"><span class="label">Promoted model</span><strong>ZERO.4</strong></div>
-      <div class="status"><span class="label">Active research line</span><strong>Reasoner · verified core</strong></div>
-      <div class="status"><span class="label">Next boundary</span><strong>Representation transfer · unregistered</strong></div>
-    </div>
-
-    <section>
-      <div class="eyebrow">Experiment registry</div>
-      <h2>One question, one contract, one decision.</h2>
-      <div class="grid">
-        <article class="card">
-          <span class="tag no-go">No-go</span>
-          <h3>EXP-001 · Q2.3 local replay guard</h3>
-          <p>Can a per-attempt functional replay budget prevent cumulative forgetting while quantity is learned?</p>
-          <p class="decision"><strong>200 accepts, 0 rejects; replay +2.685%.</strong></p>
-          <a href="experiments/exp-001.html">Read the full experiment →</a>
-        </article>
-        <article class="card">
-          <span class="tag no-go">No-go</span>
-          <h3>EXP-002 · Q2.4 cumulative replay guard</h3>
-          <p>Every candidate is checked against the same immutable six-source replay baseline before commit.</p>
-          <p class="decision"><strong>66 accepts, then 8 guarded rejects; no public checkpoint.</strong></p>
-          <a href="experiments/exp-002.html">Read the full experiment →</a>
-        </article>
-        <article class="card">
-          <span class="tag no-go">No-go</span>
-          <h3>EXP-003 · Q2.5 deterministic backtracking</h3>
-          <p>Retry one frozen AdamW proposal at eight geometric scales under the unchanged cumulative replay authority.</p>
-          <p class="decision"><strong>66 full + 5 scaled commits, then 8 exhausted attempts; no public checkpoint.</strong></p>
-          <a href="experiments/exp-003.html">Read the full experiment →</a>
-        </article>
-        <article class="card">
-          <span class="tag">Go</span>
-          <h3>EXP-004 · Q2.6 replay-tangent projection</h3>
-          <p>Remove only the replay-increasing component of each candidate direction, then apply the unchanged direct six-slice authority.</p>
-          <p><strong class="pass">700 full-scale commits; public and one-time promotion gates passed.</strong></p>
-          <a href="experiments/exp-004.html">Read the full experiment →</a>
-        </article>
-        <article class="card">
-          <span class="tag">Family go</span>
-          <h3>EXP-005 · Q2.6 family replication</h3>
-          <p>Seeds 1 and 3 ran independently under the accepted tangent design, with all three declared seeds required to pass.</p>
-          <p><strong>Seeds 1, 2, and 3 resolved go; ZERO.4 is current upstream.</strong></p>
-          <a href="experiments/exp-005.html">Read the completed experiment →</a>
-        </article>
-        <article class="card">
-          <span class="tag proxy">Recovered · corpus proxy</span>
-          <h3>EXP-006 · Holo HRR attention at T=512</h3>
-          <p>A public CPU/enwik8 run verified the three-arm implementation and preserved a strict recovery trail after an invalid result envelope.</p>
-          <p><strong>Softmax led both HRR variants in validation quality and speed.</strong></p>
-          <a href="experiments/exp-006.html">Read the recovered result →</a>
-        </article>
-        <article class="card">
-          <span class="tag">Shared-task go</span>
-          <h3>EXP-007 · Zero → Solomon Q22 bridge</h3>
-          <p>Three prospectively frozen Solomon integer class heads ran against the shared Q22 operation-routing task.</p>
-          <p><strong>Every seed scored 500/500, with identical predictions across seeds.</strong></p>
-          <a href="experiments/exp-007.html">Read the completed bridge →</a>
-        </article>
-        <article class="card">
-          <span class="tag no-go">Shared-task no-go</span>
-          <h3>EXP-008 · Shortcut-resistant Q22 routing</h3>
-          <p>The successor removed the common-prefix shortcut, balanced wrong-operation distractors, and held out whole sentence-template families.</p>
-          <p><strong>Seed rates fell to 42.5–53.3%, with 53.1% agreement.</strong></p>
-          <a href="experiments/exp-008.html">Read the closed class-head boundary →</a>
-        </article>
-        <article class="card">
-          <span class="tag">Active research line</span>
-          <h3>Reasoner · active compositional law induction</h3>
-          <p>The external public line through Reasoner (3,9) separates evidence requests, verified actions, sealed answers, and downstream language.</p>
-          <p><strong>Current boundary: fixed typed program language. No Reasoner 4.0 run is authorized.</strong></p>
-          <a href="REASONER-LINE.html">Read the Reasoner registration →</a>
-        </article>
-        <article class="card">
-          <span class="tag no-go">External no-go · import pending</span>
-          <h3>ZERO5 C5.1 · StateBridge text</h3>
-          <p>Exactly 25% of the matched C4.3 stream was replaced with Braid structured-state text at the unchanged 4,852,992-parameter base.</p>
-          <p class="decision"><strong>Structured text alone did not improve the frozen retrieval audit.</strong></p>
-          <a href="program-registry.html">Read the active program →</a>
-        </article>
-        <article class="card">
-          <span class="tag proxy">Private terminal record</span>
-          <h3>ZERO5 C5.2 · TargetBridge auxiliary</h3>
-          <p>The C5.1 stream remains fixed. A verified factorized state-target head is the only treatment, bringing the experimental model to 5,046,256 parameters.</p>
-          <p><strong>The run finished under a no-publication boundary. Its outcome remains absent from the public program.</strong></p>
-          <a href="program-registry.html">Read the publication boundary →</a>
-        </article>
-        <article class="card">
-          <span class="tag proxy">Built · training blocked</span>
-          <h3>ZERO5 C6.1 · Shared-State Bottleneck</h3>
-          <p>A 152-wide state representation is shared by the verified factor decoder and a zero-initialized answer-token adapter, with a mandatory same-checkpoint bridge-off ablation.</p>
-          <p><strong>The contract and code are frozen. No compute is authorized.</strong></p>
-          <a href="program-registry.html">Read the prospective contract →</a>
-        </article>
+  <main>
+    <section class="slide cover" id="cover">
+      <div class="slide-number">01 / 08</div>
+      <p class="eyebrow">Intelligent Lab eXperiment Yielding Research</p>
+      <h1>Evidence before<br><em>execution.</em></h1>
+      <div class="cover-bottom">
+        <p>ilXyr is a research control plane. It turns questions into frozen experiments, admits only what passes its gates, and keeps every result in a verifiable ledger.</p>
+        <a class="round-link" href="#problem" aria-label="Continue to the problem">↓</a>
       </div>
     </section>
 
-    <section>
-      <div class="panel">
-        <div class="eyebrow">Evidence discipline</div>
-        <h2>What the page promises</h2>
-        <div class="grid">
-          <div><h3>Frozen before inference</h3><p>Seeds, metrics, data hashes, stop rules, and promotion access are bound by machine-readable contracts.</p></div>
-          <div><h3>Negative results count</h3><p>A valid no-go closes a branch. It is not softened, hidden, or converted into a capability claim.</p></div>
-          <div><h3>Replay over rhetoric</h3><p>Clean commits, content hashes, deterministic adapters, and the event ledger define what is grounded.</p></div>
+    <section class="slide split-slide" id="problem">
+      <div class="slide-number">02 / 08</div>
+      <div>
+        <p class="eyebrow">The problem</p>
+        <h2>Research forgets<br>what it promised.</h2>
+      </div>
+      <div class="statement-stack">
+        <article><span>01</span><h3>Targets move</h3><p>Metrics, datasets, and thresholds drift after results begin to appear.</p></article>
+        <article><span>02</span><h3>Uncertainty disappears</h3><p>Predictions made before a run are rarely preserved or scored.</p></article>
+        <article><span>03</span><h3>Failures vanish</h3><p>Negative results are softened, hidden, or recast as future promise.</p></article>
+      </div>
+    </section>
+
+    <section class="slide product-slide" id="product">
+      <div class="slide-number">03 / 08</div>
+      <p class="eyebrow">The product</p>
+      <h2>A control plane<br>for <em>credible</em> experiments.</h2>
+      <div class="product-grid">
+        <article><strong>Freeze</strong><p>Bind the question, method, data, seeds, gates, budget, and stop rules.</p></article>
+        <article><strong>Admit</strong><p>Require forecasts, funding, role separation, security, and executor fit.</p></article>
+        <article><strong>Settle</strong><p>Resolve the exact contract and append evidence to a hash-linked history.</p></article>
+      </div>
+    </section>
+
+    <section class="slide flow-slide" id="flow">
+      <div class="slide-number">04 / 08</div>
+      <p class="eyebrow">How it works</p>
+      <h2>One question.<br>One contract. One decision.</h2>
+      <ol class="flow" aria-label="ilXyr research lifecycle">
+        <li><span>01</span><strong>Propose</strong></li>
+        <li><span>02</span><strong>Freeze</strong></li>
+        <li><span>03</span><strong>Forecast</strong></li>
+        <li><span>04</span><strong>Fund</strong></li>
+        <li><span>05</span><strong>Admit</strong></li>
+        <li><span>06</span><strong>Run</strong></li>
+        <li><span>07</span><strong>Settle</strong></li>
+      </ol>
+      <p class="flow-note">A package is not permission to spend. A run is not evidence until it settles.</p>
+    </section>
+
+    <section class="slide proof-slide" id="proof">
+      <div class="slide-number">05 / 08</div>
+      <p class="eyebrow">The method</p>
+      <div class="proof-grid">
+        <div class="proof-claim"><strong>Immutable</strong><span>experiment contracts</span></div>
+        <div class="proof-claim"><strong>Deterministic</strong><span>admission gates</span></div>
+        <div class="proof-claim"><strong>Content-addressed</strong><span>objects and evidence</span></div>
+        <div class="proof-claim"><strong>Calibrated</strong><span>forecasters</span></div>
+      </div>
+      <blockquote>“The durable unit is a change to the state of knowledge.”</blockquote>
+    </section>
+
+    <section class="slide program-slide" id="program">
+      <div class="slide-number">06 / 08</div>
+      <div class="program-heading">
+        <div><p class="eyebrow">The live program</p><h2>Small models.<br>Strong claims.</h2></div>
+        <p>ilXyr serves a certified-micromodel lab. Capability grows through verified faculties and deterministic composition—not parameter count.</p>
+      </div>
+      <div class="program-table">
+        <a href="program-registry.html"><span>Promoted model</span><strong>ZERO.4</strong><em>Q2.6 family gate passed ↗</em></a>
+        <a href="REASONER-LINE.html"><span>Active research</span><strong>Reasoner</strong><em>Fixed typed program language ↗</em></a>
+        <a href="experiments/exp-007.html"><span>Shared-task go</span><strong>EXP-007</strong><em>500 / 500 across three seeds ↗</em></a>
+        <a href="experiments/exp-008.html"><span>Shared-task no-go</span><strong>EXP-008</strong><em>42.5–53.3% seed rates ↗</em></a>
+      </div>
+    </section>
+
+    <section class="slide boundary-slide" id="boundary">
+      <div class="slide-number">07 / 08</div>
+      <p class="eyebrow">Honest boundaries</p>
+      <h2>What is not public<br>stays <em>not claimed.</em></h2>
+      <div class="boundary-list">
+        <a href="program-registry.html"><span>ZERO5 C5.1</span><strong>No-go · import pending</strong></a>
+        <a href="program-registry.html"><span>ZERO5 C5.2</span><strong>Private terminal record</strong></a>
+        <a href="program-registry.html"><span>ZERO5 C6.1</span><strong>Built · training blocked</strong></a>
+        <a href="https://github.com/cenetex/ilXyr/blob/main/docs/REMOTE_EXECUTION.md"><span>Remote intake</span><strong>Implemented · not deployed</strong></a>
+      </div>
+    </section>
+
+    <section class="slide closing-slide" id="start">
+      <div class="slide-number">08 / 08</div>
+      <p class="eyebrow">Open protocol · Rust 1.85+</p>
+      <h2>Make the promise<br>before the result.</h2>
+      <div class="closing-grid">
+        <pre><code>cargo build
+cargo run -p ilxyr-cli -- init .
+cargo run -p ilxyr-cli -- verify .</code></pre>
+        <div class="closing-links">
+          <a href="https://github.com/cenetex/ilXyr">Explore the repository <span>↗</span></a>
+          <a href="https://ilxyr.cenetex.com">Open the live protocol index <span>↗</span></a>
+          <a href="https://github.com/cenetex/ilXyr/blob/main/docs/PROTOCOL.md">Read the protocol <span>↗</span></a>
         </div>
       </div>
+      <footer>ilXyr · Fund uncertainty. Settle in evidence. · 2026</footer>
     </section>
   </main>
-
-  <footer><div class="shell">ilXyr · Intelligent Lab eXperiment Yielding Research · Updated 2026-08-30</div></footer>
 </body>
 </html>
