@@ -60,6 +60,8 @@ test("server-renders the interactive public ilXyr protocol index", async () => {
   assert.match(html, /The reporting API is complete in the source code/);
   assert.match(html, /Public rollout will add TLS/);
   assert.match(html, /remote-package-verify/);
+  assert.match(html, /remote-aws-preflight/);
+  assert.match(html, /remote-aws-launch/);
   assert.match(html, /remote-report-accept/);
   assert.doesNotMatch(html, /\/api\/proposals|proposal database/i);
 });
@@ -108,6 +110,9 @@ test("public API returns only static protocol data", async () => {
   ));
   assert.ok(status.status.some((item) =>
     item.key === "authenticated_network_report_intake" && item.value === "implemented_not_deployed"
+  ));
+  assert.ok(status.status.some((item) =>
+    item.key === "general_cloud_launcher" && item.value === "implemented"
   ));
 
   const environmentResponse = await request("/api/environments");

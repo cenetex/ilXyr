@@ -98,6 +98,13 @@ fn fake_adapter_recovers_idempotently_and_intake_is_durable() {
     assert_eq!(event_count(&fixture.workspace, "RemoteLaunchReserved"), 1);
     assert_eq!(event_count(&fixture.workspace, "RemoteLaunchRecorded"), 0);
 
+    adapter.configuration_revision = 1;
+    let drift = launch_remote_execution(&fixture.workspace, &mut adapter, AUTHORIZATION_ID)
+        .expect_err("a changed launch configuration needs its own reservation");
+    assert!(drift.to_string().contains("reserved adapter configuration"));
+    assert_eq!(adapter.launch_calls, 1);
+    adapter.configuration_revision = 0;
+
     let receipt = launch_remote_execution(&fixture.workspace, &mut adapter, AUTHORIZATION_ID)
         .expect("retry recovers the same provider launch");
     assert_eq!(adapter.launch_calls, 2);
@@ -453,6 +460,7 @@ impl Fixture {
 
 struct FakeAdapter {
     executor: ActorRef,
+    configuration_revision: u64,
     signing_key: SigningKey,
     launches: BTreeMap<String, ProviderLaunchReceipt>,
     fail_after_first_launch: bool,
@@ -466,6 +474,7 @@ impl FakeAdapter {
     fn new(fail_after_first_launch: bool) -> Self {
         Self {
             executor: ActorRef::service(EXECUTOR_ID),
+            configuration_revision: 0,
             signing_key: SigningKey::from_bytes(&[62; 32]),
             launches: BTreeMap::new(),
             fail_after_first_launch,
@@ -488,6 +497,10 @@ impl RemoteExecutorAdapter for FakeAdapter {
 
     fn executor(&self) -> &ActorRef {
         &self.executor
+    }
+
+    fn configuration_ref(&self) -> ilxyr_core::Result<String> {
+        Ok(artifact_ref(&(ADAPTER_ID, self.configuration_revision)))
     }
 
     fn preflight(
@@ -549,7 +562,12 @@ impl RemoteExecutorAdapter for FakeAdapter {
         })
     }
 
-    fn collect(&mut self, receipt: &RemoteLaunchReceipt) -> ilxyr_core::Result<ExecutionReport> {
+    fn collect(
+        &mut self,
+        receipt: &RemoteLaunchReceipt,
+        _environment: &ExecutorEnvironmentManifest,
+        _package: &ExecutorJobPackage,
+    ) -> ilxyr_core::Result<ExecutionReport> {
         self.collect_calls += 1;
         let run = RunRecord {
             schema: "ilxyr.run.v1".to_owned(),

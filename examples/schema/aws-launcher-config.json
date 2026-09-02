@@ -1,0 +1,16 @@
+{
+  "schema": "ilxyr.aws_launcher.v1",
+  "executor": { "id": "service://toy/executor-v1", "kind": "service" },
+  "account_id": "123456789012",
+  "region": "us-east-1",
+  "subnet_id": "subnet-0123abcd",
+  "security_group_ids": ["sg-0123abcd"],
+  "iam_instance_profile": "ilxyr-executor-v1",
+  "root_device_name": "/dev/sda1",
+  "bootstrap_script": "/opt/ilxyr/remote-bootstrap.sh",
+  "package_bucket": "ilxyr-packages-example",
+  "package_key": "packages/toy.remote.v1/0909090909090909090909090909090909090909090909090909090909090909.json",
+  "result_bucket": "ilxyr-results-example",
+  "result_prefix": "runs/toy.remote.v1",
+  "price_evidence_file": "examples/schema/aws-price-evidence.json"
+}
