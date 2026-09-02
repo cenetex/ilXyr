@@ -154,8 +154,8 @@ export function ProtocolPortal({
           <p className="kicker"><span className="live-dot" /> Public project index</p>
           <h1>Evidence before<br /><em>execution.</em></h1>
           <p className="hero-lede">
-            ilXyr keeps research work clear. It saves the plan before the run. It records the
-            result after the run.
+            In ilXyr, each research claim has a test with rules set in advance. Every result
+            stays on record. The evidence shapes the next question.
           </p>
           <div className="hero-actions">
             <a className="button primary" href="#protocol">Explore the system <span>↘</span></a>

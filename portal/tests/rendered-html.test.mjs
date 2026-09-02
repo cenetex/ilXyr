@@ -38,6 +38,10 @@ test("server-renders the interactive public ilXyr protocol index", async () => {
   const html = await response.text();
   assert.match(html, /<title>ilXyr — Evidence before execution<\/title>/i);
   assert.match(html, /Evidence before/);
+  assert.match(html, /each research claim has a test with rules set in advance/i);
+  assert.match(html, /Every result/);
+  assert.match(html, /The evidence shapes the next question/);
+  assert.doesNotMatch(html, /keeps research work clear/i);
   assert.match(html, /Explore the system/);
   assert.match(html, /Read the/);
   assert.match(html, /public data/);
