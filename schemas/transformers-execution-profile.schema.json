@@ -1,0 +1,423 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/transformers-execution-profile.v1.json",
+  "title": "ilXyr Transformers execution profile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "revision",
+    "state",
+    "purpose",
+    "experiment_id",
+    "model",
+    "implementation",
+    "software",
+    "environment",
+    "runtime",
+    "trainer",
+    "generation",
+    "data",
+    "adapter",
+    "determinism",
+    "outputs",
+    "unresolved",
+    "execution_authorized"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.transformers_execution_profile.v1" },
+    "id": { "type": "string", "pattern": "^profile://transformers/\\S+$" },
+    "revision": { "type": "integer", "minimum": 1 },
+    "state": { "enum": ["draft", "frozen"] },
+    "purpose": { "enum": ["base_profile", "calibration", "training"] },
+    "experiment_id": { "type": "string", "minLength": 1 },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "weight_ref",
+        "repo_id",
+        "revision",
+        "tokenizer_revision",
+        "trust_remote_code"
+      ],
+      "properties": {
+        "weight_ref": {
+          "type": "string",
+          "pattern": "^weight://huggingface/(?!\\.{1,2}/)[A-Za-z0-9._-]+/(?!\\.{1,2}@)[A-Za-z0-9._-]+@[0-9a-f]{40}$"
+        },
+        "repo_id": {
+          "type": "string",
+          "pattern": "^(?!\\.{1,2}/)[A-Za-z0-9._-]+/(?!\\.{1,2}$)[A-Za-z0-9._-]+$"
+        },
+        "revision": { "$ref": "#/$defs/gitRevision" },
+        "tokenizer_revision": { "$ref": "#/$defs/gitRevision" },
+        "trust_remote_code": { "const": false }
+      }
+    },
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "revision",
+        "entrypoint",
+        "source_sha256",
+        "source_config_sha256",
+        "config_sha256",
+        "dependency_lock_sha256"
+      ],
+      "properties": {
+        "repository": { "type": "string", "pattern": "^https://\\S+$" },
+        "revision": { "$ref": "#/$defs/gitRevision" },
+        "entrypoint": { "type": "string", "minLength": 1 },
+        "source_sha256": { "$ref": "#/$defs/sha256" },
+        "source_config_sha256": { "$ref": "#/$defs/sha256" },
+        "config_sha256": {
+          "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }]
+        },
+        "dependency_lock_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "software": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["python", "torch", "transformers", "accelerate", "peft", "safetensors"],
+      "properties": {
+        "python": { "$ref": "#/$defs/nullableVersion" },
+        "torch": { "$ref": "#/$defs/nullableVersion" },
+        "transformers": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["version", "source_revision", "distribution_sha256"],
+          "properties": {
+            "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+[A-Za-z0-9.+-]*$" },
+            "source_revision": { "$ref": "#/$defs/gitRevision" },
+            "distribution_sha256": { "$ref": "#/$defs/sha256" }
+          }
+        },
+        "accelerate": { "$ref": "#/$defs/nullableVersion" },
+        "peft": { "$ref": "#/$defs/nullableVersion" },
+        "safetensors": { "$ref": "#/$defs/nullableVersion" }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["executor_environment_ref", "image", "hardware"],
+      "properties": {
+        "executor_environment_ref": {
+          "type": ["string", "null"],
+          "pattern": "^environment://\\S+$"
+        },
+        "image": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "digest"],
+          "properties": {
+            "repository": { "type": "string", "minLength": 1 },
+            "digest": {
+              "type": ["string", "null"],
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          }
+        },
+        "hardware": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["accelerator", "count", "driver_version", "runtime_version"],
+          "properties": {
+            "accelerator": { "$ref": "#/$defs/nullableNonEmptyString" },
+            "count": { "type": ["integer", "null"], "minimum": 1 },
+            "driver_version": { "$ref": "#/$defs/nullableNonEmptyString" },
+            "runtime_version": { "$ref": "#/$defs/nullableNonEmptyString" }
+          }
+        }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "torch_dtype",
+        "attention_backend",
+        "mask_backend",
+        "device_map",
+        "use_cache",
+        "cache_implementation",
+        "gradient_checkpointing",
+        "compile"
+      ],
+      "properties": {
+        "torch_dtype": { "enum": ["float32", "float16", "bfloat16"] },
+        "attention_backend": { "enum": ["eager", "sdpa", "flash_attention_2", "flash_attention_3", "flex_attention"] },
+        "mask_backend": { "type": "string", "minLength": 1 },
+        "device_map": { "type": ["string", "null"], "minLength": 1 },
+        "use_cache": { "type": "boolean" },
+        "cache_implementation": { "enum": ["disabled", "dynamic", "static"] },
+        "gradient_checkpointing": { "type": "boolean" },
+        "compile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "backend"],
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "backend": { "$ref": "#/$defs/nullableNonEmptyString" }
+          }
+        }
+      }
+    },
+    "trainer": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": [
+        "loop",
+        "optimizer",
+        "scheduler",
+        "epochs",
+        "per_device_train_batch_size",
+        "per_device_eval_batch_size",
+        "gradient_accumulation_steps",
+        "learning_rate",
+        "save_strategy",
+        "eval_strategy",
+        "eval_on_start"
+      ],
+      "properties": {
+        "loop": { "enum": ["transformers.Trainer", "transformers.Seq2SeqTrainer", "custom"] },
+        "optimizer": { "$ref": "#/$defs/nullableNonEmptyString" },
+        "scheduler": { "$ref": "#/$defs/nullableNonEmptyString" },
+        "epochs": { "type": "number", "exclusiveMinimum": 0 },
+        "per_device_train_batch_size": { "type": "integer", "minimum": 1 },
+        "per_device_eval_batch_size": { "type": "integer", "minimum": 1 },
+        "gradient_accumulation_steps": { "type": "integer", "minimum": 1 },
+        "learning_rate": { "type": "number", "exclusiveMinimum": 0 },
+        "save_strategy": { "enum": ["no", "steps", "epoch", "best"] },
+        "eval_strategy": { "enum": ["no", "steps", "epoch"] },
+        "eval_on_start": { "const": true }
+      }
+    },
+    "generation": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["resolved_config_sha256", "max_new_tokens", "do_sample", "num_beams", "batch_size"],
+      "properties": {
+        "resolved_config_sha256": {
+          "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }]
+        },
+        "max_new_tokens": { "type": "integer", "minimum": 1 },
+        "do_sample": { "type": "boolean" },
+        "num_beams": { "type": "integer", "minimum": 1 },
+        "batch_size": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "corpus_ref",
+        "materialization_ref",
+        "input_view_ref",
+        "input_view_sha256",
+        "train_split",
+        "validation_split",
+        "max_sequence_length",
+        "truncation",
+        "padding",
+        "label_mask",
+        "chat_template_sha256",
+        "collator_sha256"
+      ],
+      "properties": {
+        "corpus_ref": { "$ref": "#/$defs/opaqueUri" },
+        "materialization_ref": { "$ref": "#/$defs/opaqueUri" },
+        "input_view_ref": {
+          "anyOf": [{ "$ref": "#/$defs/opaqueUri" }, { "type": "null" }]
+        },
+        "input_view_sha256": {
+          "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }]
+        },
+        "train_split": { "type": "string", "minLength": 1 },
+        "validation_split": { "type": "string", "minLength": 1 },
+        "max_sequence_length": { "type": "integer", "minimum": 1 },
+        "truncation": { "type": "string", "minLength": 1 },
+        "padding": { "type": "string", "minLength": 1 },
+        "label_mask": { "type": "string", "minLength": 1 },
+        "chat_template_sha256": { "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+        "collator_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "adapter": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["method"],
+          "properties": { "method": { "const": "none" } }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["method", "rank", "alpha", "dropout", "bias", "target_modules"],
+          "properties": {
+            "method": { "const": "lora" },
+            "rank": { "type": "integer", "minimum": 1 },
+            "alpha": { "type": "integer", "minimum": 1 },
+            "dropout": { "type": "number", "minimum": 0, "maximum": 1 },
+            "bias": { "enum": ["none", "all", "lora_only"] },
+            "target_modules": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      ]
+    },
+    "determinism": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "seed",
+        "data_seed",
+        "dataloader_workers",
+        "dataloader_in_order",
+        "persistent_workers",
+        "deterministic_algorithms",
+        "warn_only"
+      ],
+      "properties": {
+        "seed": { "type": "integer", "minimum": 0 },
+        "data_seed": { "type": "integer", "minimum": 0 },
+        "dataloader_workers": { "type": "integer", "minimum": 0 },
+        "dataloader_in_order": { "type": "boolean" },
+        "persistent_workers": { "type": "boolean" },
+        "deterministic_algorithms": { "type": "boolean" },
+        "warn_only": { "type": "boolean" }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "unresolved": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "execution_authorized": { "const": false }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "state": { "const": "draft" } },
+        "required": ["state"]
+      },
+      "then": {
+        "properties": { "unresolved": { "type": "array", "minItems": 1 } }
+      },
+      "else": {
+        "properties": {
+          "unresolved": { "type": "array", "maxItems": 0 },
+          "adapter": { "type": "object" },
+          "runtime": {
+            "type": "object",
+            "properties": { "device_map": { "type": "string" } }
+          },
+          "implementation": {
+            "type": "object",
+            "properties": { "config_sha256": { "type": "string" } }
+          },
+          "software": {
+            "type": "object",
+            "properties": {
+              "python": { "type": "string" },
+              "torch": { "type": "string" },
+              "accelerate": { "type": "string" },
+              "peft": { "type": "string" },
+              "safetensors": { "type": "string" }
+            }
+          },
+          "environment": {
+            "type": "object",
+            "properties": {
+              "executor_environment_ref": { "type": "string" },
+              "image": {
+                "type": "object",
+                "properties": { "digest": { "type": "string" } }
+              },
+              "hardware": {
+                "type": "object",
+                "properties": {
+                  "accelerator": { "type": "string" },
+                  "count": { "type": "integer" },
+                  "driver_version": { "type": "string" },
+                  "runtime_version": { "type": "string" }
+                }
+              }
+            }
+          },
+          "trainer": {
+            "type": ["object", "null"],
+            "properties": {
+              "optimizer": { "type": "string" },
+              "scheduler": { "type": "string" }
+            }
+          },
+          "generation": {
+            "type": ["object", "null"],
+            "properties": { "resolved_config_sha256": { "type": "string" } }
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "input_view_ref": { "type": "string" },
+              "input_view_sha256": { "type": "string" },
+              "chat_template_sha256": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "purpose": { "const": "base_profile" } },
+        "required": ["purpose"]
+      },
+      "then": {
+        "properties": {
+          "trainer": { "type": "null" },
+          "adapter": { "const": { "method": "none" } },
+          "generation": { "type": "object" }
+        }
+      },
+      "else": {
+        "properties": {
+          "trainer": { "type": "object" },
+          "generation": { "type": "null" }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "gitRevision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "nullableVersion": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+[A-Za-z0-9.+-]*$"
+    },
+    "nullableNonEmptyString": {
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "opaqueUri": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9+.-]*://\\S+$"
+    }
+  }
+}

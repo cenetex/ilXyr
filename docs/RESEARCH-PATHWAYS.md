@@ -313,6 +313,11 @@ Apply these additional rules:
    paired-next-token, or public-proxy HRR-advantage branches without a new
    causal hypothesis.
 
+The shared [`frozen representation audit`](REPRESENTATION-AUDITS.md) now gives
+items 1 through 3 one contract shape. The prepared EXP-008, NSRL p10m, and
+Reasoner 4.0 drafts bind each line's question, controls, metrics, and next-step
+decision before execution.
+
 ## Maintenance
 
 Run:

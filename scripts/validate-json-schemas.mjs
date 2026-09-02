@@ -160,6 +160,11 @@ const fixtures = {
     "examples/schema/registration-package.json",
   ],
   "research-registry.schema.json": ["registry/research-registry.json"],
+  "representation-audit.schema.json": [
+    "examples/diagnostics/exp-008-representation-audit.json",
+    "examples/diagnostics/nsrl-p10m-representation-audit.json",
+    "examples/diagnostics/reasoner-4-representation-audit.json",
+  ],
   "retro-registration.schema.json": [
     "examples/schema/retro-registration.json",
     "examples/families/nsrl-target-margin-v1.retro.json",
@@ -184,6 +189,10 @@ const fixtures = {
   ],
   "trusted-attestation-key.schema.json": [
     "examples/schema/trusted-attestation-key.json",
+  ],
+  "transformers-execution-profile.schema.json": [
+    "examples/feral-7b/transformers-base-profile.json",
+    "examples/feral-7b/transformers-calibration-profile.json",
   ],
   "upstream-benchmark.schema.json": [
     "examples/schema/upstream-benchmark.json",
@@ -597,6 +606,63 @@ expectInvalid(
   "upstream benchmark without an explicit outcome",
   upstreamBenchmark,
 );
+
+const transformersProfile = await readJson(
+  "examples/feral-7b/transformers-calibration-profile.json",
+);
+transformersProfile.state = "frozen";
+expectInvalid(
+  "transformers-execution-profile.schema.json",
+  "frozen Transformers profile with unresolved execution factors",
+  transformersProfile,
+);
+
+const transformersProfileWithoutInitialEvaluation = await readJson(
+  "examples/feral-7b/transformers-calibration-profile.json",
+);
+transformersProfileWithoutInitialEvaluation.trainer.eval_on_start = false;
+expectInvalid(
+  "transformers-execution-profile.schema.json",
+  "Transformers profile without an initial evaluation",
+  transformersProfileWithoutInitialEvaluation,
+);
+
+const representationAudit = await readJson(
+  "examples/diagnostics/exp-008-representation-audit.json",
+);
+representationAudit.invariants.source_model_updates = true;
+expectInvalid(
+  "representation-audit.schema.json",
+  "representation audit that updates the source model",
+  representationAudit,
+);
+
+const prematurelyFrozenRepresentationAudit = await readJson(
+  "examples/diagnostics/nsrl-p10m-representation-audit.json",
+);
+prematurelyFrozenRepresentationAudit.state = "frozen";
+expectInvalid(
+  "representation-audit.schema.json",
+  "frozen representation audit with unresolved inputs",
+  prematurelyFrozenRepresentationAudit,
+);
+
+const feralProfileRegistry = (await readJson("registry/research-registry.json"))
+  .projects.find((project) => project.project_id === "project://ilxyr/feral-7b");
+for (const profilePath of fixtures["transformers-execution-profile.schema.json"]) {
+  const profileDigest = createHash("sha256")
+    .update(await readFile(join(root, profilePath)))
+    .digest("hex");
+  const entries = feralProfileRegistry.artifacts.filter(
+    (artifact) => artifact.uri?.endsWith(`/${profilePath}`),
+  );
+  if (
+    entries.length !== 1 || entries[0].digest !== profileDigest ||
+    entries[0].artifact_id !== `artifact://sha256/${profileDigest}`
+  ) {
+    throw new Error(`FERAL registry must bind ${profilePath} to ${profileDigest}`);
+  }
+}
 
 const nsrlRegistration = await readJson(
   "examples/nsrl/p10m-v10-registration.json",

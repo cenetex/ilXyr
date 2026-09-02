@@ -1,0 +1,387 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/representation-audit.v1.json",
+  "title": "ilXyr frozen representation audit v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "revision",
+    "state",
+    "title",
+    "lineage",
+    "question",
+    "source",
+    "execution_profile_ref",
+    "inputs",
+    "representations",
+    "capture",
+    "probe",
+    "controls",
+    "metrics",
+    "decision_table",
+    "seeds",
+    "invariants",
+    "unresolved"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.representation_audit.v1" },
+    "id": { "type": "string", "pattern": "^audit://representation/\\S+$" },
+    "revision": { "type": "integer", "minimum": 1 },
+    "state": { "enum": ["draft", "frozen"] },
+    "title": { "type": "string", "minLength": 1 },
+    "lineage": { "type": "string", "minLength": 1 },
+    "question": { "type": "string", "minLength": 1 },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["experiment_id", "model_refs", "source_revision", "evidence_refs"],
+      "properties": {
+        "experiment_id": { "type": "string", "minLength": 1 },
+        "model_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/opaqueUri" }
+        },
+        "source_revision": { "$ref": "#/$defs/gitRevision" },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/opaqueUri" }
+        }
+      }
+    },
+    "execution_profile_ref": {
+      "type": ["string", "null"],
+      "pattern": "^profile://\\S+$"
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fit_split", "evaluation_splits", "split_firewall"],
+      "properties": {
+        "fit_split": {
+          "allOf": [
+            { "$ref": "#/$defs/inputSplit" },
+            { "type": "object", "properties": { "role": { "const": "probe_fit" } } }
+          ]
+        },
+        "evaluation_splits": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "allOf": [
+              { "$ref": "#/$defs/inputSplit" },
+              { "type": "object", "properties": { "role": { "const": "diagnostic_evaluation" } } }
+            ]
+          }
+        },
+        "split_firewall": { "type": "string", "minLength": 1 }
+      }
+    },
+    "representations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "source_kind",
+          "selector",
+          "pooling",
+          "dimension",
+          "artifact_ref",
+          "artifact_sha256",
+          "trainable"
+        ],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "source_kind": { "enum": ["hidden_state", "feature_vector", "adapter_state", "ir_state"] },
+          "selector": { "type": "string", "minLength": 1 },
+          "pooling": { "type": "string", "minLength": 1 },
+          "dimension": { "type": ["integer", "null"], "minimum": 1 },
+          "artifact_ref": {
+            "anyOf": [{ "$ref": "#/$defs/opaqueUri" }, { "type": "null" }]
+          },
+          "artifact_sha256": {
+            "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }]
+          },
+          "trainable": { "const": false }
+        }
+      }
+    },
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["implementation_ref", "implementation_sha256", "source_state", "gradient_tracking"],
+      "properties": {
+        "implementation_ref": {
+          "anyOf": [{ "$ref": "#/$defs/opaqueUri" }, { "type": "null" }]
+        },
+        "implementation_sha256": {
+          "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }]
+        },
+        "source_state": { "const": "frozen" },
+        "gradient_tracking": { "const": false }
+      }
+    },
+    "probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "estimator",
+        "implementation_ref",
+        "implementation_sha256",
+        "maximum_trainable_parameters",
+        "standardization",
+        "regularization_grid",
+        "selection_method",
+        "selection_folds",
+        "fit_split_only"
+      ],
+      "properties": {
+        "estimator": { "enum": ["multinomial_logistic_regression", "binary_logistic_regression", "ridge_regression", "nearest_centroid"] },
+        "implementation_ref": {
+          "anyOf": [{ "$ref": "#/$defs/opaqueUri" }, { "type": "null" }]
+        },
+        "implementation_sha256": {
+          "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }]
+        },
+        "maximum_trainable_parameters": { "type": "integer", "minimum": 1 },
+        "standardization": { "enum": ["none", "fit_split_mean_variance"] },
+        "regularization_grid": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "number", "exclusiveMinimum": 0 }
+        },
+        "selection_method": { "const": "group_cross_validation_within_fit_split" },
+        "selection_folds": { "type": "integer", "minimum": 2 },
+        "fit_split_only": { "const": true }
+      }
+    },
+    "controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label_shuffle", "prefix_only", "random_projection", "swap_test"],
+      "properties": {
+        "label_shuffle": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["runs", "within_group"],
+          "properties": {
+            "runs": { "type": "integer", "minimum": 5 },
+            "within_group": { "const": false }
+          }
+        },
+        "prefix_only": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["input_scope"],
+          "properties": {
+            "input_scope": { "type": "string", "minLength": 1 }
+          }
+        },
+        "random_projection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["dimensions", "seeds"],
+          "properties": {
+            "dimensions": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "integer", "minimum": 1 }
+            },
+            "seeds": {
+              "type": "array",
+              "minItems": 3,
+              "uniqueItems": true,
+              "items": { "type": "integer", "minimum": 0 }
+            }
+          }
+        },
+        "swap_test": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "axes"],
+          "properties": {
+            "enabled": { "const": true },
+            "axes": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "category", "operator", "threshold", "unit", "required"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "category": { "enum": ["overall", "group", "stability", "control"] },
+          "operator": { "enum": ["gt", "gte", "lt", "lte"] },
+          "threshold": { "type": "number" },
+          "unit": { "type": "string", "minLength": 1 },
+          "required": { "type": "boolean" }
+        }
+      }
+    },
+    "decision_table": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stable_signal", "localized_signal", "insufficient_signal", "invalid_controls"],
+      "properties": {
+        "stable_signal": { "$ref": "#/$defs/decision" },
+        "localized_signal": { "$ref": "#/$defs/decision" },
+        "insufficient_signal": { "$ref": "#/$defs/decision" },
+        "invalid_controls": { "$ref": "#/$defs/decision" }
+      }
+    },
+    "seeds": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": { "type": "integer", "minimum": 0 }
+    },
+    "invariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_model_updates",
+        "source_model_selection",
+        "promotion_authority",
+        "sealed_evaluation_access",
+        "probe_outputs_diagnostic_only"
+      ],
+      "properties": {
+        "source_model_updates": { "const": false },
+        "source_model_selection": { "const": false },
+        "promotion_authority": { "const": false },
+        "sealed_evaluation_access": { "const": false },
+        "probe_outputs_diagnostic_only": { "const": true }
+      }
+    },
+    "unresolved": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "state": { "const": "draft" } },
+        "required": ["state"]
+      },
+      "then": {
+        "properties": { "unresolved": { "type": "array", "minItems": 1 } }
+      },
+      "else": {
+        "properties": {
+          "execution_profile_ref": { "type": "string" },
+          "unresolved": { "type": "array", "maxItems": 0 },
+          "inputs": {
+            "type": "object",
+            "properties": {
+              "fit_split": {
+                "type": "object",
+                "properties": { "sha256": { "type": "string" } }
+              },
+              "evaluation_splits": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": { "sha256": { "type": "string" } }
+                }
+              }
+            }
+          },
+          "representations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": { "dimension": { "type": "integer" } }
+            }
+          },
+          "probe": {
+            "type": "object",
+            "properties": {
+              "implementation_ref": { "type": "string" },
+              "implementation_sha256": { "type": "string" }
+            }
+          },
+          "capture": {
+            "type": "object",
+            "properties": {
+              "implementation_ref": { "type": "string" },
+              "implementation_sha256": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "gitRevision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "opaqueUri": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9+.-]*://\\S+$"
+    },
+    "inputSplit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "ref", "sha256", "role", "grouping_axes"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "ref": { "$ref": "#/$defs/opaqueUri" },
+        "sha256": {
+          "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }]
+        },
+        "role": { "enum": ["probe_fit", "probe_selection", "diagnostic_evaluation"] },
+        "grouping_axes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["condition", "interpretation", "next_allowed"],
+      "properties": {
+        "condition": { "type": "string", "minLength": 1 },
+        "interpretation": { "type": "string", "minLength": 1 },
+        "next_allowed": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "representation_successor",
+              "objective_successor",
+              "optimizer_successor",
+              "adapter_contract",
+              "data_review",
+              "stop_line"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

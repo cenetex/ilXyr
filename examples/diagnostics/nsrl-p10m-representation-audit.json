@@ -1,0 +1,132 @@
+{
+  "schema": "ilxyr.representation_audit.v1",
+  "id": "audit://representation/nsrl/p10m-output-calibration-v10/v1",
+  "revision": 1,
+  "state": "draft",
+  "title": "NSRL p10m frozen hidden-state sufficiency audit",
+  "lineage": "nsrl/p10m-output-calibration",
+  "question": "Do the frozen p10m hidden states carry stable cross-document context and distractor evidence before another training method is chosen?",
+  "source": {
+    "experiment_id": "nsrl.p10m.output-calibration.v10",
+    "model_refs": [
+      "weight://nsrl/nsrlpm1-p10m-output-calibration-v10@d1e323aa94170b3d0d049c1c70be2d5bebdd1cc7f57e5fc549da13ecdbb5f1be"
+    ],
+    "source_revision": "94515eabc301e759226095a14fada7020d1c5dd8",
+    "evidence_refs": [
+      "blob://sha256/d1e323aa94170b3d0d049c1c70be2d5bebdd1cc7f57e5fc549da13ecdbb5f1be",
+      "https://github.com/cenetex/ilXyr/blob/dd449f29ed5b8a7770885b6a9769bd16509e2bdd/examples/nsrl/p10m-v10-registration.json"
+    ]
+  },
+  "execution_profile_ref": null,
+  "inputs": {
+    "fit_split": {
+      "id": "p10m-public-context-probe-fit",
+      "ref": "https://github.com/atimics/nsrl/tree/94515eabc301e759226095a14fada7020d1c5dd8/benchmarks/open-generation-v1",
+      "sha256": null,
+      "role": "probe_fit",
+      "grouping_axes": ["document", "prompt_family", "token_position"]
+    },
+    "evaluation_splits": [
+      {
+        "id": "p10m-public-cross-document-probe-evaluation",
+        "ref": "artifact://pending/nsrl-p10m-cross-document-probe-evaluation",
+        "sha256": null,
+        "role": "diagnostic_evaluation",
+        "grouping_axes": ["document", "prompt_family", "token_position"]
+      },
+      {
+        "id": "p10m-public-distractor-swap-probe-evaluation",
+        "ref": "artifact://pending/nsrl-p10m-distractor-swap-probe-evaluation",
+        "sha256": null,
+        "role": "diagnostic_evaluation",
+        "grouping_axes": ["document", "distractor_document", "prompt_family"]
+      }
+    ],
+    "split_firewall": "Use public development documents only. Hold out whole documents for scoring. Keep the independent panel closed."
+  },
+  "representations": [
+    {
+      "id": "p10m-six-layer-residual-streams",
+      "source_kind": "hidden_state",
+      "selector": "embedding output and each of the six frozen residual layers",
+      "pooling": "last_non_padding_token_and_mean_context",
+      "dimension": null,
+      "artifact_ref": null,
+      "artifact_sha256": null,
+      "trainable": false
+    }
+  ],
+  "capture": {
+    "implementation_ref": null,
+    "implementation_sha256": null,
+    "source_state": "frozen",
+    "gradient_tracking": false
+  },
+  "probe": {
+    "estimator": "binary_logistic_regression",
+    "implementation_ref": null,
+    "implementation_sha256": null,
+    "maximum_trainable_parameters": 100000,
+    "standardization": "fit_split_mean_variance",
+    "regularization_grid": [0.0001, 0.001, 0.01, 0.1, 1.0],
+    "selection_method": "group_cross_validation_within_fit_split",
+    "selection_folds": 5,
+    "fit_split_only": true
+  },
+  "controls": {
+    "label_shuffle": { "runs": 20, "within_group": false },
+    "prefix_only": { "input_scope": "prompt prefix before document evidence" },
+    "random_projection": { "dimensions": [64, 128], "seeds": [7, 17, 29] },
+    "swap_test": { "enabled": true, "axes": ["document", "distractor_document"] }
+  },
+  "metrics": [
+    { "name": "cross_document_context_choice_accuracy", "category": "overall", "operator": "gte", "threshold": 700000, "unit": "ppm", "required": true },
+    { "name": "worst_document_context_choice_accuracy", "category": "group", "operator": "gte", "threshold": 600000, "unit": "ppm", "required": true },
+    { "name": "distractor_swap_consistency", "category": "stability", "operator": "gte", "threshold": 700000, "unit": "ppm", "required": true },
+    { "name": "cross_seed_prediction_agreement", "category": "stability", "operator": "gte", "threshold": 900000, "unit": "ppm", "required": true },
+    { "name": "label_shuffle_accuracy", "category": "control", "operator": "lte", "threshold": 550000, "unit": "ppm", "required": true },
+    { "name": "margin_over_prefix_only", "category": "control", "operator": "gte", "threshold": 150000, "unit": "ppm", "required": true }
+  ],
+  "decision_table": {
+    "stable_signal": {
+      "condition": "Every required metric passes on held-out documents and distractor swaps.",
+      "interpretation": "The frozen representation carries usable context evidence. A new objective may target output use.",
+      "next_allowed": ["objective_successor"]
+    },
+    "localized_signal": {
+      "condition": "The overall metric and all controls pass while a held-out document, seed, or swap metric fails.",
+      "interpretation": "Context evidence is present and tied to local document features.",
+      "next_allowed": ["representation_successor", "data_review"]
+    },
+    "insufficient_signal": {
+      "condition": "All controls pass and the overall metric fails.",
+      "interpretation": "A new output head alone has little support from the frozen state.",
+      "next_allowed": ["representation_successor", "stop_line"]
+    },
+    "invalid_controls": {
+      "condition": "Any required control metric fails.",
+      "interpretation": "Review the document split, labels, and shortcut controls before interpreting signal.",
+      "next_allowed": ["data_review"]
+    }
+  },
+  "seeds": [7, 17, 29],
+  "invariants": {
+    "source_model_updates": false,
+    "source_model_selection": false,
+    "promotion_authority": false,
+    "sealed_evaluation_access": false,
+    "probe_outputs_diagnostic_only": true
+  },
+  "unresolved": [
+    "execution_profile_ref",
+    "task.context_choice_labels",
+    "capture.implementation_ref",
+    "capture.implementation_sha256",
+    "inputs.p10m-public-context-probe-fit.sha256",
+    "inputs.p10m-public-cross-document-probe-evaluation.sha256",
+    "inputs.p10m-public-distractor-swap-probe-evaluation.sha256",
+    "representations.p10m-six-layer-residual-streams.dimension",
+    "probe.implementation_ref",
+    "probe.implementation_sha256"
+  ]
+}

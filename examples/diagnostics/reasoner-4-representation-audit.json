@@ -1,0 +1,132 @@
+{
+  "schema": "ilxyr.representation_audit.v1",
+  "id": "audit://representation/reasoner/r4-0/v1",
+  "revision": 1,
+  "state": "draft",
+  "title": "Reasoner 4.0 representation-transfer preflight",
+  "lineage": "zero/reasoner",
+  "question": "Can examples expose a stable map from a fresh surface representation to the frozen Reasoner 3.9 typed roles before an adapter experiment is compiled?",
+  "source": {
+    "experiment_id": "reasoner-r4_0-representation-transfer",
+    "model_refs": [
+      "model://zero/reasoner-3.9@3b917b6f54d151a43dd65e45f094606272d166c5"
+    ],
+    "source_revision": "3b917b6f54d151a43dd65e45f094606272d166c5",
+    "evidence_refs": [
+      "https://github.com/atimics/zero-grounded-literary-lm/tree/3b917b6f54d151a43dd65e45f094606272d166c5"
+    ]
+  },
+  "execution_profile_ref": null,
+  "inputs": {
+    "fit_split": {
+      "id": "reasoner-r4-fresh-representation-demonstrations",
+      "ref": "artifact://pending/reasoner-r4-fresh-representation-demonstrations",
+      "sha256": null,
+      "role": "probe_fit",
+      "grouping_axes": ["representation_family", "typed_role", "law_family"]
+    },
+    "evaluation_splits": [
+      {
+        "id": "reasoner-r4-held-out-surface-forms",
+        "ref": "artifact://pending/reasoner-r4-held-out-surface-forms",
+        "sha256": null,
+        "role": "diagnostic_evaluation",
+        "grouping_axes": ["representation_family", "typed_role", "surface_template"]
+      },
+      {
+        "id": "reasoner-r4-scrambled-example-control",
+        "ref": "artifact://pending/reasoner-r4-scrambled-example-control",
+        "sha256": null,
+        "role": "diagnostic_evaluation",
+        "grouping_axes": ["representation_family", "typed_role", "scramble_seed"]
+      }
+    ],
+    "split_firewall": "Fit on the demonstration examples only. Hold out surface templates. Keep the future sealed law-composition panel closed."
+  },
+  "representations": [
+    {
+      "id": "reasoner-r4-example-derived-role-state",
+      "source_kind": "ir_state",
+      "selector": "candidate role state before the frozen Reasoner 3.9 core",
+      "pooling": "one vector per raw input symbol",
+      "dimension": null,
+      "artifact_ref": null,
+      "artifact_sha256": null,
+      "trainable": false
+    }
+  ],
+  "capture": {
+    "implementation_ref": null,
+    "implementation_sha256": null,
+    "source_state": "frozen",
+    "gradient_tracking": false
+  },
+  "probe": {
+    "estimator": "multinomial_logistic_regression",
+    "implementation_ref": null,
+    "implementation_sha256": null,
+    "maximum_trainable_parameters": 100000,
+    "standardization": "fit_split_mean_variance",
+    "regularization_grid": [0.0001, 0.001, 0.01, 0.1, 1.0],
+    "selection_method": "group_cross_validation_within_fit_split",
+    "selection_folds": 5,
+    "fit_split_only": true
+  },
+  "controls": {
+    "label_shuffle": { "runs": 20, "within_group": false },
+    "prefix_only": { "input_scope": "representation header without demonstrations" },
+    "random_projection": { "dimensions": [32, 64], "seeds": [3, 9, 39] },
+    "swap_test": { "enabled": true, "axes": ["typed_role", "surface_template"] }
+  },
+  "metrics": [
+    { "name": "held_out_typed_role_accuracy", "category": "overall", "operator": "gte", "threshold": 950000, "unit": "ppm", "required": true },
+    { "name": "worst_role_accuracy", "category": "group", "operator": "gte", "threshold": 900000, "unit": "ppm", "required": true },
+    { "name": "surface_swap_consistency", "category": "stability", "operator": "gte", "threshold": 950000, "unit": "ppm", "required": true },
+    { "name": "cross_seed_prediction_agreement", "category": "stability", "operator": "gte", "threshold": 980000, "unit": "ppm", "required": true },
+    { "name": "scrambled_example_accuracy", "category": "control", "operator": "lte", "threshold": 300000, "unit": "ppm", "required": true },
+    { "name": "label_shuffle_accuracy", "category": "control", "operator": "lte", "threshold": 300000, "unit": "ppm", "required": true },
+    { "name": "margin_over_header_only", "category": "control", "operator": "gte", "threshold": 500000, "unit": "ppm", "required": true }
+  ],
+  "decision_table": {
+    "stable_signal": {
+      "condition": "Every required metric passes across roles, templates, and seeds.",
+      "interpretation": "The fresh representation exposes stable typed roles. An exact frozen-core adapter contract has a clear basis.",
+      "next_allowed": ["adapter_contract"]
+    },
+    "localized_signal": {
+      "condition": "Overall role accuracy and all controls pass while a role, template, or seed metric fails.",
+      "interpretation": "The proposed representation still binds to local surface forms.",
+      "next_allowed": ["representation_successor", "data_review"]
+    },
+    "insufficient_signal": {
+      "condition": "All controls pass and overall role accuracy fails.",
+      "interpretation": "The tested probe gives limited support for a stable adapter contract.",
+      "next_allowed": ["data_review", "stop_line"]
+    },
+    "invalid_controls": {
+      "condition": "Any required control metric fails.",
+      "interpretation": "Review the examples, labels, and shortcut controls before interpreting signal.",
+      "next_allowed": ["data_review"]
+    }
+  },
+  "seeds": [3, 9, 39],
+  "invariants": {
+    "source_model_updates": false,
+    "source_model_selection": false,
+    "promotion_authority": false,
+    "sealed_evaluation_access": false,
+    "probe_outputs_diagnostic_only": true
+  },
+  "unresolved": [
+    "execution_profile_ref",
+    "task.typed_role_vocabulary",
+    "capture.implementation_ref",
+    "capture.implementation_sha256",
+    "inputs.reasoner-r4-fresh-representation-demonstrations.sha256",
+    "inputs.reasoner-r4-held-out-surface-forms.sha256",
+    "inputs.reasoner-r4-scrambled-example-control.sha256",
+    "representations.reasoner-r4-example-derived-role-state.dimension",
+    "probe.implementation_ref",
+    "probe.implementation_sha256"
+  ]
+}
