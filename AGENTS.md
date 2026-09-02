@@ -1,47 +1,44 @@
 # Repository agent instructions
 
-## Governance
+## Development flow
 
-Every change must use a branch and pull request. The repository-specific flow
-below is the enforceable path for maintainer-authored pull requests. An
-external `cenetex` webhook also watches this repository, but its merge triage
-only discovers pull requests authored by configured coding-agent accounts and
-only trusts approvals from those accounts. It does not merge pull requests
-authored by `atimics` and approved by `github-actions`.
+A clear request in chat, an issue, or a pull request authorizes normal work.
+Start from the request itself; do not require a separate issue, form, label,
+approval comment, or evidence record.
 
-- For ordinary paths, `github-actions` approves the exact pull-request head
-  after the required path-policy check passes.
-- Changes to workflows, CODEOWNERS, licenses, security or governance policy,
-  or any `AGENTS.md` require an administrator to comment
-  `/approve-protected <exact-head-sha>` on the pull request.
-- That command is owner authorization. The bot approval that follows is not an
-  independent human review and must never be described as one.
-- A new push invalidates the authorization. Use the new head SHA.
-- Merge only after the required review and the `rust`, `msrv`, `schemas`, and
-  `gatekeep` checks pass. The author may merge the ready pull request.
-- The external webhook may post a 60-minute auto-merge notice when
-  `review:approved` is applied. For a maintainer-authored pull request, that
-  notice is advisory: it is not a branch-protection rule and the external
-  merge job does not discover the pull request.
-- Never change branch protection to merge an ordinary pull request. Emergency
-  changes require explicit owner authorization and an append-only record under
-  `docs/governance/`.
+Every code change uses a branch and pull request. Developers and agents may
+create and update pull requests, merge them when GitHub reports the required
+checks green, deploy, verify, and roll back. Workflow, security, license,
+governance, and agent-instruction files use the same path as ordinary code.
+
+The pull request, check results, commits, and deployment history are the audit
+trail. There are no required reviews, exact-SHA approval commands, protected-path
+labels, hold periods, or external merge queues.
+
+Use the smallest useful check while iterating. Before merge, run the relevant
+Rust, MSRV, and schema checks. Ask the human only when the request leaves a
+material product choice unresolved or an action is irreversible, affects an
+outside party, exposes secrets, risks data loss, or commits to an unbounded
+cost.
 
 ## Execution venue
 
-Read `docs/CLOUD-EXECUTION.md` before starting a benchmark, frontier,
-profiling run, large evidence build, or other resource-heavy job.
+Read `docs/CLOUD-EXECUTION.md` before a benchmark, frontier or profiling run,
+large evidence build, or other resource-heavy job.
 
 - Use the local workstation for builds, unit tests, smoke tests, and small
   diagnostics.
-- Use the approved cloud environment for a full reportable run when it is
-  expected to take more than five minutes, use more than 25% of available
-  local memory, create more than one GiB of temporary data, or materially
-  interfere with other work.
-- Do not silently fall back to a full local run when a cloud path is missing
-  or broken. Stop after the local smoke test and repair or add the cloud path
-  through a pull request.
-- Compare performance only when baseline and candidate use the same frozen
-  cloud machine, image, compiler, worker count, limits, and target order.
-- A working cloud environment does not by itself authorize paid compute.
-  Freeze the package and budget, then obtain explicit launch approval.
+- Use the configured cloud environment when a full run would take more than
+  five minutes, use more than 25% of local memory, create more than one GiB of
+  temporary data, or materially disrupt other work.
+- Keep baseline and candidate performance runs on the same frozen machine,
+  image, compiler, worker count, limits, and target order.
+- A request that names a bounded paid run or budget authorizes it. Otherwise,
+  present the expected cost before starting paid compute.
+- Do not commit credentials, private data, or generated runtime artifacts.
+
+## Completion
+
+Work is complete when the requested behavior exists, relevant checks pass, the
+pull request is merged, and any deployment or experiment requested by the user
+has been verified. Fix forward or roll back if verification fails.

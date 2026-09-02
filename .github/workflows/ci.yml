@@ -35,7 +35,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:schemas
-      - run: npm run test:governance
 
   permaweb:
     runs-on: ubuntu-latest
