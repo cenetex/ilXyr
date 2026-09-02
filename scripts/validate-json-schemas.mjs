@@ -9,6 +9,15 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const schemaDirectory = join(root, "schemas");
 
 const fixtures = {
+  "aws-execution-status.schema.json": [
+    "examples/schema/aws-execution-status.json",
+  ],
+  "aws-launcher-config.schema.json": [
+    "examples/schema/aws-launcher-config.json",
+  ],
+  "aws-price-evidence.schema.json": [
+    "examples/schema/aws-price-evidence.json",
+  ],
   "braid-corpus-import.schema.json": [
     "examples/corpus/feral-7b-braid-import.json",
   ],
@@ -379,6 +388,34 @@ expectInvalid(
 
 const executorAttestation = await readJson(
   "examples/schema/executor-attestation.json",
+);
+
+const launcherWithMutablePackageKey = await readJson(
+  "examples/schema/aws-launcher-config.json",
+);
+launcherWithMutablePackageKey.package_key = "packages/toy.remote.v1/latest.json";
+expectInvalid(
+  "aws-launcher-config.schema.json",
+  "AWS launcher config with a mutable package key",
+  launcherWithMutablePackageKey,
+);
+
+const statusWithLooseAuthorization = await readJson(
+  "examples/schema/aws-execution-status.json",
+);
+statusWithLooseAuthorization.authorization_ref = "remote-authorization:latest";
+expectInvalid(
+  "aws-execution-status.schema.json",
+  "AWS status without an artifact authorization reference",
+  statusWithLooseAuthorization,
+);
+
+const priceWithShortBilling = await readJson("examples/schema/aws-price-evidence.json");
+priceWithShortBilling.minimum_billed_seconds = 1;
+expectInvalid(
+  "aws-price-evidence.schema.json",
+  "AWS price evidence with a short billing period",
+  priceWithShortBilling,
 );
 
 const unsafeEnvironment = await readJson(
