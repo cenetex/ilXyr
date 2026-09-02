@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/aws-price-evidence.v1.json",
+  "title": "ilXyr AWS price evidence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "region", "machine_type", "hourly_price_microusd", "fixed_cost_microusd",
+    "minimum_billed_seconds", "source_url", "recorded_at_ms"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.aws_price_evidence.v1" },
+    "region": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "machine_type": { "type": "string", "minLength": 1 },
+    "hourly_price_microusd": { "type": "integer", "minimum": 1 },
+    "fixed_cost_microusd": { "type": "integer", "minimum": 0 },
+    "minimum_billed_seconds": { "type": "integer", "minimum": 60 },
+    "source_url": { "type": "string", "pattern": "^https://\\S+$" },
+    "recorded_at_ms": { "type": "integer", "minimum": 1 }
+  }
+}

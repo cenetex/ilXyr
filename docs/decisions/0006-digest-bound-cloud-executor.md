@@ -1,6 +1,6 @@
 # ADR 0006: digest-bound cloud executor
 
-- Status: proposed roadmap decision
+- Status: accepted and implemented
 - Date: 2026-08-30
 
 ## Context
@@ -73,28 +73,24 @@ collector verifies those receipts and the result bundle before ilXyr ingests att
 3. **Implemented:** add the provider-neutral adapter interface and a fake adapter conformance
    suite. The remote profile uses the same admission, signed-budget, allocation, executable, and
    argument gates while preserving the existing local executor behavior.
-4. Extract an AWS adapter from the proven Zero patterns: OIDC, conditional object writes, resolved
-   AMI identity, instance watchdogs, independent targets, and a read-only collector. Tests and
-   permission preflight must not start compute.
+4. **Implemented:** add the AWS CLI adapter. It stages canonical package JSON under a digest-named
+   key. It checks AWS identity, the resolved AMI, machine shape, private network, IAM profile,
+   package object, result bucket, price binding, cost ceiling, and EC2 permission. Launch uses one
+   instance and one stable client token. Observation and collection use the recorded launch.
 5. Freeze the two real job packages: normal frontier and presized-memory audit. Review package
    digests, machine type, budgets, target order, and allocation policy before authorization.
 6. Run one explicitly approved, minimal-cost diagnostic package. Only after its receipts and
    attestation verify may a scientific cloud run be considered.
 7. Add the V2 authenticated service API after the adapter contract and recovery rules are stable.
 
-No paid cloud work is authorized by steps 1 through 5.
+Every paid cloud run needs the approval in step 6.
 
 ## Operational clarification
 
-This ADR proposes a common provider-neutral adapter. It does not prohibit use
-of an already approved, experiment-specific cloud path. Resource-heavy full
-runs should follow `docs/CLOUD-EXECUTION.md` and reuse the proven immutable
-package, preflight, watchdog, status, collection, and shutdown pattern.
-
-The absence of the common adapter is not a reason to run a full frontier or
-reportable performance benchmark on a developer workstation. It is a reason
-to add or repair the experiment-specific cloud path before the run. Any paid
-launch still requires its own frozen identity, budget, and explicit approval.
+This ADR defines the common adapter. Approved experiment-specific cloud paths
+remain valid. Resource-heavy full runs follow `docs/CLOUD-EXECUTION.md`. They
+use an immutable package, preflight, watchdog, status, collection, and shutdown
+record. Each paid launch carries its own frozen identity, budget, and approval.
 
 ## Rejected alternatives
 

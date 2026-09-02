@@ -1,21 +1,16 @@
 [package]
-name = "ilxyr-cli"
+name = "ilxyr-aws"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 rust-version.workspace = true
 
-[[bin]]
-name = "ilxyr"
-path = "src/main.rs"
-
 [dependencies]
-ilxyr-aws = { path = "../ilxyr-aws" }
+chrono.workspace = true
 ilxyr-core = { path = "../ilxyr-core" }
 serde.workspace = true
 serde_json.workspace = true
 sha2.workspace = true
-ureq.workspace = true
 
 [lints]
 workspace = true

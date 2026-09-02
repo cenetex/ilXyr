@@ -174,7 +174,7 @@ export function ProtocolPortal({
       <section className="status-strip" aria-label="System status">
         <div><span>01 / Local executor</span><strong>Available</strong></div>
         <div><span>02 / Remote verifier</span><strong>Implemented</strong></div>
-        <div><span>03 / Cloud launcher</span><strong className="muted-status">Roadmap</strong></div>
+        <div><span>03 / Cloud launcher</span><strong>Implemented</strong></div>
       </section>
 
       <section className="protocol-section section-block" id="protocol">
