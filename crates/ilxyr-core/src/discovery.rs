@@ -800,8 +800,11 @@ mod tests {
             status
                 .blocked
                 .iter()
-                .any(|stage| stage.stage_id == "full_corpus_freeze")
+                .any(|stage| stage.stage_id == "corpus_rights_review")
         );
+        assert!(status.project.stages.iter().any(|stage| {
+            stage.stage_id == "full_corpus_freeze" && stage.state == LifecycleState::Registered
+        }));
         assert_eq!(status.project.costs.spent, 0.0);
         assert!(status.project.dispatches.is_empty());
         let measured = status

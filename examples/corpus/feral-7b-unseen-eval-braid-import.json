@@ -5,15 +5,19 @@
   "version": "v1",
   "source": {
     "repository": "https://github.com/cenetex/braid",
-    "revision": "c1c1933f82b92d1de13064a0dc0179c98ec96228",
+    "revision": "1d2c78a945e978c44ec2c3972195a9c4c2d2d2fd",
     "path": "src/release.ts"
   },
   "rights": {
-    "license": "REPLACE_WITH_REVIEWED_RELEASE_RIGHTS",
-    "use_constraints": ["evaluation-only-until-release-review"]
+    "license": "NOASSERTION",
+    "use_constraints": [
+      "research-metadata-only-until-rights-review",
+      "evaluation-requires-explicit-authorization",
+      "redistribution-prohibited-until-rights-review"
+    ]
   },
-  "expected_release_id": "replace-after-braid-release-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  "expected_manifest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "expected_release_id": "feral-7b-sec-unseen-eval-v1-2eb548107c0b-1769782e3ced8e14a945c55cecb21cc0518ebb03da970622125d2af4b870daf4",
+  "expected_manifest_sha256": "f64d147d2259b073dd327e1e10b73de9d5d92d40e6a38bbe403dc63e849f604b",
   "required_files": [
     "data/test.jsonl"
   ]

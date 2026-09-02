@@ -1,6 +1,6 @@
 {
   "schema": "ilxyr.research_registry.v1",
-  "indexed_at_ms": 1788210604000,
+  "indexed_at_ms": 1788310848065,
   "stale_after_ms": 604800000,
   "heads": [
     {
@@ -43,7 +43,7 @@
       "repositories": [
         {
           "repository": "https://github.com/atimics/runner-watch",
-          "revision": "daceff62b8cbbb9806f527c099f11b956c44e5c3",
+          "revision": "f9da7c83ad87b702b9e075222b6370273865b932",
           "role": "FERAL trainer, Braid binding, experiment draft, and controlled OCI image build",
           "evidence": "externally_referenced"
         },
@@ -55,13 +55,13 @@
         },
         {
           "repository": "https://github.com/cenetex/braid",
-          "revision": "b76689aec2e88dc7c41f160afa8df3bf0411a4be",
+          "revision": "1d2c78a945e978c44ec2c3972195a9c4c2d2d2fd",
           "role": "corpus compiler and release authority",
           "evidence": "externally_referenced"
         },
         {
           "repository": "https://github.com/cenetex/ilXyr",
-          "revision": "c54f415d152fe8359d6cc378ff6530722fcd8802",
+          "revision": "27eb4037223a25f70973384d7ab4104a28a6efc5",
           "role": "training-lab control plane, corpus registry, cloud job protocol, evaluation, and evidence ledger",
           "evidence": "externally_referenced"
         }
@@ -87,12 +87,32 @@
         {
           "corpus_id": "dataset://braid/feral-7b-sec/v1",
           "title": "FERAL-7B Braid SEC training corpus v1",
-          "example_count": null,
-          "release_ref": null,
+          "example_count": 228110,
+          "release_ref": "artifact://sha256/a4ae2cbece507b641558a85aab68bd477ee0a154c8f5c61f40856ead710605ab",
           "materialization_ref": null,
-          "state": "blocked",
-          "evidence": "missing",
+          "state": "registered",
+          "evidence": "recorded",
           "visibility": "private_metadata"
+        },
+        {
+          "corpus_id": "dataset://braid/feral-7b-sec-future-eval/v1",
+          "title": "FERAL-7B sealed future SEC evaluation v1",
+          "example_count": 44704,
+          "release_ref": "artifact://sha256/4390fe6354c8c6b161c9d801d598383e2da6a7732c1bef5c36c19388e98ee8b4",
+          "materialization_ref": null,
+          "state": "registered",
+          "evidence": "recorded",
+          "visibility": "sealed_hash_only"
+        },
+        {
+          "corpus_id": "dataset://braid/feral-7b-sec-unseen-eval/v1",
+          "title": "FERAL-7B sealed unseen-issuer SEC evaluation v1",
+          "example_count": 30668,
+          "release_ref": "artifact://sha256/3b0d4b9d2b18df7b500ac189eaa6c911abe78e0e4a5943b5c3d0acdaf9d5d1cf",
+          "materialization_ref": null,
+          "state": "registered",
+          "evidence": "recorded",
+          "visibility": "sealed_hash_only"
         }
       ],
       "experiments": [
@@ -113,7 +133,7 @@
           "role": "baseline",
           "state": "planned",
           "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
-          "dataset_ref": null,
+          "dataset_ref": "artifact://sha256/4390fe6354c8c6b161c9d801d598383e2da6a7732c1bef5c36c19388e98ee8b4",
           "evaluator_revision": null,
           "predictions_ref": null,
           "metrics": {},
@@ -126,7 +146,7 @@
           "role": "baseline",
           "state": "planned",
           "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
-          "dataset_ref": null,
+          "dataset_ref": "artifact://sha256/3b0d4b9d2b18df7b500ac189eaa6c911abe78e0e4a5943b5c3d0acdaf9d5d1cf",
           "evaluator_revision": null,
           "predictions_ref": null,
           "metrics": {},
@@ -167,7 +187,7 @@
           "role": "candidate",
           "state": "planned",
           "model_revision": null,
-          "dataset_ref": null,
+          "dataset_ref": "artifact://sha256/4390fe6354c8c6b161c9d801d598383e2da6a7732c1bef5c36c19388e98ee8b4",
           "evaluator_revision": null,
           "predictions_ref": null,
           "metrics": {},
@@ -180,7 +200,7 @@
           "role": "candidate",
           "state": "planned",
           "model_revision": null,
-          "dataset_ref": null,
+          "dataset_ref": "artifact://sha256/3b0d4b9d2b18df7b500ac189eaa6c911abe78e0e4a5943b5c3d0acdaf9d5d1cf",
           "evaluator_revision": null,
           "predictions_ref": null,
           "metrics": {},
@@ -267,10 +287,26 @@
         {
           "stage_id": "full_corpus_freeze",
           "title": "Full corpus freeze",
+          "state": "registered",
+          "evidence": "recorded",
+          "refs": [
+            "artifact://sha256/a4ae2cbece507b641558a85aab68bd477ee0a154c8f5c61f40856ead710605ab",
+            "artifact://sha256/4390fe6354c8c6b161c9d801d598383e2da6a7732c1bef5c36c19388e98ee8b4",
+            "artifact://sha256/3b0d4b9d2b18df7b500ac189eaa6c911abe78e0e4a5943b5c3d0acdaf9d5d1cf"
+          ],
+          "detail": "Braid released and ilXyr registered the training, future-evaluation, and unseen-issuer corpora as three immutable artifacts. Registration copied no data and authorized no training."
+        },
+        {
+          "stage_id": "corpus_rights_review",
+          "title": "Corpus rights review",
           "state": "blocked",
-          "evidence": "missing",
-          "refs": [],
-          "detail": "The Braid FERAL training, future-evaluation, and unseen-issuer releases are not frozen or registered. Paid training must not begin."
+          "evidence": "recorded",
+          "refs": [
+            "artifact://sha256/a4ae2cbece507b641558a85aab68bd477ee0a154c8f5c61f40856ead710605ab",
+            "artifact://sha256/4390fe6354c8c6b161c9d801d598383e2da6a7732c1bef5c36c19388e98ee8b4",
+            "artifact://sha256/3b0d4b9d2b18df7b500ac189eaa6c911abe78e0e4a5943b5c3d0acdaf9d5d1cf"
+          ],
+          "detail": "All three releases declare NOASSERTION and contain no structured rights evidence. Training, evaluation, and redistribution remain blocked until review."
         },
         {
           "stage_id": "braid_import_bridge",
@@ -355,10 +391,10 @@
       ],
       "missing_requirements": [
         {
-          "requirement_id": "missing://feral-7b/full-corpus-release",
-          "title": "Frozen full corpus release",
-          "blocks_stage": "full_corpus_freeze",
-          "detail": "Build the FERAL training and two sealed evaluation corpora in Braid, review their rights, and import all three immutable release IDs and manifest digests into ilXyr."
+          "requirement_id": "missing://feral-7b/corpus-rights-review",
+          "title": "Reviewed corpus rights",
+          "blocks_stage": "corpus_rights_review",
+          "detail": "Resolve the source releases' NOASSERTION status and record structured rights evidence before copying, evaluating, training, or redistributing the corpus."
         },
         {
           "requirement_id": "missing://feral-7b/materialization",

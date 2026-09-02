@@ -52,8 +52,8 @@ The JSON Schemas are:
 ## Import a Braid release
 
 ilXyr can register a verified Braid `braid.release/v2` directory without rebuilding or copying the
-corpus. Start from `examples/corpus/feral-7b-braid-import.json` and replace the release ID, raw
-`release.json` SHA-256, reviewed rights, and exact Braid source revision. Then run:
+corpus. The checked-in FERAL contracts bind the Season 00 release IDs, raw `release.json` SHA-256
+values, exact Braid source revision, and the current restrictive rights state. Then run:
 
 ```bash
 ilxyr braid-corpus-register \
