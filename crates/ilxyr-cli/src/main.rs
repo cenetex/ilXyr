@@ -1,5 +1,6 @@
 use std::{env, fs, path::Path, process::ExitCode};
 
+use ilxyr_aws::{AwsCliAdapter, AwsLauncherConfig};
 use ilxyr_core::{
     ActorKind, ActorRef, BraidCorpusImport, Certificate, ClaimNode, DsseEnvelope, EpochBudget,
     EvidenceGraphEdge, ExecutionReport, ExecutorArtifactMaterialization, ExecutorConformanceReport,
@@ -10,12 +11,14 @@ use ilxyr_core::{
     ResearchRegistry, Result, RetroRegistrationSpec, SandboxSpec, SharedTaskContract,
     TrustedAttestationKey, Workspace, accept_remote_execution_report, allocate_epoch,
     allocate_replication, authorize_remote_execution, authorize_unattended_run, calibration_for,
-    claim_status, claim_support, commit_funding, compile_experiment, compile_proposal,
-    decide_admission, epoch_budget_signing_payload, execute_loop_cycle, experiment_status,
-    export_evidence, freeze_proposal, load_paper_contract, package_proposal, prepare_registration,
-    program_status, proposal_status, record_certificate, record_evidence_edge,
-    record_executor_attestation, record_external_registration, record_oci_job_completion,
-    record_oci_job_dispatch, register_braid_corpus_release, register_claim, register_epoch_budget,
+    claim_status, claim_support, collect_remote_execution_report, commit_funding,
+    compile_experiment, compile_proposal, decide_admission, epoch_budget_signing_payload,
+    execute_loop_cycle, experiment_status, export_evidence, freeze_proposal,
+    launch_remote_execution, load_paper_contract, observe_remote_execution, package_proposal,
+    preflight_remote_execution, prepare_registration, program_status, proposal_status,
+    record_certificate, record_evidence_edge, record_executor_attestation,
+    record_external_registration, record_oci_job_completion, record_oci_job_dispatch,
+    register_braid_corpus_release, register_claim, register_epoch_budget,
     register_mechanism_tournament, register_nsrl_model, register_replication_contract,
     register_shared_task, retro_register, review_proposal, run_experiment,
     run_experiment_unattended, run_sandbox, settle_mechanism_tournament, settle_oci_job,
@@ -564,6 +567,77 @@ fn run() -> Result<()> {
                 expires_at_ms,
             )?)?;
         }
+        "remote-aws-stage" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr remote-aws-stage <environment.json> <job-package.json> <aws-config.json>",
+            )?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[1])?;
+            let package = read_json::<ExecutorJobPackage>(&args[2])?;
+            let config = read_json::<AwsLauncherConfig>(&args[3])?;
+            let mut adapter = AwsCliAdapter::new(config)?;
+            print_json(&adapter.stage_job_package(&environment, &package)?)?;
+        }
+        "remote-aws-preflight" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr remote-aws-preflight <environment.json> <job-package.json> <aws-config.json>",
+            )?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[1])?;
+            let package = read_json::<ExecutorJobPackage>(&args[2])?;
+            let config = read_json::<AwsLauncherConfig>(&args[3])?;
+            let mut adapter = AwsCliAdapter::new(config)?;
+            print_json(&preflight_remote_execution(
+                &mut adapter,
+                &environment,
+                &package,
+            )?)?;
+        }
+        "remote-aws-launch" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr remote-aws-launch <workspace> <aws-config.json> <authorization-id>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let config = read_json::<AwsLauncherConfig>(&args[2])?;
+            let mut adapter = AwsCliAdapter::new(config)?;
+            let receipt = launch_remote_execution(&workspace, &mut adapter, &args[3])?;
+            adapter.publish_launch_receipt(&receipt)?;
+            print_json(&receipt)?;
+        }
+        "remote-aws-observe" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr remote-aws-observe <workspace> <aws-config.json> <authorization-id>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let config = read_json::<AwsLauncherConfig>(&args[2])?;
+            let mut adapter = AwsCliAdapter::new(config)?;
+            print_json(&observe_remote_execution(
+                &workspace,
+                &mut adapter,
+                &args[3],
+            )?)?;
+        }
+        "remote-aws-collect" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr remote-aws-collect <workspace> <aws-config.json> <authorization-id>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let config = read_json::<AwsLauncherConfig>(&args[2])?;
+            let mut adapter = AwsCliAdapter::new(config)?;
+            print_json(&collect_remote_execution_report(
+                &workspace,
+                &mut adapter,
+                &args[3],
+            )?)?;
+        }
         "remote-report-accept" => {
             require_len(
                 &args,
@@ -951,6 +1025,11 @@ fn usage() {
            ilxyr execution-report-verify <environment.json> <job-package.json> <trusted-keys.json> <execution-report.json>\n\
            ilxyr remote-package-verify <workspace> <environment.json> <job-package.json>\n\
            ilxyr remote-authorize <workspace> <environment.json> <job-package.json> <budget-id> <authorization-id> <expires-at-ms>\n\
+           ilxyr remote-aws-stage <environment.json> <job-package.json> <aws-config.json>\n\
+           ilxyr remote-aws-preflight <environment.json> <job-package.json> <aws-config.json>\n\
+           ilxyr remote-aws-launch <workspace> <aws-config.json> <authorization-id>\n\
+           ilxyr remote-aws-observe <workspace> <aws-config.json> <authorization-id>\n\
+           ilxyr remote-aws-collect <workspace> <aws-config.json> <authorization-id>\n\
            ilxyr remote-report-accept <workspace> <execution-report.json>\n\
            ilxyr budget-payload <budget.json>\n\
            ilxyr budget-register <workspace> <budget.json>\n\

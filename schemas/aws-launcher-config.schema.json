@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/aws-launcher-config.v1.json",
+  "title": "ilXyr AWS launcher config v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "executor",
+    "account_id",
+    "region",
+    "subnet_id",
+    "security_group_ids",
+    "iam_instance_profile",
+    "root_device_name",
+    "bootstrap_script",
+    "package_bucket",
+    "package_key",
+    "result_bucket",
+    "result_prefix",
+    "price_evidence_file"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.aws_launcher.v1" },
+    "executor": { "$ref": "#/$defs/serviceActor" },
+    "account_id": { "type": "string", "pattern": "^[0-9]{12}$" },
+    "region": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "subnet_id": { "type": "string", "pattern": "^subnet-[a-f0-9]+$" },
+    "security_group_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^sg-[a-f0-9]+$" }
+    },
+    "iam_instance_profile": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9+=,.@_-]+$"
+    },
+    "root_device_name": { "type": "string", "pattern": "^/dev/[A-Za-z0-9]+$" },
+    "bootstrap_script": { "type": "string", "minLength": 1 },
+    "package_bucket": { "$ref": "#/$defs/bucket" },
+    "package_key": { "$ref": "#/$defs/packageKey" },
+    "result_bucket": { "$ref": "#/$defs/bucket" },
+    "result_prefix": { "$ref": "#/$defs/objectKey" },
+    "price_evidence_file": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "serviceActor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^service://\\S+$" },
+        "kind": { "const": "service" }
+      }
+    },
+    "bucket": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 63,
+      "pattern": "^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])$"
+    },
+    "objectKey": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!.*(?:^|/)\\.{1,2}(?:/|$))[^/\\\\\\u0000-\\u001f\\u007f](?:[^\\\\\\u0000-\\u001f\\u007f]*[^/\\\\\\u0000-\\u001f\\u007f])?$"
+    },
+    "packageKey": {
+      "type": "string",
+      "pattern": "^(?!.*(?:^|/)\\.{1,2}(?:/|$))[^/\\\\\\u0000-\\u001f\\u007f](?:[^\\\\\\u0000-\\u001f\\u007f]*/)[a-f0-9]{64}\\.json$"
+    }
+  }
+}
