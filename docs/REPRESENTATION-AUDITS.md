@@ -32,7 +32,7 @@ runtime identity visible.
 
 A `frozen` audit has an empty `unresolved` list. It binds exact input hashes, a
 probe implementation digest, a representation dimension, and an execution
-profile. Freeze the audit before fitting the probe.
+profile digest. Freeze the audit before fitting the probe.
 
 ## Decision rule
 

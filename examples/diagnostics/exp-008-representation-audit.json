@@ -20,6 +20,7 @@
     ]
   },
   "execution_profile_ref": null,
+  "execution_profile_sha256": null,
   "inputs": {
     "fit_split": {
       "id": "exp-008-training",
@@ -121,6 +122,7 @@
   },
   "unresolved": [
     "execution_profile_ref",
+    "execution_profile_sha256",
     "capture.implementation_ref",
     "capture.implementation_sha256",
     "inputs.exp-008-distractor-swap-panel.sha256",

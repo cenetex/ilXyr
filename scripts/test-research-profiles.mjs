@@ -62,11 +62,13 @@ await rejectMutation(frozenTraining, (record) => { record.runtime.cache_implemen
 await rejectMutation(frozenBase, (record) => { record.determinism.persistent_workers = true; }, /positive worker count/);
 await rejectMutation(frozenBase, (record) => { record.adapter = frozenTraining.adapter; }, /schema failed/);
 await rejectMutation(frozenBase, (record) => { record.generation.resolved_config_sha256 = null; }, /schema failed/);
+await rejectMutation(frozenTraining, (record) => { record.data.input_view_sha256 = "f".repeat(64); }, /reference and digest/);
 
 const audit = structuredClone(records[2]);
 audit.state = "frozen";
 audit.unresolved = [];
 audit.execution_profile_ref = "profile://test/synthetic-probe";
+audit.execution_profile_sha256 = "f".repeat(64);
 audit.capture.implementation_ref = `artifact://sha256/${"a".repeat(64)}`;
 audit.capture.implementation_sha256 = "a".repeat(64);
 audit.probe.implementation_ref = `artifact://sha256/${"b".repeat(64)}`;
@@ -102,7 +104,12 @@ await assert.rejects(classifyRepresentationAudit(audit, {
 }), /must be declared/);
 await rejectMutation(audit, (record) => { record.metrics.push(record.metrics[0]); }, /must be unique/);
 await rejectMutation(audit, (record) => { record.metrics[0].category = "group"; }, /required overall/);
-await rejectMutation(audit, (record) => { record.inputs.evaluation_splits[0].sha256 = record.inputs.fit_split.sha256; }, /hashes must be unique/);
+await rejectMutation(audit, (record) => {
+  record.inputs.evaluation_splits[0].sha256 = record.inputs.fit_split.sha256;
+  record.inputs.evaluation_splits[0].ref = record.inputs.fit_split.ref;
+}, /hashes must be unique/);
+await rejectMutation(audit, (record) => { record.probe.implementation_sha256 = "d".repeat(64); }, /reference and digest/);
+await rejectMutation(audit, (record) => { record.execution_profile_sha256 = null; }, /schema failed/);
 await rejectMutation(audit, (record) => { record.inputs.evaluation_splits[0].ref = "artifact://pending/panel"; }, /resolve before freeze/);
 await rejectMutation(audit, (record) => { record.invariants.source_model_updates = true; }, /schema failed/);
 await rejectMutation(audit, (record) => { record.controls.label_shuffle.within_group = true; }, /schema failed/);

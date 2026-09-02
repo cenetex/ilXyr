@@ -18,6 +18,7 @@
     ]
   },
   "execution_profile_ref": null,
+  "execution_profile_sha256": null,
   "inputs": {
     "fit_split": {
       "id": "p10m-public-context-probe-fit",
@@ -119,6 +120,7 @@
   },
   "unresolved": [
     "execution_profile_ref",
+    "execution_profile_sha256",
     "task.context_choice_labels",
     "capture.implementation_ref",
     "capture.implementation_sha256",

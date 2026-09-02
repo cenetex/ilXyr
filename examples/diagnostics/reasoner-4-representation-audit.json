@@ -17,6 +17,7 @@
     ]
   },
   "execution_profile_ref": null,
+  "execution_profile_sha256": null,
   "inputs": {
     "fit_split": {
       "id": "reasoner-r4-fresh-representation-demonstrations",
@@ -119,6 +120,7 @@
   },
   "unresolved": [
     "execution_profile_ref",
+    "execution_profile_sha256",
     "task.typed_role_vocabulary",
     "capture.implementation_ref",
     "capture.implementation_sha256",

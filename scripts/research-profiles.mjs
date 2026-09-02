@@ -36,6 +36,13 @@ const exactRef = (value, label) => {
   }
 };
 
+const boundDigest = (ref, sha256, label) => {
+  const match = ref?.match(/^(?:artifact|blob):\/\/sha256\/([a-f0-9]{64})$/);
+  if (match && sha256 !== null && match[1] !== sha256) {
+    throw new Error(`${label} reference and digest must agree`);
+  }
+};
+
 export const checkResearchProfile = async (record) => {
   const validate = (await getValidators()).get(record?.schema);
   if (!validate) throw new Error("Select a supported research profile schema");
@@ -58,6 +65,7 @@ export const checkResearchProfile = async (record) => {
     if (record.determinism.dataloader_workers === 0 && record.determinism.persistent_workers) {
       throw new Error("Persistent data-loader workers require a positive worker count");
     }
+    boundDigest(record.data.input_view_ref, record.data.input_view_sha256, "The input view");
     if (record.state === "frozen") {
       exactRef(record.data.input_view_ref, "The input view");
     }
@@ -65,6 +73,9 @@ export const checkResearchProfile = async (record) => {
   }
 
   const splits = [record.inputs.fit_split, ...record.inputs.evaluation_splits];
+  for (const split of splits) boundDigest(split.ref, split.sha256, `Input split ${split.id}`);
+  boundDigest(record.capture.implementation_ref, record.capture.implementation_sha256, "Capture code");
+  boundDigest(record.probe.implementation_ref, record.probe.implementation_sha256, "Probe code");
   unique(splits.map((split) => split.id), "Input split IDs");
   unique(splits.filter((split) => split.sha256 !== null).map((split) => split.sha256), "Input split hashes");
   unique(record.representations.map((item) => item.id), "Representation IDs");
@@ -80,6 +91,7 @@ export const checkResearchProfile = async (record) => {
     }
   }
   for (const representation of record.representations) {
+    boundDigest(representation.artifact_ref, representation.artifact_sha256, `Representation ${representation.id}`);
     if ((representation.artifact_ref === null) !== (representation.artifact_sha256 === null)) {
       throw new Error(`Representation ${representation.id} needs both artifact identity fields`);
     }
