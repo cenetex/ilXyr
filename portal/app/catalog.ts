@@ -194,6 +194,18 @@ export const experiments = [
   { id: "EXP-006", title: "Holo HRR attention at T=512", status: "settled proxy result", url: `${guide}/experiments/exp-006.html` },
   { id: "EXP-007", title: "Zero to Solomon Q22 bridge", status: "go", url: `${guide}/experiments/exp-007.html` },
   {
+    id: "EXP-008",
+    title: "shortcut-resistant Q22 routing",
+    status: "no-go",
+    url: `${guide}/experiments/exp-008.html`,
+  },
+  {
+    id: "REASONER-3.9",
+    title: "active compositional law induction",
+    status: "active research line",
+    url: `${guide}/REASONER-LINE.html`,
+  },
+  {
     id: "NSRL-P10M-PILOT",
     title: "NSRL p10m managed pilot",
     status: "continue-experimental",
