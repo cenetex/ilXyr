@@ -1,6 +1,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 use crate::{ActorKind, ActorRef, Error, Result, Workspace, store::now_ms};
 
@@ -10,6 +11,8 @@ pub const CORPUS_MATERIALIZATION_RECORDED: &str = "CorpusMaterializationRecorded
 const CORPUS_SCHEMA: &str = "ilxyr.corpus_release.v1";
 const MATERIALIZATION_SCHEMA: &str = "ilxyr.corpus_materialization.v1";
 const ARTIFACT_PREFIX: &str = "artifact://sha256/";
+const BRAID_IMPORT_SCHEMA: &str = "ilxyr.braid_corpus_import.v1";
+const BRAID_RELEASE_SCHEMA: &str = "braid.release/v2";
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -48,6 +51,43 @@ pub struct CorpusRelease {
     pub files: Vec<CorpusFile>,
     #[serde(default)]
     pub metadata: BTreeMap<String, String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct BraidCorpusImport {
+    pub schema: String,
+    pub id: String,
+    pub title: String,
+    pub version: String,
+    pub source: CorpusSource,
+    pub rights: CorpusRights,
+    pub expected_release_id: String,
+    pub expected_manifest_sha256: String,
+    pub required_files: Vec<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct BraidReleaseManifest {
+    #[serde(rename = "schemaVersion")]
+    schema_version: String,
+    #[serde(rename = "releaseId")]
+    release_id: String,
+    status: String,
+    digests: BraidReleaseDigests,
+    artifacts: Vec<BraidReleaseArtifact>,
+}
+
+#[derive(Debug, Deserialize)]
+struct BraidReleaseDigests {
+    release: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct BraidReleaseArtifact {
+    path: String,
+    sha256: String,
+    bytes: u64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -257,6 +297,134 @@ pub fn register_corpus_release(
         artifact_ref,
         release,
     })
+}
+
+pub fn register_braid_corpus_release(
+    workspace: &Workspace,
+    import: BraidCorpusImport,
+    manifest_bytes: &[u8],
+) -> Result<RegisteredCorpus> {
+    let actual_manifest_sha256 = format!("{:x}", Sha256::digest(manifest_bytes));
+    if import.schema != BRAID_IMPORT_SCHEMA {
+        return Err(Error::Validation(vec![format!(
+            "braid import schema must be {BRAID_IMPORT_SCHEMA}"
+        )]));
+    }
+    if !is_lower_sha256(&import.expected_manifest_sha256)
+        || import.expected_manifest_sha256 != actual_manifest_sha256
+    {
+        return Err(Error::Validation(vec![
+            "Braid release manifest SHA-256 does not match the import contract".to_owned(),
+        ]));
+    }
+    let manifest = serde_json::from_slice::<BraidReleaseManifest>(manifest_bytes)?;
+    if manifest.schema_version != BRAID_RELEASE_SCHEMA {
+        return Err(Error::Validation(vec![format!(
+            "Braid release schema must be {BRAID_RELEASE_SCHEMA}"
+        )]));
+    }
+    if manifest.status != "RELEASED" {
+        return Err(Error::Validation(vec![
+            "Braid release status must be RELEASED".to_owned(),
+        ]));
+    }
+    if manifest.release_id != import.expected_release_id {
+        return Err(Error::Validation(vec![
+            "Braid release ID does not match the import contract".to_owned(),
+        ]));
+    }
+    if !is_lower_sha256(&manifest.digests.release)
+        || !manifest
+            .release_id
+            .ends_with(&format!("-{}", manifest.digests.release))
+    {
+        return Err(Error::Validation(vec![
+            "Braid release ID is not bound to its release digest".to_owned(),
+        ]));
+    }
+    if manifest.artifacts.is_empty() {
+        return Err(Error::Validation(vec![
+            "Braid release must declare artifacts".to_owned(),
+        ]));
+    }
+
+    let mut seen = BTreeSet::new();
+    let mut files = Vec::with_capacity(manifest.artifacts.len() + 1);
+    for artifact in manifest.artifacts {
+        if !valid_portable_path(&artifact.path)
+            || artifact.path == "release.json"
+            || !seen.insert(artifact.path.clone())
+            || !is_lower_sha256(&artifact.sha256)
+        {
+            return Err(Error::Validation(vec![
+                "Braid release contains an invalid or duplicate artifact binding".to_owned(),
+            ]));
+        }
+        files.push(CorpusFile {
+            media_type: media_type_for_path(&artifact.path).to_owned(),
+            path: artifact.path,
+            sha256: artifact.sha256,
+            size_bytes: artifact.bytes,
+        });
+    }
+    let required_files = import.required_files.iter().collect::<BTreeSet<_>>();
+    if required_files.is_empty()
+        || required_files.len() != import.required_files.len()
+        || import
+            .required_files
+            .iter()
+            .any(|path| !valid_portable_path(path) || !seen.contains(path))
+    {
+        return Err(Error::Validation(vec![
+            "Braid release does not contain every required training file".to_owned(),
+        ]));
+    }
+    files.push(CorpusFile {
+        path: "release.json".to_owned(),
+        sha256: actual_manifest_sha256.clone(),
+        size_bytes: u64::try_from(manifest_bytes.len()).map_err(|_| {
+            Error::Validation(vec!["Braid manifest byte size exceeds u64".to_owned()])
+        })?,
+        media_type: "application/json".to_owned(),
+    });
+    files.sort_by(|left, right| left.path.cmp(&right.path));
+
+    register_corpus_release(
+        workspace,
+        CorpusRelease {
+            schema: CORPUS_SCHEMA.to_owned(),
+            id: import.id,
+            title: import.title,
+            version: import.version,
+            source: import.source,
+            rights: import.rights,
+            files,
+            metadata: BTreeMap::from([
+                ("format".to_owned(), BRAID_RELEASE_SCHEMA.to_owned()),
+                ("braid_release_id".to_owned(), manifest.release_id),
+                ("braid_release_digest".to_owned(), manifest.digests.release),
+                ("braid_manifest_sha256".to_owned(), actual_manifest_sha256),
+            ]),
+        },
+    )
+}
+
+fn media_type_for_path(path: &str) -> &'static str {
+    if path.ends_with(".jsonl") {
+        "application/x-jsonlines"
+    } else if path.ends_with(".json") {
+        "application/json"
+    } else if path.ends_with(".parquet") {
+        "application/vnd.apache.parquet"
+    } else if path.ends_with(".md") {
+        "text/markdown"
+    } else if path.ends_with(".yaml") || path.ends_with(".yml") {
+        "application/yaml"
+    } else if path.ends_with(".sha256") {
+        "text/plain"
+    } else {
+        "application/octet-stream"
+    }
 }
 
 pub fn registered_corpus_release(workspace: &Workspace, id: &str) -> Result<RegisteredCorpus> {

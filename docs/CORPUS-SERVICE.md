@@ -43,10 +43,38 @@ the provider's version identifier and the service identity that verified the cop
 
 The JSON Schemas are:
 
+- `schemas/braid-corpus-import.schema.json`
 - `schemas/corpus-release.schema.json`
 - `schemas/corpus-materialization.schema.json`
 - `schemas/sagemaker-corpus-handoff.schema.json`
 - `schemas/azure-ml-corpus-handoff.schema.json`
+
+## Import a Braid release
+
+ilXyr can register a verified Braid `braid.release/v2` directory without rebuilding or copying the
+corpus. Start from `examples/corpus/feral-7b-braid-import.json` and replace the release ID, raw
+`release.json` SHA-256, reviewed rights, and exact Braid source revision. Then run:
+
+```bash
+ilxyr braid-corpus-register \
+  /path/to/ilxyr-workspace \
+  /path/to/braid-release/release.json \
+  /path/to/feral-7b-braid-import.json
+```
+
+The importer requires `RELEASED` status, verifies the out-of-band release ID and manifest hash,
+checks that the release ID is bound to its release digest, rejects unsafe or duplicate artifact
+paths, and requires every named training file. It records the raw `release.json` as part of the
+ilXyr corpus file inventory. The resulting `artifact://sha256/...` is the exact value used in the
+experiment's `dataset_bindings` map.
+
+FERAL-7B uses the same importer for three separate Braid releases. The training contract requires
+`data/train.jsonl` and `data/validation.jsonl`; the future and unseen-issuer contracts each require
+their own `data/test.jsonl`. Keeping two evaluation releases prevents their preregistered scores
+from being silently combined.
+
+Registration does not authorize training and does not upload data. The later materialization
+receipt must cover the imported Braid artifacts and `release.json` exactly.
 
 ## Start the service
 

@@ -228,10 +228,18 @@ The built-in pilot reports Qwen-SEC as blocked before paid training: the code an
 development export exist, but the full corpus, baselines, compiled experiment, adapter, and cloud
 dispatch do not.
 
+FERAL-7B is an ilXyr-owned training project. Braid produces its corpus, Runner Watch supplies the
+training image, and ilXyr owns the frozen experiment, admission, budget, cloud receipts,
+evaluation, and evidence settlement. Import the accepted Braid training, future-evaluation, and
+unseen-issuer releases with `braid-corpus-register`; do not substitute the legacy Runner Watch
+development export.
+See [the FERAL-7B training-lab guide](docs/FERAL-7B.md) for the prepared identities and remaining
+gates.
+
 ```bash
 cargo run -p ilxyr-cli -- search qwen-sec --json
-cargo run -p ilxyr-cli -- status project://runner-watch/feral-7b-sec --json
-cargo run -p ilxyr-cli -- lineage feral-7b.sec-analysis.v1 --json
+cargo run -p ilxyr-cli -- status project://ilxyr/feral-7b --json
+cargo run -p ilxyr-cli -- lineage feral-7b.sec-analysis.v2 --json
 cargo run -p ilxyr-cli -- artifact-metadata artifact://runner-watch/feral-7b-experiment-card --json
 cargo run -p ilxyr-cli -- registry-verify
 ```

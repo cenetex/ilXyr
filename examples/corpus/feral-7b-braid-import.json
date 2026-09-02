@@ -1,0 +1,21 @@
+{
+  "schema": "ilxyr.braid_corpus_import.v1",
+  "id": "dataset://braid/feral-7b-sec/v1",
+  "title": "FERAL-7B SEC training corpus v1",
+  "version": "v1",
+  "source": {
+    "repository": "https://github.com/cenetex/braid",
+    "revision": "c1c1933f82b92d1de13064a0dc0179c98ec96228",
+    "path": "src/release.ts"
+  },
+  "rights": {
+    "license": "REPLACE_WITH_REVIEWED_RELEASE_RIGHTS",
+    "use_constraints": ["training-only-until-release-review"]
+  },
+  "expected_release_id": "replace-after-braid-release-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "expected_manifest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "required_files": [
+    "data/train.jsonl",
+    "data/validation.jsonl"
+  ]
+}

@@ -1,8 +1,20 @@
 {
   "schema": "ilxyr.research_registry.v1",
-  "indexed_at_ms": 1788200252000,
+  "indexed_at_ms": 1788210604000,
   "stale_after_ms": 604800000,
   "heads": [
+    {
+      "source": "https://github.com/atimics/runner-watch/tree/daceff62b8cbbb9806f527c099f11b956c44e5c3",
+      "kind": "publication_index",
+      "head": "daceff62b8cbbb9806f527c099f11b956c44e5c3",
+      "indexed_at_ms": 1788210604000
+    },
+    {
+      "source": "https://github.com/cenetex/braid/tree/b76689aec2e88dc7c41f160afa8df3bf0411a4be",
+      "kind": "publication_index",
+      "head": "b76689aec2e88dc7c41f160afa8df3bf0411a4be",
+      "indexed_at_ms": 1788210604000
+    },
     {
       "source": "https://github.com/atimics/runner-watch/tree/c78d953ab64ba5e295b44bc0e13c9015223a32d2",
       "kind": "publication_index",
@@ -25,10 +37,16 @@
   "projects": [
     {
       "schema": "ilxyr.project_record.v1",
-      "project_id": "project://runner-watch/feral-7b-sec",
-      "canonical_name": "FERAL-7B SEC",
-      "aliases": ["qwen-sec", "FERAL-7B", "feral-sec"],
+      "project_id": "project://ilxyr/feral-7b",
+      "canonical_name": "FERAL-7B",
+      "aliases": ["qwen-sec", "FERAL-7B", "feral-sec", "project://runner-watch/feral-7b-sec"],
       "repositories": [
+        {
+          "repository": "https://github.com/atimics/runner-watch",
+          "revision": "daceff62b8cbbb9806f527c099f11b956c44e5c3",
+          "role": "FERAL trainer, Braid binding, experiment draft, and controlled OCI image build",
+          "evidence": "externally_referenced"
+        },
         {
           "repository": "https://github.com/atimics/runner-watch",
           "revision": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
@@ -36,15 +54,15 @@
           "evidence": "externally_referenced"
         },
         {
-          "repository": "https://github.com/atimics/runner-watch",
-          "revision": "884428a564d4df500b95a2911014c672221f7e2e",
-          "role": "corpus export, profiling, and experiment draft",
+          "repository": "https://github.com/cenetex/braid",
+          "revision": "b76689aec2e88dc7c41f160afa8df3bf0411a4be",
+          "role": "corpus compiler and release authority",
           "evidence": "externally_referenced"
         },
         {
-          "repository": "https://github.com/atimics/runner-watch",
-          "revision": "25cc2783c8af8d1a45d286f28bb08f62a074c1dc",
-          "role": "training, evaluation, release scoring, and completion tooling",
+          "repository": "https://github.com/cenetex/ilXyr",
+          "revision": "c54f415d152fe8359d6cc378ff6530722fcd8802",
+          "role": "training-lab control plane, corpus registry, cloud job protocol, evaluation, and evidence ledger",
           "evidence": "externally_referenced"
         }
       ],
@@ -67,8 +85,8 @@
           "visibility": "private_metadata"
         },
         {
-          "corpus_id": "dataset://stonks/feral-7b-sec/v2",
-          "title": "FERAL-7B SEC full frozen corpus",
+          "corpus_id": "dataset://braid/feral-7b-sec/v1",
+          "title": "FERAL-7B Braid SEC training corpus v1",
           "example_count": null,
           "release_ref": null,
           "materialization_ref": null,
@@ -79,7 +97,7 @@
       ],
       "experiments": [
         {
-          "experiment_id": "feral-7b.sec-analysis.v1",
+          "experiment_id": "feral-7b.sec-analysis.v2",
           "title": "FERAL-7B SEC analysis release gate",
           "compiled_ref": null,
           "source_ref": "artifact://runner-watch/feral-7b-experiment-card",
@@ -91,7 +109,7 @@
       "evaluations": [
         {
           "evaluation_id": "evaluation://feral-7b/sec-future/base",
-          "experiment_id": "feral-7b.sec-analysis.v1",
+          "experiment_id": "feral-7b.sec-analysis.v2",
           "role": "baseline",
           "state": "planned",
           "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
@@ -104,7 +122,7 @@
         },
         {
           "evaluation_id": "evaluation://feral-7b/sec-unseen-issuer/base",
-          "experiment_id": "feral-7b.sec-analysis.v1",
+          "experiment_id": "feral-7b.sec-analysis.v2",
           "role": "baseline",
           "state": "planned",
           "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
@@ -117,7 +135,7 @@
         },
         {
           "evaluation_id": "evaluation://feral-7b/finqa/base",
-          "experiment_id": "feral-7b.sec-analysis.v1",
+          "experiment_id": "feral-7b.sec-analysis.v2",
           "role": "baseline",
           "state": "completed",
           "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
@@ -132,7 +150,7 @@
         },
         {
           "evaluation_id": "evaluation://feral-7b/citation-support/base",
-          "experiment_id": "feral-7b.sec-analysis.v1",
+          "experiment_id": "feral-7b.sec-analysis.v2",
           "role": "baseline",
           "state": "planned",
           "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
@@ -145,7 +163,7 @@
         },
         {
           "evaluation_id": "evaluation://feral-7b/sec-future/candidate",
-          "experiment_id": "feral-7b.sec-analysis.v1",
+          "experiment_id": "feral-7b.sec-analysis.v2",
           "role": "candidate",
           "state": "planned",
           "model_revision": null,
@@ -158,7 +176,7 @@
         },
         {
           "evaluation_id": "evaluation://feral-7b/sec-unseen-issuer/candidate",
-          "experiment_id": "feral-7b.sec-analysis.v1",
+          "experiment_id": "feral-7b.sec-analysis.v2",
           "role": "candidate",
           "state": "planned",
           "model_revision": null,
@@ -171,7 +189,7 @@
         },
         {
           "evaluation_id": "evaluation://feral-7b/release-gate/candidate",
-          "experiment_id": "feral-7b.sec-analysis.v1",
+          "experiment_id": "feral-7b.sec-analysis.v2",
           "role": "candidate",
           "state": "planned",
           "model_revision": null,
@@ -186,27 +204,37 @@
       "artifacts": [
         {
           "artifact_id": "artifact://runner-watch/feral-7b-experiment-card",
-          "experiment_id": "feral-7b.sec-analysis.v1",
+          "experiment_id": "feral-7b.sec-analysis.v2",
           "kind": "draft_experiment_spec",
-          "digest": "ba45166eac11f61470bbbea5aa58efc7090f7f49c845c6eda7bbf5521344e5c9",
-          "uri": "https://github.com/atimics/runner-watch/blob/884428a564d4df500b95a2911014c672221f7e2e/docs/feral-7b-ilxyr-experiment.example.json",
-          "source_revision": "884428a564d4df500b95a2911014c672221f7e2e",
+          "digest": "93c9db47cdde48d33a6a9f13c294cb04ecf92d58cb3e3b3750d37f7844070fc3",
+          "uri": "https://github.com/atimics/runner-watch/blob/daceff62b8cbbb9806f527c099f11b956c44e5c3/docs/feral-7b-ilxyr-experiment.example.json",
+          "source_revision": "daceff62b8cbbb9806f527c099f11b956c44e5c3",
           "evidence": "externally_referenced",
           "visibility": "public"
         },
         {
           "artifact_id": "artifact://runner-watch/sec-qwen-training-guide",
-          "experiment_id": "feral-7b.sec-analysis.v1",
+          "experiment_id": "feral-7b.sec-analysis.v2",
           "kind": "implementation_documentation",
-          "digest": "b28f1cffa9040b1fccf51b8e0a8a74cbd6f2011e59c080da5cdc5938717786cb",
-          "uri": "https://github.com/atimics/runner-watch/blob/884428a564d4df500b95a2911014c672221f7e2e/docs/sec-qwen-training.md",
-          "source_revision": "884428a564d4df500b95a2911014c672221f7e2e",
+          "digest": "a7e78614ade4cd602fff091ab94fe6847d1cbb72463a303fef79392a6133c114",
+          "uri": "https://github.com/atimics/runner-watch/blob/daceff62b8cbbb9806f527c099f11b956c44e5c3/docs/sec-qwen-training.md",
+          "source_revision": "daceff62b8cbbb9806f527c099f11b956c44e5c3",
+          "evidence": "externally_referenced",
+          "visibility": "public"
+        },
+        {
+          "artifact_id": "artifact://runner-watch/feral-7b-oci-workflow",
+          "experiment_id": "feral-7b.sec-analysis.v2",
+          "kind": "controlled_image_build_workflow",
+          "digest": "0ffc54dd437d751313e87f21c652011da965a015b016fa6a5b57b97e2c4a91c3",
+          "uri": "https://github.com/atimics/runner-watch/blob/daceff62b8cbbb9806f527c099f11b956c44e5c3/.github/workflows/feral-7b-oci.yml",
+          "source_revision": "daceff62b8cbbb9806f527c099f11b956c44e5c3",
           "evidence": "externally_referenced",
           "visibility": "public"
         },
         {
           "artifact_id": "artifact://runner-watch/feral-7b-finqa-base-result",
-          "experiment_id": "feral-7b.sec-analysis.v1",
+          "experiment_id": "feral-7b.sec-analysis.v2",
           "kind": "baseline_evaluation_result",
           "digest": "a9c2b7f456bc4101eb7b288761bea923298eb690d90fd10be89d32cba44beb8f",
           "uri": "https://github.com/atimics/runner-watch/blob/c78d953ab64ba5e295b44bc0e13c9015223a32d2/artifacts/feral-7b-sec-v2/evaluation/finqa-baseline.json",
@@ -222,8 +250,11 @@
           "title": "Training and evaluation code",
           "state": "implemented",
           "evidence": "externally_referenced",
-          "refs": ["artifact://runner-watch/sec-qwen-training-guide"],
-          "detail": "Corpus export, tokenizer profiling, LoRA training, evaluation, release scoring, and completion tooling exist in Runner Watch revisions."
+          "refs": [
+            "artifact://runner-watch/sec-qwen-training-guide",
+            "artifact://runner-watch/feral-7b-oci-workflow"
+          ],
+          "detail": "Braid validation, tokenizer profiling, LoRA training, evaluation, release scoring, completion tooling, and a controlled manual OCI image build exist in Runner Watch."
         },
         {
           "stage_id": "development_corpus_export",
@@ -231,7 +262,7 @@
           "state": "completed",
           "evidence": "externally_referenced",
           "refs": ["dataset://runner-watch/feral-7b-sec/dev-403"],
-          "detail": "A development export exists, but it is not the full frozen training corpus and has no ilXyr release or materialization reference."
+          "detail": "A legacy development export exists for smoke tests. It is not an active Season 00 input and cannot replace the Braid release."
         },
         {
           "stage_id": "full_corpus_freeze",
@@ -239,7 +270,15 @@
           "state": "blocked",
           "evidence": "missing",
           "refs": [],
-          "detail": "The full corpus is not frozen or registered. Paid training must not begin."
+          "detail": "The Braid FERAL training, future-evaluation, and unseen-issuer releases are not frozen or registered. Paid training must not begin."
+        },
+        {
+          "stage_id": "braid_import_bridge",
+          "title": "Braid to ilXyr corpus registration bridge",
+          "state": "implemented",
+          "evidence": "recorded",
+          "refs": [],
+          "detail": "ilXyr can import the three out-of-band Braid release IDs and manifest digests, require RELEASED status and the exact train, validation, or test files, and record each closed release as an immutable corpus artifact."
         },
         {
           "stage_id": "corpus_materialization",
@@ -272,6 +311,14 @@
           "evidence": "missing",
           "refs": ["artifact://runner-watch/feral-7b-experiment-card"],
           "detail": "The source file is an example with placeholder corpus and OCI digests; no ExperimentCompiled ledger event exists."
+        },
+        {
+          "stage_id": "provider_adapter",
+          "title": "Cloud provider adapter",
+          "state": "planned",
+          "evidence": "missing",
+          "refs": [],
+          "detail": "The provider-neutral job contract exists, but no AWS, Azure, or Kubernetes adapter and credential boundary has been selected for FERAL."
         },
         {
           "stage_id": "cloud_dispatch",
@@ -308,55 +355,61 @@
       ],
       "missing_requirements": [
         {
-          "requirement_id": "missing://qwen-sec/full-corpus-release",
+          "requirement_id": "missing://feral-7b/full-corpus-release",
           "title": "Frozen full corpus release",
           "blocks_stage": "full_corpus_freeze",
-          "detail": "Register an immutable full corpus release with every file digest."
+          "detail": "Build the FERAL training and two sealed evaluation corpora in Braid, review their rights, and import all three immutable release IDs and manifest digests into ilXyr."
         },
         {
-          "requirement_id": "missing://qwen-sec/materialization",
+          "requirement_id": "missing://feral-7b/materialization",
           "title": "Verified cloud corpus location",
           "blocks_stage": "corpus_materialization",
           "detail": "Record a read-back verified materialization receipt."
         },
         {
-          "requirement_id": "missing://qwen-sec/profile",
+          "requirement_id": "missing://feral-7b/profile",
           "title": "Tokenizer, throughput, and cost profile",
           "blocks_stage": "tokenizer_profile",
           "detail": "Profile the exact corpus, tokenizer, image, hardware, and provider price."
         },
         {
-          "requirement_id": "missing://qwen-sec/baselines",
+          "requirement_id": "missing://feral-7b/baselines",
           "title": "Four registered base-model baselines",
           "blocks_stage": "baseline_evaluations",
           "detail": "Run and bind predictions for SEC future, unseen issuer, FinQA, and citation support."
         },
         {
-          "requirement_id": "missing://qwen-sec/compiled-experiment",
+          "requirement_id": "missing://feral-7b/compiled-experiment",
           "title": "Compiled experiment with real digests",
           "blocks_stage": "experiment_registration",
           "detail": "Replace corpus and OCI placeholders, submit lineage records, and compile the contract."
         },
         {
-          "requirement_id": "missing://qwen-sec/dispatch",
+          "requirement_id": "missing://feral-7b/provider-adapter",
+          "title": "Selected cloud provider adapter",
+          "blocks_stage": "provider_adapter",
+          "detail": "Select and review one credential-isolated provider adapter before any FERAL dispatch."
+        },
+        {
+          "requirement_id": "missing://feral-7b/dispatch",
           "title": "Signed cloud dispatch",
           "blocks_stage": "cloud_dispatch",
           "detail": "Bind the image, inputs, executor, and approved budget in ilXyr."
         },
         {
-          "requirement_id": "missing://qwen-sec/adapter",
+          "requirement_id": "missing://feral-7b/adapter",
           "title": "Trained LoRA adapter",
           "blocks_stage": "adapter_training",
           "detail": "Train only after the earlier evidence and budget gates pass."
         },
         {
-          "requirement_id": "missing://qwen-sec/candidate-evaluations",
+          "requirement_id": "missing://feral-7b/candidate-evaluations",
           "title": "Candidate predictions and metrics",
           "blocks_stage": "candidate_evaluations",
           "detail": "Evaluate the candidate on the exact registered baseline IDs and evaluator revisions."
         },
         {
-          "requirement_id": "missing://qwen-sec/release-decision",
+          "requirement_id": "missing://feral-7b/release-decision",
           "title": "Final evidence-bound release decision",
           "blocks_stage": "release_gate",
           "detail": "Record the promotion decision and complete evidence bundle."
