@@ -95,7 +95,7 @@ The base-only profile also binds the resolved generation config, output length,
 sampling mode, beam count, and batch size.
 
 A draft profile has a non-empty `unresolved` list. A frozen profile has exact
-values for every required software, image, hardware, optimizer, scheduler,
+values for every applicable software, image, hardware, optimizer, scheduler,
 tokenizer, and input-view field. Its `execution_authorized` value stays
 `false`; ilXyr spend and dispatch records carry run authority.
 

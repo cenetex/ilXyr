@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
+import { mkdtemp, readFile, rm, symlink } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -106,5 +108,15 @@ await rejectMutation(audit, (record) => { record.invariants.source_model_updates
 await rejectMutation(audit, (record) => { record.controls.label_shuffle.within_group = true; }, /schema failed/);
 await rejectMutation(audit, (record) => { record.controls.random_projection.dimensions = [8193]; }, /must fit within/);
 await rejectMutation(audit, (record) => { record.representations[0].artifact_ref = "artifact://test/features"; }, /both artifact identity/);
+
+const cliDirectory = await mkdtemp(join(tmpdir(), "ilxyr-profile-cli-"));
+try {
+  const alias = join(cliDirectory, "profile-check.mjs");
+  await symlink(join(root, "scripts/research-profiles.mjs"), alias);
+  const output = execFileSync(process.execPath, [alias, join(root, files[0])], { encoding: "utf8" });
+  assert.equal(JSON.parse(output).id, records[0].id);
+} finally {
+  await rm(cliDirectory, { recursive: true });
+}
 
 console.log("Validated five research drafts, three synthetic frozen fixtures, and diagnostic outcome and rejection checks.");

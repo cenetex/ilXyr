@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { readFile, realpath } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -169,7 +169,10 @@ const main = async () => {
   console.log(JSON.stringify(result, null, 2));
 };
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (
+  process.argv[1] &&
+  await realpath(resolve(process.argv[1])) === await realpath(fileURLToPath(import.meta.url))
+) {
   main().catch((error) => {
     console.error(error.message);
     process.exitCode = 1;
