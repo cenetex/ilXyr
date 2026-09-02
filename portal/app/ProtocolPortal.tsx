@@ -37,37 +37,37 @@ const protocolSteps = [
   {
     id: "freeze",
     label: "Freeze",
-    title: "Lock the question before the answer exists.",
-    body: "The proposal, data, metric, thresholds, seeds, stop rules, evidence level, and compute ceiling become one immutable experiment contract.",
-    note: "No silent target drift",
+    title: "Write the plan first.",
+    body: "Set the question, data, metrics, seeds, limits, and budget. ilXyr saves them as one fixed contract.",
+    note: "One clear target",
   },
   {
     id: "forecast",
     label: "Forecast",
-    title: "Make uncertainty explicit.",
-    body: "Independent actors forecast the outcome and commit credits before results are visible. Their calibration becomes part of the record.",
-    note: "Prediction before observation",
+    title: "Record the forecast.",
+    body: "Researchers predict the result before the run. ilXyr saves each forecast and tracks its accuracy over time.",
+    note: "Prediction first",
   },
   {
     id: "admit",
     label: "Admit",
-    title: "Let deterministic gates decide.",
-    body: "Method, security, role separation, funding, executor policy, and preregistration must all fit. A package alone never authorizes spend.",
-    note: "Policy, not discretion",
+    title: "Check the plan.",
+    body: "ilXyr checks the method, security, roles, budget, registration, and executor. A passing plan can move forward.",
+    note: "Clear rules",
   },
   {
     id: "execute",
     label: "Execute",
-    title: "Run inside a bounded envelope.",
-    body: "Exact source, artifacts, runtime, network policy, watchdog behavior, budget, and output rules are bound before compute starts.",
-    note: "Replayable by construction",
+    title: "Run the experiment.",
+    body: "The run uses the approved code, data, budget, network rules, and output rules.",
+    note: "A bounded run",
   },
   {
     id: "settle",
     label: "Settle",
-    title: "Keep the result—especially when it fails.",
-    body: "Evidence resolves the frozen outcome contract, scores forecasts, and appends a hash-linked record. No-go results close branches honestly.",
-    note: "Negative results count",
+    title: "Record the result.",
+    body: "ilXyr checks the result against the contract. It scores the forecasts and adds the evidence to the ledger.",
+    note: "One durable record",
   },
 ] as const;
 
@@ -151,11 +151,11 @@ export function ProtocolPortal({
 
       <section className="hero" id="top">
         <div className="hero-copy">
-          <p className="kicker"><span className="live-dot" /> Public protocol index · live</p>
+          <p className="kicker"><span className="live-dot" /> Public project index</p>
           <h1>Evidence before<br /><em>execution.</em></h1>
           <p className="hero-lede">
-            ilXyr turns research ideas into frozen experiments, admits only what passes its gates,
-            and leaves every result in a verifiable ledger.
+            ilXyr keeps research work clear. It saves the plan before the run. It records the
+            result after the run.
           </p>
           <div className="hero-actions">
             <a className="button primary" href="#protocol">Explore the system <span>↘</span></a>
@@ -164,10 +164,10 @@ export function ProtocolPortal({
         </div>
 
         <aside className="signal-card" aria-label="Current public system signal">
-          <div className="signal-topline"><span>PUBLIC SIGNAL</span><span>READ ONLY</span></div>
-          <div className="signal-score"><strong>{readyCount}</strong><span>implemented public surfaces</span></div>
+          <div className="signal-topline"><span>PUBLIC DATA</span><span>LIVE INDEX</span></div>
+          <div className="signal-score"><strong>{readyCount}</strong><span>parts ready today</span></div>
           <div className="signal-track"><span style={{ width: `${Math.round((readyCount / status.length) * 100)}%` }} /></div>
-          <p>This public website is a read-only index. Protocol data is public. Compute authorization is not.</p>
+          <p>This site shows public project data. Compute approval happens inside ilXyr.</p>
         </aside>
       </section>
 
@@ -180,8 +180,8 @@ export function ProtocolPortal({
       <section className="protocol-section section-block" id="protocol">
         <div className="section-heading">
           <p className="section-index">01 — The protocol</p>
-          <h2>One system.<br />A visible chain of proof.</h2>
-          <p>Each stage reduces ambiguity before the next one can begin.</p>
+          <h2>A clear path<br />from question to result.</h2>
+          <p>Each step creates a record for the next step.</p>
         </div>
 
         <div className="protocol-workbench">
@@ -213,7 +213,7 @@ export function ProtocolPortal({
       <section className="experiments-section section-block" id="experiments">
         <div className="section-heading compact-heading">
           <p className="section-index">02 — Evidence ledger</p>
-          <h2>The outcome is data.<br />Not a press release.</h2>
+          <h2>Every result<br />has a record.</h2>
         </div>
 
         <div className="experiment-tools">
@@ -262,16 +262,16 @@ export function ProtocolPortal({
             </a>
           ))}
           {visibleExperiments.length === 0 && (
-            <div className="empty-state"><strong>No records match.</strong><span>Try a broader term or another status.</span></div>
+            <div className="empty-state"><strong>Try another search.</strong><span>Use a broader term or another status.</span></div>
           )}
         </div>
       </section>
 
       <section className="api-section section-block" id="api">
         <div className="section-heading compact-heading inverse-heading">
-          <p className="section-index">03 — Public surface</p>
-          <h2>Ask the ledger<br />directly.</h2>
-          <p>These endpoints return public, read-only JSON. There are no write or cloud-launch routes.</p>
+          <p className="section-index">03 — Public API</p>
+          <h2>Read the<br />public data.</h2>
+          <p>Use these endpoints to read public JSON. Compute approval happens inside ilXyr.</p>
         </div>
 
         <div className="api-console">
@@ -311,9 +311,9 @@ export function ProtocolPortal({
 
       <section className="boundary-section section-block" id="boundary">
         <div className="section-heading compact-heading">
-          <p className="section-index">04 — Execution boundary</p>
-          <h2>Known is not verified.</h2>
-          <p>Known does not mean compatible. Compatible does not mean a result is verified.</p>
+          <p className="section-index">04 — Project status</p>
+          <h2>Clear stages<br />of verification.</h2>
+          <p>Each environment and result shows its current review status.</p>
         </div>
 
         <div className="boundary-grid">
@@ -334,17 +334,17 @@ export function ProtocolPortal({
             <span className="card-label">Verified remote results</span>
             <strong>{String(results.length).padStart(2, "0")}</strong>
             {results.length === 0 ? (
-              <p>None. No remote result has passed independent ilXyr verification.</p>
+              <p>Verified remote results: 0. The first verified result will appear here.</p>
             ) : (
               results.map((result) => <p key={result.id}>{result.experiment_id} — {result.run_ref}</p>)
             )}
           </div>
           <div className="boundary-card warning-card">
-            <span className="card-label">Reporting boundary</span>
-            <h3>Implemented.<br />Not deployed.</h3>
+            <span className="card-label">Reporting API</span>
+            <h3>Built.<br />Deployment planned.</h3>
             <p>
-              Separate report intake API — implemented, not deployed. There is no public intake
-              address yet, and observation cannot launch, restart, or extend compute.
+              The reporting API is complete in the source code. Public rollout will add TLS,
+              trust roots, monitoring, backups, and recovery.
             </p>
           </div>
         </div>
@@ -353,8 +353,8 @@ export function ProtocolPortal({
       <section className="tools-section section-block" id="tools">
         <div className="section-heading compact-heading">
           <p className="section-index">05 — Build with it</p>
-          <h2>A typed command surface.</h2>
-          <p>Prefix every call with <code>ilxyr</code>. Open a group to inspect its current commands.</p>
+          <h2>Use the command line.</h2>
+          <p>Start each command with <code>ilxyr</code>. Open a group to see its commands.</p>
         </div>
 
         <div className="command-groups">
@@ -372,7 +372,7 @@ export function ProtocolPortal({
       <section className="documents-section section-block">
         <div className="section-heading compact-heading">
           <p className="section-index">06 — Read the source</p>
-          <h2>Nothing important is hidden.</h2>
+          <h2>Read the project.</h2>
         </div>
         <div className="document-grid">
           {documents.map((document, index) => (
@@ -393,7 +393,7 @@ export function ProtocolPortal({
           <a href={guide}>Project deck ↗</a>
           <a href="/api">Public API ↗</a>
         </div>
-        <p className="footer-note">A research protocol, ledger, and command line tool.<br />Public index · no launch authority.</p>
+        <p className="footer-note">A research protocol, ledger, and command line tool.<br />Public data · compute approval in ilXyr.</p>
       </footer>
     </main>
   );
