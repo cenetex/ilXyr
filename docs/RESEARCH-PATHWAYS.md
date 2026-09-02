@@ -117,7 +117,7 @@ flowchart TD
   subgraph H["Independent Holo verification"]
     HRR["T=512 public protocol<br/>IMPLEMENTATION PASS"]
     ADV["HRR quality and speed advantage<br/>NO-GO: softmax won"]
-    EXACT["Exact upstream replication<br/>OPEN BLOCKER: private corpus and hardware"]
+    EXACT["Exact upstream replication<br/>CLOSED: required inputs unavailable"]
     HRR --> ADV --> EXACT
   end
 ```
@@ -224,11 +224,13 @@ coordinate branch is closed. Provenance repair can proceed independently, and
 the next scientific diagnostic should ask whether the frozen representation
 contains stable cross-document predictive signal.
 
-### Holo exact replication — externally blocked
+### Holo exact replication — frozen and closed
 
-The public proxy should not be rerun to search for an advantage. Exact
-replication remains open until the original Telegram corpus and matching MPS
-conditions are available.
+The public proxy should not be rerun to search for an advantage. The original
+Telegram corpus and matching MPS conditions are not expected to become
+available, so exact replication is retired and the Holo lineage is frozen. The
+private-result claim remains unknown; closing infeasible work does not turn it
+into a negative result.
 
 ## Reasoner frontier
 
@@ -309,9 +311,10 @@ Apply these additional rules:
    training method.
 4. Import the remaining external evidence and settle the verified upstream
    family evidence locally.
-5. Do not reopen the closed local-coordinate, scalar-backtracking, ordinary
-   paired-next-token, or public-proxy HRR-advantage branches without a new
-   causal hypothesis.
+5. Do not reopen the closed local-coordinate, scalar-backtracking, or ordinary
+   paired-next-token branches without a new causal hypothesis. Keep the Holo
+   lineage frozen because its required private corpus and matching hardware
+   will not be available.
 
 ## Maintenance
 
