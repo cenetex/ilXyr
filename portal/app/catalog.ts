@@ -176,7 +176,7 @@ export const discovery = {
     protocol: "ilxyr.execution_report.v1",
     status: "not_available",
     endpoint: null,
-    note: "The separate authenticated intake is implemented but has no deployed TLS endpoint or production trust roots. This public site remains read-only.",
+    note: "The reporting API is implemented. Public deployment will add TLS, production trust roots, monitoring, backups, and recovery.",
   },
 } as const;
 

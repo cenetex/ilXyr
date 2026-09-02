@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 const title = "ilXyr — Evidence before execution";
-const description =
-  "Explore ilXyr's public research protocol, evidence ledger, experiment records, and read-only API.";
+const description = "ilXyr keeps a clear record of each experiment.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ilxyr.cenetex.com"),
