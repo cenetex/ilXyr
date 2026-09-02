@@ -9,11 +9,16 @@
     "path": "src/release.ts"
   },
   "rights": {
-    "license": "NOASSERTION",
+    "license": "SEC-EDGAR-PUBLIC-FILING-REUSE-POLICY",
     "use_constraints": [
-      "research-metadata-only-until-rights-review",
+      "united-states-project-use-only",
+      "private-access-controlled-materialization-only",
       "evaluation-requires-explicit-authorization",
-      "redistribution-prohibited-until-rights-review"
+      "raw-corpus-redistribution-prohibited",
+      "preserve-accession-url-date-issuer-and-hash-provenance",
+      "no-sec-branding-or-implied-affiliation",
+      "long-verbatim-output-prohibited",
+      "public-model-release-requires-separate-rights-review"
     ]
   },
   "expected_release_id": "feral-7b-sec-unseen-eval-v1-2eb548107c0b-1769782e3ced8e14a945c55cecb21cc0518ebb03da970622125d2af4b870daf4",

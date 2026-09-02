@@ -1,0 +1,115 @@
+{
+  "schema": "ilxyr.corpus_rights_review.v1",
+  "id": "rights-review://ilxyr/feral-7b/sec-season-00/v1",
+  "title": "FERAL-7B SEC Season 00 operational rights review",
+  "reviewed_at": "2026-09-01",
+  "jurisdiction": "United States",
+  "status": "approved_with_conditions",
+  "summary": "The exact frozen releases are cleared for access-controlled project materialization, private training, and private evaluation in the United States. The decision relies primarily on the SEC's express public-EDGAR reuse policy and lawful public acquisition. It does not claim that private filer text is a United States Government work or public domain, and it does not permit raw corpus redistribution or a product that reconstructs filing text.",
+  "scope": [
+    {
+      "corpus_id": "dataset://braid/feral-7b-sec/v1",
+      "release_id": "feral-7b-sec-v1-2eb548107c0b-8d33bb95710fc4d5eb2fe9677fe8268682249551cfaef0c6f473642f7a048162",
+      "release_manifest_sha256": "ebada7a16eae7c836e3ece19d1154c2956367aac0c182e87898bd6f929b56103",
+      "examples": 228110,
+      "source_rights_assertion": "NOASSERTION"
+    },
+    {
+      "corpus_id": "dataset://braid/feral-7b-sec-future-eval/v1",
+      "release_id": "feral-7b-sec-future-eval-v1-2eb548107c0b-63a772a749f1f57d8de29aa902047de6ac17bed72b800b95251554fabdc88d9c",
+      "release_manifest_sha256": "acda2f96a372c30ccf1804719ecf58b6266026a565ddde1178e42a9a6af5d6ab",
+      "examples": 44704,
+      "source_rights_assertion": "NOASSERTION"
+    },
+    {
+      "corpus_id": "dataset://braid/feral-7b-sec-unseen-eval/v1",
+      "release_id": "feral-7b-sec-unseen-eval-v1-2eb548107c0b-1769782e3ced8e14a945c55cecb21cc0518ebb03da970622125d2af4b870daf4",
+      "release_manifest_sha256": "f64d147d2259b073dd327e1e10b73de9d5d92d40e6a38bbe403dc63e849f604b",
+      "examples": 30668,
+      "source_rights_assertion": "NOASSERTION"
+    }
+  ],
+  "basis": [
+    {
+      "authority": "United States Securities and Exchange Commission",
+      "title": "Webmaster Frequently Asked Questions",
+      "url": "https://www.sec.gov/about/webmaster-frequently-asked-questions",
+      "weight": "primary",
+      "finding": "The SEC says that EDGAR public filing content is free to access and reuse. This is the direct reuse policy for the corpus source material."
+    },
+    {
+      "authority": "United States Securities and Exchange Commission",
+      "title": "Privacy Information and Website Dissemination",
+      "url": "https://www.sec.gov/about/privacy-information",
+      "weight": "primary",
+      "finding": "The SEC says information on sec.gov is public and may be copied or further distributed without SEC permission, requests citation, and forbids misuse of SEC seals, logos, artwork, and marks."
+    },
+    {
+      "authority": "United States Congress",
+      "title": "17 U.S.C. sections 105 and 107",
+      "url": "https://www.govinfo.gov/content/pkg/USCODE-2022-title17/pdf/USCODE-2022-title17-chap1.pdf",
+      "weight": "primary",
+      "finding": "Section 105 applies to United States Government works, not automatically to private filings. Section 107 requires a case-specific fair-use analysis."
+    },
+    {
+      "authority": "United States Copyright Office",
+      "title": "Copyright and Artificial Intelligence, Part 3: Generative AI Training",
+      "url": "https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-3-Generative-AI-Training-Report-Pre-Publication-Version.pdf",
+      "weight": "advisory",
+      "finding": "The report treats training as fact-specific. Research and analysis uses with lawful sources and controls against source reproduction are more favorable than uses that create substitutes or rely on pirated copies."
+    },
+    {
+      "authority": "United States Copyright Office Fair Use Index",
+      "title": "Kadrey v. Meta Platforms, Inc., 788 F. Supp. 3d 1026 (N.D. Cal. 2025)",
+      "url": "https://copyright.gov/fair-use/summaries/Kadrey-v-Meta-Platforms-Inc-788-F-Supp-3d-1028-ND-Cal-2025.pdf",
+      "weight": "supplemental",
+      "finding": "A district court found the training use before it fair, while stressing output substitution and market harm. The decision is fact-specific and is not the primary basis for this review."
+    },
+    {
+      "authority": "United States Copyright Office Fair Use Index",
+      "title": "Bartz v. Anthropic PBC, 787 F. Supp. 3d 1007 (N.D. Cal. 2025)",
+      "url": "https://copyright.gov/fair-use/fair-index.html",
+      "weight": "supplemental",
+      "finding": "The index records a mixed result: model training was treated differently from maintaining a library built from unlawfully acquired copies. FERAL uses public SEC archive sources, not shadow libraries."
+    }
+  ],
+  "corpus_scan": {
+    "method": "Case-insensitive line scan of all 303,482 JSONL examples for confidential, reproduction, distribution, copyright, proprietary, and third-party language.",
+    "total_examples": 303482,
+    "pattern_counts": {
+      "combined_restrictive_language": 7223,
+      "confidential": 1061,
+      "reproduction_or_distribution": 41,
+      "copyright_or_third_party": 4212
+    },
+    "interpretation": "Counts overlap and are screening signals, not findings that every match is a valid restriction. They show that the corpus contains long private-party filing excerpts and embedded notices, so raw redistribution and verbatim model output need stronger controls than factual analysis."
+  },
+  "allowed_uses": [
+    "Copy the exact frozen releases into access-controlled United States project storage.",
+    "Use the exact frozen training release for private FERAL-7B training after a separate dispatch authorization.",
+    "Use the exact frozen evaluation releases for private scoring after a separate evaluation authorization.",
+    "Create and share internal aggregate metrics, hashes, lineage records, and short attributed excerpts needed for audit and citation checks."
+  ],
+  "prohibited_uses": [
+    "Publish or redistribute the raw filings, JSONL files, release archives, or a substantially equivalent text collection.",
+    "Build or expose a service whose purpose or practical effect is to reconstruct long filing passages or replace access to the filings.",
+    "Use the SEC seal, logos, artwork, or marks in a way that suggests SEC sponsorship or affiliation.",
+    "Treat private filer text as public domain solely because it was filed with the SEC."
+  ],
+  "conditions": [
+    "Keep accession numbers, SEC archive URLs, filing dates, issuer identifiers, and source hashes with every example.",
+    "Limit project inputs to the exact lawfully collected public EDGAR archive objects bound by the three frozen release manifests.",
+    "Keep raw corpus storage private, access-controlled, logged, and limited to people and services working on FERAL-7B.",
+    "Before any public model, weights, or API release, run targeted memorization and verbatim-output tests and complete a separate release rights review.",
+    "Block or truncate long source-like output and prefer factual answers with short attributed quotations and SEC links.",
+    "Maintain an exclusion and takedown path for a valid rights, privacy, correction, withdrawal, or non-public-filing complaint.",
+    "Reopen this review if the corpus changes, the source moves beyond public SEC EDGAR content, the deployment leaves the United States, or governing law or SEC policy materially changes."
+  ],
+  "authorization": {
+    "rights_clearance": "approved_with_conditions",
+    "training_dispatch": "not_authorized_by_this_review",
+    "paid_compute": "not_authorized_by_this_review",
+    "public_corpus_distribution": "prohibited",
+    "public_model_release": "requires_separate_review"
+  }
+}
