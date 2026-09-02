@@ -34,16 +34,15 @@ not a Season 00 training input.
 3. **Complete:** every imported file plus each `release.json` is in private, versioned,
    access-logged S3 storage and has a read-back verified receipt. See
    [`FERAL-7B-MATERIALIZATION.md`](FERAL-7B-MATERIALIZATION.md).
-4. Run Runner Watch's manual FERAL image workflow with a digest-pinned GPU base image. Publishing
-   must be explicitly selected. Record the resulting complete OCI digest.
-5. Replace only the corpus artifact and OCI placeholders in the v2 experiment draft. Submit the
-   four named research contributions, compile the experiment, and run its remaining base-model
-   evaluations.
-6. Select one provider adapter, collect a live quote, and record the 1% calibration as a separate
-   no-adapter attempt. Full training requires a later explicit authorization.
+4. **Complete:** Runner Watch published the fixed trainer image at
+   `ghcr.io/atimics/feral-7b-sec-qwen@sha256:2b4ea0f0764b431812851d97a8aafdca414db086d2d3a7e9323837bf839da361`.
+5. Prepare the separate 1% calibration package. Verify the AWS preflight and present its exact
+   package hash with the USD 7 cap. See [`FERAL-7B-CALIBRATION.md`](FERAL-7B-CALIBRATION.md).
+   The calibration supplies the full tokenizer profile, measured throughput, memory, and cost estimate.
+6. Complete the remaining base-model evaluations and compile the full v2 training experiment with
+   real input and image digests. Use the calibration evidence for the full-training budget decision.
 
-No setup step above grants training authority. ilXyr must continue to report zero spend and no
-dispatch until the corpus, image, evaluation, provider, quote, and approval gates all resolve.
+Calibration, full training, and public release each have their own approval boundary.
 
 ## Registered Season 00 release metadata
 

@@ -43,7 +43,7 @@
       "repositories": [
         {
           "repository": "https://github.com/atimics/runner-watch",
-          "revision": "f9da7c83ad87b702b9e075222b6370273865b932",
+          "revision": "7123f3dfc1b51beaf5db2a7caf3bbc08174ac6dd",
           "role": "FERAL trainer, Braid binding, experiment draft, and controlled OCI image build",
           "evidence": "externally_referenced"
         },
@@ -223,6 +223,26 @@
       ],
       "artifacts": [
         {
+          "artifact_id": "artifact://runner-watch/feral-7b-trainer-image",
+          "experiment_id": "feral-7b.sec-analysis.v2",
+          "kind": "immutable_training_image",
+          "digest": "2b4ea0f0764b431812851d97a8aafdca414db086d2d3a7e9323837bf839da361",
+          "uri": "ghcr.io/atimics/feral-7b-sec-qwen@sha256:2b4ea0f0764b431812851d97a8aafdca414db086d2d3a7e9323837bf839da361",
+          "source_revision": "7123f3dfc1b51beaf5db2a7caf3bbc08174ac6dd",
+          "evidence": "verified",
+          "visibility": "public"
+        },
+        {
+          "artifact_id": "artifact://ilxyr/feral-7b-calibration-plan",
+          "experiment_id": "feral-7b.sec-analysis.v2",
+          "kind": "calibration_approval_plan",
+          "digest": "2a40099696b6185154e9eb810d9b8aad525e9ee93b19b60a2a85c19c69e22941",
+          "uri": "https://github.com/cenetex/ilXyr/blob/main/examples/feral/feral-7b-calibration-plan.json",
+          "source_revision": null,
+          "evidence": "recorded",
+          "visibility": "public"
+        },
+        {
           "artifact_id": "artifact://runner-watch/feral-7b-experiment-card",
           "experiment_id": "feral-7b.sec-analysis.v2",
           "kind": "draft_experiment_spec",
@@ -370,12 +390,28 @@
           "detail": "All 25 files across the training, future-evaluation, and unseen-issuer releases are stored as immutable S3 versions in us-east-1. Each file was streamed back from its recorded version and matched against the reviewed SHA-256 and size. The private bucket is encrypted, versioned, TLS-only, public-access blocked, and writes server-access logs to a separate retained bucket."
         },
         {
+          "stage_id": "trainer_image",
+          "title": "Permanent trainer image",
+          "state": "completed",
+          "evidence": "verified",
+          "refs": ["artifact://runner-watch/feral-7b-trainer-image"],
+          "detail": "The controlled image build succeeded at Runner Watch revision 7123f3d. An anonymous registry read verified the exact published image index and Linux AMD64 manifest. The image caches the fixed Qwen revision and records calibration memory measurements."
+        },
+        {
+          "stage_id": "calibration_approval",
+          "title": "One-percent calibration approval",
+          "state": "planned",
+          "evidence": "recorded",
+          "refs": ["artifact://ilxyr/feral-7b-calibration-plan"],
+          "detail": "The plan fixes 1,978 examples, two epochs, one AWS L40S, three hours, and a USD 7 cap. The next steps are package publication, AWS preflight, and human approval of the exact package hash."
+        },
+        {
           "stage_id": "tokenizer_profile",
           "title": "Exact tokenizer and throughput profile",
           "state": "planned",
           "evidence": "missing",
           "refs": [],
-          "detail": "The profiling tool is implemented; no full-corpus profile or provider cost ceiling is recorded."
+          "detail": "The separate calibration attempt will produce the exact full-corpus tokenizer profile, measured 1% throughput, memory use, and full-training cost estimate. Its planned infrastructure cap is USD 7."
         },
         {
           "stage_id": "baseline_evaluations",
@@ -396,10 +432,10 @@
         {
           "stage_id": "provider_adapter",
           "title": "Cloud provider adapter",
-          "state": "planned",
-          "evidence": "missing",
-          "refs": [],
-          "detail": "The provider-neutral job contract exists, but no AWS, Azure, or Kubernetes adapter and credential boundary has been selected for FERAL."
+          "state": "implemented",
+          "evidence": "recorded",
+          "refs": ["artifact://ilxyr/feral-7b-calibration-plan"],
+          "detail": "The AWS EC2 calibration path defines a dedicated training-corpus reader, private result storage, a fixed GPU shape, package hash checks, and shutdown timers. Cloud deployment and the launch dry run are the next verification steps."
         },
         {
           "stage_id": "cloud_dispatch",
@@ -436,6 +472,12 @@
       ],
       "missing_requirements": [
         {
+          "requirement_id": "missing://feral-7b/calibration-approval",
+          "title": "Exact calibration package approval",
+          "blocks_stage": "calibration_approval",
+          "detail": "Publish and verify the package, complete the AWS dry run, then obtain human approval for its SHA-256 and USD 7 cap."
+        },
+        {
           "requirement_id": "missing://feral-7b/profile",
           "title": "Tokenizer, throughput, and cost profile",
           "blocks_stage": "tokenizer_profile",
@@ -455,9 +497,9 @@
         },
         {
           "requirement_id": "missing://feral-7b/provider-adapter",
-          "title": "Selected cloud provider adapter",
+          "title": "Verified AWS calibration preflight",
           "blocks_stage": "provider_adapter",
-          "detail": "Select and review one credential-isolated provider adapter before any FERAL dispatch."
+          "detail": "Deploy the dedicated AWS role and result storage. Verify the exact package, price, machine image, quota, network, and launch dry run."
         },
         {
           "requirement_id": "missing://feral-7b/dispatch",

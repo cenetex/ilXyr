@@ -1,0 +1,217 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Private FERAL calibration storage and a scoped EC2 identity.
+
+Parameters:
+  ResultsBucketName:
+    Type: String
+    Default: ilxyr-feral-7b-calibration-022118847419-us-east-1
+  AccessLogBucketName:
+    Type: String
+    Default: ilxyr-feral-7b-calibration-logs-022118847419-us-east-1
+  CorpusBucketName:
+    Type: String
+    Default: ilxyr-feral-7b-corpus-022118847419-us-east-1
+  CorpusPrefix:
+    Type: String
+    Default: corpora/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+
+Resources:
+  AccessLogBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Ref AccessLogBucketName
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+      VersioningConfiguration:
+        Status: Enabled
+      LifecycleConfiguration:
+        Rules:
+          - Id: RetainAuditLogs
+            Status: Enabled
+            ExpirationInDays: 2557
+            NoncurrentVersionExpiration:
+              NoncurrentDays: 2557
+      Tags:
+        - Key: Project
+          Value: feral-7b
+  AccessLogPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref AccessLogBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AllowServerAccessLogs
+            Effect: Allow
+            Principal:
+              Service: logging.s3.amazonaws.com
+            Action: s3:PutObject
+            Resource: !Sub arn:${AWS::Partition}:s3:::${AccessLogBucketName}/s3-access/*
+            Condition:
+              ArnLike:
+                aws:SourceArn: !Sub arn:${AWS::Partition}:s3:::${ResultsBucketName}
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+          - Sid: RequireTLS
+            Effect: Deny
+            Principal: "*"
+            Action: s3:*
+            Resource:
+              - !Sub arn:${AWS::Partition}:s3:::${AccessLogBucketName}
+              - !Sub arn:${AWS::Partition}:s3:::${AccessLogBucketName}/*
+            Condition:
+              Bool:
+                aws:SecureTransport: false
+  ResultsBucket:
+    Type: AWS::S3::Bucket
+    DependsOn: AccessLogPolicy
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Ref ResultsBucketName
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LoggingConfiguration:
+        DestinationBucketName: !Ref AccessLogBucket
+        LogFilePrefix: s3-access/
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Project
+          Value: feral-7b
+  ResultsPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ResultsBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: RequireTLS
+            Effect: Deny
+            Principal: "*"
+            Action: s3:*
+            Resource:
+              - !Sub arn:${AWS::Partition}:s3:::${ResultsBucketName}
+              - !Sub arn:${AWS::Partition}:s3:::${ResultsBucketName}/*
+            Condition:
+              Bool:
+                aws:SecureTransport: false
+          - Sid: RequireEncryption
+            Effect: Deny
+            Principal: "*"
+            Action: s3:PutObject
+            Resource: !Sub arn:${AWS::Partition}:s3:::${ResultsBucketName}/*
+            Condition:
+              StringNotEquals:
+                s3:x-amz-server-side-encryption: AES256
+  CalibrationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ilxyr-feral-7b-calibration-ec2
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      Policies:
+        - PolicyName: ExactFERALCorpusAndResults
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: ReadTrainingReleaseVersions
+                Effect: Allow
+                Action:
+                  - s3:GetObjectVersion
+                Resource: !Sub arn:${AWS::Partition}:s3:::${CorpusBucketName}/${CorpusPrefix}/*
+              - Sid: ReadFrozenPackage
+                Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                Resource: !Sub arn:${AWS::Partition}:s3:::${ResultsBucketName}/packages/*
+              - Sid: WriteCalibrationResults
+                Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                  - s3:AbortMultipartUpload
+                Resource: !Sub arn:${AWS::Partition}:s3:::${ResultsBucketName}/runs/*
+              - Sid: ListCalibrationResults
+                Effect: Allow
+                Action: s3:ListBucket
+                Resource: !Sub arn:${AWS::Partition}:s3:::${ResultsBucketName}
+                Condition:
+                  StringLike:
+                    s3:prefix:
+                      - runs/*
+      Tags:
+        - Key: Project
+          Value: feral-7b
+  CalibrationProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: ilxyr-feral-7b-calibration-ec2
+      Roles:
+        - !Ref CalibrationRole
+  CalibrationSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: FERAL calibration HTTPS and DNS egress
+      VpcId: !Ref VpcId
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: udp
+          FromPort: 53
+          ToPort: 53
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 53
+          ToPort: 53
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Project
+          Value: feral-7b
+
+Outputs:
+  ResultsBucketName:
+    Value: !Ref ResultsBucket
+  AccessLogBucketName:
+    Value: !Ref AccessLogBucket
+  InstanceProfileName:
+    Value: !Ref CalibrationProfile
+  RoleArn:
+    Value: !GetAtt CalibrationRole.Arn
+  SecurityGroupId:
+    Value: !GetAtt CalibrationSecurityGroup.GroupId

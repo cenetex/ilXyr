@@ -1,0 +1,37 @@
+schema = "stonks.sec_qwen_training.v1"
+
+[model]
+model_id = "Qwen/Qwen2.5-7B-Instruct"
+revision = "a09a35458c702b33eeacc393d103063234e8bc28"
+torch_dtype = "bfloat16"
+attn_implementation = "sdpa"
+
+[dataset]
+provider = "braid"
+dataset_id = "dataset://braid/feral-7b-sec/v1"
+corpus_manifest = "../corpus/release.json"
+release_id = "feral-7b-sec-v1-2eb548107c0b-8d33bb95710fc4d5eb2fe9677fe8268682249551cfaef0c6f473642f7a048162"
+manifest_sha256 = "ebada7a16eae7c836e3ece19d1154c2956367aac0c182e87898bd6f929b56103"
+train_file = "data/train.jsonl"
+validation_file = "data/validation.jsonl"
+evaluation_files = []
+
+[training]
+seed = 17
+max_seq_length = 8192
+epochs = 2.0
+per_device_batch_size = 1
+gradient_accumulation_steps = 16
+learning_rate = 0.0002
+lora_r = 32
+lora_alpha = 64
+lora_dropout = 0.05
+target_modules = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+gradient_checkpointing = true
+bf16 = true
+max_new_tokens = 512
+dataloader_num_workers = 4
+evaluation_batch_size = 2
+
+[output]
+directory = "../out/calibration"
