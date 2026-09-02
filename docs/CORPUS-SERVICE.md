@@ -44,6 +44,7 @@ the provider's version identifier and the service identity that verified the cop
 The JSON Schemas are:
 
 - `schemas/braid-corpus-import.schema.json`
+- `schemas/corpus-rights-review.schema.json`
 - `schemas/corpus-release.schema.json`
 - `schemas/corpus-materialization.schema.json`
 - `schemas/sagemaker-corpus-handoff.schema.json`
@@ -53,7 +54,10 @@ The JSON Schemas are:
 
 ilXyr can register a verified Braid `braid.release/v2` directory without rebuilding or copying the
 corpus. The checked-in FERAL contracts bind the Season 00 release IDs, raw `release.json` SHA-256
-values, exact Braid source revision, and the current restrictive rights state. Then run:
+values, exact Braid source revision, and the conditionally approved SEC public-filing reuse policy.
+The policy permits private United States project materialization and use while prohibiting raw
+redistribution and requiring provenance and output controls. See
+[`FERAL-7B-RIGHTS-REVIEW.md`](FERAL-7B-RIGHTS-REVIEW.md). Then run:
 
 ```bash
 ilxyr braid-corpus-register \
