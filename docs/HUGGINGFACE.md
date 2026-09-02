@@ -70,6 +70,58 @@ The importer deliberately does not grant the model a role, admit an experiment, 
 authority. Existing ilXyr contribution, forecast, funding, admission, execution, and attestation
 rules still apply.
 
+## Bind the Transformers run
+
+The model manifest identifies weights. A Transformers execution profile
+identifies the recipe that turns those weights and data into a run.
+
+[`transformers-execution-profile.schema.json`](../schemas/transformers-execution-profile.schema.json)
+records the run-changing factors that often live in library defaults:
+
+- Python, PyTorch, Transformers, Accelerate, PEFT, and Safetensors versions;
+- the Transformers source revision and distribution digest;
+- the source code, reference config, final config, and dependency-lock digests;
+- image, executor, accelerator, driver, and runtime identity;
+- dtype, device map, attention and mask backends, cache, checkpointing, and
+  compile settings;
+- optimizer, scheduler, batch shape, initial evaluation, and save/evaluation
+  strategy;
+- tokenizer revision, chat-template digest, training view, truncation,
+  padding, label mask, and collator digest;
+- LoRA settings; and
+- all seeds and data-loader behavior.
+
+The base-only profile also binds the resolved generation config, output length,
+sampling mode, beam count, and batch size.
+
+A draft profile has a non-empty `unresolved` list. A frozen profile has exact
+values for every applicable software, image, hardware, optimizer, scheduler,
+tokenizer, and input-view field. Its `execution_authorized` value stays
+`false`; ilXyr spend and dispatch records carry run authority.
+
+Drafts describe the target recipe. `source_config_sha256` records the source
+example. `config_sha256` records the final run config at freeze. Open
+implementation items require updated source and config digests before freeze.
+
+The prepared FERAL-7B
+[`base-only profile`](../examples/feral-7b/transformers-base-profile.json) and
+[`one-percent LoRA calibration profile`](../examples/feral-7b/transformers-calibration-profile.json)
+bind Transformers 5.16.1, source revision
+`93c8b7b485963a10800c91f55304db6be211c2bd`, the exact Qwen revision, the
+Runner Watch trainer revision and file digests, PEFT 0.20.0, and the planned
+LoRA recipe. Their open lists give the path to two frozen checks. The base
+check establishes quality, memory, and generation timing. The LoRA check
+measures the real training path for the full-run cost estimate.
+
+Check either draft with:
+
+```bash
+npm run check:research-profile -- examples/feral-7b/transformers-base-profile.json
+```
+
+Frozen representation probes use the shared
+[`representation audit contract`](REPRESENTATION-AUDITS.md).
+
 ## Load or serve the exact revision
 
 Use the same revision outside the control plane when downloading or loading weights:

@@ -273,6 +273,26 @@
           "visibility": "public"
         },
         {
+          "artifact_id": "artifact://sha256/ddc3d71401a344e4ce4f6c502557b0317ca8169b12d80f9cbd19d8e1d4fa615f",
+          "experiment_id": "feral-7b.sec-analysis.v2",
+          "kind": "transformers_execution_profile_draft",
+          "digest": "ddc3d71401a344e4ce4f6c502557b0317ca8169b12d80f9cbd19d8e1d4fa615f",
+          "uri": "https://github.com/cenetex/ilXyr/blob/main/examples/feral-7b/transformers-calibration-profile.json",
+          "source_revision": null,
+          "evidence": "verified",
+          "visibility": "public"
+        },
+        {
+          "artifact_id": "artifact://sha256/65fac260b2c417e726f4686aa615a6e98c7bbe650105e056ca7653fff1e9daa2",
+          "experiment_id": "feral-7b.sec-analysis.v2",
+          "kind": "transformers_execution_profile_draft",
+          "digest": "65fac260b2c417e726f4686aa615a6e98c7bbe650105e056ca7653fff1e9daa2",
+          "uri": "https://github.com/cenetex/ilXyr/blob/main/examples/feral-7b/transformers-base-profile.json",
+          "source_revision": null,
+          "evidence": "verified",
+          "visibility": "public"
+        },
+        {
           "artifact_id": "artifact://sha256/b43f6b676af3e0e1ce1a4cd400cd3e7004c6fc6d048fe405b9742d326cde3732",
           "experiment_id": "feral-7b.sec-analysis.v2",
           "kind": "corpus_materialization_receipt",
@@ -373,9 +393,12 @@
           "stage_id": "tokenizer_profile",
           "title": "Exact tokenizer and throughput profile",
           "state": "planned",
-          "evidence": "missing",
-          "refs": [],
-          "detail": "The profiling tool is implemented; no full-corpus profile or provider cost ceiling is recorded."
+          "evidence": "recorded",
+          "refs": [
+            "artifact://sha256/65fac260b2c417e726f4686aa615a6e98c7bbe650105e056ca7653fff1e9daa2",
+            "artifact://sha256/ddc3d71401a344e4ce4f6c502557b0317ca8169b12d80f9cbd19d8e1d4fa615f"
+          ],
+          "detail": "Two validated drafts bind the base-only check and the later one-percent LoRA calibration. They record the exact model, source references, dependency lock, Transformers and PEFT versions, data rules, and seeds. Their open lists cover final code and config, image, hardware, Python, optimizer, scheduler, input views, chat template, generation settings, measurements, throughput, and price."
         },
         {
           "stage_id": "baseline_evaluations",
@@ -439,7 +462,7 @@
           "requirement_id": "missing://feral-7b/profile",
           "title": "Tokenizer, throughput, and cost profile",
           "blocks_stage": "tokenizer_profile",
-          "detail": "Profile the exact corpus, tokenizer, image, hardware, and provider price."
+          "detail": "Resolve and freeze both Transformers profiles. Run the base-only check first, then the private one-percent LoRA calibration on the selected image and hardware. Use the LoRA timing with the provider quote for the full-training estimate."
         },
         {
           "requirement_id": "missing://feral-7b/baselines",
