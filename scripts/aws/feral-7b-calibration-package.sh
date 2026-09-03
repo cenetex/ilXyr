@@ -16,7 +16,8 @@ test "$(shasum -a 256 "$config" | awk '{print $1}')" = "$(jq -r .inputs.config_s
 test "$(shasum -a 256 "$receipt" | awk '{print $1}')" = "$(jq -r .inputs.receipt_sha256 "$plan")"
 
 package_dir=$(mktemp -d)
-trap 'rm -rf "$package_dir"' EXIT
+checksum_file=$(mktemp)
+trap 'rm -rf "$package_dir" "$checksum_file"' EXIT
 cp "$plan" "$package_dir/plan.json"
 cp "$config" "$package_dir/config.toml"
 cp "$receipt" "$package_dir/receipt.json"
@@ -33,7 +34,8 @@ jq -n \
 (
   cd "$package_dir"
   find . -type f ! -name PACKAGE-SHA256SUMS -print0 | sort -z |
-    xargs -0 shasum -a 256 > PACKAGE-SHA256SUMS
+    xargs -0 shasum -a 256 > "$checksum_file"
+  mv "$checksum_file" PACKAGE-SHA256SUMS
   find . -exec touch -t 197001010000 {} +
   COPYFILE_DISABLE=1 tar -cf package.tar \
     PACKAGE-SHA256SUMS config.toml execution-record.json plan.json receipt.json user-data.sh

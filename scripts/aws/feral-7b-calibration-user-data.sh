@@ -4,7 +4,7 @@ set -Eeuo pipefail
 BOOT_LOG=/var/log/feral-calibration.log
 exec > >(tee -a "$BOOT_LOG" >/dev/console) 2>&1
 systemd-run --unit=feral-emergency-shutdown --on-active=10500 /usr/sbin/shutdown -h now
-trap 'status=$?; shutdown -h now; exit "$status"' EXIT
+trap '/usr/sbin/shutdown -h now' EXIT
 
 IMDS=http://169.254.169.254/latest
 TOKEN=$(curl --fail --silent --show-error --request PUT \
@@ -14,7 +14,7 @@ metadata() {
     --header "X-aws-ec2-metadata-token: $TOKEN" "$IMDS/meta-data/$1"
 }
 tag() {
-  for attempt in $(seq 1 30); do
+  for _attempt in $(seq 1 30); do
     if value=$(metadata "tags/instance/$1" 2>/dev/null); then
       printf '%s\n' "$value"
       return 0
@@ -79,6 +79,7 @@ write_status() {
       full_training_authorized:false,adapter_export_authorized:false}' > "$STATUS"
   aws s3 cp "$STATUS" "s3://${BUCKET}/${PREFIX}/terminal-status.json" --sse AES256 --only-show-errors
 }
+# shellcheck disable=SC2329
 finish() {
   exit_code=$?
   trap - EXIT
