@@ -667,6 +667,16 @@ expectInvalid(
   transformersProfileWithoutInitialEvaluation,
 );
 
+const transformersProfileWithoutSampling = await readJson(
+  "examples/feral-7b/transformers-calibration-profile.json",
+);
+delete transformersProfileWithoutSampling.sample;
+expectInvalid(
+  "transformers-execution-profile.schema.json",
+  "Transformers profile without a sampling contract",
+  transformersProfileWithoutSampling,
+);
+
 const representationAudit = await readJson(
   "examples/diagnostics/exp-008-representation-audit.json",
 );

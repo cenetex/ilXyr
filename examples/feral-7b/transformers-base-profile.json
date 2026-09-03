@@ -1,7 +1,7 @@
 {
   "schema": "ilxyr.transformers_execution_profile.v1",
   "id": "profile://transformers/feral-7b/base-profile/v1",
-  "revision": 1,
+  "revision": 2,
   "state": "draft",
   "purpose": "base_profile",
   "experiment_id": "feral-7b.sec-analysis.v2",
@@ -14,12 +14,12 @@
   },
   "implementation": {
     "repository": "https://github.com/atimics/runner-watch",
-    "revision": "f9da7c83ad87b702b9e075222b6370273865b932",
-    "entrypoint": "ml/sec-qwen/src/sec_qwen/evaluation.py:evaluate_model",
-    "source_sha256": "2cfe98a3820051e8fc85b45fe45962c7dfbc9e062a3200d10766f5bbf913b458",
-    "source_config_sha256": "cc1e4bc62f7243fe4d285329bbc83346c364e2df6f132cd34375ca7f1b9106fc",
-    "config_sha256": null,
-    "dependency_lock_sha256": "d58786f40bf2dcf85ffb807eff96da698e291892cd4d2a388c6d6f5534c0fa9a"
+    "revision": "974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8",
+    "entrypoint": "ml/sec-qwen/src/sec_qwen/evaluation.py:profile_base_model",
+    "source_sha256": "61c0c710b178a0dba760bd3adaf2c0ff363cc466ad1415d8c35e535809051e38",
+    "source_config_sha256": "446b09dcab14a9d320ad1e49fed8f90e5cb1332fc5e6ae3627ddbe6c94795693",
+    "config_sha256": "2f1b2df8bf58ad40e3339fde6b4041e799e5b31a54cee6c9745ce2095e2282b4",
+    "dependency_lock_sha256": "82dbb7b4d4982f722155e6e9ba625dc303ef05aa70034f797b877a82535aa3c2"
   },
   "software": {
     "python": null,
@@ -50,7 +50,7 @@
     "torch_dtype": "bfloat16",
     "attention_backend": "sdpa",
     "mask_backend": "transformers.masking_utils.sdpa_mask",
-    "device_map": null,
+    "device_map": "auto",
     "use_cache": true,
     "cache_implementation": "dynamic",
     "gradient_checkpointing": false,
@@ -64,19 +64,24 @@
     "num_beams": 1,
     "batch_size": 2
   },
+  "sample": {
+    "fraction": 0.01,
+    "selection": "lowest-sha256-example-id-v1",
+    "splits": ["data/validation.jsonl"]
+  },
   "data": {
     "corpus_ref": "dataset://braid/feral-7b-sec/v1",
     "materialization_ref": "artifact://sha256/b43f6b676af3e0e1ce1a4cd400cd3e7004c6fc6d048fe405b9742d326cde3732",
     "input_view_ref": null,
     "input_view_sha256": null,
-    "train_split": "train.jsonl",
-    "validation_split": "validation.jsonl",
+    "train_split": "data/train.jsonl",
+    "validation_split": "data/validation.jsonl",
     "max_sequence_length": 8192,
     "truncation": "right_to_max_sequence_length",
     "padding": "left_to_longest_in_batch_with_eos",
     "label_mask": "targets_for_scoring_only",
     "chat_template_sha256": null,
-    "collator_sha256": "2cfe98a3820051e8fc85b45fe45962c7dfbc9e062a3200d10766f5bbf913b458"
+    "collator_sha256": "61c0c710b178a0dba760bd3adaf2c0ff363cc466ad1415d8c35e535809051e38"
   },
   "adapter": { "method": "none" },
   "determinism": {
@@ -94,9 +99,6 @@
     "base-profile.json"
   ],
   "unresolved": [
-    "implementation.config_sha256",
-    "implementation.dataset_binding",
-    "implementation.explicit_runtime_settings",
     "implementation.profile_measurements",
     "software.python",
     "environment.executor_environment_ref",
@@ -105,7 +107,6 @@
     "environment.hardware.count",
     "environment.hardware.driver_version",
     "environment.hardware.runtime_version",
-    "runtime.device_map",
     "generation.resolved_config_sha256",
     "data.input_view_ref",
     "data.input_view_sha256",
