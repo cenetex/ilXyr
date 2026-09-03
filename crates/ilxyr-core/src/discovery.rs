@@ -789,7 +789,7 @@ mod tests {
         let status = registry.status("project://ilxyr/feral-7b").expect("status");
         assert_eq!(status.project.lifecycle_state, LifecycleState::Blocked);
         assert!(status.running.is_empty());
-        assert_eq!(status.completed.len(), 3);
+        assert_eq!(status.completed.len(), 4);
         assert!(
             status
                 .completed
@@ -808,6 +808,15 @@ mod tests {
                 .iter()
                 .any(|stage| stage.stage_id == "corpus_materialization")
         );
+        assert!(
+            status
+                .completed
+                .iter()
+                .any(|stage| stage.stage_id == "trainer_image")
+        );
+        assert!(status.project.stages.iter().any(|stage| {
+            stage.stage_id == "calibration_approval" && stage.state == LifecycleState::Planned
+        }));
         assert!(status.blocked.is_empty());
         assert!(
             status
