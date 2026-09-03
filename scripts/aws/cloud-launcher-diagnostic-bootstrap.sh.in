@@ -320,7 +320,7 @@ report = {
     "run_ref": context["run_ref"],
     "outputs": outputs,
     "attestation": {
-        "payload_type": "application/vnd.in-toto.provenance+json",
+        "payloadType": "application/vnd.in-toto.provenance+json",
         "payload": context["payload"],
         "signatures": [{
             "keyid": "key://cenetex/cloud-launcher-diagnostic/v1",
