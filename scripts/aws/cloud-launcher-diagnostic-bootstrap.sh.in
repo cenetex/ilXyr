@@ -1,0 +1,339 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+LOG=/var/log/ilxyr-cloud-launcher-diagnostic.log
+exec > >(tee -a "$LOG" >/dev/console) 2>&1
+
+systemd-run --quiet --unit=ilxyr-cloud-launcher-watchdog --on-active=360 \
+  /usr/sbin/shutdown -h now
+
+IMDS=http://169.254.169.254/latest
+TOKEN=$(curl --fail --silent --show-error --request PUT \
+  --header 'X-aws-ec2-metadata-token-ttl-seconds: 21600' "$IMDS/api/token")
+metadata() {
+  curl --fail --silent --show-error \
+    --header "X-aws-ec2-metadata-token: $TOKEN" "$IMDS/meta-data/$1"
+}
+tag() {
+  local name=$1
+  local attempt
+  for attempt in $(seq 1 30); do
+    if metadata "tags/instance/$name" 2>/dev/null; then
+      return 0
+    fi
+    sleep 1
+  done
+  echo "AWS tag is unavailable: $name" >&2
+  return 1
+}
+
+INSTANCE_ID=$(metadata instance-id)
+IMAGE_ID=$(metadata ami-id)
+ROLE=$(metadata iam/security-credentials/)
+CREDENTIALS=$(metadata "iam/security-credentials/$ROLE")
+export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN
+AWS_ACCESS_KEY_ID=$(python3 -c 'import json,sys; print(json.load(sys.stdin)["AccessKeyId"])' <<<"$CREDENTIALS")
+AWS_SECRET_ACCESS_KEY=$(python3 -c 'import json,sys; print(json.load(sys.stdin)["SecretAccessKey"])' <<<"$CREDENTIALS")
+AWS_SESSION_TOKEN=$(python3 -c 'import json,sys; print(json.load(sys.stdin)["Token"])' <<<"$CREDENTIALS")
+export AWS_REGION=us-east-1
+
+PACKAGE_BUCKET=$(tag PackageBucket)
+PACKAGE_KEY=$(tag PackageKey)
+PACKAGE_SHA256=$(tag PackageSha256)
+RESULT_BUCKET=$(tag ResultBucket)
+RESULT_PREFIX=$(tag ResultPrefix)
+AUTHORIZATION_REF=$(tag AuthorizationRef)
+RESERVATION_REF=$(tag ReservationRef)
+JOB_PACKAGE_REF=$(tag JobPackageRef)
+ENVIRONMENT_REF=$(tag EnvironmentRef)
+EXPECTED_EXECUTOR=$(tag ExpectedExecutor)
+MAX_RUNTIME_SECONDS=$(tag MaxRuntimeSeconds)
+WATCHDOG_GRACE_SECONDS=$(tag WatchdogGraceSeconds)
+RESULT_KEY_PREFIX="${RESULT_PREFIX%/}/${INSTANCE_ID}"
+
+install -d -m 0700 /opt/ilxyr/host
+install -d -m 0755 /opt/ilxyr/bin
+
+cat > /opt/ilxyr/host/s3.py <<'PY'
+import datetime
+import hashlib
+import hmac
+import os
+import pathlib
+import sys
+import urllib.parse
+import urllib.request
+
+method, bucket, key, path = sys.argv[1:]
+region = os.environ["AWS_REGION"]
+access_key = os.environ["AWS_ACCESS_KEY_ID"]
+secret_key = os.environ["AWS_SECRET_ACCESS_KEY"]
+session_token = os.environ["AWS_SESSION_TOKEN"]
+body = pathlib.Path(path).read_bytes() if method == "PUT" else b""
+payload_hash = hashlib.sha256(body).hexdigest()
+now = datetime.datetime.now(datetime.timezone.utc)
+amz_date = now.strftime("%Y%m%dT%H%M%SZ")
+date = now.strftime("%Y%m%d")
+host = f"{bucket}.s3.{region}.amazonaws.com"
+uri = urllib.parse.quote("/" + key, safe="/-_.~")
+headers = {
+    "host": host,
+    "x-amz-content-sha256": payload_hash,
+    "x-amz-date": amz_date,
+    "x-amz-security-token": session_token,
+}
+signed_headers = ";".join(sorted(headers))
+canonical_headers = "".join(f"{name}:{headers[name]}\n" for name in sorted(headers))
+canonical_request = "\n".join(
+    [method, uri, "", canonical_headers, signed_headers, payload_hash]
+)
+scope = f"{date}/{region}/s3/aws4_request"
+string_to_sign = "\n".join(
+    ["AWS4-HMAC-SHA256", amz_date, scope, hashlib.sha256(canonical_request.encode()).hexdigest()]
+)
+
+def sign(key, message):
+    return hmac.new(key, message.encode(), hashlib.sha256).digest()
+
+date_key = sign(("AWS4" + secret_key).encode(), date)
+region_key = sign(date_key, region)
+service_key = sign(region_key, "s3")
+signing_key = sign(service_key, "aws4_request")
+signature = hmac.new(signing_key, string_to_sign.encode(), hashlib.sha256).hexdigest()
+authorization = (
+    f"AWS4-HMAC-SHA256 Credential={access_key}/{scope}, "
+    f"SignedHeaders={signed_headers}, Signature={signature}"
+)
+request = urllib.request.Request(f"https://{host}{uri}", data=body if method == "PUT" else None, method=method)
+for name, value in headers.items():
+    request.add_header(name, value)
+request.add_header("Authorization", authorization)
+with urllib.request.urlopen(request, timeout=20) as response:
+    data = response.read()
+if method == "GET":
+    pathlib.Path(path).write_bytes(data)
+PY
+
+s3() {
+  python3 /opt/ilxyr/host/s3.py "$@"
+}
+now_ms() {
+  python3 -c 'import time; print(time.time_ns() // 1000000)'
+}
+
+write_status() {
+  local state=$1
+  python3 - "$state" "$INSTANCE_ID" "$AUTHORIZATION_REF" "$JOB_PACKAGE_REF" <<'PY' \
+    > /opt/ilxyr/host/status.json
+import json
+import sys
+import time
+state, instance_id, authorization_ref, package_ref = sys.argv[1:]
+json.dump({
+    "schema": "ilxyr.aws_execution_status.v1",
+    "provider_instance_id": instance_id,
+    "authorization_ref": authorization_ref,
+    "job_package_ref": package_ref,
+    "state": state,
+    "updated_at_ms": time.time_ns() // 1000000,
+}, sys.stdout, sort_keys=True, separators=(",", ":"))
+PY
+  s3 PUT "$RESULT_BUCKET" "$RESULT_KEY_PREFIX/status.json" /opt/ilxyr/host/status.json
+}
+
+finish() {
+  local status=$?
+  trap - EXIT
+  set +e
+  if [ "$status" -ne 0 ]; then
+    write_status failed
+  fi
+  /usr/sbin/shutdown -h now
+  exit "$status"
+}
+trap finish EXIT
+
+test "$MAX_RUNTIME_SECONDS" = 300
+test "$WATCHDOG_GRACE_SECONDS" = 60
+write_status running
+
+s3 GET "$PACKAGE_BUCKET" "$PACKAGE_KEY" /opt/ilxyr/host/package.json
+test "$(sha256sum /opt/ilxyr/host/package.json | cut -d' ' -f1)" = "$PACKAGE_SHA256"
+
+for attempt in $(seq 1 60); do
+  if s3 GET "$RESULT_BUCKET" "$RESULT_KEY_PREFIX/launch-receipt.json" \
+    /opt/ilxyr/host/launch-receipt.json 2>/dev/null; then
+    break
+  fi
+  sleep 1
+done
+test -s /opt/ilxyr/host/launch-receipt.json
+
+python3 - "$AUTHORIZATION_REF" "$RESERVATION_REF" "$JOB_PACKAGE_REF" \
+  "$ENVIRONMENT_REF" <<'PY'
+import json
+import sys
+path = "/opt/ilxyr/host/launch-receipt.json"
+receipt = json.load(open(path, encoding="utf-8"))
+fields = ["authorization_ref", "reservation_ref", "job_package_ref", "environment_ref"]
+for name, expected in zip(fields, sys.argv[1:]):
+    if receipt.get(name) != expected:
+        raise SystemExit(f"launch receipt mismatch: {name}")
+PY
+
+printf '%s' '__ILXYR_DIAGNOSTIC_PROGRAM_B64__' | base64 --decode \
+  > /opt/ilxyr/bin/executable
+chmod 0755 /opt/ilxyr/bin/executable
+EXPECTED_EXECUTABLE_SHA=$(python3 -c 'import json; print(json.load(open("/opt/ilxyr/host/package.json"))["executable"]["sha256"])')
+test "$(sha256sum /opt/ilxyr/bin/executable | cut -d' ' -f1)" = "$EXPECTED_EXECUTABLE_SHA"
+
+STARTED_AT_MS=$(now_ms)
+OUTPUT=$(timeout 30s systemd-run --quiet --pipe --wait --collect \
+  --unit=ilxyr-cloud-launcher-job \
+  -p DynamicUser=yes \
+  -p PrivateNetwork=yes \
+  -p PrivateTmp=yes \
+  -p ProtectSystem=strict \
+  -p ProtectHome=yes \
+  -p NoNewPrivileges=yes \
+  -p PrivateDevices=yes \
+  -p ProtectKernelTunables=yes \
+  -p ProtectKernelModules=yes \
+  -p ProtectControlGroups=yes \
+  -p MemoryDenyWriteExecute=yes \
+  -p RestrictAddressFamilies=AF_UNIX \
+  /opt/ilxyr/bin/executable --frozen)
+COMPLETED_AT_MS=$(now_ms)
+test "$OUTPUT" = '{"metrics":{"score":0.82}}'
+
+printf '%s' '{"score":0.82}' > /opt/ilxyr/host/metrics.json
+s3 PUT "$RESULT_BUCKET" "$RESULT_KEY_PREFIX/metrics.json" /opt/ilxyr/host/metrics.json
+
+printf '%s' '__ILXYR_DIAGNOSTIC_SIGNING_KEY_B64__' | base64 --decode \
+  > /opt/ilxyr/host/signing-key.pem
+chmod 0600 /opt/ilxyr/host/signing-key.pem
+
+export INSTANCE_ID IMAGE_ID AUTHORIZATION_REF JOB_PACKAGE_REF ENVIRONMENT_REF
+export EXPECTED_EXECUTOR STARTED_AT_MS COMPLETED_AT_MS RESULT_BUCKET RESULT_KEY_PREFIX
+python3 <<'PY'
+import base64
+import hashlib
+import json
+import os
+import pathlib
+
+root = pathlib.Path("/opt/ilxyr/host")
+canonical = lambda value: json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+digest = lambda value: hashlib.sha256(canonical(value)).hexdigest()
+artifact = lambda value: "artifact://sha256/" + digest(value)
+receipt = json.loads((root / "launch-receipt.json").read_text())
+package = json.loads((root / "package.json").read_text())
+launch_ref = artifact(receipt)
+metrics_bytes = (root / "metrics.json").read_bytes()
+run = {
+    "schema": "ilxyr.run.v1",
+    "id": "run:cloud.launcher.diagnostic.v1",
+    "experiment_id": "cloud.launcher.diagnostic.v1",
+    "started_at_ms": int(os.environ["STARTED_AT_MS"]),
+    "completed_at_ms": int(os.environ["COMPLETED_AT_MS"]),
+    "exit_code": 0,
+    "timed_out": False,
+    "stdout": "",
+    "stderr": "",
+    "output_truncated": False,
+    "metrics": {"score": 0.82},
+}
+outputs = [{
+    "name": "metrics.score",
+    "uri": f's3://{os.environ["RESULT_BUCKET"]}/{os.environ["RESULT_KEY_PREFIX"]}/metrics.json',
+    "sha256": hashlib.sha256(metrics_bytes).hexdigest(),
+    "size_bytes": len(metrics_bytes),
+}]
+run_ref = artifact(run)
+statement = {
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [{"name": "ilxyr run record", "digest": {"sha256": digest(run)}}],
+    "predicateType": "https://slsa.dev/provenance/v1",
+    "predicate": {
+        "buildDefinition": {
+            "buildType": "https://ilxyr.dev/buildtypes/remote-execution/v1",
+            "externalParameters": {
+                "ilxyrRunRef": run_ref,
+                "ilxyrJobPackageRef": os.environ["JOB_PACKAGE_REF"],
+                "ilxyrEnvironmentRef": os.environ["ENVIRONMENT_REF"],
+                "ilxyrAuthorizationRef": os.environ["AUTHORIZATION_REF"],
+                "ilxyrLaunchRef": launch_ref,
+                "ilxyrOutputsRef": artifact(outputs),
+                "ilxyrProviderInstanceId": os.environ["INSTANCE_ID"],
+                "ilxyrMachineImageId": os.environ["IMAGE_ID"],
+                "ilxyrMachineImageSha256": package["provider"]["image_sha256"],
+            },
+            "resolvedDependencies": [],
+        },
+        "runDetails": {
+            "builder": {"id": os.environ["EXPECTED_EXECUTOR"]},
+            "metadata": {"invocationId": launch_ref},
+        },
+    },
+}
+payload = canonical(statement)
+payload_type = "application/vnd.in-toto.provenance+json"
+pae = f"DSSEv1 {len(payload_type)} {payload_type} {len(payload)} ".encode() + payload
+(root / "run.json").write_bytes(canonical(run))
+(root / "outputs.json").write_bytes(canonical(outputs))
+(root / "statement.json").write_bytes(payload)
+(root / "pae.bin").write_bytes(pae)
+context = {
+    "launch_ref": launch_ref,
+    "run_ref": run_ref,
+    "payload": base64.b64encode(payload).decode(),
+}
+(root / "context.json").write_bytes(canonical(context))
+PY
+
+openssl pkeyutl -sign -rawin -inkey /opt/ilxyr/host/signing-key.pem \
+  -in /opt/ilxyr/host/pae.bin -out /opt/ilxyr/host/signature.bin
+shred -u /opt/ilxyr/host/signing-key.pem
+
+python3 <<'PY' > /opt/ilxyr/host/execution-report.json
+import base64
+import json
+import os
+import sys
+context = json.load(open("/opt/ilxyr/host/context.json", encoding="utf-8"))
+package = json.load(open("/opt/ilxyr/host/package.json", encoding="utf-8"))
+run = json.load(open("/opt/ilxyr/host/run.json", encoding="utf-8"))
+outputs = json.load(open("/opt/ilxyr/host/outputs.json", encoding="utf-8"))
+signature = base64.b64encode(open("/opt/ilxyr/host/signature.bin", "rb").read()).decode()
+report = {
+    "schema": "ilxyr.execution_report.v1",
+    "job_package_ref": os.environ["JOB_PACKAGE_REF"],
+    "authorization_ref": os.environ["AUTHORIZATION_REF"],
+    "launch_ref": context["launch_ref"],
+    "environment_ref": os.environ["ENVIRONMENT_REF"],
+    "executor": {"id": os.environ["EXPECTED_EXECUTOR"], "kind": "service"},
+    "provider_instance_id": os.environ["INSTANCE_ID"],
+    "machine_image_id": os.environ["IMAGE_ID"],
+    "machine_image_sha256": package["provider"]["image_sha256"],
+    "run": run,
+    "run_ref": context["run_ref"],
+    "outputs": outputs,
+    "attestation": {
+        "payloadType": "application/vnd.in-toto.provenance+json",
+        "payload": context["payload"],
+        "signatures": [{
+            "keyid": "key://cenetex/cloud-launcher-diagnostic/v1",
+            "sig": signature,
+        }],
+    },
+    "reported_at_ms": int(os.environ["COMPLETED_AT_MS"]) + 1,
+}
+json.dump(report, sys.stdout, sort_keys=True, separators=(",", ":"))
+PY
+
+s3 PUT "$RESULT_BUCKET" "$RESULT_KEY_PREFIX/execution-report.json" \
+  /opt/ilxyr/host/execution-report.json
+write_status succeeded
+trap - EXIT
+/usr/sbin/shutdown -h now

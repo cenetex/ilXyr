@@ -1,0 +1,20 @@
+{
+  "schema": "ilxyr.remote_preflight.v1",
+  "adapter": "aws-ec2-v1",
+  "executor": {
+    "id": "service://cenetex/cloud-launcher-diagnostic/v1",
+    "kind": "service"
+  },
+  "environment_ref": "artifact://sha256/16806f15da532858ecf2244026458330dfde08b34f838e46556bc0558224118e",
+  "job_package_ref": "artifact://sha256/4f143224e5ec93b77c151da258f026a419089d0640897b77464e38b03a48b726",
+  "provider": {
+    "provider": "aws",
+    "region": "us-east-1",
+    "machine_type": "c6i.large",
+    "architecture": "x86_64",
+    "image_id": "ami-0ab0461f645928576",
+    "image_sha256": "d9b8b763c83a082e14f925b85cfef3247a8d12a30995b23af3439fc9a6275507",
+    "storage_gib": 8
+  },
+  "checked_at_ms": 1788466102848
+}

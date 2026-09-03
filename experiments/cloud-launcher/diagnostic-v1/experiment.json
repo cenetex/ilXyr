@@ -1,0 +1,90 @@
+{
+  "schema": "ilxyr.experiment.v1",
+  "id": "cloud.launcher.diagnostic.v1",
+  "title": "AWS cloud launcher diagnostic",
+  "hypothesis": "The AWS launcher returns one signed report with score 0.82.",
+  "rationale": "Test the general cloud launch path with a small fixed public job.",
+  "proposer": {
+    "id": "model://toy/research-director",
+    "kind": "model",
+    "model_ref": "model://toy/research-director/v1"
+  },
+  "lineage": {
+    "hypothesis": "toy.hypothesis.v1",
+    "mathematical_foundation": "toy.foundation.v1",
+    "engineering_review": "toy.engineering_review.v1",
+    "experiment_design": "toy.experiment_design.v1"
+  },
+  "baseline": "baseline://cloud-launcher/score-v1",
+  "datasets": ["dataset://cloud-launcher/fixed-score-v1"],
+  "models": ["weight://cloud-launcher/public-fixed-v1"],
+  "metrics": [
+    {
+      "name": "score",
+      "unit": "ratio",
+      "description": "Fixed score returned by the diagnostic program."
+    }
+  ],
+  "seeds": [17],
+  "outcome_contract": {
+    "primary_metric": "score",
+    "success_outcome": "success",
+    "outcomes": [
+      {
+        "id": "success",
+        "description": "The signed report contains score 0.82.",
+        "predicate": {
+          "kind": "metric",
+          "metric": "score",
+          "operator": "gte",
+          "threshold": 0.82
+        }
+      },
+      {
+        "id": "below_threshold",
+        "description": "The reported score is below 0.82.",
+        "predicate": {
+          "kind": "metric",
+          "metric": "score",
+          "operator": "lt",
+          "threshold": 0.82
+        }
+      },
+      {
+        "id": "execution_failure",
+        "description": "The cloud program exits with an error or reaches its time limit.",
+        "predicate": {"kind": "execution_failure"}
+      }
+    ]
+  },
+  "execution": {
+    "executor": "remote-v1",
+    "program": "/opt/ilxyr/bin/executable",
+    "args": ["--frozen"],
+    "timeout_seconds": 300,
+    "max_cost_credits": 10,
+    "network": "denied"
+  },
+  "funding": {
+    "required_compute_credits": 10,
+    "minimum_forecasters": 2,
+    "minimum_total_stake": 10
+  },
+  "security": {
+    "weight_class": "public",
+    "code_policy": "approved_image_only",
+    "export_policy": "metrics_only"
+  },
+  "evidence_authority": {
+    "level": "deterministic_replay",
+    "scope": {
+      "seeds": [17],
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [],
+      "checker": "checker://ilxyr/cloud-launcher-diagnostic/v1"
+    }
+  },
+  "expected_outputs": ["metrics.score", "resolved_outcome", "forecast_settlements"]
+}

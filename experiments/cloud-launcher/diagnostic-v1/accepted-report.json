@@ -1,0 +1,24 @@
+{
+  "schema": "ilxyr.accepted_remote_report.v1",
+  "experiment_id": "cloud.launcher.diagnostic.v1",
+  "report_ref": "artifact://sha256/6f6c3e0de79629d982fc7c223d65b9f7799fb5d390ef984ece0a08e11b499d3d",
+  "verified": {
+    "schema": "ilxyr.verified_execution_report.v1",
+    "report_ref": "artifact://sha256/6f6c3e0de79629d982fc7c223d65b9f7799fb5d390ef984ece0a08e11b499d3d",
+    "job_package_ref": "artifact://sha256/4f143224e5ec93b77c151da258f026a419089d0640897b77464e38b03a48b726",
+    "environment_ref": "artifact://sha256/16806f15da532858ecf2244026458330dfde08b34f838e46556bc0558224118e",
+    "authorization_ref": "artifact://sha256/75bc961f20c44246cc68cc586654161708fc09b99d10330c00dc9f3204a62174",
+    "launch_ref": "artifact://sha256/89ace66700e3b656fcb496e188b560ce9a05e382fe0e4ca3ad0fcbfd6915b276",
+    "run_ref": "artifact://sha256/abe1695664909c31187ed2a15c4ad52d555da00b3ea6f2d9fa3ddfd0f5fe587e",
+    "executor": {
+      "id": "service://cenetex/cloud-launcher-diagnostic/v1",
+      "kind": "service"
+    },
+    "verified_key_ids": [
+      "key://cenetex/cloud-launcher-diagnostic/v1"
+    ],
+    "verification_policy": "https://ilxyr.dev/policies/remote-execution-report/v1"
+  },
+  "resolved_outcome": "success",
+  "accepted_at_ms": 1788466009651
+}

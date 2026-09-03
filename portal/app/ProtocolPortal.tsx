@@ -11,7 +11,14 @@ type EnvironmentItem = {
   readonly source: string;
   readonly note: string;
 };
-type ResultItem = { readonly id: string; readonly experiment_id: string; readonly run_ref: string };
+type ResultItem = {
+  readonly id: string;
+  readonly experiment_id: string;
+  readonly run_ref: string;
+  readonly outcome: string;
+  readonly score: number;
+  readonly url: string;
+};
 type ExperimentItem = {
   readonly id: string;
   readonly title: string;
@@ -78,7 +85,7 @@ function words(value: string) {
 function experimentTone(status: string) {
   const normalized = status.toLowerCase();
   if (normalized.includes("no-go")) return "no-go";
-  if (normalized.includes("go")) return "go";
+  if (normalized.includes("go") || normalized.includes("success")) return "go";
   if (normalized.includes("active") || normalized.includes("continue")) return "active";
   return "pending";
 }
@@ -105,9 +112,12 @@ export function ProtocolPortal({
   const [apiState, setApiState] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const readyCount = status.filter((item) =>
-    ["available_for_public_weight_experiments", "implemented", "implemented_with_fake_node"].includes(
-      item.value,
-    ),
+    [
+      "available_for_public_weight_experiments",
+      "implemented",
+      "implemented_with_fake_node",
+      "live_diagnostic_passed",
+    ].includes(item.value),
   ).length;
   const activeProtocol = protocolSteps.find((step) => step.id === activeStep) ?? protocolSteps[0];
   const selectedRoute = routes.find((route) => route.path === activeRoute) ?? routes[0];
@@ -174,7 +184,7 @@ export function ProtocolPortal({
       <section className="status-strip" aria-label="System status">
         <div><span>01 / Local executor</span><strong>Available</strong></div>
         <div><span>02 / Remote verifier</span><strong>Implemented</strong></div>
-        <div><span>03 / Cloud launcher</span><strong>Implemented</strong></div>
+        <div><span>03 / Cloud launcher</span><strong>Live trial passed</strong></div>
       </section>
 
       <section className="protocol-section section-block" id="protocol">
@@ -318,7 +328,7 @@ export function ProtocolPortal({
 
         <div className="boundary-grid">
           <div className="boundary-card">
-            <span className="card-label">Reference environment</span>
+            <span className="card-label">Execution environments</span>
             {environments.map((environment) => (
               <div key={environment.id}>
                 <a href={environment.source}><code>{environment.id}</code> ↗</a>
@@ -336,7 +346,12 @@ export function ProtocolPortal({
             {results.length === 0 ? (
               <p>Verified remote results: 0. The first verified result will appear here.</p>
             ) : (
-              results.map((result) => <p key={result.id}>{result.experiment_id} — {result.run_ref}</p>)
+              results.map((result) => (
+                <p key={result.id}>
+                  <a href={result.url}>{result.experiment_id}</a><br />
+                  {result.outcome} · score {result.score}
+                </p>
+              ))
             )}
           </div>
           <div className="boundary-card warning-card">

@@ -1,0 +1,49 @@
+{
+  "schema": "ilxyr.execution_report.v1",
+  "job_package_ref": "artifact://sha256/4f143224e5ec93b77c151da258f026a419089d0640897b77464e38b03a48b726",
+  "authorization_ref": "artifact://sha256/75bc961f20c44246cc68cc586654161708fc09b99d10330c00dc9f3204a62174",
+  "launch_ref": "artifact://sha256/89ace66700e3b656fcb496e188b560ce9a05e382fe0e4ca3ad0fcbfd6915b276",
+  "environment_ref": "artifact://sha256/16806f15da532858ecf2244026458330dfde08b34f838e46556bc0558224118e",
+  "executor": {
+    "id": "service://cenetex/cloud-launcher-diagnostic/v1",
+    "kind": "service"
+  },
+  "provider_instance_id": "i-063967e75c99d82c8",
+  "machine_image_id": "ami-0ab0461f645928576",
+  "machine_image_sha256": "d9b8b763c83a082e14f925b85cfef3247a8d12a30995b23af3439fc9a6275507",
+  "run": {
+    "schema": "ilxyr.run.v1",
+    "id": "run:cloud.launcher.diagnostic.v1",
+    "experiment_id": "cloud.launcher.diagnostic.v1",
+    "started_at_ms": 1788465889259,
+    "completed_at_ms": 1788465889320,
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout": "",
+    "stderr": "",
+    "output_truncated": false,
+    "metrics": {
+      "score": 0.82
+    }
+  },
+  "run_ref": "artifact://sha256/abe1695664909c31187ed2a15c4ad52d555da00b3ea6f2d9fa3ddfd0f5fe587e",
+  "outputs": [
+    {
+      "name": "metrics.score",
+      "uri": "s3://zero-training-022118847419/experiments/cloud-launcher-diagnostic-v1/runs/v1/i-063967e75c99d82c8/metrics.json",
+      "sha256": "bf6808c3bcfdef5f6f77b6c80ca380eb339e80640fa433b5e026589f4822b171",
+      "size_bytes": 14
+    }
+  ],
+  "attestation": {
+    "payloadType": "application/vnd.in-toto.provenance+json",
+    "payload": "eyJfdHlwZSI6Imh0dHBzOi8vaW4tdG90by5pby9TdGF0ZW1lbnQvdjEiLCJwcmVkaWNhdGUiOnsiYnVpbGREZWZpbml0aW9uIjp7ImJ1aWxkVHlwZSI6Imh0dHBzOi8vaWx4eXIuZGV2L2J1aWxkdHlwZXMvcmVtb3RlLWV4ZWN1dGlvbi92MSIsImV4dGVybmFsUGFyYW1ldGVycyI6eyJpbHh5ckF1dGhvcml6YXRpb25SZWYiOiJhcnRpZmFjdDovL3NoYTI1Ni83NWJjOTYxZjIwYzQ0MjQ2Y2M2OGNjNTg2NjU0MTYxNzA4ZmMwOWI5OWQxMDMzMGMwMGRjOWYzMjA0YTYyMTc0IiwiaWx4eXJFbnZpcm9ubWVudFJlZiI6ImFydGlmYWN0Oi8vc2hhMjU2LzE2ODA2ZjE1ZGE1MzI4NThlY2YyMjQ0MDI2NDU4MzMwZGZkZTA4YjM0ZjgzOGU0NjU1NmJjMDU1ODIyNDExOGUiLCJpbHh5ckpvYlBhY2thZ2VSZWYiOiJhcnRpZmFjdDovL3NoYTI1Ni80ZjE0MzIyNGU1ZWM5M2I3N2MxNTFkYTI1OGYwMjZhNDE5MDg5ZDA2NDA4OTdiNzc0NjRlMzhiMDNhNDhiNzI2IiwiaWx4eXJMYXVuY2hSZWYiOiJhcnRpZmFjdDovL3NoYTI1Ni84OWFjZTY2NzAwZTNiNjU2ZmNiNDk2ZTE4OGI1NjBjZTlhMDVlMzgyZmUwZTRjYTNhZDBmY2JmZDY5MTViMjc2IiwiaWx4eXJNYWNoaW5lSW1hZ2VJZCI6ImFtaS0wYWIwNDYxZjY0NTkyODU3NiIsImlseHlyTWFjaGluZUltYWdlU2hhMjU2IjoiZDliOGI3NjNjODNhMDgyZTE0ZjkyNWI4NWNmZWYzMjQ3YThkMTJhMzA5OTViMjNhZjM0MzlmYzlhNjI3NTUwNyIsImlseHlyT3V0cHV0c1JlZiI6ImFydGlmYWN0Oi8vc2hhMjU2LzE3YzVhNTdiOGZlYjZjZTk1NTc5MDM1Nzk4ZTExOWIxY2M1ZjdmMjA4NzZhYWI5NTM2NGUxMzljZWUwNDlhNTIiLCJpbHh5clByb3ZpZGVySW5zdGFuY2VJZCI6ImktMDYzOTY3ZTc1Yzk5ZDgyYzgiLCJpbHh5clJ1blJlZiI6ImFydGlmYWN0Oi8vc2hhMjU2L2FiZTE2OTU2NjQ5MDljMzExODdlZDJhMTVjNGFkNTJkNTU1ZGEwMGIzZWE2ZjJkOWZhM2RkZmQwZjVmZTU4N2UifSwicmVzb2x2ZWREZXBlbmRlbmNpZXMiOltdfSwicnVuRGV0YWlscyI6eyJidWlsZGVyIjp7ImlkIjoic2VydmljZTovL2NlbmV0ZXgvY2xvdWQtbGF1bmNoZXItZGlhZ25vc3RpYy92MSJ9LCJtZXRhZGF0YSI6eyJpbnZvY2F0aW9uSWQiOiJhcnRpZmFjdDovL3NoYTI1Ni84OWFjZTY2NzAwZTNiNjU2ZmNiNDk2ZTE4OGI1NjBjZTlhMDVlMzgyZmUwZTRjYTNhZDBmY2JmZDY5MTViMjc2In19fSwicHJlZGljYXRlVHlwZSI6Imh0dHBzOi8vc2xzYS5kZXYvcHJvdmVuYW5jZS92MSIsInN1YmplY3QiOlt7ImRpZ2VzdCI6eyJzaGEyNTYiOiJhYmUxNjk1NjY0OTA5YzMxMTg3ZWQyYTE1YzRhZDUyZDU1NWRhMDBiM2VhNmYyZDlmYTNkZGZkMGY1ZmU1ODdlIn0sIm5hbWUiOiJpbHh5ciBydW4gcmVjb3JkIn1dfQ==",
+    "signatures": [
+      {
+        "keyid": "key://cenetex/cloud-launcher-diagnostic/v1",
+        "sig": "dk7A3elXQbf3mKKGF7hFh0exG9I3zulT4AZ18xToXl97jRvrGkJVPgw+/mviAiQ2Ur1Wrukpa4Gdkc76ubssCg=="
+      }
+    ]
+  },
+  "reported_at_ms": 1788465889321
+}
