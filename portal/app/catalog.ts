@@ -1,6 +1,7 @@
 export const repository = "https://github.com/cenetex/ilXyr";
 export const guide = "https://cenetex.github.io/ilXyr";
 export const remoteProtocolCommit = "d246dcaa06669f7db1479c85bbbd6310f613f4a3";
+export const cloudDiagnosticCommit = "b6fdbd6c5f6fcda11839009ce2cbb527f0ac9b82";
 
 export const publicRoutes = [
   { method: "GET", path: "/.well-known/ilxyr.json", description: "discover the public protocol and reporting status" },
@@ -137,7 +138,7 @@ export const protocolDocuments = [
   {
     id: "cloud-launcher-diagnostic",
     title: "first AWS cloud launcher result",
-    url: `${repository}/blob/main/docs/experiments/CLOUD-LAUNCHER-DIAGNOSTIC.md`,
+    url: `${repository}/blob/${cloudDiagnosticCommit}/docs/experiments/CLOUD-LAUNCHER-DIAGNOSTIC.md`,
   },
   { id: "schemas", title: "JSON schemas", url: `${repository}/tree/main/schemas` },
   { id: "security", title: "security boundary", url: `${repository}/blob/main/docs/SECURITY.md` },
@@ -174,7 +175,7 @@ export const executionEnvironments = [
     manifest_ref: "artifact://sha256/16806f15da532858ecf2244026458330dfde08b34f838e46556bc0558224118e",
     conformance_ref: "artifact://sha256/691184bd80dd32ebc792a8c2ba349bcc8c22850629eb97b4f7a2b02a2b00bb92",
     verified_results: 1,
-    source: `${repository}/tree/main/experiments/cloud-launcher/diagnostic-v1`,
+    source: `${repository}/tree/${cloudDiagnosticCommit}/experiments/cloud-launcher/diagnostic-v1`,
     note: "This environment returned one signed AWS result. ilXyr verified the report and recorded score 0.82.",
   },
 ] as const;
@@ -199,7 +200,7 @@ export const verifiedExecutionResults: readonly VerifiedExecutionResult[] = [
     verification_summary_ref: "artifact://sha256/6f6c3e0de79629d982fc7c223d65b9f7799fb5d390ef984ece0a08e11b499d3d",
     outcome: "success",
     score: 0.82,
-    url: `${repository}/blob/main/experiments/cloud-launcher/diagnostic-v1/accepted-report.json`,
+    url: `${repository}/blob/${cloudDiagnosticCommit}/experiments/cloud-launcher/diagnostic-v1/accepted-report.json`,
   },
 ];
 
@@ -259,6 +260,6 @@ export const experiments = [
     id: "CLOUD-LAUNCHER-DIAGNOSTIC-V1",
     title: "first AWS cloud launcher result",
     status: "success · score 0.82",
-    url: `${repository}/blob/main/docs/experiments/CLOUD-LAUNCHER-DIAGNOSTIC.md`,
+    url: `${repository}/blob/${cloudDiagnosticCommit}/docs/experiments/CLOUD-LAUNCHER-DIAGNOSTIC.md`,
   },
 ] as const;
