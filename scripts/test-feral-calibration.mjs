@@ -57,8 +57,14 @@ try {
   assert.equal(existsSync(marker), false);
   const dry = run("dry-run");
   assert.equal(dry.status, 0, dry.stderr);
-  const args = readFileSync(marker, "utf8");
-  for (const value of ["--dry-run", "g6e.2xlarge", "ami-0d3378afe7683c867", "HttpTokens=required", "Encrypted=true", "terminate"]) assert.ok(args.includes(value));
+  const fixedSubnetArgs = readFileSync(marker, "utf8");
+  for (const value of ["--dry-run", "g6e.2xlarge", "ami-0d3378afe7683c867", "HttpTokens=required", "Encrypted=true", "terminate", "--network-interfaces", "SubnetId=subnet-123abc"]) assert.ok(fixedSubnetArgs.includes(value));
+  const automatic = run("dry-run", { FERAL_SUBNET_ID: "auto" });
+  assert.equal(automatic.status, 0, automatic.stderr);
+  const automaticArgs = readFileSync(marker, "utf8");
+  for (const value of ["--dry-run", "--security-group-ids", "sg-123abc"]) assert.ok(automaticArgs.includes(value));
+  for (const value of ["--network-interfaces", "SubnetId="]) assert.equal(automaticArgs.includes(value), false);
+  assert.equal(run("dry-run", { FERAL_SUBNET_ID: "automatic" }).status, 1);
   assert.equal(run("launch", { FERAL_APPROVAL_ID: "feral-7b-calibration-test", FERAL_APPROVED_PACKAGE_SHA256: "a".repeat(64), FERAL_APPROVED_MAX_USD: "7" }).status, 0);
 } finally {
   rmSync(temporary, { recursive: true, force: true });

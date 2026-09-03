@@ -48,7 +48,7 @@ Their base-model results remain gates for the full training experiment and relea
 2. Deploy `scripts/aws/feral-7b-calibration.yaml` with the existing VPC ID.
 3. Build the archive with `bash scripts/aws/feral-7b-calibration-package.sh OUTPUT_PACKAGE`.
 4. Store it at `packages/SHA256.tar.gz` with AES256 encryption. Record its S3 version and read-back hash.
-5. Verify the AWS account, machine image, instance shape, quota, subnet, security group, role, and price.
+5. Verify the AWS account, machine image, instance shape, quota, subnet selection mode, security group, role, and price.
 6. Run `feral-7b-calibration-run-instance.sh dry-run` with the exact package fields.
 7. Present the package SHA-256 and USD 7 cap for human approval.
 8. Record the approval ID, approved package hash, and approved USD limit. Launch the single attempt.
@@ -56,6 +56,8 @@ Their base-model results remain gates for the full training experiment and relea
 
 The launch command requires `FERAL_APPROVAL_ID`, `FERAL_APPROVED_PACKAGE_SHA256`, and
 `FERAL_APPROVED_MAX_USD=7`. The bootstrap script checks its own hash against the package.
+Set `FERAL_SUBNET_ID` to a verified subnet ID for a fixed zone. Set it to `auto` only with the
+default VPC security group so EC2 can choose an available default subnet in the approved region.
 The host arms its shutdown timer before setup. The container has private mounts and isolated networking.
 The AWS role has read access to the exact training prefix and write access to the calibration result prefix.
 SSM supplies the host management channel.

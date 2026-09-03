@@ -8,7 +8,12 @@ for name in FERAL_SUBNET_ID FERAL_SECURITY_GROUP_ID FERAL_PACKAGE_KEY \
   FERAL_PLAN_SHA256 FERAL_CONFIG_SHA256 FERAL_USER_DATA_SHA256 FERAL_RUN_ID FERAL_LAUNCH_EPOCH; do
   test -n "${!name:-}" || { echo "$name is required" >&2; exit 1; }
 done
-[[ "$FERAL_SUBNET_ID" =~ ^subnet-[0-9a-f]+$ ]]
+if [ "$FERAL_SUBNET_ID" = auto ]; then
+  network_arguments=(--security-group-ids "$FERAL_SECURITY_GROUP_ID")
+else
+  [[ "$FERAL_SUBNET_ID" =~ ^subnet-[0-9a-f]+$ ]] || { echo "FERAL_SUBNET_ID must be auto or a subnet ID" >&2; exit 1; }
+  network_arguments=(--network-interfaces "DeviceIndex=0,SubnetId=${FERAL_SUBNET_ID},Groups=${FERAL_SECURITY_GROUP_ID},AssociatePublicIpAddress=true,DeleteOnTermination=true")
+fi
 [[ "$FERAL_SECURITY_GROUP_ID" =~ ^sg-[0-9a-f]+$ ]]
 [[ "$FERAL_RUN_ID" =~ ^[0-9]{8}T[0-9]{6}Z$ ]]
 [[ "$FERAL_ILXYR_COMMIT" =~ ^[0-9a-f]{40}$ ]]
@@ -34,7 +39,7 @@ arguments=(
   --instance-type g6e.2xlarge
   --count 1
   --iam-instance-profile Name=ilxyr-feral-7b-calibration-ec2
-  --network-interfaces "DeviceIndex=0,SubnetId=${FERAL_SUBNET_ID},Groups=${FERAL_SECURITY_GROUP_ID},AssociatePublicIpAddress=true,DeleteOnTermination=true"
+  "${network_arguments[@]}"
   --instance-initiated-shutdown-behavior terminate
   --metadata-options "HttpTokens=required,HttpEndpoint=enabled,InstanceMetadataTags=enabled"
   --block-device-mappings 'DeviceName=/dev/xvda,Ebs={VolumeSize=150,VolumeType=gp3,DeleteOnTermination=true,Encrypted=true}'
