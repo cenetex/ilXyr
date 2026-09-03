@@ -57,6 +57,7 @@ await rejectMutation(frozenTraining, (record) => { record.software.python = ">=3
 await rejectMutation(frozenTraining, (record) => { record.model.repo_id = "wrong/model"; }, /handle must match/);
 await rejectMutation(frozenTraining, (record) => { record.trainer.eval_on_start = false; }, /schema failed/);
 await rejectMutation(frozenTraining, (record) => { record.execution_authorized = true; }, /schema failed/);
+await rejectMutation(frozenTraining, (record) => { record.sample.splits = ["data/other.jsonl"]; }, /sampled split/);
 await rejectMutation(frozenTraining, (record) => { record.runtime.compile.enabled = true; }, /Compile state/);
 await rejectMutation(frozenTraining, (record) => { record.runtime.cache_implementation = "dynamic"; }, /Cache state/);
 await rejectMutation(frozenBase, (record) => { record.determinism.persistent_workers = true; }, /positive worker count/);

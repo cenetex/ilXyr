@@ -65,6 +65,10 @@ export const checkResearchProfile = async (record) => {
     if (record.determinism.dataloader_workers === 0 && record.determinism.persistent_workers) {
       throw new Error("Persistent data-loader workers require a positive worker count");
     }
+    const declaredSplits = new Set([record.data.train_split, record.data.validation_split]);
+    if (record.sample.splits.some((split) => !declaredSplits.has(split))) {
+      throw new Error("Every sampled split must be declared by the profile");
+    }
     boundDigest(record.data.input_view_ref, record.data.input_view_sha256, "The input view");
     if (record.state === "frozen") {
       exactRef(record.data.input_view_ref, "The input view");

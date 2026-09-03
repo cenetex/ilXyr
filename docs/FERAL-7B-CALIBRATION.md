@@ -1,9 +1,13 @@
-# FERAL-7B calibration approval
+# FERAL-7B calibration preparation
 
-The next decision is one bounded calibration attempt. Its proposed budget is USD 7.
-The exact plan is in [`feral-7b-calibration-plan.json`](../examples/feral-7b/feral-7b-calibration-plan.json).
+The next compute decision is one bounded calibration attempt. Its proposed budget is USD 7.
+The current plan preserves the earlier immutable image binding in
+[`feral-7b-calibration-plan.json`](../examples/feral-7b/feral-7b-calibration-plan.json).
+Before approval, publish the receipt-enabled Runner Watch revision
+`974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8`, then regenerate the plan and package around its image
+digest.
 
-## Frozen inputs
+## Current draft inputs
 
 | Item | Value |
 | --- | --- |
@@ -44,15 +48,18 @@ Their base-model results remain gates for the full training experiment and relea
 
 ## Approval path
 
-1. Merge the package code after its checks pass.
-2. Deploy `scripts/aws/feral-7b-calibration.yaml` with the existing VPC ID.
-3. Build the archive with `bash scripts/aws/feral-7b-calibration-package.sh OUTPUT_PACKAGE`.
-4. Store it at `packages/SHA256.tar.gz` with AES256 encryption. Record its S3 version and read-back hash.
-5. Verify the AWS account, machine image, instance shape, quota, subnet, security group, role, and price.
-6. Run `feral-7b-calibration-run-instance.sh dry-run` with the exact package fields.
-7. Present the package SHA-256 and USD 7 cap for human approval.
-8. Record the approval ID, approved package hash, and approved USD limit. Launch the single attempt.
-9. Collect the terminal record and verify instance termination. Import the small result records through a PR.
+1. Publish the receipt-enabled Runner Watch image from revision
+   `974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8`.
+2. Update the plan and config bindings to that image and revision.
+3. Merge the refreshed package code after its checks pass.
+4. Deploy `scripts/aws/feral-7b-calibration.yaml` with the existing VPC ID.
+5. Build the archive with `bash scripts/aws/feral-7b-calibration-package.sh OUTPUT_PACKAGE`.
+6. Store it at `packages/SHA256.tar.gz` with AES256 encryption. Record its S3 version and read-back hash.
+7. Verify the AWS account, machine image, instance shape, quota, subnet, security group, role, and price.
+8. Run `feral-7b-calibration-run-instance.sh dry-run` with the exact package fields.
+9. Present the package SHA-256 and USD 7 cap for human approval.
+10. Record the approval ID, approved package hash, and approved USD limit. Launch the single attempt.
+11. Collect the terminal record and verify instance termination. Import the small result records through a PR.
 
 The launch command requires `FERAL_APPROVAL_ID`, `FERAL_APPROVED_PACKAGE_SHA256`, and
 `FERAL_APPROVED_MAX_USD=7`. The bootstrap script checks its own hash against the package.

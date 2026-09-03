@@ -86,6 +86,7 @@ records the run-changing factors that often live in library defaults:
   compile settings;
 - optimizer, scheduler, batch shape, initial evaluation, and save/evaluation
   strategy;
+- sample fraction, stable selection rule, and sampled splits;
 - tokenizer revision, chat-template digest, training view, truncation,
   padding, label mask, and collator digest;
 - LoRA settings; and
@@ -108,10 +109,13 @@ The prepared FERAL-7B
 [`one-percent LoRA calibration profile`](../examples/feral-7b/transformers-calibration-profile.json)
 bind Transformers 5.16.1, source revision
 `93c8b7b485963a10800c91f55304db6be211c2bd`, the exact Qwen revision, the
-Runner Watch trainer revision and file digests, PEFT 0.20.0, and the planned
+Runner Watch revision `974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8` and file digests,
+PEFT 0.20.0, and the planned
 LoRA recipe. Their open lists give the path to two frozen checks. The base
-check establishes quality, memory, and generation timing. The LoRA check
-measures the real training path for the full-run cost estimate.
+check runs first. It establishes quality, memory, and generation timing. The
+private LoRA check then measures the real training path for the full-run cost
+estimate. Both runs emit exact config, data-view, chat-template, software,
+environment, requested device-map, resolved device-map, timing, and memory receipts.
 
 Check either draft with:
 
@@ -140,7 +144,7 @@ revision = "4e14e0ee3d5b6936dfd3dd0fa7454d9118fe88c5"
 model = AutoModelForCausalLM.from_pretrained(
     repo_id,
     revision=revision,
-    torch_dtype="auto",
+    dtype="auto",
     device_map="auto",
 )
 tokenizer = AutoTokenizer.from_pretrained(repo_id, revision=revision)

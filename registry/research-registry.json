@@ -293,20 +293,20 @@
           "visibility": "public"
         },
         {
-          "artifact_id": "artifact://sha256/ddc3d71401a344e4ce4f6c502557b0317ca8169b12d80f9cbd19d8e1d4fa615f",
+          "artifact_id": "artifact://sha256/37ca0ac47d5689b240497c190103852ed4a2903501fa2d424e0139648330ed2a",
           "experiment_id": "feral-7b.sec-analysis.v2",
           "kind": "transformers_execution_profile_draft",
-          "digest": "ddc3d71401a344e4ce4f6c502557b0317ca8169b12d80f9cbd19d8e1d4fa615f",
+          "digest": "37ca0ac47d5689b240497c190103852ed4a2903501fa2d424e0139648330ed2a",
           "uri": "https://github.com/cenetex/ilXyr/blob/main/examples/feral-7b/transformers-calibration-profile.json",
           "source_revision": null,
           "evidence": "verified",
           "visibility": "public"
         },
         {
-          "artifact_id": "artifact://sha256/65fac260b2c417e726f4686aa615a6e98c7bbe650105e056ca7653fff1e9daa2",
+          "artifact_id": "artifact://sha256/d9098995ce12b985d7212e85ab3db3521eba4a8bde9a67fa236374d049243042",
           "experiment_id": "feral-7b.sec-analysis.v2",
           "kind": "transformers_execution_profile_draft",
-          "digest": "65fac260b2c417e726f4686aa615a6e98c7bbe650105e056ca7653fff1e9daa2",
+          "digest": "d9098995ce12b985d7212e85ab3db3521eba4a8bde9a67fa236374d049243042",
           "uri": "https://github.com/cenetex/ilXyr/blob/main/examples/feral-7b/transformers-base-profile.json",
           "source_revision": null,
           "evidence": "verified",

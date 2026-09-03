@@ -1,7 +1,7 @@
 {
   "schema": "ilxyr.transformers_execution_profile.v1",
   "id": "profile://transformers/feral-7b/one-percent-calibration/v1",
-  "revision": 1,
+  "revision": 2,
   "state": "draft",
   "purpose": "calibration",
   "experiment_id": "feral-7b.sec-analysis.v2",
@@ -14,12 +14,12 @@
   },
   "implementation": {
     "repository": "https://github.com/atimics/runner-watch",
-    "revision": "f9da7c83ad87b702b9e075222b6370273865b932",
+    "revision": "974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8",
     "entrypoint": "ml/sec-qwen/src/sec_qwen/training.py:train",
-    "source_sha256": "e251e6f855f16639a8be3683399ba5fd8173e1fe660adf7b08867ec8c5866aec",
-    "source_config_sha256": "cc1e4bc62f7243fe4d285329bbc83346c364e2df6f132cd34375ca7f1b9106fc",
-    "config_sha256": null,
-    "dependency_lock_sha256": "d58786f40bf2dcf85ffb807eff96da698e291892cd4d2a388c6d6f5534c0fa9a"
+    "source_sha256": "ddf56f0b5b31c593999862c0ae6af2e2aa38791a14b15a275351180e3d699366",
+    "source_config_sha256": "446b09dcab14a9d320ad1e49fed8f90e5cb1332fc5e6ae3627ddbe6c94795693",
+    "config_sha256": "2f1b2df8bf58ad40e3339fde6b4041e799e5b31a54cee6c9745ce2095e2282b4",
+    "dependency_lock_sha256": "82dbb7b4d4982f722155e6e9ba625dc303ef05aa70034f797b877a82535aa3c2"
   },
   "software": {
     "python": null,
@@ -61,11 +61,11 @@
   },
   "trainer": {
     "loop": "transformers.Trainer",
-    "optimizer": null,
-    "scheduler": null,
+    "optimizer": "adamw_torch_fused",
+    "scheduler": "linear",
     "epochs": 2.0,
     "per_device_train_batch_size": 1,
-    "per_device_eval_batch_size": 1,
+    "per_device_eval_batch_size": 2,
     "gradient_accumulation_steps": 16,
     "learning_rate": 0.0002,
     "save_strategy": "epoch",
@@ -73,19 +73,24 @@
     "eval_on_start": true
   },
   "generation": null,
+  "sample": {
+    "fraction": 0.01,
+    "selection": "lowest-sha256-example-id-v1",
+    "splits": ["data/train.jsonl", "data/validation.jsonl"]
+  },
   "data": {
     "corpus_ref": "dataset://braid/feral-7b-sec/v1",
     "materialization_ref": "artifact://sha256/b43f6b676af3e0e1ce1a4cd400cd3e7004c6fc6d048fe405b9742d326cde3732",
     "input_view_ref": null,
     "input_view_sha256": null,
-    "train_split": "train.jsonl",
-    "validation_split": "validation.jsonl",
+    "train_split": "data/train.jsonl",
+    "validation_split": "data/validation.jsonl",
     "max_sequence_length": 8192,
     "truncation": "right_to_max_sequence_length",
     "padding": "right_to_longest_in_batch_with_eos",
     "label_mask": "assistant_tokens_only_with_negative_100_prompt_and_padding",
     "chat_template_sha256": null,
-    "collator_sha256": "e251e6f855f16639a8be3683399ba5fd8173e1fe660adf7b08867ec8c5866aec"
+    "collator_sha256": "ddf56f0b5b31c593999862c0ae6af2e2aa38791a14b15a275351180e3d699366"
   },
   "adapter": {
     "method": "lora",
@@ -111,9 +116,6 @@
     "calibration-profile.json"
   ],
   "unresolved": [
-    "implementation.config_sha256",
-    "implementation.calibration_entrypoint",
-    "implementation.dataset_binding",
     "software.python",
     "environment.executor_environment_ref",
     "environment.image.digest",
@@ -121,15 +123,10 @@
     "environment.hardware.count",
     "environment.hardware.driver_version",
     "environment.hardware.runtime_version",
-    "trainer.optimizer",
-    "trainer.scheduler",
     "data.input_view_ref",
     "data.input_view_sha256",
     "data.chat_template_sha256",
-    "implementation.eval_on_start",
-    "implementation.dataloader_in_order",
-    "calibration.tokens_per_gpu_hour",
-    "calibration.gpu_hour_price"
+    "calibration.tokens_per_device_hour"
   ],
   "execution_authorized": false
 }
