@@ -103,6 +103,9 @@ const fixtures = {
   "family-manifest.schema.json": [
     "examples/experiments/zero-q26r/family.json",
   ],
+  "feral-calibration-plan.schema.json": [
+    "examples/feral-7b/feral-7b-calibration-plan.json",
+  ],
   "forecast.schema.json": [
     "examples/toy/forecast-model.json",
     "examples/toy/forecast-human.json",

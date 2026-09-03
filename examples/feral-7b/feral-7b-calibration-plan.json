@@ -1,0 +1,73 @@
+{
+  "schema": "ilxyr.feral_calibration_plan.v1",
+  "id": "feral-7b.sec-calibration.v1",
+  "status": "awaiting_human_approval",
+  "purpose": "Measure the exact corpus token counts, 1% LoRA throughput, and peak memory for a later full-training decision.",
+  "inputs": {
+    "corpus_ref": "artifact://sha256/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c",
+    "materialization_ref": "artifact://sha256/b43f6b676af3e0e1ce1a4cd400cd3e7004c6fc6d048fe405b9742d326cde3732",
+    "receipt_sha256": "03954042f4f867af612370df30adf0d35cad90c11ed0b0ba2770a32e2884cc7f",
+    "release_id": "feral-7b-sec-v1-2eb548107c0b-8d33bb95710fc4d5eb2fe9677fe8268682249551cfaef0c6f473642f7a048162",
+    "manifest_sha256": "ebada7a16eae7c836e3ece19d1154c2956367aac0c182e87898bd6f929b56103",
+    "config_sha256": "2f1b2df8bf58ad40e3339fde6b4041e799e5b31a54cee6c9745ce2095e2282b4",
+    "model_id": "Qwen/Qwen2.5-7B-Instruct",
+    "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "image": "ghcr.io/atimics/feral-7b-sec-qwen@sha256:2b4ea0f0764b431812851d97a8aafdca414db086d2d3a7e9323837bf839da361",
+    "image_source_revision": "7123f3dfc1b51beaf5db2a7caf3bbc08174ac6dd",
+    "image_build_url": "https://github.com/atimics/runner-watch/actions/runs/33595714178"
+  },
+  "sample": {
+    "fraction": 0.01,
+    "population_examples": 197738,
+    "selected_examples": 1978,
+    "selection": "lowest-sha256-example-id-v1",
+    "ids_sha256": "7ce052095f2504979df8830436cb8fe0579fa3bfd51099f1539c32bf122da13b",
+    "epochs": 2,
+    "seed": 17
+  },
+  "provider": {
+    "name": "aws_ec2",
+    "account_id": "022118847419",
+    "region": "us-east-1",
+    "instance_type": "g6e.2xlarge",
+    "architecture": "x86_64",
+    "gpu": "1 NVIDIA L40S",
+    "ami_id": "ami-0d3378afe7683c867",
+    "ami_owner": "898082745236",
+    "ami_name": "Deep Learning Base OSS Nvidia Driver GPU AMI (Amazon Linux 2023) 20260825",
+    "root_volume_gib": 150,
+    "root_volume_type": "gp3",
+    "root_volume_encrypted": true,
+    "instance_profile": "ilxyr-feral-7b-calibration-ec2",
+    "container_network": "none",
+    "result_bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1"
+  },
+  "budget": {
+    "currency": "USD",
+    "hourly_compute_usd": 2.24208,
+    "max_instance_seconds": 10800,
+    "workload_timeout_seconds": 9600,
+    "max_compute_usd": 6.73,
+    "max_infrastructure_usd": 7,
+    "price_sku": "HK3A8PU2TSC6EKP6",
+    "price_rate_code": "HK3A8PU2TSC6EKP6.JRTCKXETXF.6YS6EN2CT7",
+    "price_effective_date": "2026-08-01T00:00:00Z",
+    "retry_limit": 0,
+    "concurrency": 1
+  },
+  "expected_outputs": [
+    "profile.json",
+    "calibration/calibration.json",
+    "training-estimate.json",
+    "host.json",
+    "SHA256SUMS",
+    "terminal-status.json"
+  ],
+  "approval": {
+    "required_binding": "human approval of the exact package SHA-256 and the USD 7 ceiling",
+    "calibration_authorized": false,
+    "full_training_authorized": false,
+    "adapter_export_authorized": false,
+    "public_release_authorized": false
+  }
+}

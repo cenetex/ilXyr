@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/feral-calibration-plan.v1.json",
+  "title": "FERAL calibration approval plan v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "status", "purpose", "inputs", "sample", "provider", "budget", "expected_outputs", "approval"],
+  "properties": {
+    "schema": { "const": "ilxyr.feral_calibration_plan.v1" },
+    "id": { "const": "feral-7b.sec-calibration.v1" },
+    "status": { "const": "awaiting_human_approval" },
+    "purpose": { "type": "string", "minLength": 1 },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["corpus_ref", "materialization_ref", "receipt_sha256", "release_id", "manifest_sha256", "config_sha256", "model_id", "model_revision", "image", "image_source_revision", "image_build_url"],
+      "properties": {
+        "corpus_ref": { "$ref": "#/$defs/artifactRef" },
+        "materialization_ref": { "$ref": "#/$defs/artifactRef" },
+        "receipt_sha256": { "$ref": "#/$defs/sha256" },
+        "release_id": { "type": "string", "minLength": 1 },
+        "manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "config_sha256": { "$ref": "#/$defs/sha256" },
+        "model_id": { "const": "Qwen/Qwen2.5-7B-Instruct" },
+        "model_revision": { "const": "a09a35458c702b33eeacc393d103063234e8bc28" },
+        "image": { "type": "string", "pattern": "^ghcr\\.io/atimics/feral-7b-sec-qwen@sha256:[a-f0-9]{64}$" },
+        "image_source_revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "image_build_url": { "type": "string", "pattern": "^https://github\\.com/atimics/runner-watch/actions/runs/[0-9]+$" }
+      }
+    },
+    "sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fraction", "population_examples", "selected_examples", "selection", "ids_sha256", "epochs", "seed"],
+      "properties": {
+        "fraction": { "const": 0.01 },
+        "population_examples": { "const": 197738 },
+        "selected_examples": { "const": 1978 },
+        "selection": { "const": "lowest-sha256-example-id-v1" },
+        "ids_sha256": { "$ref": "#/$defs/sha256" },
+        "epochs": { "const": 2 },
+        "seed": { "const": 17 }
+      }
+    },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "account_id", "region", "instance_type", "architecture", "gpu", "ami_id", "ami_owner", "ami_name", "root_volume_gib", "root_volume_type", "root_volume_encrypted", "instance_profile", "container_network", "result_bucket"],
+      "properties": {
+        "name": { "const": "aws_ec2" },
+        "account_id": { "const": "022118847419" },
+        "region": { "const": "us-east-1" },
+        "instance_type": { "const": "g6e.2xlarge" },
+        "architecture": { "const": "x86_64" },
+        "gpu": { "const": "1 NVIDIA L40S" },
+        "ami_id": { "const": "ami-0d3378afe7683c867" },
+        "ami_owner": { "const": "898082745236" },
+        "ami_name": { "const": "Deep Learning Base OSS Nvidia Driver GPU AMI (Amazon Linux 2023) 20260825" },
+        "root_volume_gib": { "const": 150 },
+        "root_volume_type": { "const": "gp3" },
+        "root_volume_encrypted": { "const": true },
+        "instance_profile": { "const": "ilxyr-feral-7b-calibration-ec2" },
+        "container_network": { "const": "none" },
+        "result_bucket": { "const": "ilxyr-feral-7b-calibration-022118847419-us-east-1" }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["currency", "hourly_compute_usd", "max_instance_seconds", "workload_timeout_seconds", "max_compute_usd", "max_infrastructure_usd", "price_sku", "price_rate_code", "price_effective_date", "retry_limit", "concurrency"],
+      "properties": {
+        "currency": { "const": "USD" },
+        "hourly_compute_usd": { "const": 2.24208 },
+        "max_instance_seconds": { "const": 10800 },
+        "workload_timeout_seconds": { "const": 9600 },
+        "max_compute_usd": { "const": 6.73 },
+        "max_infrastructure_usd": { "const": 7 },
+        "price_sku": { "const": "HK3A8PU2TSC6EKP6" },
+        "price_rate_code": { "const": "HK3A8PU2TSC6EKP6.JRTCKXETXF.6YS6EN2CT7" },
+        "price_effective_date": { "const": "2026-08-01T00:00:00Z" },
+        "retry_limit": { "const": 0 },
+        "concurrency": { "const": 1 }
+      }
+    },
+    "expected_outputs": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": { "enum": ["profile.json", "calibration/calibration.json", "training-estimate.json", "host.json", "SHA256SUMS", "terminal-status.json"] }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_binding", "calibration_authorized", "full_training_authorized", "adapter_export_authorized", "public_release_authorized"],
+      "properties": {
+        "required_binding": { "const": "human approval of the exact package SHA-256 and the USD 7 ceiling" },
+        "calibration_authorized": { "const": false },
+        "full_training_authorized": { "const": false },
+        "adapter_export_authorized": { "const": false },
+        "public_release_authorized": { "const": false }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "artifactRef": { "type": "string", "pattern": "^artifact://sha256/[a-f0-9]{64}$" }
+  }
+}

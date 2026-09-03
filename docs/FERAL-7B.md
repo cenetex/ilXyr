@@ -36,28 +36,26 @@ not a Season 00 training input.
 3. **Complete:** every imported file plus each `release.json` is in private, versioned,
    access-logged S3 storage and has a read-back verified receipt. See
    [`FERAL-7B-MATERIALIZATION.md`](FERAL-7B-MATERIALIZATION.md).
-4. Run Runner Watch's manual FERAL image workflow with a digest-pinned GPU base image. Publishing
-   must be explicitly selected. Record the resulting complete OCI digest.
+4. **Complete:** Runner Watch published the fixed trainer image at
+   `ghcr.io/atimics/feral-7b-sec-qwen@sha256:2b4ea0f0764b431812851d97a8aafdca414db086d2d3a7e9323837bf839da361`.
 5. Resolve and freeze the
    [`base-only profile`](../examples/feral-7b/transformers-base-profile.json) and
    [`one-percent LoRA calibration profile`](../examples/feral-7b/transformers-calibration-profile.json).
-   They bind the model, source references, package and lock digests, data rules, and seeds.
-   Resolve their final code and config, image, hardware, Python, input views, tokenizer,
-   runtime settings, measurements, and price items.
-6. Replace only the corpus artifact and OCI placeholders in the v2 experiment draft. Submit the
+   The profiles bind the model, source references, package and lock digests, data rules, and seeds.
+   The calibration plan binds the exact image, provider, sample, settings, time, and price ceiling.
+6. Prepare the 1% calibration package. Verify the AWS preflight and present its exact package hash
+   with the USD 7 cap. See [`FERAL-7B-CALIBRATION.md`](FERAL-7B-CALIBRATION.md). The run supplies
+   tokenizer counts, measured LoRA throughput, memory, and the full-training cost estimate.
+7. Replace the corpus artifact and OCI placeholders in the v2 experiment draft. Submit the
    four named research contributions, compile the experiment, and run its remaining base-model
-   evaluations.
-7. Select one provider adapter and collect a live quote. Record the base-only check as a separate
-   attempt. Then record the 1% LoRA calibration with a private adapter. Full training requires a
-   later explicit authorization.
+   evaluations. Use the base-only profile on the same image and hardware.
 
-The base-only check measures loading, generation, memory, and development quality. The LoRA
-calibration measures gradients, checkpointing, optimizer work, and training throughput. Use its
-timing for the full-training cost estimate. Keep both passes on the same image and hardware.
-The calibration adapter is a private diagnostic artifact; the full run owns the release candidate.
+The base-only check measures loading, generation, memory, and development quality. The 1% LoRA
+calibration measures gradients, checkpointing, optimizer work, and training throughput. Its timing
+supplies the full-training cost estimate. The calibration exports measurement records. The later
+full run owns the release candidate.
 
-No setup step above grants training authority. ilXyr must continue to report zero spend and no
-dispatch until the corpus, image, evaluation, provider, quote, and approval gates all resolve.
+Calibration, full training, and public release each have their own approval boundary.
 
 ## Registered Season 00 release metadata
 
