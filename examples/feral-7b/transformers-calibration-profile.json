@@ -1,0 +1,135 @@
+{
+  "schema": "ilxyr.transformers_execution_profile.v1",
+  "id": "profile://transformers/feral-7b/one-percent-calibration/v1",
+  "revision": 1,
+  "state": "draft",
+  "purpose": "calibration",
+  "experiment_id": "feral-7b.sec-analysis.v2",
+  "model": {
+    "weight_ref": "weight://huggingface/Qwen/Qwen2.5-7B-Instruct@a09a35458c702b33eeacc393d103063234e8bc28",
+    "repo_id": "Qwen/Qwen2.5-7B-Instruct",
+    "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "tokenizer_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "trust_remote_code": false
+  },
+  "implementation": {
+    "repository": "https://github.com/atimics/runner-watch",
+    "revision": "f9da7c83ad87b702b9e075222b6370273865b932",
+    "entrypoint": "ml/sec-qwen/src/sec_qwen/training.py:train",
+    "source_sha256": "e251e6f855f16639a8be3683399ba5fd8173e1fe660adf7b08867ec8c5866aec",
+    "source_config_sha256": "cc1e4bc62f7243fe4d285329bbc83346c364e2df6f132cd34375ca7f1b9106fc",
+    "config_sha256": null,
+    "dependency_lock_sha256": "d58786f40bf2dcf85ffb807eff96da698e291892cd4d2a388c6d6f5534c0fa9a"
+  },
+  "software": {
+    "python": null,
+    "torch": "2.13.0",
+    "transformers": {
+      "version": "5.16.1",
+      "source_revision": "93c8b7b485963a10800c91f55304db6be211c2bd",
+      "distribution_sha256": "2f2d5b98a5ad3718713653734298fa620754ed683702a635ebb587df3ed29c7e"
+    },
+    "accelerate": "1.14.0",
+    "peft": "0.20.0",
+    "safetensors": "0.8.0"
+  },
+  "environment": {
+    "executor_environment_ref": null,
+    "image": {
+      "repository": "ghcr.io/atimics/feral-7b-sec-qwen",
+      "digest": null
+    },
+    "hardware": {
+      "accelerator": null,
+      "count": null,
+      "driver_version": null,
+      "runtime_version": null
+    }
+  },
+  "runtime": {
+    "torch_dtype": "bfloat16",
+    "attention_backend": "sdpa",
+    "mask_backend": "transformers.masking_utils.sdpa_mask",
+    "device_map": "accelerate_single_process",
+    "use_cache": false,
+    "cache_implementation": "disabled",
+    "gradient_checkpointing": true,
+    "compile": {
+      "enabled": false,
+      "backend": null
+    }
+  },
+  "trainer": {
+    "loop": "transformers.Trainer",
+    "optimizer": null,
+    "scheduler": null,
+    "epochs": 2.0,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 1,
+    "gradient_accumulation_steps": 16,
+    "learning_rate": 0.0002,
+    "save_strategy": "epoch",
+    "eval_strategy": "epoch",
+    "eval_on_start": true
+  },
+  "generation": null,
+  "data": {
+    "corpus_ref": "dataset://braid/feral-7b-sec/v1",
+    "materialization_ref": "artifact://sha256/b43f6b676af3e0e1ce1a4cd400cd3e7004c6fc6d048fe405b9742d326cde3732",
+    "input_view_ref": null,
+    "input_view_sha256": null,
+    "train_split": "train.jsonl",
+    "validation_split": "validation.jsonl",
+    "max_sequence_length": 8192,
+    "truncation": "right_to_max_sequence_length",
+    "padding": "right_to_longest_in_batch_with_eos",
+    "label_mask": "assistant_tokens_only_with_negative_100_prompt_and_padding",
+    "chat_template_sha256": null,
+    "collator_sha256": "e251e6f855f16639a8be3683399ba5fd8173e1fe660adf7b08867ec8c5866aec"
+  },
+  "adapter": {
+    "method": "lora",
+    "rank": 32,
+    "alpha": 64,
+    "dropout": 0.05,
+    "bias": "none",
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+  },
+  "determinism": {
+    "seed": 17,
+    "data_seed": 17,
+    "dataloader_workers": 4,
+    "dataloader_in_order": true,
+    "persistent_workers": true,
+    "deterministic_algorithms": true,
+    "warn_only": true
+  },
+  "outputs": [
+    "private-calibration-adapter.tar",
+    "run-manifest.json",
+    "training-metrics.json",
+    "calibration-profile.json"
+  ],
+  "unresolved": [
+    "implementation.config_sha256",
+    "implementation.calibration_entrypoint",
+    "implementation.dataset_binding",
+    "software.python",
+    "environment.executor_environment_ref",
+    "environment.image.digest",
+    "environment.hardware.accelerator",
+    "environment.hardware.count",
+    "environment.hardware.driver_version",
+    "environment.hardware.runtime_version",
+    "trainer.optimizer",
+    "trainer.scheduler",
+    "data.input_view_ref",
+    "data.input_view_sha256",
+    "data.chat_template_sha256",
+    "implementation.eval_on_start",
+    "implementation.dataloader_in_order",
+    "calibration.tokens_per_gpu_hour",
+    "calibration.gpu_hour_price"
+  ],
+  "execution_authorized": false
+}

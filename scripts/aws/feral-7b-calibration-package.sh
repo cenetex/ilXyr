@@ -4,8 +4,8 @@ set -Eeuo pipefail
 test "$#" = 1 || { echo "usage: $0 OUTPUT_PACKAGE" >&2; exit 1; }
 output=$1
 test ! -e "$output" || { echo "choose a fresh output path" >&2; exit 1; }
-plan=examples/feral/feral-7b-calibration-plan.json
-config=examples/feral/feral-7b-calibration-config.toml
+plan=examples/feral-7b/feral-7b-calibration-plan.json
+config=examples/feral-7b/feral-7b-calibration-config.toml
 receipt=examples/corpus/feral-7b-s3-materialization.json
 user_data=scripts/aws/feral-7b-calibration-user-data.sh
 

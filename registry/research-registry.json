@@ -237,7 +237,7 @@
           "experiment_id": "feral-7b.sec-analysis.v2",
           "kind": "calibration_approval_plan",
           "digest": "2a40099696b6185154e9eb810d9b8aad525e9ee93b19b60a2a85c19c69e22941",
-          "uri": "https://github.com/cenetex/ilXyr/blob/main/examples/feral/feral-7b-calibration-plan.json",
+          "uri": "https://github.com/cenetex/ilXyr/blob/main/examples/feral-7b/feral-7b-calibration-plan.json",
           "source_revision": null,
           "evidence": "recorded",
           "visibility": "public"
@@ -288,6 +288,26 @@
           "kind": "corpus_rights_review",
           "digest": "4e418931e456d72e4ec0b6817202dad174e795c9d8e05e14fb1582d0441c8f42",
           "uri": "https://github.com/cenetex/ilXyr/blob/main/examples/corpus/feral-7b-rights-review.json",
+          "source_revision": null,
+          "evidence": "verified",
+          "visibility": "public"
+        },
+        {
+          "artifact_id": "artifact://sha256/ddc3d71401a344e4ce4f6c502557b0317ca8169b12d80f9cbd19d8e1d4fa615f",
+          "experiment_id": "feral-7b.sec-analysis.v2",
+          "kind": "transformers_execution_profile_draft",
+          "digest": "ddc3d71401a344e4ce4f6c502557b0317ca8169b12d80f9cbd19d8e1d4fa615f",
+          "uri": "https://github.com/cenetex/ilXyr/blob/main/examples/feral-7b/transformers-calibration-profile.json",
+          "source_revision": null,
+          "evidence": "verified",
+          "visibility": "public"
+        },
+        {
+          "artifact_id": "artifact://sha256/65fac260b2c417e726f4686aa615a6e98c7bbe650105e056ca7653fff1e9daa2",
+          "experiment_id": "feral-7b.sec-analysis.v2",
+          "kind": "transformers_execution_profile_draft",
+          "digest": "65fac260b2c417e726f4686aa615a6e98c7bbe650105e056ca7653fff1e9daa2",
+          "uri": "https://github.com/cenetex/ilXyr/blob/main/examples/feral-7b/transformers-base-profile.json",
           "source_revision": null,
           "evidence": "verified",
           "visibility": "public"
@@ -409,9 +429,12 @@
           "stage_id": "tokenizer_profile",
           "title": "Exact tokenizer and throughput profile",
           "state": "planned",
-          "evidence": "missing",
-          "refs": [],
-          "detail": "The separate calibration attempt will produce the exact full-corpus tokenizer profile, measured 1% throughput, memory use, and full-training cost estimate. Its planned infrastructure cap is USD 7."
+          "evidence": "recorded",
+          "refs": [
+            "artifact://sha256/65fac260b2c417e726f4686aa615a6e98c7bbe650105e056ca7653fff1e9daa2",
+            "artifact://sha256/ddc3d71401a344e4ce4f6c502557b0317ca8169b12d80f9cbd19d8e1d4fa615f"
+          ],
+          "detail": "Two validated drafts bind the base-only check and one-percent LoRA calibration. The exact approval plan adds the published image, AWS L40S shape, 1,978-example sample, three-hour deadline, and USD 7 cap. The calibration will supply tokenizer counts, measured throughput, memory use, and the full-training cost estimate."
         },
         {
           "stage_id": "baseline_evaluations",
@@ -481,7 +504,7 @@
           "requirement_id": "missing://feral-7b/profile",
           "title": "Tokenizer, throughput, and cost profile",
           "blocks_stage": "tokenizer_profile",
-          "detail": "Profile the exact corpus, tokenizer, image, hardware, and provider price."
+          "detail": "Resolve and freeze both Transformers profiles. Run the base-only check first, then the private one-percent LoRA calibration on the selected image and hardware. Use the LoRA timing with the provider quote for the full-training estimate."
         },
         {
           "requirement_id": "missing://feral-7b/baselines",

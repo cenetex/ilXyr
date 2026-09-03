@@ -8,11 +8,11 @@ import Ajv2020 from "ajv/dist/2020.js";
 
 const read = (path) => JSON.parse(readFileSync(path, "utf8"));
 const sha = (path) => createHash("sha256").update(readFileSync(path)).digest("hex");
-const plan = read("examples/feral/feral-7b-calibration-plan.json");
+const plan = read("examples/feral-7b/feral-7b-calibration-plan.json");
 const schema = read("schemas/feral-calibration-plan.schema.json");
 const validate = new Ajv2020({ strict: true, allErrors: true }).compile(schema);
 assert.ok(validate(plan), JSON.stringify(validate.errors));
-assert.equal(sha("examples/feral/feral-7b-calibration-config.toml"), plan.inputs.config_sha256);
+assert.equal(sha("examples/feral-7b/feral-7b-calibration-config.toml"), plan.inputs.config_sha256);
 assert.equal(sha("examples/corpus/feral-7b-s3-materialization.json"), plan.inputs.receipt_sha256);
 assert.equal(Math.ceil(plan.sample.population_examples * plan.sample.fraction), plan.sample.selected_examples);
 assert.ok(plan.budget.hourly_compute_usd * plan.budget.max_instance_seconds / 3600 <= plan.budget.max_compute_usd);

@@ -1,7 +1,7 @@
 # FERAL-7B calibration approval
 
 The next decision is one bounded calibration attempt. Its proposed budget is USD 7.
-The exact plan is in [`feral-7b-calibration-plan.json`](../examples/feral/feral-7b-calibration-plan.json).
+The exact plan is in [`feral-7b-calibration-plan.json`](../examples/feral-7b/feral-7b-calibration-plan.json).
 
 ## Frozen inputs
 

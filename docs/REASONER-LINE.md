@@ -56,3 +56,10 @@ answers, and lookup, fixed-adapter, task-label, and scrambled-example controls.
 
 No such contract exists in this registration. Governance therefore records
 the Reasoner line as active with `active_experiment: null`.
+
+The prepared
+[`Reasoner 4.0 representation-transfer preflight`](../examples/diagnostics/reasoner-4-representation-audit.json)
+turns the first boundary into a reviewable draft. It tests typed-role signal on
+held-out surface forms with shuffled-example, header-only, random-projection,
+and role-swap controls. A stable result opens an exact adapter contract. The
+future sealed law-composition panel stays outside this preflight.

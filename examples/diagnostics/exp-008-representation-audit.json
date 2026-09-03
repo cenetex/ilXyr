@@ -1,0 +1,132 @@
+{
+  "schema": "ilxyr.representation_audit.v1",
+  "id": "audit://representation/solomon/exp-008/v1",
+  "revision": 1,
+  "state": "draft",
+  "title": "EXP-008 frozen feature sufficiency audit",
+  "lineage": "solomon/q22-compositional-routing",
+  "question": "Does the frozen 8,192-feature representation retain stable operation evidence across held-out template families and distractor swaps?",
+  "source": {
+    "experiment_id": "solomon.q22-compositional-routing.three-seed.v1",
+    "model_refs": [
+      "artifact://sha256/7e65210bc40be1728007a8b8ba9bf5c05983779e44dbaab8b240e533e51dec07",
+      "artifact://sha256/e73196d52784c2928e65326a50de035c7c9ffd19d79e96029bc0557acbbcc688",
+      "artifact://sha256/8c8f620ba4e8cca5b9e3503753523007d1f37b15eda14eb9b9e2bf0a3989da56"
+    ],
+    "source_revision": "fa60312f93ec859e42a57f383f5972b8df4cf807",
+    "evidence_refs": [
+      "https://github.com/atimics/nsrl/tree/df244eb414e68ad97c7bcce228b6129522e9a969/benchmarks/q22-compositional-solomon-prospective-v1",
+      "artifact://sha256/c3b826685fc004fbc9b69a3a8ee539987522c1d3bf61e6e8d7c251147b394900"
+    ]
+  },
+  "execution_profile_ref": null,
+  "execution_profile_sha256": null,
+  "inputs": {
+    "fit_split": {
+      "id": "exp-008-training",
+      "ref": "artifact://sha256/1f997d174ea1e3f3675612e24ecced15f8145abd29819e532b2f890f36245e8f",
+      "sha256": "1f997d174ea1e3f3675612e24ecced15f8145abd29819e532b2f890f36245e8f",
+      "role": "probe_fit",
+      "grouping_axes": ["operation", "template_family", "seed"]
+    },
+    "evaluation_splits": [
+      {
+        "id": "exp-008-opened-promotion",
+        "ref": "artifact://sha256/42902d61d9edc2ceb5a33875deddbdd9e9b523b06fb1aa13a22249acbf2983fe",
+        "sha256": "42902d61d9edc2ceb5a33875deddbdd9e9b523b06fb1aa13a22249acbf2983fe",
+        "role": "diagnostic_evaluation",
+        "grouping_axes": ["operation", "template_family", "seed"]
+      },
+      {
+        "id": "exp-008-distractor-swap-panel",
+        "ref": "artifact://pending/exp-008-distractor-swap-panel",
+        "sha256": null,
+        "role": "diagnostic_evaluation",
+        "grouping_axes": ["operation", "template_family", "distractor_operation", "seed"]
+      }
+    ],
+    "split_firewall": "Fit probe weights and select regularization on training templates only. Opened promotion labels may score the diagnostic. The audit may not select or update a source model."
+  },
+  "representations": [
+    {
+      "id": "solomon-hashed-input-features",
+      "source_kind": "feature_vector",
+      "selector": "signed first-token, token, positioned-token, and byte 1-4-gram counts before the class head",
+      "pooling": "none",
+      "dimension": 8192,
+      "artifact_ref": null,
+      "artifact_sha256": null,
+      "trainable": false
+    }
+  ],
+  "capture": {
+    "implementation_ref": null,
+    "implementation_sha256": null,
+    "source_state": "frozen",
+    "gradient_tracking": false
+  },
+  "probe": {
+    "estimator": "multinomial_logistic_regression",
+    "implementation_ref": null,
+    "implementation_sha256": null,
+    "maximum_trainable_parameters": 40965,
+    "standardization": "fit_split_mean_variance",
+    "regularization_grid": [0.0001, 0.001, 0.01, 0.1, 1.0],
+    "selection_method": "group_cross_validation_within_fit_split",
+    "selection_folds": 5,
+    "fit_split_only": true
+  },
+  "controls": {
+    "label_shuffle": { "runs": 20, "within_group": false },
+    "prefix_only": { "input_scope": "shared command prefix only" },
+    "random_projection": { "dimensions": [256, 1024], "seeds": [1, 2, 3] },
+    "swap_test": { "enabled": true, "axes": ["distractor_operation", "template_family"] }
+  },
+  "metrics": [
+    { "name": "overall_operation_accuracy", "category": "overall", "operator": "gte", "threshold": 800000, "unit": "ppm", "required": true },
+    { "name": "worst_operation_accuracy", "category": "group", "operator": "gte", "threshold": 650000, "unit": "ppm", "required": true },
+    { "name": "cross_seed_prediction_agreement", "category": "stability", "operator": "gte", "threshold": 900000, "unit": "ppm", "required": true },
+    { "name": "distractor_swap_consistency", "category": "stability", "operator": "gte", "threshold": 800000, "unit": "ppm", "required": true },
+    { "name": "label_shuffle_accuracy", "category": "control", "operator": "lte", "threshold": 300000, "unit": "ppm", "required": true },
+    { "name": "margin_over_prefix_only", "category": "control", "operator": "gte", "threshold": 300000, "unit": "ppm", "required": true }
+  ],
+  "decision_table": {
+    "stable_signal": {
+      "condition": "Every required metric passes on every seed.",
+      "interpretation": "The fixed representation carries stable operation evidence. The failed class head or objective is the next target.",
+      "next_allowed": ["objective_successor"]
+    },
+    "localized_signal": {
+      "condition": "Overall accuracy and all controls pass while a group, seed, or swap metric fails.",
+      "interpretation": "The representation carries local signal and remains sensitive to template or distractor context.",
+      "next_allowed": ["representation_successor", "objective_successor"]
+    },
+    "insufficient_signal": {
+      "condition": "All controls pass and overall accuracy fails.",
+      "interpretation": "The tested probe family gives limited support for a new head on the fixed feature map.",
+      "next_allowed": ["representation_successor", "data_review"]
+    },
+    "invalid_controls": {
+      "condition": "Any required control metric fails.",
+      "interpretation": "Review the input split, labels, and shortcut controls before interpreting signal.",
+      "next_allowed": ["data_review"]
+    }
+  },
+  "seeds": [1, 2, 3],
+  "invariants": {
+    "source_model_updates": false,
+    "source_model_selection": false,
+    "promotion_authority": false,
+    "sealed_evaluation_access": false,
+    "probe_outputs_diagnostic_only": true
+  },
+  "unresolved": [
+    "execution_profile_ref",
+    "execution_profile_sha256",
+    "capture.implementation_ref",
+    "capture.implementation_sha256",
+    "inputs.exp-008-distractor-swap-panel.sha256",
+    "probe.implementation_ref",
+    "probe.implementation_sha256"
+  ]
+}

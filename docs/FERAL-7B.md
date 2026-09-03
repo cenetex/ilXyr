@@ -23,6 +23,8 @@ not a Season 00 training input.
 | Braid unseen-issuer evaluation | `dataset://braid/feral-7b-sec-unseen-eval/v1` |
 | Base weights | `weight://huggingface/Qwen/Qwen2.5-7B-Instruct@a09a35458c702b33eeacc393d103063234e8bc28` |
 | OCI repository | `ghcr.io/atimics/feral-7b-sec-qwen` |
+| Transformers base profile | `profile://transformers/feral-7b/base-profile/v1` |
+| Transformers calibration profile | `profile://transformers/feral-7b/one-percent-calibration/v1` |
 
 ## Setup sequence
 
@@ -36,11 +38,22 @@ not a Season 00 training input.
    [`FERAL-7B-MATERIALIZATION.md`](FERAL-7B-MATERIALIZATION.md).
 4. **Complete:** Runner Watch published the fixed trainer image at
    `ghcr.io/atimics/feral-7b-sec-qwen@sha256:2b4ea0f0764b431812851d97a8aafdca414db086d2d3a7e9323837bf839da361`.
-5. Prepare the separate 1% calibration package. Verify the AWS preflight and present its exact
-   package hash with the USD 7 cap. See [`FERAL-7B-CALIBRATION.md`](FERAL-7B-CALIBRATION.md).
-   The calibration supplies the full tokenizer profile, measured throughput, memory, and cost estimate.
-6. Complete the remaining base-model evaluations and compile the full v2 training experiment with
-   real input and image digests. Use the calibration evidence for the full-training budget decision.
+5. Resolve and freeze the
+   [`base-only profile`](../examples/feral-7b/transformers-base-profile.json) and
+   [`one-percent LoRA calibration profile`](../examples/feral-7b/transformers-calibration-profile.json).
+   The profiles bind the model, source references, package and lock digests, data rules, and seeds.
+   The calibration plan binds the exact image, provider, sample, settings, time, and price ceiling.
+6. Prepare the 1% calibration package. Verify the AWS preflight and present its exact package hash
+   with the USD 7 cap. See [`FERAL-7B-CALIBRATION.md`](FERAL-7B-CALIBRATION.md). The run supplies
+   tokenizer counts, measured LoRA throughput, memory, and the full-training cost estimate.
+7. Replace the corpus artifact and OCI placeholders in the v2 experiment draft. Submit the
+   four named research contributions, compile the experiment, and run its remaining base-model
+   evaluations. Use the base-only profile on the same image and hardware.
+
+The base-only check measures loading, generation, memory, and development quality. The 1% LoRA
+calibration measures gradients, checkpointing, optimizer work, and training throughput. Its timing
+supplies the full-training cost estimate. The calibration exports measurement records. The later
+full run owns the release candidate.
 
 Calibration, full training, and public release each have their own approval boundary.
 
