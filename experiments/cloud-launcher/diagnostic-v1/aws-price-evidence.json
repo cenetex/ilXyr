@@ -1,0 +1,10 @@
+{
+  "schema": "ilxyr.aws_price_evidence.v1",
+  "region": "us-east-1",
+  "machine_type": "c6i.large",
+  "hourly_price_microusd": 85000,
+  "fixed_cost_microusd": 200000,
+  "minimum_billed_seconds": 60,
+  "source_url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/us-east-1/index.json",
+  "recorded_at_ms": 1788465209000
+}

@@ -55,7 +55,9 @@ test("server-renders the interactive public ilXyr protocol index", async () => {
   assert.match(html, /<code>\/api\/results<\/code>/);
   assert.match(html, /<code>\/\.well-known\/ilxyr.json<\/code>/);
   assert.match(html, /Clear stages/);
-  assert.match(html, /Verified remote results: 0/);
+  assert.match(html, /cloud.launcher.diagnostic.v1/);
+  assert.match(html, /success · score 0.82/);
+  assert.match(html, /Live trial passed/);
   assert.match(html, /Compute approval happens inside ilXyr/);
   assert.match(html, /The reporting API is complete in the source code/);
   assert.match(html, /Public rollout will add TLS/);
@@ -114,6 +116,9 @@ test("public API returns only static protocol data", async () => {
   assert.ok(status.status.some((item) =>
     item.key === "general_cloud_launcher" && item.value === "implemented"
   ));
+  assert.ok(status.status.some((item) =>
+    item.key === "paid_cloud_experiment_work" && item.value === "live_diagnostic_passed"
+  ));
 
   const environmentResponse = await request("/api/environments");
   const environmentIndex = await environmentResponse.json();
@@ -123,7 +128,10 @@ test("public API returns only static protocol data", async () => {
 
   const resultsResponse = await request("/api/results");
   const results = await resultsResponse.json();
-  assert.deepEqual(results.results, []);
+  assert.equal(results.results.length, 1);
+  assert.equal(results.results[0].experiment_id, "cloud.launcher.diagnostic.v1");
+  assert.equal(results.results[0].outcome, "success");
+  assert.equal(results.results[0].score, 0.82);
 
   const imageOptimizerResponse = await request("/_vinext/image?url=%2Fog.png&w=640&q=75");
   assert.equal(imageOptimizerResponse.status, 404);
