@@ -1,0 +1,168 @@
+{
+  "schema": "ilxyr.negative_knowledge_ledger.v1",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "created_at_ms": 1788301100000,
+  "entries": [
+    {
+      "seq": 0,
+      "verdict_id": "verdict:zero.q23.seed2.local-guard.v1",
+      "experiment_id": "zero.q23.seed2.local-guard.no-go.v1",
+      "family": "zero",
+      "seed": 2,
+      "outcome": "no_go",
+      "taxonomy": "transfer",
+      "mechanism_tags": [
+        "replay-guard",
+        "local-budget",
+        "quantity-gate"
+      ],
+      "recorded_at_ms": 1788300000000,
+      "summary": "Q2.3 seed 2 completed under its frozen local functional replay guard: quantity reached the declared threshold, the guard rejected no attempts, cumulative public replay regression reached 2.685%, and the diagnostic was a no-go without promotion or replication-seed access."
+    },
+    {
+      "seq": 1,
+      "verdict_id": "verdict:zero.q24.seed2.cumulative-guard.v1",
+      "experiment_id": "zero.q24.seed2.cumulative-guard.v1",
+      "family": "zero",
+      "seed": 2,
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "replay-guard",
+        "cumulative",
+        "quantity-gate"
+      ],
+      "recorded_at_ms": 1788300100000,
+      "summary": "Q2.4 seed 2 committed 66 candidates under the frozen 1.5% cumulative replay authority. Attempts 67-74 each exceeded the ceiling and rolled back, ending the run via the eight-rejection fallback before any public checkpoint or promotion evaluation."
+    },
+    {
+      "seq": 2,
+      "verdict_id": "verdict:zero.q25.seed2.deterministic-backtracking.v1",
+      "experiment_id": "zero.q25.seed2.deterministic-backtracking.v1",
+      "family": "zero",
+      "seed": 2,
+      "outcome": "complete_no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "replay-guard",
+        "cumulative",
+        "backtracking",
+        "quantity-gate"
+      ],
+      "recorded_at_ms": 1788300200000,
+      "summary": "Q2.5 seed 2 committed 71 updates (66 full-scale, 5 backtracked), then exhausted all eight scales on attempts 72-79. The terminal minimum-scale candidates missed the 1.5% authority by only 0.000151-0.000238 percentage points. Promotion and replication stayed sealed."
+    },
+    {
+      "seq": 3,
+      "verdict_id": "verdict:solomon.q22-compositional-routing.three-seed.v1",
+      "experiment_id": "solomon.q22-compositional-routing.three-seed.v1",
+      "family": "solomon",
+      "outcome": "no_go",
+      "taxonomy": "transfer",
+      "mechanism_tags": [
+        "shortcut-resistant-routing",
+        "integer-perceptron",
+        "operation-routing"
+      ],
+      "recorded_at_ms": 1788300300000,
+      "summary": "EXP-008 kept the same model geometry and training rule as EXP-007 but changed the information surface: balanced distractors, normalized-surface disjoint templates, and absent operation identifiers. The model failed to reach the 900,000 ppm overall gate on all three seeds."
+    },
+    {
+      "seq": 4,
+      "verdict_id": "verdict:weight-multiplicity.phase0.oracle-frontier.v1",
+      "experiment_id": "weight-multiplicity-transfer-r3",
+      "family": "zero",
+      "outcome": "complete_no_go",
+      "taxonomy": "venue",
+      "mechanism_tags": [
+        "oracle-frontier",
+        "weight-multiplicity",
+        "resource-bound"
+      ],
+      "recorded_at_ms": 1788300400000,
+      "summary": "Phase 0 measured all 248 type-and-height cells with 1,594,852 uncached oracle attempts. 135 cells filled every quota, 78 had incomplete yield, and 35 exceeded the one-second limit. E8 exceeded budget at height 1. The failure is cost, not symbolic disagreement."
+    },
+    {
+      "seq": 5,
+      "verdict_id": "verdict:solomon.nsrl-p10m-target-margin-head-v1.negative.v1",
+      "experiment_id": "solomon.nsrl-p10m-target-margin-head-v1.negative.v1",
+      "family": "solomon",
+      "seed": 0,
+      "outcome": "measured_local_no_go",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "hard-negative-margin",
+        "output-matrix-only",
+        "target-rank"
+      ],
+      "recorded_at_ms": 1788300500000,
+      "summary": "The frozen rule selected shift 14 after preflight improved target rank, but the effect did not generalize to the full run. On the 512-target audit, mean target rank worsened by 910 per mille and public-development NLL increased by 2,004,452 millibits. The prospective gate failed and denied public test evaluation."
+    },
+    {
+      "seq": 6,
+      "verdict_id": "verdict:solomon.nsrl-p10m-direct-head-nll-guard-v1.negative.v1",
+      "experiment_id": "solomon.nsrl-p10m-direct-head-nll-guard-v1.negative.v1",
+      "family": "solomon",
+      "seed": 0,
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "output-head-search",
+        "nll-guard",
+        "document-disjoint"
+      ],
+      "recorded_at_ms": 1788300600000,
+      "summary": "A prospectively frozen canonical-NLL output-head search selected a coordinate that improved exact proposal NLL but worsened a document-disjoint training guard. The move was atomically rejected, exact rerun replay passed, the source model was retained, and public test plus all later gates stayed closed."
+    },
+    {
+      "seq": 7,
+      "verdict_id": "verdict:solomon.nsrl-p10m-direct-head-nll-safe-set-v1.negative.v1",
+      "experiment_id": "solomon.nsrl-p10m-direct-head-nll-safe-set-v1.negative.v1",
+      "family": "solomon",
+      "seed": 0,
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "output-head-search",
+        "nll-guard",
+        "document-disjoint",
+        "safe-set"
+      ],
+      "recorded_at_ms": 1788300700000,
+      "summary": "A prospectively frozen exact two-surface output-head search evaluated both unit directions for all eight ranked coordinates. Every proposal-descent direction worsened the document-disjoint guard, so the safe set was empty, exact rerun replay passed, the source model was retained, and public development plus all later gates stayed closed."
+    },
+    {
+      "seq": 8,
+      "verdict_id": "verdict:solomon.nsrl-p10m-direct-head-cross-document-stability-v1.negative.v1",
+      "experiment_id": "solomon.nsrl-p10m-direct-head-cross-document-stability-v1.negative.v1",
+      "family": "solomon",
+      "seed": 0,
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "output-head-search",
+        "cross-document",
+        "nll-guard"
+      ],
+      "recorded_at_ms": 1788300800000,
+      "summary": "A prospectively frozen read-only audit replayed eight proposal-descent output-weight directions across eight previously unused training documents. No direction strictly improved at least six documents with positive aggregate NLL improvement, every aggregate was negative, exact trace replay passed, and the same-coordinate-family follow-up gate plus all public and hidden stages stayed closed."
+    },
+    {
+      "seq": 9,
+      "verdict_id": "verdict:solomon.nsrl-p10m-target-margin-trust-region-v1.negative.v1",
+      "experiment_id": "solomon.nsrl-p10m-target-margin-trust-region-v1.negative.v1",
+      "family": "solomon",
+      "seed": 0,
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "hard-negative-margin",
+        "trust-region",
+        "nll-guard",
+        "document-disjoint"
+      ],
+      "recorded_at_ms": 1788300900000,
+      "summary": "A prospectively frozen hard-negative trust-region preflight bound all rates to one update schedule and one disjoint canonical-NLL guard. Every proposed batch at feature shifts 13, 14, and 15 worsened guard NLL and was atomically rejected, so no candidate was selected and all later evaluation stayed closed."
+    }
+  ]
+}

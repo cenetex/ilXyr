@@ -1,0 +1,21 @@
+{
+  "schema": "ilxyr.constraint_diff_report.v1",
+  "report_id": "constraint-diff:solomon.q30-newton-root-search.v1",
+  "experiment_id": "solomon.q30-newton-root-search.v1",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "generated_at_ms": 1788504116478,
+  "proposed_mechanism_tags": [
+    "newton-root-search",
+    "symbolic-algebra"
+  ],
+  "matches": [],
+  "taxonomy_counts": {
+    "transfer": 0,
+    "interference": 0,
+    "measurement": 0,
+    "venue": 0,
+    "implementation": 0
+  },
+  "summary": "No registered negative-knowledge ledger entries share mechanism tags with this experiment.",
+  "recommendation": "proceed"
+}

@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/constraint-diff-report.v1.json",
+  "title": "ilXyr design-time constraint-diff report v1",
+  "description": "Produced before a new experiment SPEC is admitted. The report diffs the SPEC's declared mechanism against every registered negative-knowledge ledger entry, surfacing repeated failure patterns (e.g. 'this would be the Nth transfer failure') before the run starts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "report_id",
+    "experiment_id",
+    "ledger_id",
+    "generated_at_ms",
+    "proposed_mechanism_tags",
+    "matches",
+    "summary"
+  ],
+  "properties": {
+    "schema": {
+      "const": "ilxyr.constraint_diff_report.v1"
+    },
+    "report_id": {
+      "type": "string",
+      "pattern": "^constraint-diff:[A-Za-z0-9._:/-]+$"
+    },
+    "experiment_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:/-]+$",
+      "description": "The experiment SPEC being evaluated."
+    },
+    "ledger_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:/-]+$",
+      "description": "The negative-knowledge ledger version diffed against."
+    },
+    "generated_at_ms": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "proposed_mechanism_tags": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[a-z][a-z0-9_-]*$"
+      },
+      "description": "The mechanism_tags the new experiment SPEC declares."
+    },
+    "matches": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/constraint_match"
+      },
+      "description": "Each registered ledger entry whose mechanism_tags intersect the proposed tags."
+    },
+    "taxonomy_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transfer",
+        "interference",
+        "measurement",
+        "venue",
+        "implementation"
+      ],
+      "properties": {
+        "transfer": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "interference": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "measurement": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "venue": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "implementation": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "Per-taxonomy counts of how many prior negative results share at least one mechanism tag with the proposed SPEC."
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable design-time warning. E.g. 'This would be the 9th transfer failure for replay-guard mechanisms.'"
+    },
+    "recommendation": {
+      "enum": [
+        "proceed",
+        "review",
+        "blocked"
+      ],
+      "description": "'proceed': no matching negative constraints. 'review': matching constraints exist but the SPEC may still be novel. 'blocked': the SPEC repeats a known-rejected mechanism without differentiation."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "recommendation": {
+            "const": "proceed"
+          }
+        },
+        "required": [
+          "recommendation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "matches": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "recommendation": {
+            "const": "blocked"
+          }
+        },
+        "required": [
+          "recommendation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "matches": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "constraint_match": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "verdict_id",
+        "experiment_id",
+        "family",
+        "outcome",
+        "taxonomy",
+        "matched_tags",
+        "verdict_summary"
+      ],
+      "properties": {
+        "verdict_id": {
+          "type": "string",
+          "pattern": "^verdict:[A-Za-z0-9._:/-]+$"
+        },
+        "experiment_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "family": {
+          "enum": [
+            "zero",
+            "solomon"
+          ]
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "outcome": {
+          "enum": [
+            "no_go",
+            "complete_no_go",
+            "measured_local_no_go",
+            "execution_failure"
+          ]
+        },
+        "taxonomy": {
+          "enum": [
+            "transfer",
+            "interference",
+            "measurement",
+            "venue",
+            "implementation"
+          ]
+        },
+        "matched_tags": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "description": "The mechanism_tags that appear in both the proposed SPEC and the registered verdict."
+        },
+        "verdict_summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Verbatim summary field from the registered verdict."
+        }
+      }
+    }
+  }
+}

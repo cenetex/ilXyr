@@ -1,0 +1,22 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:solomon.q22-compositional-routing.three-seed.v1",
+  "experiment_id": "solomon.q22-compositional-routing.three-seed.v1",
+  "family": "solomon",
+  "outcome": "no_go",
+  "taxonomy": "transfer",
+  "mechanism": "Solomon sparse integer class head with first-token shortcut removed and balanced wrong-operation distractors per input. The model could not route five operations from held-out sentence-template families after the shortcut was removed.",
+  "mechanism_tags": [
+    "shortcut-resistant-routing",
+    "integer-perceptron",
+    "operation-routing"
+  ],
+  "summary": "EXP-008 kept the same model geometry and training rule as EXP-007 but changed the information surface: balanced distractors, normalized-surface disjoint templates, and absent operation identifiers. The model failed to reach the 900,000 ppm overall gate on all three seeds.",
+  "lineage_note": "An 8,192-feature perceptron with hashed n-gram features cannot route compositional operations without the first-token shortcut. A future attempt needs a different representation or architecture, not more features.",
+  "evidence_ref": "artifact://sha256/c3b826685fc004fbc9b69a3a8ee539987522c1d3bf61e6e8d7c251147b394900",
+  "recorded_by": {
+    "id": "human://cenetex",
+    "kind": "human"
+  },
+  "recorded_at_ms": 1788300300000
+}

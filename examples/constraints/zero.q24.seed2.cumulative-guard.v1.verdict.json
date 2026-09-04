@@ -1,0 +1,24 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:zero.q24.seed2.cumulative-guard.v1",
+  "experiment_id": "zero.q24.seed2.cumulative-guard.v1",
+  "family": "zero",
+  "seed": 2,
+  "outcome": "no_go",
+  "taxonomy": "interference",
+  "mechanism": "Immutable-baseline cumulative replay guard with a frozen 1.5% hard limit, evaluated at the optimizer boundary. The guard bound before enough quantity learning occurred: eight consecutive rejections triggered the fallback after 66 committed updates.",
+  "mechanism_tags": [
+    "replay-guard",
+    "cumulative",
+    "quantity-gate"
+  ],
+  "summary": "Q2.4 seed 2 committed 66 candidates under the frozen 1.5% cumulative replay authority. Attempts 67-74 each exceeded the ceiling and rolled back, ending the run via the eight-rejection fallback before any public checkpoint or promotion evaluation.",
+  "lineage_note": "Q2.4 validates the cumulative guard as a safety boundary but rejects it as a complete learning policy. A follow-up must change candidate direction, objective, or optimization geometry.",
+  "evidence_ref": "artifact://sha256/007329a7fab1e870ddccf9fb1b996657f2538df110dcd79fea8162442a8c46ce",
+  "retro_registration_ref": "zero.q24.seed2.cumulative-guard.v1",
+  "recorded_by": {
+    "id": "human://cenetex",
+    "kind": "human"
+  },
+  "recorded_at_ms": 1788300100000
+}
