@@ -9,10 +9,10 @@ use axum::{
     routing::{get, post},
 };
 use ilxyr_core::{
-    AzureMlHandoffRequest, CorpusMaterialization, CorpusRelease, Error, RegisteredCorpus,
-    RegisteredMaterialization, SageMakerHandoffRequest, Workspace, azure_ml_corpus_handoff,
-    corpus_materialization_by_ref, corpus_release_by_ref, record_corpus_materialization,
-    register_corpus_release, sagemaker_corpus_handoff,
+    ActorKind, ActorRef, AzureMlHandoffRequest, CorpusMaterialization, CorpusRelease, Error,
+    RegisteredCorpus, RegisteredMaterialization, SageMakerHandoffRequest, Workspace,
+    azure_ml_corpus_handoff, corpus_materialization_by_ref, corpus_release_by_ref,
+    record_authenticated_corpus_materialization, register_corpus_release, sagemaker_corpus_handoff,
 };
 use serde::Serialize;
 use serde_json::{Value, json};
@@ -22,20 +22,49 @@ const MAX_JSON_BYTES: usize = 1024 * 1024;
 #[derive(Clone)]
 pub struct CorpusServiceState {
     workspace: Arc<Mutex<Workspace>>,
-    bearer_token: Arc<str>,
+    access_token: Arc<str>,
+    materializer_token: Arc<str>,
+    materializer_identity: ActorRef,
 }
 
 impl CorpusServiceState {
-    pub fn new(workspace: Workspace, bearer_token: impl Into<String>) -> Result<Self, Error> {
-        let bearer_token = bearer_token.into();
-        if bearer_token.len() < 32 {
+    pub fn new(
+        workspace: Workspace,
+        access_token: impl Into<String>,
+        materializer_token: impl Into<String>,
+        materializer_identity: ActorRef,
+    ) -> Result<Self, Error> {
+        let access_token = access_token.into();
+        let materializer_token = materializer_token.into();
+        if access_token.len() < 32 {
             return Err(Error::Security(
-                "corpus service bearer token must be at least 32 bytes".to_owned(),
+                "corpus service access token must be at least 32 bytes".to_owned(),
+            ));
+        }
+        if materializer_token.len() < 32 {
+            return Err(Error::Security(
+                "corpus materializer token must be at least 32 bytes".to_owned(),
+            ));
+        }
+        if constant_time_eq(access_token.as_bytes(), materializer_token.as_bytes()) {
+            return Err(Error::Security(
+                "corpus access and materializer tokens must be different".to_owned(),
+            ));
+        }
+        if materializer_identity.kind != ActorKind::Service
+            || !materializer_identity.id.starts_with("service://")
+            || materializer_identity.id.chars().any(char::is_whitespace)
+            || materializer_identity.model_ref.is_some()
+        {
+            return Err(Error::Security(
+                "corpus materializer identity must be a service actor".to_owned(),
             ));
         }
         Ok(Self {
             workspace: Arc::new(Mutex::new(workspace)),
-            bearer_token: Arc::from(bearer_token),
+            access_token: Arc::from(access_token),
+            materializer_token: Arc::from(materializer_token),
+            materializer_identity,
         })
     }
 
@@ -47,17 +76,26 @@ impl CorpusServiceState {
 }
 
 pub fn corpus_router(state: CorpusServiceState) -> Router {
-    let protected = Router::new()
+    let access_routes = Router::new()
         .route("/v1/corpora", post(register_corpus))
         .route("/v1/corpora/{digest}", get(get_corpus))
-        .route("/v1/materializations", post(record_materialization))
         .route("/v1/materializations/{digest}", get(get_materialization))
         .route("/v1/handoffs/sagemaker", post(sagemaker_handoff))
         .route("/v1/handoffs/azure-ml", post(azure_handoff))
-        .route_layer(middleware::from_fn_with_state(state.clone(), require_auth));
+        .route_layer(middleware::from_fn_with_state(
+            state.clone(),
+            require_access_auth,
+        ));
+    let materializer_routes = Router::new()
+        .route("/v1/materializations", post(record_materialization))
+        .route_layer(middleware::from_fn_with_state(
+            state.clone(),
+            require_materializer_auth,
+        ));
     Router::new()
         .route("/healthz", get(health))
-        .merge(protected)
+        .merge(access_routes)
+        .merge(materializer_routes)
         .layer(DefaultBodyLimit::max(MAX_JSON_BYTES))
         .with_state(state)
 }
@@ -95,9 +133,10 @@ async fn record_materialization(
     Json(materialization): Json<CorpusMaterialization>,
 ) -> ApiResult<Json<RegisteredMaterialization>> {
     let workspace = state.lock_workspace()?;
-    Ok(Json(record_corpus_materialization(
+    Ok(Json(record_authenticated_corpus_materialization(
         &workspace,
         materialization,
+        &state.materializer_identity,
     )?))
 }
 
@@ -130,22 +169,31 @@ async fn azure_handoff(
     Ok(Json(azure_ml_corpus_handoff(&workspace, request)?))
 }
 
-async fn require_auth(
+async fn require_access_auth(
     State(state): State<CorpusServiceState>,
     request: Request,
     next: Next,
 ) -> ApiResult<Response> {
-    authorize(request.headers(), &state)?;
+    authorize(request.headers(), &state.access_token)?;
     Ok(next.run(request).await)
 }
 
-fn authorize(headers: &HeaderMap, state: &CorpusServiceState) -> ApiResult<()> {
+async fn require_materializer_auth(
+    State(state): State<CorpusServiceState>,
+    request: Request,
+    next: Next,
+) -> ApiResult<Response> {
+    authorize(request.headers(), &state.materializer_token)?;
+    Ok(next.run(request).await)
+}
+
+fn authorize(headers: &HeaderMap, expected_token: &str) -> ApiResult<()> {
     let supplied = headers
         .get("authorization")
         .and_then(|value| value.to_str().ok())
         .and_then(|value| value.strip_prefix("Bearer "))
         .unwrap_or_default();
-    if constant_time_eq(supplied.as_bytes(), state.bearer_token.as_bytes()) {
+    if constant_time_eq(supplied.as_bytes(), expected_token.as_bytes()) {
         Ok(())
     } else {
         Err(ApiError::new(StatusCode::UNAUTHORIZED, "unauthorized"))
@@ -247,7 +295,10 @@ mod tests {
 
     use super::{CorpusServiceState, corpus_router};
 
-    const TOKEN: &str = "test-token-that-is-long-enough-for-service-tests";
+    const ACCESS_TOKEN: &str = "test-access-token-that-is-long-enough-for-service-tests";
+    const MATERIALIZER_TOKEN: &str =
+        "test-materializer-token-that-is-long-enough-for-service-tests";
+    const MATERIALIZER_ID: &str = "service://ilxyr/s3-readback-materializer-v1";
     static UNIQUE: AtomicU64 = AtomicU64::new(0);
 
     struct TestDirectory(PathBuf);
@@ -276,18 +327,32 @@ mod tests {
     fn short_bearer_tokens_are_rejected() {
         let directory = TestDirectory::create();
         let workspace = ilxyr_core::Workspace::init(&directory.0).expect("initialize workspace");
-        let error = CorpusServiceState::new(workspace, "short")
-            .err()
-            .expect("short token must fail");
+        let error = CorpusServiceState::new(
+            workspace.clone(),
+            "short",
+            MATERIALIZER_TOKEN,
+            ilxyr_core::ActorRef::service(MATERIALIZER_ID),
+        )
+        .err()
+        .expect("short token must fail");
         assert!(error.to_string().contains("at least 32 bytes"));
+
+        let error = CorpusServiceState::new(
+            workspace,
+            ACCESS_TOKEN,
+            ACCESS_TOKEN,
+            ilxyr_core::ActorRef::service(MATERIALIZER_ID),
+        )
+        .err()
+        .expect("shared credentials must fail");
+        assert!(error.to_string().contains("must be different"));
     }
 
     #[tokio::test]
     async fn health_is_public_but_corpus_routes_require_authentication() {
         let directory = TestDirectory::create();
         let workspace = ilxyr_core::Workspace::init(&directory.0).expect("initialize workspace");
-        let app =
-            corpus_router(CorpusServiceState::new(workspace, TOKEN).expect("valid service state"));
+        let app = corpus_router(service_state(workspace));
         let health = app
             .clone()
             .oneshot(
@@ -317,8 +382,7 @@ mod tests {
     async fn service_registers_a_corpus_and_generates_a_sagemaker_handoff() {
         let directory = TestDirectory::create();
         let workspace = ilxyr_core::Workspace::init(&directory.0).expect("initialize workspace");
-        let app =
-            corpus_router(CorpusServiceState::new(workspace, TOKEN).expect("valid service state"));
+        let app = corpus_router(service_state(workspace));
         let corpus_response = authorized_json(
             app.clone(),
             "/v1/corpora",
@@ -340,7 +404,7 @@ mod tests {
             .clone()
             .oneshot(
                 Request::get(format!("/v1/corpora/{digest}"))
-                    .header("authorization", format!("Bearer {TOKEN}"))
+                    .header("authorization", format!("Bearer {ACCESS_TOKEN}"))
                     .body(Body::empty())
                     .expect("request"),
             )
@@ -353,10 +417,18 @@ mod tests {
         ))
         .expect("receipt fixture");
         receipt["corpus_ref"] = Value::String(registered.artifact_ref);
+        receipt["verified_by"] =
+            serde_json::to_value(ilxyr_core::ActorRef::service(MATERIALIZER_ID))
+                .expect("verifier serializes");
         let materialization = serde_json::from_value::<CorpusMaterialization>(receipt)
             .expect("materialization fixture");
-        let materialization_response =
-            authorized_json(app.clone(), "/v1/materializations", materialization).await;
+        let materialization_response = authorized_json_with_token(
+            app.clone(),
+            "/v1/materializations",
+            materialization,
+            MATERIALIZER_TOKEN,
+        )
+        .await;
         assert_eq!(materialization_response.0, StatusCode::OK);
         let materialization_ref = materialization_response.1["artifact_ref"]
             .as_str()
@@ -381,15 +453,80 @@ mod tests {
         );
     }
 
+    #[tokio::test]
+    async fn materializer_authentication_prevents_verifier_impersonation() {
+        let directory = TestDirectory::create();
+        let workspace = ilxyr_core::Workspace::init(&directory.0).expect("initialize workspace");
+        let app = corpus_router(service_state(workspace));
+        let receipt = serde_json::from_str::<CorpusMaterialization>(include_str!(
+            "../../../examples/corpus/s3-materialization.json"
+        ))
+        .expect("receipt fixture");
+
+        let access_attempt = authorized_json_with_token(
+            app.clone(),
+            "/v1/materializations",
+            receipt.clone(),
+            ACCESS_TOKEN,
+        )
+        .await;
+        assert_eq!(access_attempt.0, StatusCode::UNAUTHORIZED);
+
+        let impersonation = authorized_json_with_token(
+            app.clone(),
+            "/v1/materializations",
+            receipt,
+            MATERIALIZER_TOKEN,
+        )
+        .await;
+        assert_eq!(impersonation.0, StatusCode::FORBIDDEN);
+        assert!(
+            impersonation.1["error"]
+                .as_str()
+                .expect("error string")
+                .contains("does not match authenticated verifier")
+        );
+
+        let materializer_read = app
+            .oneshot(
+                Request::get(format!("/v1/corpora/{}", "0".repeat(64)))
+                    .header("authorization", format!("Bearer {MATERIALIZER_TOKEN}"))
+                    .body(Body::empty())
+                    .expect("request"),
+            )
+            .await
+            .expect("materializer read response");
+        assert_eq!(materializer_read.status(), StatusCode::UNAUTHORIZED);
+    }
+
+    fn service_state(workspace: ilxyr_core::Workspace) -> CorpusServiceState {
+        CorpusServiceState::new(
+            workspace,
+            ACCESS_TOKEN,
+            MATERIALIZER_TOKEN,
+            ilxyr_core::ActorRef::service(MATERIALIZER_ID),
+        )
+        .expect("valid service state")
+    }
+
     async fn authorized_json<T: serde::Serialize>(
         app: axum::Router,
         uri: &str,
         body: T,
     ) -> (StatusCode, Value) {
+        authorized_json_with_token(app, uri, body, ACCESS_TOKEN).await
+    }
+
+    async fn authorized_json_with_token<T: serde::Serialize>(
+        app: axum::Router,
+        uri: &str,
+        body: T,
+        token: &str,
+    ) -> (StatusCode, Value) {
         let response = app
             .oneshot(
                 Request::post(uri)
-                    .header("authorization", format!("Bearer {TOKEN}"))
+                    .header("authorization", format!("Bearer {token}"))
                     .header("content-type", "application/json")
                     .body(Body::from(
                         serde_json::to_vec(&body).expect("serialize request"),
