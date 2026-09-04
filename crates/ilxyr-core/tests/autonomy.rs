@@ -80,6 +80,26 @@ fn signed_epoch_budget_rejects_tampering() {
 }
 
 #[test]
+fn unattended_authorization_rejects_a_corrupt_ledger() {
+    let directory = TestDirectory::create("corrupt-authorization");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let signing_key = SigningKey::from_bytes(&[8; 32]);
+    trust_test_key(&workspace, &signing_key);
+    let budget = signed_budget(&signing_key);
+    register_epoch_budget(&workspace, budget.clone()).expect("budget must register");
+
+    let event_path = directory.0.join(".ilxyr/events.jsonl");
+    let tampered = fs::read_to_string(&event_path)
+        .expect("event log must be readable")
+        .replace(&budget.id, "toy.epoch-budget.tampered.v1");
+    fs::write(event_path, tampered).expect("test must tamper with the ledger");
+
+    let error = authorize_unattended_run(&workspace, &budget.id, "toy.score.v1")
+        .expect_err("authorization must reject a corrupt ledger");
+    assert!(error.to_string().contains("event digest mismatch"));
+}
+
+#[test]
 fn allocator_admits_and_runs_with_signed_policy_then_updates_calibration() {
     let directory = TestDirectory::create("allocator");
     let workspace = Workspace::init(&directory.0).expect("workspace must initialize");

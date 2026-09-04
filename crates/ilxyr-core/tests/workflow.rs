@@ -664,6 +664,25 @@ fn append_refuses_to_extend_a_corrupt_ledger() {
 }
 
 #[test]
+fn status_projection_rejects_a_corrupt_ledger() {
+    let directory = TestDirectory::create("corrupt-status");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    submit_lineage(&workspace);
+    let experiment = experiment();
+    compile_experiment(&workspace, experiment.clone()).expect("experiment must compile");
+
+    let event_path = directory.0.join(".ilxyr/events.jsonl");
+    let tampered = fs::read_to_string(&event_path)
+        .expect("event log must be readable")
+        .replace("toy.hypothesis.v1", "toy.hypothesis.tampered.v1");
+    fs::write(event_path, tampered).expect("test must tamper with the ledger");
+
+    let error = experiment_status(&workspace, &experiment.id)
+        .expect_err("status must reject a corrupt ledger");
+    assert!(error.to_string().contains("event digest mismatch"));
+}
+
+#[test]
 fn one_model_identity_cannot_multiply_forecast_stake() {
     let directory = TestDirectory::create("forecast-identity");
     let workspace = Workspace::init(&directory.0).expect("workspace must initialize");

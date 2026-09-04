@@ -251,6 +251,43 @@ fn network_intake_credential_is_secret_one_run_and_durable() {
 }
 
 #[test]
+fn credential_lookup_rejects_a_corrupt_ledger() {
+    let fixture = Fixture::new();
+    let mut adapter = FakeAdapter::new(false);
+    let authorization = authorize_remote_execution(
+        &fixture.workspace,
+        &fixture.environment,
+        &fixture.package,
+        &fixture.budget_id,
+        AUTHORIZATION_ID,
+        future_expiry(),
+    )
+    .expect("remote run is authorized");
+    launch_remote_execution(&fixture.workspace, &mut adapter, AUTHORIZATION_ID)
+        .expect("remote launch is recorded");
+    let issued = issue_report_intake_credential(
+        &fixture.workspace,
+        AUTHORIZATION_ID,
+        authorization.expires_at_ms - 1,
+        2,
+    )
+    .expect("credential is issued");
+    let token = issued
+        .bearer_token
+        .expect("plaintext token is returned once");
+
+    let event_path = fixture.workspace.root().join(".ilxyr/events.jsonl");
+    let tampered = fs::read_to_string(&event_path)
+        .expect("event log must be readable")
+        .replace(AUTHORIZATION_ID, "authorization:toy.remote.tampered.v1");
+    fs::write(event_path, tampered).expect("test must tamper with the ledger");
+
+    let error = authenticate_report_intake_credential(&fixture.workspace, &token)
+        .expect_err("credential lookup must reject a corrupt ledger");
+    assert!(error.to_string().contains("event digest mismatch"));
+}
+
+#[test]
 fn authenticated_rejections_are_bounded_and_malformed_bodies_are_not_stored() {
     let fixture = Fixture::new();
     let mut adapter = FakeAdapter::new(false);
