@@ -1441,15 +1441,38 @@ pub(crate) fn active_epoch_budget_at(
 }
 
 fn ensure_budget_active(workspace: &Workspace, budget: &EpochBudget, at_ms: u128) -> Result<()> {
-    if at_ms < budget.valid_from_ms {
+    if budget.schema != "ilxyr.epoch_budget.v2" {
+        return Err(Error::Security(format!(
+            "epoch budget {} uses legacy schema {} without an enforceable lifetime",
+            budget.id, budget.schema
+        )));
+    }
+    let valid_from_ms = budget.valid_from_ms.ok_or_else(|| {
+        Error::Security(format!(
+            "epoch budget {} has no enforceable start time",
+            budget.id
+        ))
+    })?;
+    let expires_at_ms = budget.expires_at_ms.ok_or_else(|| {
+        Error::Security(format!(
+            "epoch budget {} has no enforceable expiry",
+            budget.id
+        ))
+    })?;
+    if at_ms < valid_from_ms {
         return Err(Error::Security(format!(
             "epoch budget {} is not active until {}",
-            budget.id, budget.valid_from_ms
+            budget.id, valid_from_ms
         )));
     }
     if let Some(successor) = registered_budgets(workspace)?
         .into_iter()
-        .filter(|candidate| candidate.epoch > budget.epoch && candidate.valid_from_ms <= at_ms)
+        .filter(|candidate| {
+            candidate.epoch > budget.epoch
+                && candidate
+                    .valid_from_ms
+                    .is_some_and(|successor_start| successor_start <= at_ms)
+        })
         .max_by_key(|candidate| candidate.epoch)
     {
         return Err(Error::Security(format!(
@@ -1457,10 +1480,10 @@ fn ensure_budget_active(workspace: &Workspace, budget: &EpochBudget, at_ms: u128
             budget.id, successor.id
         )));
     }
-    if at_ms >= budget.expires_at_ms {
+    if at_ms >= expires_at_ms {
         return Err(Error::Security(format!(
             "epoch budget {} expired at {}",
-            budget.id, budget.expires_at_ms
+            budget.id, expires_at_ms
         )));
     }
     Ok(())

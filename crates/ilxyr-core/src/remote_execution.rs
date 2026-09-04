@@ -215,10 +215,16 @@ pub fn authorize_remote_execution(
         ));
     }
     let budget = active_epoch_budget_at(workspace, budget_id, now)?;
-    if expires_at_ms > budget.expires_at_ms {
+    let budget_expires_at_ms = budget.expires_at_ms.ok_or_else(|| {
+        Error::Security(format!(
+            "epoch budget {} has no enforceable expiry",
+            budget.id
+        ))
+    })?;
+    if expires_at_ms > budget_expires_at_ms {
         return Err(Error::Security(format!(
             "remote authorization expiry must not exceed epoch budget expiry {}",
-            budget.expires_at_ms
+            budget_expires_at_ms
         )));
     }
 

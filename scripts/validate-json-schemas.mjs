@@ -58,7 +58,8 @@ const fixtures = {
     "examples/corpus/feral-7b-rights-review.json",
   ],
   "corpus-release.schema.json": ["examples/corpus/braid-corpus-five.json"],
-  "epoch-budget.schema.json": ["examples/schema/epoch-budget.json"],
+  "epoch-budget.schema.json": ["examples/schema/epoch-budget-v1.json"],
+  "epoch-budget-v2.schema.json": ["examples/schema/epoch-budget.json"],
   "evidence-bundle.schema.json": ["examples/schema/evidence-bundle.json"],
   "evidence-graph-edge.schema.json": [
     "examples/schema/evidence-graph-edge.json",
@@ -548,12 +549,12 @@ expectInvalid(
 
 const budget = await readJson("examples/schema/epoch-budget.json");
 delete budget.per_executable_caps["/bin/echo"].network;
-expectInvalid("epoch-budget.schema.json", "executable cap without network policy", budget);
+expectInvalid("epoch-budget-v2.schema.json", "executable cap without network policy", budget);
 
 const budgetWithoutArguments = await readJson("examples/schema/epoch-budget.json");
 delete budgetWithoutArguments.per_executable_caps["/bin/echo"].allowed_argument_sets;
 expectInvalid(
-  "epoch-budget.schema.json",
+  "epoch-budget-v2.schema.json",
   "executable cap without an argument allowlist",
   budgetWithoutArguments,
 );
@@ -561,7 +562,7 @@ expectInvalid(
 const budgetWithoutExpiry = await readJson("examples/schema/epoch-budget.json");
 delete budgetWithoutExpiry.expires_at_ms;
 expectInvalid(
-  "epoch-budget.schema.json",
+  "epoch-budget-v2.schema.json",
   "epoch budget without a signed expiry",
   budgetWithoutExpiry,
 );

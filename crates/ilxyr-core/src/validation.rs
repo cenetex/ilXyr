@@ -701,7 +701,7 @@ pub fn trusted_policy_key(key: &TrustedPolicyKey) -> Result<()> {
 
 pub fn epoch_budget(budget: &EpochBudget) -> Result<()> {
     let mut errors = Vec::new();
-    schema(&budget.schema, "ilxyr.epoch_budget.v1", &mut errors);
+    schema(&budget.schema, "ilxyr.epoch_budget.v2", &mut errors);
     identifier(&budget.id, "epoch_budget.id", &mut errors);
     if budget.epoch == 0 {
         errors.push("epoch_budget.epoch must be positive".to_owned());
@@ -830,14 +830,19 @@ pub fn epoch_budget(budget: &EpochBudget) -> Result<()> {
     if budget.signed_at_ms == 0 {
         errors.push("epoch_budget.signed_at_ms must be positive".to_owned());
     }
-    if budget.valid_from_ms == 0 {
-        errors.push("epoch_budget.valid_from_ms must be positive".to_owned());
-    }
-    if budget.expires_at_ms <= budget.valid_from_ms {
-        errors.push("epoch_budget.expires_at_ms must follow valid_from_ms".to_owned());
-    }
-    if budget.signed_at_ms >= budget.expires_at_ms {
-        errors.push("epoch_budget must be signed before it expires".to_owned());
+    match (budget.valid_from_ms, budget.expires_at_ms) {
+        (Some(valid_from_ms), Some(expires_at_ms)) => {
+            if valid_from_ms == 0 {
+                errors.push("epoch_budget.valid_from_ms must be positive".to_owned());
+            }
+            if expires_at_ms <= valid_from_ms {
+                errors.push("epoch_budget.expires_at_ms must follow valid_from_ms".to_owned());
+            }
+            if budget.signed_at_ms >= expires_at_ms {
+                errors.push("epoch_budget must be signed before it expires".to_owned());
+            }
+        }
+        _ => errors.push("epoch_budget.v2 requires valid_from_ms and expires_at_ms".to_owned()),
     }
     if budget.signature.algorithm != "ed25519" {
         errors.push("epoch_budget.signature.algorithm must be ed25519".to_owned());

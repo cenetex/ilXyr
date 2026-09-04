@@ -951,8 +951,10 @@ pub struct EpochBudget {
     pub acknowledgement_thresholds: AcknowledgementThresholds,
     pub signed_by: String,
     pub signed_at_ms: u128,
-    pub valid_from_ms: u128,
-    pub expires_at_ms: u128,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub valid_from_ms: Option<u128>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub expires_at_ms: Option<u128>,
     pub signature: PolicySignature,
 }
 

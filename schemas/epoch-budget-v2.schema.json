@@ -1,16 +1,16 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://ilxyr.dev/schemas/epoch-budget.v1.json",
-  "title": "ilxyr epoch budget v1",
+  "$id": "https://ilxyr.dev/schemas/epoch-budget.v2.json",
+  "title": "ilxyr epoch budget v2",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema", "id", "epoch", "total_compute_credits", "replication_reserve_pct", "per_executable_caps",
     "allowlisted_executables", "promoted_metrics", "baselines", "signed_by", "signed_at_ms",
-    "acknowledgement_thresholds", "signature"
+    "valid_from_ms", "expires_at_ms", "acknowledgement_thresholds", "signature"
   ],
   "properties": {
-    "schema": { "const": "ilxyr.epoch_budget.v1" },
+    "schema": { "const": "ilxyr.epoch_budget.v2" },
     "id": { "type": "string", "pattern": "^[A-Za-z0-9._:/-]+$" },
     "epoch": { "type": "integer", "minimum": 1 },
     "total_compute_credits": { "type": "integer", "minimum": 1 },
@@ -102,7 +102,17 @@
       "pattern": "^human://\\S+$",
       "description": "Human identity that signed this budget."
     },
-    "signed_at_ms": { "type": "integer", "minimum": 0 },
+    "signed_at_ms": { "type": "integer", "minimum": 1 },
+    "valid_from_ms": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Inclusive start of this signed epoch budget's authority."
+    },
+    "expires_at_ms": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Exclusive end of this signed epoch budget's authority."
+    },
     "signature": {
       "type": "object",
       "additionalProperties": false,

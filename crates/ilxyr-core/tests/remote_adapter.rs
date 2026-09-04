@@ -374,7 +374,7 @@ fn authorization_rejects_package_drift_expiry_and_a_second_run() {
         &fixture.package,
         &fixture.budget_id,
         "authorization:overlong",
-        budget.expires_at_ms + 1,
+        budget.expires_at_ms.expect("v2 budget has an expiry") + 1,
     )
     .expect_err("authorization must end within the budget lifetime");
     assert!(
@@ -423,7 +423,7 @@ fn authorization_rejects_package_drift_expiry_and_a_second_run() {
     successor.id = "toy.epoch-budget.remote.v2".to_owned();
     successor.epoch += 1;
     successor.signed_at_ms = now_ms();
-    successor.valid_from_ms = successor.signed_at_ms;
+    successor.valid_from_ms = Some(successor.signed_at_ms);
     successor.signature.value.clear();
     let payload = epoch_budget_signing_payload(&successor).expect("budget payload serializes");
     successor.signature.value = STANDARD.encode(policy_key.sign(&payload).to_bytes());

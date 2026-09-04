@@ -100,6 +100,19 @@ fn unattended_authorization_rejects_a_corrupt_ledger() {
 }
 
 #[test]
+fn legacy_budget_records_remain_readable_without_gaining_authority() {
+    let source = include_str!("../../../examples/schema/epoch-budget-v1.json");
+    let budget: EpochBudget =
+        serde_json::from_str(source).expect("legacy budget must remain readable");
+    assert_eq!(budget.schema, "ilxyr.epoch_budget.v1");
+    assert_eq!(budget.valid_from_ms, None);
+    assert_eq!(budget.expires_at_ms, None);
+    let round_trip = serde_json::to_value(&budget).expect("legacy budget must serialize");
+    assert!(round_trip.get("valid_from_ms").is_none());
+    assert!(round_trip.get("expires_at_ms").is_none());
+}
+
+#[test]
 fn budget_lifetime_rejects_future_and_expired_authority() {
     for (label, valid_from_ms, expires_at_ms, expected) in [
         (
@@ -116,8 +129,8 @@ fn budget_lifetime_rejects_future_and_expired_authority() {
         trust_test_key(&workspace, &signing_key);
         let mut budget = budget_fixture();
         budget.signed_at_ms = 1;
-        budget.valid_from_ms = valid_from_ms;
-        budget.expires_at_ms = expires_at_ms;
+        budget.valid_from_ms = Some(valid_from_ms);
+        budget.expires_at_ms = Some(expires_at_ms);
         sign_budget(&mut budget, &signing_key);
         register_epoch_budget(&workspace, budget.clone()).expect("budget schedule must register");
 
@@ -156,7 +169,7 @@ fn higher_started_epoch_supersedes_old_authority_and_resets_spend() {
     successor.id = "toy.epoch-budget.v2".to_owned();
     successor.epoch += 1;
     successor.signed_at_ms = test_now_ms();
-    successor.valid_from_ms = successor.signed_at_ms;
+    successor.valid_from_ms = Some(successor.signed_at_ms);
     sign_budget(&mut successor, &signing_key);
     register_epoch_budget(&workspace, successor.clone()).expect("successor budget must register");
 
