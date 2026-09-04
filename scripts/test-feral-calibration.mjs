@@ -29,6 +29,13 @@ for (const file of ["package", "run-instance", "user-data"]) {
   const result = spawnSync("bash", ["-n", `scripts/aws/feral-7b-calibration-${file}.sh`], { encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
 }
+const userData = readFileSync("scripts/aws/feral-7b-calibration-user-data.sh", "utf8");
+for (const diagnostic of ["host.json", "profile-stderr.log", "profile.json", "calibration-stderr.log", "calibration/calibration.json"]) {
+  assert.ok(userData.includes(diagnostic));
+}
+for (const excluded of ["data/train.jsonl", "data/validation.jsonl"]) {
+  assert.equal(userData.includes(`diagnostics/${excluded}`), false);
+}
 
 const temporary = mkdtempSync(join(tmpdir(), "feral-launch-test-"));
 try {

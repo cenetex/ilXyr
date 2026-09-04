@@ -42,6 +42,8 @@ The 1% calibration measures training speed and trainer-process and GPU memory us
 The final estimate projects the full-training compute cost with a 25% margin.
 
 The worker exports private profile, calibration, host, cost-estimate, checksum, and status records.
+If a phase fails, it exports a fixed allowlist of host metadata, phase stderr, and partial structured
+results before shutdown. Corpus files stay outside the diagnostics prefix.
 The result uses `artifact: null`. Full training and model release each use a later approval.
 The future and unseen-issuer evaluation sets stay sealed during this operational measurement.
 Their base-model results remain gates for the full training experiment and release decision.
