@@ -1,19 +1,16 @@
 # FERAL-7B calibration preparation
 
-The next compute decision is one bounded calibration attempt. Its proposed budget is USD 7.
-The current plan preserves the earlier immutable image binding in
+The next compute decision is one bounded profiling and calibration attempt. Its proposed budget is
+USD 7. The plan binds the receipt-enabled Runner Watch revision and its published image digest in
 [`feral-7b-calibration-plan.json`](../examples/feral-7b/feral-7b-calibration-plan.json).
-Before approval, publish the receipt-enabled Runner Watch revision
-`974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8`, then regenerate the plan and package around its image
-digest.
 
-## Current draft inputs
+## Prepared inputs
 
 | Item | Value |
 | --- | --- |
 | Plan | `feral-7b.sec-calibration.v1` |
-| Trainer source | `7123f3dfc1b51beaf5db2a7caf3bbc08174ac6dd` |
-| Trainer image | `ghcr.io/atimics/feral-7b-sec-qwen@sha256:2b4ea0f0764b431812851d97a8aafdca414db086d2d3a7e9323837bf839da361` |
+| Trainer source | `974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8` |
+| Trainer image | `ghcr.io/atimics/feral-7b-sec-qwen@sha256:c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b` |
 | Qwen revision | `a09a35458c702b33eeacc393d103063234e8bc28` |
 | Corpus | The nine exact S3 versions in the training materialization receipt |
 | Sample | 1,978 of 197,738 training examples; lowest SHA-256 example IDs |
@@ -25,7 +22,7 @@ digest.
 | Time limit | Three hours from the launch request; workload deadline at 160 minutes |
 | Budget | USD 7 for one attempt |
 
-The [image build](https://github.com/atimics/runner-watch/actions/runs/33595714178) succeeded.
+The [image build](https://github.com/atimics/runner-watch/actions/runs/33848581774) succeeded.
 An anonymous registry read verified the published image index and its Linux AMD64 manifest.
 AWS lists G6e support and the NVIDIA container toolkit in the
 [machine-image release notes](https://docs.aws.amazon.com/dlami/latest/devguide/aws-deep-learning-ami-gpubaseoss-al2023-2026-08-26.html).
@@ -37,20 +34,22 @@ Refresh the quote during preflight. A changed price or package requires a fresh 
 ## Scope and outputs
 
 The worker first checks all nine corpus files against their exact S3 versions, sizes, and hashes.
-It then profiles the full train and validation splits with the frozen tokenizer.
-The 1% calibration measures training speed and trainer-process and GPU memory use.
+It then profiles the full train and validation splits with the frozen tokenizer. A base-model check
+uses the deterministic 1% validation view to measure quality, generation time, and memory. The 1%
+LoRA calibration follows and measures training speed and trainer-process and GPU memory use.
 The final estimate projects the full-training compute cost with a 25% margin.
 
-The worker exports private profile, calibration, host, cost-estimate, checksum, and status records.
+The worker exports private corpus, base-model, calibration, host, cost-estimate, checksum, and status
+records.
 The result uses `artifact: null`. Full training and model release each use a later approval.
 The future and unseen-issuer evaluation sets stay sealed during this operational measurement.
 Their base-model results remain gates for the full training experiment and release decision.
 
 ## Approval path
 
-1. Publish the receipt-enabled Runner Watch image from revision
+1. Use the published receipt-enabled Runner Watch image from revision
    `974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8`.
-2. Update the plan and config bindings to that image and revision.
+2. Verify the plan and profile bindings to that image and revision.
 3. Merge the refreshed package code after its checks pass.
 4. Deploy `scripts/aws/feral-7b-calibration.yaml` with the existing VPC ID.
 5. Build the archive with `bash scripts/aws/feral-7b-calibration-package.sh OUTPUT_PACKAGE`.
