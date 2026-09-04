@@ -404,6 +404,7 @@ pub fn run_sandbox(
     validation::sandbox(&spec)?;
     let (budget_ref, budget) = registered_budget_with_ref(workspace, budget_id)?;
     ensure_budget_active(workspace, &budget, now_ms()?)?;
+    crate::lifecycle::ensure_test_access_allowed(workspace, &spec.experiment_id)?;
     ensure_authority_artifacts_exist(workspace, &spec.authority)?;
     let spec_ref = freeze_sandbox_spec(workspace, &spec)?;
     if let Some((run_ref, run)) =
