@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "test:aws-bootstrap-secret-hygiene": "node scripts/test-aws-bootstrap-secret-hygiene.mjs",
     "test:feral-calibration": "node scripts/test-feral-calibration.mjs",
     "test:importer": "node scripts/test-import-benchmark.mjs",
     "test:pages": "node scripts/validate-pages-publication.mjs",
