@@ -62,7 +62,9 @@ The pure report verifier does not establish that an authorization reference exis
 file supplied by its caller is trusted. The single-writer ingestion service therefore loads trust
 roots, the compiled experiment, authorization, and launch state from its own verified ledger and
 validates returned metrics and outcomes before recording evidence. Its network boundary stores
-only credential hashes, limits authenticated failures, and contains no launch adapter.
+only credential hashes and limits authenticated failures. The intake package depends on a narrow
+API crate that exposes report authentication, validation, workspace storage, credential issuance,
+and shared report types. A Cargo metadata allowlist guards this dependency boundary in CI.
 
 Every event read verifies the complete event chain, including event hashes, predecessor links, and
 referenced artifacts. A caller that needs several queries can load one `VerifiedEventSnapshot` and
