@@ -37,6 +37,13 @@ policy, or a crossed cumulative spend line requires explicit human acknowledgeme
 objects, directional baseline rules, allowlists, thresholds, and the credit mint remain
 human-signed.
 
+Each signed epoch budget has an inclusive start and an exclusive expiry. Future budgets may be
+registered ahead of time. At most one epoch is active: once a higher registered epoch starts, it
+permanently supersedes every lower epoch. Allocations and cumulative spend remain scoped to the
+budget ID, so a new epoch starts a new spend ledger. Local allocation, local execution, and remote
+authorization all check the active epoch. Remote authorization expiry cannot extend beyond the
+budget expiry.
+
 The local trust root is explicit: `trust-key` records an immutable Ed25519 public key and its human
 owner in the hash-linked ledger. Budget registration verifies the signature over canonical JSON
 with the signature field omitted and rejects signer/key-owner mismatch. The private key remains

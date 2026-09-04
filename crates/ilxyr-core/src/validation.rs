@@ -827,6 +827,18 @@ pub fn epoch_budget(budget: &EpochBudget) -> Result<()> {
         Some("human://"),
         &mut errors,
     );
+    if budget.signed_at_ms == 0 {
+        errors.push("epoch_budget.signed_at_ms must be positive".to_owned());
+    }
+    if budget.valid_from_ms == 0 {
+        errors.push("epoch_budget.valid_from_ms must be positive".to_owned());
+    }
+    if budget.expires_at_ms <= budget.valid_from_ms {
+        errors.push("epoch_budget.expires_at_ms must follow valid_from_ms".to_owned());
+    }
+    if budget.signed_at_ms >= budget.expires_at_ms {
+        errors.push("epoch_budget must be signed before it expires".to_owned());
+    }
     if budget.signature.algorithm != "ed25519" {
         errors.push("epoch_budget.signature.algorithm must be ed25519".to_owned());
     }

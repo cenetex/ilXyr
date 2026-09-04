@@ -558,6 +558,14 @@ expectInvalid(
   budgetWithoutArguments,
 );
 
+const budgetWithoutExpiry = await readJson("examples/schema/epoch-budget.json");
+delete budgetWithoutExpiry.expires_at_ms;
+expectInvalid(
+  "epoch-budget.schema.json",
+  "epoch budget without a signed expiry",
+  budgetWithoutExpiry,
+);
+
 const sandboxSpec = await readJson("examples/schema/sandbox-spec.json");
 sandboxSpec.authority.scope.seeds = [];
 expectInvalid("sandbox-spec.schema.json", "sandbox authority without seeds", sandboxSpec);

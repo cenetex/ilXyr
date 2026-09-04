@@ -29,6 +29,8 @@
   },
   "signed_by": "human://toy/policy-owner",
   "signed_at_ms": 1770000000000,
+  "valid_from_ms": 1770000000000,
+  "expires_at_ms": 4102444800000,
   "signature": {
     "algorithm": "ed25519",
     "key_id": "key://toy/policy-owner/v1",

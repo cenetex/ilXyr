@@ -6,8 +6,9 @@ use crate::{
     ActorRef, CodePolicy, CompiledExperiment, Error, ExecutionNetworkMode, ExecutionReport,
     ExecutorEnvironmentManifest, ExecutorJobPackage, ExportPolicy, ProviderBinding, Result,
     VerifiedExecutionReport, WeightClass, Workspace, attestation::trusted_attestation_keys,
-    authorize_unattended_run, store::now_ms, verify_environment_manifest, verify_execution_report,
-    verify_job_package, workflow::resolve_outcome,
+    authorize_unattended_run, autonomy::active_epoch_budget_at, store::now_ms,
+    verify_environment_manifest, verify_execution_report, verify_job_package,
+    workflow::resolve_outcome,
 };
 
 const EXPERIMENT_COMPILED: &str = "ExperimentCompiled";
@@ -212,6 +213,13 @@ pub fn authorize_remote_execution(
         return Err(Error::Security(
             "remote authorization expiry must be in the future".to_owned(),
         ));
+    }
+    let budget = active_epoch_budget_at(workspace, budget_id, now)?;
+    if expires_at_ms > budget.expires_at_ms {
+        return Err(Error::Security(format!(
+            "remote authorization expiry must not exceed epoch budget expiry {}",
+            budget.expires_at_ms
+        )));
     }
 
     if let Some(existing) = latest_typed::<RemoteExecutionAuthorization>(

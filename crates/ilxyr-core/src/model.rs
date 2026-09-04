@@ -951,6 +951,8 @@ pub struct EpochBudget {
     pub acknowledgement_thresholds: AcknowledgementThresholds,
     pub signed_by: String,
     pub signed_at_ms: u128,
+    pub valid_from_ms: u128,
+    pub expires_at_ms: u128,
     pub signature: PolicySignature,
 }
 

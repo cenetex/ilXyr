@@ -7,6 +7,7 @@
   "required": [
     "schema", "id", "epoch", "total_compute_credits", "replication_reserve_pct", "per_executable_caps",
     "allowlisted_executables", "promoted_metrics", "baselines", "signed_by", "signed_at_ms",
+    "valid_from_ms", "expires_at_ms",
     "acknowledgement_thresholds", "signature"
   ],
   "properties": {
@@ -102,7 +103,17 @@
       "pattern": "^human://\\S+$",
       "description": "Human identity that signed this budget."
     },
-    "signed_at_ms": { "type": "integer", "minimum": 0 },
+    "signed_at_ms": { "type": "integer", "minimum": 1 },
+    "valid_from_ms": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Inclusive start of this signed epoch budget's authority."
+    },
+    "expires_at_ms": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Exclusive end of this signed epoch budget's authority."
+    },
     "signature": {
       "type": "object",
       "additionalProperties": false,
