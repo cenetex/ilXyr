@@ -1084,6 +1084,8 @@ pub struct ResearchEvent {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct VerificationReport {
+    #[serde(default)]
+    pub configuration_checked: bool,
     pub objects_checked: usize,
     #[serde(default)]
     pub blobs_checked: usize,
