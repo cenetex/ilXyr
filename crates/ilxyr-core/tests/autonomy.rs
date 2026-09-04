@@ -2,6 +2,7 @@ use std::{fs, path::PathBuf, process, time::SystemTime};
 
 use base64::{Engine as _, engine::general_purpose::STANDARD};
 use ed25519_dalek::{Signer, SigningKey};
+use ilxyr_core::lifecycle::{release_test_digest, seal_test_digest};
 use ilxyr_core::{
     ActorKind, ActorRef, Certificate, EpochBudget, EvidenceLane, ExperimentSpec, Forecast,
     FundingCommitment, RegistrationProvider, RegistrationRequirement, RegistrationVisibility,
@@ -182,6 +183,40 @@ fn higher_started_epoch_supersedes_old_authority_and_resets_spend() {
 
     run_sandbox(&workspace, &successor.id, sandbox_spec())
         .expect("successor epoch must have its own allocation capacity");
+}
+
+#[test]
+fn sandbox_execution_enforces_sealed_test_access() {
+    let directory = TestDirectory::create("sandbox-sealed-test");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let signing_key = SigningKey::from_bytes(&[8; 32]);
+    trust_test_key(&workspace, &signing_key);
+    let budget = signed_budget(&signing_key);
+    register_epoch_budget(&workspace, budget.clone()).expect("budget must register");
+    prepare_unfunded_experiment(&workspace);
+
+    seal_test_digest(&workspace, "toy.score.v1", &"a".repeat(64))
+        .expect("test digest seals before sandbox execution");
+    let mut spec = sandbox_spec();
+    spec.experiment_id = "toy.score.v1".to_owned();
+    let error = run_sandbox(&workspace, &budget.id, spec.clone())
+        .expect_err("sealed test access must block sandbox execution");
+    assert!(error.to_string().contains("test split"));
+    assert!(
+        workspace
+            .latest_event("SandboxPlanned", &spec.id)
+            .expect("sandbox plan query")
+            .is_none(),
+        "a blocked sandbox must not reserve state"
+    );
+
+    release_test_digest(
+        &workspace,
+        "toy.score.v1",
+        &ActorRef::service("service://ilxyr/test-release-authorizer"),
+    )
+    .expect("authorized release opens test access");
+    run_sandbox(&workspace, &budget.id, spec).expect("released test access permits sandbox run");
 }
 
 #[test]

@@ -207,6 +207,7 @@ pub fn authorize_remote_execution(
         return validation("remote authorization ID must not be empty");
     }
     let (compiled, package_ref) = compiled_for_package(workspace, environment, package)?;
+    crate::lifecycle::ensure_test_access_allowed(workspace, &package.experiment_id)?;
     let environment_ref = verify_environment_manifest(environment)?;
     let now = now_ms()?;
     if expires_at_ms <= now {
@@ -343,6 +344,7 @@ pub fn launch_remote_execution<A: RemoteExecutorAdapter>(
         &environment,
         &package,
     )?;
+    crate::lifecycle::ensure_test_access_allowed(workspace, &authorization.experiment_id)?;
     preflight_remote_execution(adapter, &environment, &package)?;
     let adapter_configuration_ref = adapter.configuration_ref()?;
 
