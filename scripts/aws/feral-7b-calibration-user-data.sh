@@ -86,6 +86,17 @@ finish() {
   set +e
   docker rm -f feral-profile feral-base-profile feral-calibrate >/dev/null 2>&1
   aws s3 cp "$BOOT_LOG" "s3://${BUCKET}/${PREFIX}/bootstrap.log" --sse AES256 --only-show-errors
+  if [ "$exit_code" -ne 0 ]; then
+    diagnostic_files=(host.json profile-stderr.log profile.json
+      base-profile-stderr.log base-profile/base-profile.json base-profile/base-metrics.json
+      calibration-stderr.log calibration/calibration.json)
+    for relative in "${diagnostic_files[@]}"; do
+      if [ -f "$OUT/$relative" ]; then
+        aws s3 cp "$OUT/$relative" "s3://${BUCKET}/${PREFIX}/diagnostics/${relative}" \
+          --sse AES256 --only-show-errors
+      fi
+    done
+  fi
   if [ "$TERMINAL_WRITTEN" -eq 0 ]; then
     write_status failed "$exit_code"
   fi

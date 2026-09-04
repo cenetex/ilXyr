@@ -51,6 +51,21 @@ assert.match(userData, /base-profile \/work\/package\/config\.toml --split data\
 assert.match(userData, /--sample-fraction 0\.01 --output \/work\/out\/base-profile/);
 assert.match(userData, /RUNNER_WATCH_REVISION=/);
 assert.match(userData, /OCI_IMAGE_REPOSITORY=ghcr\.io\/atimics\/feral-7b-sec-qwen/);
+for (const diagnostic of [
+  "host.json",
+  "profile-stderr.log",
+  "profile.json",
+  "base-profile-stderr.log",
+  "base-profile/base-profile.json",
+  "base-profile/base-metrics.json",
+  "calibration-stderr.log",
+  "calibration/calibration.json",
+]) {
+  assert.ok(userData.includes(diagnostic));
+}
+for (const excluded of ["data/train.jsonl", "data/validation.jsonl"]) {
+  assert.equal(userData.includes(`diagnostics/${excluded}`), false);
+}
 
 const temporary = mkdtempSync(join(tmpdir(), "feral-launch-test-"));
 try {
