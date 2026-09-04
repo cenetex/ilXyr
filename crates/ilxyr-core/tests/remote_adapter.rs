@@ -8,6 +8,7 @@ use std::{
 
 use base64::{Engine as _, engine::general_purpose::STANDARD};
 use ed25519_dalek::{Signer, SigningKey};
+use ilxyr_core::lifecycle::{release_test_digest, seal_test_digest};
 use ilxyr_core::{
     AcceptedRemoteReport, ActorKind, ActorRef, AllocationPolicy, BudgetPolicy, CodePolicy,
     DigestResource, DsseEnvelope, DsseSignature, EnvironmentCapabilities, EpochBudget,
@@ -154,6 +155,67 @@ fn fake_adapter_recovers_idempotently_and_intake_is_durable() {
         .expect_err("one launch cannot publish a second report");
     assert!(error.to_string().contains("already bound"));
     assert!(fixture.workspace.verify().expect("ledger verifies").valid);
+}
+
+#[test]
+fn remote_authorization_and_launch_enforce_sealed_test_access() {
+    let sealed_before_authorization = Fixture::new();
+    seal_test_digest(
+        &sealed_before_authorization.workspace,
+        "toy.score.v1",
+        &"a".repeat(64),
+    )
+    .expect("test digest seals before remote authorization");
+    let error = authorize_remote_execution(
+        &sealed_before_authorization.workspace,
+        &sealed_before_authorization.environment,
+        &sealed_before_authorization.package,
+        &sealed_before_authorization.budget_id,
+        AUTHORIZATION_ID,
+        future_expiry(),
+    )
+    .expect_err("sealed test access must block remote authorization");
+    assert!(error.to_string().contains("test split"));
+
+    let sealed_before_launch = Fixture::new();
+    authorize_remote_execution(
+        &sealed_before_launch.workspace,
+        &sealed_before_launch.environment,
+        &sealed_before_launch.package,
+        &sealed_before_launch.budget_id,
+        AUTHORIZATION_ID,
+        future_expiry(),
+    )
+    .expect("remote authorization succeeds while test access is open");
+    seal_test_digest(
+        &sealed_before_launch.workspace,
+        "toy.score.v1",
+        &"b".repeat(64),
+    )
+    .expect("test digest seals before provider launch");
+    let mut adapter = FakeAdapter::new(false);
+    let error = launch_remote_execution(
+        &sealed_before_launch.workspace,
+        &mut adapter,
+        AUTHORIZATION_ID,
+    )
+    .expect_err("sealed test access must block provider launch");
+    assert!(error.to_string().contains("test split"));
+    assert_eq!(adapter.launch_calls, 0);
+
+    release_test_digest(
+        &sealed_before_launch.workspace,
+        "toy.score.v1",
+        &ActorRef::service("service://ilxyr/test-release-authorizer"),
+    )
+    .expect("authorized release opens test access");
+    launch_remote_execution(
+        &sealed_before_launch.workspace,
+        &mut adapter,
+        AUTHORIZATION_ID,
+    )
+    .expect("released test access permits provider launch");
+    assert_eq!(adapter.launch_calls, 1);
 }
 
 #[test]

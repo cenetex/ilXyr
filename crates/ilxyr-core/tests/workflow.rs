@@ -2,6 +2,7 @@ use std::{fs, path::PathBuf, process, time::SystemTime};
 
 use base64::{Engine as _, engine::general_purpose::STANDARD};
 use ed25519_dalek::{Signer, SigningKey};
+use ilxyr_core::lifecycle::{release_test_digest, seal_test_digest};
 use ilxyr_core::{
     ActorRef, CodePolicy, CompiledExperiment, CorpusFile, CorpusLocation, CorpusMaterialization,
     CorpusRelease, CorpusRights, CorpusSource, DsseEnvelope, DsseSignature, ExperimentSpec,
@@ -232,6 +233,20 @@ fn oci_job_binds_corpus_reconciles_and_requires_attestation() {
             .to_string()
             .contains("match every frozen dataset")
     );
+    seal_test_digest(&workspace, &spec.id, &"d".repeat(64))
+        .expect("test digest seals before OCI dispatch");
+    assert!(
+        record_oci_job_dispatch(&workspace, dispatch.clone())
+            .expect_err("sealed test access must block OCI dispatch")
+            .to_string()
+            .contains("test split")
+    );
+    release_test_digest(
+        &workspace,
+        &spec.id,
+        &ActorRef::service("service://ilxyr/test-release-authorizer"),
+    )
+    .expect("authorized release opens test access");
     let dispatch_ref = record_oci_job_dispatch(&workspace, dispatch.clone()).expect("dispatch");
     assert_eq!(
         record_oci_job_dispatch(&workspace, dispatch).expect("dispatch retry"),

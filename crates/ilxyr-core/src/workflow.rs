@@ -7,7 +7,7 @@ use crate::{
     CompletedExperiment, ContributionStage, Error, Evidence, EvidenceLane, ExperimentSpec,
     ExperimentStatus, ExportPolicy, Forecast, ForecastSettlement, FundingCommitment, GateCheck,
     NetworkPolicy, OutcomePredicate, ResearchContribution, Result, RunRecord, SharedTaskContract,
-    WeightClass, Workspace, autonomy, corpus, executor, onboarding, registration,
+    WeightClass, Workspace, autonomy, corpus, executor, lifecycle, onboarding, registration,
     require_registered_huggingface_actor, require_registered_huggingface_weight,
     require_registered_nsrl_actor, require_registered_nsrl_weight, store::now_ms, validation,
 };
@@ -329,6 +329,12 @@ pub(crate) fn evaluate_admission(
     let local = spec.execution.executor == "local-command";
     let remote = spec.execution.executor == "remote-v1";
     let oci = spec.execution.executor == "oci-job";
+    let (test_access_allowed, test_access_detail) =
+        match lifecycle::ensure_test_access_allowed(workspace, experiment_id) {
+            Ok(()) => (true, "test data is available for execution".to_owned()),
+            Err(Error::Security(message)) => (false, message),
+            Err(error) => return Err(error),
+        };
 
     Ok(vec![
         check(
@@ -348,6 +354,11 @@ pub(crate) fn evaluate_admission(
             ),
         ),
         registration::admission_gate(workspace, compiled)?,
+        check(
+            "sealed_test_access",
+            test_access_allowed,
+            test_access_detail,
+        ),
         check(
             "forecast_participation",
             distinct_forecasters >= spec.funding.minimum_forecasters,
@@ -477,6 +488,7 @@ pub fn run_experiment(workspace: &Workspace, experiment_id: &str) -> Result<Comp
             "experiment no longer satisfies local admission gates".to_owned(),
         ));
     }
+    lifecycle::ensure_test_access_allowed(workspace, experiment_id)?;
     let runner = ActorRef::service("service://ilxyr/local-executor-v1");
     workspace.append_event(EXECUTION_STARTED, experiment_id, runner.clone(), None)?;
     let run = executor::execute_local(&compiled.spec, workspace.root())?;
@@ -744,7 +756,7 @@ fn ensure_unique_id(workspace: &Workspace, event_type: &str, id: &str) -> Result
     }
 }
 
-fn ensure_inputs_open(workspace: &Workspace, experiment_id: &str) -> Result<()> {
+pub(crate) fn ensure_inputs_open(workspace: &Workspace, experiment_id: &str) -> Result<()> {
     if workspace
         .latest_event(EXECUTION_STARTED, experiment_id)?
         .is_some()

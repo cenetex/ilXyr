@@ -3,7 +3,7 @@ use std::collections::BTreeSet;
 use crate::{
     ActorKind, AdmissionDecision, CompletedExperiment, Error, ExperimentSpec, OciJobCompletion,
     OciJobDispatch, Result, RunOutputArtifact, RunRecord, Workspace, corpus,
-    has_verified_executor_attestation, workflow,
+    has_verified_executor_attestation, lifecycle, workflow,
 };
 
 const ADMISSION_DECIDED: &str = "AdmissionDecided";
@@ -58,6 +58,7 @@ pub fn record_oci_job_dispatch(workspace: &Workspace, dispatch: OciJobDispatch) 
             "latest admission decision rejected this experiment".to_owned(),
         ));
     }
+    lifecycle::ensure_test_access_allowed(workspace, &dispatch.experiment_id)?;
     if workflow::evaluate_admission(workspace, &compiled)?
         .iter()
         .any(|gate| !gate.passed)
