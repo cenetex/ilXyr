@@ -87,19 +87,21 @@ receipt must cover the imported Braid artifacts and `release.json` exactly.
 
 ## Start the service
 
-Create or select an ilxyr workspace, provide a bearer token of at least 32 bytes, and start the
-service:
+Create or select an ilxyr workspace. Provide separate access and materializer bearer tokens of at
+least 32 bytes. Bind the materializer token to one service identity:
 
 ```bash
 cargo run -p ilxyr-cli -- init /path/to/corpus-workspace
 export ILXYR_CORPUS_TOKEN='replace-with-a-random-secret-of-at-least-32-bytes'
+export ILXYR_CORPUS_MATERIALIZER_TOKEN='replace-with-a-different-random-secret-of-at-least-32-bytes'
+export ILXYR_CORPUS_MATERIALIZER_ID='service://ilxyr/s3-readback-materializer-v1'
 cargo run -p ilxyr-corpus-service -- /path/to/corpus-workspace
 ```
 
 The default address is `127.0.0.1:8787`. A non-loopback address is rejected unless
 `ILXYR_CORPUS_ALLOW_REMOTE=true` is set. Remote use must put TLS, identity-aware access, request
-limits, and audit controls in front of the service. The bearer token is read from the environment
-and is never written to an ilxyr object or event.
+limits, and audit controls in front of the service. The tokens are read from the environment and
+are never written to an ilxyr object or event.
 
 The health endpoint is public:
 
@@ -107,7 +109,9 @@ The health endpoint is public:
 curl http://127.0.0.1:8787/healthz
 ```
 
-All `/v1` routes require `Authorization: Bearer $ILXYR_CORPUS_TOKEN`.
+Corpus registration, reads, and handoffs require
+`Authorization: Bearer $ILXYR_CORPUS_TOKEN`. `POST /v1/materializations` requires
+`Authorization: Bearer $ILXYR_CORPUS_MATERIALIZER_TOKEN`.
 
 ## Register and inspect a corpus
 
@@ -134,14 +138,19 @@ materializer's read-back verification.
 
 ```bash
 curl -sS http://127.0.0.1:8787/v1/materializations \
-  -H "Authorization: Bearer $ILXYR_CORPUS_TOKEN" \
+  -H "Authorization: Bearer $ILXYR_CORPUS_MATERIALIZER_TOKEN" \
   -H 'Content-Type: application/json' \
   --data-binary @path/to/completed-s3-materialization.json
 ```
 
-The service rejects missing files, extra files, duplicate paths, digest or size drift, a provider
-URI outside the declared base prefix, empty provider versions, and non-service verifiers. The
-materialization can be inspected through:
+The materializer bearer token is the authentication proof for the single configured
+`ILXYR_CORPUS_MATERIALIZER_ID`. The service requires the receipt's `verified_by` actor to match
+that identity before it writes the receipt. This proves possession of the configured shared
+secret at submission time. The current proof level is shared-secret possession.
+
+The service rejects a different verifier identity, missing files, extra files, duplicate paths,
+digest or size drift, a provider URI outside the declared base prefix, empty provider versions,
+and non-service verifiers. The materialization can be inspected through:
 
 ```text
 GET /v1/materializations/{materialization-digest}
@@ -191,6 +200,8 @@ command job, and hashes the mounted or downloaded files before training.
 ## Security boundary
 
 This first service slice remains single-writer. An in-process lock prevents concurrent requests
-from interleaving workspace writes, but it is not a multi-tenant authorization system. Do not put
-sensitive corpus paths, provider credentials, or private access tokens in release or receipt
-objects. Production multi-tenant use still requires the controls listed in `docs/SECURITY.md`.
+from interleaving workspace writes. The access token scope covers registration, reads, and
+handoffs. The materializer token scope covers receipt submission. Direct calls to the core
+recording function are trusted local-writer operations. Store sensitive corpus paths, provider
+credentials, and private access tokens in dedicated secret systems. Production multi-tenant use
+still requires the controls listed in `docs/SECURITY.md`.

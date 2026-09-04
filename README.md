@@ -141,6 +141,8 @@ The corpus service runs over a separate or existing initialized workspace:
 
 ```bash
 export ILXYR_CORPUS_TOKEN='replace-with-a-random-secret-of-at-least-32-bytes'
+export ILXYR_CORPUS_MATERIALIZER_TOKEN='replace-with-a-different-random-secret-of-at-least-32-bytes'
+export ILXYR_CORPUS_MATERIALIZER_ID='service://ilxyr/s3-readback-materializer-v1'
 cargo run -p ilxyr-corpus-service -- /path/to/initialized-workspace
 ```
 
