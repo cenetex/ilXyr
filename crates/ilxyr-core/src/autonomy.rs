@@ -105,12 +105,13 @@ pub fn register_epoch_budget(workspace: &Workspace, budget: EpochBudget) -> Resu
     if let Some(latest) = registered_budgets(workspace)?
         .into_iter()
         .max_by_key(|registered| registered.epoch)
-        && budget.epoch <= latest.epoch
     {
-        return Err(Error::Conflict(format!(
-            "epoch {} must follow registered epoch {}",
-            budget.epoch, latest.epoch
-        )));
+        if budget.epoch <= latest.epoch {
+            return Err(Error::Conflict(format!(
+                "epoch {} must follow registered epoch {}",
+                budget.epoch, latest.epoch
+            )));
+        }
     }
     let artifact_ref = workspace.put(&budget)?;
     workspace.append_event(
