@@ -22,6 +22,33 @@ pub struct Workspace {
     state: PathBuf,
 }
 
+/// A complete event-log view whose envelopes, predecessor links, hashes, and
+/// artifact references were verified together.
+#[derive(Debug, Clone)]
+pub struct VerifiedEventSnapshot {
+    events: Vec<ResearchEvent>,
+}
+
+impl VerifiedEventSnapshot {
+    #[must_use]
+    pub fn events(&self) -> &[ResearchEvent] {
+        &self.events
+    }
+
+    #[must_use]
+    pub fn latest_event(&self, event_type: &str, aggregate_id: &str) -> Option<&ResearchEvent> {
+        self.events
+            .iter()
+            .rev()
+            .find(|event| event.event_type == event_type && event.aggregate_id == aggregate_id)
+    }
+
+    #[must_use]
+    pub fn into_events(self) -> Vec<ResearchEvent> {
+        self.events
+    }
+}
+
 impl Workspace {
     pub fn init(root: impl AsRef<Path>) -> Result<Self> {
         let root = root.as_ref().to_path_buf();
@@ -165,16 +192,18 @@ impl Workspace {
     }
 
     pub fn events(&self) -> Result<Vec<ResearchEvent>> {
+        Ok(self.event_snapshot()?.into_events())
+    }
+
+    pub fn event_snapshot(&self) -> Result<VerifiedEventSnapshot> {
         let contents = fs::read_to_string(self.state.join("events.jsonl"))?;
-        contents
+        let events = contents
             .lines()
             .filter(|line| !line.trim().is_empty())
-            .map(|line| {
-                let event: ResearchEvent = serde_json::from_str(line)?;
-                validate_event_envelope(&event)?;
-                Ok(event)
-            })
-            .collect()
+            .map(serde_json::from_str)
+            .collect::<std::result::Result<Vec<ResearchEvent>, _>>()?;
+        self.verify_event_chain(&events)?;
+        Ok(VerifiedEventSnapshot { events })
     }
 
     pub(crate) fn append_event(
@@ -185,8 +214,7 @@ impl Workspace {
         artifact_ref: Option<String>,
     ) -> Result<ResearchEvent> {
         validate_event_type(event_type)?;
-        let events = self.events()?;
-        self.verify_event_chain(&events)?;
+        let events = self.event_snapshot()?.into_events();
         if let Some(artifact_ref) = artifact_ref.as_deref() {
             let _: Value = self.get(artifact_ref)?;
         }
@@ -227,10 +255,9 @@ impl Workspace {
         aggregate_id: &str,
     ) -> Result<Option<ResearchEvent>> {
         Ok(self
-            .events()?
-            .into_iter()
-            .rev()
-            .find(|event| event.event_type == event_type && event.aggregate_id == aggregate_id))
+            .event_snapshot()?
+            .latest_event(event_type, aggregate_id)
+            .cloned())
     }
 
     pub fn verify(&self) -> Result<VerificationReport> {
@@ -254,8 +281,7 @@ impl Workspace {
             objects_checked += 1;
         }
 
-        let events = self.events()?;
-        self.verify_event_chain(&events)?;
+        let events = self.event_snapshot()?;
 
         let blob_dir = self.state.join("blobs/sha256");
         let mut blobs_checked = 0;
@@ -275,7 +301,7 @@ impl Workspace {
         Ok(VerificationReport {
             objects_checked,
             blobs_checked,
-            events_checked: events.len(),
+            events_checked: events.events().len(),
             valid: true,
         })
     }
@@ -584,6 +610,107 @@ mod tests {
             .verify()
             .expect_err("unknown schema must fail closed");
         assert!(error.to_string().contains("unsupported event schema"));
+        assert!(workspace.events().is_err());
+        assert!(
+            workspace
+                .latest_event("ExecutionStarted", "experiment://test")
+                .is_err()
+        );
+        fs::remove_dir_all(root).expect("cleanup");
+    }
+
+    #[test]
+    fn event_hash_tampering_is_rejected_by_every_event_read() {
+        let root = test_root("event-hash");
+        let workspace = Workspace::init(&root).expect("workspace");
+        workspace
+            .append_event(
+                "ExecutionStarted",
+                "experiment://test",
+                ActorRef::service("service://test/runner"),
+                None,
+            )
+            .expect("event");
+
+        let events_path = root.join(".ilxyr/events.jsonl");
+        let mut events = read_event_values(&events_path);
+        events[0]["event_hash"] = Value::String("0".repeat(64));
+        write_event_values(&events_path, &events);
+
+        let snapshot_error = workspace
+            .event_snapshot()
+            .expect_err("verified snapshot must reject a changed event hash");
+        assert!(snapshot_error.to_string().contains("event digest mismatch"));
+        assert!(workspace.events().is_err());
+        assert!(
+            workspace
+                .latest_event("ExecutionStarted", "experiment://test")
+                .is_err()
+        );
+        fs::remove_dir_all(root).expect("cleanup");
+    }
+
+    #[test]
+    fn predecessor_tampering_is_rejected_by_every_event_read() {
+        let root = test_root("event-predecessor");
+        let workspace = Workspace::init(&root).expect("workspace");
+        for aggregate_id in ["experiment://one", "experiment://two"] {
+            workspace
+                .append_event(
+                    "ExecutionStarted",
+                    aggregate_id,
+                    ActorRef::service("service://test/runner"),
+                    None,
+                )
+                .expect("event");
+        }
+
+        let events_path = root.join(".ilxyr/events.jsonl");
+        let mut events = read_event_values(&events_path);
+        events[1]["previous_event"] = Value::String("0".repeat(64));
+        write_event_values(&events_path, &events);
+
+        let snapshot_error = workspace
+            .event_snapshot()
+            .expect_err("verified snapshot must reject a changed predecessor");
+        assert!(snapshot_error.to_string().contains("event chain break"));
+        assert!(workspace.events().is_err());
+        assert!(
+            workspace
+                .latest_event("ExecutionStarted", "experiment://two")
+                .is_err()
+        );
+        fs::remove_dir_all(root).expect("cleanup");
+    }
+
+    #[test]
+    fn verified_snapshot_serves_multiple_queries() {
+        let root = test_root("event-snapshot");
+        let workspace = Workspace::init(&root).expect("workspace");
+        for aggregate_id in ["experiment://one", "experiment://two"] {
+            workspace
+                .append_event(
+                    "ExecutionStarted",
+                    aggregate_id,
+                    ActorRef::service("service://test/runner"),
+                    None,
+                )
+                .expect("event");
+        }
+
+        let snapshot = workspace.event_snapshot().expect("verified snapshot");
+        assert_eq!(snapshot.events().len(), 2);
+        assert_eq!(
+            snapshot
+                .latest_event("ExecutionStarted", "experiment://two")
+                .map(|event| event.aggregate_id.as_str()),
+            Some("experiment://two")
+        );
+        assert!(
+            snapshot
+                .latest_event("ExperimentCompleted", "experiment://two")
+                .is_none()
+        );
         fs::remove_dir_all(root).expect("cleanup");
     }
 
@@ -633,5 +760,23 @@ mod tests {
             std::env::temp_dir().join(format!("ilxyr-store-{label}-{}-{nonce}", process::id()));
         fs::create_dir(&root).expect("root");
         root
+    }
+
+    fn read_event_values(path: &Path) -> Vec<Value> {
+        fs::read_to_string(path)
+            .expect("event log")
+            .lines()
+            .map(|line| serde_json::from_str(line).expect("event JSON"))
+            .collect()
+    }
+
+    fn write_event_values(path: &Path, events: &[Value]) {
+        let mut contents = events
+            .iter()
+            .map(|event| serde_json::to_string(event).expect("serialize event"))
+            .collect::<Vec<_>>()
+            .join("\n");
+        contents.push('\n');
+        fs::write(path, contents).expect("write event log");
     }
 }

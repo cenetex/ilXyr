@@ -64,6 +64,10 @@ roots, the compiled experiment, authorization, and launch state from its own ver
 validates returned metrics and outcomes before recording evidence. Its network boundary stores
 only credential hashes, limits authenticated failures, and contains no launch adapter.
 
+Every event read verifies the complete event chain, including event hashes, predecessor links, and
+referenced artifacts. A caller that needs several queries can load one `VerifiedEventSnapshot` and
+reuse that validated view for the full operation.
+
 The first public remote baseline keeps cloud metadata, cloud credentials, report credentials, and
 signing keys outside the guest; denies host mounts and interactive access; uses one job per
 read-only microVM; and assembles the signed report outside the guest. The public website is a

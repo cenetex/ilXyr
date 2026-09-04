@@ -5,8 +5,9 @@ use ed25519_dalek::{Signer, SigningKey};
 use ilxyr_core::{
     ActorKind, ActorRef, DsseEnvelope, DsseSignature, ExecutorAttestation, Forecast,
     FundingCommitment, ResearchContribution, Workspace, commit_funding, compile_experiment,
-    decide_admission, dsse_pae, evidence_bundle, record_executor_attestation, run_experiment,
-    submit_contribution, submit_forecast, trust_attestation_key,
+    decide_admission, dsse_pae, evidence_bundle, has_verified_executor_attestation,
+    record_executor_attestation, run_experiment, submit_contribution, submit_forecast,
+    trust_attestation_key,
 };
 use serde::de::DeserializeOwned;
 use serde_json::{Value, json};
@@ -146,6 +147,35 @@ fn signed_dsse_slsa_provenance_is_verified_and_bound_to_a_ledgered_run() {
     assert_eq!(bundle.executor_attestations.len(), 1);
     assert_eq!(bundle.executor_attestations[0].id, recorded.id);
     assert!(workspace.verify().expect("ledger must verify").valid);
+}
+
+#[test]
+fn trusted_key_lookup_rejects_a_corrupt_ledger() {
+    let directory = TestDirectory::create();
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let signing_key = SigningKey::from_bytes(&[10_u8; 32]);
+    let executor = ActorRef::service(EXECUTOR_ID);
+    trust_attestation_key(
+        &workspace,
+        KEY_ID,
+        executor.clone(),
+        STANDARD.encode(signing_key.verifying_key().as_bytes()),
+    )
+    .expect("executor key must be trusted");
+
+    let event_path = directory.0.join(".ilxyr/events.jsonl");
+    let tampered = fs::read_to_string(&event_path)
+        .expect("event log must be readable")
+        .replace(KEY_ID, "key://toy/attested-executor/tampered");
+    fs::write(event_path, tampered).expect("test must tamper with the ledger");
+
+    let error = has_verified_executor_attestation(
+        &workspace,
+        &format!("artifact://sha256/{}", "a".repeat(64)),
+        &executor,
+    )
+    .expect_err("trusted key lookup must reject a corrupt ledger");
+    assert!(error.to_string().contains("event digest mismatch"));
 }
 
 fn slsa_statement(run_ref: &str, builder_id: &str) -> Value {
