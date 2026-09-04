@@ -18,11 +18,11 @@ use ilxyr_core::{
     ResearchContribution, RunRecord, SourceRelease, WeightClass, Workspace,
     accept_authenticated_remote_report, accept_remote_execution_report, allocate_epoch,
     authenticate_report_intake_credential, authorize_remote_execution,
-    collect_remote_execution_report, compile_experiment, dsse_pae, epoch_budget_signing_payload,
-    issue_report_intake_credential, launch_remote_execution, observe_remote_execution,
-    preflight_remote_execution, record_authenticated_report_rejection, register_epoch_budget,
-    run_experiment, submit_contribution, submit_forecast, trust_attestation_key, trust_policy_key,
-    verify_compiled_job_package,
+    collect_remote_execution_report, compile_experiment, dsse_pae, epoch_budget,
+    epoch_budget_signing_payload, issue_report_intake_credential, launch_remote_execution,
+    observe_remote_execution, preflight_remote_execution, record_authenticated_report_rejection,
+    register_epoch_budget, run_experiment, submit_contribution, submit_forecast,
+    trust_attestation_key, trust_policy_key, verify_compiled_job_package,
 };
 use serde::Serialize;
 use serde_json::{Value, json};
@@ -367,6 +367,22 @@ fn authorization_rejects_package_drift_expiry_and_a_second_run() {
     .expect_err("expired authorization is rejected");
     assert!(error.to_string().contains("future"));
 
+    let budget = epoch_budget(&fixture.workspace, &fixture.budget_id).expect("budget loads");
+    let error = authorize_remote_execution(
+        &fixture.workspace,
+        &fixture.environment,
+        &fixture.package,
+        &fixture.budget_id,
+        "authorization:overlong",
+        budget.expires_at_ms.expect("v2 budget has an expiry") + 1,
+    )
+    .expect_err("authorization must end within the budget lifetime");
+    assert!(
+        error
+            .to_string()
+            .contains("must not exceed epoch budget expiry")
+    );
+
     let expiry = future_expiry();
     authorize_remote_execution(
         &fixture.workspace,
@@ -401,6 +417,27 @@ fn authorization_rejects_package_drift_expiry_and_a_second_run() {
             .to_string()
             .contains("already has remote authorization")
     );
+
+    let policy_key = SigningKey::from_bytes(&[61; 32]);
+    let mut successor = budget;
+    successor.id = "toy.epoch-budget.remote.v2".to_owned();
+    successor.epoch += 1;
+    successor.signed_at_ms = now_ms();
+    successor.valid_from_ms = Some(successor.signed_at_ms);
+    successor.signature.value.clear();
+    let payload = epoch_budget_signing_payload(&successor).expect("budget payload serializes");
+    successor.signature.value = STANDARD.encode(policy_key.sign(&payload).to_bytes());
+    register_epoch_budget(&fixture.workspace, successor).expect("successor budget registers");
+    let error = authorize_remote_execution(
+        &fixture.workspace,
+        &fixture.environment,
+        &fixture.package,
+        &fixture.budget_id,
+        AUTHORIZATION_ID,
+        expiry,
+    )
+    .expect_err("superseded budget must not return a remote authorization");
+    assert!(error.to_string().contains("superseded"));
     assert!(fixture.workspace.verify().expect("ledger verifies").valid);
 }
 

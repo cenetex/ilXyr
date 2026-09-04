@@ -1,6 +1,6 @@
 {
-  "schema": "ilxyr.epoch_budget.v2",
-  "id": "toy.epoch-budget.v1",
+  "schema": "ilxyr.epoch_budget.v1",
+  "id": "toy.epoch-budget.legacy.v1",
   "epoch": 1,
   "total_compute_credits": 1000,
   "replication_reserve_pct": 20,
@@ -29,8 +29,6 @@
   },
   "signed_by": "human://toy/policy-owner",
   "signed_at_ms": 1770000000000,
-  "valid_from_ms": 1770000000000,
-  "expires_at_ms": 4102444800000,
   "signature": {
     "algorithm": "ed25519",
     "key_id": "key://toy/policy-owner/v1",
