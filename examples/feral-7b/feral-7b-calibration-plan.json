@@ -2,7 +2,7 @@
   "schema": "ilxyr.feral_calibration_plan.v1",
   "id": "feral-7b.sec-calibration.v1",
   "status": "awaiting_human_approval",
-  "purpose": "Measure the exact corpus token counts, 1% LoRA throughput, and peak memory for a later full-training decision.",
+  "purpose": "Measure exact corpus token counts, 1% base-model quality and generation cost, and 1% LoRA throughput and peak memory for a later full-training decision.",
   "inputs": {
     "corpus_ref": "artifact://sha256/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c",
     "materialization_ref": "artifact://sha256/b43f6b676af3e0e1ce1a4cd400cd3e7004c6fc6d048fe405b9742d326cde3732",
@@ -12,9 +12,9 @@
     "config_sha256": "2f1b2df8bf58ad40e3339fde6b4041e799e5b31a54cee6c9745ce2095e2282b4",
     "model_id": "Qwen/Qwen2.5-7B-Instruct",
     "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
-    "image": "ghcr.io/atimics/feral-7b-sec-qwen@sha256:2b4ea0f0764b431812851d97a8aafdca414db086d2d3a7e9323837bf839da361",
-    "image_source_revision": "7123f3dfc1b51beaf5db2a7caf3bbc08174ac6dd",
-    "image_build_url": "https://github.com/atimics/runner-watch/actions/runs/33595714178"
+    "image": "ghcr.io/atimics/feral-7b-sec-qwen@sha256:c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b",
+    "image_source_revision": "974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8",
+    "image_build_url": "https://github.com/atimics/runner-watch/actions/runs/33848581774"
   },
   "sample": {
     "fraction": 0.01,
@@ -57,6 +57,9 @@
   },
   "expected_outputs": [
     "profile.json",
+    "base-profile/base-profile.json",
+    "base-profile/base-metrics.json",
+    "base-profile/private-base-predictions.jsonl",
     "calibration/calibration.json",
     "training-estimate.json",
     "host.json",

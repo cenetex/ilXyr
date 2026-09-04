@@ -84,10 +84,10 @@
     },
     "expected_outputs": {
       "type": "array",
-      "minItems": 6,
-      "maxItems": 6,
+      "minItems": 9,
+      "maxItems": 9,
       "uniqueItems": true,
-      "items": { "enum": ["profile.json", "calibration/calibration.json", "training-estimate.json", "host.json", "SHA256SUMS", "terminal-status.json"] }
+      "items": { "enum": ["profile.json", "base-profile/base-profile.json", "base-profile/base-metrics.json", "base-profile/private-base-predictions.jsonl", "calibration/calibration.json", "training-estimate.json", "host.json", "SHA256SUMS", "terminal-status.json"] }
     },
     "approval": {
       "type": "object",

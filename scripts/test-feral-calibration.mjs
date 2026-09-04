@@ -9,6 +9,8 @@ import Ajv2020 from "ajv/dist/2020.js";
 const read = (path) => JSON.parse(readFileSync(path, "utf8"));
 const sha = (path) => createHash("sha256").update(readFileSync(path)).digest("hex");
 const plan = read("examples/feral-7b/feral-7b-calibration-plan.json");
+const baseProfile = read("examples/feral-7b/transformers-base-profile.json");
+const calibrationProfile = read("examples/feral-7b/transformers-calibration-profile.json");
 const schema = read("schemas/feral-calibration-plan.schema.json");
 const validate = new Ajv2020({ strict: true, allErrors: true }).compile(schema);
 assert.ok(validate(plan), JSON.stringify(validate.errors));
@@ -16,6 +18,21 @@ assert.equal(sha("examples/feral-7b/feral-7b-calibration-config.toml"), plan.inp
 assert.equal(sha("examples/corpus/feral-7b-s3-materialization.json"), plan.inputs.receipt_sha256);
 assert.equal(Math.ceil(plan.sample.population_examples * plan.sample.fraction), plan.sample.selected_examples);
 assert.ok(plan.budget.hourly_compute_usd * plan.budget.max_instance_seconds / 3600 <= plan.budget.max_compute_usd);
+assert.equal(baseProfile.implementation.revision, plan.inputs.image_source_revision);
+assert.equal(calibrationProfile.implementation.revision, plan.inputs.image_source_revision);
+for (const profile of [baseProfile, calibrationProfile]) {
+  assert.equal(
+    `${profile.environment.image.repository}@${profile.environment.image.digest}`,
+    plan.inputs.image,
+  );
+}
+for (const output of [
+  "base-profile/base-profile.json",
+  "base-profile/base-metrics.json",
+  "base-profile/private-base-predictions.jsonl",
+]) {
+  assert.ok(plan.expected_outputs.includes(output));
+}
 for (const key of Object.keys(plan.approval).filter((key) => key.endsWith("_authorized"))) {
   const changed = structuredClone(plan);
   changed.approval[key] = true;
@@ -30,7 +47,20 @@ for (const file of ["package", "run-instance", "user-data"]) {
   assert.equal(result.status, 0, result.stderr);
 }
 const userData = readFileSync("scripts/aws/feral-7b-calibration-user-data.sh", "utf8");
-for (const diagnostic of ["host.json", "profile-stderr.log", "profile.json", "calibration-stderr.log", "calibration/calibration.json"]) {
+assert.match(userData, /base-profile \/work\/package\/config\.toml --split data\/validation\.jsonl/);
+assert.match(userData, /--sample-fraction 0\.01 --output \/work\/out\/base-profile/);
+assert.match(userData, /RUNNER_WATCH_REVISION=/);
+assert.match(userData, /OCI_IMAGE_REPOSITORY=ghcr\.io\/atimics\/feral-7b-sec-qwen/);
+for (const diagnostic of [
+  "host.json",
+  "profile-stderr.log",
+  "profile.json",
+  "base-profile-stderr.log",
+  "base-profile/base-profile.json",
+  "base-profile/base-metrics.json",
+  "calibration-stderr.log",
+  "calibration/calibration.json",
+]) {
   assert.ok(userData.includes(diagnostic));
 }
 for (const excluded of ["data/train.jsonl", "data/validation.jsonl"]) {

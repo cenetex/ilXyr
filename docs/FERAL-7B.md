@@ -36,10 +36,9 @@ not a Season 00 training input.
 3. **Complete:** every imported file plus each `release.json` is in private, versioned,
    access-logged S3 storage and has a read-back verified receipt. See
    [`FERAL-7B-MATERIALIZATION.md`](FERAL-7B-MATERIALIZATION.md).
-4. **Complete for the earlier trainer:** Runner Watch published
-   `ghcr.io/atimics/feral-7b-sec-qwen@sha256:2b4ea0f0764b431812851d97a8aafdca414db086d2d3a7e9323837bf839da361`
-   from source revision `7123f3dfc1b51beaf5db2a7caf3bbc08174ac6dd`. Publish a new immutable image
-   from receipt-enabled revision `974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8` before freezing the profiles.
+4. **Complete:** Runner Watch published an immutable image from receipt-enabled revision
+   `974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8`. The calibration plan and both execution profiles
+   bind its registry digest.
 5. Resolve and freeze the
    [`base-only profile`](../examples/feral-7b/transformers-base-profile.json) and
    [`one-percent LoRA calibration profile`](../examples/feral-7b/transformers-calibration-profile.json).

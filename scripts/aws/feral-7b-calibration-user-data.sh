@@ -84,10 +84,11 @@ finish() {
   exit_code=$?
   trap - EXIT
   set +e
-  docker rm -f feral-profile feral-calibrate >/dev/null 2>&1
+  docker rm -f feral-profile feral-base-profile feral-calibrate >/dev/null 2>&1
   aws s3 cp "$BOOT_LOG" "s3://${BUCKET}/${PREFIX}/bootstrap.log" --sse AES256 --only-show-errors
   if [ "$exit_code" -ne 0 ]; then
     diagnostic_files=(host.json profile-stderr.log profile.json
+      base-profile-stderr.log base-profile/base-profile.json base-profile/base-metrics.json
       calibration-stderr.log calibration/calibration.json)
     for relative in "${diagnostic_files[@]}"; do
       if [ -f "$OUT/$relative" ]; then
@@ -152,6 +153,12 @@ PHASE=image
 write_status running 0
 docker pull "$IMAGE"
 docker image inspect "$IMAGE" > "$OUT/image-inspect.json"
+image_source_revision=$(jq -r .inputs.image_source_revision plan.json)
+test "$(jq -r --arg expected "RUNNER_WATCH_REVISION=${image_source_revision}" \
+  '.[0].Config.Env | map(select(. == $expected)) | length' "$OUT/image-inspect.json")" = 1
+test "$(jq -r \
+  '.[0].Config.Env | map(select(. == "OCI_IMAGE_REPOSITORY=ghcr.io/atimics/feral-7b-sec-qwen")) | length' \
+  "$OUT/image-inspect.json")" = 1
 jq -n --arg instance_id "$INSTANCE_ID" --arg image "$IMAGE" \
   --arg kernel "$(uname -r)" --arg docker "$(docker --version)" \
   --arg gpu "$(nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv,noheader)" \
@@ -176,6 +183,22 @@ run_bounded docker run --name feral-profile "${docker_arguments[@]}" "$IMAGE" \
   profile /work/package/config.toml --output /work/out/profile.json \
   > "$OUT/profile-stdout.json" 2> "$OUT/profile-stderr.log"
 test "$(jq '[.splits[].unusable_examples] | add' "$OUT/profile.json")" = 0
+
+PHASE=base_profile
+write_status running 0
+run_bounded docker run --name feral-base-profile "${docker_arguments[@]}" "$IMAGE" \
+  base-profile /work/package/config.toml --split data/validation.jsonl \
+  --sample-fraction 0.01 --output /work/out/base-profile \
+  > "$OUT/base-profile-stdout.json" 2> "$OUT/base-profile-stderr.log"
+base_profile="$OUT/base-profile/base-profile.json"
+test "$(jq -r .purpose "$base_profile")" = base_profile
+test "$(jq -r .sample.fraction "$base_profile")" = 0.01
+test "$(jq -r .sample.selection "$base_profile")" = lowest-sha256-example-id-v1
+test "$(jq -r .adapter.method "$base_profile")" = none
+test "$(jq -r .execution_authorized "$base_profile")" = false
+jq -e '.sample.selected_examples > 0 and
+  .measurement.total_runtime_seconds > 0 and
+  .measurement.peak_device_memory_reserved_bytes > 0' "$base_profile"
 
 PHASE=calibration
 write_status running 0
@@ -202,8 +225,10 @@ jq -n --slurpfile profile "$OUT/profile.json" --slurpfile calibration "$calibrat
 
 PHASE=collect
 cd "$OUT"
-result_files=(profile.json calibration/calibration.json training-estimate.json host.json
-  image-inspect.json profile-stdout.json profile-stderr.log
+result_files=(profile.json base-profile/base-profile.json base-profile/base-metrics.json
+  base-profile/private-base-predictions.jsonl calibration/calibration.json
+  training-estimate.json host.json image-inspect.json profile-stdout.json profile-stderr.log
+  base-profile-stdout.json base-profile-stderr.log
   calibration-stdout.json calibration-stderr.log)
 sha256sum "${result_files[@]}" > SHA256SUMS
 for file in "${result_files[@]}" SHA256SUMS; do
