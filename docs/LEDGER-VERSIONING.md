@@ -14,6 +14,9 @@ must be checked against this document before implementation.
 - Event hashes cover envelope fields only — never artifact contents.
 - All model types use `#[serde(deny_unknown_fields)]`; JSON Schemas are strict
   Draft 2020-12.
+- `config.json` declares the workspace schema, ledger mode, and object hash. Opening and verifying
+  a workspace require the exact supported v1 values. Malformed files and future versions fail
+  closed before ledger data is used.
 
 ## Rules
 
@@ -65,6 +68,7 @@ escalation or human) should reject silent derived-state drift.
 | Rules 2–3 | Code review; `deny_unknown_fields` compile-time posture |
 | Rule 4 | Schema fixtures (positive/negative) required for every schema PR |
 | Rule 5 | PR description checklist |
+| Workspace configuration | Strict typed parsing during `open` and `verify` |
 
 ## Worked example
 
