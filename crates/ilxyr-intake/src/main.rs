@@ -1,7 +1,7 @@
 use std::{env, net::IpAddr, process, str::FromStr, sync::Arc};
 
-use ilxyr_core::{Workspace, issue_report_intake_credential};
 use ilxyr_intake::{DEFAULT_MAX_BODY_BYTES, DEFAULT_REQUESTS_PER_MINUTE, IntakeService};
+use ilxyr_intake_boundary::{Workspace, issue_report_intake_credential};
 use tiny_http::Server;
 
 const DEFAULT_BIND: &str = "127.0.0.1:8087";

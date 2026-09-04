@@ -117,7 +117,9 @@ credential, content type, body size, peer rate, and rejection count. It records 
 through the single ledger writer.
 
 Production setup places this service behind TLS. The service account receives access to the ilXyr
-workspace. It has a focused role for report intake. See `crates/ilxyr-intake/README.md`.
+workspace. It has a focused role for report intake. Its Rust dependency is the narrow
+`ilxyr-intake-boundary` API. The CI dependency allowlist limits the package to this API and its
+HTTP and serialization libraries. See `crates/ilxyr-intake/README.md`.
 
 ## Operations status
 
