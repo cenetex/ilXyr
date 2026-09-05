@@ -472,6 +472,29 @@
       "lineage_note": "Freeze a rule for cross-series relationships and test fresh examples. Keep this known-case coverage failure when comparing learned models with the control.",
       "evidence_path": "experiments/research-step-8/RESULT.json",
       "evidence_ref": "artifact://sha256/f554af04923799b4cb22c1928efd7d6c808d76488ef7f48e91344df225669261"
+    },
+    {
+      "seq": 24,
+      "verdict_id": "verdict:solomon.fixed-answer-confidence.v1",
+      "verdict_ref": "artifact://sha256/eeaa8e0012a76599856d2cf526f4c3055a929f1dd88a07e732b33b0c51fc6fe0",
+      "experiment_id": "solomon.fixed-answer-confidence.v1",
+      "family": "solomon",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "integer-transformer",
+        "probability-error",
+        "suffix-memory",
+        "confidence-control"
+      ],
+      "summary": "The recorded combined candidate gains 37.5691 percent under its probability error through confidence alone, with every chosen byte unchanged.",
+      "recorded_at_ms": 1788611113630,
+      "project": "solomon",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "analytic confidence control on the existing promoted candidate and component records",
+      "lineage_note": "Keep the promoted result and the earlier constant-context successor audit. Compare fixed-answer probability controls with exact normalized Brier scores, zero-probability events, answer counts, and full inference cost on fresh inputs.",
+      "evidence_path": "experiments/research-step-10/RESULT.json",
+      "evidence_ref": "artifact://sha256/2791ceff8223c576123eba84cadc3092412e8d0ad70dda85535550daa4902e53"
     }
   ]
 }
