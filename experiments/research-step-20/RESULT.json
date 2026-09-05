@@ -1,0 +1,19 @@
+{
+  "artifacts": {
+    "DEVELOPMENT-FAILURES.json": "01ce109a014d675eb2ff06f07e1f450cb267b63e869164cd9b291b2f3c811e81",
+    "PREFLIGHT.json": "8165ee3a0e4dc3278b8cdca124e0ed97976a25bfb231c931ad001dcac1e82642",
+    "RUN-REQUEST.json": "7602f8a0ecfc500d680e2b7fb974037accc93f089717fb783fe87057628955cd",
+    "TRACE-VERIFICATION.json": "c12252ef6cfc22fee162b5054392b7622d2f96940bc7ffe967444d6406228339"
+  },
+  "implementation_commit": "c5d41d19f004bd9e809297c228a922ea6149287b",
+  "implementation_sources": {
+    "scripts/feral_cloud_package.py": "f2e302d5407581144c18455908b409e324775ba5790032fe5914c25138ea898b",
+    "scripts/lib/oracle-resource-accounting.mjs": "c7819fa5ffeaad9c73160b29f85fe21536219be239314f030f2ce7fee954276d",
+    "scripts/test-weight-calibration-trace.mjs": "77020098667f98c24ade1fab25261986700f8d98a59cf7f014e0bab5ba4f7c5e",
+    "scripts/verify-weight-multiplicity-calibration-trace.mjs": "d7f0f8e0dcb0476cfcc1924fb8b82458767ab4b1f9b4acd04a4e6b67d89e0a92"
+  },
+  "next_decision": "Approve the frozen FERAL comparison for at most 3600 instance seconds and USD 3.00 before tax.",
+  "paid_instances_created": 0,
+  "read_only_trace_verification_queries": 26624,
+  "schema": "ilxyr.research_live_preflight_review.v1"
+}

@@ -11,6 +11,12 @@ The [Solomon count-probability step](../experiments/research-step-19/REPORT.md)
 adds two train-only confidence controls. Its known-window smoke preserves
 both lower Brier error from empirical counts and higher error after smoothing.
 
+The [live preflight and trace recovery](../experiments/research-step-20/REPORT.md)
+stages the fixed FERAL package, passes the free EC2 dry run, and verifies all
+26,624 original weight-multiplicity calibration queries. FERAL's next decision
+is approval for the one-hour, $3 comparison. Weight multiplicity next needs its
+cloud corpus package.
+
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).
 The [second diagnostic](../experiments/research-step-2/REPORT.md) establishes a
 stronger integer context baseline for Solomon and audits FERAL's missing labels.
@@ -215,8 +221,9 @@ The original Phase 0 frontier resolved Stop. Later LiE work established a reduce
 825-representation surface. A corpus pilot then hit its resource gate, and the
 26,624-query tail calibration produced a proposed 50 ms final p99 clause. The
 [controller now enforces the fixed resource policy](../experiments/research-step-12/REPORT.md).
-The next step is to retrieve the versioned calibration trace, replay its
-resource decision, and freeze the cloud corpus package. The
+The [versioned calibration trace now verifies](../experiments/research-step-20/REPORT.md),
+including every slowest-50 query and the final-p99 decision. The next step is
+the frozen cloud corpus package. The
 [resource accounting component](../experiments/research-step-3/REPORT.md)
 now passes its exact percentile and failure-retention tests. The source-pinned contract is
 [`weight-multiplicity-transfer-r3`](../examples/weight-multiplicity/rev3-contract.json), and the
