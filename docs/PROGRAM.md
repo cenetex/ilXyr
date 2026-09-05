@@ -5,6 +5,8 @@ What the lab studies. The rest of `docs/` is the machinery that holds it account
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).
 The [second diagnostic](../experiments/research-step-2/REPORT.md) establishes a
 stronger integer context baseline for Solomon and audits FERAL's missing labels.
+The [mechanism audit](../experiments/research-step-4/REPORT.md) compares
+Reasoner's semantic controls and checks all three ZERO.4 projection traces.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence
