@@ -1,0 +1,27 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:feral.evidence-calculator-cross-series.v1",
+  "experiment_id": "feral.evidence-calculator-cross-series.v1",
+  "family": "feral",
+  "project": "feral",
+  "taxonomy": "measurement",
+  "outcome": "diagnostic_failure",
+  "evidence_kind": "posthoc_diagnostic",
+  "source_outcome": "five-case opened-data smoke retained one numeric coverage failure",
+  "evidence_path": "experiments/research-step-8/RESULT.json",
+  "evidence_ref": "artifact://sha256/f554af04923799b4cb22c1928efd7d6c808d76488ef7f48e91344df225669261",
+  "mechanism": "The fixed calculator aligns years within one series. It abstains on the MAS comparison of two return series at one date, whose reviewed target is 111.97 percentage points.",
+  "mechanism_tags": [
+    "retrieval-calculator",
+    "cross-series-arithmetic",
+    "abstention"
+  ],
+  "summary": "The fixed calculator abstains on an answerable cross-series question in its five-case development smoke.",
+  "lineage_note": "Freeze a rule for cross-series relationships and test fresh examples. Keep this known-case coverage failure when comparing learned models with the control.",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788606742092
+}

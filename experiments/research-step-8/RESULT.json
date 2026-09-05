@@ -1,0 +1,439 @@
+{
+  "bindings": {
+    "experiments/research-step-7/MANIFEST.json": "e63fbfee0b2b67cb4327205347338939000a5163786228fc32b06d3efb81fccb",
+    "experiments/research-step-7/TARGET-PATCH.json": "d03eb56a5572bdcdd1798bf3cc7e547988640ce2bb70f5617e5d362e2cf30000",
+    "experiments/research-step-8/PLAN.md": "831cc4568b74fcd39a025368060109fff8054b67fb2ed140de0f29a3e1bb9ada",
+    "scripts/feral_evidence_calculator.py": "40790cad9cdfd1b53caac7764f9f8e9b0607ceba300699edcc9326e18c96953c",
+    "scripts/feral_targets_v2.py": "a5e8413b66ccf20963ccbdaefec00346bca4e7235c43743d8a2ad32d57d5fc73",
+    "scripts/research_baselines.py": "03bdce6315fded2ceb272e9c427c869893fc2b156f8fa6ab00f466b9c461ea72",
+    "scripts/research_feral_calculator_smoke.py": "1fc968834e191d7bdda6641f61510dcbd7c388c9206b04ac06e54a3e517985ce"
+  },
+  "inputs": [
+    {
+      "id": "MAS/2017/page_27.pdf-2",
+      "messages": [
+        {
+          "content": "Answer the financial reasoning question using only the supplied evidence. Return one JSON object with exactly one field: answer.",
+          "role": "system"
+        },
+        {
+          "content": "{\"question\":\"what was the difference in percentage cumulative total shareholder return on masco common stock versus the s&p 500 index for the five year period ended 2017?\",\"retrieved_evidence\":[[\"text_1\",\"the graph assumes investments of $ 100 on december 31 , 2012 in our common stock and in each of the three indices and the reinvestment of dividends .\"],[\"table_1\",\"the masco of 2013 is $ 138.48 ; the masco of 2014 is $ 155.26 ; the masco of 2015 is $ 200.79 ; the masco of 2016 is $ 227.08 ; the masco of 2017 is $ 318.46 ;\"],[\"table_2\",\"the s&p 500 index of 2013 is $ 132.04 ; the s&p 500 index of 2014 is $ 149.89 ; the s&p 500 index of 2015 is $ 151.94 ; the s&p 500 index of 2016 is $ 169.82 ; the s&p 500 index of 2017 is $ 206.49 ;\"]]}",
+          "role": "user"
+        }
+      ],
+      "schema": "ilxyr.feral_model_input.v2",
+      "task": "finqa"
+    },
+    {
+      "id": "AES/2002/page_128.pdf-2",
+      "messages": [
+        {
+          "content": "Answer the financial reasoning question using only the supplied evidence. Return one JSON object with exactly one field: answer.",
+          "role": "system"
+        },
+        {
+          "content": "{\"question\":\"what was the decrease in rental expense ( millions ) for operating leases in continuing operations from 2003 to 2003?\",\"retrieved_evidence\":[[\"text_10\",\"rental expense for operating leases , excluding amounts related to the sale/leaseback discussed below , was $ 31 million $ 32 million and $ 13 million in the years ended december 31 , 2002 , 2001and 2000 , respectively , including commitments of businesses classified as discontinued amounting to $ 6 million in 2002 , $ 16 million in 2001 and $ 6 million in 2000 .\"],[\"table_1\",\"the 2003 of total is $ 30 ; the 2003 of discontinued operations is $ 4 ;\"],[\"text_15\",\"rental expense was $ 54 million , $ 58 million and $ 54 million in 2002 , 2001 and 2000 , respectively .\"]]}",
+          "role": "user"
+        }
+      ],
+      "schema": "ilxyr.feral_model_input.v2",
+      "task": "finqa"
+    },
+    {
+      "id": "PNC/2012/page_100.pdf-3",
+      "messages": [
+        {
+          "content": "Answer the financial reasoning question using only the supplied evidence. Return one JSON object with exactly one field: answer.",
+          "role": "system"
+        },
+        {
+          "content": "{\"question\":\"how many total private investor repurchase claims were there in 2011 and 2012 combined , in millions?\",\"retrieved_evidence\":[[\"text_12\",\"the following table details the unpaid principal balance of our unresolved home equity indemnification and repurchase claims at december 31 , 2012 and december 31 , 2011 , respectively .\"],[\"text_13\",\"table 31 : analysis of home equity unresolved asserted indemnification and repurchase claims in millions december 31 december 31 .\"],[\"table_2\",\"in millions the private investors ( a ) of december 31 2012 is $ 74 ; the private investors ( a ) of december 31 2011 is $ 110 ;\"]]}",
+          "role": "user"
+        }
+      ],
+      "schema": "ilxyr.feral_model_input.v2",
+      "task": "finqa"
+    },
+    {
+      "id": "CE/2016/page_19.pdf-4",
+      "messages": [
+        {
+          "content": "Answer the financial reasoning question using only the supplied evidence. Return one JSON object with exactly one field: answer.",
+          "role": "system"
+        },
+        {
+          "content": "{\"question\":\"what was the percentage change in the the research and development costs from 2014 to 2015\",\"retrieved_evidence\":[[\"text_5\",\"research and development expense was $ 78 million , $ 119 million and $ 86 million for the years ended december 31 , 2016 , 2015 and 2014 , respectively .\"],[\"text_6\",\"we consider the amounts spent during each of the last three fiscal years on research and development activities to be sufficient to execute our current strategic initiatives .\"],[\"text_10\",\"patents .\"]]}",
+          "role": "user"
+        }
+      ],
+      "schema": "ilxyr.feral_model_input.v2",
+      "task": "finqa"
+    },
+    {
+      "id": "HIG/2011/page_53.pdf-4",
+      "messages": [
+        {
+          "content": "Answer the financial reasoning question using only the supplied evidence. Return one JSON object with exactly one field: answer.",
+          "role": "system"
+        },
+        {
+          "content": "{\"question\":\"what was the percentage change in the reinsurance accounts from 2009 to 2010\",\"retrieved_evidence\":[[\"table_3\",\"the assumed reinsurance of total reserves is 39 ;\"],[\"table_5\",\"the total of total reserves is 367 ;\"],[\"table_7\",\"the net of total reserves is $ 320 ;\"]]}",
+          "role": "user"
+        }
+      ],
+      "schema": "ilxyr.feral_model_input.v2",
+      "task": "finqa"
+    }
+  ],
+  "model_inputs_sha256": "308a7b50bf9d2e018e36dab68f5238d26246f79c2f7672a176be7017f750eb8a",
+  "results": {
+    "calculator": {
+      "abstentions": 3,
+      "arithmetic_operations": 4,
+      "case_count": 5,
+      "cases": [
+        {
+          "arm": "calculator",
+          "exact_result": null,
+          "id": "MAS/2017/page_27.pdf-2",
+          "operands": [],
+          "operation": null,
+          "prediction": null,
+          "reason": "question_needs_distinct_years",
+          "schema": "ilxyr.feral_evidence_calculator.v1",
+          "target_correct": false,
+          "target_kind": "numeric",
+          "unit": null,
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 0,
+            "series_scored": 0
+          }
+        },
+        {
+          "arm": "calculator",
+          "exact_result": null,
+          "id": "AES/2002/page_128.pdf-2",
+          "operands": [],
+          "operation": null,
+          "prediction": null,
+          "reason": "question_needs_distinct_years",
+          "schema": "ilxyr.feral_evidence_calculator.v1",
+          "target_correct": true,
+          "target_kind": "abstention",
+          "unit": null,
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 0,
+            "series_scored": 0
+          }
+        },
+        {
+          "arm": "calculator",
+          "exact_result": "184",
+          "id": "PNC/2012/page_100.pdf-3",
+          "operands": [
+            {
+              "evidence_id": "table_2",
+              "label": "private investors ( a )",
+              "span": [
+                121,
+                126
+              ],
+              "text": "$ 110",
+              "unit": "usd_million",
+              "value": "110",
+              "year": 2011
+            },
+            {
+              "evidence_id": "table_2",
+              "label": "private investors ( a )",
+              "span": [
+                63,
+                67
+              ],
+              "text": "$ 74",
+              "unit": "usd_million",
+              "value": "74",
+              "year": 2012
+            }
+          ],
+          "operation": "sum",
+          "prediction": "184",
+          "reason": "answered",
+          "schema": "ilxyr.feral_evidence_calculator.v1",
+          "selected_series": "private investors ( a )",
+          "target_correct": true,
+          "target_kind": "numeric",
+          "unit": "usd_million",
+          "work": {
+            "arithmetic_operations": 1,
+            "evidence_rows": 3,
+            "parsed_cells": 2,
+            "series_scored": 1
+          }
+        },
+        {
+          "arm": "calculator",
+          "exact_result": "1650/43",
+          "id": "CE/2016/page_19.pdf-4",
+          "operands": [
+            {
+              "evidence_id": "text_5",
+              "label": "research and development expense",
+              "span": [
+                70,
+                82
+              ],
+              "text": "$ 86 million",
+              "unit": "usd_million",
+              "value": "86",
+              "year": 2014
+            },
+            {
+              "evidence_id": "text_5",
+              "label": "research and development expense",
+              "span": [
+                52,
+                65
+              ],
+              "text": "$ 119 million",
+              "unit": "usd_million",
+              "value": "119",
+              "year": 2015
+            }
+          ],
+          "operation": "percent_change",
+          "prediction": "38.37%",
+          "reason": "answered",
+          "schema": "ilxyr.feral_evidence_calculator.v1",
+          "selected_series": "research and development expense",
+          "target_correct": true,
+          "target_kind": "numeric",
+          "unit": "percent",
+          "work": {
+            "arithmetic_operations": 3,
+            "evidence_rows": 3,
+            "parsed_cells": 3,
+            "series_scored": 1
+          }
+        },
+        {
+          "arm": "calculator",
+          "exact_result": null,
+          "id": "HIG/2011/page_53.pdf-4",
+          "operands": [],
+          "operation": "percent_change",
+          "prediction": null,
+          "reason": "missing_matching_series",
+          "schema": "ilxyr.feral_evidence_calculator.v1",
+          "target_correct": true,
+          "target_kind": "abstention",
+          "unit": null,
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 0,
+            "series_scored": 0
+          }
+        }
+      ],
+      "correct_cases": 4,
+      "numeric_answers": 2
+    },
+    "operand_only": {
+      "abstentions": 3,
+      "arithmetic_operations": 0,
+      "case_count": 5,
+      "cases": [
+        {
+          "arm": "operand_only",
+          "exact_result": null,
+          "id": "MAS/2017/page_27.pdf-2",
+          "operands": [],
+          "operation": null,
+          "prediction": null,
+          "reason": "question_needs_distinct_years",
+          "schema": "ilxyr.feral_evidence_calculator.v1",
+          "target_correct": false,
+          "target_kind": "numeric",
+          "unit": null,
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 0,
+            "series_scored": 0
+          }
+        },
+        {
+          "arm": "operand_only",
+          "exact_result": null,
+          "id": "AES/2002/page_128.pdf-2",
+          "operands": [],
+          "operation": null,
+          "prediction": null,
+          "reason": "question_needs_distinct_years",
+          "schema": "ilxyr.feral_evidence_calculator.v1",
+          "target_correct": true,
+          "target_kind": "abstention",
+          "unit": null,
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 0,
+            "series_scored": 0
+          }
+        },
+        {
+          "arm": "operand_only",
+          "exact_result": "74",
+          "id": "PNC/2012/page_100.pdf-3",
+          "operands": [
+            {
+              "evidence_id": "table_2",
+              "label": "private investors ( a )",
+              "span": [
+                121,
+                126
+              ],
+              "text": "$ 110",
+              "unit": "usd_million",
+              "value": "110",
+              "year": 2011
+            },
+            {
+              "evidence_id": "table_2",
+              "label": "private investors ( a )",
+              "span": [
+                63,
+                67
+              ],
+              "text": "$ 74",
+              "unit": "usd_million",
+              "value": "74",
+              "year": 2012
+            }
+          ],
+          "operation": "sum",
+          "prediction": "74",
+          "reason": "answered",
+          "schema": "ilxyr.feral_evidence_calculator.v1",
+          "selected_series": "private investors ( a )",
+          "target_correct": false,
+          "target_kind": "numeric",
+          "unit": "usd_million",
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 2,
+            "series_scored": 1
+          }
+        },
+        {
+          "arm": "operand_only",
+          "exact_result": "119",
+          "id": "CE/2016/page_19.pdf-4",
+          "operands": [
+            {
+              "evidence_id": "text_5",
+              "label": "research and development expense",
+              "span": [
+                70,
+                82
+              ],
+              "text": "$ 86 million",
+              "unit": "usd_million",
+              "value": "86",
+              "year": 2014
+            },
+            {
+              "evidence_id": "text_5",
+              "label": "research and development expense",
+              "span": [
+                52,
+                65
+              ],
+              "text": "$ 119 million",
+              "unit": "usd_million",
+              "value": "119",
+              "year": 2015
+            }
+          ],
+          "operation": "percent_change",
+          "prediction": "119",
+          "reason": "answered",
+          "schema": "ilxyr.feral_evidence_calculator.v1",
+          "selected_series": "research and development expense",
+          "target_correct": false,
+          "target_kind": "numeric",
+          "unit": "usd_million",
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 3,
+            "series_scored": 1
+          }
+        },
+        {
+          "arm": "operand_only",
+          "exact_result": null,
+          "id": "HIG/2011/page_53.pdf-4",
+          "operands": [],
+          "operation": "percent_change",
+          "prediction": null,
+          "reason": "missing_matching_series",
+          "schema": "ilxyr.feral_evidence_calculator.v1",
+          "target_correct": true,
+          "target_kind": "abstention",
+          "unit": null,
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 0,
+            "series_scored": 0
+          }
+        }
+      ],
+      "correct_cases": 2,
+      "numeric_answers": 2
+    }
+  },
+  "schema": "ilxyr.feral_calculator_smoke.v1",
+  "scope": "five_opened_cases",
+  "targets": [
+    {
+      "expected_rational": "11197/100",
+      "id": "MAS/2017/page_27.pdf-2",
+      "kind": "numeric",
+      "original_answer": "",
+      "unit": "percentage_points"
+    },
+    {
+      "id": "AES/2002/page_128.pdf-2",
+      "kind": "abstention",
+      "original_answer": ""
+    },
+    {
+      "expected_rational": "184",
+      "id": "PNC/2012/page_100.pdf-3",
+      "kind": "numeric",
+      "original_answer": "",
+      "unit": "usd_million"
+    },
+    {
+      "expected_rational": "1650/43",
+      "id": "CE/2016/page_19.pdf-4",
+      "kind": "numeric",
+      "original_answer": "",
+      "unit": "percent"
+    },
+    {
+      "id": "HIG/2011/page_53.pdf-4",
+      "kind": "abstention",
+      "original_answer": ""
+    }
+  ],
+  "targets_sha256": "1d82193487f5800856fcba45b6eba13134796d1f92033b25b552fb37602dc8b1"
+}
