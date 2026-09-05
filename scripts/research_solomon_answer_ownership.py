@@ -39,7 +39,10 @@ def memory_bytes(model, training):
             "model geometry differs")
     counts = struct.unpack_from("<10Q", model, 28)
     header = 8 + 5 * 4 + 10 * 8 + 8 * 8
-    require(len(model) == header + 2 * sum(counts[:2]) + sum(counts[2:]),
+    base_bytes = header + 2 * sum(counts[:2]) + sum(counts[2:])
+    layers = counts[2] // (128 * 128)
+    rms_bytes = layers * 128 * 4
+    require(len(model) in (base_bytes, base_bytes + rms_bytes),
             "model byte roster differs")
     offset = header + 2 * counts[0]
     packed = model[offset:offset + 2 * counts[1]]

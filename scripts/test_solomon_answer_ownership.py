@@ -64,6 +64,16 @@ class OwnershipTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, message):
                     audit.memory_bytes(modified, memory)
 
+    def test_rms_tail_is_counted(self):
+        model, memory = self.model_fixture()
+        with_rms = model + bytes(1024)
+        with patch.object(audit, "MODEL_SHA", hashlib.sha256(with_rms).hexdigest()):
+            self.assertEqual(audit.memory_bytes(with_rms, memory), memory)
+        wrong_tail = model + bytes(1023)
+        with patch.object(audit, "MODEL_SHA", hashlib.sha256(wrong_tail).hexdigest()):
+            with self.assertRaisesRegex(ValueError, "byte roster"):
+                audit.memory_bytes(wrong_tail, memory)
+
     @staticmethod
     def native_fixture():
         memory = b"abcaabdxabcaabdy"
