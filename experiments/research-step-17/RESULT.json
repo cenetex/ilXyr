@@ -1,0 +1,174 @@
+{
+  "development_failure": {
+    "path": "experiments/research-step-17/DEVELOPMENT-FAILURE.json",
+    "sha256": "c4bde6ca994ece681d42c3b0bca842980cc3a932d3d586d2bf8db604ebc7a03e"
+  },
+  "historical_source_bindings": {
+    "benchmarks/zero-language-gate-v1/contract.json": {
+      "bytes": 4270,
+      "sha256": "1dcd3f0f577190ec2f879e2a7d713260b241f6335bc850de71f60efd6ef25a7a"
+    },
+    "benchmarks/zero4-q29-v1/language-gate/candidate-binding.json": {
+      "bytes": 2720,
+      "sha256": "8c2d9b2196562bcd1a2251bb808afaa0f9b181583d2f757059081e621c7cfb3a"
+    },
+    "benchmarks/zero4-q29-v1/language-gate/candidate.litq8": {
+      "bytes": 4920400,
+      "sha256": "018efb1151731f35d10137ee76679d50d62f9bfb344234b54dc418e065abce28"
+    },
+    "benchmarks/zero4-q29-v1/language-gate/quantity-result.json": {
+      "bytes": 3027,
+      "sha256": "e4741358825f5a24e278569e0c57ef82e1d83637f2c7063add3be78609239837"
+    },
+    "benchmarks/zero4-q29-v1/language-gate/results/manifest.json": {
+      "bytes": 1090,
+      "sha256": "e12c3df77a1e92c46fd26053b1631c483254ba829eb7ce2de309c5be0ac7ff5b"
+    },
+    "benchmarks/zero4-q29-v1/language-gate/results/result.json": {
+      "bytes": 52205,
+      "sha256": "0bdfc0e986f57b158319030afb957d138b90c8c1dae77833f7f5f17c6dd313c9"
+    }
+  },
+  "native_smoke": {
+    "all_four_active_arms_match_historical_checkpoint_bytes": true,
+    "bytes": 17479,
+    "focused_tests": 11,
+    "mixed_source_probe": {
+      "all_source_losses_match": true,
+      "combined_loss": 4.85027361,
+      "evaluated_windows": 12,
+      "individual": [
+        {
+          "index": 0,
+          "loss": 4.85199785,
+          "result_sha256": "2c0d790ec282ab035fccb65b963b5e8abd6ab257292764c2c7687953ffecd134"
+        },
+        {
+          "index": 1,
+          "loss": 4.85083675,
+          "result_sha256": "93a5f9f86e7ccbe451b448b2ceee1903e582a6bf78f71bbb1baa242193235e03"
+        },
+        {
+          "index": 2,
+          "loss": 4.85748196,
+          "result_sha256": "1747359aec3ef680234f3b737ed9f6a03b64fb6e5daae928ea58e28386cceed9"
+        },
+        {
+          "index": 3,
+          "loss": 4.84192657,
+          "result_sha256": "41f28b8372277325c0b6e29973573eb35e5147538dc7aa8dca0c95fef0e5a129"
+        },
+        {
+          "index": 4,
+          "loss": 4.85138035,
+          "result_sha256": "7212637191aa0f5194aeeb9257f8b5895d92db271e3798969d490a8f34cd1865"
+        },
+        {
+          "index": 5,
+          "loss": 4.85083675,
+          "result_sha256": "920baf30d129e7f36990aece24aee11568fe337f038c509400515a813d56d234"
+        }
+      ],
+      "learned_state_preserved": true,
+      "mixed_result_sha256": "ea4d438c8cbd86756a426ae646d4c861dc5ae8dc1069f02d066bf8bfa7b77dd8",
+      "requested_windows": 13,
+      "sources": [
+        {
+          "index": 0,
+          "kind": "foundation",
+          "loss": 4.85199785,
+          "source_sha256": "d90f3cf5f9039b3626262e3c06bb5bd4b3948a6f26daf4532735650b2c5cdd2a",
+          "weight": 1,
+          "windows": 2
+        },
+        {
+          "index": 1,
+          "kind": "text",
+          "loss": 4.85083675,
+          "source_sha256": "1998764098fe6cde39040ae2b793ad828798894cf956739d7be61e91239f4040",
+          "weight": 2,
+          "windows": 2
+        },
+        {
+          "index": 2,
+          "kind": "text",
+          "loss": 4.85748196,
+          "source_sha256": "428676dbf6eefd7ec2e541290ef6242eb8ea2f96e1ca829855652cc55b25d8d0",
+          "weight": 3,
+          "windows": 2
+        },
+        {
+          "index": 3,
+          "kind": "text",
+          "loss": 4.84192657,
+          "source_sha256": "d6250a3296d20f8da699c8ffe3ed0b86a1c6d782da9e0f990eb0ca3590867fa9",
+          "weight": 4,
+          "windows": 2
+        },
+        {
+          "index": 4,
+          "kind": "channel",
+          "loss": 4.85138035,
+          "source_sha256": "374feaf61dbdf03ca2207143be1dfd73dbc2ebcb7c8a6d2ee38aa83536eb4376",
+          "weight": 5,
+          "windows": 2
+        },
+        {
+          "index": 5,
+          "kind": "text",
+          "loss": 4.85083675,
+          "source_sha256": "1998764098fe6cde39040ae2b793ad828798894cf956739d7be61e91239f4040",
+          "weight": 6,
+          "windows": 2
+        }
+      ]
+    },
+    "native_self_test_checks": 35,
+    "path": "experiments/research-step-17/SMOKE.json",
+    "retained_training_checkpoints": 16,
+    "sha256": "284d9da82f27e7aad6a867e11813505a4e7854714d4debe8228307a01c4752d9",
+    "source_bindings_verified": 19,
+    "study_processes": 79
+  },
+  "next_design": [
+    "Freeze fresh task and retention inputs with overlap checks.",
+    "Declare source-specific retention thresholds and a separate fresh language screen.",
+    "Keep correct final artifacts and complete work in the matched five-arm comparison."
+  ],
+  "performance_evidence": false,
+  "q29": {
+    "blimp": {
+      "accuracy": 0.535,
+      "cases": 1000,
+      "correct": 535,
+      "pass": true,
+      "threshold": 0.522,
+      "trace_sha256": "cede168ab6b605107eaf610887503efc0566ce27039c7a02555021545cc7d82c"
+    },
+    "candidate_bytes_verified": 4920400,
+    "candidate_sha256": "018efb1151731f35d10137ee76679d50d62f9bfb344234b54dc418e065abce28",
+    "earlier_training_selector_decision": "candidate-frozen",
+    "interpretation": "The training-side replay proxy passed while the separately evaluated language preservation gate failed.",
+    "language_run_id": "31356933827",
+    "language_source_commit": "b031974152922b6bcae3f65c255ca5c20c0a5dc1",
+    "language_training_updates": 0,
+    "quantity_loss_recovery": 0.8105180024362495,
+    "quantity_source_commit": "c4f682c020e17d6231b6cab5542172f8ef6c1b76",
+    "replay_training_loss_regression": 0.0012324755462037754,
+    "selected_update": 50,
+    "source_decision": "no-go",
+    "tinystories": {
+      "cases": 1000,
+      "pass": false,
+      "recomputed_bits_per_byte_decimal": "2.579735256436684172373554615",
+      "recorded_bits_per_byte": 2.5797352564366838,
+      "target_bytes": 509034,
+      "threshold": 2.553139779957201,
+      "trace_sha256": "66d29ae3443964c0f0b137bcf2fe2f5de1da4bb03f2739b3c0a398b1c9750e71"
+    },
+    "training_checkpoint_binding": "recorded digest; raw checkpoint is untracked"
+  },
+  "schema": "ilxyr.zero4_retention_sources.v1",
+  "scope": "source_bound_native_engineering_and_existing_public_result_audit",
+  "source_commit": "973fe8f6c956366bff267e65dceae58b851f7881"
+}

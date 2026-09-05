@@ -23,6 +23,30 @@ Its report links the next concrete comparison for each research line.
 The [Solomon confidence controls](../experiments/research-step-10/REPORT.md)
 show how the probability error changes at fixed answers and add an exact Brier
 score. The shared ledger preserves the measurement failure.
+The [ZERO.4 retention controls](../experiments/research-step-11/REPORT.md)
+separate replay, acceptance checks, and projection in five arms. Their toy smoke
+preserves a perfect oracle subscore alongside zero correct final artifacts.
+Every scored training checkpoint and completed process stays in the run record.
+The [weight-multiplicity resource policy](../experiments/research-step-12/REPORT.md)
+fixes the proposed caps before workload queries begin and checks final p99 before
+the corpus manifest is written. Setup and workload costs remain separate in the
+complete trace.
+The [FERAL comparison package](../experiments/research-step-13/REPORT.md)
+freezes the model and both arithmetic controls against the full revised target
+set. It preserves raw responses, partial runs, and parser failures.
+The [FERAL execution controller](../experiments/research-step-14/REPORT.md)
+adds shared deadlines, process cleanup, complete-row grading after failures,
+and a bounded cloud budget draft.
+The [FERAL host package](../experiments/research-step-15/REPORT.md) adds the
+instance shutdown path, verified collection, and retained unknown launch
+outcomes. Live preflight awaits a refreshed AWS session.
+The [Solomon answer-ownership audit](../experiments/research-step-16/REPORT.md)
+shows that suffix memory selects the frozen combined candidate's answers while
+the transformer supplies confidence. It updates the next comparison and brings
+the prepared work for all five lines into one report.
+The [retention-by-source step](../experiments/research-step-17/REPORT.md)
+records each ZERO.4 source's loss and coverage. It also imports Q2.9's later
+language failure, which narrows what the replay training proxy can support.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence

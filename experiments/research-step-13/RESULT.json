@@ -1,0 +1,435 @@
+{
+  "engineering_checks": {
+    "changed_model_and_extra_adapter_files_rejected": true,
+    "changed_package_preserves_preflight_failure_and_cost": true,
+    "changed_worktree_does_not_change_committed_archive": true,
+    "existing_archive_preserved": true,
+    "failed_generator_preserves_completed_prefix_and_cost": true,
+    "full_package_repeated_identically": true,
+    "gold_field_rejected_before_generator_load": true,
+    "prediction_runs_without_grading_files": true,
+    "schema_suite": "passed",
+    "strict_parser_replays_at_grading": true,
+    "unit_tests": 10
+  },
+  "execution_authorized": false,
+  "parser_probe": {
+    "fixtures": [
+      {
+        "id": "unfinished_prose_with_year",
+        "legacy_prediction": "2020",
+        "raw_response": "Evidence is missing for 2020.",
+        "strict": {
+          "parse_error": "Expecting value: line 1 column 1 (char 0)",
+          "prediction": {
+            "invalid_response": "Expecting value: line 1 column 1 (char 0)"
+          },
+          "raw_response": "Evidence is missing for 2020.",
+          "response_status": "invalid"
+        }
+      },
+      {
+        "id": "unfinished_object_with_year",
+        "legacy_prediction": "2020",
+        "raw_response": "{\"reason\": \"The evidence ends in 2020\", \"answer\":",
+        "strict": {
+          "parse_error": "Expecting value: line 1 column 50 (char 49)",
+          "prediction": {
+            "invalid_response": "Expecting value: line 1 column 50 (char 49)"
+          },
+          "raw_response": "{\"reason\": \"The evidence ends in 2020\", \"answer\":",
+          "response_status": "invalid"
+        }
+      },
+      {
+        "id": "duplicate_answer_fields",
+        "legacy_prediction": 2,
+        "raw_response": "{\"answer\":1,\"answer\":2}",
+        "strict": {
+          "parse_error": "duplicate_json_field",
+          "prediction": {
+            "invalid_response": "duplicate_json_field"
+          },
+          "raw_response": "{\"answer\":1,\"answer\":2}",
+          "response_status": "invalid"
+        }
+      },
+      {
+        "id": "extra_reason_field",
+        "legacy_prediction": 30,
+        "raw_response": "{\"answer\":30,\"reason\":\"10+20\"}",
+        "strict": {
+          "parse_error": "one_answer_object_required",
+          "prediction": {
+            "invalid_response": "one_answer_object_required"
+          },
+          "raw_response": "{\"answer\":30,\"reason\":\"10+20\"}",
+          "response_status": "invalid"
+        }
+      },
+      {
+        "id": "valid_exact_decimal",
+        "legacy_prediction": 12.34,
+        "raw_response": "{\"answer\":12.340}",
+        "strict": {
+          "prediction": "12.340",
+          "raw_response": "{\"answer\":12.340}",
+          "response_status": "answered"
+        }
+      },
+      {
+        "id": "valid_abstention",
+        "legacy_prediction": null,
+        "raw_response": "{\"answer\":null}",
+        "strict": {
+          "prediction": null,
+          "raw_response": "{\"answer\":null}",
+          "response_status": "abstained"
+        }
+      }
+    ],
+    "historical_occurrence_count": null,
+    "legacy_source_sha256": "5786d4c9340a1ba1473adb2ffcbe7c14e9520a1373f9c4bc4c6f5800dd7da662",
+    "schema": "ilxyr.feral_parser_probe.v1",
+    "scope": "synthetic_engineering_fixtures"
+  },
+  "performance_evidence": false,
+  "remaining": [
+    "cloud image and installed runtime validation",
+    "outer watchdog and complete cost receipt",
+    "machine and storage identities",
+    "bounded run duration and price evidence",
+    "base model inference"
+  ],
+  "retained_failures": [
+    {
+      "case_id": "MAS/2017/page_27.pdf-2",
+      "id": "feral.calculator-cross-series.v1",
+      "observation": "Both controls abstain on the cross-series return question; the reviewed target requires 111.97 percentage points.",
+      "scope": "opened_case"
+    },
+    {
+      "historical_occurrence_count": null,
+      "id": "feral.synthetic-last-number-parser.v1",
+      "observation": "Two unfinished responses yield the year 2020 through the pinned legacy fallback; the strict parser marks both invalid.",
+      "scope": "synthetic_engineering_fixtures"
+    }
+  ],
+  "schema": "ilxyr.feral_comparison_preparation.v1",
+  "scope": "local_engineering_checks_and_source_package",
+  "smoke": {
+    "archives": {
+      "existing_archive_preserved": true,
+      "full": {
+        "archive_bytes": 1566720,
+        "archive_sha256": "27a64e6f0b60691d3f9d4c40fdaec19cc9ae6934d8293df23b3886379aaa5202",
+        "files": 15,
+        "package_manifest_sha256": "486afd3e27d8d6856283c27f695d513be72edb0f3fd780a5c3844bba73554b0b",
+        "rows": 1147,
+        "scope": "full_finqa_1147",
+        "source_commit": "2740590921ac1124b3a407116bb57ffdd76ed043"
+      },
+      "repeat_with_changed_checkout_identical": true,
+      "smoke": {
+        "archive_bytes": 256000,
+        "archive_sha256": "73baf4c99c7e1edc34dae1685d135fab93a7fa9ba75f319e28753b9e9894cc8f",
+        "files": 15,
+        "package_manifest_sha256": "752a2f4469b7f1a11fc37e26c076d74979bfe771e8fbb2230f58c0ad7cc6693c",
+        "rows": 5,
+        "scope": "opened_five_case_smoke",
+        "source_commit": "2740590921ac1124b3a407116bb57ffdd76ed043"
+      }
+    },
+    "arms": {
+      "calculator": {
+        "invocation": {
+          "arm": "calculator",
+          "package_manifest_sha256": "752a2f4469b7f1a11fc37e26c076d74979bfe771e8fbb2230f58c0ad7cc6693c",
+          "performance_evidence": false,
+          "phase": "finished",
+          "process_cpu_ns": 6861000,
+          "schema": "ilxyr.feral_invocation.v1",
+          "status": "complete",
+          "total_wall_ns": 12659375
+        },
+        "performance_evidence": false,
+        "primary_metrics": {
+          "by_issuer": {
+            "AES": {
+              "correct": 1,
+              "rows": 1
+            },
+            "CE": {
+              "correct": 1,
+              "rows": 1
+            },
+            "HIG": {
+              "correct": 1,
+              "rows": 1
+            },
+            "MAS": {
+              "correct": 0,
+              "rows": 1
+            },
+            "PNC": {
+              "correct": 1,
+              "rows": 1
+            }
+          },
+          "by_target_kind": {
+            "abstention": {
+              "correct": 2,
+              "rows": 2
+            },
+            "legacy_exact": {
+              "correct": 0,
+              "rows": 0
+            },
+            "numeric": {
+              "correct": 2,
+              "rows": 3
+            }
+          },
+          "explicit_abstentions": 3,
+          "non_abstained_fraction": 0.4,
+          "original_accuracy": 0.0,
+          "original_correct": 0,
+          "reviewed_cases": [
+            {
+              "correct": false,
+              "id": "MAS/2017/page_27.pdf-2",
+              "kind": "numeric",
+              "prediction": null
+            },
+            {
+              "correct": true,
+              "id": "AES/2002/page_128.pdf-2",
+              "kind": "abstention",
+              "prediction": null
+            },
+            {
+              "correct": true,
+              "id": "PNC/2012/page_100.pdf-3",
+              "kind": "numeric",
+              "prediction": "184"
+            },
+            {
+              "correct": true,
+              "id": "CE/2016/page_19.pdf-4",
+              "kind": "numeric",
+              "prediction": "38.37%"
+            },
+            {
+              "correct": true,
+              "id": "HIG/2011/page_53.pdf-4",
+              "kind": "abstention",
+              "prediction": null
+            }
+          ],
+          "rows": 5,
+          "v2_accuracy": 0.8,
+          "v2_correct": 4
+        },
+        "raw_cost": {
+          "process_cpu_ns": 2287000,
+          "setup_wall_ns": 37667,
+          "total_wall_ns": 2824542
+        },
+        "response_counts": {
+          "abstained": 3,
+          "answered": 2,
+          "invalid": 0
+        },
+        "status": "complete"
+      },
+      "operand_only": {
+        "invocation": {
+          "arm": "operand_only",
+          "package_manifest_sha256": "752a2f4469b7f1a11fc37e26c076d74979bfe771e8fbb2230f58c0ad7cc6693c",
+          "performance_evidence": false,
+          "phase": "finished",
+          "process_cpu_ns": 4403000,
+          "schema": "ilxyr.feral_invocation.v1",
+          "status": "complete",
+          "total_wall_ns": 4654625
+        },
+        "performance_evidence": false,
+        "primary_metrics": {
+          "by_issuer": {
+            "AES": {
+              "correct": 1,
+              "rows": 1
+            },
+            "CE": {
+              "correct": 0,
+              "rows": 1
+            },
+            "HIG": {
+              "correct": 1,
+              "rows": 1
+            },
+            "MAS": {
+              "correct": 0,
+              "rows": 1
+            },
+            "PNC": {
+              "correct": 0,
+              "rows": 1
+            }
+          },
+          "by_target_kind": {
+            "abstention": {
+              "correct": 2,
+              "rows": 2
+            },
+            "legacy_exact": {
+              "correct": 0,
+              "rows": 0
+            },
+            "numeric": {
+              "correct": 0,
+              "rows": 3
+            }
+          },
+          "explicit_abstentions": 3,
+          "non_abstained_fraction": 0.4,
+          "original_accuracy": 0.0,
+          "original_correct": 0,
+          "reviewed_cases": [
+            {
+              "correct": false,
+              "id": "MAS/2017/page_27.pdf-2",
+              "kind": "numeric",
+              "prediction": null
+            },
+            {
+              "correct": true,
+              "id": "AES/2002/page_128.pdf-2",
+              "kind": "abstention",
+              "prediction": null
+            },
+            {
+              "correct": false,
+              "id": "PNC/2012/page_100.pdf-3",
+              "kind": "numeric",
+              "prediction": "74"
+            },
+            {
+              "correct": false,
+              "id": "CE/2016/page_19.pdf-4",
+              "kind": "numeric",
+              "prediction": "119"
+            },
+            {
+              "correct": true,
+              "id": "HIG/2011/page_53.pdf-4",
+              "kind": "abstention",
+              "prediction": null
+            }
+          ],
+          "rows": 5,
+          "v2_accuracy": 0.4,
+          "v2_correct": 2
+        },
+        "raw_cost": {
+          "process_cpu_ns": 1749000,
+          "setup_wall_ns": 51041,
+          "total_wall_ns": 1962041
+        },
+        "response_counts": {
+          "abstained": 3,
+          "answered": 2,
+          "invalid": 0
+        },
+        "status": "complete"
+      }
+    },
+    "base_arm_execution": "pending_cloud",
+    "full_target_and_input_digests_match_step_7": true,
+    "performance_evidence": false,
+    "prediction_completed_with_grader_removed": true,
+    "raw_files": {
+      "runs/calculator/invocation.json": {
+        "bytes": 302,
+        "sha256": "dd1fb4d987c1bd5a017350777a2672d99fad87f4c23e4ec4ec151013e524f516"
+      },
+      "runs/calculator/predictions.jsonl": {
+        "bytes": 3334,
+        "sha256": "199e290f59cac8f78ea7b1406840786b94b1ca4b9390c0493992281172396224"
+      },
+      "runs/calculator/result.json": {
+        "bytes": 640,
+        "sha256": "d4dcfec47ea0656fc76efe72970ce5cb70419a68b4d3e7f197f281495f06ef5b"
+      },
+      "runs/operand_only/invocation.json": {
+        "bytes": 303,
+        "sha256": "8283ef709047170d9b14e73250822580779b8864b7ad6b31687ea9a7603aa55f"
+      },
+      "runs/operand_only/predictions.jsonl": {
+        "bytes": 3331,
+        "sha256": "007892171972f39e21992275e5e64a7ee29732d9b8a15425c1187c80497c7710"
+      },
+      "runs/operand_only/result.json": {
+        "bytes": 642,
+        "sha256": "fca8ec0ce11c49e4b4e9d13e2c7c7968e6022a294bf8b582b7079bf3f5aa70dd"
+      }
+    },
+    "schema": "ilxyr.feral_packaged_smoke.v1",
+    "scope": "opened_five_case_smoke"
+  },
+  "source_bindings": {
+    "experiments/research-step-13/MODEL-FILES.json": {
+      "bytes": 2300,
+      "sha256": "a0930528f9a481412d29d0ee19adea458e25a0f7733347b34b4b845584d621bd"
+    },
+    "experiments/research-step-13/PLAN.md": {
+      "bytes": 6834,
+      "sha256": "c4223b49b7bf168784fb9c873ad45b9e929252a930ddf2f37ef636d24cd42417"
+    },
+    "experiments/research-step-7/MANIFEST.json": {
+      "bytes": 10665,
+      "sha256": "e63fbfee0b2b67cb4327205347338939000a5163786228fc32b06d3efb81fccb"
+    },
+    "experiments/research-step-8/RESULT.json": {
+      "bytes": 16099,
+      "sha256": "f554af04923799b4cb22c1928efd7d6c808d76488ef7f48e91344df225669261"
+    },
+    "scripts/feral_comparison_worker.py": {
+      "bytes": 9374,
+      "sha256": "b4c6062108f0aa4dfcce14c2f80b26f48bb3e8e909ff983201118048063d6612"
+    },
+    "scripts/feral_evidence_calculator.py": {
+      "bytes": 12481,
+      "sha256": "40790cad9cdfd1b53caac7764f9f8e9b0607ceba300699edcc9326e18c96953c"
+    },
+    "scripts/feral_responses.py": {
+      "bytes": 2491,
+      "sha256": "b8cda968891a5bb7319ddf821eb62b00b10b9199430efda1d3f8d91ae7a579da"
+    },
+    "scripts/feral_targets_v2.py": {
+      "bytes": 16847,
+      "sha256": "a5e8413b66ccf20963ccbdaefec00346bca4e7235c43743d8a2ad32d57d5fc73"
+    },
+    "scripts/package_feral_comparison.py": {
+      "bytes": 4565,
+      "sha256": "6f7838f4a6375a2a9b1c3a871a49a2c53bcbfa837b2ce1cc55ff8d9efc7ef32c"
+    },
+    "scripts/probe_feral_response_parser.py": {
+      "bytes": 2032,
+      "sha256": "7696ed85873fa41768979d3aca70d8af4c18ac42dafc5d288878a7654787f1d9"
+    },
+    "scripts/research_baselines.py": {
+      "bytes": 18328,
+      "sha256": "03bdce6315fded2ceb272e9c427c869893fc2b156f8fa6ab00f466b9c461ea72"
+    },
+    "scripts/score_feral_comparison.py": {
+      "bytes": 4518,
+      "sha256": "00772d5ec56b578444078f7c3ee52ca139d8d991683aaffcdd907d884ac238f4"
+    },
+    "scripts/test_feral_comparison.py": {
+      "bytes": 9339,
+      "sha256": "2914957d5e9fc0b40c26c085720da0b11913fe9be68238674a9fdabbe35f2cbe"
+    }
+  },
+  "source_commit": "2740590921ac1124b3a407116bb57ffdd76ed043"
+}

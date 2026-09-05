@@ -1,0 +1,30 @@
+{
+  "base_image": "pytorch/pytorch:2.13.0-cuda13.0-cudnn9-runtime@sha256:db80a41f8428644cebcb3d75b0b62df334ab6c0e75785951eb25f48bfbd42407",
+  "byte_identical_files": {
+    "Dockerfile": {
+      "bytes": 992,
+      "sha256": "40de516a92f02f927a5c1406a4f541624d32eaaad231a764068b019ccb04270a"
+    },
+    "pyproject.toml": {
+      "bytes": 527,
+      "sha256": "e82482b5967c2f5dc7e371d593e3f456b2ce129ca824b1754683c0ca4c57c94b"
+    },
+    "uv.lock": {
+      "bytes": 136121,
+      "sha256": "d58786f40bf2dcf85ffb807eff96da698e291892cd4d2a388c6d6f5534c0fa9a"
+    }
+  },
+  "comparison_source_revision": "4f2a40d3ad7372e2a5620cf3657959d4b1cac4cf",
+  "image": "ghcr.io/atimics/feral-7b-sec-qwen@sha256:c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b",
+  "image_build_url": "https://github.com/atimics/runner-watch/actions/runs/33848581774",
+  "image_source_revision": "974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8",
+  "registry_check": {
+    "image_layers_downloaded": 0,
+    "index_digest": "sha256:c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b",
+    "linux_amd64_manifest": "sha256:a73630149222eca4f668d56c018ab8fd8c0e5785f8ca000fa19c57034452f986",
+    "observed_at": "2026-09-05T18:08:19.108148+00:00",
+    "status": "manifest_available"
+  },
+  "runtime_execution": "pending_cloud_validation",
+  "schema": "ilxyr.feral_runtime_source_match.v1"
+}

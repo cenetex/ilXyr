@@ -1,0 +1,185 @@
+{
+  "archive": {
+    "archive_bytes": 1617920,
+    "archive_sha256": "1d0239b993353a4e67b1ed56718fdd433ea0b7e10646e2280295b25a2918516c",
+    "execution_authorized": false,
+    "execution_manifest_sha256": "6e7fd7a3e19dbce229c10f43520c6cb3ca74c8398406491673ae69f9a91a2a17",
+    "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+    "files": 8,
+    "schema": "ilxyr.feral_execution_archive.v1",
+    "source_commit": "4f514de73638c57b401c2aec1a4aaf61c961aa1a"
+  },
+  "archive_repeated_identically": true,
+  "budget_proposal": {
+    "collection_and_shutdown_reserve_seconds": 300,
+    "latest_kill_second": 3300,
+    "latest_term_second": 3270,
+    "max_infrastructure_usd": "3.00",
+    "max_instance_seconds": 3600,
+    "maximum_compute_usd": "2.24208",
+    "other_infrastructure_reserve_usd": "0.75",
+    "tax_scope": "before_tax"
+  },
+  "checks": {
+    "focused_tests": 17,
+    "schema_suite": "passed"
+  },
+  "development_findings": [
+    {
+      "finding": "A process-start exception could leave its process receipt outside the stage index.",
+      "kind": "code_review",
+      "resolution": "The controller adds the failed launch to the stage index before applying the failure policy."
+    },
+    {
+      "finding": "The initial AWS URL included an extra Shared path segment and returned HTTP 404.",
+      "kind": "metadata_fetch",
+      "resolution": "The public Linux price feed supplied the current g6e.2xlarge record."
+    },
+    {
+      "finding": "The price feed used gzip encoding; a direct JSON parse failed.",
+      "kind": "metadata_parse",
+      "resolution": "A bounded gzip read preserved the source digest and selected one matching record."
+    }
+  ],
+  "execution_authorized": false,
+  "existing_archive_preserved": true,
+  "extracted_source_check": {
+    "cloud_processes_started": 0,
+    "max_infrastructure_usd": "3.00",
+    "rows": 1147,
+    "status": "source_and_plan_verified"
+  },
+  "failure_probes": {
+    "deadline": {
+      "prefix": {
+        "complete_rows": 1,
+        "ordered_ids": [
+          "fixture-1"
+        ],
+        "scope": "raw_complete_json_lines",
+        "sha256": "dab5e4d12266d182a54216696ac339773d8ccfffcd69443544e9cb76dbe7b52f",
+        "trailing_bytes": 6
+      },
+      "primary_metrics": null,
+      "process": {
+        "command": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "-u",
+          "-c",
+          "import signal,time; signal.signal(signal.SIGTERM,signal.SIG_IGN); print('{\"id\":\"fixture-1\",\"prediction\":30}',flush=True); print('{\"id\":',end='',flush=True); time.sleep(30)"
+        ],
+        "descendant_cleanup": false,
+        "exit_code": -9,
+        "max_log_bytes": 16777216,
+        "outputs": {
+          "stderr.log": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.log": {
+            "bytes": 41,
+            "sha256": "dab5e4d12266d182a54216696ac339773d8ccfffcd69443544e9cb76dbe7b52f"
+          }
+        },
+        "pid": 29284,
+        "resource_usage": {
+          "max_rss_bytes": 15286272,
+          "scope": "wait4_direct_child_and_waited_descendants",
+          "system_cpu_seconds": 0.006365,
+          "user_cpu_seconds": 0.012506
+        },
+        "schema": "ilxyr.feral_process.v1",
+        "signals": [
+          "TERM",
+          "KILL"
+        ],
+        "status": "failed",
+        "stop_reason": "deadline",
+        "total_wall_ns": 321573750
+      },
+      "worker_reaped": true
+    },
+    "missing_executable": {
+      "runtime": {
+        "command": [
+          "/private/tmp/feral-execution-step14-artifacts/probes/missing-executable"
+        ],
+        "descendant_cleanup": false,
+        "error": "[Errno 2] No such file or directory: '/private/tmp/feral-execution-step14-artifacts/probes/missing-executable'",
+        "exit_code": null,
+        "max_log_bytes": 16777216,
+        "outputs": {
+          "stderr.log": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.log": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "pid": null,
+        "resource_usage": null,
+        "schema": "ilxyr.feral_process.v1",
+        "signals": [],
+        "status": "failed",
+        "stop_reason": null,
+        "total_wall_ns": 1722458
+      }
+    },
+    "model_generations": 0,
+    "performance_evidence": false,
+    "schema": "ilxyr.feral_controller_failure_probe.v1",
+    "scope": "synthetic_local_engineering",
+    "source_commit": "4f514de73638c57b401c2aec1a4aaf61c961aa1a"
+  },
+  "performance_evidence": false,
+  "remaining": [
+    "instance bootstrap and launch-relative shutdown integration",
+    "live AWS machine, storage, and access preflight",
+    "bounded paid-run approval",
+    "actual model execution and runtime validation",
+    "collection and independent termination proof"
+  ],
+  "schema": "ilxyr.feral_execution_preparation.v1",
+  "scope": "local_engineering_and_read_only_public_metadata",
+  "source_bindings": {
+    "experiments/research-step-13/MODEL-FILES.json": {
+      "bytes": 2300,
+      "sha256": "a0930528f9a481412d29d0ee19adea458e25a0f7733347b34b4b845584d621bd"
+    },
+    "experiments/research-step-13/RESULT.json": {
+      "bytes": 14088,
+      "sha256": "fe7fe5713903a77ac2296b813ecc8e2c62a941463237d6f24c95e2d4ea570b96"
+    },
+    "experiments/research-step-14/PRICE.json": {
+      "bytes": 918,
+      "sha256": "8a961b2947c349c00e1e66a0659d0127f9951817fb8799634d6a0cf71b0e39f0"
+    },
+    "experiments/research-step-14/RUNTIME-SOURCES.json": {
+      "bytes": 1374,
+      "sha256": "af835ce4963b95a076ef729a169dd70b728059bcfd3a7fad27d47ec25ff5acad"
+    },
+    "scripts/feral_execution_stage.py": {
+      "bytes": 9959,
+      "sha256": "2c7a433e1845cf0deebc09e9072805cfbff91083d445db2b581a3e026d501b7e"
+    },
+    "scripts/feral_process.py": {
+      "bytes": 5673,
+      "sha256": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526"
+    },
+    "scripts/package_feral_execution.py": {
+      "bytes": 5143,
+      "sha256": "2f19cc1d249d9d2c330b92a96c6bac9859b60850b0f24f487059171434fb23b3"
+    },
+    "scripts/run_feral_comparison.py": {
+      "bytes": 15048,
+      "sha256": "d526133aeee763e5c6de9e50a0ce1cce5c3ad05a567c1c7f6bf181a1b054eecb"
+    },
+    "scripts/test_feral_execution.py": {
+      "bytes": 17944,
+      "sha256": "8e7d4e8a224991b5dc8a25928f445f05c5f84667ea45212b60542a8dd126747c"
+    }
+  },
+  "source_commit": "4f514de73638c57b401c2aec1a4aaf61c961aa1a"
+}

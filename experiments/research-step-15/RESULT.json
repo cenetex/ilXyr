@@ -1,0 +1,226 @@
+{
+  "archive_repeated_identically": true,
+  "changed_checkout_keeps_committed_archive": true,
+  "checks": {
+    "bootstrap_test_groups": 11,
+    "final_host_identity_checks": "passed",
+    "full_schema_suite": "passed"
+  },
+  "credential_probe": {
+    "account_verified": false,
+    "command": [
+      "aws",
+      "sts",
+      "get-caller-identity",
+      "--profile",
+      "default",
+      "--query",
+      "Account",
+      "--output",
+      "text",
+      "--no-cli-pager"
+    ],
+    "exit_code": 255,
+    "observation": "Token has expired and refresh failed",
+    "profile": "default",
+    "recorded_at": "2026-09-05T18:54:10.949381+00:00",
+    "resources_created": 0,
+    "sso_session": "staging",
+    "status": "sso_token_expired"
+  },
+  "development_findings": [
+    {
+      "finding": "The sandbox denied the process-substitution file descriptor before the bootstrap could start.",
+      "kind": "environment",
+      "resolution": "The same local service fixtures passed with normal file-descriptor access."
+    },
+    {
+      "finding": "The first collection filter checked top-level model/source paths while the controller nests them under run/.",
+      "kind": "code_review",
+      "resolution": "Both nested trees are excluded; fixtures preserve predictions and verify the upload roster."
+    },
+    {
+      "finding": "An upload failure could leave the shell exit code at zero.",
+      "kind": "code_review",
+      "resolution": "Collection failure sets a failed host record and a nonzero exit."
+    },
+    {
+      "finding": "A lost launch response needs an unknown outcome and the actual submitted request.",
+      "kind": "code_review",
+      "resolution": "The CLI saves submitted-request.json before dispatch and retains the client token and launch_outcome_unknown state."
+    }
+  ],
+  "execution_authorized": false,
+  "existing_archive_preserved": true,
+  "host_archive": {
+    "archive_bytes": 1638400,
+    "archive_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+    "bootstrap_body_sha256": "ba5dd1cee323d636c3770951dc09d5e970b4faa7521c48795670ec8efc0ffb43",
+    "execution_archive_sha256": "1d0239b993353a4e67b1ed56718fdd433ea0b7e10646e2280295b25a2918516c",
+    "execution_authorized": false,
+    "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+    "schema": "ilxyr.feral_host_archive.v1",
+    "source_commit": "b36e0ae4d13f44859260f9dfe043dee14ce18cb2"
+  },
+  "packaged_probes": {
+    "cloud_instances_created": 0,
+    "host_archive_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+    "model_generations": 0,
+    "performance_evidence": false,
+    "probes": {
+      "collection": {
+        "bulk_model_and_source_excluded": true,
+        "executed_bootstrap_body_sha256": "ba5dd1cee323d636c3770951dc09d5e970b4faa7521c48795670ec8efc0ffb43",
+        "exit_code": 1,
+        "host_terminal": {
+          "actual_billed_usd": null,
+          "collection_complete": false,
+          "elapsed_instance_seconds": 2.6729180812835693,
+          "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+          "exit_code": 1,
+          "failed_phase": "collect",
+          "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+          "instance_id": "i-123abc",
+          "instance_termination_verified": false,
+          "phase": "failed",
+          "run_id": "feral-finqa-20260905T000000Z",
+          "schema": "ilxyr.feral_host_terminal.v1",
+          "status": "failed",
+          "user_data_sha256": "9e0520ceec032e33b21a1f5b8e1a68bd6b35f5d29240bc5598314f5d0dd3c8f7"
+        },
+        "raw_call_log_sha256": "1c7cc6af344bb5bd31647f27b45ab6f446ced1ed01c3c2cba13c15bfe218e537",
+        "retained_prediction_sha256": "e3bb8e1410ca38a603c8e6abd6be23ab3903ba60b8007d01b0a6add411bc9c8e",
+        "shutdown_requested": true,
+        "timer_armed_before_metadata": true,
+        "upload_attempts": [
+          "runs/feral-finqa-20260905T000000Z/results/controller-stderr.log",
+          "runs/feral-finqa-20260905T000000Z/results/controller-stdout.log",
+          "runs/feral-finqa-20260905T000000Z/results/image-inspect.json",
+          "runs/feral-finqa-20260905T000000Z/results/launch-input.json",
+          "runs/feral-finqa-20260905T000000Z/results/run/arms/base/predictions.jsonl",
+          "runs/feral-finqa-20260905T000000Z/results/run/execution.json",
+          "runs/feral-finqa-20260905T000000Z/bootstrap.log",
+          "runs/feral-finqa-20260905T000000Z/host-terminal.json"
+        ]
+      },
+      "controller": {
+        "bulk_model_and_source_excluded": true,
+        "executed_bootstrap_body_sha256": "ba5dd1cee323d636c3770951dc09d5e970b4faa7521c48795670ec8efc0ffb43",
+        "exit_code": 7,
+        "host_terminal": {
+          "actual_billed_usd": null,
+          "collection_complete": true,
+          "elapsed_instance_seconds": 2.582890033721924,
+          "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+          "exit_code": 7,
+          "failed_phase": "controller",
+          "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+          "instance_id": "i-123abc",
+          "instance_termination_verified": false,
+          "phase": "failed",
+          "run_id": "feral-finqa-20260905T000000Z",
+          "schema": "ilxyr.feral_host_terminal.v1",
+          "status": "failed",
+          "user_data_sha256": "8bb1bcfd81ab6fc82598b51a8511f19690da8b1ebafbf246d725dd735a3e2fa6"
+        },
+        "raw_call_log_sha256": "d07027f0c4094a65cfbe8c48d848dce79bbbeca70f4d5c3319193c220e7390d6",
+        "retained_prediction_sha256": "e3bb8e1410ca38a603c8e6abd6be23ab3903ba60b8007d01b0a6add411bc9c8e",
+        "shutdown_requested": true,
+        "timer_armed_before_metadata": true,
+        "upload_attempts": [
+          "runs/feral-finqa-20260905T000000Z/results/controller-stderr.log",
+          "runs/feral-finqa-20260905T000000Z/results/controller-stdout.log",
+          "runs/feral-finqa-20260905T000000Z/results/image-inspect.json",
+          "runs/feral-finqa-20260905T000000Z/results/launch-input.json",
+          "runs/feral-finqa-20260905T000000Z/results/run/arms/base/predictions.jsonl",
+          "runs/feral-finqa-20260905T000000Z/results/run/execution.json",
+          "runs/feral-finqa-20260905T000000Z/bootstrap.log",
+          "runs/feral-finqa-20260905T000000Z/host-terminal.json"
+        ]
+      },
+      "success": {
+        "bulk_model_and_source_excluded": true,
+        "executed_bootstrap_body_sha256": "ba5dd1cee323d636c3770951dc09d5e970b4faa7521c48795670ec8efc0ffb43",
+        "exit_code": 0,
+        "host_terminal": {
+          "actual_billed_usd": null,
+          "collection_complete": true,
+          "elapsed_instance_seconds": 2.4839820861816406,
+          "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+          "exit_code": 0,
+          "failed_phase": null,
+          "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+          "instance_id": "i-123abc",
+          "instance_termination_verified": false,
+          "phase": "complete",
+          "run_id": "feral-finqa-20260905T000000Z",
+          "schema": "ilxyr.feral_host_terminal.v1",
+          "status": "complete",
+          "user_data_sha256": "6fd6420b92733e6a0e040647229ce0ba3bed1a2ee3bd55a5560554658a2b92fa"
+        },
+        "raw_call_log_sha256": "bc037b16cd9d942c91df7e13b22b3ae110eaf722d0d19e875a2951eeddf7d520",
+        "retained_prediction_sha256": "e3bb8e1410ca38a603c8e6abd6be23ab3903ba60b8007d01b0a6add411bc9c8e",
+        "shutdown_requested": true,
+        "timer_armed_before_metadata": true,
+        "upload_attempts": [
+          "runs/feral-finqa-20260905T000000Z/results/controller-stderr.log",
+          "runs/feral-finqa-20260905T000000Z/results/controller-stdout.log",
+          "runs/feral-finqa-20260905T000000Z/results/image-inspect.json",
+          "runs/feral-finqa-20260905T000000Z/results/launch-input.json",
+          "runs/feral-finqa-20260905T000000Z/results/run/arms/base/predictions.jsonl",
+          "runs/feral-finqa-20260905T000000Z/results/run/execution.json",
+          "runs/feral-finqa-20260905T000000Z/bootstrap.log",
+          "runs/feral-finqa-20260905T000000Z/host-terminal.json"
+        ]
+      }
+    },
+    "schema": "ilxyr.feral_packaged_bootstrap_probe.v1",
+    "scope": "archived_bootstrap_with_local_service_stubs",
+    "source_commit": "b36e0ae4d13f44859260f9dfe043dee14ce18cb2"
+  },
+  "performance_evidence": false,
+  "remaining": [
+    "refresh the selected AWS SSO session",
+    "verify AMI, machine shape, subnet, security group, IAM, storage, and price in live preflight",
+    "publish the reviewed changes and pass PR/main checks",
+    "stage a versioned host archive and freeze the live network binding",
+    "request the bounded paid run",
+    "observe, collect, and verify instance termination"
+  ],
+  "render_check": {
+    "aws_calls": 0,
+    "bash_syntax": "passed",
+    "execution_authorized": false,
+    "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+    "instances_requested": 1,
+    "live_network_binding": false,
+    "request_dry_run": true,
+    "scope": "synthetic_render_only",
+    "user_data_sha256": "a7d9e8fafc7fefdf4f6aa49b9a9cab37fe8aa31d18861e11ec5faa734d6917ce"
+  },
+  "schema": "ilxyr.feral_host_preparation.v1",
+  "scope": "local_engineering_and_read_only_credential_probe",
+  "source_bindings": {
+    "experiments/research-step-14/ARCHIVE.json": {
+      "bytes": 471,
+      "sha256": "de2966de59581a439db8e8d9a15a4aeae173adba248e2bce2de8b231b7d5b3bc"
+    },
+    "experiments/research-step-14/EXECUTION-PLAN.json": {
+      "bytes": 3924,
+      "sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d"
+    },
+    "scripts/aws/feral-comparison-user-data.sh": {
+      "bytes": 9637,
+      "sha256": "ba5dd1cee323d636c3770951dc09d5e970b4faa7521c48795670ec8efc0ffb43"
+    },
+    "scripts/feral_cloud_package.py": {
+      "bytes": 11340,
+      "sha256": "f2e302d5407581144c18455908b409e324775ba5790032fe5914c25138ea898b"
+    },
+    "scripts/test_feral_bootstrap.py": {
+      "bytes": 17020,
+      "sha256": "4f6dcfd4724a33628b04854604991199defd4d6ab6599197dac2cf5254d4a13d"
+    }
+  },
+  "source_commit": "b36e0ae4d13f44859260f9dfe043dee14ce18cb2"
+}

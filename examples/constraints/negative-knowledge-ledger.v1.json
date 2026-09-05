@@ -495,6 +495,76 @@
       "lineage_note": "Keep the promoted result and the earlier constant-context successor audit. Compare fixed-answer probability controls with exact normalized Brier scores, zero-probability events, answer counts, and full inference cost on fresh inputs.",
       "evidence_path": "experiments/research-step-10/RESULT.json",
       "evidence_ref": "artifact://sha256/2791ceff8223c576123eba84cadc3092412e8d0ad70dda85535550daa4902e53"
+    },
+    {
+      "seq": 25,
+      "verdict_id": "verdict:zero.retention-oracle-subscore.v1",
+      "verdict_ref": "artifact://sha256/9b97fdf5fc66a505b7112cf263f5518248d8fbb0d1aeaff1fa36a3cc9aa003f1",
+      "experiment_id": "zero.retention-oracle-subscore.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "retention-controls",
+        "component-score",
+        "exact-artifact",
+        "replay-tangent"
+      ],
+      "summary": "A perfect oracle arithmetic subscore coexists with zero correct final artifacts in every arm of the five-case toy smoke.",
+      "recorded_at_ms": 1788625880422,
+      "project": "zero4",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "known toy smoke completed five arms with zero correct final artifacts and five correct oracle arithmetic cases per arm",
+      "lineage_note": "Keep this as an engineering diagnostic on known toy inputs. Preserve Q2.6 results and require complete final-artifact counts, retention scores, and full work in the fresh five-arm comparison.",
+      "evidence_path": "experiments/research-step-11/RESULT.json",
+      "evidence_ref": "artifact://sha256/71782a62ff754aa2856aef2fa94629d48cd78a372f03c8a42b23455c69b57547"
+    },
+    {
+      "seq": 26,
+      "verdict_id": "verdict:solomon.suffix-answer-ownership.v1",
+      "verdict_ref": "artifact://sha256/84aa36f1c8afe6e69163ae0d5d120eae4f61d687e53a38c8c26fe920e3c175e3",
+      "experiment_id": "solomon.suffix-answer-ownership.v1",
+      "family": "solomon",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "integer-transformer",
+        "suffix-memory",
+        "answer-selection",
+        "confidence-control"
+      ],
+      "summary": "The frozen combined candidate selects suffix memory answers by construction; all thirty native windows agree with an independent memory reader.",
+      "recorded_at_ms": 1788635589858,
+      "project": "solomon",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "source mechanism audit with thirty native engineering windows",
+      "lineage_note": "Keep existing promotion records and scores. Test fresh-data confidence against strong count controls. Use an architecture that can change the answer for the next learned-accuracy claim.",
+      "evidence_path": "experiments/research-step-16/RESULT.json",
+      "evidence_ref": "artifact://sha256/ea45b202d3b063d7bb6984ba2e3aa5d8b1b9b590d35021a72755caa73a6fa9ec"
+    },
+    {
+      "seq": 27,
+      "verdict_id": "verdict:zero.q29.language-retention.v1",
+      "verdict_ref": "artifact://sha256/d8a02985533c57089b48437ca091c5f61f41aae49f9aa65444c7d6f299e7c059",
+      "experiment_id": "zero.q29.language-retention.v1",
+      "family": "zero",
+      "seed": 2,
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "replay-guard",
+        "language-retention",
+        "proxy-measurement",
+        "early-stopping"
+      ],
+      "summary": "A small replay training loss change coexisted with a failed independent language preservation gate for the selected Q2.9 candidate.",
+      "recorded_at_ms": 1788636887089,
+      "project": "zero4",
+      "evidence_kind": "existing_public_result",
+      "source_outcome": "Q2.9 first-hit candidate failed the later fixed language preservation gate",
+      "lineage_note": "Preserve the earlier candidate-frozen training result and the later language no-go. Freeze per-source retention limits and a separate fresh language screen for the next comparison.",
+      "evidence_path": "experiments/research-step-17/RESULT.json",
+      "evidence_ref": "artifact://sha256/dd0da36394f922314fbcfce2cca3f19545b771f09ae7e310d3cabe50931b61b4"
     }
   ]
 }
