@@ -1,0 +1,284 @@
+{
+  "date": "2026-09-05",
+  "dependency_sha256": "03bdce6315fded2ceb272e9c427c869893fc2b156f8fa6ab00f466b9c461ea72",
+  "evidence_kind": "posthoc_diagnostic_on_existing_public_data",
+  "feral": {
+    "gold_program_access": "label audit only",
+    "labels_with_program_agreement": 14,
+    "missing_labels": [
+      {
+        "absolute_difference": "53/12362500",
+        "agrees_at_source_precision": true,
+        "gold_program": "divide(4959, 989)",
+        "id": "AAL/2010/page_72.pdf-1",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "4959/989",
+        "source_execution_answer": 5.01416,
+        "text_answer": ""
+      },
+      {
+        "absolute_difference": "0",
+        "agrees_at_source_precision": true,
+        "gold_program": "subtract(31, 30)",
+        "id": "AES/2002/page_128.pdf-2",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "1",
+        "source_execution_answer": 1.0,
+        "text_answer": ""
+      },
+      {
+        "absolute_difference": "7/1950000",
+        "agrees_at_source_precision": true,
+        "gold_program": "subtract(1.24, 0.78), divide(#0, 0.78)",
+        "id": "AWK/2017/page_148.pdf-4",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "23/39",
+        "source_execution_answer": 0.58974,
+        "text_answer": ""
+      },
+      {
+        "absolute_difference": "0",
+        "agrees_at_source_precision": true,
+        "gold_program": "add(0.6, 0.7)",
+        "id": "AWK/2018/page_146.pdf-4",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "13/10",
+        "source_execution_answer": 1.3,
+        "text_answer": ""
+      },
+      {
+        "absolute_difference": "0",
+        "agrees_at_source_precision": true,
+        "gold_program": "subtract(119, 86), add(#0, 86), divide(#1, const_2)",
+        "id": "CE/2016/page_19.pdf-4",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "119/2",
+        "source_execution_answer": 59.5,
+        "text_answer": ""
+      },
+      {
+        "absolute_difference": "0",
+        "agrees_at_source_precision": true,
+        "gold_program": "add(0.2, 9.4), add(#0, 0.6)",
+        "id": "DG/2007/page_67.pdf-2",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "51/5",
+        "source_execution_answer": 10.2,
+        "text_answer": ""
+      },
+      {
+        "absolute_difference": "2287/1392550000",
+        "agrees_at_source_precision": true,
+        "gold_program": "divide(217692, 139255)",
+        "id": "DRE/2007/page_56.pdf-2",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "217692/139255",
+        "source_execution_answer": 1.56326,
+        "text_answer": ""
+      },
+      {
+        "absolute_difference": "0",
+        "agrees_at_source_precision": true,
+        "gold_program": "subtract(5829, 100)",
+        "id": "ETR/2016/page_23.pdf-4",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "5729",
+        "source_execution_answer": 5729.0,
+        "text_answer": ""
+      },
+      {
+        "absolute_difference": "1/431250",
+        "agrees_at_source_precision": true,
+        "gold_program": "subtract(169, 138), divide(#0, 138)",
+        "id": "HIG/2011/page_53.pdf-4",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "31/138",
+        "source_execution_answer": 0.22464,
+        "text_answer": ""
+      },
+      {
+        "absolute_difference": "9169/5001925000",
+        "agrees_at_source_precision": true,
+        "gold_program": "subtract(222510, 200077), divide(#0, 200077)",
+        "id": "JPM/2010/page_120.pdf-2",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "22433/200077",
+        "source_execution_answer": 0.11212,
+        "text_answer": ""
+      },
+      {
+        "absolute_difference": "0",
+        "agrees_at_source_precision": true,
+        "gold_program": "subtract(318.46, const_100), divide(#0, const_100), subtract(206.49, const_100), divide(#2, const_100), subtract(#1, #3)",
+        "id": "MAS/2017/page_27.pdf-2",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "11197/10000",
+        "source_execution_answer": 1.1197,
+        "text_answer": ""
+      },
+      {
+        "absolute_difference": "0",
+        "agrees_at_source_precision": true,
+        "gold_program": "add(74, 110)",
+        "id": "PNC/2012/page_100.pdf-3",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "184",
+        "source_execution_answer": 184.0,
+        "text_answer": ""
+      },
+      {
+        "absolute_difference": "3/1868000",
+        "agrees_at_source_precision": true,
+        "gold_program": "divide(100.3, 46.7)",
+        "id": "RSG/2015/page_98.pdf-2",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "1003/467",
+        "source_execution_answer": 2.14775,
+        "text_answer": ""
+      },
+      {
+        "absolute_difference": "1/300000",
+        "agrees_at_source_precision": true,
+        "gold_program": "subtract(17, 30), divide(#0, 30)",
+        "id": "RSG/2018/page_135.pdf-2",
+        "next_version_unit_rule": "use execution units; bind any percent conversion explicitly",
+        "proposed_target_kind": "numeric_execution_value",
+        "replayed_rational": "-13/30",
+        "source_execution_answer": -0.43333,
+        "text_answer": ""
+      }
+    ],
+    "original_score_retained": true
+  },
+  "plan_sha256": "321d19add17b11f6acc9766ba35d9308d9cee6bd5143d0b57513b9a6bfb84942",
+  "runner_sha256": "0bf581107dfff5f309203c1a8b896977fdf918eb7f0a376811aa85aca3f331d0",
+  "schema": "ilxyr.context_and_label_audit.v1",
+  "solomon": {
+    "artifact_structure": {
+      "constant_embeddings_verified": true,
+      "context": 64,
+      "context_independent_for_every_input": true,
+      "heads": 8,
+      "hidden": 256,
+      "vocabulary": 256,
+      "width": 128,
+      "zero_context_weights_verified": true
+    },
+    "context_prefix": 64,
+    "same_objective_scores": {
+      "historical_candidate": {
+        "canonical_integer_nll_millibits": 25347655,
+        "changed_top_one_predictions": 0,
+        "correct": 903,
+        "distinct_context_distributions": 1,
+        "reversed_context_correct": 903,
+        "reversed_context_nll_millibits": 25347655,
+        "targets": 5896
+      },
+      "smoothed_bigram": {
+        "canonical_integer_nll_millibits": 23806501,
+        "changed_top_one_predictions": 4794,
+        "correct": 1708,
+        "distinct_context_distributions": 51,
+        "reversed_context_correct": 557,
+        "reversed_context_nll_millibits": 35452385,
+        "targets": 5896
+      },
+      "smoothed_unigram": {
+        "canonical_integer_nll_millibits": 25475246,
+        "changed_top_one_predictions": 0,
+        "correct": 903,
+        "distinct_context_distributions": 1,
+        "reversed_context_correct": 903,
+        "reversed_context_nll_millibits": 25475246,
+        "targets": 5896
+      }
+    },
+    "training_targets": 9324
+  },
+  "sources": [
+    {
+      "bytes": 5960,
+      "path": "benchmarks/integer-transformer-proof-v1/eval.txt",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "11237cca31d90410ec3389bc8e1bf52be3e68b51c3da62c9ce73d424c482328a"
+    },
+    {
+      "bytes": 442540,
+      "path": "benchmarks/integer-transformer-proof-v1/successor-v2-candidate.nsrlmt",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "89260e3cae329677e132eef4439d784c6290e8e46b8779c3667da8d157bf7259"
+    },
+    {
+      "bytes": 2083,
+      "path": "benchmarks/integer-transformer-proof-v1/successor-v2-evidence.json",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "29546fca1eab45e592489ce6e6b0b6f352c7a2a740558c7de4e016e23c2f1428"
+    },
+    {
+      "bytes": 9388,
+      "path": "benchmarks/integer-transformer-proof-v1/train.txt",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "82f29e7c36e4b93409e3db50a636783690f1e95bced88d9eb7afcfa47dde9d0a"
+    },
+    {
+      "bytes": 97799,
+      "path": "crates/nsrl-core/src/attention.rs",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "d77b0726a5b7d7a9bd00802cfc87a74da2bc6e7f534de5b70e5bc56c40ce1154"
+    },
+    {
+      "bytes": 6694,
+      "path": "crates/nsrl-core/src/numeric.rs",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "4bee41ed383a111ffaa714bfbeb6d8bf8fd5f68aeb1fc4e45203d8096574df03"
+    },
+    {
+      "bytes": 4502,
+      "path": "crates/nsrl-core/src/rsqrt_lut_8bit.rs",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "5f4809cca846300ee56f130d5851f371e2e3c829abe0a5c46e01594cf10c2544"
+    },
+    {
+      "bytes": 87822,
+      "path": "crates/nsrl-train/src/mini_transformer/model.rs",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "a1adff2b72efef4ab259d5f517f079edd7a175abe7e46e669e4f231e051fea44"
+    },
+    {
+      "bytes": 1209813,
+      "path": "artifacts/feral-7b-sec-v2/evaluation/finqa-retrieved.jsonl",
+      "repository": "atimics/runner-watch",
+      "revision": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+      "sha256": "b295064693c44f81685018f79d59570e81382fc447c188b2cb3438b9f19f45d4"
+    },
+    {
+      "bytes": 14395143,
+      "path": "dataset/test.json",
+      "repository": "czyssrs/FinQA",
+      "revision": "0f16e2867befa6840783e58be38c9efb9229d742",
+      "sha256": "831dbfb2e785dbc227f895ce3f24046433467aec67b09db2bd6ac7692a8a30dc"
+    }
+  ]
+}
