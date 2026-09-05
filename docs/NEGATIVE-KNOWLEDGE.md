@@ -5,10 +5,11 @@ the result, its tested mechanism, and the next design change across the lab.
 It continues [issue #113](https://github.com/cenetex/ilXyr/issues/113).
 
 The first ten entries preserve the earlier Q2.3–Q2.5, integer-routing,
-oracle-frontier, and NSRL head-search records. Eight additions carry the
+oracle-frontier, and NSRL head-search records. Ten additions carry the
 research audits into the same view: Solomon context use, FERAL labels,
 Reasoner semantic controls and development failures, the corpus pilot Hold,
-the calibration wrapper failure, and the stale 5.8 prose report.
+the calibration wrapper failure, the stale 5.8 prose report, and the
+[runner accounting repairs](../experiments/research-step-6/REPORT.md).
 
 ## Records and evidence
 
@@ -32,7 +33,7 @@ reports use the latest correction while the ledger keeps the full history.
 The checker validates contiguous sequence numbers, unique identities,
 correction order, each declared verdict field, and each declared digest.
 The first ten imported entries currently have `reference_only` evidence.
-The eight new entries have local evidence whose bytes are checked against
+The ten later entries have local evidence whose bytes are checked against
 their SHA-256 references. New recording authors identify the model agent.
 
 ## Use failures in the next design

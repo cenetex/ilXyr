@@ -340,6 +340,50 @@
       "lineage_note": "Generate the current prose from its bound machine record and preserve earlier summaries with their source identities.",
       "evidence_path": "experiments/research-step-4/REPORT.md",
       "evidence_ref": "artifact://sha256/2693f86c2b5e1c0d1755b0eb32374388d32c2bb821340a8f9a9eef6c4c8470bb"
+    },
+    {
+      "seq": 18,
+      "verdict_id": "verdict:weight-multiplicity.completed-call-accounting.v1",
+      "verdict_ref": "artifact://sha256/d7a14e834556e11f564094c29c8389a16b76f8a1d2735b53ac20c2f33a6d3b8a",
+      "experiment_id": "weight-multiplicity.completed-call-accounting.v1",
+      "family": "ilxyr",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "implementation",
+      "mechanism_tags": [
+        "oracle-frontier",
+        "resource-bound",
+        "query-accounting"
+      ],
+      "summary": "Completed calls after the first failed batch result could be omitted from the old budget counters.",
+      "recorded_at_ms": 1788602487636,
+      "project": "weight_multiplicity",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "implementation failure found in source review",
+      "lineage_note": "Observe each completion, preserve the triggering query, and drain active workers after a Hold.",
+      "evidence_path": "experiments/research-step-6/REPORT.md",
+      "evidence_ref": "artifact://sha256/ecab8627247dccc614ca4ce28367074bd0988b9d503909bc8109159a91c8bbe3"
+    },
+    {
+      "seq": 19,
+      "verdict_id": "verdict:weight-multiplicity.transformed-target-depth.v1",
+      "verdict_ref": "artifact://sha256/358b43370e1456905e8e4c0063ff1dd46c616a4a9182ab2e3bc3c6e5d7390ad5",
+      "experiment_id": "weight-multiplicity.transformed-target-depth.v1",
+      "family": "ilxyr",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "implementation",
+      "mechanism_tags": [
+        "oracle-frontier",
+        "target-depth",
+        "query-accounting"
+      ],
+      "summary": "ACR-2 transformed targets inherited the base target depth, so depth cost groups could describe the wrong target.",
+      "recorded_at_ms": 1788602487638,
+      "project": "weight_multiplicity",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "implementation failure found in source review",
+      "lineage_note": "Carry target depth through every reflection and keep unavailable depths explicit.",
+      "evidence_path": "experiments/research-step-6/REPORT.md",
+      "evidence_ref": "artifact://sha256/ecab8627247dccc614ca4ce28367074bd0988b9d503909bc8109159a91c8bbe3"
     }
   ]
 }

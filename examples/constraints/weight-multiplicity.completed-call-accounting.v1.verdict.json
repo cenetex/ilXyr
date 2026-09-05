@@ -1,0 +1,27 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:weight-multiplicity.completed-call-accounting.v1",
+  "experiment_id": "weight-multiplicity.completed-call-accounting.v1",
+  "family": "ilxyr",
+  "project": "weight_multiplicity",
+  "taxonomy": "implementation",
+  "outcome": "diagnostic_failure",
+  "evidence_kind": "posthoc_diagnostic",
+  "source_outcome": "implementation failure found in source review",
+  "evidence_path": "experiments/research-step-6/REPORT.md",
+  "evidence_ref": "artifact://sha256/ecab8627247dccc614ca4ce28367074bd0988b9d503909bc8109159a91c8bbe3",
+  "mechanism": "Completed calls after the first failed batch result could be omitted from the old budget counters.",
+  "mechanism_tags": [
+    "oracle-frontier",
+    "resource-bound",
+    "query-accounting"
+  ],
+  "summary": "Completed calls after the first failed batch result could be omitted from the old budget counters.",
+  "lineage_note": "Observe each completion, preserve the triggering query, and drain active workers after a Hold.",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788602487636
+}

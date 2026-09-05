@@ -46,6 +46,8 @@ const fixtures = {
     "examples/constraints/negative-knowledge-ledger.v1.json",
   ],
   "verdict.schema.json": [
+    "examples/constraints/weight-multiplicity.completed-call-accounting.v1.verdict.json",
+    "examples/constraints/weight-multiplicity.transformed-target-depth.v1.verdict.json",
     "examples/constraints/zero.q23.seed2.local-guard.v1.verdict.json",
     "examples/constraints/zero.q24.seed2.cumulative-guard.v1.verdict.json",
     "examples/constraints/zero.q25.seed2.deterministic-backtracking.v1.verdict.json",
