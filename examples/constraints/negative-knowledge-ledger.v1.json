@@ -541,6 +541,30 @@
       "lineage_note": "Keep existing promotion records and scores. Test fresh-data confidence against strong count controls. Use an architecture that can change the answer for the next learned-accuracy claim.",
       "evidence_path": "experiments/research-step-16/RESULT.json",
       "evidence_ref": "artifact://sha256/ea45b202d3b063d7bb6984ba2e3aa5d8b1b9b590d35021a72755caa73a6fa9ec"
+    },
+    {
+      "seq": 27,
+      "verdict_id": "verdict:zero.q29.language-retention.v1",
+      "verdict_ref": "artifact://sha256/d8a02985533c57089b48437ca091c5f61f41aae49f9aa65444c7d6f299e7c059",
+      "experiment_id": "zero.q29.language-retention.v1",
+      "family": "zero",
+      "seed": 2,
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "replay-guard",
+        "language-retention",
+        "proxy-measurement",
+        "early-stopping"
+      ],
+      "summary": "A small replay training loss change coexisted with a failed independent language preservation gate for the selected Q2.9 candidate.",
+      "recorded_at_ms": 1788636887089,
+      "project": "zero4",
+      "evidence_kind": "existing_public_result",
+      "source_outcome": "Q2.9 first-hit candidate failed the later fixed language preservation gate",
+      "lineage_note": "Preserve the earlier candidate-frozen training result and the later language no-go. Freeze per-source retention limits and a separate fresh language screen for the next comparison.",
+      "evidence_path": "experiments/research-step-17/RESULT.json",
+      "evidence_ref": "artifact://sha256/dd0da36394f922314fbcfce2cca3f19545b771f09ae7e310d3cabe50931b61b4"
     }
   ]
 }

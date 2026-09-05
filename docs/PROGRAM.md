@@ -44,6 +44,9 @@ The [Solomon answer-ownership audit](../experiments/research-step-16/REPORT.md)
 shows that suffix memory selects the frozen combined candidate's answers while
 the transformer supplies confidence. It updates the next comparison and brings
 the prepared work for all five lines into one report.
+The [retention-by-source step](../experiments/research-step-17/REPORT.md)
+records each ZERO.4 source's loss and coverage. It also imports Q2.9's later
+language failure, which narrows what the replay training proxy can support.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence
