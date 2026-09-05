@@ -1,0 +1,24 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:solomon.nsrl-p10m-target-margin-trust-region-v1.negative.v1",
+  "experiment_id": "solomon.nsrl-p10m-target-margin-trust-region-v1.negative.v1",
+  "family": "solomon",
+  "seed": 0,
+  "outcome": "no_go",
+  "taxonomy": "interference",
+  "mechanism": "Hard-negative trust-region preflight binding all rates to one update schedule and one disjoint canonical-NLL guard. Every proposed batch at feature shifts 13, 14, and 15 worsened guard NLL and was atomically rejected.",
+  "mechanism_tags": [
+    "hard-negative-margin",
+    "trust-region",
+    "nll-guard",
+    "document-disjoint"
+  ],
+  "summary": "A prospectively frozen hard-negative trust-region preflight bound all rates to one update schedule and one disjoint canonical-NLL guard. Every proposed batch at feature shifts 13, 14, and 15 worsened guard NLL and was atomically rejected, so no candidate was selected and all later evaluation stayed closed.",
+  "evidence_ref": "artifact://sha256/e2dd108669787c077ab3da8085e3dfd011f250bd4abd586201b0f86183265be7",
+  "retro_registration_ref": "solomon.nsrl-p10m-target-margin-trust-region-v1.negative.v1",
+  "recorded_by": {
+    "id": "human://cenetex",
+    "kind": "human"
+  },
+  "recorded_at_ms": 1788300900000
+}

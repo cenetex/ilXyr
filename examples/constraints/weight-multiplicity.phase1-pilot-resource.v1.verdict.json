@@ -1,0 +1,27 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:weight-multiplicity.phase1-pilot-resource.v1",
+  "experiment_id": "weight-multiplicity.phase1-pilot-resource.v1",
+  "family": "zero",
+  "project": "weight_multiplicity",
+  "taxonomy": "venue",
+  "outcome": "execution_failure",
+  "evidence_kind": "operational_failure",
+  "source_outcome": "resource Hold",
+  "evidence_path": "experiments/weight-multiplicity/phase1/phase1-corpus-run-20260901012539-closeout-v1.json",
+  "mechanism": "Per-query resource control during the Phase 1 corpus pilot.",
+  "mechanism_tags": [
+    "oracle-frontier",
+    "resource-bound",
+    "query-accounting"
+  ],
+  "summary": "The corpus pilot stopped at its resource gate. The recorded E7 query took about 1,019 ms and returned a multiplicity above the corpus label range. Its cost remains part of oracle work.",
+  "lineage_note": "Count every attempt and apply the proposed final p99 clause with its separate hard timeout and frozen total limits.",
+  "evidence_ref": "artifact://sha256/d2fd08845eab2e179dfac6e2f8627a13727530bbf4e98b5f15685841ba942a58",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788600443637
+}

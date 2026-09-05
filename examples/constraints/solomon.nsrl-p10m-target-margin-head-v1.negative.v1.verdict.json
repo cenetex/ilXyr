@@ -1,0 +1,24 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:solomon.nsrl-p10m-target-margin-head-v1.negative.v1",
+  "experiment_id": "solomon.nsrl-p10m-target-margin-head-v1.negative.v1",
+  "family": "solomon",
+  "seed": 0,
+  "outcome": "measured_local_no_go",
+  "taxonomy": "measurement",
+  "mechanism": "Output-matrix-only hard-negative margin training with frozen feature-shift preflight selection. The 64-window preflight improved target rank from 2190.919 to 895.808, but the full 2048-window run regressed target rank from 2133.306 to 4072.675.",
+  "mechanism_tags": [
+    "hard-negative-margin",
+    "output-matrix-only",
+    "target-rank"
+  ],
+  "summary": "The frozen rule selected shift 14 after preflight improved target rank, but the effect did not generalize to the full run. On the 512-target audit, mean target rank worsened by 910 per mille and public-development NLL increased by 2,004,452 millibits. The prospective gate failed and denied public test evaluation.",
+  "lineage_note": "Do not repeat this unregularized hard-negative perceptron schedule at the same horizon. A future bounded attempt would need a fixed disjoint selection surface plus a development trust region or early stop.",
+  "evidence_ref": "artifact://sha256/b8e20655c0a9faa1e9cd24b9cc6e5c029586fcfc5efc7d14d8a280c632583164",
+  "retro_registration_ref": "solomon.nsrl-p10m-target-margin-head-v1.negative.v1",
+  "recorded_by": {
+    "id": "human://cenetex",
+    "kind": "human"
+  },
+  "recorded_at_ms": 1788300500000
+}

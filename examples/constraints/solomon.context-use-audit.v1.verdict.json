@@ -1,0 +1,27 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:solomon.context-use-audit.v1",
+  "experiment_id": "solomon.context-use-audit.v1",
+  "family": "solomon",
+  "project": "solomon",
+  "taxonomy": "measurement",
+  "outcome": "diagnostic_failure",
+  "evidence_kind": "posthoc_diagnostic",
+  "source_outcome": "context-independent artifact",
+  "evidence_path": "experiments/research-step-2/RESULT.json",
+  "mechanism": "Context use by the historical successor-v2 candidate.",
+  "mechanism_tags": [
+    "integer-model",
+    "context-use",
+    "simple-baseline"
+  ],
+  "summary": "The historical candidate has constant embeddings and zero context weights. Its score replays exactly. A previous-byte bigram lowers the same integer loss by 6.08% and reaches 28.97% accuracy on the opened partition.",
+  "lineage_note": "Compare the next model with the integer bigram on fresh documents and include a fixed context control.",
+  "evidence_ref": "artifact://sha256/4feae1ce7a23f9774adf7ec6eb42d738d0beef9beaa5a088d2fb34100ca964d2",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788600443632
+}

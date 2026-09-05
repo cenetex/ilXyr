@@ -1,0 +1,345 @@
+{
+  "schema": "ilxyr.negative_knowledge_ledger.v1",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "created_at_ms": 1788301100000,
+  "entries": [
+    {
+      "seq": 0,
+      "verdict_id": "verdict:zero.q23.seed2.local-guard.v1",
+      "experiment_id": "zero.q23.seed2.local-guard.no-go.v1",
+      "family": "zero",
+      "seed": 2,
+      "outcome": "no_go",
+      "taxonomy": "transfer",
+      "mechanism_tags": [
+        "replay-guard",
+        "local-budget",
+        "quantity-gate"
+      ],
+      "recorded_at_ms": 1788300000000,
+      "summary": "Q2.3 seed 2 completed under its frozen local functional replay guard: quantity reached the declared threshold, the guard rejected no attempts, cumulative public replay regression reached 2.685%, and the diagnostic was a no-go without promotion or replication-seed access."
+    },
+    {
+      "seq": 1,
+      "verdict_id": "verdict:zero.q24.seed2.cumulative-guard.v1",
+      "experiment_id": "zero.q24.seed2.cumulative-guard.v1",
+      "family": "zero",
+      "seed": 2,
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "replay-guard",
+        "cumulative",
+        "quantity-gate"
+      ],
+      "recorded_at_ms": 1788300100000,
+      "summary": "Q2.4 seed 2 committed 66 candidates under the frozen 1.5% cumulative replay authority. Attempts 67-74 each exceeded the ceiling and rolled back, ending the run via the eight-rejection fallback before any public checkpoint or promotion evaluation."
+    },
+    {
+      "seq": 2,
+      "verdict_id": "verdict:zero.q25.seed2.deterministic-backtracking.v1",
+      "experiment_id": "zero.q25.seed2.deterministic-backtracking.v1",
+      "family": "zero",
+      "seed": 2,
+      "outcome": "complete_no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "replay-guard",
+        "cumulative",
+        "backtracking",
+        "quantity-gate"
+      ],
+      "recorded_at_ms": 1788300200000,
+      "summary": "Q2.5 seed 2 committed 71 updates (66 full-scale, 5 backtracked), then exhausted all eight scales on attempts 72-79. The terminal minimum-scale candidates missed the 1.5% authority by only 0.000151-0.000238 percentage points. Promotion and replication stayed sealed."
+    },
+    {
+      "seq": 3,
+      "verdict_id": "verdict:solomon.q22-compositional-routing.three-seed.v1",
+      "experiment_id": "solomon.q22-compositional-routing.three-seed.v1",
+      "family": "solomon",
+      "outcome": "no_go",
+      "taxonomy": "transfer",
+      "mechanism_tags": [
+        "shortcut-resistant-routing",
+        "integer-perceptron",
+        "operation-routing"
+      ],
+      "recorded_at_ms": 1788300300000,
+      "summary": "EXP-008 kept the same model geometry and training rule as EXP-007 but changed the information surface: balanced distractors, normalized-surface disjoint templates, and absent operation identifiers. The model failed to reach the 900,000 ppm overall gate on all three seeds."
+    },
+    {
+      "seq": 4,
+      "verdict_id": "verdict:weight-multiplicity.phase0.oracle-frontier.v1",
+      "experiment_id": "weight-multiplicity-transfer-r3",
+      "family": "zero",
+      "outcome": "complete_no_go",
+      "taxonomy": "venue",
+      "mechanism_tags": [
+        "oracle-frontier",
+        "weight-multiplicity",
+        "resource-bound"
+      ],
+      "recorded_at_ms": 1788300400000,
+      "summary": "Phase 0 measured all 248 type-and-height cells with 1,594,852 uncached oracle attempts. 135 cells filled every quota, 78 had incomplete yield, and 35 exceeded the one-second limit. E8 exceeded budget at height 1. The failure is cost, not symbolic disagreement."
+    },
+    {
+      "seq": 5,
+      "verdict_id": "verdict:solomon.nsrl-p10m-target-margin-head-v1.negative.v1",
+      "experiment_id": "solomon.nsrl-p10m-target-margin-head-v1.negative.v1",
+      "family": "solomon",
+      "seed": 0,
+      "outcome": "measured_local_no_go",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "hard-negative-margin",
+        "output-matrix-only",
+        "target-rank"
+      ],
+      "recorded_at_ms": 1788300500000,
+      "summary": "The frozen rule selected shift 14 after preflight improved target rank, but the effect did not generalize to the full run. On the 512-target audit, mean target rank worsened by 910 per mille and public-development NLL increased by 2,004,452 millibits. The prospective gate failed and denied public test evaluation."
+    },
+    {
+      "seq": 6,
+      "verdict_id": "verdict:solomon.nsrl-p10m-direct-head-nll-guard-v1.negative.v1",
+      "experiment_id": "solomon.nsrl-p10m-direct-head-nll-guard-v1.negative.v1",
+      "family": "solomon",
+      "seed": 0,
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "output-head-search",
+        "nll-guard",
+        "document-disjoint"
+      ],
+      "recorded_at_ms": 1788300600000,
+      "summary": "A prospectively frozen canonical-NLL output-head search selected a coordinate that improved exact proposal NLL but worsened a document-disjoint training guard. The move was atomically rejected, exact rerun replay passed, the source model was retained, and public test plus all later gates stayed closed."
+    },
+    {
+      "seq": 7,
+      "verdict_id": "verdict:solomon.nsrl-p10m-direct-head-nll-safe-set-v1.negative.v1",
+      "experiment_id": "solomon.nsrl-p10m-direct-head-nll-safe-set-v1.negative.v1",
+      "family": "solomon",
+      "seed": 0,
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "output-head-search",
+        "nll-guard",
+        "document-disjoint",
+        "safe-set"
+      ],
+      "recorded_at_ms": 1788300700000,
+      "summary": "A prospectively frozen exact two-surface output-head search evaluated both unit directions for all eight ranked coordinates. Every proposal-descent direction worsened the document-disjoint guard, so the safe set was empty, exact rerun replay passed, the source model was retained, and public development plus all later gates stayed closed."
+    },
+    {
+      "seq": 8,
+      "verdict_id": "verdict:solomon.nsrl-p10m-direct-head-cross-document-stability-v1.negative.v1",
+      "experiment_id": "solomon.nsrl-p10m-direct-head-cross-document-stability-v1.negative.v1",
+      "family": "solomon",
+      "seed": 0,
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "output-head-search",
+        "cross-document",
+        "nll-guard"
+      ],
+      "recorded_at_ms": 1788300800000,
+      "summary": "A prospectively frozen read-only audit replayed eight proposal-descent output-weight directions across eight previously unused training documents. No direction strictly improved at least six documents with positive aggregate NLL improvement, every aggregate was negative, exact trace replay passed, and the same-coordinate-family follow-up gate plus all public and hidden stages stayed closed."
+    },
+    {
+      "seq": 9,
+      "verdict_id": "verdict:solomon.nsrl-p10m-target-margin-trust-region-v1.negative.v1",
+      "experiment_id": "solomon.nsrl-p10m-target-margin-trust-region-v1.negative.v1",
+      "family": "solomon",
+      "seed": 0,
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "mechanism_tags": [
+        "hard-negative-margin",
+        "trust-region",
+        "nll-guard",
+        "document-disjoint"
+      ],
+      "recorded_at_ms": 1788300900000,
+      "summary": "A prospectively frozen hard-negative trust-region preflight bound all rates to one update schedule and one disjoint canonical-NLL guard. Every proposed batch at feature shifts 13, 14, and 15 worsened guard NLL and was atomically rejected, so no candidate was selected and all later evaluation stayed closed."
+    },
+    {
+      "seq": 10,
+      "verdict_id": "verdict:solomon.context-use-audit.v1",
+      "verdict_ref": "artifact://sha256/36eaea2b67e27a4860adda0470a29805bbf42cc5c1a4bd76340c4f71662cb4b8",
+      "experiment_id": "solomon.context-use-audit.v1",
+      "family": "solomon",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "integer-model",
+        "context-use",
+        "simple-baseline"
+      ],
+      "summary": "The historical candidate has constant embeddings and zero context weights. Its score replays exactly. A previous-byte bigram lowers the same integer loss by 6.08% and reaches 28.97% accuracy on the opened partition.",
+      "recorded_at_ms": 1788600443632,
+      "project": "solomon",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "context-independent artifact",
+      "lineage_note": "Compare the next model with the integer bigram on fresh documents and include a fixed context control.",
+      "evidence_path": "experiments/research-step-2/RESULT.json",
+      "evidence_ref": "artifact://sha256/4feae1ce7a23f9774adf7ec6eb42d738d0beef9beaa5a088d2fb34100ca964d2"
+    },
+    {
+      "seq": 11,
+      "verdict_id": "verdict:feral.finqa-empty-label-audit.v1",
+      "verdict_ref": "artifact://sha256/879b57a132de186856a50e8c2cf20b2035197be8231b54a0b7839298db1dab61",
+      "experiment_id": "feral.finqa-empty-label-audit.v1",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "answer-labels",
+        "numeric-units",
+        "retrieval-calculator"
+      ],
+      "summary": "Fourteen of 1,147 textual gold answers are empty. All fourteen source arithmetic programs reproduce the source execution values within its five-decimal precision. The historical score remains 168/1,147.",
+      "recorded_at_ms": 1788600443633,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "fourteen empty textual targets",
+      "lineage_note": "Create a new benchmark version with an explicit execution-value and percent-conversion rule. Keep gold programs confined to label auditing.",
+      "evidence_path": "experiments/research-step-2/RESULT.json",
+      "evidence_ref": "artifact://sha256/4feae1ce7a23f9774adf7ec6eb42d738d0beef9beaa5a088d2fb34100ca964d2"
+    },
+    {
+      "seq": 12,
+      "verdict_id": "verdict:zero.reasoner55-semantic-control-audit.v1",
+      "verdict_ref": "artifact://sha256/cd98b580e008f268e45c37d4835c0232a6819e382d6e43bee423ad48d449b70d",
+      "experiment_id": "zero.reasoner55-semantic-control-audit.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "semantic-transfer",
+        "learned-search",
+        "lexical-control"
+      ],
+      "summary": "On the opened 128-family cohort, the task/lexical verifier-cost ratio is 1.00624 and its CPU ratio is 1.00459. The semantic contribution remains unresolved by these point estimates.",
+      "recorded_at_ms": 1788600443634,
+      "project": "reasoner",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "semantic contribution unresolved",
+      "lineage_note": "Apply equal search optimizations to all arms, keep the model fixed, and compare semantic and lexical guidance on fresh families.",
+      "evidence_path": "experiments/research-step-4/RESULT.json",
+      "evidence_ref": "artifact://sha256/37eec05228f6ff213cfb63a4dc5e8c0cdb716d0d0c1fb144d36f7df22df0ebae"
+    },
+    {
+      "seq": 13,
+      "verdict_id": "verdict:zero.reasoner58-development-current.v1",
+      "verdict_ref": "artifact://sha256/ad79e97e2d42c4fe999f28fe90faf48aa4ce889798d712edde4bf90b753cbe77",
+      "experiment_id": "zero.reasoner58-development-current.v1",
+      "family": "zero",
+      "outcome": "measurement_floor",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "semantic-transfer",
+        "learned-search",
+        "measurement-floor"
+      ],
+      "summary": "The current machine record has sixteen families, a full/source-free point ratio of 1.1040, and a measurement-floor decision.",
+      "recorded_at_ms": 1788600443635,
+      "project": "reasoner",
+      "evidence_kind": "existing_public_result",
+      "source_outcome": "measurement-floor",
+      "lineage_note": "Establish adequate source-free search work in development before a new sealed comparison.",
+      "evidence_path": "experiments/research-step-4/RESULT.json",
+      "evidence_ref": "artifact://sha256/37eec05228f6ff213cfb63a4dc5e8c0cdb716d0d0c1fb144d36f7df22df0ebae"
+    },
+    {
+      "seq": 14,
+      "verdict_id": "verdict:zero.reasoner59a-development-current.v1",
+      "verdict_ref": "artifact://sha256/79c168a2d6cf8bb8c37cd8b02a64bf2385a2d870d60fc77532fcc6b5b3609add",
+      "experiment_id": "zero.reasoner59a-development-current.v1",
+      "family": "zero",
+      "outcome": "no_go",
+      "taxonomy": "transfer",
+      "mechanism_tags": [
+        "semantic-transfer",
+        "learned-search",
+        "generator-transfer",
+        "derangement-control"
+      ],
+      "summary": "The sixteen-family development result has a point ratio of 0.6312 and an upper ratio of 1.0232. It fails the confidence, family-win, stratum, mechanism, and derangement gates. The derangement p-value is 0.375.",
+      "recorded_at_ms": 1788600443636,
+      "project": "reasoner",
+      "evidence_kind": "existing_public_result",
+      "source_outcome": "no-go",
+      "lineage_note": "Redesign the source prior and test its mechanism controls in development before opening a fresh sealed family set.",
+      "evidence_path": "experiments/research-step-4/RESULT.json",
+      "evidence_ref": "artifact://sha256/37eec05228f6ff213cfb63a4dc5e8c0cdb716d0d0c1fb144d36f7df22df0ebae"
+    },
+    {
+      "seq": 15,
+      "verdict_id": "verdict:weight-multiplicity.phase1-pilot-resource.v1",
+      "verdict_ref": "artifact://sha256/5a9612f68b72334d772becf0dcb8c85b29294bef12947c654141b6bd7f2b0743",
+      "experiment_id": "weight-multiplicity.phase1-pilot-resource.v1",
+      "family": "zero",
+      "outcome": "execution_failure",
+      "taxonomy": "venue",
+      "mechanism_tags": [
+        "oracle-frontier",
+        "resource-bound",
+        "query-accounting"
+      ],
+      "summary": "The corpus pilot stopped at its resource gate. The recorded E7 query took about 1,019 ms and returned a multiplicity above the corpus label range. Its cost remains part of oracle work.",
+      "recorded_at_ms": 1788600443637,
+      "project": "weight_multiplicity",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "resource Hold",
+      "lineage_note": "Count every attempt and apply the proposed final p99 clause with its separate hard timeout and frozen total limits.",
+      "evidence_path": "experiments/weight-multiplicity/phase1/phase1-corpus-run-20260901012539-closeout-v1.json",
+      "evidence_ref": "artifact://sha256/d2fd08845eab2e179dfac6e2f8627a13727530bbf4e98b5f15685841ba942a58"
+    },
+    {
+      "seq": 16,
+      "verdict_id": "verdict:weight-multiplicity.tail-wrapper-failure.v1",
+      "verdict_ref": "artifact://sha256/eef7b8c4d31c5a15340866845c0a5c53b9f13b52ed8f6e48628170596bf42597",
+      "experiment_id": "weight-multiplicity.tail-wrapper-failure.v1",
+      "family": "ilxyr",
+      "outcome": "execution_failure",
+      "taxonomy": "implementation",
+      "mechanism_tags": [
+        "query-accounting",
+        "cloud-wrapper",
+        "evidence-preservation"
+      ],
+      "summary": "The calibration completed 26,624 queries. A later unquoted jq filter failed in the wrapper. The complete state prefix and verified checksums preserve the measurement; the scientific classification remains calibration_complete.",
+      "recorded_at_ms": 1788600443638,
+      "project": "weight_multiplicity",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "post_measurement_wrapper_failed",
+      "lineage_note": "Test the wrapper closeout with a completed fixture and collect terminal evidence before considering any retry.",
+      "evidence_path": "experiments/weight-multiplicity/phase1/phase1-tail-calibration-run-20260901015649-closeout-v1.json",
+      "evidence_ref": "artifact://sha256/4ddedd80e464ffa901fa24304b59139a5cc449871a8f7dcb8c525db69e93a398"
+    },
+    {
+      "seq": 17,
+      "verdict_id": "verdict:zero.reasoner58-prose-mismatch-audit.v1",
+      "verdict_ref": "artifact://sha256/f3b7f4909a64d5427e21c614db93374d5280e2780e9a2abff78c085f35e6319a",
+      "experiment_id": "zero.reasoner58-prose-mismatch-audit.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "implementation",
+      "mechanism_tags": [
+        "report-generation",
+        "source-binding",
+        "evidence-preservation"
+      ],
+      "summary": "The prose describes twelve families and an older ratio. The current machine result has sixteen families and a measurement-floor decision. The shared audit records the correction.",
+      "recorded_at_ms": 1788600443639,
+      "project": "reasoner",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "prose and machine record differ",
+      "lineage_note": "Generate the current prose from its bound machine record and preserve earlier summaries with their source identities.",
+      "evidence_path": "experiments/research-step-4/REPORT.md",
+      "evidence_ref": "artifact://sha256/2693f86c2b5e1c0d1755b0eb32374388d32c2bb821340a8f9a9eef6c4c8470bb"
+    }
+  ]
+}

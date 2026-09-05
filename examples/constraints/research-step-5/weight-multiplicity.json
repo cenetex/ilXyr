@@ -1,0 +1,79 @@
+{
+  "schema": "ilxyr.constraint_diff_report.v1",
+  "report_id": "constraint-diff:weight-multiplicity.next-comparison.v1",
+  "experiment_id": "weight-multiplicity.next-comparison.v1",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "ledger_ref": "artifact://sha256/8be79f853a182e39a9a7fe2be8b2b67438680c03e0b4804591f63880a3e7dc67",
+  "generated_at_ms": 1788600742008,
+  "proposed_mechanism_tags": [
+    "oracle-frontier",
+    "resource-bound",
+    "query-accounting"
+  ],
+  "matches": [
+    {
+      "verdict_id": "verdict:weight-multiplicity.phase0.oracle-frontier.v1",
+      "experiment_id": "weight-multiplicity-transfer-r3",
+      "family": "zero",
+      "outcome": "complete_no_go",
+      "taxonomy": "venue",
+      "matched_tags": [
+        "oracle-frontier",
+        "resource-bound"
+      ],
+      "verdict_summary": "Phase 0 measured all 248 type-and-height cells with 1,594,852 uncached oracle attempts. 135 cells filled every quota, 78 had incomplete yield, and 35 exceeded the one-second limit. E8 exceeded budget at height 1. The failure is cost, not symbolic disagreement.",
+      "same_mechanism_tags": false
+    },
+    {
+      "verdict_id": "verdict:weight-multiplicity.phase1-pilot-resource.v1",
+      "experiment_id": "weight-multiplicity.phase1-pilot-resource.v1",
+      "family": "zero",
+      "outcome": "execution_failure",
+      "taxonomy": "venue",
+      "matched_tags": [
+        "oracle-frontier",
+        "resource-bound",
+        "query-accounting"
+      ],
+      "verdict_summary": "The corpus pilot stopped at its resource gate. The recorded E7 query took about 1,019 ms and returned a multiplicity above the corpus label range. Its cost remains part of oracle work.",
+      "same_mechanism_tags": true,
+      "project": "weight_multiplicity",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "resource Hold",
+      "lineage_note": "Count every attempt and apply the proposed final p99 clause with its separate hard timeout and frozen total limits.",
+      "verdict_ref": "artifact://sha256/5a9612f68b72334d772becf0dcb8c85b29294bef12947c654141b6bd7f2b0743",
+      "evidence_ref": "artifact://sha256/d2fd08845eab2e179dfac6e2f8627a13727530bbf4e98b5f15685841ba942a58",
+      "evidence_path": "experiments/weight-multiplicity/phase1/phase1-corpus-run-20260901012539-closeout-v1.json"
+    },
+    {
+      "verdict_id": "verdict:weight-multiplicity.tail-wrapper-failure.v1",
+      "experiment_id": "weight-multiplicity.tail-wrapper-failure.v1",
+      "family": "ilxyr",
+      "outcome": "execution_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "query-accounting"
+      ],
+      "verdict_summary": "The calibration completed 26,624 queries. A later unquoted jq filter failed in the wrapper. The complete state prefix and verified checksums preserve the measurement; the scientific classification remains calibration_complete.",
+      "same_mechanism_tags": false,
+      "project": "weight_multiplicity",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "post_measurement_wrapper_failed",
+      "lineage_note": "Test the wrapper closeout with a completed fixture and collect terminal evidence before considering any retry.",
+      "verdict_ref": "artifact://sha256/eef7b8c4d31c5a15340866845c0a5c53b9f13b52ed8f6e48628170596bf42597",
+      "evidence_ref": "artifact://sha256/4ddedd80e464ffa901fa24304b59139a5cc449871a8f7dcb8c525db69e93a398",
+      "evidence_path": "experiments/weight-multiplicity/phase1/phase1-tail-calibration-run-20260901015649-closeout-v1.json"
+    }
+  ],
+  "taxonomy_counts": {
+    "transfer": 0,
+    "interference": 0,
+    "measurement": 0,
+    "venue": 2,
+    "implementation": 1
+  },
+  "superseded_entries": 0,
+  "proposed_change": "Integrate complete attempt accounting, final p99, separate hard timeout, and frozen total limits before the next package.",
+  "summary": "3 prior results share these mechanism tags. Review their evidence and the required design changes.",
+  "recommendation": "review"
+}

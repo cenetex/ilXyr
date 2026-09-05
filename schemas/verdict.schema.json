@@ -1,0 +1,269 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/verdict.v1.json",
+  "title": "ilXyr canonical experiment verdict v1",
+  "description": "Canonical machine-readable verdict for a completed experiment outcome, including negative/no-go results. Each verdict carries a taxonomy classification so cross-repo negative knowledge becomes queryable at design time.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "experiment_id",
+    "family",
+    "outcome",
+    "taxonomy",
+    "mechanism",
+    "mechanism_tags",
+    "summary",
+    "evidence_ref",
+    "recorded_by",
+    "recorded_at_ms"
+  ],
+  "properties": {
+    "schema": {
+      "const": "ilxyr.verdict.v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^verdict:[A-Za-z0-9._:/-]+$"
+    },
+    "experiment_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:/-]+$"
+    },
+    "family": {
+      "enum": [
+        "zero",
+        "solomon",
+        "feral",
+        "ilxyr"
+      ]
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "outcome": {
+      "enum": [
+        "go",
+        "no_go",
+        "complete_no_go",
+        "measured_local_no_go",
+        "execution_failure",
+        "diagnostic_failure",
+        "measurement_floor"
+      ],
+      "description": "The outcome of the stated experiment or audit. A diagnostic finding keeps the historical experiment outcome separate."
+    },
+    "taxonomy": {
+      "enum": [
+        "transfer",
+        "interference",
+        "measurement",
+        "venue",
+        "implementation"
+      ],
+      "description": "Classification of the negative result. 'transfer': the mechanism failed to generalize to unseen data/ranks/conditions. 'interference': the mechanism conflicted with another frozen gate or objective. 'measurement': the result is a measured boundary or resource frontier. 'venue': the result is a venue/resource limitation (e.g. oracle timeout). 'implementation': the result stems from an implementation or infrastructure defect."
+    },
+    "mechanism": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable description of the mechanism that was tested, for cross-repo diffing."
+    },
+    "mechanism_tags": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[a-z][a-z0-9_-]*$"
+      },
+      "description": "Structured lowercase tags identifying the mechanism family (e.g. 'replay-guard', 'cumulative', 'backtracking', 'gradient-projection', 'shortcut-resistant-routing', 'oracle-frontier'). New experiment SPECs declare their own mechanism_tags; the design-time diff matches these against registered verdicts."
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "One-paragraph prose summary of the verdict and its scientific context."
+    },
+    "lineage_note": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The concrete change or control needed in the next design."
+    },
+    "evidence_ref": {
+      "$ref": "#/$defs/artifact_ref"
+    },
+    "retro_registration_ref": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:/-]+$",
+      "description": "If the verdict was imported through the retro lane, the retro-registration spec id."
+    },
+    "recorded_by": {
+      "$ref": "#/$defs/actor"
+    },
+    "recorded_at_ms": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "project": {
+      "enum": [
+        "reasoner",
+        "solomon",
+        "zero4",
+        "feral",
+        "weight_multiplicity",
+        "program"
+      ]
+    },
+    "evidence_kind": {
+      "enum": [
+        "existing_public_result",
+        "posthoc_diagnostic",
+        "operational_failure"
+      ]
+    },
+    "source_outcome": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "supersedes_ref": {
+      "type": "string",
+      "pattern": "^verdict:[A-Za-z0-9._:/-]+$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "go"
+            ]
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "properties": {
+          "taxonomy": {
+            "enum": [
+              "measurement",
+              "implementation"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "taxonomy": {
+            "enum": [
+              "transfer",
+              "interference",
+              "measurement",
+              "venue",
+              "implementation"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "human",
+            "model",
+            "service"
+          ]
+        },
+        "model_ref": {
+          "type": "string",
+          "pattern": "^model://\\S+$"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "model"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^model://"
+              },
+              "model_ref": true
+            },
+            "required": [
+              "model_ref"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "human"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^human://"
+              },
+              "model_ref": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "service"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^service://"
+              },
+              "model_ref": false
+            }
+          }
+        }
+      ]
+    }
+  }
+}

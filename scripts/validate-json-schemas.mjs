@@ -33,6 +33,39 @@ const fixtures = {
   "claim-status.schema.json": ["examples/schema/claim-status.json"],
   "claim.schema.json": ["examples/schema/claim.json"],
   "claim-support.schema.json": [],
+  "constraint-diff-report.schema.json": [
+    "examples/constraints/constraint-diff-review.v1.json",
+    "examples/constraints/constraint-diff-proceed.v1.json",
+    "examples/constraints/research-step-5/reasoner.json",
+    "examples/constraints/research-step-5/solomon.json",
+    "examples/constraints/research-step-5/zero4.json",
+    "examples/constraints/research-step-5/feral.json",
+    "examples/constraints/research-step-5/weight-multiplicity.json",
+  ],
+  "negative-knowledge-ledger.schema.json": [
+    "examples/constraints/negative-knowledge-ledger.v1.json",
+  ],
+  "verdict.schema.json": [
+    "examples/constraints/zero.q23.seed2.local-guard.v1.verdict.json",
+    "examples/constraints/zero.q24.seed2.cumulative-guard.v1.verdict.json",
+    "examples/constraints/zero.q25.seed2.deterministic-backtracking.v1.verdict.json",
+    "examples/constraints/solomon.q22-compositional-routing.three-seed.v1.verdict.json",
+    "examples/constraints/weight-multiplicity.phase0.oracle-frontier.v1.verdict.json",
+    "examples/constraints/solomon.nsrl-p10m-target-margin-head-v1.negative.v1.verdict.json",
+    "examples/constraints/solomon.nsrl-p10m-direct-head-nll-guard-v1.negative.v1.verdict.json",
+    "examples/constraints/solomon.nsrl-p10m-direct-head-nll-safe-set-v1.negative.v1.verdict.json",
+    "examples/constraints/solomon.nsrl-p10m-direct-head-cross-document-stability-v1.negative.v1.verdict.json",
+    "examples/constraints/solomon.nsrl-p10m-target-margin-trust-region-v1.negative.v1.verdict.json",
+    "examples/constraints/zero.q26.seed2.global-tangent-projection.v1.verdict.json",
+    "examples/constraints/solomon.context-use-audit.v1.verdict.json",
+    "examples/constraints/feral.finqa-empty-label-audit.v1.verdict.json",
+    "examples/constraints/zero.reasoner55-semantic-control-audit.v1.verdict.json",
+    "examples/constraints/zero.reasoner58-development-current.v1.verdict.json",
+    "examples/constraints/zero.reasoner59a-development-current.v1.verdict.json",
+    "examples/constraints/weight-multiplicity.phase1-pilot-resource.v1.verdict.json",
+    "examples/constraints/weight-multiplicity.tail-wrapper-failure.v1.verdict.json",
+    "examples/constraints/zero.reasoner58-prose-mismatch-audit.v1.verdict.json",
+  ],
   "contribution.schema.json": [
     "examples/toy/hypothesis.json",
     "examples/toy/foundation.json",
@@ -905,6 +938,109 @@ expectInvalid(
   "weight-multiplicity-frontier-plan.schema.json",
   "frontier generator v1 with a retroactive predecessor",
   frontierV1WithPredecessor,
+);
+
+
+// --- Verdict schema rejection tests ---
+
+const verdictWithGoAndTransfer = await readJson(
+  "examples/constraints/zero.q26.seed2.global-tangent-projection.v1.verdict.json",
+);
+verdictWithGoAndTransfer.taxonomy = "transfer";
+expectInvalid(
+  "verdict.schema.json",
+  "go verdict with transfer taxonomy",
+  verdictWithGoAndTransfer,
+);
+
+const verdictWithGoOutcome = await readJson(
+  "examples/constraints/zero.q23.seed2.local-guard.v1.verdict.json",
+);
+verdictWithGoOutcome.outcome = "go";
+verdictWithGoOutcome.taxonomy = "transfer";
+expectInvalid(
+  "verdict.schema.json",
+  "go verdict with transfer taxonomy from negative",
+  verdictWithGoOutcome,
+);
+
+const verdictMissingMechanismTags = await readJson(
+  "examples/constraints/zero.q24.seed2.cumulative-guard.v1.verdict.json",
+);
+delete verdictMissingMechanismTags.mechanism_tags;
+expectInvalid(
+  "verdict.schema.json",
+  "verdict without mechanism_tags",
+  verdictMissingMechanismTags,
+);
+
+const verdictWithBadMechanismTag = await readJson(
+  "examples/constraints/zero.q25.seed2.deterministic-backtracking.v1.verdict.json",
+);
+verdictWithBadMechanismTag.mechanism_tags = ["UPPERCASE-Tag"];
+expectInvalid(
+  "verdict.schema.json",
+  "verdict with non-lowercase mechanism_tag",
+  verdictWithBadMechanismTag,
+);
+
+const verdictModelWithoutModelRef = await readJson(
+  "examples/constraints/solomon.q22-compositional-routing.three-seed.v1.verdict.json",
+);
+verdictModelWithoutModelRef.recorded_by = {
+  id: "model://toy/research-director",
+  kind: "model",
+};
+expectInvalid(
+  "verdict.schema.json",
+  "model actor without model_ref",
+  verdictModelWithoutModelRef,
+);
+
+// --- Negative-knowledge ledger rejection tests ---
+
+const ledgerWithGoEntry = await readJson(
+  "examples/constraints/negative-knowledge-ledger.v1.json",
+);
+ledgerWithGoEntry.entries[0].outcome = "go";
+expectInvalid(
+  "negative-knowledge-ledger.schema.json",
+  "negative-knowledge ledger with a go outcome entry",
+  ledgerWithGoEntry,
+);
+
+// --- Constraint-diff report rejection tests ---
+
+const diffReportWithProceedAndMatches = await readJson(
+  "examples/constraints/constraint-diff-proceed.v1.json",
+);
+diffReportWithProceedAndMatches.matches = [
+  {
+    verdict_id: "verdict:zero.q23.seed2.local-guard.v1",
+    experiment_id: "zero.q23.seed2.local-guard.no-go.v1",
+    family: "zero",
+    seed: 2,
+    outcome: "no_go",
+    taxonomy: "transfer",
+    matched_tags: ["newton-root-search"],
+    verdict_summary: "Should not be here with proceed recommendation.",
+  },
+];
+expectInvalid(
+  "constraint-diff-report.schema.json",
+  "constraint-diff report with proceed recommendation but non-empty matches",
+  diffReportWithProceedAndMatches,
+);
+
+const diffReportBlockedWithoutMatches = await readJson(
+  "examples/constraints/constraint-diff-review.v1.json",
+);
+diffReportBlockedWithoutMatches.matches = [];
+diffReportBlockedWithoutMatches.recommendation = "blocked";
+expectInvalid(
+  "constraint-diff-report.schema.json",
+  "constraint-diff report with blocked recommendation but empty matches",
+  diffReportBlockedWithoutMatches,
 );
 
 console.log(

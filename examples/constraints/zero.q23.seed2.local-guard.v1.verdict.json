@@ -1,0 +1,24 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:zero.q23.seed2.local-guard.v1",
+  "experiment_id": "zero.q23.seed2.local-guard.no-go.v1",
+  "family": "zero",
+  "seed": 2,
+  "outcome": "no_go",
+  "taxonomy": "transfer",
+  "mechanism": "Observer-calibrated per-attempt functional replay guard with a 0.25% hard local band, designed to keep cumulative public replay below 2% without weakening quantity gates. The guard accepted all 200 candidates but public replay regressed 2.685%.",
+  "mechanism_tags": [
+    "replay-guard",
+    "local-budget",
+    "quantity-gate"
+  ],
+  "summary": "Q2.3 seed 2 completed under its frozen local functional replay guard: quantity reached the declared threshold, the guard rejected no attempts, cumulative public replay regression reached 2.685%, and the diagnostic was a no-go without promotion or replication-seed access.",
+  "lineage_note": "Do not repeat an uncorrelated local replay budget at this horizon. A future attempt needs a global or cumulative authority, not a per-attempt local probe.",
+  "evidence_ref": "artifact://sha256/25ff0c243e6a1cee9e2ebab565f444dc5818508e1d662658a6fddd47d59edee3",
+  "retro_registration_ref": "zero.q23.seed2.local-guard.no-go.v1",
+  "recorded_by": {
+    "id": "human://cenetex",
+    "kind": "human"
+  },
+  "recorded_at_ms": 1788300000000
+}
