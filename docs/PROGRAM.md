@@ -17,6 +17,9 @@ the full input roster and historical score.
 The [FERAL calculator control](../experiments/research-step-8/REPORT.md) chooses
 dated operands from supplied evidence and compares arithmetic with returning
 one selected operand. Its five-case smoke retains a cross-series failure.
+The [matched Reasoner runner](../experiments/research-step-9/REPORT.md) puts
+all six arms on one optimized executable and preserves complete process costs.
+Its report links the next concrete comparison for each research line.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence
