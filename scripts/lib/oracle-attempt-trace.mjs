@@ -3,10 +3,10 @@ import { closeSync, openSync, renameSync, writeFileSync, writeSync } from "node:
 import { resolve } from "node:path";
 import { OracleResourceAccounting } from "./oracle-resource-accounting.mjs";
 
-// Legacy run gates remain in BudgetTracker. This records every LiE call,
-// including setup, and measures the final p99 for the proposed next policy.
+// The full trace includes setup. The optional policy follows the calibration's
+// workload query set and clock; both accounting records remain visible.
 export class OracleAttemptTrace {
-  constructor({ directory, hardTimeoutMs, clock = () => performance.now() }) {
+  constructor({ directory, hardTimeoutMs, workloadLimits = null, clock = () => performance.now() }) {
     this.clock = clock;
     this.started = clock();
     this.lastCheckpoint = this.started;
@@ -17,12 +17,35 @@ export class OracleAttemptTrace {
     this.accounting = new OracleResourceAccounting({ final_p99_ms: null,
       hard_timeout_ms: hardTimeoutMs, oracle_calls: null, total_query_ms: null,
       elapsed_wall_seconds: null });
+    this.workloadAccounting = workloadLimits ? new OracleResourceAccounting(workloadLimits) : null;
+    this.workloadStarted = null;
     this.phaseCounts = { setup: 0, workload: 0 };
     this.dispatched = 0;
   }
 
   elapsed() { return (this.clock() - this.started) / 1000; }
   nextDispatch() { return ++this.dispatched; }
+
+  startWorkload() {
+    if (this.workloadStarted !== null) throw new Error("workload clock already started");
+    this.workloadStarted = this.clock();
+  }
+
+  workloadElapsed() {
+    return this.workloadStarted === null ? 0 : (this.clock() - this.workloadStarted) / 1000;
+  }
+
+  beforeDispatch(inFlight) {
+    const policy = this.workloadAccounting;
+    if (policy) {
+      if (this.workloadStarted === null) throw new Error("workload clock is required");
+      policy.checkWall(this.workloadElapsed());
+      if (policy.p99.count + inFlight >= policy.limits.oracle_calls)
+        policy.hold("oracle_call_limit");
+      if (policy.firstHold) this.hold(policy.firstHold.reason, policy.firstHold.triggering_query);
+    }
+    return this.accounting.firstHold;
+  }
 
   record(candidate, result, { sliceId, dispatchSequence, phase = "workload" }) {
     const disposition = result.status !== "ok" ? "oracle_failure"
@@ -50,10 +73,20 @@ export class OracleAttemptTrace {
     }
     this.hash.update(bytes);
     this.phaseCounts[phase] += 1;
+    if (phase === "workload" && this.workloadAccounting) {
+      if (this.workloadStarted === null) throw new Error("workload clock is required");
+      const policy = this.workloadAccounting;
+      policy.observe({ ...record, trace_sequence: record.sequence,
+        sequence: policy.p99.count + 1 }, this.workloadElapsed());
+      if (policy.firstHold) this.hold(policy.firstHold.reason, policy.firstHold.triggering_query);
+    }
     return record;
   }
 
-  hold(reason, record = null) { this.accounting.hold(reason, record); }
+  hold(reason, record = null) {
+    this.accounting.hold(reason, record);
+    this.workloadAccounting?.hold(reason, record);
+  }
 
   checkpoint(force = false) {
     if (!force && this.clock() - this.lastCheckpoint < 1000) return;
@@ -64,6 +97,10 @@ export class OracleAttemptTrace {
       selection_scope: "query_disposition_before_corpus_acceptance",
       trace_sha256: this.hash.copy().digest("hex"),
       phase_calls: { ...this.phaseCounts }, ...snapshot,
+      ...(this.workloadAccounting ? {
+        policy_scope: "all_workload_attempts_including_pilot",
+        workload_accounting: this.workloadAccounting.snapshot(),
+      } : {}),
     };
     writeFileSync(`${this.summaryPath}.tmp`, `${JSON.stringify(value, null, 2)}\n`);
     renameSync(`${this.summaryPath}.tmp`, this.summaryPath);
@@ -71,6 +108,11 @@ export class OracleAttemptTrace {
   }
 
   finish(complete) {
+    const policy = this.workloadAccounting;
+    if (policy && !policy.finished) {
+      policy.finish({ complete, elapsedWallSeconds: this.workloadElapsed() });
+      if (policy.firstHold) this.hold(policy.firstHold.reason, policy.firstHold.triggering_query);
+    }
     if (!this.accounting.finished) this.accounting.finish({ complete, elapsedWallSeconds: this.elapsed() });
     if (this.fd !== null) { closeSync(this.fd); this.fd = null; }
     return this.checkpoint(true);

@@ -27,6 +27,10 @@ The [ZERO.4 retention controls](../experiments/research-step-11/REPORT.md)
 separate replay, acceptance checks, and projection in five arms. Their toy smoke
 preserves a perfect oracle subscore alongside zero correct final artifacts.
 Every scored training checkpoint and completed process stays in the run record.
+The [weight-multiplicity resource policy](../experiments/research-step-12/REPORT.md)
+fixes the proposed caps before workload queries begin and checks final p99 before
+the corpus manifest is written. Setup and workload costs remain separate in the
+complete trace.
 The [FERAL comparison package](../experiments/research-step-13/REPORT.md)
 freezes the model and both arithmetic controls against the full revised target
 set. It preserves raw responses, partial runs, and parser failures.
