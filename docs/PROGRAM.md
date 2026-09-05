@@ -163,7 +163,9 @@ feasibility note.
 The original Phase 0 frontier resolved Stop. Later LiE work established a reduced
 825-representation surface. A corpus pilot then hit its resource gate, and the
 26,624-query tail calibration produced a proposed 50 ms final p99 clause. The
-next step is the controller and package for that clause. The source-pinned contract is
+next step is the controller and package for that clause. The
+[resource accounting component](../experiments/research-step-3/REPORT.md)
+now passes its exact percentile and failure-retention tests. The source-pinned contract is
 [`weight-multiplicity-transfer-r3`](../examples/weight-multiplicity/rev3-contract.json), and the
 plain-language execution record is
 [`WEIGHT-MULTIPLICITY-TRANSFER.md`](experiments/WEIGHT-MULTIPLICITY-TRANSFER.md). The [current report](../experiments/research-step-1/REPORT.md) preserves those
