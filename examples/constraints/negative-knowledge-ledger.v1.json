@@ -450,6 +450,28 @@
       "lineage_note": "Keep the supplied evidence fixed and record ambiguous questions and unsupported accounting relations as separate label failures.",
       "evidence_path": "experiments/research-step-7/MANIFEST.json",
       "evidence_ref": "artifact://sha256/e63fbfee0b2b67cb4327205347338939000a5163786228fc32b06d3efb81fccb"
+    },
+    {
+      "seq": 23,
+      "verdict_id": "verdict:feral.evidence-calculator-cross-series.v1",
+      "verdict_ref": "artifact://sha256/49928a1380a0e7264f67fa080a32d2209eff5930e371d7c8929cc98792e44d72",
+      "experiment_id": "feral.evidence-calculator-cross-series.v1",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "retrieval-calculator",
+        "cross-series-arithmetic",
+        "abstention"
+      ],
+      "summary": "The fixed calculator abstains on an answerable cross-series question in its five-case development smoke.",
+      "recorded_at_ms": 1788606742092,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "five-case opened-data smoke retained one numeric coverage failure",
+      "lineage_note": "Freeze a rule for cross-series relationships and test fresh examples. Keep this known-case coverage failure when comparing learned models with the control.",
+      "evidence_path": "experiments/research-step-8/RESULT.json",
+      "evidence_ref": "artifact://sha256/f554af04923799b4cb22c1928efd7d6c808d76488ef7f48e91344df225669261"
     }
   ]
 }

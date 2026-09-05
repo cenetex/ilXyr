@@ -47,6 +47,7 @@ const fixtures = {
   ],
   "verdict.schema.json": [
     "examples/constraints/feral.finqa-source-formula-review.v2.verdict.json",
+    "examples/constraints/feral.evidence-calculator-cross-series.v1.verdict.json",
     "examples/constraints/feral.finqa-retrieved-evidence-gap.v2.verdict.json",
     "examples/constraints/feral.finqa-question-and-basis-gaps.v2.verdict.json",
     "examples/constraints/weight-multiplicity.completed-call-accounting.v1.verdict.json",

@@ -14,6 +14,9 @@ costs and the first Hold during weight multiplicity generation.
 The [FERAL target revision](../experiments/research-step-7/REPORT.md) adds
 units and answerability labels for fourteen empty targets while preserving
 the full input roster and historical score.
+The [FERAL calculator control](../experiments/research-step-8/REPORT.md) chooses
+dated operands from supplied evidence and compares arithmetic with returning
+one selected operand. Its five-case smoke retains a cross-series failure.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence
