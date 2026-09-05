@@ -384,6 +384,72 @@
       "lineage_note": "Carry target depth through every reflection and keep unavailable depths explicit.",
       "evidence_path": "experiments/research-step-6/REPORT.md",
       "evidence_ref": "artifact://sha256/ecab8627247dccc614ca4ce28367074bd0988b9d503909bc8109159a91c8bbe3"
+    },
+    {
+      "seq": 20,
+      "verdict_id": "verdict:feral.finqa-source-formula-review.v2",
+      "verdict_ref": "artifact://sha256/05d5c60d74c0fa4fa53e12718d41a762b919b7de6189bf1402a64813e4235382",
+      "experiment_id": "feral.finqa-source-formula-review.v2",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "answer-labels",
+        "numeric-units",
+        "source-grounding"
+      ],
+      "summary": "The CE 2016 question asks for growth from 86 to 119. Its source program returns 59.5; the evidence-based percentage change is about 38.37%.",
+      "recorded_at_ms": 1788605258904,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "source and context review found a label failure",
+      "lineage_note": "Review the question and supplied evidence as well as arithmetic agreement before accepting a numeric label.",
+      "evidence_path": "experiments/research-step-7/MANIFEST.json",
+      "evidence_ref": "artifact://sha256/e63fbfee0b2b67cb4327205347338939000a5163786228fc32b06d3efb81fccb"
+    },
+    {
+      "seq": 21,
+      "verdict_id": "verdict:feral.finqa-retrieved-evidence-gap.v2",
+      "verdict_ref": "artifact://sha256/8acaed9515061c52a52f52f9a18c1baa6662ac2a8efa7642ff97e7586885c2c2",
+      "experiment_id": "feral.finqa-retrieved-evidence-gap.v2",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "answer-labels",
+        "retrieval-calculator",
+        "abstention"
+      ],
+      "summary": "The HIG 2011 model input has reserve totals, while the source program uses 2009 and 2010 net asbestos-reserve increases from text outside that input.",
+      "recorded_at_ms": 1788605258906,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "source and context review found a label failure",
+      "lineage_note": "Include an explicit abstention target and measure answer coverage alongside accuracy.",
+      "evidence_path": "experiments/research-step-7/MANIFEST.json",
+      "evidence_ref": "artifact://sha256/e63fbfee0b2b67cb4327205347338939000a5163786228fc32b06d3efb81fccb"
+    },
+    {
+      "seq": 22,
+      "verdict_id": "verdict:feral.finqa-question-and-basis-gaps.v2",
+      "verdict_ref": "artifact://sha256/b2a1d4e44a824279fad00efa5705aa6ce2d0a15101c83ffcafafdf805749f27b",
+      "experiment_id": "feral.finqa-question-and-basis-gaps.v2",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "answer-labels",
+        "numeric-units",
+        "abstention"
+      ],
+      "summary": "AES repeats the same year and mixes expense with commitments. ETR leaves the relation between its gain and net revenue unresolved. Both receive diagnostic abstention targets.",
+      "recorded_at_ms": 1788605258907,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "source and context review found a label failure",
+      "lineage_note": "Keep the supplied evidence fixed and record ambiguous questions and unsupported accounting relations as separate label failures.",
+      "evidence_path": "experiments/research-step-7/MANIFEST.json",
+      "evidence_ref": "artifact://sha256/e63fbfee0b2b67cb4327205347338939000a5163786228fc32b06d3efb81fccb"
     }
   ]
 }

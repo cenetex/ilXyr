@@ -11,6 +11,9 @@ The [shared failure ledger](../experiments/research-step-5/REPORT.md) links thes
 findings to the next design for each research line.
 The [runner repair](../experiments/research-step-6/REPORT.md) preserves query
 costs and the first Hold during weight multiplicity generation.
+The [FERAL target revision](../experiments/research-step-7/REPORT.md) adds
+units and answerability labels for fourteen empty targets while preserving
+the full input roster and historical score.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence

@@ -1,0 +1,27 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:feral.finqa-retrieved-evidence-gap.v2",
+  "experiment_id": "feral.finqa-retrieved-evidence-gap.v2",
+  "family": "feral",
+  "project": "feral",
+  "taxonomy": "measurement",
+  "outcome": "diagnostic_failure",
+  "evidence_kind": "posthoc_diagnostic",
+  "source_outcome": "source and context review found a label failure",
+  "evidence_path": "experiments/research-step-7/MANIFEST.json",
+  "evidence_ref": "artifact://sha256/e63fbfee0b2b67cb4327205347338939000a5163786228fc32b06d3efb81fccb",
+  "mechanism": "The HIG 2011 model input has reserve totals, while the source program uses 2009 and 2010 net asbestos-reserve increases from text outside that input.",
+  "mechanism_tags": [
+    "answer-labels",
+    "retrieval-calculator",
+    "abstention"
+  ],
+  "summary": "The HIG 2011 model input has reserve totals, while the source program uses 2009 and 2010 net asbestos-reserve increases from text outside that input.",
+  "lineage_note": "Include an explicit abstention target and measure answer coverage alongside accuracy.",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788605258906
+}

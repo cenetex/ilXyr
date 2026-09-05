@@ -1,0 +1,324 @@
+{
+  "schema": "ilxyr.feral_target_patch.v2",
+  "version": "feral-finqa-targets-v2",
+  "evidence_kind": "posthoc_source_and_context_review",
+  "reviewed_by": {
+    "kind": "model",
+    "id": "model://codex/research-agent"
+  },
+  "base_revision": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+  "base_inputs_path": "artifacts/feral-7b-sec-v2/evaluation/finqa-retrieved.jsonl",
+  "base_inputs_sha256": "b295064693c44f81685018f79d59570e81382fc447c188b2cb3438b9f19f45d4",
+  "source_revision": "0f16e2867befa6840783e58be38c9efb9229d742",
+  "source_sha256": "831dbfb2e785dbc227f895ce3f24046433467aec67b09db2bd6ac7692a8a30dc",
+  "roster_count": 1147,
+  "numeric_rounding": {
+    "decimal_places": 2,
+    "tie_rule": "away_from_zero"
+  },
+  "patches": [
+    {
+      "id": "MAS/2017/page_27.pdf-2",
+      "kind": "numeric",
+      "unit": "percentage_points",
+      "calculation": [
+        "subtract",
+        "318.46",
+        "206.49"
+      ],
+      "evidence_ids": [
+        "text_1",
+        "table_1",
+        "table_2"
+      ],
+      "question": "what was the difference in percentage cumulative total shareholder return on masco common stock versus the s&p 500 index for the five year period ended 2017?",
+      "model_context_sha256": "a344e78fecfe17543ce5be42e47d8a5fc24958de34c0f876143bb99f0ff6a4cd",
+      "source_qa_sha256": "cfd510c17a65faaa15ec0864b5157754e67df4c208aa8d769bc352ab14c393cb",
+      "source_program": "subtract(318.46, const_100), divide(#0, const_100), subtract(206.49, const_100), divide(#2, const_100), subtract(#1, #3)",
+      "source_execution_answer": "1.1197",
+      "review_note": "Both series begin at 100. Subtract the final cumulative returns in percentage points."
+    },
+    {
+      "id": "AES/2002/page_128.pdf-2",
+      "kind": "abstention",
+      "unit": null,
+      "calculation": null,
+      "evidence_ids": [
+        "text_10",
+        "table_1",
+        "text_15"
+      ],
+      "question": "what was the decrease in rental expense ( millions ) for operating leases in continuing operations from 2003 to 2003?",
+      "model_context_sha256": "4f91b18661deeb63cda2066e3a43100c18da64fb91a0c9bcde2bad905b0b80d8",
+      "source_qa_sha256": "47505bfceee6cac7783c3deeada3d0220068e12e21618b95155d76a95a78611a",
+      "source_program": "subtract(31, 30)",
+      "source_execution_answer": "1.0",
+      "review_note": "The question repeats 2003. The evidence mixes 2002 rental expense and a 2003 table amount, and the program also omits the continuing-operations adjustment."
+    },
+    {
+      "id": "AAL/2010/page_72.pdf-1",
+      "kind": "numeric",
+      "unit": "ratio",
+      "calculation": [
+        "divide",
+        "4959",
+        "989"
+      ],
+      "evidence_ids": [
+        "table_6"
+      ],
+      "question": "from 2016-2020 what was the ratio of the pension to the retiree medical and other service costs",
+      "model_context_sha256": "2618ed483bc505d735450d9217a0f97738cf013147b0a46c17ee3c41b719f77d",
+      "source_qa_sha256": "5d460dfffc88458efdca6ea998213d0dc1a4b735b86c009286fc4814937c5a8f",
+      "source_program": "divide(4959, 989)",
+      "source_execution_answer": "5.01416",
+      "review_note": "Use the pension and retiree medical totals in the row for the five-year period."
+    },
+    {
+      "id": "AWK/2018/page_146.pdf-4",
+      "kind": "numeric",
+      "unit": "million_shares",
+      "calculation": [
+        "add",
+        "0.6",
+        "0.7"
+      ],
+      "evidence_ids": [
+        "text_7"
+      ],
+      "question": "the company repurchased how many million shares of common stock in the open market for the years ended december 31 , 2018 and 2017?",
+      "model_context_sha256": "6a014b854c2d4ffa9344de31a23d37b27a690cce6f2a6538153b1fea1fbe43f3",
+      "source_qa_sha256": "95875b00babe7a26b1c9be6a9462471de40c399c82a7f2e800a9f8fdb1452694",
+      "source_program": "add(0.6, 0.7)",
+      "source_execution_answer": "1.3",
+      "review_note": "Sum the repurchased shares for 2018 and 2017 in millions."
+    },
+    {
+      "id": "RSG/2015/page_98.pdf-2",
+      "kind": "numeric",
+      "unit": "ratio",
+      "calculation": [
+        "divide",
+        "100.3",
+        "46.7"
+      ],
+      "evidence_ids": [
+        "text_8",
+        "table_4",
+        "text_14"
+      ],
+      "question": "in december 2015 what was the ratio of the restricted cash and marketable securities to the allowance for doubtful accounts",
+      "model_context_sha256": "9638555b9bcd9f9c1c91e62867ea02e0e6a394417cd9619777986cb29188aaa7",
+      "source_qa_sha256": "bcb3243d895fa6c2d9c2b55e659030cb142b14d8de121f814989349eecda2934",
+      "source_program": "divide(100.3, 46.7)",
+      "source_execution_answer": "2.14775",
+      "review_note": "Divide restricted cash and marketable securities by the year-end allowance."
+    },
+    {
+      "id": "PNC/2012/page_100.pdf-3",
+      "kind": "numeric",
+      "unit": "usd_million",
+      "calculation": [
+        "add",
+        "74",
+        "110"
+      ],
+      "evidence_ids": [
+        "text_12",
+        "text_13",
+        "table_2"
+      ],
+      "question": "how many total private investor repurchase claims were there in 2011 and 2012 combined , in millions?",
+      "model_context_sha256": "24a3a9b5589ebc1254ef81edcf93630fe41023ddf985f603f87a05da4151c3c4",
+      "source_qa_sha256": "2060f15fba0a98be000e974fe217c89ebb83489b82ddc6283912ef5785518d9b",
+      "source_program": "add(74, 110)",
+      "source_execution_answer": "184.0",
+      "review_note": "Sum the dollar balance of private-investor claims in the two years, in millions."
+    },
+    {
+      "id": "JPM/2010/page_120.pdf-2",
+      "kind": "numeric",
+      "unit": "percent",
+      "calculation": [
+        "multiply",
+        [
+          "divide",
+          [
+            "subtract",
+            "222510",
+            "200077"
+          ],
+          "200077"
+        ],
+        "100"
+      ],
+      "evidence_ids": [
+        "table_1"
+      ],
+      "question": "what was the percentage change in loans retained from 2009 to 2010?",
+      "model_context_sha256": "052be60a872767c670538a9c6d6ca610ad8faafa219094f2e3d97660e05ab31e",
+      "source_qa_sha256": "6eb1dbfaabb19ed627c1bdab1be513576b7d9389fe25a252cb1d58ee60e8c343",
+      "source_program": "subtract(222510, 200077), divide(#0, 200077)",
+      "source_execution_answer": "0.11212",
+      "review_note": "Use the retained-loan amounts in the dated columns and divide the change by 2009."
+    },
+    {
+      "id": "CE/2016/page_19.pdf-4",
+      "kind": "numeric",
+      "unit": "percent",
+      "calculation": [
+        "multiply",
+        [
+          "divide",
+          [
+            "subtract",
+            "119",
+            "86"
+          ],
+          "86"
+        ],
+        "100"
+      ],
+      "evidence_ids": [
+        "text_5"
+      ],
+      "question": "what was the percentage change in the the research and development costs from 2014 to 2015",
+      "model_context_sha256": "37fad0f6cee4839d13c8302c06a9deec5f2959b43182218ecc84648b9e20b184",
+      "source_qa_sha256": "301d7ef5efbe6693c1bf15bd0034a9e2b7471c2792c939d89a3512edd2612c78",
+      "source_program": "subtract(119, 86), add(#0, 86), divide(#1, const_2)",
+      "source_execution_answer": "59.5",
+      "review_note": "The source program returns half of 119. The question asks for the change from 86 to 119 divided by 86."
+    },
+    {
+      "id": "HIG/2011/page_53.pdf-4",
+      "kind": "abstention",
+      "unit": null,
+      "calculation": null,
+      "evidence_ids": [
+        "table_3",
+        "table_5",
+        "table_7"
+      ],
+      "question": "what was the percentage change in the reinsurance accounts from 2009 to 2010",
+      "model_context_sha256": "8f752be9a73577cdc4720c2513c5dca04aa0fc6dd38cac96c5e6c009413e25d0",
+      "source_qa_sha256": "7d6708d1772a19e80c4bbcba5c95f2a749c84b70f55c42a8e579382da6c7f7b2",
+      "source_program": "subtract(169, 138), divide(#0, 138)",
+      "source_execution_answer": "0.22464",
+      "review_note": "The supplied rows have reserve totals without the requested 2009 and 2010 reinsurance values. The source program uses net asbestos-reserve increases from a sentence outside the model input."
+    },
+    {
+      "id": "DG/2007/page_67.pdf-2",
+      "kind": "numeric",
+      "unit": "usd_million",
+      "calculation": [
+        "add",
+        [
+          "add",
+          "0.2",
+          "9.4"
+        ],
+        "0.6"
+      ],
+      "evidence_ids": [
+        "text_10"
+      ],
+      "question": "what was the amount of the total impairment charges included in sg&a expense from 2005 to 2007 in millions",
+      "model_context_sha256": "cc614e126143c944f5af883d11869036da4d2ed55df8e3870fc68a5ffbf4f13a",
+      "source_qa_sha256": "61c68b4d2fb81709f5cda66e08b61e86bb5b1e4f0be29621f1234799614f7f00",
+      "source_program": "add(0.2, 9.4), add(#0, 0.6)",
+      "source_execution_answer": "10.2",
+      "review_note": "Sum the three impairment charges in millions."
+    },
+    {
+      "id": "ETR/2016/page_23.pdf-4",
+      "kind": "abstention",
+      "unit": null,
+      "calculation": null,
+      "evidence_ids": [
+        "text_2",
+        "table_1",
+        "table_8"
+      ],
+      "question": "assuming there would not have been a sale of the 583 mw rhode island state energy center in 2015 . what would have net revenue be without this gain on sale?",
+      "model_context_sha256": "2d1b33a93aa16ba49afb8e2700749eec20a9bbaaf7fb47f90a5fd1b3353cb129",
+      "source_qa_sha256": "de9fac77b70b7013ff2954798251aa18ebcb6181a985cf75728d0c1daf75c2d1",
+      "source_program": "subtract(5829, 100)",
+      "source_execution_answer": "5729.0",
+      "review_note": "The evidence gives a gain in results of operations and net revenue, but leaves their inclusion and tax basis unresolved. Subtracting the after-tax gain from net revenue assumes that relation."
+    },
+    {
+      "id": "RSG/2018/page_135.pdf-2",
+      "kind": "numeric",
+      "unit": "percent",
+      "calculation": [
+        "multiply",
+        [
+          "divide",
+          [
+            "subtract",
+            "17",
+            "30"
+          ],
+          "30"
+        ],
+        "100"
+      ],
+      "evidence_ids": [
+        "table_2"
+      ],
+      "question": "what was the percentage decline in the equity from 2017 to 2018 actual",
+      "model_context_sha256": "e87dfeff957c0de332bbb5c6bc9aab0d2f9dd5425958aedc52e6552425f7333f",
+      "source_qa_sha256": "484bcc126488d22098b0bfa9c73970ab8af34c3280c3a97be57f13684382b620",
+      "source_program": "subtract(17, 30), divide(#0, 30)",
+      "source_execution_answer": "-0.43333",
+      "review_note": "Use the source program's signed change from 30 to 17, expressed in percent. A decline has a negative sign under this version's unit rule."
+    },
+    {
+      "id": "DRE/2007/page_56.pdf-2",
+      "kind": "numeric",
+      "unit": "usd_per_share",
+      "calculation": [
+        "divide",
+        "217692",
+        "139255"
+      ],
+      "evidence_ids": [
+        "table_1",
+        "table_4"
+      ],
+      "question": "what is the net income per common share for the year 2007?",
+      "model_context_sha256": "166bd6dc6185ef70146c9b9303fd3e3f11b8635b35048127be8fc083f26a25e8",
+      "source_qa_sha256": "38e9e6121448bdb16e62d2135b34685bb1a3bd9a91f1b3b55e193f04f64427fc",
+      "source_program": "divide(217692, 139255)",
+      "source_execution_answer": "1.56326",
+      "review_note": "Use basic net income available for common shareholders and the common-share denominator."
+    },
+    {
+      "id": "AWK/2017/page_148.pdf-4",
+      "kind": "numeric",
+      "unit": "percent",
+      "calculation": [
+        "multiply",
+        [
+          "divide",
+          [
+            "subtract",
+            "1.24",
+            "0.78"
+          ],
+          "0.78"
+        ],
+        "100"
+      ],
+      "evidence_ids": [
+        "table_3"
+      ],
+      "question": "what was the percentage change in the weighted average interest rates computed on daily basis from 2016 to 2017",
+      "model_context_sha256": "e67a797fd4b22230d5af9d1fcf898f4a2022f4f6170639eebdc08e6e2f9d07f1",
+      "source_qa_sha256": "e3035816d18e8ac048ae0380742d9be0563ec038990801c8f00af0d5e31c0cec",
+      "source_program": "subtract(1.24, 0.78), divide(#0, 0.78)",
+      "source_execution_answer": "0.58974",
+      "review_note": "The change in the daily-basis weighted average rate is relative to the 2016 rate."
+    }
+  ]
+}

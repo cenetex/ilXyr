@@ -46,6 +46,9 @@ const fixtures = {
     "examples/constraints/negative-knowledge-ledger.v1.json",
   ],
   "verdict.schema.json": [
+    "examples/constraints/feral.finqa-source-formula-review.v2.verdict.json",
+    "examples/constraints/feral.finqa-retrieved-evidence-gap.v2.verdict.json",
+    "examples/constraints/feral.finqa-question-and-basis-gaps.v2.verdict.json",
     "examples/constraints/weight-multiplicity.completed-call-accounting.v1.verdict.json",
     "examples/constraints/weight-multiplicity.transformed-target-depth.v1.verdict.json",
     "examples/constraints/zero.q23.seed2.local-guard.v1.verdict.json",
