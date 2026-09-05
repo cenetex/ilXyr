@@ -6,13 +6,29 @@ It puts all six arms on the same optimized executable and generates a new
 family cohort. The local smoke and the new Linux/macOS CI jobs passed.
 
 The source reviewed here is Zero commit
-`9b00d88c1530e777d561c4f13f76087d3aa40740`. Its
-[plan](https://github.com/atimics/zero-grounded-literary-lm/blob/9b00d88c1530e777d561c4f13f76087d3aa40740/benchmarks/reasoner55-matched-controls-v1/PLAN.md)
+`24fae8ea8aa42212c7058b084b66dfa725672dfd`. Its
+[plan](https://github.com/atimics/zero-grounded-literary-lm/blob/24fae8ea8aa42212c7058b084b66dfa725672dfd/benchmarks/reasoner55-matched-controls-v1/PLAN.md)
 has SHA-256 `56fa7548cc1851a8811c19649813ed7dc277c5b38f8ca16777157341f49e185c`.
 The
-[smoke record](https://github.com/atimics/zero-grounded-literary-lm/blob/9b00d88c1530e777d561c4f13f76087d3aa40740/benchmarks/reasoner55-matched-controls-v1/SMOKE.json)
-has SHA-256 `c37190c937ecca9942f692e7b562a0f462aea0b6167853944d39499b5db33f69`.
+[smoke record](https://github.com/atimics/zero-grounded-literary-lm/blob/24fae8ea8aa42212c7058b084b66dfa725672dfd/benchmarks/reasoner55-matched-controls-v1/SMOKE.json)
+has SHA-256 `e89e21d4004834827dcfa4edbb17d1602be75309214be6d6b5d5859e3e673c57`.
 It binds the runner, model file, checks, replay code, and earlier source records.
+
+The source archive has SHA-256
+`b0746af0eff764e7548cd7543ebd6dff99285b1f424e897a0d68cb725192c8d0`
+and contains 7,761,920 bytes. A fresh extraction built both implementations and
+passed the complete four-family smoke. Reproduce it from the pinned commit:
+
+```bash
+python3 scripts/package_reasoner55_matched_source.py \
+  --zero-repo /path/to/zero-grounded-literary-lm \
+  --revision 24fae8ea8aa42212c7058b084b66dfa725672dfd \
+  --output /tmp/reasoner55-matched-source-v1.tar
+```
+
+The builder reads committed bytes, checks every smoke source binding, and
+writes a stable archive. Its tests cover a changed local checkout, changed
+bindings, output preservation, and paths that leave the archive.
 
 ## What exists
 
