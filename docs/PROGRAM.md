@@ -7,6 +7,10 @@ current deliverable for each of the five projects, the failures behind those
 choices, and the shared comparison method. The immediate research priority is
 the fixed Reasoner guide against its matched lexical control on fresh families.
 
+The [Solomon count-probability step](../experiments/research-step-19/REPORT.md)
+adds two train-only confidence controls. Its known-window smoke preserves
+both lower Brier error from empirical counts and higher error after smoothing.
+
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).
 The [second diagnostic](../experiments/research-step-2/REPORT.md) establishes a
 stronger integer context baseline for Solomon and audits FERAL's missing labels.
