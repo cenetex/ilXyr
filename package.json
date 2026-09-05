@@ -36,7 +36,7 @@
     "test:reasoner-source-package": "python3 scripts/test_package_reasoner55_matched_source.py",
     "test:feral-comparison": "python3 scripts/test_feral_comparison.py",
     "test:feral-execution": "python3 scripts/test_feral_execution.py",
-    "test:feral-bootstrap": "python3 scripts/test_feral_bootstrap.py",
+    "test:feral-bootstrap": "python3 scripts/test_feral_bootstrap.py && python3 scripts/test_feral_cli_transport.py",
     "test:solomon-answer-ownership": "python3 scripts/test_solomon_answer_ownership.py",
     "test:weight-multiplicity-resource-policy": "node scripts/test-weight-multiplicity-resource-policy.mjs && node scripts/run-weight-multiplicity-phase1-corpus.mjs --check-resource-policy experiments/research-step-12/RESOURCE-POLICY.json",
     "test:solomon-suffix-probabilities": "python3 scripts/test_solomon_suffix_probabilities.py",

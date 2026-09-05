@@ -1,7 +1,6 @@
 """Package and render the FERAL host bootstrap with fixed launch parameters."""
 
 import argparse
-import base64
 import hashlib
 import io
 import json
@@ -102,7 +101,8 @@ def launch_request(user_data, binding, network):
         'InstanceInitiatedShutdownBehavior':'terminate',
         'MetadataOptions':{'HttpTokens':'required','HttpEndpoint':'enabled'},
         'BlockDeviceMappings':[{'DeviceName':'/dev/xvda','Ebs':{'VolumeSize':150,'VolumeType':'gp3','DeleteOnTermination':True,'Encrypted':True}}],
-        'UserData':base64.b64encode(user_data).decode(),
+        # RunInstances in the AWS CLI encodes this string for the EC2 API.
+        'UserData':user_data.decode('utf-8'),
         'TagSpecifications':[{'ResourceType':kind,'Tags':[{'Key':'Project','Value':'feral-7b'},
             {'Key':'RunId','Value':binding['run_id']},{'Key':'HostPackageSha256','Value':binding['host_package_sha256']}]} for kind in ['instance','volume']]}
 
@@ -138,7 +138,7 @@ def dispatch(request, host, binding, profile, approval=None, runner=subprocess.r
         raise ValueError('launch response identity differs')
     return {'status':'launched','instance_id':instances[0]['InstanceId'],
         'client_token':binding['run_id'],'request_sha256':sha(encode(request)),
-        'user_data_sha256':sha(base64.b64decode(request['UserData'])),
+        'user_data_sha256':sha(request['UserData'].encode('utf-8')),
         'host_package_sha256':binding['host_package_sha256'],'execution_plan_sha256':host['execution_plan_sha256'],
         'max_instance_seconds':3600,'max_infrastructure_usd':'3.00'}
 
