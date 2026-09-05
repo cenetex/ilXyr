@@ -23,6 +23,10 @@ Its report links the next concrete comparison for each research line.
 The [Solomon confidence controls](../experiments/research-step-10/REPORT.md)
 show how the probability error changes at fixed answers and add an exact Brier
 score. The shared ledger preserves the measurement failure.
+The [weight-multiplicity resource policy](../experiments/research-step-12/REPORT.md)
+fixes the proposed caps before workload queries begin and checks final p99 before
+the corpus manifest is written. Setup and workload costs remain separate in the
+complete trace.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence

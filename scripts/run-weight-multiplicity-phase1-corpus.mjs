@@ -73,6 +73,8 @@ const parseArguments = (values) => {
     smoke: false,
     pilotOnly: false,
     calibrationPlan: null,
+    resourcePolicy: null,
+    checkResourcePolicy: null,
     selfTest: false,
   };
   const names = {
@@ -86,6 +88,8 @@ const parseArguments = (values) => {
     "--zero-commit": "zeroCommit",
     "--out": "out",
     "--calibration-plan": "calibrationPlan",
+    "--resource-policy": "resourcePolicy",
+    "--check-resource-policy": "checkResourcePolicy",
   };
   for (let index = 0; index < values.length; index += 1) {
     const value = values[index];
@@ -706,14 +710,23 @@ export class ResourceMonitor {
 }
 
 export class BudgetTracker {
-  constructor(plan, { perQueryLimitMs = 1000 } = {}) {
+  constructor(plan, { perQueryLimitMs = 1000, resourcePolicy = null } = {}) {
     this.plan = plan;
-    this.perQueryLimitMs = perQueryLimitMs;
+    this.perQueryLimitMs = resourcePolicy ? null : perQueryLimitMs;
+    this.resourcePolicy = resourcePolicy;
     this.started = performance.now();
     this.calls = 0;
     this.queryMs = 0;
     this.latencies = [];
-    this.frozen = null;
+    this.frozen = resourcePolicy ? {
+      schema: "ilxyr.weight_multiplicity_phase1_frozen_oracle_budget.v1",
+      status: "frozen_before_first_workload_query",
+      resource_policy_id: resourcePolicy.id,
+      binding_call_limit: resourcePolicy.limits.oracle_calls,
+      binding_query_ms_limit: resourcePolicy.limits.total_query_ms,
+      binding_wall_seconds: resourcePolicy.limits.elapsed_wall_seconds,
+      workers: plan.oracle.primary.workers,
+    } : null;
     this.progressPath = null;
     this.lastProgressWrite = 0;
     this.trace = null;
@@ -781,6 +794,8 @@ export class BudgetTracker {
   }
 
   beforeDispatch(inFlight) {
+    const policyHold = this.trace?.beforeDispatch(inFlight);
+    if (policyHold) throw new HoldError(policyHold.reason, policyHold);
     if (this.trace?.accounting.firstHold)
       throw new HoldError(this.trace.accounting.firstHold.reason, this.trace.accounting.firstHold);
     if (!this.frozen) return;
@@ -827,12 +842,12 @@ export class BudgetTracker {
       600,
       (bindingQueryMsLimit / 1000 / workers) * 2,
     ));
-    if (bindingWallSeconds > this.plan.budget.outer_workload_timeout_seconds)
+    if (!this.resourcePolicy && bindingWallSeconds > this.plan.budget.outer_workload_timeout_seconds)
       throw new HoldError("derived_budget_exceeds_outer_authorization", {
         binding_wall_seconds: bindingWallSeconds,
         outer_workload_timeout_seconds: this.plan.budget.outer_workload_timeout_seconds,
       });
-    this.frozen = {
+    const projection = {
       schema: "ilxyr.weight_multiplicity_phase1_frozen_oracle_budget.v1",
       status: "frozen_before_first_corpus_record",
       pilot_oracle_calls: this.calls,
@@ -852,6 +867,8 @@ export class BudgetTracker {
         p95_ms: this.plan.budget.preflight_p95_query_ms,
       },
     };
+    this.frozen = this.resourcePolicy
+      ? { ...this.frozen, pilot_projection: projection } : projection;
     return this.frozen;
   }
 
@@ -868,6 +885,21 @@ export class BudgetTracker {
     };
   }
 }
+
+export const requireFinalCorpusResources = (trace) => {
+  const final = trace.finish(true);
+  if (final.hold) throw new HoldError(final.hold.reason, final.hold);
+  if (trace.workloadAccounting && final.workload_accounting.status !== "resource_pass")
+    throw new HoldError("resource_policy_incomplete", final.workload_accounting);
+  return final;
+};
+
+export const writePendingCorpusManifest = async ({ trace, path, manifest }) => {
+  requireFinalCorpusResources(trace);
+  const bytes = stableJson(manifest);
+  await writeFile(path, bytes, { flag: "wx" });
+  return sha256(bytes);
+};
 
 const prepareRepresentations = (manifest, rootSystems) => manifest.representations.map((entry) => {
   const system = rootSystems.systems[entry.canonical_type];
@@ -2039,6 +2071,23 @@ const selfTest = () => {
 const main = async () => {
   const options = parseArguments(process.argv.slice(2));
   if (options.selfTest) return selfTest();
+  let resourcePolicy = null;
+  let resourcePolicyBytes = null;
+  if (options.resourcePolicy || options.checkResourcePolicy) {
+    if (options.resourcePolicy && options.checkResourcePolicy)
+      throw new Error("select execution or read-only policy validation");
+    if (options.smoke || options.pilotOnly || options.calibrationPlan)
+      throw new Error("the resource policy requires the complete frozen workload");
+    const { validateResourcePolicy } = await import("./lib/weight-multiplicity-resource-policy.mjs");
+    resourcePolicyBytes = await readFile(resolve(options.resourcePolicy ?? options.checkResourcePolicy));
+    resourcePolicy = JSON.parse(resourcePolicyBytes);
+    await validateResourcePolicy(resourcePolicy, root);
+    if (options.checkResourcePolicy) {
+      console.log(JSON.stringify({ status: "policy_verified", policy_id: resourcePolicy.id,
+        policy_sha256: sha256(resourcePolicyBytes), oracle_processes_started: 0 }));
+      return;
+    }
+  }
   const bytes = {
     plan: await readFile(resolve(options.plan)),
     manifest: await readFile(resolve(options.manifest)),
@@ -2054,11 +2103,20 @@ const main = async () => {
   if (calibration) options.pilotOnly = true;
   await validateInputs(options, plan, bytes);
   validateCalibration(calibration, bytes);
+  if (resourcePolicy) {
+    for (const [key, path] of [["plan", "examples/weight-multiplicity/phase1-corpus-plan-v1.json"],
+      ["manifest", "examples/weight-multiplicity/phase06-reduced-corpus-manifest-v1.json"],
+      ["systems", "examples/weight-multiplicity/phase1-root-systems-v1.json"]])
+      if (sha256(bytes[key]) !== resourcePolicy.source_bindings[path])
+        throw new Error(`${key} differs from the resource policy`);
+  }
   const outDirectory = resolve(options.out);
   await mkdir(outDirectory, { recursive: false });
   const corpusDirectory = resolve(outDirectory, "corpus");
   const evidenceDirectory = resolve(outDirectory, "evidence");
   await mkdir(evidenceDirectory);
+  const resourcePolicyPath = resolve(evidenceDirectory, "resource-policy.json");
+  if (resourcePolicy) await writeFile(resourcePolicyPath, resourcePolicyBytes, { flag: "wx" });
 
   const effectivePlan = structuredClone(plan);
   if (options.smoke) {
@@ -2076,10 +2134,12 @@ const main = async () => {
   const lieWorkers = [];
   const zeroWorkers = [];
   let monitor = null;
-  const hardTimeoutMs = calibration?.threshold_policy.hard_abort_ms ?? 10000;
-  const trace = new OracleAttemptTrace({ directory: evidenceDirectory, hardTimeoutMs });
+  const hardTimeoutMs = resourcePolicy?.limits.hard_timeout_ms ?? calibration?.threshold_policy.hard_abort_ms ?? 10000;
+  const trace = new OracleAttemptTrace({ directory: evidenceDirectory, hardTimeoutMs,
+    workloadLimits: resourcePolicy?.limits ?? null });
   const budget = new BudgetTracker(effectivePlan, {
     perQueryLimitMs: calibration ? null : 1000,
+    resourcePolicy,
   });
   budget.trace = trace;
   const calibrationTrace = calibration
@@ -2109,6 +2169,7 @@ const main = async () => {
     monitor.start();
     // Retain the historical workload clock while the trace also reports setup.
     budget.started = performance.now();
+    trace.startWorkload();
     const trainingRequiredPerStratum = (
       effectivePlan.partitions.training.records +
       effectivePlan.partitions.development.records +
@@ -2458,7 +2519,6 @@ const main = async () => {
       throw new HoldError("corpus_record_count_mismatch", { totalRecords, expectedTotal });
     memoryEvidence = await monitor.stop();
     monitor.assertOkay();
-    trace.finish(true);
     const corpusManifest = {
       schema: "ilxyr.weight_multiplicity_phase1_corpus_manifest.v1",
       status: "sealed",
@@ -2468,6 +2528,7 @@ const main = async () => {
         reduced_manifest_sha256: sha256(bytes.manifest),
         root_systems_sha256: sha256(bytes.systems),
         frozen_budget_sha256: frozenBudgetSha256,
+        ...(resourcePolicy ? { resource_policy_sha256: sha256(resourcePolicyBytes) } : {}),
       },
       oracle_identity: {
         lie_source_sha256: effectivePlan.oracle.primary.source_sha256,
@@ -2498,8 +2559,8 @@ const main = async () => {
     };
     const manifestPath = resolve(outDirectory, "corpus-manifest.json");
     const pendingManifestPath = `${manifestPath}.pending`;
-    await writeFile(pendingManifestPath, stableJson(corpusManifest));
-    const corpusManifestSha256 = await hashFile(pendingManifestPath);
+    const corpusManifestSha256 = await writePendingCorpusManifest({ trace,
+      path: pendingManifestPath, manifest: corpusManifest });
     finalStatus = "corpus_complete";
     await budget.checkpoint(true, finalStatus);
     const evidence = {
@@ -2537,6 +2598,7 @@ const main = async () => {
     const sealTargets = [
       trace.tracePath,
       trace.summaryPath,
+      ...(resourcePolicy ? [resourcePolicyPath] : []),
       manifestPath,
       evidencePath,
       frozenBudgetPath,
@@ -2573,6 +2635,7 @@ const main = async () => {
     await writeFile(resolve(outDirectory, "hold.json"), stableJson(hold));
     await writeFile(resolve(outDirectory, "runner-summary.json"), stableJson(hold));
     const failureFiles = [trace.tracePath, trace.summaryPath,
+      ...(resourcePolicy ? [resourcePolicyPath] : []),
       resolve(outDirectory, "hold.json"), resolve(outDirectory, "runner-summary.json")];
     await writeFile(resolve(outDirectory, "sha256sums.txt"),
       `${(await Promise.all(failureFiles.map(async (path) =>
