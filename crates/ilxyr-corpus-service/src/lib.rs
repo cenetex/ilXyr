@@ -305,14 +305,16 @@ mod tests {
 
     impl TestDirectory {
         fn create() -> Self {
-            let nonce = u128::from(UNIQUE.fetch_add(1, Ordering::Relaxed))
-                + SystemTime::now()
-                    .duration_since(SystemTime::UNIX_EPOCH)
-                    .expect("test clock must follow Unix epoch")
-                    .as_nanos();
-            let path = std::env::temp_dir()
-                .join(format!("ilxyr-corpus-service-{}-{nonce}", process::id()));
-            fs::create_dir_all(&path).expect("test directory must be created");
+            let sequence = UNIQUE.fetch_add(1, Ordering::Relaxed);
+            let timestamp = SystemTime::now()
+                .duration_since(SystemTime::UNIX_EPOCH)
+                .expect("test clock must follow Unix epoch")
+                .as_nanos();
+            let path = std::env::temp_dir().join(format!(
+                "ilxyr-corpus-service-{}-{timestamp}-{sequence}",
+                process::id()
+            ));
+            fs::create_dir(&path).expect("fresh test directory must be created");
             Self(path)
         }
     }
