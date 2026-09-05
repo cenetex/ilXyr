@@ -29,6 +29,9 @@ set. It preserves raw responses, partial runs, and parser failures.
 The [FERAL execution controller](../experiments/research-step-14/REPORT.md)
 adds shared deadlines, process cleanup, complete-row grading after failures,
 and a bounded cloud budget draft.
+The [FERAL host package](../experiments/research-step-15/REPORT.md) adds the
+instance shutdown path, verified collection, and retained unknown launch
+outcomes. Live preflight awaits a refreshed AWS session.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence
