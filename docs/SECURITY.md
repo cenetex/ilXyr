@@ -37,6 +37,14 @@ policy, or a crossed cumulative spend line requires explicit human acknowledgeme
 objects, directional baseline rules, allowlists, thresholds, and the credit mint remain
 human-signed.
 
+Each signed v2 epoch budget has an inclusive start and an exclusive expiry. Future budgets may be
+registered ahead of time. At most one epoch is active: once a higher registered epoch starts, it
+permanently supersedes every lower epoch. Allocations and cumulative spend remain scoped to the
+budget ID, so a new epoch starts a new spend ledger. Local allocation, local execution, and remote
+authorization all check the active epoch. Remote authorization expiry cannot extend beyond the
+budget expiry. V1 budget records remain readable for ledger replay and require replacement before
+they can authorize new work.
+
 The local trust root is explicit: `trust-key` records an immutable Ed25519 public key and its human
 owner in the hash-linked ledger. Budget registration verifies the signature over canonical JSON
 with the signature field omitted and rejects signer/key-owner mismatch. The private key remains
@@ -62,7 +70,9 @@ The pure report verifier does not establish that an authorization reference exis
 file supplied by its caller is trusted. The single-writer ingestion service therefore loads trust
 roots, the compiled experiment, authorization, and launch state from its own verified ledger and
 validates returned metrics and outcomes before recording evidence. Its network boundary stores
-only credential hashes, limits authenticated failures, and contains no launch adapter.
+only credential hashes and limits authenticated failures. The intake package depends on a narrow
+API crate that exposes report authentication, validation, workspace storage, credential issuance,
+and shared report types. A Cargo metadata allowlist guards this dependency boundary in CI.
 
 Every event read verifies the complete event chain, including event hashes, predecessor links, and
 referenced artifacts. A caller that needs several queries can load one `VerifiedEventSnapshot` and

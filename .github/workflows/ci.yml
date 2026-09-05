@@ -51,7 +51,7 @@ jobs:
           cache-dependency-path: permaweb/package-lock.json
       - run: npm ci
       - run: npm test
-      - run: npm audit --audit-level=high
+      - run: npx --yes npm@11.11.1 audit --audit-level=high
 
   portal:
     runs-on: ubuntu-latest
@@ -68,7 +68,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run lint
-      - run: npm audit --audit-level=high
+      - run: npx --yes npm@11.11.1 audit --audit-level=high
 
   msrv:
     runs-on: ubuntu-latest

@@ -2,6 +2,7 @@ use std::{fs, path::PathBuf, process, time::SystemTime};
 
 use base64::{Engine as _, engine::general_purpose::STANDARD};
 use ed25519_dalek::{Signer, SigningKey};
+use ilxyr_core::lifecycle::{release_test_digest, seal_test_digest};
 use ilxyr_core::{
     ActorKind, ActorRef, Certificate, EpochBudget, EvidenceLane, ExperimentSpec, Forecast,
     FundingCommitment, RegistrationProvider, RegistrationRequirement, RegistrationVisibility,
@@ -97,6 +98,125 @@ fn unattended_authorization_rejects_a_corrupt_ledger() {
     let error = authorize_unattended_run(&workspace, &budget.id, "toy.score.v1")
         .expect_err("authorization must reject a corrupt ledger");
     assert!(error.to_string().contains("event digest mismatch"));
+}
+
+#[test]
+fn legacy_budget_records_remain_readable_without_gaining_authority() {
+    let source = include_str!("../../../examples/schema/epoch-budget-v1.json");
+    let budget: EpochBudget =
+        serde_json::from_str(source).expect("legacy budget must remain readable");
+    assert_eq!(budget.schema, "ilxyr.epoch_budget.v1");
+    assert_eq!(budget.valid_from_ms, None);
+    assert_eq!(budget.expires_at_ms, None);
+    let round_trip = serde_json::to_value(&budget).expect("legacy budget must serialize");
+    assert!(round_trip.get("valid_from_ms").is_none());
+    assert!(round_trip.get("expires_at_ms").is_none());
+}
+
+#[test]
+fn budget_lifetime_rejects_future_and_expired_authority() {
+    for (label, valid_from_ms, expires_at_ms, expected) in [
+        (
+            "future-budget",
+            test_now_ms() + 60_000,
+            test_now_ms() + 120_000,
+            "is not active until",
+        ),
+        ("expired-budget", 1, 2, "expired at"),
+    ] {
+        let directory = TestDirectory::create(label);
+        let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+        let signing_key = SigningKey::from_bytes(&[8; 32]);
+        trust_test_key(&workspace, &signing_key);
+        let mut budget = budget_fixture();
+        budget.signed_at_ms = 1;
+        budget.valid_from_ms = Some(valid_from_ms);
+        budget.expires_at_ms = Some(expires_at_ms);
+        sign_budget(&mut budget, &signing_key);
+        register_epoch_budget(&workspace, budget.clone()).expect("budget schedule must register");
+
+        let allocation = allocate_epoch(&workspace, &budget.id, &[])
+            .expect_err("inactive budget must not allocate credits");
+        assert!(allocation.to_string().contains(expected));
+        let authorization = authorize_unattended_run(&workspace, &budget.id, "missing.experiment")
+            .expect_err("inactive budget must not authorize local execution");
+        assert!(authorization.to_string().contains(expected));
+    }
+}
+
+#[test]
+fn higher_started_epoch_supersedes_old_authority_and_resets_spend() {
+    let directory = TestDirectory::create("budget-supersession");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let signing_key = SigningKey::from_bytes(&[18; 32]);
+    trust_test_key(&workspace, &signing_key);
+    let mut budget = budget_fixture();
+    budget.total_compute_credits = 11;
+    budget.replication_reserve_pct = 0.0;
+    budget
+        .per_executable_caps
+        .get_mut("/bin/echo")
+        .expect("echo cap must exist")
+        .per_epoch_credits = 10;
+    budget.acknowledgement_thresholds.cumulative_spend_pct = 100.0;
+    sign_budget(&mut budget, &signing_key);
+    register_epoch_budget(&workspace, budget.clone()).expect("first budget must register");
+    prepare_unfunded_experiment(&workspace);
+    let first = allocate_epoch(&workspace, &budget.id, &["toy.score.v1".to_owned()])
+        .expect("first epoch must allocate");
+    assert_eq!(first.allocated_compute_credits, 10);
+
+    let mut successor = budget.clone();
+    successor.id = "toy.epoch-budget.v2".to_owned();
+    successor.epoch += 1;
+    successor.signed_at_ms = test_now_ms();
+    successor.valid_from_ms = Some(successor.signed_at_ms);
+    sign_budget(&mut successor, &signing_key);
+    register_epoch_budget(&workspace, successor.clone()).expect("successor budget must register");
+
+    let old_allocation = allocate_epoch(&workspace, &budget.id, &["toy.score.v1".to_owned()])
+        .expect_err("superseded budget must not allocate");
+    assert!(old_allocation.to_string().contains("superseded"));
+    let old_authorization = authorize_unattended_run(&workspace, &budget.id, "toy.score.v1")
+        .expect_err("superseded budget must not authorize execution");
+    assert!(old_authorization.to_string().contains("superseded"));
+
+    run_sandbox(&workspace, &successor.id, sandbox_spec())
+        .expect("successor epoch must have its own allocation capacity");
+}
+
+#[test]
+fn sandbox_execution_enforces_sealed_test_access() {
+    let directory = TestDirectory::create("sandbox-sealed-test");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let signing_key = SigningKey::from_bytes(&[8; 32]);
+    trust_test_key(&workspace, &signing_key);
+    let budget = signed_budget(&signing_key);
+    register_epoch_budget(&workspace, budget.clone()).expect("budget must register");
+    prepare_unfunded_experiment(&workspace);
+
+    seal_test_digest(&workspace, "toy.score.v1", &"a".repeat(64))
+        .expect("test digest seals before sandbox execution");
+    let mut spec = sandbox_spec();
+    spec.experiment_id = "toy.score.v1".to_owned();
+    let error = run_sandbox(&workspace, &budget.id, spec.clone())
+        .expect_err("sealed test access must block sandbox execution");
+    assert!(error.to_string().contains("test split"));
+    assert!(
+        workspace
+            .latest_event("SandboxPlanned", &spec.id)
+            .expect("sandbox plan query")
+            .is_none(),
+        "a blocked sandbox must not reserve state"
+    );
+
+    release_test_digest(
+        &workspace,
+        "toy.score.v1",
+        &ActorRef::service("service://ilxyr/test-release-authorizer"),
+    )
+    .expect("authorized release opens test access");
+    run_sandbox(&workspace, &budget.id, spec).expect("released test access permits sandbox run");
 }
 
 #[test]
@@ -453,6 +573,13 @@ fn sign_budget(budget: &mut EpochBudget, signing_key: &SigningKey) {
     budget.signature.value.clear();
     let payload = epoch_budget_signing_payload(budget).expect("budget payload must serialize");
     budget.signature.value = STANDARD.encode(signing_key.sign(&payload).to_bytes());
+}
+
+fn test_now_ms() -> u128 {
+    SystemTime::now()
+        .duration_since(SystemTime::UNIX_EPOCH)
+        .expect("test clock must follow Unix epoch")
+        .as_millis()
 }
 
 fn prepare_unfunded_experiment(workspace: &Workspace) {

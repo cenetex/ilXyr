@@ -6,8 +6,9 @@ use crate::{
     ActorRef, CodePolicy, CompiledExperiment, Error, ExecutionNetworkMode, ExecutionReport,
     ExecutorEnvironmentManifest, ExecutorJobPackage, ExportPolicy, ProviderBinding, Result,
     VerifiedExecutionReport, WeightClass, Workspace, attestation::trusted_attestation_keys,
-    authorize_unattended_run, store::now_ms, verify_environment_manifest, verify_execution_report,
-    verify_job_package, workflow::resolve_outcome,
+    authorize_unattended_run, autonomy::active_epoch_budget_at, store::now_ms,
+    verify_environment_manifest, verify_execution_report, verify_job_package,
+    workflow::resolve_outcome,
 };
 
 const EXPERIMENT_COMPILED: &str = "ExperimentCompiled";
@@ -206,12 +207,26 @@ pub fn authorize_remote_execution(
         return validation("remote authorization ID must not be empty");
     }
     let (compiled, package_ref) = compiled_for_package(workspace, environment, package)?;
+    crate::lifecycle::ensure_test_access_allowed(workspace, &package.experiment_id)?;
     let environment_ref = verify_environment_manifest(environment)?;
     let now = now_ms()?;
     if expires_at_ms <= now {
         return Err(Error::Security(
             "remote authorization expiry must be in the future".to_owned(),
         ));
+    }
+    let budget = active_epoch_budget_at(workspace, budget_id, now)?;
+    let budget_expires_at_ms = budget.expires_at_ms.ok_or_else(|| {
+        Error::Security(format!(
+            "epoch budget {} has no enforceable expiry",
+            budget.id
+        ))
+    })?;
+    if expires_at_ms > budget_expires_at_ms {
+        return Err(Error::Security(format!(
+            "remote authorization expiry must not exceed epoch budget expiry {}",
+            budget_expires_at_ms
+        )));
     }
 
     if let Some(existing) = latest_typed::<RemoteExecutionAuthorization>(
@@ -329,6 +344,7 @@ pub fn launch_remote_execution<A: RemoteExecutorAdapter>(
         &environment,
         &package,
     )?;
+    crate::lifecycle::ensure_test_access_allowed(workspace, &authorization.experiment_id)?;
     preflight_remote_execution(adapter, &environment, &package)?;
     let adapter_configuration_ref = adapter.configuration_ref()?;
 

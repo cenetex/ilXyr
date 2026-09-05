@@ -2,6 +2,16 @@
 
 What the lab studies. The rest of `docs/` is the machinery that holds it accountable.
 
+Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).
+The [second diagnostic](../experiments/research-step-2/REPORT.md) establishes a
+stronger integer context baseline for Solomon and audits FERAL's missing labels.
+The [mechanism audit](../experiments/research-step-4/REPORT.md) compares
+Reasoner's semantic controls and checks all three ZERO.4 projection traces.
+The shared question is when learned state reduces the work needed for a correct
+answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
+integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence
+use; weight multiplicity tests structural transfer from an exact oracle.
+
 ## Mission
 
 Produce a family of certified micromodels: small enough to audit fully, trained
@@ -38,9 +48,9 @@ historical model states, not one checkpoint chain.
 
 - **ZERO.4 is promoted.** Q2.6 passed all three declared seeds and remains the deployed quantity
   model.
-- **Reasoner is active research.** Its external public lineage through Reasoner (3,9) is the
-  strongest current evidence. It separates structured evidence requests, verified actions,
-  sealed answers, and downstream language. No Reasoner 4.0 experiment is active or authorized.
+- **Reasoner is active research.** Its external public lineage now includes the complete
+  5.0–5.4 series, 5.5 fresh-family search and engineering results, and a 5.6 development
+  no-go. The current source and next decision are in the shared research-step report.
 - **ZERO.5 is frozen.** It is the dependency-free C11 training line at a fixed 4,852,992-parameter
   base. Its completed and already-started work keeps its real chronology, but it receives no new
   training authorization.
@@ -61,21 +71,17 @@ confused with a blocked or withheld experiment.
 
 ## Primary line: Reasoner
 
-Reasoner (3,9) passed its sealed active-law gate across 744 fresh episodes. It
-identified every registered three-fold law, made all 2,844 active evidence
-queries exactly, and passed the fixed-law, lookup, no-query, shuffled-feedback,
-and coefficient-only controls. Earlier sealed passes established compact
-dimension transfer, composition, non-monotonic planning, witness-order
-robustness, joint tool routing, exact law induction, and a causally downstream
-language readout. The relational and raw-observation no-go results remain part
-of the evidence.
+Reasoner 5 studies learned search guidance with exact answer checking. Its first
+five experiments produced two passes and three no-go results. Reasoner 5.5
+then tested generated families and measured the full search cost. An equally
+optimized task guide used 19.3% less paired CPU time than target-only search
+on the recorded 128-family public cohort. The next question is transfer to
+fresh families with the guide fixed and strong semantic controls.
 
-The claim is deliberately narrow: active compositional law induction inside a
-fixed typed integer program language. The next proposed boundary is learned
-representation transfer with the (3,9) reasoning core frozen. See
-[`REASONER-LINE.md`](REASONER-LINE.md). Registration of the line does not
-authorize that experiment or turn historical external runs into native ilXyr
-evidence.
+Reasoner 5.6 retains its development search and channel-readiness failures.
+Historical 3.x and 4.x results keep their original scope. The current evidence
+remains external public; the shared baseline audit checks source bindings and
+arithmetic. See [REASONER-LINE.md](REASONER-LINE.md).
 
 ## Parallel substrates, shared surface, directed flow
 
@@ -156,11 +162,16 @@ contract and evidence. Zero supplies the symbolic oracle. Three float models tes
 restricted-input model measures the height/depth shortcut, and NSRL provides only a later integer
 feasibility note.
 
-The program is prospective and has not started its oracle frontier. Its source-pinned contract is
+The original Phase 0 frontier resolved Stop. Later LiE work established a reduced
+825-representation surface. A corpus pilot then hit its resource gate, and the
+26,624-query tail calibration produced a proposed 50 ms final p99 clause. The
+next step is the controller and package for that clause. The
+[resource accounting component](../experiments/research-step-3/REPORT.md)
+now passes its exact percentile and failure-retention tests. The source-pinned contract is
 [`weight-multiplicity-transfer-r3`](../examples/weight-multiplicity/rev3-contract.json), and the
 plain-language execution record is
-[`WEIGHT-MULTIPLICITY-TRANSFER.md`](experiments/WEIGHT-MULTIPLICITY-TRANSFER.md). It may not be
-described as an active or successful model line until the corresponding stages run and settle.
+[`WEIGHT-MULTIPLICITY-TRANSFER.md`](experiments/WEIGHT-MULTIPLICITY-TRANSFER.md). The [current report](../experiments/research-step-1/REPORT.md) preserves those
+results and the separate post-measurement wrapper failure.
 
 ## Bootstrap
 
@@ -181,11 +192,10 @@ described as an active or successful model line until the corresponding stages r
    do not tune the fixed class head against the opened EXP-008 promotion set.
 6. Implement the native NSRL checkpoint registration and source-pinned adapter, then execute the
    p10m intake and baseline defined by ADR 0005 without changing its experimental status.
-7. Keep Reasoner as the active scientific line and import its external 3.x evidence without
-   rewriting chronology. ZERO.5 remains frozen; completed upstream runs remain evidence debt
-   until imported honestly. No new run may bypass ilXyr registration.
-8. Freeze and validate the verified-oracle weight-multiplicity contract, then measure its oracle
-   frontier before generating a corpus or training a model.
+7. Keep Reasoner as the active scientific line and import current external evidence with
+   its real chronology. ZERO.5 remains frozen.
+8. Complete the measured weight-multiplicity resource clause and prepare the next corpus
+   package with the original candidate distribution and recorded limits.
 
 ## Operating model
 

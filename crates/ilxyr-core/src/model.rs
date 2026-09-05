@@ -951,6 +951,10 @@ pub struct EpochBudget {
     pub acknowledgement_thresholds: AcknowledgementThresholds,
     pub signed_by: String,
     pub signed_at_ms: u128,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub valid_from_ms: Option<u128>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub expires_at_ms: Option<u128>,
     pub signature: PolicySignature,
 }
 
@@ -1084,6 +1088,8 @@ pub struct ResearchEvent {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct VerificationReport {
+    #[serde(default)]
+    pub configuration_checked: bool,
     pub objects_checked: usize,
     #[serde(default)]
     pub blobs_checked: usize,

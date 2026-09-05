@@ -483,6 +483,20 @@ pub fn record_corpus_materialization(
     })
 }
 
+pub fn record_authenticated_corpus_materialization(
+    workspace: &Workspace,
+    materialization: CorpusMaterialization,
+    authenticated_verifier: &ActorRef,
+) -> Result<RegisteredMaterialization> {
+    if &materialization.verified_by != authenticated_verifier {
+        return Err(Error::Security(format!(
+            "materialization verifier {} does not match authenticated verifier {}",
+            materialization.verified_by.id, authenticated_verifier.id
+        )));
+    }
+    record_corpus_materialization(workspace, materialization)
+}
+
 pub fn registered_corpus_materialization(
     workspace: &Workspace,
     id: &str,

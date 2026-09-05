@@ -594,10 +594,17 @@ dependencies = [
 name = "ilxyr-intake"
 version = "0.1.0"
 dependencies = [
- "ilxyr-core",
+ "ilxyr-intake-boundary",
  "serde",
  "serde_json",
  "tiny_http",
+]
+
+[[package]]
+name = "ilxyr-intake-boundary"
+version = "0.1.0"
+dependencies = [
+ "ilxyr-core",
 ]
 
 [[package]]

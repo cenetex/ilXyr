@@ -1,7 +1,7 @@
 {
   "schema": "ilxyr.transformers_execution_profile.v1",
   "id": "profile://transformers/feral-7b/base-profile/v1",
-  "revision": 2,
+  "revision": 3,
   "state": "draft",
   "purpose": "base_profile",
   "experiment_id": "feral-7b.sec-analysis.v2",
@@ -37,7 +37,7 @@
     "executor_environment_ref": null,
     "image": {
       "repository": "ghcr.io/atimics/feral-7b-sec-qwen",
-      "digest": null
+      "digest": "sha256:c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b"
     },
     "hardware": {
       "accelerator": null,
@@ -102,7 +102,6 @@
     "implementation.profile_measurements",
     "software.python",
     "environment.executor_environment_ref",
-    "environment.image.digest",
     "environment.hardware.accelerator",
     "environment.hardware.count",
     "environment.hardware.driver_version",

@@ -11,8 +11,9 @@ use ilxyr_core::{
     ActorRef, AzureInputMode, AzureMlHandoffRequest, BraidCorpusImport, CorpusFile, CorpusLocation,
     CorpusMaterialization, CorpusRelease, CorpusRights, CorpusSource, MaterializedCorpusFile,
     SageMakerHandoffRequest, SageMakerInputMode, Workspace, azure_ml_corpus_handoff,
-    record_corpus_materialization, register_braid_corpus_release, register_corpus_release,
-    registered_corpus_release, sagemaker_corpus_handoff,
+    record_authenticated_corpus_materialization, record_corpus_materialization,
+    register_braid_corpus_release, register_corpus_release, registered_corpus_release,
+    sagemaker_corpus_handoff,
 };
 use sha2::{Digest, Sha256};
 
@@ -308,6 +309,25 @@ fn materialization_rejects_tampered_or_incomplete_object_sets() {
             .to_string()
             .contains("does not match the corpus digest and size")
     );
+}
+
+#[test]
+fn authenticated_materialization_binds_the_verifier_identity() {
+    let directory = TestDirectory::create("authenticated-verifier");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let corpus = register_corpus_release(&workspace, release()).expect("register corpus");
+    let receipt = s3_materialization(corpus.artifact_ref);
+    let other_verifier = ActorRef::service("service://example/other-materializer-v1");
+    let error =
+        record_authenticated_corpus_materialization(&workspace, receipt.clone(), &other_verifier)
+            .expect_err("one verifier must not submit a receipt as another service");
+    assert!(
+        error
+            .to_string()
+            .contains("does not match authenticated verifier")
+    );
+    record_authenticated_corpus_materialization(&workspace, receipt.clone(), &receipt.verified_by)
+        .expect("matching authenticated verifier must record the receipt");
 }
 
 fn release() -> CorpusRelease {

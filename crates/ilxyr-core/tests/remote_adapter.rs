@@ -8,6 +8,7 @@ use std::{
 
 use base64::{Engine as _, engine::general_purpose::STANDARD};
 use ed25519_dalek::{Signer, SigningKey};
+use ilxyr_core::lifecycle::{release_test_digest, seal_test_digest};
 use ilxyr_core::{
     AcceptedRemoteReport, ActorKind, ActorRef, AllocationPolicy, BudgetPolicy, CodePolicy,
     DigestResource, DsseEnvelope, DsseSignature, EnvironmentCapabilities, EpochBudget,
@@ -18,11 +19,11 @@ use ilxyr_core::{
     ResearchContribution, RunRecord, SourceRelease, WeightClass, Workspace,
     accept_authenticated_remote_report, accept_remote_execution_report, allocate_epoch,
     authenticate_report_intake_credential, authorize_remote_execution,
-    collect_remote_execution_report, compile_experiment, dsse_pae, epoch_budget_signing_payload,
-    issue_report_intake_credential, launch_remote_execution, observe_remote_execution,
-    preflight_remote_execution, record_authenticated_report_rejection, register_epoch_budget,
-    run_experiment, submit_contribution, submit_forecast, trust_attestation_key, trust_policy_key,
-    verify_compiled_job_package,
+    collect_remote_execution_report, compile_experiment, dsse_pae, epoch_budget,
+    epoch_budget_signing_payload, issue_report_intake_credential, launch_remote_execution,
+    observe_remote_execution, preflight_remote_execution, record_authenticated_report_rejection,
+    register_epoch_budget, run_experiment, submit_contribution, submit_forecast,
+    trust_attestation_key, trust_policy_key, verify_compiled_job_package,
 };
 use serde::Serialize;
 use serde_json::{Value, json};
@@ -154,6 +155,67 @@ fn fake_adapter_recovers_idempotently_and_intake_is_durable() {
         .expect_err("one launch cannot publish a second report");
     assert!(error.to_string().contains("already bound"));
     assert!(fixture.workspace.verify().expect("ledger verifies").valid);
+}
+
+#[test]
+fn remote_authorization_and_launch_enforce_sealed_test_access() {
+    let sealed_before_authorization = Fixture::new();
+    seal_test_digest(
+        &sealed_before_authorization.workspace,
+        "toy.score.v1",
+        &"a".repeat(64),
+    )
+    .expect("test digest seals before remote authorization");
+    let error = authorize_remote_execution(
+        &sealed_before_authorization.workspace,
+        &sealed_before_authorization.environment,
+        &sealed_before_authorization.package,
+        &sealed_before_authorization.budget_id,
+        AUTHORIZATION_ID,
+        future_expiry(),
+    )
+    .expect_err("sealed test access must block remote authorization");
+    assert!(error.to_string().contains("test split"));
+
+    let sealed_before_launch = Fixture::new();
+    authorize_remote_execution(
+        &sealed_before_launch.workspace,
+        &sealed_before_launch.environment,
+        &sealed_before_launch.package,
+        &sealed_before_launch.budget_id,
+        AUTHORIZATION_ID,
+        future_expiry(),
+    )
+    .expect("remote authorization succeeds while test access is open");
+    seal_test_digest(
+        &sealed_before_launch.workspace,
+        "toy.score.v1",
+        &"b".repeat(64),
+    )
+    .expect("test digest seals before provider launch");
+    let mut adapter = FakeAdapter::new(false);
+    let error = launch_remote_execution(
+        &sealed_before_launch.workspace,
+        &mut adapter,
+        AUTHORIZATION_ID,
+    )
+    .expect_err("sealed test access must block provider launch");
+    assert!(error.to_string().contains("test split"));
+    assert_eq!(adapter.launch_calls, 0);
+
+    release_test_digest(
+        &sealed_before_launch.workspace,
+        "toy.score.v1",
+        &ActorRef::service("service://ilxyr/test-release-authorizer"),
+    )
+    .expect("authorized release opens test access");
+    launch_remote_execution(
+        &sealed_before_launch.workspace,
+        &mut adapter,
+        AUTHORIZATION_ID,
+    )
+    .expect("released test access permits provider launch");
+    assert_eq!(adapter.launch_calls, 1);
 }
 
 #[test]
@@ -367,6 +429,22 @@ fn authorization_rejects_package_drift_expiry_and_a_second_run() {
     .expect_err("expired authorization is rejected");
     assert!(error.to_string().contains("future"));
 
+    let budget = epoch_budget(&fixture.workspace, &fixture.budget_id).expect("budget loads");
+    let error = authorize_remote_execution(
+        &fixture.workspace,
+        &fixture.environment,
+        &fixture.package,
+        &fixture.budget_id,
+        "authorization:overlong",
+        budget.expires_at_ms.expect("v2 budget has an expiry") + 1,
+    )
+    .expect_err("authorization must end within the budget lifetime");
+    assert!(
+        error
+            .to_string()
+            .contains("must not exceed epoch budget expiry")
+    );
+
     let expiry = future_expiry();
     authorize_remote_execution(
         &fixture.workspace,
@@ -401,6 +479,27 @@ fn authorization_rejects_package_drift_expiry_and_a_second_run() {
             .to_string()
             .contains("already has remote authorization")
     );
+
+    let policy_key = SigningKey::from_bytes(&[61; 32]);
+    let mut successor = budget;
+    successor.id = "toy.epoch-budget.remote.v2".to_owned();
+    successor.epoch += 1;
+    successor.signed_at_ms = now_ms();
+    successor.valid_from_ms = Some(successor.signed_at_ms);
+    successor.signature.value.clear();
+    let payload = epoch_budget_signing_payload(&successor).expect("budget payload serializes");
+    successor.signature.value = STANDARD.encode(policy_key.sign(&payload).to_bytes());
+    register_epoch_budget(&fixture.workspace, successor).expect("successor budget registers");
+    let error = authorize_remote_execution(
+        &fixture.workspace,
+        &fixture.environment,
+        &fixture.package,
+        &fixture.budget_id,
+        AUTHORIZATION_ID,
+        expiry,
+    )
+    .expect_err("superseded budget must not return a remote authorization");
+    assert!(error.to_string().contains("superseded"));
     assert!(fixture.workspace.verify().expect("ledger verifies").valid);
 }
 

@@ -4,6 +4,7 @@ members = [
   "crates/ilxyr-aws",
   "crates/ilxyr-cli",
   "crates/ilxyr-corpus-service",
+  "crates/ilxyr-intake-boundary",
   "crates/ilxyr-intake",
 ]
 resolver = "2"
