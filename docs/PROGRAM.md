@@ -23,6 +23,9 @@ Its report links the next concrete comparison for each research line.
 The [Solomon confidence controls](../experiments/research-step-10/REPORT.md)
 show how the probability error changes at fixed answers and add an exact Brier
 score. The shared ledger preserves the measurement failure.
+The [FERAL comparison package](../experiments/research-step-13/REPORT.md)
+freezes the model and both arithmetic controls against the full revised target
+set. It preserves raw responses, partial runs, and parser failures.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence
