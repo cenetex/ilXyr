@@ -40,6 +40,10 @@ and a bounded cloud budget draft.
 The [FERAL host package](../experiments/research-step-15/REPORT.md) adds the
 instance shutdown path, verified collection, and retained unknown launch
 outcomes. Live preflight awaits a refreshed AWS session.
+The [Solomon answer-ownership audit](../experiments/research-step-16/REPORT.md)
+shows that suffix memory selects the frozen combined candidate's answers while
+the transformer supplies confidence. It updates the next comparison and brings
+the prepared work for all five lines into one report.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence

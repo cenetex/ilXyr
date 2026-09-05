@@ -518,6 +518,29 @@
       "lineage_note": "Keep this as an engineering diagnostic on known toy inputs. Preserve Q2.6 results and require complete final-artifact counts, retention scores, and full work in the fresh five-arm comparison.",
       "evidence_path": "experiments/research-step-11/RESULT.json",
       "evidence_ref": "artifact://sha256/71782a62ff754aa2856aef2fa94629d48cd78a372f03c8a42b23455c69b57547"
+    },
+    {
+      "seq": 26,
+      "verdict_id": "verdict:solomon.suffix-answer-ownership.v1",
+      "verdict_ref": "artifact://sha256/84aa36f1c8afe6e69163ae0d5d120eae4f61d687e53a38c8c26fe920e3c175e3",
+      "experiment_id": "solomon.suffix-answer-ownership.v1",
+      "family": "solomon",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "integer-transformer",
+        "suffix-memory",
+        "answer-selection",
+        "confidence-control"
+      ],
+      "summary": "The frozen combined candidate selects suffix memory answers by construction; all thirty native windows agree with an independent memory reader.",
+      "recorded_at_ms": 1788635589858,
+      "project": "solomon",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "source mechanism audit with thirty native engineering windows",
+      "lineage_note": "Keep existing promotion records and scores. Test fresh-data confidence against strong count controls. Use an architecture that can change the answer for the next learned-accuracy claim.",
+      "evidence_path": "experiments/research-step-16/RESULT.json",
+      "evidence_ref": "artifact://sha256/ea45b202d3b063d7bb6984ba2e3aa5d8b1b9b590d35021a72755caa73a6fa9ec"
     }
   ]
 }
