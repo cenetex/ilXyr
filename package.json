@@ -14,7 +14,7 @@
     "test:oracle-resource-accounting": "node scripts/test-oracle-resource-accounting.mjs",
     "test:research-profiles": "node scripts/test-research-profiles.mjs",
     "check:research-profile": "node scripts/research-profiles.mjs",
-    "test:schemas": "node scripts/validate-json-schemas.mjs && node scripts/validate-lab-registry.mjs && node scripts/validate-research-pathways.mjs && node scripts/test-import-benchmark.mjs && node scripts/test-research-profiles.mjs && node scripts/test-feral-calibration.mjs && npm run test:research-baselines && npm run test:research-context-and-labels && npm run test:research-mechanism-controls && npm run test:oracle-resource-accounting && node scripts/constraint-diff.mjs --self-test && npm run test:oracle-query-batch && npm run test:feral-targets-v2 && npm run test:feral-evidence-calculator && npm run test:reasoner-source-package && npm run test:feral-comparison",
+    "test:schemas": "node scripts/validate-json-schemas.mjs && node scripts/validate-lab-registry.mjs && node scripts/validate-research-pathways.mjs && node scripts/test-import-benchmark.mjs && node scripts/test-research-profiles.mjs && node scripts/test-feral-calibration.mjs && npm run test:research-baselines && npm run test:research-context-and-labels && npm run test:research-mechanism-controls && npm run test:oracle-resource-accounting && node scripts/constraint-diff.mjs --self-test && npm run test:oracle-query-batch && npm run test:feral-targets-v2 && npm run test:feral-evidence-calculator && npm run test:reasoner-source-package && npm run test:feral-comparison && npm run test:feral-execution",
     "test:weight-multiplicity-frontier": "node scripts/run-weight-multiplicity-frontier.mjs --self-test",
     "test:weight-multiplicity-phase05": "node scripts/run-weight-multiplicity-phase05.mjs --self-test",
     "run:weight-multiplicity-phase05-session-correctness": "node scripts/run-weight-multiplicity-phase05-session-correctness.mjs",
@@ -34,7 +34,8 @@
     "test:feral-targets-v2": "python3 scripts/test_feral_targets_v2.py && python3 scripts/feral_targets_v2.py --check-manifest experiments/research-step-7/MANIFEST.json",
     "test:feral-evidence-calculator": "python3 scripts/test_feral_evidence_calculator.py && python3 scripts/research_feral_calculator_smoke.py --check-result experiments/research-step-8/RESULT.json",
     "test:reasoner-source-package": "python3 scripts/test_package_reasoner55_matched_source.py",
-    "test:feral-comparison": "python3 scripts/test_feral_comparison.py"
+    "test:feral-comparison": "python3 scripts/test_feral_comparison.py",
+    "test:feral-execution": "python3 scripts/test_feral_execution.py"
   },
   "devDependencies": {
     "ajv": "8.20.0"
