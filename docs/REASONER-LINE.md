@@ -1,5 +1,19 @@
 # Reasoner line registration
 
+## Current source update: 2026-09-05
+
+The current upstream reference is `9e147326c9cd1e6dcc26591ff5d73e16bff9e17e`.
+The complete 5.0–5.4 series records two passes and three no-go results. The 5.5
+public-family work and speed comparison provide the current search baseline;
+5.6 records a development search no-go and channel-readiness failures.
+
+The [shared research report](../experiments/research-step-1/REPORT.md) and
+[bound diagnostic result](../experiments/research-step-1/RESULT.json) record
+the current evidence and next fresh-family comparison. The records below
+preserve the earlier 3.x registration and its then-proposed 4.0 boundary.
+
+## Historical 3.x registration
+
 Reasoner is the lab's active scientific model line. ZERO.5 remains preserved
 as a frozen training lineage, and ZERO.4 remains the promoted quantity model.
 
@@ -22,7 +36,7 @@ are completed.
 
 ## Evidence boundary
 
-The strongest current result is Reasoner (3,9). Across 744 fresh sealed
+The strongest result at this registration was Reasoner (3,9). Across 744 fresh sealed
 episodes in dimensions nine through twelve, it identified every registered
 law, made all 2,844 active queries exactly, completed every action and commit,
 and passed all registered controls.
@@ -43,7 +57,7 @@ The line also preserves the failures that define this boundary:
 
 ## Next question
 
-The next proposed boundary is Reasoner 4.0 representation transfer:
+The proposed next boundary at this registration was Reasoner 4.0 representation transfer:
 
 > Can the frozen Reasoner (3,9) core infer a structured input adapter from
 > examples, then solve a fresh sealed representation without a task label,
