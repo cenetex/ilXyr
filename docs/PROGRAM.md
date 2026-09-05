@@ -26,6 +26,9 @@ score. The shared ledger preserves the measurement failure.
 The [FERAL comparison package](../experiments/research-step-13/REPORT.md)
 freezes the model and both arithmetic controls against the full revised target
 set. It preserves raw responses, partial runs, and parser failures.
+The [FERAL execution controller](../experiments/research-step-14/REPORT.md)
+adds shared deadlines, process cleanup, complete-row grading after failures,
+and a bounded cloud budget draft.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence
