@@ -9,6 +9,8 @@ The [mechanism audit](../experiments/research-step-4/REPORT.md) compares
 Reasoner's semantic controls and checks all three ZERO.4 projection traces.
 The [shared failure ledger](../experiments/research-step-5/REPORT.md) links these
 findings to the next design for each research line.
+The [runner repair](../experiments/research-step-6/REPORT.md) preserves query
+costs and the first Hold during weight multiplicity generation.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence

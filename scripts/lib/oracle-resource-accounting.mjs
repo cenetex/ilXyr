@@ -69,7 +69,8 @@ export class ExactP99 {
   }
 }
 
-const depthBand = (value) => value <= 7 ? "0-7" : value <= 15 ? "8-15"
+const depthBand = (value) => value === null ? "unavailable" : value < 0 ? "below_0"
+  : value <= 7 ? "0-7" : value <= 15 ? "8-15"
   : value <= 31 ? "16-31" : value <= 63 ? "32-63" : "64+";
 const bitBand = (value) => value === null ? "unavailable" : value === 0 ? "0"
   : value <= 5 ? "1-5" : value <= 15 ? "6-15" : value <= 31 ? "16-31"
@@ -81,7 +82,7 @@ const checkedRecord = (input, sequence) => {
   for (const key of ["slice_id", "canonical_type", "canonical_representation_id", "worker_id", "status", "disposition"])
     requireValue(typeof input[key] === "string" && input[key].length > 0, `${key} is required`);
   requireValue(Number.isFinite(input.elapsed_ms) && input.elapsed_ms >= 0, "elapsed_ms is invalid");
-  requireValue(Number.isSafeInteger(input.target_depth) && input.target_depth >= 0, "target_depth is invalid");
+  requireValue(input.target_depth === null || Number.isSafeInteger(input.target_depth), "target_depth is invalid");
   for (const key of ["highest_weight", "target_weight"])
     requireValue(Array.isArray(input[key]) && input[key].length > 0 && input[key].every(Number.isSafeInteger),
       `${key} must be an integer vector`);
@@ -102,8 +103,9 @@ const checkedRecord = (input, sequence) => {
 export class OracleResourceAccounting {
   constructor(limits = PHASE1_RESOURCE_LIMITS) {
     for (const key of Object.keys(PHASE1_RESOURCE_LIMITS))
-      requireValue(Number.isFinite(limits[key]) && limits[key] > 0, `${key} limit is invalid`);
-    requireValue(Number.isSafeInteger(limits.oracle_calls), "call limit must be an integer");
+      requireValue((key !== "hard_timeout_ms" && limits[key] === null) ||
+        (Number.isFinite(limits[key]) && limits[key] > 0), `${key} limit is invalid`);
+    requireValue(limits.oracle_calls === null || Number.isSafeInteger(limits.oracle_calls), "call limit must be an integer");
     this.limits = Object.freeze({ ...limits });
     this.p99 = new ExactP99();
     this.queryMs = 0;
@@ -126,7 +128,8 @@ export class OracleResourceAccounting {
     requireValue(Number.isFinite(elapsedWallSeconds) && elapsedWallSeconds >= this.wallSeconds,
       "wall time must be finite and monotonic");
     this.wallSeconds = elapsedWallSeconds;
-    if (this.wallSeconds > this.limits.elapsed_wall_seconds) this.hold("wall_time_limit", trigger);
+    if (this.limits.elapsed_wall_seconds !== null && this.wallSeconds > this.limits.elapsed_wall_seconds)
+      this.hold("wall_time_limit", trigger);
   }
 
   observe(input, elapsedWallSeconds) {
@@ -160,8 +163,8 @@ export class OracleResourceAccounting {
     if (record.status === "hard_timeout" || record.elapsed_ms >= this.limits.hard_timeout_ms)
       this.hold("hard_timeout", record);
     else if (record.status !== "ok") this.hold("oracle_query_failure", record);
-    if (this.p99.count > this.limits.oracle_calls) this.hold("oracle_call_limit", record);
-    if (this.queryMs > this.limits.total_query_ms) this.hold("total_query_time_limit", record);
+    if (this.limits.oracle_calls !== null && this.p99.count > this.limits.oracle_calls) this.hold("oracle_call_limit", record);
+    if (this.limits.total_query_ms !== null && this.queryMs > this.limits.total_query_ms) this.hold("total_query_time_limit", record);
     return { record: structuredClone(record), hold: structuredClone(this.firstHold) };
   }
 
@@ -171,7 +174,7 @@ export class OracleResourceAccounting {
     this.checkWall(elapsedWallSeconds);
     this.complete = complete;
     if (!complete || this.p99.count === 0) this.hold("incomplete_call_set");
-    else if (this.p99.value > this.limits.final_p99_ms) this.hold("final_p99_limit");
+    else if (this.limits.final_p99_ms !== null && this.p99.value > this.limits.final_p99_ms) this.hold("final_p99_limit");
     this.finished = true;
     return this.snapshot();
   }
@@ -179,18 +182,21 @@ export class OracleResourceAccounting {
   snapshot() {
     return {
       schema: "ilxyr.oracle_resource_accounting.v1",
-      status: this.firstHold ? "hold" : this.finished ? "resource_pass" : "collecting",
+      status: this.firstHold ? "hold" : this.finished
+        ? this.limits.final_p99_ms === null ? "accounting_complete" : "resource_pass"
+        : "collecting",
       complete_call_set: this.finished && this.complete,
       limits: { ...this.limits },
       calls: this.p99.count,
       total_query_ms: this.queryMs,
       elapsed_wall_seconds: this.wallSeconds,
       cumulative_p99_ms: this.p99.value,
-      p99_decision_stage: this.finished && this.complete ? "final" : "progress_only",
+      p99_decision_stage: this.limits.final_p99_ms === null ? "measurement_only"
+        : this.finished && this.complete ? "final" : "progress_only",
       fractions: {
-        calls: this.p99.count / this.limits.oracle_calls,
-        query_ms: this.queryMs / this.limits.total_query_ms,
-        wall_seconds: this.wallSeconds / this.limits.elapsed_wall_seconds,
+        calls: this.limits.oracle_calls === null ? null : this.p99.count / this.limits.oracle_calls,
+        query_ms: this.limits.total_query_ms === null ? null : this.queryMs / this.limits.total_query_ms,
+        wall_seconds: this.limits.elapsed_wall_seconds === null ? null : this.wallSeconds / this.limits.elapsed_wall_seconds,
       },
       hold: structuredClone(this.firstHold),
       top_50: structuredClone(this.top),

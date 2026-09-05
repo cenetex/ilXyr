@@ -21,6 +21,9 @@ import { performance } from "node:perf_hooks";
 import { createInterface } from "node:readline";
 import { pipeline } from "node:stream/promises";
 import { createGzip, gzipSync } from "node:zlib";
+import { fileURLToPath } from "node:url";
+import { executeObservedBatch } from "./lib/oracle-query-batch.mjs";
+import { OracleAttemptTrace } from "./lib/oracle-attempt-trace.mjs";
 
 const root = resolve(dirname(new URL(import.meta.url).pathname), "..");
 const defaultPlan = resolve(
@@ -395,12 +398,13 @@ const readRss = async (pid) => {
   }
 };
 
-class PersistentLie {
-  constructor({ id, executable, stdbuf, hardTimeoutMs }) {
+export class PersistentLie {
+  constructor({ id, executable, stdbuf, hardTimeoutMs, onWarmup }) {
     this.id = id;
     this.executable = executable;
     this.stdbuf = stdbuf;
     this.hardTimeoutMs = hardTimeoutMs;
+    this.onWarmup = onWarmup;
   }
 
   async start() {
@@ -421,6 +425,8 @@ class PersistentLie {
       this.exit = { code, signal };
       if (this.pending) this.rejectPending("process_exit", `LiE exited ${code}/${signal}`);
     });
+    this.child.on("error", (error) => this.rejectPending("process_error", error.message));
+    this.child.stdin.on("error", (error) => this.rejectPending("write_error", error.message));
     this.lines = createInterface({ input: this.child.stdout, crlfDelay: Infinity });
     this.lines.on("line", (line) => {
       const trimmed = line.trim();
@@ -435,8 +441,9 @@ class PersistentLie {
       }
     });
     const warm = await this.query("dom_char([1],[1],A1)");
+    this.onWarmup?.({ ...warm, worker_id: this.id });
     if (warm.status !== "ok" || warm.multiplicity !== "1")
-      throw new Error(`LiE warm-up failed for ${this.id}`);
+      throw new HoldError("lie_warmup_failure", { worker_id: this.id, ...warm });
     this.baselineRss = await readRss(this.child.pid);
     return warm;
   }
@@ -464,6 +471,10 @@ class PersistentLie {
           if (error) this.rejectPending("write_error", error.message);
         });
       });
+      if (!/^(0|[1-9][0-9]*)$/.test(multiplicity)) return {
+        status: "invalid_multiplicity", multiplicity: null, returned_multiplicity: multiplicity,
+        elapsed_ms: performance.now() - started,
+      };
       return { status: "ok", multiplicity, elapsed_ms: performance.now() - started };
     } catch (error) {
       return {
@@ -501,6 +512,8 @@ class PersistentZero {
     this.child.stderr.setEncoding("utf8");
     this.stderr = "";
     this.child.stderr.on("data", (chunk) => { this.stderr += chunk; });
+    this.child.on("error", (error) => { this.stderr += `process error: ${error.message}`; });
+    this.child.stdin.on("error", (error) => { this.stderr += `write error: ${error.message}`; });
     this.iterator = createInterface({ input: this.child.stdout, crlfDelay: Infinity })[
       Symbol.asyncIterator
     ]();
@@ -555,22 +568,20 @@ class PersistentZero {
   }
 }
 
-const startLieWorkers = async (count, options) => {
-  const workers = [];
+const startLieWorkers = async (count, options, workers = []) => {
   for (let index = 0; index < count; index += 1) {
     const worker = new PersistentLie({ id: `lie-${index + 1}`, ...options });
-    await worker.start();
     workers.push(worker);
+    await worker.start();
   }
   return workers;
 };
 
-const startZeroWorkers = async (count, options) => {
-  const workers = [];
+const startZeroWorkers = async (count, options, workers = []) => {
   for (let index = 0; index < count; index += 1) {
     const worker = new PersistentZero({ id: `zero-${index + 1}`, ...options });
-    await worker.start();
     workers.push(worker);
+    await worker.start();
   }
   return workers;
 };
@@ -588,7 +599,7 @@ const executeWithWorkers = async (workers, items, handler) => {
   return results;
 };
 
-class ResourceMonitor {
+export class ResourceMonitor {
   constructor({ lieWorkers, zeroWorkers, plan }) {
     this.lieWorkers = lieWorkers;
     this.zeroWorkers = zeroWorkers;
@@ -601,7 +612,12 @@ class ResourceMonitor {
     this.sampling = false;
   }
 
-  async sample() {
+  sample() {
+    if (!this.pendingSample) this.pendingSample = this.takeSample().finally(() => { this.pendingSample = null; });
+    return this.pendingSample;
+  }
+
+  async takeSample() {
     if (this.sampling) return;
     this.sampling = true;
     try {
@@ -689,7 +705,7 @@ class ResourceMonitor {
   }
 }
 
-class BudgetTracker {
+export class BudgetTracker {
   constructor(plan, { perQueryLimitMs = 1000 } = {}) {
     this.plan = plan;
     this.perQueryLimitMs = perQueryLimitMs;
@@ -700,6 +716,7 @@ class BudgetTracker {
     this.frozen = null;
     this.progressPath = null;
     this.lastProgressWrite = 0;
+    this.trace = null;
   }
 
   setProgressPath(path) {
@@ -707,11 +724,14 @@ class BudgetTracker {
   }
 
   async checkpoint(force = false, status = "running") {
+    this.trace?.checkpoint(force);
+    while (this.progressWrite) await this.progressWrite;
     if (!this.progressPath || !this.frozen) return;
     const now = performance.now();
     if (!force && now - this.lastProgressWrite < 1000) return;
     this.lastProgressWrite = now;
-    const snapshot = this.snapshot();
+    const snapshot = { oracle_calls: this.calls, total_query_ms: this.queryMs,
+      elapsed_wall_seconds: (now - this.started) / 1000 };
     const progress = {
       schema: "ilxyr.weight_multiplicity_phase1_generation_progress.v1",
       status,
@@ -731,8 +751,12 @@ class BudgetTracker {
       },
     };
     const temporary = `${this.progressPath}.tmp`;
-    await writeFile(temporary, stableJson(progress));
-    await rename(temporary, this.progressPath);
+    this.progressWrite = (async () => {
+      await writeFile(temporary, stableJson(progress));
+      await rename(temporary, this.progressPath);
+    })();
+    try { await this.progressWrite; }
+    finally { this.progressWrite = null; }
   }
 
   observe(result) {
@@ -754,6 +778,16 @@ class BudgetTracker {
       if ((performance.now() - this.started) / 1000 > this.frozen.binding_wall_seconds)
         throw new HoldError("frozen_generation_wall_budget_reached", this.snapshot());
     }
+  }
+
+  beforeDispatch(inFlight) {
+    if (this.trace?.accounting.firstHold)
+      throw new HoldError(this.trace.accounting.firstHold.reason, this.trace.accounting.firstHold);
+    if (!this.frozen) return;
+    if (this.calls + inFlight >= this.frozen.binding_call_limit)
+      throw new HoldError("frozen_oracle_call_budget_reached", { completed: this.calls, in_flight: inFlight });
+    if ((performance.now() - this.started) / 1000 > this.frozen.binding_wall_seconds)
+      throw new HoldError("frozen_generation_wall_budget_reached", this.snapshot());
   }
 
   freeze(pilotSlices, fixedCalls, workers) {
@@ -982,7 +1016,7 @@ class RepresentationPicker {
   }
 }
 
-const queryLieBatch = async ({
+export const queryLieBatch = async ({
   workers,
   candidates,
   coordinateMapping,
@@ -990,29 +1024,65 @@ const queryLieBatch = async ({
   monitor,
   calibrationTrace = null,
   pilotSliceId = null,
+  sliceId = null,
 }) => {
-  const results = await executeWithWorkers(workers, candidates, async (worker, candidate) => ({
-    ...await worker.query(lieCommand(candidate, coordinateMapping)),
-    worker_id: worker.id,
-  }));
-  if (calibrationTrace)
-    await calibrationTrace.append(pilotSliceId, candidates, results);
-  for (let index = 0; index < results.length; index += 1) {
-    const candidate = candidates[index];
-    budget.observe({
-      ...results[index],
-      query: {
-        canonical_type: candidate.canonical_type,
-        canonical_representation_id: candidate.canonical_representation_id,
-        highest_weight: candidate.highest_weight,
-        target_weight: candidate.target_weight,
-        target_status: candidate.target_status,
-        target_depth: candidate.target_depth,
-        desired_stratum: candidate.desired_stratum,
-        query_key: candidate.query_key,
+  if (!budget.trace) throw new Error("oracle query trace is required");
+  const dispatchSequences = new Array(candidates.length);
+  let results;
+  try {
+    results = await executeObservedBatch({
+      workers, items: candidates,
+      beforeDispatch: ({ inFlight }) => {
+        try { budget.beforeDispatch(inFlight); monitor.assertOkay(); }
+        catch (error) { budget.trace.hold(error.reason ?? error.message); throw error; }
+      },
+      query: async (worker, candidate, index) => {
+        const dispatchSequence = budget.trace.nextDispatch();
+        dispatchSequences[index] = dispatchSequence;
+        const result = await worker.query(lieCommand(candidate, coordinateMapping));
+        return { ...result, dispatch_sequence: dispatchSequence, worker_id: worker.id };
+      },
+      observe: async (result, candidate, index, worker) => {
+        result.worker_id = worker.id;
+        // A failed worker call still has one dispatch and one completion record.
+        result.dispatch_sequence ??= dispatchSequences[index];
+        if (result.status === "ok" && (typeof result.multiplicity !== "string" ||
+            !/^(0|[1-9][0-9]*)$/.test(result.multiplicity))) {
+          result.returned_multiplicity = result.multiplicity;
+          result.status = "invalid_multiplicity";
+          result.multiplicity = null;
+        }
+        const record = budget.trace.record(candidate, result, {
+          sliceId: pilotSliceId ? `pilot:${pilotSliceId}` : sliceId,
+          dispatchSequence: result.dispatch_sequence,
+        });
+        try {
+          budget.observe({ ...result, query: {
+            canonical_type: candidate.canonical_type,
+            canonical_representation_id: candidate.canonical_representation_id,
+            highest_weight: candidate.highest_weight,
+            target_weight: candidate.target_weight,
+            target_status: candidate.target_status,
+            target_depth: candidate.target_depth,
+            desired_stratum: candidate.desired_stratum,
+            query_key: candidate.query_key,
+          } });
+          monitor.assertOkay();
+          if (budget.trace.accounting.firstHold)
+            throw new HoldError(budget.trace.accounting.firstHold.reason, budget.trace.accounting.firstHold);
+        } catch (error) {
+          budget.trace.hold(error.reason ?? error.message, record);
+          throw error;
+        }
+        await budget.checkpoint();
       },
     });
+  } catch (error) {
+    budget.trace.hold(error.reason ?? error.message);
+    await budget.checkpoint(true, "hold");
+    throw error;
   }
+  if (calibrationTrace) await calibrationTrace.append(pilotSliceId, candidates, results);
   await budget.checkpoint();
   monitor.assertOkay();
   return results;
@@ -1436,6 +1506,7 @@ const generateStratified = async ({
       coordinateMapping,
       budget,
       monitor,
+      sliceId: partition,
     });
     const accepted = [];
     for (let index = 0; index < candidates.length; index += 1) {
@@ -1545,6 +1616,7 @@ const generateNatural = async ({
       coordinateMapping,
       budget,
       monitor,
+      sliceId: partition,
     });
     const records = results.map((result, index) => modelRecord(
       candidates[index],
@@ -1649,6 +1721,7 @@ const generateAcr1 = async ({
       coordinateMapping,
       budget,
       monitor,
+      sliceId: "acr1",
     });
     const records = results.map((result, index) => {
       const candidate = batch[index];
@@ -1691,10 +1764,13 @@ const reducedWord = (system, length, random) => {
   return word;
 };
 
-const applyReducedWord = (weight, cartan, word) => {
+export const transformTarget = (weight, depth, cartan, word) => {
   let output = [...weight];
-  for (const simple of [...word].reverse()) output = reflectWeight(output, cartan, simple);
-  return output;
+  for (const simple of [...word].reverse()) {
+    if (depth !== null) depth += output[simple];
+    output = reflectWeight(output, cartan, simple);
+  }
+  return { weight: output, depth };
 };
 
 const acr2Bands = (system) => {
@@ -1739,18 +1815,22 @@ const generateAcr2 = async ({
         const band = acr2Bands(system)[bandIndex];
         if (band.minimum > band.maximum) continue;
         let transformed = null;
+        let transformedDepth = null;
         let word = null;
         for (let attempt = 0; attempt < 64; attempt += 1) {
           const length = band.minimum + randomInteger(random, band.maximum - band.minimum + 1);
           const candidateWord = reducedWord(system, length, random);
           if (!candidateWord) continue;
-          const target = applyReducedWord(base.record.target_weight, system.cartan, candidateWord);
+          const transformedTarget = transformTarget(base.record.target_weight,
+            base.candidate.target_depth, system.cartan, candidateWord);
+          const target = transformedTarget.weight;
           if (target.every((value, index) => value === base.record.target_weight[index])) continue;
           if (target.every((value) => value >= 0)) continue;
           if (target.some((value) => Math.abs(value) > coordinateEnvelope)) continue;
           const key = queryKey(base.record.canonical_type, base.record.highest_weight, target);
           if (usedQueries.has(key)) continue;
           transformed = target;
+          transformedDepth = transformedTarget.depth;
           word = candidateWord;
           usedQueries.add(key);
           break;
@@ -1759,6 +1839,7 @@ const generateAcr2 = async ({
         const candidate = {
           ...base.candidate,
           target_weight: transformed,
+          target_depth: transformedDepth,
           target_status: "non_dominant",
           target_magnitude_l1: transformed.reduce((sum, value) => sum + Math.abs(value), 0),
           query_key: queryKey(base.record.canonical_type, base.record.highest_weight, transformed),
@@ -1769,6 +1850,7 @@ const generateAcr2 = async ({
           coordinateMapping,
           budget,
           monitor,
+          sliceId: "acr2_transformed",
         });
         if (result.multiplicity !== base.record.multiplicity)
           throw new HoldError("acr2_orbit_multiplicity_disagreement", {
@@ -1991,20 +2073,15 @@ const main = async () => {
   const representations = prepareRepresentations(manifest, rootSystems);
   const byRole = groupBy(representations, (entry) => entry.revision3_role);
   const seed = effectivePlan.generator.seed;
-  const lieWorkers = await startLieWorkers(effectivePlan.oracle.primary.workers, {
-    executable: resolve(options.lie),
-    stdbuf: options.stdbuf ? resolve(options.stdbuf) : null,
-    hardTimeoutMs: calibration?.threshold_policy.hard_abort_ms ?? 10000,
-  });
-  const zeroWorkers = await startZeroWorkers(effectivePlan.oracle.differential.workers, {
-    executable: resolve(options.zero),
-    hardTimeoutMs: effectivePlan.oracle.differential.hard_timeout_ms,
-  });
-  const monitor = new ResourceMonitor({ lieWorkers, zeroWorkers, plan: effectivePlan });
-  monitor.start();
+  const lieWorkers = [];
+  const zeroWorkers = [];
+  let monitor = null;
+  const hardTimeoutMs = calibration?.threshold_policy.hard_abort_ms ?? 10000;
+  const trace = new OracleAttemptTrace({ directory: evidenceDirectory, hardTimeoutMs });
   const budget = new BudgetTracker(effectivePlan, {
     perQueryLimitMs: calibration ? null : 1000,
   });
+  budget.trace = trace;
   const calibrationTrace = calibration
     ? new CalibrationTrace({ outDirectory, plan: calibration }) : null;
   const coordinateMapping = effectivePlan.oracle.primary.coordinate_mapping;
@@ -2013,6 +2090,25 @@ const main = async () => {
   let hold = null;
   let memoryEvidence = null;
   try {
+    await startLieWorkers(effectivePlan.oracle.primary.workers, {
+      executable: resolve(options.lie),
+      stdbuf: options.stdbuf ? resolve(options.stdbuf) : null, hardTimeoutMs,
+      onWarmup: (result) => {
+        const record = trace.record({ canonical_type: "A1",
+          canonical_representation_id: "A1:warmup", highest_weight: [1], target_weight: [1],
+          target_status: "dominant", target_depth: 0, query_key: "A1|1|1" }, result,
+        { sliceId: "setup:warmup", dispatchSequence: trace.nextDispatch(), phase: "setup" });
+        if (result.status !== "ok" || result.multiplicity !== "1") trace.hold("lie_warmup_failure", record);
+      },
+    }, lieWorkers);
+    await startZeroWorkers(effectivePlan.oracle.differential.workers, {
+      executable: resolve(options.zero),
+      hardTimeoutMs: effectivePlan.oracle.differential.hard_timeout_ms,
+    }, zeroWorkers);
+    monitor = new ResourceMonitor({ lieWorkers, zeroWorkers, plan: effectivePlan });
+    monitor.start();
+    // Retain the historical workload clock while the trace also reports setup.
+    budget.started = performance.now();
     const trainingRequiredPerStratum = (
       effectivePlan.partitions.training.records +
       effectivePlan.partitions.development.records +
@@ -2094,6 +2190,8 @@ const main = async () => {
     await budget.checkpoint(true);
     if (options.pilotOnly) {
       finalStatus = calibration ? "calibration_complete" : "pilot_complete";
+      memoryEvidence = await monitor.stop();
+      monitor.assertOkay();
       await budget.checkpoint(true, finalStatus);
       if (calibration) {
         const tailReport = await calibrationTrace.finalize(frozenBudget);
@@ -2104,8 +2202,7 @@ const main = async () => {
             observed: tailReport.total_queries,
             expected: expectedCalibrationQueries,
           });
-        memoryEvidence = await monitor.stop();
-        monitor.assertOkay();
+        trace.finish(true);
         const tracePath = resolve(outDirectory, "pilot-trace.jsonl");
         const tailPath = resolve(outDirectory, "tail-top-50.json");
         const evidence = {
@@ -2138,6 +2235,8 @@ const main = async () => {
           closures: calibration.closures,
         }));
         const targets = [
+          trace.tracePath,
+          trace.summaryPath,
           tracePath,
           tailPath,
           evidencePath,
@@ -2153,8 +2252,10 @@ const main = async () => {
           `${checksums.join("\n")}\n`,
         );
       } else {
+        trace.finish(true);
         await writeFile(resolve(outDirectory, "runner-summary.json"), stableJson({
           status: finalStatus,
+          oracle_accounting: trace.accounting.snapshot(),
           frozen_budget_sha256: frozenBudgetSha256,
           frozen_budget: frozenBudget,
           closures: effectivePlan.closures,
@@ -2355,6 +2456,9 @@ const main = async () => {
       .reduce((sum, entry) => sum + entry.records, 0);
     if (totalRecords !== expectedTotal)
       throw new HoldError("corpus_record_count_mismatch", { totalRecords, expectedTotal });
+    memoryEvidence = await monitor.stop();
+    monitor.assertOkay();
+    trace.finish(true);
     const corpusManifest = {
       schema: "ilxyr.weight_multiplicity_phase1_corpus_manifest.v1",
       status: "sealed",
@@ -2393,16 +2497,16 @@ const main = async () => {
       },
     };
     const manifestPath = resolve(outDirectory, "corpus-manifest.json");
-    await writeFile(manifestPath, stableJson(corpusManifest));
+    const pendingManifestPath = `${manifestPath}.pending`;
+    await writeFile(pendingManifestPath, stableJson(corpusManifest));
+    const corpusManifestSha256 = await hashFile(pendingManifestPath);
     finalStatus = "corpus_complete";
     await budget.checkpoint(true, finalStatus);
-    memoryEvidence = await monitor.stop();
-    monitor.assertOkay();
     const evidence = {
       schema: "ilxyr.weight_multiplicity_phase1_corpus_generation_evidence.v1",
       status: finalStatus,
       smoke: options.smoke,
-      corpus_manifest_sha256: await hashFile(manifestPath),
+      corpus_manifest_sha256: corpusManifestSha256,
       budget: budget.snapshot(),
       memory: memoryEvidence,
       zero_differential: {
@@ -2419,7 +2523,7 @@ const main = async () => {
     const summary = {
       status: finalStatus,
       total_records: totalRecords,
-      corpus_manifest_sha256: await hashFile(manifestPath),
+      corpus_manifest_sha256: corpusManifestSha256,
       frozen_budget_sha256: frozenBudgetSha256,
       oracle_calls: budget.calls,
       oracle_query_ms: budget.queryMs,
@@ -2431,6 +2535,8 @@ const main = async () => {
     };
     await writeFile(resolve(outDirectory, "runner-summary.json"), stableJson(summary));
     const sealTargets = [
+      trace.tracePath,
+      trace.summaryPath,
       manifestPath,
       evidencePath,
       frozenBudgetPath,
@@ -2442,16 +2548,22 @@ const main = async () => {
     ];
     const checksumLines = [];
     for (const path of sealTargets)
-      checksumLines.push(`${await hashFile(path)}  ${path.slice(outDirectory.length + 1)}`);
+      checksumLines.push(`${path === manifestPath ? corpusManifestSha256 : await hashFile(path)}  ${path.slice(outDirectory.length + 1)}`);
     await writeFile(resolve(outDirectory, "sha256sums.txt"), `${checksumLines.join("\n")}\n`);
+    await rename(pendingManifestPath, manifestPath);
   } catch (error) {
+    trace.hold(error.reason ?? "unexpected_error");
+    trace.finish(false);
     await budget.checkpoint(true, "hold");
+    if (!memoryEvidence && monitor) memoryEvidence = await monitor.stop();
     hold = {
       schema: "ilxyr.weight_multiplicity_phase1_corpus_hold.v1",
       status: "hold",
       reason: error instanceof HoldError ? error.reason : "unexpected_error",
       details: error instanceof HoldError ? error.details : { message: error.message, stack: error.stack },
       budget: budget.snapshot(),
+      oracle_accounting: trace.accounting.snapshot(),
+      memory: memoryEvidence,
       closures: {
         corpus_sealed: false,
         model_training_authorized: false,
@@ -2460,18 +2572,27 @@ const main = async () => {
     };
     await writeFile(resolve(outDirectory, "hold.json"), stableJson(hold));
     await writeFile(resolve(outDirectory, "runner-summary.json"), stableJson(hold));
+    const failureFiles = [trace.tracePath, trace.summaryPath,
+      resolve(outDirectory, "hold.json"), resolve(outDirectory, "runner-summary.json")];
+    await writeFile(resolve(outDirectory, "sha256sums.txt"),
+      `${(await Promise.all(failureFiles.map(async (path) =>
+        `${await hashFile(path)}  ${path.slice(outDirectory.length + 1)}`))).join("\n")}\n`);
     throw error;
   } finally {
-    if (!memoryEvidence) memoryEvidence = await monitor.stop();
-    await Promise.allSettled([
-      ...lieWorkers.map((worker) => worker.close()),
-      ...zeroWorkers.map((worker) => worker.close()),
-    ]);
+    try {
+      if (!memoryEvidence && monitor) memoryEvidence = await monitor.stop();
+      if (!trace.accounting.finished) trace.finish(false);
+    } finally {
+      await Promise.allSettled([
+        ...lieWorkers.map((worker) => worker.close()),
+        ...zeroWorkers.map((worker) => worker.close()),
+      ]);
+    }
   }
   process.stdout.write(`${JSON.stringify({ status: finalStatus, hold })}\n`);
 };
 
-main().catch((error) => {
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().catch((error) => {
   process.stderr.write(`${error.stack ?? error.message}\n`);
   process.exitCode = error instanceof HoldError ? 2 : 1;
 });
