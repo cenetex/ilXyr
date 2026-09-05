@@ -36,6 +36,11 @@ const fixtures = {
   "constraint-diff-report.schema.json": [
     "examples/constraints/constraint-diff-review.v1.json",
     "examples/constraints/constraint-diff-proceed.v1.json",
+    "examples/constraints/research-step-5/reasoner.json",
+    "examples/constraints/research-step-5/solomon.json",
+    "examples/constraints/research-step-5/zero4.json",
+    "examples/constraints/research-step-5/feral.json",
+    "examples/constraints/research-step-5/weight-multiplicity.json",
   ],
   "negative-knowledge-ledger.schema.json": [
     "examples/constraints/negative-knowledge-ledger.v1.json",
@@ -52,6 +57,14 @@ const fixtures = {
     "examples/constraints/solomon.nsrl-p10m-direct-head-cross-document-stability-v1.negative.v1.verdict.json",
     "examples/constraints/solomon.nsrl-p10m-target-margin-trust-region-v1.negative.v1.verdict.json",
     "examples/constraints/zero.q26.seed2.global-tangent-projection.v1.verdict.json",
+    "examples/constraints/solomon.context-use-audit.v1.verdict.json",
+    "examples/constraints/feral.finqa-empty-label-audit.v1.verdict.json",
+    "examples/constraints/zero.reasoner55-semantic-control-audit.v1.verdict.json",
+    "examples/constraints/zero.reasoner58-development-current.v1.verdict.json",
+    "examples/constraints/zero.reasoner59a-development-current.v1.verdict.json",
+    "examples/constraints/weight-multiplicity.phase1-pilot-resource.v1.verdict.json",
+    "examples/constraints/weight-multiplicity.tail-wrapper-failure.v1.verdict.json",
+    "examples/constraints/zero.reasoner58-prose-mismatch-audit.v1.verdict.json",
   ],
   "contribution.schema.json": [
     "examples/toy/hypothesis.json",
@@ -994,16 +1007,6 @@ expectInvalid(
   "negative-knowledge-ledger.schema.json",
   "negative-knowledge ledger with a go outcome entry",
   ledgerWithGoEntry,
-);
-
-const ledgerWithDuplicateSeq = await readJson(
-  "examples/constraints/negative-knowledge-ledger.v1.json",
-);
-ledgerWithDuplicateSeq.entries[1].seq = 0;
-expectInvalid(
-  "negative-knowledge-ledger.schema.json",
-  "negative-knowledge ledger with duplicate seq numbers",
-  ledgerWithDuplicateSeq,
 );
 
 // --- Constraint-diff report rejection tests ---

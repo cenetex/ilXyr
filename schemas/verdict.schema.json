@@ -20,7 +20,9 @@
     "recorded_at_ms"
   ],
   "properties": {
-    "schema": { "const": "ilxyr.verdict.v1" },
+    "schema": {
+      "const": "ilxyr.verdict.v1"
+    },
     "id": {
       "type": "string",
       "pattern": "^verdict:[A-Za-z0-9._:/-]+$"
@@ -31,7 +33,12 @@
       "pattern": "^[A-Za-z0-9._:/-]+$"
     },
     "family": {
-      "enum": ["zero", "solomon"]
+      "enum": [
+        "zero",
+        "solomon",
+        "feral",
+        "ilxyr"
+      ]
     },
     "seed": {
       "type": "integer",
@@ -43,9 +50,11 @@
         "no_go",
         "complete_no_go",
         "measured_local_no_go",
-        "execution_failure"
+        "execution_failure",
+        "diagnostic_failure",
+        "measurement_floor"
       ],
-      "description": "Canonical verdict label. 'no_go' is a generic negative result. 'complete_no_go' means the hypothesis is definitively rejected. 'measured_local_no_go' means a local/diagnostic measurement failed while mechanics were confirmed. 'execution_failure' is an infrastructure stop before a scientific result."
+      "description": "The outcome of the stated experiment or audit. A diagnostic finding keeps the historical experiment outcome separate."
     },
     "taxonomy": {
       "enum": [
@@ -80,7 +89,8 @@
     },
     "lineage_note": {
       "type": "string",
-      "description": "Optional guidance for follow-up experiments — what NOT to repeat and why."
+      "minLength": 1,
+      "description": "The concrete change or control needed in the next design."
     },
     "evidence_ref": {
       "$ref": "#/$defs/artifact_ref"
@@ -96,20 +106,58 @@
     "recorded_at_ms": {
       "type": "integer",
       "minimum": 1
+    },
+    "project": {
+      "enum": [
+        "reasoner",
+        "solomon",
+        "zero4",
+        "feral",
+        "weight_multiplicity",
+        "program"
+      ]
+    },
+    "evidence_kind": {
+      "enum": [
+        "existing_public_result",
+        "posthoc_diagnostic",
+        "operational_failure"
+      ]
+    },
+    "source_outcome": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "supersedes_ref": {
+      "type": "string",
+      "pattern": "^verdict:[A-Za-z0-9._:/-]+$"
     }
   },
   "allOf": [
     {
       "if": {
         "properties": {
-          "outcome": { "enum": ["go"] }
+          "outcome": {
+            "enum": [
+              "go"
+            ]
+          }
         },
-        "required": ["outcome"]
+        "required": [
+          "outcome"
+        ]
       },
       "then": {
         "properties": {
           "taxonomy": {
-            "enum": ["measurement", "implementation"]
+            "enum": [
+              "measurement",
+              "implementation"
+            ]
           }
         }
       },
@@ -136,10 +184,22 @@
     "actor": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "kind"],
+      "required": [
+        "id",
+        "kind"
+      ],
       "properties": {
-        "id": { "type": "string", "minLength": 1 },
-        "kind": { "enum": ["human", "model", "service"] },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "human",
+            "model",
+            "service"
+          ]
+        },
         "model_ref": {
           "type": "string",
           "pattern": "^model://\\S+$"
@@ -147,29 +207,58 @@
       },
       "allOf": [
         {
-          "if": { "properties": { "kind": { "const": "model" } } },
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "model"
+              }
+            }
+          },
           "then": {
             "properties": {
-              "id": { "type": "string", "pattern": "^model://" },
+              "id": {
+                "type": "string",
+                "pattern": "^model://"
+              },
               "model_ref": true
             },
-            "required": ["model_ref"]
+            "required": [
+              "model_ref"
+            ]
           }
         },
         {
-          "if": { "properties": { "kind": { "const": "human" } } },
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "human"
+              }
+            }
+          },
           "then": {
             "properties": {
-              "id": { "type": "string", "pattern": "^human://" },
+              "id": {
+                "type": "string",
+                "pattern": "^human://"
+              },
               "model_ref": false
             }
           }
         },
         {
-          "if": { "properties": { "kind": { "const": "service" } } },
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "service"
+              }
+            }
+          },
           "then": {
             "properties": {
-              "id": { "type": "string", "pattern": "^service://" },
+              "id": {
+                "type": "string",
+                "pattern": "^service://"
+              },
               "model_ref": false
             }
           }

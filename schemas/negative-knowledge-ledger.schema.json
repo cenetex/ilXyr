@@ -64,7 +64,9 @@
         "family": {
           "enum": [
             "zero",
-            "solomon"
+            "solomon",
+            "feral",
+            "ilxyr"
           ]
         },
         "seed": {
@@ -76,7 +78,9 @@
             "no_go",
             "complete_no_go",
             "measured_local_no_go",
-            "execution_failure"
+            "execution_failure",
+            "diagnostic_failure",
+            "measurement_floor"
           ],
           "description": "Only negative results appear in the negative-knowledge ledger. A 'go' verdict is recorded as a verdict artifact but is not an entry here."
         },
@@ -112,28 +116,46 @@
           "type": "string",
           "minLength": 1,
           "description": "Verbatim summary from the registered verdict. Included so the constraint-diff report can present it without a separate verdict lookup."
+        },
+        "project": {
+          "enum": [
+            "reasoner",
+            "solomon",
+            "zero4",
+            "feral",
+            "weight_multiplicity",
+            "program"
+          ]
+        },
+        "evidence_kind": {
+          "enum": [
+            "existing_public_result",
+            "posthoc_diagnostic",
+            "operational_failure"
+          ]
+        },
+        "source_outcome": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lineage_note": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The concrete change or control needed in the next design."
+        },
+        "verdict_ref": {
+          "type": "string",
+          "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+        },
+        "evidence_ref": {
+          "type": "string",
+          "pattern": "^artifact://sha256/[a-f0-9]{64}$"
         }
-      },
-      "allOf": [
-        {
-          "if": {
-            "properties": {
-              "supersedes_ref": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "supersedes_ref"
-            ]
-          },
-          "then": true,
-          "else": {
-            "properties": {
-              "supersedes_ref": false
-            }
-          }
-        }
-      ]
+      }
     }
   }
 }

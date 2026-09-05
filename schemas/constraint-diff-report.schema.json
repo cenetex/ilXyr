@@ -102,7 +102,20 @@
         "review",
         "blocked"
       ],
-      "description": "'proceed': no matching negative constraints. 'review': matching constraints exist but the SPEC may still be novel. 'blocked': the SPEC repeats a known-rejected mechanism without differentiation."
+      "description": "An advisory report: proceed when the ledger has no match, or review the linked evidence. Historical blocked reports remain readable."
+    },
+    "superseded_entries": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "proposed_change": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ledger_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$",
+      "description": "Digest of the ledger serialized as two-space JSON with a trailing newline."
     }
   },
   "allOf": [
@@ -120,7 +133,8 @@
       "then": {
         "properties": {
           "matches": {
-            "maxItems": 0
+            "maxItems": 0,
+            "type": "array"
           }
         }
       }
@@ -139,7 +153,8 @@
       "then": {
         "properties": {
           "matches": {
-            "minItems": 1
+            "minItems": 1,
+            "type": "array"
           }
         }
       }
@@ -171,7 +186,9 @@
         "family": {
           "enum": [
             "zero",
-            "solomon"
+            "solomon",
+            "feral",
+            "ilxyr"
           ]
         },
         "seed": {
@@ -183,7 +200,9 @@
             "no_go",
             "complete_no_go",
             "measured_local_no_go",
-            "execution_failure"
+            "execution_failure",
+            "diagnostic_failure",
+            "measurement_floor"
           ]
         },
         "taxonomy": {
@@ -209,6 +228,47 @@
           "type": "string",
           "minLength": 1,
           "description": "Verbatim summary field from the registered verdict."
+        },
+        "project": {
+          "enum": [
+            "reasoner",
+            "solomon",
+            "zero4",
+            "feral",
+            "weight_multiplicity",
+            "program"
+          ]
+        },
+        "evidence_kind": {
+          "enum": [
+            "existing_public_result",
+            "posthoc_diagnostic",
+            "operational_failure"
+          ]
+        },
+        "source_outcome": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lineage_note": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The concrete change or control needed in the next design."
+        },
+        "verdict_ref": {
+          "type": "string",
+          "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+        },
+        "evidence_ref": {
+          "type": "string",
+          "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+        },
+        "same_mechanism_tags": {
+          "type": "boolean"
         }
       }
     }

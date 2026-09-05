@@ -1,0 +1,27 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:weight-multiplicity.tail-wrapper-failure.v1",
+  "experiment_id": "weight-multiplicity.tail-wrapper-failure.v1",
+  "family": "ilxyr",
+  "project": "weight_multiplicity",
+  "taxonomy": "implementation",
+  "outcome": "execution_failure",
+  "evidence_kind": "operational_failure",
+  "source_outcome": "post_measurement_wrapper_failed",
+  "evidence_path": "experiments/weight-multiplicity/phase1/phase1-tail-calibration-run-20260901015649-closeout-v1.json",
+  "mechanism": "Cloud wrapper closeout after the completed tail calibration.",
+  "mechanism_tags": [
+    "query-accounting",
+    "cloud-wrapper",
+    "evidence-preservation"
+  ],
+  "summary": "The calibration completed 26,624 queries. A later unquoted jq filter failed in the wrapper. The complete state prefix and verified checksums preserve the measurement; the scientific classification remains calibration_complete.",
+  "lineage_note": "Test the wrapper closeout with a completed fixture and collect terminal evidence before considering any retry.",
+  "evidence_ref": "artifact://sha256/4ddedd80e464ffa901fa24304b59139a5cc449871a8f7dcb8c525db69e93a398",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788600443638
+}

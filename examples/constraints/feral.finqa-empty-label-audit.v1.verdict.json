@@ -1,0 +1,27 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:feral.finqa-empty-label-audit.v1",
+  "experiment_id": "feral.finqa-empty-label-audit.v1",
+  "family": "feral",
+  "project": "feral",
+  "taxonomy": "measurement",
+  "outcome": "diagnostic_failure",
+  "evidence_kind": "posthoc_diagnostic",
+  "source_outcome": "fourteen empty textual targets",
+  "evidence_path": "experiments/research-step-2/RESULT.json",
+  "mechanism": "Text-answer targets in the frozen FinQA export.",
+  "mechanism_tags": [
+    "answer-labels",
+    "numeric-units",
+    "retrieval-calculator"
+  ],
+  "summary": "Fourteen of 1,147 textual gold answers are empty. All fourteen source arithmetic programs reproduce the source execution values within its five-decimal precision. The historical score remains 168/1,147.",
+  "lineage_note": "Create a new benchmark version with an explicit execution-value and percent-conversion rule. Keep gold programs confined to label auditing.",
+  "evidence_ref": "artifact://sha256/4feae1ce7a23f9774adf7ec6eb42d738d0beef9beaa5a088d2fb34100ca964d2",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788600443633
+}
