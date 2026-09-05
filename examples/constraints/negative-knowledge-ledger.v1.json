@@ -495,6 +495,29 @@
       "lineage_note": "Keep the promoted result and the earlier constant-context successor audit. Compare fixed-answer probability controls with exact normalized Brier scores, zero-probability events, answer counts, and full inference cost on fresh inputs.",
       "evidence_path": "experiments/research-step-10/RESULT.json",
       "evidence_ref": "artifact://sha256/2791ceff8223c576123eba84cadc3092412e8d0ad70dda85535550daa4902e53"
+    },
+    {
+      "seq": 25,
+      "verdict_id": "verdict:zero.retention-oracle-subscore.v1",
+      "verdict_ref": "artifact://sha256/9b97fdf5fc66a505b7112cf263f5518248d8fbb0d1aeaff1fa36a3cc9aa003f1",
+      "experiment_id": "zero.retention-oracle-subscore.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "retention-controls",
+        "component-score",
+        "exact-artifact",
+        "replay-tangent"
+      ],
+      "summary": "A perfect oracle arithmetic subscore coexists with zero correct final artifacts in every arm of the five-case toy smoke.",
+      "recorded_at_ms": 1788625880422,
+      "project": "zero4",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "known toy smoke completed five arms with zero correct final artifacts and five correct oracle arithmetic cases per arm",
+      "lineage_note": "Keep this as an engineering diagnostic on known toy inputs. Preserve Q2.6 results and require complete final-artifact counts, retention scores, and full work in the fresh five-arm comparison.",
+      "evidence_path": "experiments/research-step-11/RESULT.json",
+      "evidence_ref": "artifact://sha256/71782a62ff754aa2856aef2fa94629d48cd78a372f03c8a42b23455c69b57547"
     }
   ]
 }

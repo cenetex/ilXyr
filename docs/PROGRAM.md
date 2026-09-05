@@ -23,6 +23,10 @@ Its report links the next concrete comparison for each research line.
 The [Solomon confidence controls](../experiments/research-step-10/REPORT.md)
 show how the probability error changes at fixed answers and add an exact Brier
 score. The shared ledger preserves the measurement failure.
+The [ZERO.4 retention controls](../experiments/research-step-11/REPORT.md)
+separate replay, acceptance checks, and projection in five arms. Their toy smoke
+preserves a perfect oracle subscore alongside zero correct final artifacts.
+Every scored training checkpoint and completed process stays in the run record.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence
