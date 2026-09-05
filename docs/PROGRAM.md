@@ -2,6 +2,11 @@
 
 What the lab studies. The rest of `docs/` is the machinery that holds it accountable.
 
+The [next-decision report](../experiments/research-step-18/REPORT.md) gives the
+current deliverable for each of the five projects, the failures behind those
+choices, and the shared comparison method. The immediate research priority is
+the fixed Reasoner guide against its matched lexical control on fresh families.
+
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).
 The [second diagnostic](../experiments/research-step-2/REPORT.md) establishes a
 stronger integer context baseline for Solomon and audits FERAL's missing labels.
@@ -205,7 +210,9 @@ feasibility note.
 The original Phase 0 frontier resolved Stop. Later LiE work established a reduced
 825-representation surface. A corpus pilot then hit its resource gate, and the
 26,624-query tail calibration produced a proposed 50 ms final p99 clause. The
-next step is the controller and package for that clause. The
+[controller now enforces the fixed resource policy](../experiments/research-step-12/REPORT.md).
+The next step is to retrieve the versioned calibration trace, replay its
+resource decision, and freeze the cloud corpus package. The
 [resource accounting component](../experiments/research-step-3/REPORT.md)
 now passes its exact percentile and failure-retention tests. The source-pinned contract is
 [`weight-multiplicity-transfer-r3`](../examples/weight-multiplicity/rev3-contract.json), and the
