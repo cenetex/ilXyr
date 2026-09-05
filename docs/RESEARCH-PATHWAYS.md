@@ -142,9 +142,11 @@ repair to this training result.
 
 ### Solomon successor-v2
 
-The integer-transformer successor beat uniform, retrieval, byte-ngram, and
+The successor beat the frozen uniform, retrieval, byte-ngram, and
 float-transformer NLL baselines on 5,896 targets with no zero-probability
-windows. The exact pipeline replayed from a clean public checkout. This is a
+windows. The pinned trainer fits byte frequencies and emits a constant output
+distribution through the integer runtime. The shared baseline audit therefore
+classifies this as a context-free probability-modeling and replay result. The exact pipeline replayed from a clean public checkout. This is a
 promoted Solomon result and supplied the deployment substrate used by the
 completed Q22 shared-task bridge.
 
@@ -232,7 +234,14 @@ conditions are available.
 
 ## Reasoner frontier
 
-Reasoner (3,9) is the active scientific frontier. Its external public result
+The current frontier is recorded in the [shared research-step report](../experiments/research-step-1/REPORT.md).
+Its source update includes the 5.0–5.4 series, 5.5 public-family results, and
+5.6 development failures. The graph below retains the original 3.x/4.0
+registration snapshot.
+
+### Original frontier snapshot
+
+Reasoner (3,9) was the frontier at the original registration. Its external public result
 supports active compositional law induction inside a fixed typed integer
 program language. It does not establish open-ended reasoning or arbitrary
 representation transfer.
@@ -300,6 +309,9 @@ Apply these additional rules:
   first-class graph data.
 
 ## Priority order
+
+The current sequence is in [research step 1](../experiments/research-step-1/REPORT.md).
+The earlier proposed sequence is preserved below.
 
 1. Write and review the Reasoner 4.0 representation-transfer contract without
    authorizing execution.
