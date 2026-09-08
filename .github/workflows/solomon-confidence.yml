@@ -6,6 +6,7 @@ on:
       - 'scripts/*solomon*'
       - 'scripts/feral_process.py'
       - 'experiments/research-step-32/**'
+      - 'experiments/research-step-37/**'
       - '.github/workflows/solomon-confidence.yml'
   push:
     branches: [main]
@@ -13,6 +14,7 @@ on:
       - 'scripts/*solomon*'
       - 'scripts/feral_process.py'
       - 'experiments/research-step-32/**'
+      - 'experiments/research-step-37/**'
       - '.github/workflows/solomon-confidence.yml'
 
 permissions:
@@ -26,7 +28,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - name: Check roster and worker controls
-        run: python3 scripts/test_solomon_fresh_confidence.py
+        run: |
+          python3 scripts/test_solomon_fresh_confidence.py
+          python3 scripts/test_solomon_study.py
       - name: Fetch frozen public NSRL source
         run: |
           git init "$RUNNER_TEMP/nsrl"
@@ -46,9 +50,27 @@ jobs:
           python3 scripts/research_solomon_confidence.py smoke
           --prepared "$RUNNER_TEMP/solomon-prepared"
           --out "$RUNNER_TEMP/solomon-smoke"
+      - name: Run the complete controller on the opened sixteen-window fixture
+        run: >-
+          python3 scripts/research_solomon_study.py opened
+          --prepared "$RUNNER_TEMP/solomon-prepared"
+          --out "$RUNNER_TEMP/solomon-study-opened"
+          --work "$RUNNER_TEMP/solomon-study-work"
+      - name: Independently check collected vectors, scores and complete costs
+        run: |
+          SOLOMON_SUPERVISOR_SHA=$(sha256sum "$RUNNER_TEMP/solomon-study-opened/SUPERVISOR.json" | cut -d ' ' -f 1)
+          python3 scripts/check_solomon_study.py \
+            --prepared "$RUNNER_TEMP/solomon-prepared" \
+            --collected "$RUNNER_TEMP/solomon-study-opened" \
+            --supervisor-sha256 "$SOLOMON_SUPERVISOR_SHA" \
+            --opened-reference experiments/research-step-32/SMOKE.json \
+            --out "$RUNNER_TEMP/solomon-study-CHECK.json"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: solomon-opened-window-parity
-          path: ${{ runner.temp }}/solomon-smoke
+          path: |
+            ${{ runner.temp }}/solomon-smoke
+            ${{ runner.temp }}/solomon-study-opened
+            ${{ runner.temp }}/solomon-study-CHECK.json
           if-no-files-found: ignore
