@@ -4,7 +4,7 @@ import hashlib
 import json
 import math
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import platform
 import shutil
 import sys
@@ -33,6 +33,25 @@ def corpus_command(kit, build, output, plan):
         '--lie-source', str(kit / 'inputs/lie-2.2.2.tar.gz'), '--stdbuf', '/usr/bin/stdbuf',
         '--zero', str(build / 'zero/weight_multiplicity'),
         '--zero-commit', '7be2367458acc8b004bfb3646322048a233d1b09', '--out', str(output)]
+
+
+def verify_build(build, plan):
+    smoke = read_json(build / 'RESULT.json')
+    require(smoke['status'] == 'pass' and smoke['lie_executable_sha256'] == [plan['expected_lie_sha256']] * 2
+            and smoke['zero_executable_sha256'] == plan['expected_zero_sha256'], 'native executable identity differs')
+    for name, expected in [('lie-1/LiE/Lie.exe', plan['expected_lie_sha256']),
+                           ('lie-2/LiE/Lie.exe', plan['expected_lie_sha256']),
+                           ('zero/weight_multiplicity', plan['expected_zero_sha256'])]:
+        require(digest(build / name) == expected, 'native executable bytes differ')
+
+
+def verify_process_command(receipt, plan):
+    command = receipt['command']
+    require(isinstance(command, list) and command.count('--out') == 1, 'corpus process command differs')
+    output = PurePosixPath(command[command.index('--out') + 1])
+    require(output.is_absolute() and output.name == 'corpus-run' and '..' not in output.parts, 'corpus output path differs')
+    base = Path(str(output.parent))
+    require(command == corpus_command(base / 'source-kit', base / 'native-build', base / 'corpus-run', plan), 'executed corpus arguments differ')
 
 
 def execution_deadline(execution, plan, now=None):
@@ -116,9 +135,7 @@ def run(package, output, execution_path=None, mode='prepare'):
         receipt = execute('native-build', ['python3', str(kit / 'scripts/weight_oracle_smoke.py'),
             '--repo', str(kit), '--inputs', str(native_inputs), '--output', str(build)], time.monotonic() + plan['build_seconds'])
         require(receipt['status'] == 'complete', 'native build or correctness check failed')
-        smoke = read_json(build / 'RESULT.json')
-        require(smoke['status'] == 'pass' and smoke['lie_executable_sha256'] == [plan['expected_lie_sha256']] * 2 and smoke['zero_executable_sha256'] == plan['expected_zero_sha256'], 'native executable identity differs')
-        require(digest(build / 'lie-2/LiE/Lie.exe') == plan['expected_lie_sha256'] and digest(build / 'zero/weight_multiplicity') == plan['expected_zero_sha256'], 'native executable bytes differ')
+        verify_build(build, plan)
         workload_end = min(time.monotonic() + plan['maximum_workload_process_seconds'], deadline - reserve)
         require(workload_end > time.monotonic(), 'workload deadline expired')
         receipt = execute('corpus', command, workload_end)
@@ -126,7 +143,7 @@ def run(package, output, execution_path=None, mode='prepare'):
         # Read durable JSON records. The producer's stdout remains a log.
         check_command = ['python3', str(REPO / 'scripts/weight_corpus_controller.py'), 'check',
             '--source-kit', str(package), '--run-output', str(corpus),
-            '--process-receipt', str(output / 'processes/corpus/process.json'),
+            '--process-receipt', str(output / 'processes/corpus/process.json'), '--native-build', str(build),
             '--output', str(output / 'RESULT-CHECK.json')]
         checked = execute('result-check', check_command, deadline - plan['collection_reserve_seconds'])
         require(checked['status'] == 'complete', 'result checker was interrupted or failed')
@@ -147,7 +164,7 @@ def run(package, output, execution_path=None, mode='prepare'):
         save(output / 'STATUS.json', terminal)
 
 
-def check(package, run_output, receipt, output):
+def check(package, run_output, receipt, build, output):
     plan = plan_at()
     files, _ = verify(package, plan['source_kit_sha256'])
     require(len(package.read_bytes()) == plan['source_kit_bytes'], 'source kit size differs')
@@ -156,7 +173,10 @@ def check(package, run_output, receipt, output):
     context = {'policy_raw': policy_raw, 'policy': json.loads(policy_raw),
         'plan': json.loads(files[plan['corpus_plan_path']]),
         'systems': json.loads(files[plan['root_systems_path']])['systems']}
-    result = check_result(run_output, context, read_json(receipt))
+    process = read_json(receipt)
+    verify_build(build, plan)
+    verify_process_command(process, plan)
+    result = check_result(run_output, context, process)
     result['source_kit_sha256'] = plan['source_kit_sha256']
     require(not output.exists(), 'result-check output already exists')
     save(output, result)
@@ -172,10 +192,10 @@ if __name__ == '__main__':
         child.add_argument('--output', required=True, type=Path)
         if name == 'run': child.add_argument('--execution', required=True, type=Path)
     child = sub.add_parser('check')
-    for name in ['source-kit', 'run-output', 'process-receipt', 'output']:
+    for name in ['source-kit', 'run-output', 'process-receipt', 'native-build', 'output']:
         child.add_argument('--' + name, required=True, type=Path)
     args = parser.parse_args()
-    result = check(args.source_kit, args.run_output, args.process_receipt, args.output) if args.mode == 'check' else run(args.source_kit, args.output, getattr(args, 'execution', None), args.mode)
+    result = check(args.source_kit, args.run_output, args.process_receipt, args.native_build, args.output) if args.mode == 'check' else run(args.source_kit, args.output, getattr(args, 'execution', None), args.mode)
     print(json.dumps(result, sort_keys=True))
     if args.mode != 'check' and result['status'] in ['failed', 'incomplete_or_invalid']:
         sys.exit(1)

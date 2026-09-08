@@ -19,7 +19,7 @@ from feral_process import run_process
 from weight_source_kit import encode, sha
 from package_weight_corpus import SOURCES as PACKAGE_SOURCES, PLAN as PACKAGE_PLAN, unpack as unpack_controller
 from weight_process_tree import run_tree
-from weight_corpus_controller import CONTROLLER_PLAN, REPO, corpus_command, execution_deadline, plan_at
+from weight_corpus_controller import CONTROLLER_PLAN, REPO, corpus_command, execution_deadline, plan_at, verify_build, verify_process_command
 from weight_corpus_result import check_result, digest, load_context, trace_metrics
 
 PROCESS = {'status': 'complete', 'exit_code': 0, 'stop_reason': None, 'descendant_cleanup': False}
@@ -229,6 +229,24 @@ class CommandTests(unittest.TestCase):
         self.assertEqual(command[command.index('--resource-policy') + 1], '/kit/' + plan['resource_policy_path'])
         self.assertNotIn('--smoke', command); self.assertNotIn('--pilot-only', command)
         self.assertEqual(command[command.index('--zero-commit') + 1], '7be2367458acc8b004bfb3646322048a233d1b09')
+
+    def test_collected_process_command_keeps_frozen_flags(self):
+        plan = plan_at(); base = Path('/original/cloud/output')
+        command = corpus_command(base / 'source-kit', base / 'native-build', base / 'corpus-run', plan)
+        verify_process_command({'command': command}, plan)
+        for modified in [command + ['--smoke'], [v for v in command if v != '--resource-policy']]:
+            with self.assertRaises(ValueError): verify_process_command({'command': modified}, plan)
+
+    def test_collected_executable_bytes_must_match_build_record(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); data = b'fixture native binary'; expected = sha(data)
+            for name in ['lie-1/LiE/Lie.exe', 'lie-2/LiE/Lie.exe', 'zero/weight_multiplicity']:
+                target = root / name; target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(data)
+            write(root / 'RESULT.json', {'status': 'pass', 'lie_executable_sha256': [expected, expected], 'zero_executable_sha256': expected})
+            plan = {'expected_lie_sha256': expected, 'expected_zero_sha256': expected}
+            verify_build(root, plan)
+            (root / 'zero/weight_multiplicity').write_bytes(b'changed')
+            with self.assertRaisesRegex(ValueError, 'native executable bytes'): verify_build(root, plan)
 
     def test_deadline_rejects_extension_stale_and_wrong_package(self):
         plan = plan_at(); record = {'launch_epoch': 1000, 'deadline_epoch': 6400,

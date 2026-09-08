@@ -270,7 +270,8 @@ def check_differential(root, manifest, records, plan):
 
 
 def check_result(root, context, process):
-    root = root.resolve(); result = {'schema': 'ilxyr.weight_corpus_result_check.v1', 'status': 'incomplete_or_invalid', 'errors': [], 'corpus_accepted': False}
+    root = root.resolve(); result = {'schema': 'ilxyr.weight_corpus_result_check.v1', 'status': 'incomplete_or_invalid', 'errors': [], 'corpus_accepted': False,
+        'resource_policy_sha256': sha(context['policy_raw']), 'checker_source_sha256': digest(Path(__file__))}
     try:
         policy = context['policy']; plan = context['plan']; limits = policy['limits']
         summary = read_json(path_in(root, 'runner-summary.json')); state = summary['status']
