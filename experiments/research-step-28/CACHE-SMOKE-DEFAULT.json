@@ -1,0 +1,9 @@
+{
+  "cache_directory": null,
+  "error": "[Errno 30] Read-only file system: '/root/.triton'",
+  "gpu_generation_tested": false,
+  "schema": "ilxyr.feral_runtime_cache_smoke.v1",
+  "scored_rows": 0,
+  "status": "expected_read_only_failure",
+  "triton_version": "3.7.1"
+}

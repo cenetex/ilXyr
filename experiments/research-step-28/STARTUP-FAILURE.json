@@ -1,0 +1,28 @@
+{
+  "allocated_model_bytes": 15232282624,
+  "check": {
+    "cost_scope": "included_in_base_setup_and_full_process_cost",
+    "expected_answer": "5",
+    "messages": [
+      {
+        "content": "Answer the financial reasoning question using only the supplied evidence. Return one JSON object with exactly one field: answer.",
+        "role": "system"
+      },
+      {
+        "content": "{\"question\":\"What is the sum of the two amounts?\",\"retrieved_evidence\":[[\"synthetic_startup\",\"The first amount is 2 dollars. The second amount is 3 dollars.\"]]}",
+        "role": "user"
+      }
+    ],
+    "schema": "ilxyr.feral_base_startup_check.v1",
+    "scored_rows": 0,
+    "success_rule": "cuda_model_and_nonempty_generated_response"
+  },
+  "device": "cuda:0",
+  "error": "[Errno 30] Read-only file system: '/root/.triton'",
+  "phase": "generation",
+  "pid": 19,
+  "schema": "ilxyr.feral_base_startup_result.v1",
+  "scored_rows": 0,
+  "status": "failed",
+  "wall_ns": 20027705618
+}

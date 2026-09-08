@@ -29,10 +29,11 @@ repaired launcher passes a real-CLI transport check. The [replacement result](..
 worker's CUDA startup failure. Both controls abstained on 1,056 cases. Collection
 and provider cleanup are verified. The worker repair passes its local regression
 check. The [startup-checked package](../experiments/research-step-25/REPORT.md)
-passed versioned read-back and the free launch dry run. The [approved run](../experiments/research-step-27/REPORT.md)
-launched in the fourth zone after three recorded capacity failures. Its fixed
-deadline is September 8 at 09:09:16 UTC, with a $3 before-tax cap and an active
-five-minute follow-up. Separate calculator v2 work scores 5/5 on the
+passed versioned read-back and the free launch dry run. The [completed attempt](../experiments/research-step-28/REPORT.md)
+loaded the model onto the GPU, then failed at a read-only Triton cache during
+synthetic generation. Both full-roster control results repeated. Cleanup is
+verified. The cache repair passes real native compilation and loading in the
+fixed image; its staged replacement awaits a new one-hour, $3 execution decision. Separate calculator v2 work scores 5/5 on the
 five opened development cases; fresh coverage testing is next.
 
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).

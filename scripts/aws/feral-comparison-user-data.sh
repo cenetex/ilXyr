@@ -197,7 +197,8 @@ remaining_command 330 docker image inspect "$IMAGE" > "$OUT/image-inspect.json"
 PHASE=controller
 CONTAINER_STARTED=1
 remaining_command 300 docker run --name "$FERAL_CONTAINER_NAME" --gpus all --network none \
-  --memory 56g --cpus 8 --shm-size 16g --read-only --tmpfs /tmp:rw,size=1g \
+  --memory 56g --cpus 8 --shm-size 16g --read-only --tmpfs /tmp:rw,exec,size=1g \
+  --env TRITON_CACHE_DIR=/tmp/feral-triton \
   --mount "type=bind,src=$EXECUTION,dst=/work/package,readonly" \
   --mount "type=bind,src=$OUT,dst=/work/output" \
   --entrypoint /opt/sec-qwen/.venv/bin/python "$IMAGE" \

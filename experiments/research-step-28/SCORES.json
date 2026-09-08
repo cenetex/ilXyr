@@ -1,0 +1,50 @@
+{
+  "arms": {
+    "base": {
+      "primary_metrics": null,
+      "raw_cost": {
+        "process_cpu_ns": 20216786412,
+        "total_wall_ns": 20032638174
+      },
+      "status": "incomplete"
+    },
+    "calculator": {
+      "primary_metrics": {
+        "explicit_abstentions": 1056,
+        "non_abstained_fraction": 0.07933740191804708,
+        "original_accuracy": 0.016564952048823016,
+        "original_correct": 19,
+        "rows": 1147,
+        "v2_accuracy": 0.020924149956408022,
+        "v2_correct": 24
+      },
+      "raw_cost": {
+        "process_cpu_ns": 84550859,
+        "setup_wall_ns": 4668336,
+        "total_wall_ns": 84554008
+      },
+      "status": "complete"
+    },
+    "operand_only": {
+      "primary_metrics": {
+        "explicit_abstentions": 1056,
+        "non_abstained_fraction": 0.07933740191804708,
+        "original_accuracy": 0.0,
+        "original_correct": 0,
+        "rows": 1147,
+        "v2_accuracy": 0.0026155187445510027,
+        "v2_correct": 3
+      },
+      "raw_cost": {
+        "process_cpu_ns": 82541510,
+        "setup_wall_ns": 4624624,
+        "total_wall_ns": 82551358
+      },
+      "status": "complete"
+    }
+  },
+  "comparison_status": "incomplete",
+  "controls": "original_v1_calculator_and_operand_only",
+  "schema": "ilxyr.feral_step28_scores.v1",
+  "target_policy": "original_targets_and_revised_v2_targets"
+}

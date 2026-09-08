@@ -1,0 +1,26 @@
+{
+  "cuda_available": true,
+  "cuda_device_count": 1,
+  "cuda_version": "13.0",
+  "dependencies": {
+    "accelerate": "1.14.0",
+    "huggingface-hub": "1.29.0",
+    "peft": "0.20.0",
+    "safetensors": "0.8.0",
+    "torch": "2.13.0",
+    "transformers": "5.16.1"
+  },
+  "device_total_memory_bytes": 47667740672,
+  "gpu_name": "NVIDIA L40S",
+  "image_identity_scope": "outer_launch_receipt_and_image_environment",
+  "image_repository": "ghcr.io/atimics/feral-7b-sec-qwen",
+  "image_source_revision": "974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8",
+  "platform": "Linux-6.12.100-125.179.amzn2023.x86_64-x86_64-with-glibc2.39",
+  "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+  "runtime_sources": {
+    "pyproject.toml": "e82482b5967c2f5dc7e371d593e3f456b2ce129ca824b1754683c0ca4c57c94b",
+    "uv.lock": "d58786f40bf2dcf85ffb807eff96da698e291892cd4d2a388c6d6f5534c0fa9a"
+  },
+  "schema": "ilxyr.feral_runtime_check.v1",
+  "status": "complete"
+}
