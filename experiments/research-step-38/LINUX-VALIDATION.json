@@ -1,0 +1,41 @@
+{
+  "ci_run": 34291658164,
+  "dependencies": {
+    "bytes": 10523451,
+    "sha256": "0f69fa6d5bd7636dcfd6f6762ca2406a9f52a99fe607813e6dff716a1e88f1c6"
+  },
+  "engineering_cost_only": {
+    "cpu_seconds": 19.169398,
+    "peak_rss_bytes": 463228928,
+    "wall_ns": 19339812502
+  },
+  "environment": {
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_HOME": "/tmp/solomon-cargo",
+    "CARGO_NET_OFFLINE": "true",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "RUSTUP_TOOLCHAIN": "1.98.0-x86_64-unknown-linux-gnu",
+    "TZ": "UTC"
+  },
+  "independent_check": {
+    "collection_sha256": "6d5e36fdb95429507e36623fbf1da3fc045121d3a17842628d4a72fc627a3d18",
+    "fresh_model_calls": 0,
+    "native_forward_calls": 32,
+    "opened_reference_scores_equal": true,
+    "performance_evidence": false,
+    "probability_rows": 160,
+    "promotion_evidence": false,
+    "status": "verified_complete",
+    "supervisor_sha256": "2ebf58ea74358dca87a9ac398562c98ee326d49e9f8f92a047e8644cb438fced"
+  },
+  "python": "3.11.2",
+  "runtime_image": "docker.io/library/rust@sha256:4e4a7e7939c17991ab35f2b8c2e67593980f771d28f6b1254b1850f860fd0c7f",
+  "rustc_identity": "rustc 1.98.0 (88d9e12ae 2026-08-18)\nbinary: rustc\ncommit-hash: 88d9e12ae178fab0fb5cc050a94da85685d449ea\ncommit-date: 2026-08-18\nhost: x86_64-unknown-linux-gnu\nrelease: 1.98.0\nLLVM version: 22.1.8",
+  "schema": "ilxyr.solomon_cloud_runtime_validation.v1",
+  "source_commit": "76e568e383b6e852ec536cdf4810d4f7d491feb4",
+  "status": "passed",
+  "tests": 12
+}

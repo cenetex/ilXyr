@@ -25,6 +25,14 @@
       "id": "cross-platform-vendor-metadata-difference",
       "repair": "Verify package and file checksums, then encode those two fields in a fixed JSON form. Compare the complete packed archive in CI.",
       "source_file_bytes_equal": true
+    },
+    {
+      "cause": "Automatic approval review treated the payload as private and required specific upload and retention permission.",
+      "id": "staging-review-public-source-classification",
+      "instances_created": 0,
+      "resolution": "Verified public repository visibility, the bound public source and document provenance, and expected bucket ownership. The same scoped staging operation then passed review.",
+      "stage": "staging",
+      "status": "resolved"
     }
   ],
   "fresh_model_calls": 0,

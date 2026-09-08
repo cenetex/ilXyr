@@ -1,0 +1,17 @@
+{
+  "archive_bytes": 14428160,
+  "archive_sha256": "52dfcf2f63668d02765a6b591f5b39a0b445a1b475c32ce4e2ba27fdc37e9f86",
+  "controller_sha256": "f16285c151f4cc72b76f7a1ad4070c4814c708b59aab56b535718d8389fda4e0",
+  "dependencies": {
+    "bytes": 10523451,
+    "sha256": "0f69fa6d5bd7636dcfd6f6762ca2406a9f52a99fe607813e6dff716a1e88f1c6"
+  },
+  "fresh_model_calls": 0,
+  "launch_authorized": false,
+  "maximum_before_tax_usd": "0.25",
+  "maximum_instance_seconds": 3600,
+  "plan_sha256": "58ff514dae66d51c80ec727d7cf27250eccb74a713af127764f897948aa0db6a",
+  "schema": "ilxyr.solomon_cloud_package.v1",
+  "source_commit": "76e568e383b6e852ec536cdf4810d4f7d491feb4",
+  "status": "built_and_verified"
+}

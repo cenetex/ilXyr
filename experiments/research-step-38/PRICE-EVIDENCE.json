@@ -1,0 +1,60 @@
+{
+  "checked_utc": "2026-09-08T23:37:34.749888+00:00",
+  "compute_terms": "https://aws.amazon.com/ec2/pricing/on-demand/",
+  "free_tier_assumed": false,
+  "rows": [
+    {
+      "evidence_sha256": "94a85b23dbad06a52bfbfbf2a59228fed0844c31cf92845084609158be2fdc67",
+      "key": "disk_usd_per_gb_month",
+      "sku": "JG3KUJMBRGHV3N8G",
+      "unit": "GB-Mo",
+      "usd": "0.0800000000"
+    },
+    {
+      "evidence_sha256": "02a320b4ec8f55f24ed717641e39a3595ddcef5ce251415a28cd88a55b69d68a",
+      "key": "download_usd_per_gb",
+      "sku": "HQEH3ZWJVT46JHRG",
+      "unit": "GB",
+      "usd": "0.0900000000"
+    },
+    {
+      "evidence_sha256": "efc6616c7ceeff0de5b2707ab9b9489f5d5020ddc3c11652cc9d4dcceb72366f",
+      "key": "get_usd_per_request",
+      "sku": "ZWQ6Q48CRJXX4FXE",
+      "unit": "Requests",
+      "usd": "0.0000004000"
+    },
+    {
+      "evidence_sha256": "cec12e66e78102deec45d8f86626a2bebb4777a52197eb1bf4234cfb6444d79b",
+      "key": "ipv4_usd_per_hour",
+      "sku": "4GQUNXTFWVSGPUZK",
+      "unit": "Hrs",
+      "usd": "0.0050000000"
+    },
+    {
+      "evidence_sha256": "f8b1844b3df7afe696f61ee264110ed3d6edafd6a05e0c97fec127d9be7bcff2",
+      "key": "put_usd_per_request",
+      "sku": "E9YHNFENF4XQBZR6",
+      "unit": "Requests",
+      "usd": "0.0000050000"
+    },
+    {
+      "evidence_sha256": "1cbcc0452b2beffa9e3c6c989089a0eccc8323f73a9b1c460c96d6caf7915b27",
+      "key": "s3_usd_per_gb_month",
+      "sku": "WP9ANXZGBYYSGJEA",
+      "unit": "GB-Mo",
+      "usd": "0.0230000000"
+    },
+    {
+      "evidence_sha256": "ade8a3b8f4f0207e43d7109fbf7d4cf4d2243d44d60ecb457563826d87c8ec8c",
+      "key": "compute_usd_per_hour",
+      "sku": "G34GXEYC28NK97K3",
+      "unit": "Hrs",
+      "usd": "0.0850000000"
+    }
+  ],
+  "schema": "ilxyr.solomon_price_evidence.v1",
+  "source": "AWS Price List API GetProducts",
+  "storage_terms": "https://aws.amazon.com/s3/pricing/",
+  "tax_included": false
+}
