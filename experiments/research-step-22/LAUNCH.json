@@ -1,0 +1,36 @@
+{
+  "automatic_deadline_utc": "2026-09-08T07:13:58Z",
+  "availability_zone": "us-east-1b",
+  "binding": {
+    "approval_reference": "user-research-program-20260908-step22",
+    "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+    "host_package_version": "LnSWe132MAfKJg_oTtMzaGXkwHgUMCHg",
+    "launch_epoch_seconds": 1788848038,
+    "run_id": "feral-finqa-20260908T061358Z"
+  },
+  "host_console_receipt_sha256": "c63193653acde2d16f94cdb19ffa6760d9adb68d5e12089c588ab11d4dc27a33",
+  "host_deadline_timer_observed": true,
+  "maximum_infrastructure_usd": "3.00",
+  "maximum_instance_seconds": 3600,
+  "network_binding_sha256": "6b0aabcf5f3062638a503eb6a0e4382795616b418763d3a67d167acedc30deea",
+  "observed_phase": "image_pull",
+  "provider_instance_receipt_sha256": "c6882d5152d3b7f114e71a93987bdd64741afde0482552e0948c2dc90205b94e",
+  "provider_launch_time": "2026-09-08T06:14:02+00:00",
+  "provider_shutdown_behavior": "terminate",
+  "provider_user_data_matches_rendered_script": true,
+  "provider_user_data_receipt_sha256": "4db74121aa9516b2fc673d1e5b91593fa7990c94f752b9003746623563f945c5",
+  "receipt": {
+    "client_token": "feral-finqa-20260908T061358Z",
+    "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+    "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+    "instance_id": "i-0c979a0b88567f77d",
+    "max_infrastructure_usd": "3.00",
+    "max_instance_seconds": 3600,
+    "request_sha256": "7bc5a49c7850a4b3438216f0d4dd7b0cd30f335fe9685eff36a197f55094b3f6",
+    "status": "launched",
+    "user_data_sha256": "2157725e8a9cb1b4ada5de85e5c9c31bbbafa60a92f1be87cb33fb1201ad2782"
+  },
+  "root_volume_id": "vol-06f2ceeac00e67914",
+  "schema": "ilxyr.feral_live_launch.v1",
+  "status": "startup_observation"
+}

@@ -11,10 +11,12 @@ import sys
 import tarfile
 import tempfile
 import time
+from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 from feral_process import digest, run_process, save
-from feral_execution_stage import partial_records, stage_model, grade, runtime_check
+from feral_execution_stage import partial_records, stage_model, grade, runtime_check, run_arm
 from run_feral_comparison import ROOT, STAGES, CONTROLLER_FILES, cost_estimate, extract_source, run_stages, validate_plan
 from feral_comparison_worker import run_package
 
@@ -55,6 +57,50 @@ def archive_fixture(root, extra=None):
 
 
 class ExecutionTests(unittest.TestCase):
+    def test_fresh_base_process_initializes_allocator_and_keeps_init_failure(self):
+        from test_feral_comparison import row
+        from feral_targets_v2 import ndjson
+        for fail_init in [False, True]:
+            with self.subTest(fail_init=fail_init), tempfile.TemporaryDirectory() as name:
+                root=Path(name); package=root/'package'; output=root/'output'; output.mkdir()
+                files={'inputs/model-inputs.jsonl':ndjson([row()]), 'model/FILES.json':b'{"files":{}}'}
+                bindings={}
+                for filename,raw in files.items():
+                    path=package/filename; path.parent.mkdir(parents=True,exist_ok=True); path.write_bytes(raw)
+                    bindings[filename]={'bytes':len(raw),'sha256':digest(path),'phase':'prediction'}
+                save(package/'PACKAGE.json',{'files':bindings,'ordered_ids':['fixture'],'scope':'controlled_fixture'})
+                state={'initialized':False,'reset':False,'loaded':False}
+                def init():
+                    if fail_init: raise RuntimeError('injected CUDA initialization failure')
+                    state['initialized']=True
+                def reset(_device):
+                    if not state['initialized']: raise RuntimeError('Invalid device argument')
+                    state['reset']=True
+                def generator(_model,_inventory):
+                    self.assertTrue(state['reset'])
+                    state['loaded']=True
+                    return lambda _messages: ('{"answer":30}', {})
+                cuda=SimpleNamespace(init=init,reset_peak_memory_stats=reset,
+                    max_memory_allocated=lambda _device:512,max_memory_reserved=lambda _device:1024)
+                with patch.dict(sys.modules,{'torch':SimpleNamespace(cuda=cuda)}), \
+                     patch('feral_comparison_worker.BaseGenerator',side_effect=generator):
+                    plan={'source':{'package_manifest_sha256':digest(package/'PACKAGE.json')}}
+                    if fail_init:
+                        with self.assertRaisesRegex(RuntimeError,'injected CUDA initialization failure'):
+                            run_arm(package,plan,output,'base')
+                    else:
+                        run_arm(package,plan,output,'base')
+                result=json.loads((output/'arms/base/result.json').read_text())
+                memory=json.loads((output/'arms/base/device-memory.json').read_text())
+                self.assertEqual(state['loaded'],not fail_init)
+                self.assertEqual(result['rows'],0 if fail_init else 1)
+                self.assertEqual(memory['status'],'unknown' if fail_init else 'observed')
+                if fail_init:
+                    self.assertNotIn('allocated_peak_bytes',memory)
+                else:
+                    self.assertEqual(memory['allocated_peak_bytes'],512)
+                    self.assertEqual(memory['reserved_peak_bytes'],1024)
+
     def test_process_stdout_stderr_cpu_and_peak_memory(self):
         with tempfile.TemporaryDirectory() as name:
             out=Path(name)/'process'
