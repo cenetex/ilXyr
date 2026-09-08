@@ -1,0 +1,41 @@
+{
+  "availability_zone": "us-east-1d",
+  "binding": {
+    "approval_reference": "user-approved-step25-20260908",
+    "host_package_sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+    "host_package_version": "ZkHR6v0wApi4MSDdwXOk6VEcthWuwAmy",
+    "launch_epoch_seconds": 1788854956,
+    "run_id": "feral-finqa-20260908T080916Z"
+  },
+  "instance_id": "i-05210fe6cd2d5817c",
+  "launch_receipt": {
+    "client_token": "feral-finqa-20260908T080916Z",
+    "execution_plan_sha256": "eeb5658143faebd7aeb9db25185c5503a59ab5dc555c378cbdd243c35a2b3e49",
+    "host_package_sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+    "instance_id": "i-05210fe6cd2d5817c",
+    "max_infrastructure_usd": "3.00",
+    "max_instance_seconds": 3600,
+    "request_sha256": "979aec76cc219e38f1b67a6a521d8ec23885ebfb75be75fbd65a48166411ebbc",
+    "status": "launched",
+    "user_data_sha256": "ea33cf6be56e5835095f2034dbde968a4d9e48f374f7c1ecb3209e1246b047a3"
+  },
+  "launch_time": "2026-09-08T08:09:20+00:00",
+  "observed_at": "2026-09-08T08:10:12.676658+00:00",
+  "provider_receipt_sha256": "c732ebd71ecc882eef6a0d4131b45ad6f68794e8e249d6e912e717280c5eddf6",
+  "state": "running",
+  "user_data_bytes_match": true,
+  "user_data_receipt_sha256": "b72dd53cdf76d2908bc0d883d99c156c09f876fa5755bc8e7fa4e2b1f49b45fd",
+  "user_data_sha256": "ea33cf6be56e5835095f2034dbde968a4d9e48f374f7c1ecb3209e1246b047a3",
+  "volumes": [
+    {
+      "DeviceName": "/dev/xvda",
+      "Ebs": {
+        "AttachTime": "2026-09-08T08:09:21+00:00",
+        "DeleteOnTermination": true,
+        "EbsCardIndex": 0,
+        "Status": "attached",
+        "VolumeId": "vol-0160c364f54a638d2"
+      }
+    }
+  ]
+}

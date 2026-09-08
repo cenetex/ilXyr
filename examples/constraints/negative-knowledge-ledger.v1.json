@@ -656,6 +656,28 @@
       "taxonomy": "transfer",
       "verdict_id": "verdict:zero.reasoner55-matched-fresh-family.v1",
       "verdict_ref": "artifact://sha256/bb15bba6f67abef028d64c8d2cb1fe4644c8f1eacf8049603df00b97574b148a"
+    },
+    {
+      "experiment_id": "feral.step25-package-capacity.v1",
+      "family": "feral",
+      "project": "feral",
+      "taxonomy": "venue",
+      "outcome": "execution_failure",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "three capacity failures created zero instances; the fourth zone launched one approved instance",
+      "evidence_path": "experiments/research-step-27/CAPACITY-FAILURES.json",
+      "mechanism_tags": [
+        "cloud-capacity",
+        "bounded-launch",
+        "provider-observation"
+      ],
+      "summary": "AWS rejected the fixed FERAL instance in three zones for insufficient capacity. A query after each error confirmed zero instances before a fourth zone supplied the single approved instance.",
+      "lineage_note": "Retain every provider error and reconcile its client token before another attempt. Keep the package, machine shape, image, and budget fixed across zone checks.",
+      "evidence_ref": "artifact://sha256/9a7471bac4960ee6975ffeb22162d784fb8ffad410f6598812f3fb4019fda1d7",
+      "recorded_at_ms": 1788855181680,
+      "seq": 32,
+      "verdict_id": "verdict:feral.step25-package-capacity.v1",
+      "verdict_ref": "artifact://sha256/2dde1bc2b0bf0d7c7ba5680d70c5a3f57df70d540cb6cde42f79ade4b82a14b8"
     }
   ]
 }

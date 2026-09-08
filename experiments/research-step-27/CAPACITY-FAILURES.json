@@ -57,6 +57,35 @@
       },
       "resolution": "capacity_unavailable_zero_instances_confirmed",
       "zone": "us-east-1a"
+    },
+    {
+      "binding": {
+        "approval_reference": "user-approved-step25-20260908",
+        "host_package_sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+        "host_package_version": "ZkHR6v0wApi4MSDdwXOk6VEcthWuwAmy",
+        "launch_epoch_seconds": 1788854848,
+        "run_id": "feral-finqa-20260908T080728Z"
+      },
+      "launch_receipt": {
+        "client_token": "feral-finqa-20260908T080728Z",
+        "error": "AWS launch response needs inspection with the same client token: An error occurred (InsufficientInstanceCapacity) when calling the RunInstances operation (reached max retries: 2): We currently do not have sufficient g6e.2xlarge capacity in the Availability Zone you requested (us-east-1c). Our system will be working on provisioning additional capacity. You can currently get g6e.2xlarge capacity by not specifying an Availability Zone in your request or choosing us-east-1a, us-east-1b, us-east-1d.",
+        "host_package_sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+        "request_sha256": "2f3505dd8ea2a97dc6586eb9566f578faa73f529b7558022d72daf69f5766507",
+        "status": "launch_outcome_unknown",
+        "submitted_request_sha256": "b00cfb2c24ede91cbae7c14acc2d0ca2501badc2e561f1a4f73b7d73080b13c1",
+        "user_data_sha256": "5a1b1fca758bd11df147228bb753eab41f2a86362237e246b9d4761550477255"
+      },
+      "provider_observation": {
+        "Reservations": []
+      },
+      "receipt_hashes": {
+        "binding.json": "8c5e6f09576034041fca06b80a487504cb9083a5394be6c509b5e0177a49a485",
+        "capacity-instance-check.json": "a7ce7359393c06a423d23e3a32f1df64809059bf3618a008cd5d728eb77bb25b",
+        "launch/receipt.json": "102e35855a6495bfada64c8a3bc6a26a391d048d10a961174205fb700ffb69ef",
+        "launch/submitted-request.json": "b00cfb2c24ede91cbae7c14acc2d0ca2501badc2e561f1a4f73b7d73080b13c1"
+      },
+      "resolution": "capacity_unavailable_zero_instances_confirmed",
+      "zone": "us-east-1c"
     }
   ],
   "paid_instances_from_these_attempts": 0,
