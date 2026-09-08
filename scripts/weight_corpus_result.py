@@ -291,6 +291,8 @@ def check_result(root, context, process):
         if not complete:
             hold = read_json(path_in(root, 'hold.json')); require(hold == summary and 'hold.json' in checksums, 'Hold terminal records differ')
             require(isinstance(hold['reason'], str) and bool(hold['reason']) and accounting['hold'] is not None, 'Hold reason is missing')
+            for key, value in hold['oracle_accounting'].items(): require(accounting[key] == value, 'Hold accounting differs')
+            require(hold['closures']['corpus_sealed'] is False, 'Hold corpus scope differs')
             require(not (root / 'corpus-manifest.json').exists(), 'Hold has a sealed corpus')
             require(process['exit_code'] in [1, 2] and process['stop_reason'] is None and not process['descendant_cleanup'], 'Hold process was interrupted')
             result.update(status='verified_hold', hold_reason=hold['reason'], partial_corpus_files=sorted(p.name for p in (root / 'corpus').glob('*') if p.is_file()))
