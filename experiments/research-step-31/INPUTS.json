@@ -1,0 +1,621 @@
+{
+  "collection_manifest_sha256": "72368096102597a2f493f30baaf38a87507a7d7a419a27fbf45043ce0a62ea91",
+  "diagnostic_source_sha256": "d4b66316a72829ab94f1af7c68424c70dce952068f10460102f76f3965f53079",
+  "executable_sha256": "b60cac616f41f35afcb64135302c345dfce5151325538e1393df254e96721705",
+  "inputs": {
+    "results/study/00-raw_lexical_task_guide.jsonl": {
+      "bytes": 837751,
+      "sha256": "61e6a67c22596f9e998c5327a313d543a1ef1f7d52373835a24ec1f8697bffa4"
+    },
+    "results/study/00-raw_lexical_task_guide.terminal.json": {
+      "bytes": 392,
+      "sha256": "da45935d8c0bbbdbb8d718febc2bc929c41331fa76aa46a6f6dcdae85c3deceb"
+    },
+    "results/study/00-semantic_frequency.jsonl": {
+      "bytes": 834801,
+      "sha256": "b5f1ffe13154d97f8085f39a8f5c83b64e0c6d6fa56463d006e6582f43b1b7f8"
+    },
+    "results/study/00-semantic_frequency.terminal.json": {
+      "bytes": 388,
+      "sha256": "b54d69e92256f9e1f7fb99f857c763e91f407210ac3db9b38c5c568bac91cacb"
+    },
+    "results/study/00-source_free_jit.jsonl": {
+      "bytes": 817624,
+      "sha256": "92f139f714c765745ba2c0bbf6fd42c859e78e0bcaa9c65245df45c51b549280"
+    },
+    "results/study/00-source_free_jit.terminal.json": {
+      "bytes": 378,
+      "sha256": "59a0efe23b115c433c5feab03afcce56293f74b3ff94101ec56daead258671e8"
+    },
+    "results/study/00-target_only.jsonl": {
+      "bytes": 807384,
+      "sha256": "ae7c535391a97bd35b4b3262b31bba5c28588ee966047c65032b19cee6e4d526"
+    },
+    "results/study/00-target_only.terminal.json": {
+      "bytes": 381,
+      "sha256": "53cb166e4cb5a9b7e95e4e9e214637cdcdd29b4a862e5cbaa5b628597a940ec8"
+    },
+    "results/study/00-task_guide.jsonl": {
+      "bytes": 837846,
+      "sha256": "e934a5aa1ac7c1f2b097b6d61d5997212a4a8509871ae01faaefcb06d499e3fd"
+    },
+    "results/study/00-task_guide.terminal.json": {
+      "bytes": 380,
+      "sha256": "e1aa4a147dd4052bd8b48f863bc21438f1bd32a4aa4b10fef83a52675479d229"
+    },
+    "results/study/00-task_without_prior_feature.jsonl": {
+      "bytes": 836823,
+      "sha256": "fb84f3e8b31f6217fccf7b84426ad22cf91c0c57a9c971c1b65d6e59afb7b23b"
+    },
+    "results/study/00-task_without_prior_feature.terminal.json": {
+      "bytes": 395,
+      "sha256": "f4d2b1b662dcb7ed01b562ed3298d94ff7bb885628b7ab5e118a0e3de4afdc40"
+    },
+    "results/study/01-raw_lexical_task_guide.jsonl": {
+      "bytes": 837754,
+      "sha256": "dbf1570232178c96d0889c95eb1e7b6a7a4d91e846f7592504fa86ad5bf40311"
+    },
+    "results/study/01-raw_lexical_task_guide.terminal.json": {
+      "bytes": 392,
+      "sha256": "87005f921a57562e784240f04334330b24773083fa8b28abf52bac9dc9243231"
+    },
+    "results/study/01-semantic_frequency.jsonl": {
+      "bytes": 834803,
+      "sha256": "9840257c94593dc8ab982e33db6fda2effb6ec1aafe4c538963208c58d5214b1"
+    },
+    "results/study/01-semantic_frequency.terminal.json": {
+      "bytes": 388,
+      "sha256": "eb2d42f44ea88962a7fba0dae5f542b98117243a9bf962575cc9d0d58ae6c2fa"
+    },
+    "results/study/01-source_free_jit.jsonl": {
+      "bytes": 817624,
+      "sha256": "6ccba7f68b8c30c21166d39f91b56ab56af7bc39156be4651772b4a8b9c76422"
+    },
+    "results/study/01-source_free_jit.terminal.json": {
+      "bytes": 385,
+      "sha256": "aac7380e1fe63890e2f8538aab31088660714cc948e7f3041a23003aba7ce0d2"
+    },
+    "results/study/01-target_only.jsonl": {
+      "bytes": 807384,
+      "sha256": "2a7183a90f8bc7cc93b0ed0caa9f0e66c21418f5eb39764378f8ad351229a671"
+    },
+    "results/study/01-target_only.terminal.json": {
+      "bytes": 381,
+      "sha256": "f10f9d41a3e39e291d00ade7a7333cce794325867f8350d1f6f88bb33818c253"
+    },
+    "results/study/01-task_guide.jsonl": {
+      "bytes": 837842,
+      "sha256": "a073f97e3f5973c0a7e9155602b0fe80720f5ef63a2992867b17f92f897b8436"
+    },
+    "results/study/01-task_guide.terminal.json": {
+      "bytes": 380,
+      "sha256": "7761d33d4e65d86ed41a0338105f6d38c89e97573cd80c281b1b3d502cae47f9"
+    },
+    "results/study/01-task_without_prior_feature.jsonl": {
+      "bytes": 836819,
+      "sha256": "944fabb4496ae601c1f2366a869cede1dd9a50a1fd4f6c08cff8f26e97000fc4"
+    },
+    "results/study/01-task_without_prior_feature.terminal.json": {
+      "bytes": 395,
+      "sha256": "c4e5af08d3ea8bd2ac2b4b08e87879d34a84798053118de05d969d12ff592524"
+    },
+    "results/study/02-raw_lexical_task_guide.jsonl": {
+      "bytes": 837751,
+      "sha256": "df4f5f791f0a3f2fc14f51b4756c89ff0d8cae05f8ece837ebf0dc90a36a831c"
+    },
+    "results/study/02-raw_lexical_task_guide.terminal.json": {
+      "bytes": 392,
+      "sha256": "152b41db47ac29db8bbb8027159cf2783c9cd5bf120e0f2edff4527f817fe3a4"
+    },
+    "results/study/02-semantic_frequency.jsonl": {
+      "bytes": 834804,
+      "sha256": "26e65deba708ca11768eb32c6a6bea6cc3c0ff12f7d795b31da2e3bd89143b18"
+    },
+    "results/study/02-semantic_frequency.terminal.json": {
+      "bytes": 388,
+      "sha256": "092332bd1d3a3c75346452c0225667416d4b38f013df3a73be1df8c4ba2cda80"
+    },
+    "results/study/02-source_free_jit.jsonl": {
+      "bytes": 817624,
+      "sha256": "a693f14c5ec66ab479aa03b75e8eaff9e01296f9cc70705d456db1d8c18ff0cc"
+    },
+    "results/study/02-source_free_jit.terminal.json": {
+      "bytes": 385,
+      "sha256": "1bcd3d4694a77284820229d46a9c18c6353c9cf7ac99467e7e8d107b18a6c837"
+    },
+    "results/study/02-target_only.jsonl": {
+      "bytes": 807384,
+      "sha256": "cc91f7803c3fabb9f89eeef8644a4cedf05b0dbb879c4efd5404dfb3ed0c2356"
+    },
+    "results/study/02-target_only.terminal.json": {
+      "bytes": 381,
+      "sha256": "868be3ca33fadcb56063c6146eed8a2020c4282dd5b134b1acd4f3da0e7f82ce"
+    },
+    "results/study/02-task_guide.jsonl": {
+      "bytes": 837843,
+      "sha256": "f4c7eba7924b9a2a9bf6a6dd222188fd61f8ba02df1aff489a87287cf64dcae9"
+    },
+    "results/study/02-task_guide.terminal.json": {
+      "bytes": 380,
+      "sha256": "7a80ee1b52c58084fa4bbc84a8495752d3ed3877686d63bcc81dd288b011b0cd"
+    },
+    "results/study/02-task_without_prior_feature.jsonl": {
+      "bytes": 836817,
+      "sha256": "c460c40a86a13e7a00c350bce0f7e5315a3630aefc7880d15adace794f274ea5"
+    },
+    "results/study/02-task_without_prior_feature.terminal.json": {
+      "bytes": 396,
+      "sha256": "49cd6a0a37941d5bd2344dfcab5fe7fbc672d81b0285b9a2545c9301af31b06f"
+    },
+    "results/study/03-raw_lexical_task_guide.jsonl": {
+      "bytes": 837752,
+      "sha256": "170f9a6e07ae83b8d8706e3f90a51f71eaf230e48052a5615d3188549683eb1e"
+    },
+    "results/study/03-raw_lexical_task_guide.terminal.json": {
+      "bytes": 392,
+      "sha256": "e3c596ca076099863f1f503833df981584791f3a31ac301167f315f4eef5173a"
+    },
+    "results/study/03-semantic_frequency.jsonl": {
+      "bytes": 834801,
+      "sha256": "5264b04f1cde36e7196e463dd227c5d98e082251c7376fdf12527852dab833e8"
+    },
+    "results/study/03-semantic_frequency.terminal.json": {
+      "bytes": 388,
+      "sha256": "bbcf580e17769eb18e9ee2897f84ab4375fbd9c96afbdbe1a9bf0b85bf7ec799"
+    },
+    "results/study/03-source_free_jit.jsonl": {
+      "bytes": 817624,
+      "sha256": "946a9d21f05eeac770eb421a08e99cc4d5a381524e9f6a45780d8e0f55e012a2"
+    },
+    "results/study/03-source_free_jit.terminal.json": {
+      "bytes": 385,
+      "sha256": "47eb109677d4de668c6f4e01a8d2084a6831e744fe00af07186c16c91a5617d6"
+    },
+    "results/study/03-target_only.jsonl": {
+      "bytes": 807384,
+      "sha256": "cbaebbe9962c11fc19cce74a32599b6b039a63942b2049c0a86c020b698211f7"
+    },
+    "results/study/03-target_only.terminal.json": {
+      "bytes": 381,
+      "sha256": "8dfc10c5cd79925fa1461baf916522ceb396113934b49074e7eebf73202e322d"
+    },
+    "results/study/03-task_guide.jsonl": {
+      "bytes": 837845,
+      "sha256": "671fc3e7078b64c5e113536f95e794d5704899b6ee1f6c01ce00484c03e22b7c"
+    },
+    "results/study/03-task_guide.terminal.json": {
+      "bytes": 380,
+      "sha256": "16fa926d5a8c08ff02ee9ce88236f1cbd298761224ba9194d215ca12c56c5f01"
+    },
+    "results/study/03-task_without_prior_feature.jsonl": {
+      "bytes": 836818,
+      "sha256": "cb1214d0e9dfc67ba52f2c440e662f2263dfa76b0b736b301609d0ec22000ef7"
+    },
+    "results/study/03-task_without_prior_feature.terminal.json": {
+      "bytes": 396,
+      "sha256": "cca6baa1c2403f4d05e6d120246cdb165d45515b92f04701523627bd387c377e"
+    },
+    "results/study/04-raw_lexical_task_guide.jsonl": {
+      "bytes": 837759,
+      "sha256": "f47ab3d22eacae46239b82c99805a5bf6807f2c73fda8195ff067c19bdc8d4e2"
+    },
+    "results/study/04-raw_lexical_task_guide.terminal.json": {
+      "bytes": 392,
+      "sha256": "a43f84fdeffc7d2bcf1b58d8b1a13f7ca74fa15ca9fd36facd19dc8c44e25108"
+    },
+    "results/study/04-semantic_frequency.jsonl": {
+      "bytes": 834798,
+      "sha256": "fef54f8a2b7dd53496697a0d30fb565b24d6aba5f6fed047e7ef9ed37edd9ff0"
+    },
+    "results/study/04-semantic_frequency.terminal.json": {
+      "bytes": 388,
+      "sha256": "fdb2b1546cc803b30c294e052e85f268e8811bf4380ba94e074a20605f6e9c32"
+    },
+    "results/study/04-source_free_jit.jsonl": {
+      "bytes": 817624,
+      "sha256": "9defcd37a4a1d911672cfa62ff6a175dbd84f416ca9ab6a5fad4ff8459c564a4"
+    },
+    "results/study/04-source_free_jit.terminal.json": {
+      "bytes": 385,
+      "sha256": "c5d74be0dbc6fd0f5801412c080f0e64663c3445c2c6bf32dc79d6f5aa5b50d7"
+    },
+    "results/study/04-target_only.jsonl": {
+      "bytes": 807384,
+      "sha256": "8a496b015c50f250d142e07add277931a197cc92b1ecee64f8565af74db85a9d"
+    },
+    "results/study/04-target_only.terminal.json": {
+      "bytes": 381,
+      "sha256": "9e5d2917959711eb49e0e684bbd2b5857baaf02231c2330b2dc73822d055b568"
+    },
+    "results/study/04-task_guide.jsonl": {
+      "bytes": 837843,
+      "sha256": "c41c675a6560168f56cb5a2a62d709b527ce03ab5e2be8fed10ea6114c0e9cc1"
+    },
+    "results/study/04-task_guide.terminal.json": {
+      "bytes": 380,
+      "sha256": "b7986e6875a95ac67b506ca306ff520a8b906c7b5136aaf6fe2e0396442e2e8d"
+    },
+    "results/study/04-task_without_prior_feature.jsonl": {
+      "bytes": 836816,
+      "sha256": "74af9906bebab70afd0f407497bc31393c74a045ad9cf3c63b01a7cb2b39d2ff"
+    },
+    "results/study/04-task_without_prior_feature.terminal.json": {
+      "bytes": 396,
+      "sha256": "4782baaae9f0ba86649b74c791ff37140ab23b986116e7aee7e927da094a6bff"
+    },
+    "results/study/05-raw_lexical_task_guide.jsonl": {
+      "bytes": 837756,
+      "sha256": "75fdef7e4d61e3951de7c05e96fcfffa48bcf2b845f1c2b86f8af7a2a4854d4f"
+    },
+    "results/study/05-raw_lexical_task_guide.terminal.json": {
+      "bytes": 392,
+      "sha256": "9e1b3513387d572969c013796132deb6ffce953d78d1d5ad3ef12a7a9bf26c5e"
+    },
+    "results/study/05-semantic_frequency.jsonl": {
+      "bytes": 834804,
+      "sha256": "458a840969fc7ac83fded67bc0c3240546d51c491944f2f8521e09460bc3bdc8"
+    },
+    "results/study/05-semantic_frequency.terminal.json": {
+      "bytes": 388,
+      "sha256": "d4e28f8705e4a2a8fb9c6947e68d79cadc140bb5b84dfad74ade89a37cfff885"
+    },
+    "results/study/05-source_free_jit.jsonl": {
+      "bytes": 817624,
+      "sha256": "a9a6707912224eae2f82e69cbfbe7f5fe0202a2a93692220894af079d5935f0e"
+    },
+    "results/study/05-source_free_jit.terminal.json": {
+      "bytes": 384,
+      "sha256": "6fc4ec4f92d95d96d2733613f0fb8c02cd8d4f5080d283fb285d94e77089d109"
+    },
+    "results/study/05-target_only.jsonl": {
+      "bytes": 807384,
+      "sha256": "a9cdfff931cae135091cae7f409a774cbca47d0e672dfdc0882086688cf4789e"
+    },
+    "results/study/05-target_only.terminal.json": {
+      "bytes": 381,
+      "sha256": "4afb95d29c8915633cf970f50317e300cbefb194939a2a0df9a971f89b0169dc"
+    },
+    "results/study/05-task_guide.jsonl": {
+      "bytes": 837842,
+      "sha256": "a53f2a22c4a27ba94141acfbe3e97ecee00b921119dab48f6182ced097ec52e6"
+    },
+    "results/study/05-task_guide.terminal.json": {
+      "bytes": 379,
+      "sha256": "a7674792993f823d5a1239ac57947a3fba806995c7e1a4541dff942a8772a374"
+    },
+    "results/study/05-task_without_prior_feature.jsonl": {
+      "bytes": 836821,
+      "sha256": "fbe6001ff7100f0e3b71bd9a0059033736e923528a1b5000e5bc7987acf62c68"
+    },
+    "results/study/05-task_without_prior_feature.terminal.json": {
+      "bytes": 396,
+      "sha256": "eb6719081bf4ed9aeff6817ab046b66f1692348e9b2a3529080bc568f1a1cc7e"
+    },
+    "results/study/06-raw_lexical_task_guide.jsonl": {
+      "bytes": 837753,
+      "sha256": "af7f85b9c129e83e89d2b829dce73eb359a8371edb9ac8c1cc747ed0d8a62b49"
+    },
+    "results/study/06-raw_lexical_task_guide.terminal.json": {
+      "bytes": 392,
+      "sha256": "54001d05c061645d1cd18dc64289947483b15bf06a4c0b244c51d2f4314781f2"
+    },
+    "results/study/06-semantic_frequency.jsonl": {
+      "bytes": 834814,
+      "sha256": "28f2a040253ced59bc497169828428109aae93fa74cf7e5fcffb75515802571e"
+    },
+    "results/study/06-semantic_frequency.terminal.json": {
+      "bytes": 387,
+      "sha256": "33dc72ecf91753cf1af61be433d653993fbe5c39f8277cc2a6e4a05dd2e43d8a"
+    },
+    "results/study/06-source_free_jit.jsonl": {
+      "bytes": 817624,
+      "sha256": "4929ef0b0110db1012fc2eab5a62ceb910e216aa9b1282b7f1f352e92e08aaf1"
+    },
+    "results/study/06-source_free_jit.terminal.json": {
+      "bytes": 385,
+      "sha256": "355a16a779902defeca6bac4c8e41733d3a9debadec3d1b1c46be4097bdf7ab3"
+    },
+    "results/study/06-target_only.jsonl": {
+      "bytes": 807384,
+      "sha256": "82f80fffd2e670196370653b813f62b014b20f9a106a0a8d94407b076f508a6d"
+    },
+    "results/study/06-target_only.terminal.json": {
+      "bytes": 380,
+      "sha256": "961e245ae2f4656082b0043fec7f423b4bd4494dcc8226ebfd510f855dead67e"
+    },
+    "results/study/06-task_guide.jsonl": {
+      "bytes": 837842,
+      "sha256": "4a43ba2d05620fd43d2fa3ad809018254bb7ed812b2090e1d72e7d6638cc11da"
+    },
+    "results/study/06-task_guide.terminal.json": {
+      "bytes": 379,
+      "sha256": "628f8d6adc03962200cd2f314233463dd21bfbc524c9a2b3f86b0ab2459563b0"
+    },
+    "results/study/06-task_without_prior_feature.jsonl": {
+      "bytes": 836813,
+      "sha256": "ff586c0d935f80e11605d318e49e6a3def32f695300b96497c4623d09a0697a3"
+    },
+    "results/study/06-task_without_prior_feature.terminal.json": {
+      "bytes": 395,
+      "sha256": "042803570bfc8d4a85b45131455971f0bde8114b07bb8c7533c7f8db03692f82"
+    },
+    "results/study/07-raw_lexical_task_guide.jsonl": {
+      "bytes": 837750,
+      "sha256": "4d6df950017a930e4c9326973129f4453607f622df023410e816f5823552b400"
+    },
+    "results/study/07-raw_lexical_task_guide.terminal.json": {
+      "bytes": 392,
+      "sha256": "de5926802a000aed5e887745974ad506d3c695d881a57fd42083b1666c15cfa6"
+    },
+    "results/study/07-semantic_frequency.jsonl": {
+      "bytes": 834801,
+      "sha256": "200dfc9c616707e8204e595797f41de2fdbf12fc718264b6faad30236422ff72"
+    },
+    "results/study/07-semantic_frequency.terminal.json": {
+      "bytes": 388,
+      "sha256": "22a1dcef0543fe0fc3870ab0764125a8cf65c722b52203d621252db68e79cee9"
+    },
+    "results/study/07-source_free_jit.jsonl": {
+      "bytes": 817624,
+      "sha256": "f0b529f2a6ccf3b39516339d9b5de8a8838fa85e7dfcf80273c72ab0da5ff110"
+    },
+    "results/study/07-source_free_jit.terminal.json": {
+      "bytes": 385,
+      "sha256": "22d0fac0025bfb2d2e4ef42b1f746c1c585d4c426dacce44207fd7b5f6a82b85"
+    },
+    "results/study/07-target_only.jsonl": {
+      "bytes": 807384,
+      "sha256": "8ccdc503b0173b0f7a332e778feb6cb5af815711a531a34a9ed4d58f612c1ec8"
+    },
+    "results/study/07-target_only.terminal.json": {
+      "bytes": 381,
+      "sha256": "0874a3a1b073598501e2af2a0ca40990689710d9817475586fc66fc37788dfbb"
+    },
+    "results/study/07-task_guide.jsonl": {
+      "bytes": 837848,
+      "sha256": "eac6c8150cd078ad0ca1c66b773d2dfd2e051aed943208b7ac105db92234d517"
+    },
+    "results/study/07-task_guide.terminal.json": {
+      "bytes": 379,
+      "sha256": "80848e08c992aec67b58fdaffc1e9eb6fa9bcf0a926f0b3c81ea9ed7fa87bcc0"
+    },
+    "results/study/07-task_without_prior_feature.jsonl": {
+      "bytes": 836816,
+      "sha256": "80b84ea8b9b5fecc91f3af4af68b32bfbaa248eba51c3e905d9df4543ee56ec9"
+    },
+    "results/study/07-task_without_prior_feature.terminal.json": {
+      "bytes": 396,
+      "sha256": "5c4d782770d5b1398c1fda4e4fb523ea58e909e98652fb2feb48754d4a0fdf68"
+    },
+    "results/study/08-raw_lexical_task_guide.jsonl": {
+      "bytes": 837755,
+      "sha256": "4deae10a5d7949aa3c077296cc73300a3cbea49562343413c02559540eb3b0cf"
+    },
+    "results/study/08-raw_lexical_task_guide.terminal.json": {
+      "bytes": 392,
+      "sha256": "0f77623c9f7373cf8c09b99e58911bdeddd71ac96ac2432e35d4539ee6e372a9"
+    },
+    "results/study/08-semantic_frequency.jsonl": {
+      "bytes": 834800,
+      "sha256": "a0f1da3b05008cf117935668298c47c6fb6b2307e7deb093ed7eb4da00f8a811"
+    },
+    "results/study/08-semantic_frequency.terminal.json": {
+      "bytes": 387,
+      "sha256": "168e746994436aff8d3793384f40a1c6c2676d08490d3361609d9708782a306d"
+    },
+    "results/study/08-source_free_jit.jsonl": {
+      "bytes": 817624,
+      "sha256": "76bd7b1856fc2785c47849fb7c49cbd16f3b74b093ccc82d54770984121168cf"
+    },
+    "results/study/08-source_free_jit.terminal.json": {
+      "bytes": 384,
+      "sha256": "a1aab7be4e89754b3cd94e753c521f2cebab7cbf702a257b0925d50e83835d05"
+    },
+    "results/study/08-target_only.jsonl": {
+      "bytes": 807384,
+      "sha256": "b0611cfc0c32be210330c5f47231129a490f15011095061535742d8b6daed9b1"
+    },
+    "results/study/08-target_only.terminal.json": {
+      "bytes": 380,
+      "sha256": "beea0b68ffc82034b84c8b4d95419fa2ce225e5e16c9c166b72916fcffd07390"
+    },
+    "results/study/08-task_guide.jsonl": {
+      "bytes": 837841,
+      "sha256": "98a975e23da40f6ce82a8439cf3213d49544c20f64913f4737e6ac68a7360e0c"
+    },
+    "results/study/08-task_guide.terminal.json": {
+      "bytes": 380,
+      "sha256": "f6baedb3fc8d5fc13614e4f75024949c8571c1be99a7dae8f9e399719d5ed52b"
+    },
+    "results/study/08-task_without_prior_feature.jsonl": {
+      "bytes": 836815,
+      "sha256": "5c0527ab9384d9e948727ebc6d0f3cd41a64137edde33039c1ec5fc99be71427"
+    },
+    "results/study/08-task_without_prior_feature.terminal.json": {
+      "bytes": 396,
+      "sha256": "413ea270868df06027259cbacb34d1a3c473b5f2707a1a877489a103a4719b98"
+    },
+    "results/study/09-raw_lexical_task_guide.jsonl": {
+      "bytes": 837748,
+      "sha256": "d151137da4fe217dbfc481315d347018fe32ac140256df1e6601ed4c10662d34"
+    },
+    "results/study/09-raw_lexical_task_guide.terminal.json": {
+      "bytes": 392,
+      "sha256": "87a014601c09fe5207102f67b20d5859cd53865019d308909f2dcbd61d61f2ae"
+    },
+    "results/study/09-semantic_frequency.jsonl": {
+      "bytes": 834806,
+      "sha256": "a4af980e42e4ca05a24ef2ff0a46c838fe09649bceba7d8f2512c4bb3395822c"
+    },
+    "results/study/09-semantic_frequency.terminal.json": {
+      "bytes": 388,
+      "sha256": "754c4dadd33de8e780c17b47df5a579749174bff491100ad29b468e63b0ecb30"
+    },
+    "results/study/09-source_free_jit.jsonl": {
+      "bytes": 817624,
+      "sha256": "0e402f3199564d92aa295baf4902a9df39e6896de8e4d7d60514347b19e9599c"
+    },
+    "results/study/09-source_free_jit.terminal.json": {
+      "bytes": 385,
+      "sha256": "50499e66af8e6e6795721f971e0081384bf0e2a400dbadbd9b280f2c0fe1f692"
+    },
+    "results/study/09-target_only.jsonl": {
+      "bytes": 807384,
+      "sha256": "9b50ff06d9addcfcd9ef253b65020920d176628c785a87f6ed1ff932777da49b"
+    },
+    "results/study/09-target_only.terminal.json": {
+      "bytes": 381,
+      "sha256": "2b38320f2810d8154b423ee5e05431afc40363d047b73634450b14e0ef32a037"
+    },
+    "results/study/09-task_guide.jsonl": {
+      "bytes": 837844,
+      "sha256": "7fbdbe6dbf738484f325cb8cff5ff32fcbefed93f9903bb1797779dd05e82954"
+    },
+    "results/study/09-task_guide.terminal.json": {
+      "bytes": 380,
+      "sha256": "1db7bd145cf205bd4f5c5829179db0524d6b4ae5adf55556cbb4ac32285aca7e"
+    },
+    "results/study/09-task_without_prior_feature.jsonl": {
+      "bytes": 836825,
+      "sha256": "25426e16d2d84436703b6c050b2039cce1e2496ba44821076de039afd3ed5b2a"
+    },
+    "results/study/09-task_without_prior_feature.terminal.json": {
+      "bytes": 396,
+      "sha256": "287d3daaf8db22e37d9169a5687322f92b234dfec812e6cebcd23ec5eec040d9"
+    },
+    "results/study/10-raw_lexical_task_guide.jsonl": {
+      "bytes": 837748,
+      "sha256": "23b9d48322add74c69cf6bc822812776ffc4d0afff403023b35fdfcfd1c85465"
+    },
+    "results/study/10-raw_lexical_task_guide.terminal.json": {
+      "bytes": 393,
+      "sha256": "45127bbc0e67a54ec7592dd475628ee385047a36f38c37d6324f1c7f63c80c29"
+    },
+    "results/study/10-semantic_frequency.jsonl": {
+      "bytes": 834805,
+      "sha256": "44c46f92a796b9b0f7feac814f55793167f72512bc5a6f94dcae2fe0d48d1600"
+    },
+    "results/study/10-semantic_frequency.terminal.json": {
+      "bytes": 382,
+      "sha256": "52d51f555ece4c17b86d21b9dde4a43ef20653a39e490f9620ffef6c2ce1904e"
+    },
+    "results/study/10-source_free_jit.jsonl": {
+      "bytes": 817625,
+      "sha256": "7717daf9e74ad0a3ef3f3a0010bd2068198d129f95e540136ff2aa367b027421"
+    },
+    "results/study/10-source_free_jit.terminal.json": {
+      "bytes": 386,
+      "sha256": "7501a4ec472b701e61289179c5001de14de7db46a641eea845c160818b0b552c"
+    },
+    "results/study/10-target_only.jsonl": {
+      "bytes": 807385,
+      "sha256": "669d623f0edd516efdac0a927f38c12699c0195b9f16034c0bbdfbd91ac04c1e"
+    },
+    "results/study/10-target_only.terminal.json": {
+      "bytes": 382,
+      "sha256": "3bdcdb405411b38c7e0ece6a8c36222788a70972aec1e967a0d8e69f667dea9a"
+    },
+    "results/study/10-task_guide.jsonl": {
+      "bytes": 837842,
+      "sha256": "60ea9e2ea0dd53a5f70eb77a2a6b53387e037826188959204d3925908928be9d"
+    },
+    "results/study/10-task_guide.terminal.json": {
+      "bytes": 380,
+      "sha256": "c84ae3aed0a5b95fde6ee19ca6a56fdb23c4fbf230026e2ed51a09c6d12881ba"
+    },
+    "results/study/10-task_without_prior_feature.jsonl": {
+      "bytes": 836825,
+      "sha256": "7bee3cfb7f057b290d3adff1f68fa22bcf9913fd28657733b8df736036d1bf63"
+    },
+    "results/study/10-task_without_prior_feature.terminal.json": {
+      "bytes": 397,
+      "sha256": "7cb6d61f0d4219068bf7fd9cad4f7cfaf3d6e39ab7e219116b73f54ecbadd574"
+    },
+    "results/study/11-raw_lexical_task_guide.jsonl": {
+      "bytes": 837752,
+      "sha256": "b6d8c4c251854f527f3db550956936b032235f1c1071e8d36a37261e5a03fd7e"
+    },
+    "results/study/11-raw_lexical_task_guide.terminal.json": {
+      "bytes": 393,
+      "sha256": "f2d3b4bcc6ac807c3894235214384f3508a7089c01bab8c2c34e15ea5d540d01"
+    },
+    "results/study/11-semantic_frequency.jsonl": {
+      "bytes": 834799,
+      "sha256": "24adc5ab4c82a6c189784eb9db6d00661bdb024adcac6cb37f1a0ff388765588"
+    },
+    "results/study/11-semantic_frequency.terminal.json": {
+      "bytes": 389,
+      "sha256": "cb42d041ea174c5df1bc147b05d69a3a35e660593de5df0aae098be0a8af631a"
+    },
+    "results/study/11-source_free_jit.jsonl": {
+      "bytes": 817625,
+      "sha256": "1d2b8c9f5d2ec6a23be4a907bb6ce15dafc8b2cbe71fb3edfa3b898093a95bfa"
+    },
+    "results/study/11-source_free_jit.terminal.json": {
+      "bytes": 386,
+      "sha256": "617dc0a8ba0ac4a46bea33f3c32b4de4ac9f72c9528047e7ab803b52187a62b3"
+    },
+    "results/study/11-target_only.jsonl": {
+      "bytes": 807385,
+      "sha256": "061b36d65c880bedb654fe3d1058f8ac12c95ac786396d7dde314103fbd04536"
+    },
+    "results/study/11-target_only.terminal.json": {
+      "bytes": 381,
+      "sha256": "f858fac214d26b142f234407358d12aa76a751cb9631cd49f5b9e2c80044b32f"
+    },
+    "results/study/11-task_guide.jsonl": {
+      "bytes": 837861,
+      "sha256": "ba98cd6253e7ab746d57552b61aaa067c441d084bce52b61c96340852479cdf3"
+    },
+    "results/study/11-task_guide.terminal.json": {
+      "bytes": 381,
+      "sha256": "c2607cbfa1062a86d64d028e9c657571e8067a6dfa8282ec64f50160104a66e5"
+    },
+    "results/study/11-task_without_prior_feature.jsonl": {
+      "bytes": 836819,
+      "sha256": "c47c4feb43b652d6f3f78164a8b6c5fad3e3540c4e9e891c452f5576b3a50598"
+    },
+    "results/study/11-task_without_prior_feature.terminal.json": {
+      "bytes": 397,
+      "sha256": "45299ff93d9929a2cbdcfc029c8dfe2a7bba0408a8cfbe6a2fa77b623405bff3"
+    },
+    "results/study/analysis.json": {
+      "bytes": 7163,
+      "sha256": "684c89928bfd2c79a72771c9deb76e9adeda3be9fe40a69fa0d67345362b3884"
+    },
+    "results/study/identity.json": {
+      "bytes": 3593,
+      "sha256": "7f6b3490c803f16251297025a65d7b2a8e7122c24d8f5387d09b5a14e540ec90"
+    }
+  },
+  "model_sha256": "db0afc1e460df5192917fac1f8129a2ec1e753ddb67939a975076fae5579bb7a",
+  "published_totals_and_point_ratios_reproduced": true,
+  "source_bindings": {
+    "Makefile": "224a1439c9b322783c694cc2519bb8f5b4711e59b06e2a3b99eeefa34cfda067",
+    "Makefile.reasoner55": "1eb9045f70b3efd0d09756750f9091c2992dbe1e832864598229d06d51311892",
+    "Makefile.reasoner55-matched": "95d5e70e81b01b70490474d44d14d591b7b26bd539ac8c581df2b48eccaac1f3",
+    "benchmarks/reasoner55-fixed-transfer-v1/RESULTS.json": "377e96366957d7d5435670eb218e7cc3ed96c7dc8b57b5e5d82ec75d393c2655",
+    "benchmarks/reasoner55-generated-primitive-transfer-v1/DEVELOPMENT-TRACE.jsonl": "60f0886ec2291374c5a46c7ee69d104b2486f9962cc8833718178543c9f30287",
+    "benchmarks/reasoner55-matched-controls-v1/PLAN.md": "56fa7548cc1851a8811c19649813ed7dc277c5b38f8ca16777157341f49e185c",
+    "benchmarks/reasoner55-semantic-guide-v1/MODEL.hex": "2ea0b8246fcf2d817538055bece6b59c24f05320a349614fdc30316e6e1d3c73",
+    "benchmarks/reasoner55-transfer-diagnostics-v1/DIAGNOSTICS.json": "823e83db92d244e9c6843b9976d478046ee5f50344295eebf3039e9d3570f410",
+    "reasoner55.c": "8a946ce9f04b7d3ecbc530d4c893ea59ab78121e34e52e263457589a1cf2875c",
+    "reasoner55.h": "3b0ec10cf07786c05236ff5b063c0848d19d63ef863afef040679909d255e218",
+    "reasoner55_diagnostics.c": "9917bccc16080fabee14d435d7a28c922d04b9698038a61fea99a3a53fd61412",
+    "reasoner55_fast_hash.h": "f1fd1b6190cebc9ad1731eb1ec3d47e13fecee34a83ca9537d4bfd6b20b592b0",
+    "reasoner55_fast_search.c": "00e36a7733701b8aa6889ffe53f0af07713e0a5bfff88f7dc26fcf502c32b8e9",
+    "reasoner55_fast_sort.h": "3140b56f66603694b050b3b3d3da96d781b028c27f15724bfc183e6ce50b8c85",
+    "reasoner55_fixed_transfer.c": "3a20a1b06b49842b16009652b8f101b6bfe3f09a9d07c05949f03a35599be670",
+    "reasoner55_matched_transfer.c": "d374de2b4089a8d1c7bdcbd3ae8da8002f8e8612b1cc4dc8c2205c5a26ce862c",
+    "reasoner55_semantic_guide.c": "86ec97d6f0c4c85a3b94e998810fdedae83f04bd0e95e13feed9fe1ed7cd24bc",
+    "scripts/check_reasoner55_matched.mjs": "121630883d6cfc00c40aef0e253d24bb45191ea21f613c6477a2898c3fbaf797",
+    "scripts/embed_reasoner55_fast.mjs": "127dc7adcf148003100bbd5cb1556aef6030abdef07cccdd3d3a9d66aff22880",
+    "scripts/lib/reasoner55_fixed_transfer.mjs": "20a5547af86366e6ae44c0884fdb2c7d2ae7ad19109780a6cd8c94301ef10ecb",
+    "scripts/lib/reasoner55_matched.mjs": "e317ecd42cf20500445fd132ea29abb08d71653b931119fcf5ffcfad55bb0698",
+    "scripts/lib/reasoner55_replay.mjs": "dcca6e4f3e802315ae5c5611cd1baa7977982866cbd6937102eb003cce4d651d",
+    "scripts/lib/reasoner55_semantic_guide.mjs": "97e1beecf13bafb0a1f107a46720781831eab85beea6b33852195e3564b7f2ac",
+    "scripts/lib/reasoner5_harness.mjs": "6abdde4d810b26d94ee6340aa6a97e9a9717523278b9533325ba2f2c3189a883",
+    "scripts/run_reasoner55_matched.mjs": "27b0595ad3e880243210458d9653112d52ca15b8d672fc5eacc406da065446fc",
+    "scripts/zero_data_lib.mjs": "ef1d98938d950410a731d6f235f8596c01f47ba6f2234a53a515480b7c914e90"
+  }
+}

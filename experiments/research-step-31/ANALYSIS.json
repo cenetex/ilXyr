@@ -1,0 +1,588 @@
+{
+  "comparisons": [
+    {
+      "candidate": "task_guide",
+      "measured_delta": {
+        "adapter_ns": 102102472,
+        "cpu_ns": -1986796491,
+        "enumerate_ns": 1223024340,
+        "group_ns": 325398323,
+        "jit_ns": 0,
+        "receipt_ns": 788633640,
+        "score_ns": 1196401690,
+        "search_ns": -6921183410,
+        "sort_ns": 1257797978,
+        "unattributed_wall_ns": 41598647,
+        "verifier_checks": -5304,
+        "wall_ns": -1986226320
+      },
+      "metrics": {
+        "checks_plus_one": {
+          "family_geometric_ratio": 0.922191023206518,
+          "family_losses": 63,
+          "family_ties": 0,
+          "family_wins": 65,
+          "stratum_ratios": [
+            0.6577531352941679,
+            1.4350551280791402,
+            0.6647471563552942,
+            1.152644975653841
+          ]
+        },
+        "cpu": {
+          "family_geometric_ratio": 0.716968236811525,
+          "family_losses": 0,
+          "family_ties": 0,
+          "family_wins": 128,
+          "stratum_ratios": [
+            0.7080853758135529,
+            0.7305623659183778,
+            0.7118011339822532,
+            0.7176258379935022
+          ]
+        }
+      },
+      "reference": "target_only",
+      "score_share_of_wall_delta": -0.6023491270622171,
+      "zero_search_accounting_bound": {
+        "candidate_wall_ns": 4935736229,
+        "ratio": 0.6970534331950292,
+        "reference_wall_ns": 7080857785,
+        "scope": "measured aggregate wall time; every other recorded stage held fixed"
+      }
+    },
+    {
+      "candidate": "task_guide",
+      "measured_delta": {
+        "adapter_ns": 1306636,
+        "cpu_ns": -3623621166,
+        "enumerate_ns": 1223024340,
+        "group_ns": 325398323,
+        "jit_ns": -1170431797,
+        "receipt_ns": 788633640,
+        "score_ns": 1196401690,
+        "search_ns": -7286686660,
+        "sort_ns": 1257797978,
+        "unattributed_wall_ns": 41121241,
+        "verifier_checks": -43644,
+        "wall_ns": -3623434609
+      },
+      "metrics": {
+        "checks_plus_one": {
+          "family_geometric_ratio": 0.951829204154414,
+          "family_losses": 57,
+          "family_ties": 2,
+          "family_wins": 69,
+          "stratum_ratios": [
+            0.7903881551418563,
+            1.1685943739348261,
+            0.7192365875742452,
+            1.2355494075515194
+          ]
+        },
+        "cpu": {
+          "family_geometric_ratio": 0.6089237572275596,
+          "family_losses": 0,
+          "family_ties": 0,
+          "family_wins": 128,
+          "stratum_ratios": [
+            0.6121283136459654,
+            0.5874260663767319,
+            0.6163374160524351,
+            0.6203509597821728
+          ]
+        }
+      },
+      "reference": "source_free_jit",
+      "score_share_of_wall_delta": -0.3301844297198962,
+      "zero_search_accounting_bound": {
+        "candidate_wall_ns": 4935736229,
+        "ratio": 0.5661503580157426,
+        "reference_wall_ns": 8718066074,
+        "scope": "measured aggregate wall time; every other recorded stage held fixed"
+      }
+    },
+    {
+      "candidate": "task_guide",
+      "measured_delta": {
+        "adapter_ns": 502984,
+        "cpu_ns": 948034945,
+        "enumerate_ns": 2728751,
+        "group_ns": 715906,
+        "jit_ns": 0,
+        "receipt_ns": 1254014,
+        "score_ns": 1117671624,
+        "search_ns": -3928219,
+        "sort_ns": -171063429,
+        "unattributed_wall_ns": 184091,
+        "verifier_checks": -2484,
+        "wall_ns": 948065722
+      },
+      "metrics": {
+        "checks_plus_one": {
+          "family_geometric_ratio": 0.963823060598512,
+          "family_losses": 54,
+          "family_ties": 6,
+          "family_wins": 68,
+          "stratum_ratios": [
+            0.7715490607056635,
+            1.1997569066545444,
+            0.7874013026627138,
+            1.1839580584413891
+          ]
+        },
+        "cpu": {
+          "family_geometric_ratio": 1.2277348851963674,
+          "family_losses": 128,
+          "family_ties": 0,
+          "family_wins": 0,
+          "stratum_ratios": [
+            1.220232743618928,
+            1.235095033208366,
+            1.2223963053333151,
+            1.2332845935800356
+          ]
+        }
+      },
+      "reference": "semantic_frequency",
+      "score_share_of_wall_delta": 1.1788967769472842,
+      "zero_search_accounting_bound": {
+        "candidate_wall_ns": 4935736229,
+        "ratio": 1.1903190579655547,
+        "reference_wall_ns": 4146565743,
+        "scope": "measured aggregate wall time; every other recorded stage held fixed"
+      }
+    },
+    {
+      "candidate": "task_guide",
+      "measured_delta": {
+        "adapter_ns": -112670,
+        "cpu_ns": 7663363,
+        "enumerate_ns": 2200333,
+        "group_ns": 190659,
+        "jit_ns": 0,
+        "receipt_ns": 293587,
+        "score_ns": 1773706,
+        "search_ns": 3291839,
+        "sort_ns": 35194,
+        "unattributed_wall_ns": -190561,
+        "verifier_checks": 1464,
+        "wall_ns": 7482087
+      },
+      "metrics": {
+        "checks_plus_one": {
+          "family_geometric_ratio": 1.0360413333950111,
+          "family_losses": 59,
+          "family_ties": 14,
+          "family_wins": 55,
+          "stratum_ratios": [
+            1.1088423815515405,
+            1.0955023595206221,
+            0.9684094996301477,
+            0.9794136520749187
+          ]
+        },
+        "cpu": {
+          "family_geometric_ratio": 1.0004048854579077,
+          "family_losses": 67,
+          "family_ties": 0,
+          "family_wins": 61,
+          "stratum_ratios": [
+            1.0018997657403568,
+            1.0025861928494242,
+            0.9996009343139961,
+            0.9975405708783442
+          ]
+        }
+      },
+      "reference": "raw_lexical_task_guide",
+      "score_share_of_wall_delta": 0.23706032822125697,
+      "zero_search_accounting_bound": {
+        "candidate_wall_ns": 4935736229,
+        "ratio": 0.9702361503959752,
+        "reference_wall_ns": 5087149378,
+        "scope": "measured aggregate wall time; every other recorded stage held fixed"
+      }
+    },
+    {
+      "candidate": "task_guide",
+      "measured_delta": {
+        "adapter_ns": 64006,
+        "cpu_ns": 354045293,
+        "enumerate_ns": 1019687,
+        "group_ns": -1096333,
+        "jit_ns": 0,
+        "receipt_ns": -449287,
+        "score_ns": 445975522,
+        "search_ns": 1343055,
+        "sort_ns": -92806197,
+        "unattributed_wall_ns": 5436,
+        "verifier_checks": 660,
+        "wall_ns": 354055889
+      },
+      "metrics": {
+        "checks_plus_one": {
+          "family_geometric_ratio": 1.0112995962011788,
+          "family_losses": 58,
+          "family_ties": 14,
+          "family_wins": 56,
+          "stratum_ratios": [
+            1.055031423606323,
+            0.995940480246327,
+            1.016199226555559,
+            0.9795840282186199
+          ]
+        },
+        "cpu": {
+          "family_geometric_ratio": 1.0740269936913984,
+          "family_losses": 128,
+          "family_ties": 0,
+          "family_wins": 0,
+          "stratum_ratios": [
+            1.0766512997528146,
+            1.072535937074763,
+            1.0752865688431414,
+            1.0716417964576614
+          ]
+        }
+      },
+      "reference": "task_without_prior_feature",
+      "score_share_of_wall_delta": 1.259618991960899,
+      "zero_search_accounting_bound": {
+        "candidate_wall_ns": 4935736229,
+        "ratio": 1.041168134516837,
+        "reference_wall_ns": 4740575576,
+        "scope": "measured aggregate wall time; every other recorded stage held fixed"
+      }
+    },
+    {
+      "candidate": "task_without_prior_feature",
+      "measured_delta": {
+        "adapter_ns": 438978,
+        "cpu_ns": 593989652,
+        "enumerate_ns": 1709064,
+        "group_ns": 1812239,
+        "jit_ns": 0,
+        "receipt_ns": 1703301,
+        "score_ns": 671696102,
+        "search_ns": -5271274,
+        "sort_ns": -78257232,
+        "unattributed_wall_ns": 178655,
+        "verifier_checks": -3144,
+        "wall_ns": 594009833
+      },
+      "metrics": {
+        "checks_plus_one": {
+          "family_geometric_ratio": 0.9530539359641725,
+          "family_losses": 55,
+          "family_ties": 7,
+          "family_wins": 66,
+          "stratum_ratios": [
+            0.7313043416928225,
+            1.2046471957418654,
+            0.7748493426152633,
+            1.2086334855769594
+          ]
+        },
+        "cpu": {
+          "family_geometric_ratio": 1.1431136204283654,
+          "family_losses": 128,
+          "family_ties": 0,
+          "family_wins": 0,
+          "stratum_ratios": [
+            1.133359281597559,
+            1.1515651741954374,
+            1.1368097963396335,
+            1.1508365926531499
+          ]
+        }
+      },
+      "reference": "semantic_frequency",
+      "score_share_of_wall_delta": 1.1307827996847317,
+      "zero_search_accounting_bound": {
+        "candidate_wall_ns": 4583023395,
+        "ratio": 1.1052576225848592,
+        "reference_wall_ns": 4146565743,
+        "scope": "measured aggregate wall time; every other recorded stage held fixed"
+      }
+    }
+  ],
+  "families": 128,
+  "isolated_prior_function_time_ns": null,
+  "native_episode_visits": 73728,
+  "native_processes": 72,
+  "new_performance_run": false,
+  "passes": 12,
+  "process_clock": "process_cpu",
+  "schema": "ilxyr.reasoner_cost_diagnostic.v1",
+  "source_artifact_reads_meaning": "declared guide and weight bytes per visit; counter in frozen source",
+  "stage_clock": "monotonic_wall",
+  "status": "opened_data_diagnostic",
+  "totals": {
+    "raw_lexical_task_guide": {
+      "corpus_cpu_ns": 3917525449,
+      "measured": {
+        "adapter_ns": 102215142,
+        "cpu_ns": 5089274379,
+        "enumerate_ns": 1220824007,
+        "group_ns": 325207664,
+        "groups": 18085152,
+        "jit_ns": 0,
+        "observation_queries": 196608,
+        "partial_expansions": 43334520,
+        "receipt_ns": 788340053,
+        "score_ns": 1194627984,
+        "search_ns": 155603397,
+        "sort_ns": 1257762784,
+        "source_artifact_reads": 5658624,
+        "unattributed_wall_ns": 42568347,
+        "verifier_checks": 77736,
+        "wall_ns": 5087149378
+      },
+      "model_load_cpu_ns": 602936,
+      "peak_rss_bytes": 45285376,
+      "process_cpu_ns": 14147693797,
+      "process_wall_ns": 14208890717,
+      "unattributed_process_cpu_ns": 48188958,
+      "warmup": {
+        "adapter_ns": 102214374,
+        "cpu_ns": 5092102075,
+        "enumerate_ns": 1223239704,
+        "group_ns": 326472613,
+        "groups": 18085152,
+        "jit_ns": 0,
+        "observation_queries": 196608,
+        "partial_expansions": 43334520,
+        "receipt_ns": 788040275,
+        "score_ns": 1194077327,
+        "search_ns": 155803378,
+        "sort_ns": 1256850780,
+        "source_artifact_reads": 5658624,
+        "unattributed_wall_ns": 43371870,
+        "verifier_checks": 77736,
+        "wall_ns": 5090070321
+      }
+    },
+    "semantic_frequency": {
+      "corpus_cpu_ns": 3917962758,
+      "measured": {
+        "adapter_ns": 101599488,
+        "cpu_ns": 4148902797,
+        "enumerate_ns": 1220295589,
+        "group_ns": 324682417,
+        "groups": 18085152,
+        "jit_ns": 0,
+        "observation_queries": 196608,
+        "partial_expansions": 43338624,
+        "receipt_ns": 787379626,
+        "score_ns": 78730066,
+        "search_ns": 162823455,
+        "sort_ns": 1428861407,
+        "source_artifact_reads": 0,
+        "unattributed_wall_ns": 42193695,
+        "verifier_checks": 81684,
+        "wall_ns": 4146565743
+      },
+      "model_load_cpu_ns": 0,
+      "peak_rss_bytes": 43028480,
+      "process_cpu_ns": 12267964612,
+      "process_wall_ns": 12325000605,
+      "unattributed_process_cpu_ns": 46471937,
+      "warmup": {
+        "adapter_ns": 101986211,
+        "cpu_ns": 4154627120,
+        "enumerate_ns": 1222275277,
+        "group_ns": 326259672,
+        "groups": 18085152,
+        "jit_ns": 0,
+        "observation_queries": 196608,
+        "partial_expansions": 43338624,
+        "receipt_ns": 787530857,
+        "score_ns": 79085385,
+        "search_ns": 163152193,
+        "sort_ns": 1429044221,
+        "source_artifact_reads": 0,
+        "unattributed_wall_ns": 42994454,
+        "verifier_checks": 81684,
+        "wall_ns": 4152328270
+      }
+    },
+    "source_free_jit": {
+      "corpus_cpu_ns": 3914133038,
+      "measured": {
+        "adapter_ns": 100795836,
+        "cpu_ns": 8720558908,
+        "enumerate_ns": 0,
+        "group_ns": 0,
+        "groups": 0,
+        "jit_ns": 1170431797,
+        "observation_queries": 196608,
+        "partial_expansions": 50515860,
+        "receipt_ns": 0,
+        "score_ns": 0,
+        "search_ns": 7445581896,
+        "sort_ns": 0,
+        "source_artifact_reads": 0,
+        "unattributed_wall_ns": 1256545,
+        "verifier_checks": 122844,
+        "wall_ns": 8718066074
+      },
+      "model_load_cpu_ns": 0,
+      "peak_rss_bytes": 43790336,
+      "process_cpu_ns": 21426589125,
+      "process_wall_ns": 21496962561,
+      "unattributed_process_cpu_ns": 63196377,
+      "warmup": {
+        "adapter_ns": 100928746,
+        "cpu_ns": 8728700802,
+        "enumerate_ns": 0,
+        "group_ns": 0,
+        "groups": 0,
+        "jit_ns": 1171130122,
+        "observation_queries": 196608,
+        "partial_expansions": 50515860,
+        "receipt_ns": 0,
+        "score_ns": 0,
+        "search_ns": 7453635873,
+        "sort_ns": 0,
+        "source_artifact_reads": 0,
+        "unattributed_wall_ns": 1243421,
+        "verifier_checks": 122844,
+        "wall_ns": 8726938162
+      }
+    },
+    "target_only": {
+      "corpus_cpu_ns": 3912867330,
+      "measured": {
+        "adapter_ns": 0,
+        "cpu_ns": 7083734233,
+        "enumerate_ns": 0,
+        "group_ns": 0,
+        "groups": 0,
+        "jit_ns": 0,
+        "observation_queries": 0,
+        "partial_expansions": 25274472,
+        "receipt_ns": 0,
+        "score_ns": 0,
+        "search_ns": 7080078646,
+        "sort_ns": 0,
+        "source_artifact_reads": 0,
+        "unattributed_wall_ns": 779139,
+        "verifier_checks": 84504,
+        "wall_ns": 7080857785
+      },
+      "model_load_cpu_ns": 0,
+      "peak_rss_bytes": 43900928,
+      "process_cpu_ns": 18142210795,
+      "process_wall_ns": 18205958212,
+      "unattributed_process_cpu_ns": 60533495,
+      "warmup": {
+        "adapter_ns": 0,
+        "cpu_ns": 7085075737,
+        "enumerate_ns": 0,
+        "group_ns": 0,
+        "groups": 0,
+        "jit_ns": 0,
+        "observation_queries": 0,
+        "partial_expansions": 25274472,
+        "receipt_ns": 0,
+        "score_ns": 0,
+        "search_ns": 7082468681,
+        "sort_ns": 0,
+        "source_artifact_reads": 0,
+        "unattributed_wall_ns": 783076,
+        "verifier_checks": 84504,
+        "wall_ns": 7083251757
+      }
+    },
+    "task_guide": {
+      "corpus_cpu_ns": 3922986316,
+      "measured": {
+        "adapter_ns": 102102472,
+        "cpu_ns": 5096937742,
+        "enumerate_ns": 1223024340,
+        "group_ns": 325398323,
+        "groups": 18085152,
+        "jit_ns": 0,
+        "observation_queries": 196608,
+        "partial_expansions": 43336056,
+        "receipt_ns": 788633640,
+        "score_ns": 1196401690,
+        "search_ns": 158895236,
+        "sort_ns": 1257797978,
+        "source_artifact_reads": 5658624,
+        "unattributed_wall_ns": 42377786,
+        "verifier_checks": 79200,
+        "wall_ns": 5094631465
+      },
+      "model_load_cpu_ns": 634057,
+      "peak_rss_bytes": 45285376,
+      "process_cpu_ns": 14164078343,
+      "process_wall_ns": 14224967529,
+      "unattributed_process_cpu_ns": 48022267,
+      "warmup": {
+        "adapter_ns": 101945139,
+        "cpu_ns": 5095497961,
+        "enumerate_ns": 1222439387,
+        "group_ns": 326510015,
+        "groups": 18085152,
+        "jit_ns": 0,
+        "observation_queries": 196608,
+        "partial_expansions": 43336056,
+        "receipt_ns": 787777338,
+        "score_ns": 1195638193,
+        "search_ns": 158792590,
+        "sort_ns": 1256786271,
+        "source_artifact_reads": 5658624,
+        "unattributed_wall_ns": 43267061,
+        "verifier_checks": 79200,
+        "wall_ns": 5093155994
+      }
+    },
+    "task_without_prior_feature": {
+      "corpus_cpu_ns": 3915640325,
+      "measured": {
+        "adapter_ns": 102038466,
+        "cpu_ns": 4742892449,
+        "enumerate_ns": 1222004653,
+        "group_ns": 326494656,
+        "groups": 18085152,
+        "jit_ns": 0,
+        "observation_queries": 196608,
+        "partial_expansions": 43335384,
+        "receipt_ns": 789082927,
+        "score_ns": 750426168,
+        "search_ns": 157552181,
+        "sort_ns": 1350604175,
+        "source_artifact_reads": 98304,
+        "unattributed_wall_ns": 42372350,
+        "verifier_checks": 78540,
+        "wall_ns": 4740575576
+      },
+      "model_load_cpu_ns": 587962,
+      "peak_rss_bytes": 42754048,
+      "process_cpu_ns": 13454331003,
+      "process_wall_ns": 13513686833,
+      "unattributed_process_cpu_ns": 48262171,
+      "warmup": {
+        "adapter_ns": 102159286,
+        "cpu_ns": 4746948096,
+        "enumerate_ns": 1225127492,
+        "group_ns": 327430651,
+        "groups": 18085152,
+        "jit_ns": 0,
+        "observation_queries": 196608,
+        "partial_expansions": 43335384,
+        "receipt_ns": 789890855,
+        "score_ns": 750565936,
+        "search_ns": 157558977,
+        "sort_ns": 1348790866,
+        "source_artifact_reads": 98304,
+        "unattributed_wall_ns": 43065108,
+        "verifier_checks": 78540,
+        "wall_ns": 4744589171
+      }
+    }
+  },
+  "views_per_family": 4
+}
