@@ -1,0 +1,58 @@
+{
+  "budget": {
+    "estimated_max_before_tax_usd": "0.42",
+    "hourly_compute_usd": "0.1700000000",
+    "infrastructure_reserve_usd": "0.25",
+    "maximum_before_tax_usd": "0.50",
+    "price_source_sha256": "e250897c0fa060229e60ef1c9e4dd26c6489d0fcd9330a4b876af3f33ccb9a7c"
+  },
+  "compiler": "/usr/bin/gcc",
+  "compiler_flags": "-O2 -std=c11 -Wall -Wextra -Wpedantic",
+  "compiler_version": "12.2.0",
+  "execution_authorized": false,
+  "limits": {
+    "child_timeout_seconds": 60,
+    "collection_reserve_seconds": 300,
+    "container_memory_bytes": 6442450944,
+    "cpuset_cpus": "0",
+    "max_instance_seconds": 3600,
+    "setup_seconds": 540,
+    "workload_seconds": 2700
+  },
+  "model_sha256": "db0afc1e460df5192917fac1f8129a2ec1e753ddb67939a975076fae5579bb7a",
+  "node_version": "22.22.0",
+  "provider": {
+    "account": "022118847419",
+    "ami_id": "ami-0d3378afe7683c867",
+    "architecture": "x86_64",
+    "instance_type": "c6i.xlarge",
+    "memory_mib": 8192,
+    "region": "us-east-1",
+    "root_delete_on_termination": true,
+    "root_volume_encrypted": true,
+    "root_volume_gib": 80,
+    "vcpus": 4
+  },
+  "runtime_image": "docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870",
+  "schema": "ilxyr.reasoner55_cloud_plan.v1",
+  "source_archive_bytes": 7761920,
+  "source_archive_sha256": "b0746af0eff764e7548cd7543ebd6dff99285b1f424e897a0d68cb725192c8d0",
+  "source_commit": "24fae8ea8aa42212c7058b084b66dfa725672dfd",
+  "storage": {
+    "bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1",
+    "instance_profile": "ilxyr-feral-7b-calibration-ec2",
+    "package_prefix": "packages/reasoner55/",
+    "result_prefix": "runs/reasoner55-"
+  },
+  "study": {
+    "arms": 6,
+    "families": 128,
+    "passes": 12,
+    "primary_comparison": "task_guide versus raw lexical task guidance",
+    "primary_gate": "Both family-weighted CPU and verifier-work one-sided 95 percent upper bounds below one, with exact verification of every answer.",
+    "smoke_seed": "55356d736d6f6b31",
+    "study_seed": "55356d6174636831",
+    "views_per_family": 4,
+    "worker_count": 1
+  }
+}
