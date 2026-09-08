@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import shutil
 import sys
 import tempfile
 import time
@@ -14,6 +15,7 @@ from unittest.mock import patch
 
 from feral_process import run_process
 from weight_source_kit import encode, sha
+from weight_process_tree import run_tree
 from weight_corpus_controller import CONTROLLER_PLAN, REPO, corpus_command, execution_deadline, plan_at
 from weight_corpus_result import check_result, digest, load_context, trace_metrics
 
@@ -206,6 +208,23 @@ class CommandTests(unittest.TestCase):
             self.assertEqual(execution_deadline(record, plan, now=2500), 4400)
 
 
+class ProcessTreeTests(unittest.TestCase):
+    @unittest.skipUnless(sys.platform == 'linux', 'Linux child adoption is checked in fixed-runtime CI')
+    def test_detached_grandchild_is_stopped_after_leader_exit(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            command = [sys.executable, '-c', 'import os,time\nr,w=os.pipe()\nchild=os.fork()\nif child:\n os.read(r,1)\n os._exit(0)\nos.setsid()\nos.write(w,b"1")\ntime.sleep(60)']
+            receipt = run_tree(command, root, root / 'process', time.monotonic() + 5, 1, 1024 * 1024)
+            self.assertEqual(receipt['status'], 'failed')
+            self.assertTrue(receipt['adopted_cleanup']['adopted_pids'])
+            self.assertEqual(receipt['stop_reason'], 'adopted_descendants_after_leader_exit')
+            self.assertEqual(receipt['adopted_cleanup']['remaining_pids'], [])
+            for pid in receipt['adopted_cleanup']['adopted_pids']:
+                self.assertFalse(Path('/proc', str(pid)).exists())
+            if os.environ.get('WEIGHT_TEST_RECEIPTS'):
+                write(Path(os.environ['WEIGHT_TEST_RECEIPTS']) / 'DETACHED-CHILD-CLEANUP.json', receipt)
+
+
 class ActualRunnerHoldTests(unittest.TestCase):
     def test_actual_runner_preserves_failed_attempts_and_closes_workers(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -223,11 +242,19 @@ class ActualRunnerHoldTests(unittest.TestCase):
                 '--lie', str(lie), '--lie-source', str(source), '--zero', str(zero),
                 '--zero-commit', '7be2367458acc8b004bfb3646322048a233d1b09', '--out', str(base / 'run')]
             process = run_process(command, REPO, base / 'process', time.monotonic() + 20, 2)
-            self.assertEqual(process['exit_code'], 2, (base / 'process/stderr.log').read_text())
             result = check_result(base / 'run', load_context(REPO), process)
+            if os.environ.get('WEIGHT_TEST_RECEIPTS'):
+                target = Path(os.environ['WEIGHT_TEST_RECEIPTS']); target.mkdir(parents=True, exist_ok=True)
+                write(target / 'ACTUAL-RUNNER-HOLD.json', result)
+                write(target / 'ACTUAL-RUNNER-PROCESS.json', process)
+                write(target / 'FIXTURE-ENVIRONMENT.json', {'platform': sys.platform, 'temporary_directory_flags': os.statvfs(base).f_flag,
+                    'temporary_directory_noexec': bool(os.statvfs(base).f_flag & getattr(os, 'ST_NOEXEC', 8))})
+                shutil.copytree(base / 'process', target / 'runner-process', dirs_exist_ok=True)
+                if (base / 'run').exists(): shutil.copytree(base / 'run', target / 'runner-output', dirs_exist_ok=True)
+            self.assertEqual(process['exit_code'], 2, (base / 'process/stderr.log').read_text())
             self.assertEqual(result['status'], 'verified_hold', result)
             self.assertFalse(result['corpus_accepted'])
-            self.assertGreater(result['trace']['phases']['workload']['calls'], 0)
+            self.assertGreater(result['trace']['phases']['workload']['calls'], 0, {'reason': result['hold_reason'], 'stderr': (base / 'process/stderr.log').read_text()})
             self.assertFalse(process['descendant_cleanup'])
             write(base / 'run/corpus-manifest.json', {'status': 'sealed'})
             rejected = check_result(base / 'run', load_context(REPO), process)

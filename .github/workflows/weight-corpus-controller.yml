@@ -4,6 +4,7 @@ on:
     paths:
       - '.github/workflows/weight-corpus-controller.yml'
       - 'scripts/weight_corpus*'
+      - 'scripts/weight_process_tree.py'
       - 'scripts/package_weight_corpus.py'
       - 'scripts/test_weight_corpus_controller.py'
       - 'scripts/feral_process.py'

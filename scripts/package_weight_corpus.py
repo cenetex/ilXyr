@@ -10,7 +10,7 @@ from weight_source_kit import encode, read_archive, sha, verify as verify_source
 
 PLAN = 'experiments/research-step-34/CONTROLLER-PLAN.json'
 SOURCES = [PLAN, 'scripts/weight_corpus_controller.py', 'scripts/weight_corpus_result.py',
-           'scripts/weight_source_kit.py', 'scripts/feral_process.py']
+           'scripts/weight_source_kit.py', 'scripts/feral_process.py', 'scripts/weight_process_tree.py']
 MAX_BYTES = 32 * 1024 * 1024
 
 

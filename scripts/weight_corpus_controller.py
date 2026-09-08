@@ -12,7 +12,8 @@ import time
 
 from feral_process import run_process, save
 from weight_source_kit import unpack, verify, sha
-from weight_corpus_result import check_result, digest, load_context, read_json, require
+from weight_corpus_result import check_result, digest, read_json, require
+from weight_process_tree import run_tree
 
 CONTROLLER_PLAN = 'experiments/research-step-34/CONTROLLER-PLAN.json'
 REPO = Path(__file__).resolve().parent.parent
@@ -47,12 +48,17 @@ def execution_deadline(execution, plan, now=None):
     return time.monotonic() + execution['deadline_epoch'] - now
 
 
-def inventory(root):
+def inventory(root, deadline):
     result = {}
     for path in sorted(root.rglob('*')):
         require(not path.is_symlink(), 'output inventory contains a link')
         if path.is_file() and path.name not in ['FILES.json', 'TERMINAL.json', 'STATUS.json']:
-            result[str(path.relative_to(root))] = {'bytes': path.stat().st_size, 'sha256': digest(path)}
+            value = hashlib.sha256()
+            with path.open('rb') as source:
+                for raw in iter(lambda: source.read(1024 * 1024), b''):
+                    require(time.monotonic() < deadline, 'inventory deadline reached')
+                    value.update(raw)
+            result[str(path.relative_to(root))] = {'bytes': path.stat().st_size, 'sha256': value.hexdigest()}
     return result
 
 
@@ -89,7 +95,8 @@ def run(package, output, execution_path=None, mode='prepare'):
             save(output / 'STATUS.json', {**terminal, 'status': 'running'})
         def execute(label, command, end, cwd=output):
             phase(label)
-            return run_process(command, cwd, output / 'processes' / label, min(end, deadline), 2,
+            runner = run_tree if mode == 'run' else run_process
+            return runner(command, cwd, output / 'processes' / label, min(end, deadline), 2,
                                max_log_bytes=plan['maximum_log_bytes'])
         kit, native_inputs = prepare(package, output, plan)
         receipt = execute('policy-check', ['node', str(kit / 'scripts/run-weight-multiplicity-phase1-corpus.mjs'),
@@ -132,7 +139,7 @@ def run(package, output, execution_path=None, mode='prepare'):
     finally:
         try:
             # Collection uses a closed file roster after every producer exits.
-            save(output / 'FILES.json', inventory(output))
+            save(output / 'FILES.json', inventory(output, deadline))
         except Exception as error:
             terminal['inventory_error'] = str(error)
             terminal['status'] = 'failed'; terminal['corpus_accepted'] = False
