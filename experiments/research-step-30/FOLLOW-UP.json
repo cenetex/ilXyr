@@ -1,0 +1,11 @@
+{
+  "automation_id": "collect-the-approved-feral-comparison",
+  "capacity_failures": 12,
+  "paid_instances_created": 0,
+  "pause_reason": "capacity_unavailable_through_final_scheduled_attempt",
+  "private_prompt_sha256": "df13a1add4e0b117f88e54d206b6c8bbcfbfa1412f04c9b4361a616c7006810a",
+  "retry_cutoff_utc": "2026-09-08T17:05:00Z",
+  "schema": "ilxyr.feral_capacity_followup_closeout.v1",
+  "status": "PAUSED",
+  "verified_at": "2026-09-08T17:06:31.178085+00:00"
+}

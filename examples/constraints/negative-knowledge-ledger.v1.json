@@ -745,6 +745,28 @@
       "lineage_note": "Keep each price document and its checksum. Verify the selected full rate entry and total budget after document changes before launching.",
       "evidence_path": "experiments/research-step-29/PRICE-CHECK-FAILURE.json",
       "evidence_ref": "artifact://sha256/522d4a4f6b9f651731ffbacd87210bd6a684d316546d7c1579bc8d83927d0833"
+    },
+    {
+      "seq": 36,
+      "verdict_id": "verdict:feral.step28-capacity-window.v1",
+      "verdict_ref": "artifact://sha256/e66eaad11979e66db68bbeabfd2cb2980680f57a199de3f3263396cae2740960",
+      "experiment_id": "feral.step28-capacity-window.v1",
+      "family": "feral",
+      "outcome": "execution_failure",
+      "taxonomy": "venue",
+      "mechanism_tags": [
+        "cloud-capacity",
+        "bounded-launch",
+        "provider-observation"
+      ],
+      "summary": "The approved FERAL package reached twelve capacity failures across four supported zones. All exact requests verified zero instances; the bounded follow-up was paused at its cutoff.",
+      "recorded_at_ms": 1788887271972,
+      "project": "feral",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "four initial attempts and eight scheduled follow-ups ended with zero instances and zero model answers",
+      "lineage_note": "Preserve every exact-request reconciliation and stop at the retry cutoff. Keep the scientific package fixed for a later resumption after fresh capacity and budget checks.",
+      "evidence_path": "experiments/research-step-30/CAPACITY-WINDOW.json",
+      "evidence_ref": "artifact://sha256/9fa41527fa058c3224fd5f926a45e1243905ae836036dd4f6246bc86cb773936"
     }
   ]
 }
