@@ -1,0 +1,57 @@
+{
+  "bison_version": "3.8.2",
+  "compiler_version": "12.2.0",
+  "inputs": {
+    "bison": {
+      "bytes": 1174528,
+      "sha256": "a414afd7519c53bfa33415ba5b951bc8b4906877004c49723ffda50a6033c3e8"
+    },
+    "lie": {
+      "bytes": 361073,
+      "sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e"
+    },
+    "tail": {
+      "bytes": 308848,
+      "sha256": "9d48cc8fc8adba793b1173b7ed8de43b35cffb1f3b0279d375cf4c7d93254949"
+    },
+    "trace": {
+      "bytes": 13248076,
+      "sha256": "191c82bb4ec80d5eb9779b6c9dd46ec2e9b582df87adb9e1d449a7317ddc219a"
+    },
+    "zero": {
+      "bytes": 99096573,
+      "sha256": "9af79279246cbad8254a53289a3a83fe3a3a2a30bd87860112dd88bce408e783"
+    }
+  },
+  "lie_cflags": "-O -D_POSIX_C_SOURCE=200809L",
+  "node_version": "22.22.0",
+  "pending": [
+    "full_cloud_controller_and_result_checker",
+    "machine_storage_and_watchdog",
+    "preflight_price_and_digest_bound_run_approval"
+  ],
+  "resource_policy_path": "experiments/research-step-12/RESOURCE-POLICY.json",
+  "resource_policy_sha256": "1ebc76e8692fa3d440386532ac562981e9965b430fd9af19d45f2415c7f64623",
+  "runtime_image": "docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870",
+  "schema": "ilxyr.weight_source_kit_plan.v1",
+  "scope": "full_corpus_source_preparation",
+  "smoke_scope": "two_reproducible_LiE_builds_Zero_self_test_and_three_known_queries",
+  "source_date_epoch": 1112054400,
+  "source_urls": {
+    "bison": "https://deb.debian.org/debian/pool/main/b/bison/bison_3.8.2+dfsg-1+b1_amd64.deb",
+    "lie": "https://mirror.metanet.ch/sage/spkg/upstream/lie/lie-2.2.2.tar.gz",
+    "zero": "https://github.com/atimics/zero-grounded-literary-lm"
+  },
+  "zero_cflags": "-O2 -std=c11 -Wall -Wextra -Wpedantic",
+  "zero_commit": "7be2367458acc8b004bfb3646322048a233d1b09",
+  "zero_files": {
+    "LICENSE": "37f6b7d766eb6791edb89211111a48e3e12ff5cb06578299019bb009fd5be44c",
+    "LICENSES.md": "6acaa442abcca8788956a3960d9331b62f76dfd24413bc170adc7ba49ed01020",
+    "Makefile": "9e7d70605875768b504f9d9745daac2301f16e26dfa8a501b48f6a120a8f9c00",
+    "reasoner0.c": "ed94baf3c90226cae1c542b5d19fbb41a7e893d54a6e67f366b6ebb9faf3191f",
+    "reasoner0.h": "5b009aaa025861e82228ebbe53af28ec2de9b35c7a20c2e98115ff955aabe1c1",
+    "weight_multiplicity.c": "8a35a303836b1ee70e6446f0539d99056604a16a1f3be5cedebaa55b6fa94cd4",
+    "weight_multiplicity.h": "a216db00f434d169da18c9bf0e61346f8861b2915da41f84687cb9aa5ffa830d",
+    "weight_multiplicity_cli.c": "1be0b8d22633863f64a9c94f8c48ab470777f18bcc2d458ee203a76eab04bb63"
+  }
+}

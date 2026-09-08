@@ -1,0 +1,30 @@
+{
+  "failures": [
+    {
+      "id": "legacy_package_policy_gap",
+      "kind": "source_review",
+      "observation": "The historical corpus packager copies three oracle libraries and omits the fixed resource-policy module and policy bindings. Its historical launcher also selects the earlier per-query rule.",
+      "resolution": "The new source kit includes every one of the 14 bound files and the unchanged resource policy. The next cloud controller must select that policy explicitly."
+    },
+    {
+      "id": "original_archive_size_guard",
+      "kind": "preparation_attempt",
+      "observation": "The recovered original calibration package is 99548216 bytes. The first download guard allowed 64 MiB and stopped the read.",
+      "resolution": "The saved object metadata and expected hash established the exact package. A 128 MiB read bound allowed recovery; the archive hash and both nested oracle hashes matched."
+    },
+    {
+      "id": "local_container_daemon_unavailable",
+      "kind": "environment",
+      "observation": "The local Docker client failed to connect to its configured Podman socket.",
+      "resolution": "The fixed Linux build and small correctness check ran in GitHub CI."
+    },
+    {
+      "id": "lie_build_script_mode",
+      "kind": "source_review",
+      "observation": "The first draft source extraction wrote every file with the default file mode. LiE make invokes ./make_lie and needs the original execute bit. This was found before native execution.",
+      "resolution": "Safe extraction now preserves ordinary permission bits. A regression test checks the executable script; two native builds passed."
+    }
+  ],
+  "new_full_corpus_runs": 0,
+  "schema": "ilxyr.weight_source_preparation_failures.v1"
+}

@@ -1,0 +1,66 @@
+name: weight source kit
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/weight-source-kit.yml'
+      - 'scripts/weight_*'
+      - 'scripts/test_weight_source_kit.py'
+      - 'scripts/feral_process.py'
+      - 'experiments/research-step-33/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fixed-oracle-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - name: Check source-kit rejection cases
+        run: python3 scripts/test_weight_source_kit.py
+      - name: Acquire exact public build inputs
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,subprocess,urllib.request
+          plan=json.loads(pathlib.Path('experiments/research-step-33/SOURCE-PLAN.json').read_text())
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'weight-inputs';root.mkdir()
+          for key,name in [('lie','lie-2.2.2.tar.gz'),('bison','bison.deb')]:
+              with urllib.request.urlopen(plan['source_urls'][key],timeout=60) as response:
+                  raw=response.read(plan['inputs'][key]['bytes']+1)
+              assert len(raw)==plan['inputs'][key]['bytes'] and hashlib.sha256(raw).hexdigest()==plan['inputs'][key]['sha256']
+              (root/name).write_bytes(raw)
+          checkout=root/'upstream'
+          subprocess.run(['git','init',str(checkout)],check=True)
+          subprocess.run(['git','-C',str(checkout),'remote','add','origin',plan['source_urls']['zero']],check=True)
+          subprocess.run(['git','-C',str(checkout),'fetch','--depth','1','--filter=blob:none','origin',plan['zero_commit']],check=True)
+          (root/'zero').mkdir()
+          for name,expected in plan['zero_files'].items():
+              raw=subprocess.check_output(['git','-C',str(checkout),'show',plan['zero_commit']+':'+name])
+              assert hashlib.sha256(raw).hexdigest()==expected
+              (root/'zero'/name).write_bytes(raw)
+          PY
+      - name: Build twice and check three known answers in the fixed Linux image
+        run: |
+          mkdir "$RUNNER_TEMP/weight-smoke-root"
+          docker run --rm --network none --memory 4g --cpus 2 --read-only --tmpfs /tmp:rw,size=128m --mount "type=bind,src=$PWD,dst=/work/repo,readonly" --mount "type=bind,src=$RUNNER_TEMP/weight-inputs,dst=/work/inputs,readonly" --mount "type=bind,src=$RUNNER_TEMP/weight-smoke-root,dst=/work/output" --entrypoint python3 docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870 /work/repo/scripts/weight_oracle_smoke.py --repo /work/repo --inputs /work/inputs --output /work/output/smoke
+      - name: Show compact status
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'weight-smoke-root/smoke'
+          for name in ['RESULT.json','FIXTURES.json']:
+              path=root/name
+              if path.exists():print(name,path.read_text())
+          for path in root.glob('logs/*/stderr.log'):
+              if path.stat().st_size:print(str(path.relative_to(root)),path.read_text()[-1500:])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: weight-source-kit-smoke
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/weight-smoke-root/smoke/RESULT.json
+            ${{ runner.temp }}/weight-smoke-root/smoke/FIXTURES.json
+            ${{ runner.temp }}/weight-smoke-root/smoke/logs/

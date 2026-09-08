@@ -260,8 +260,11 @@ The original Phase 0 frontier resolved Stop. Later LiE work established a reduce
 26,624-query tail calibration produced a proposed 50 ms final p99 clause. The
 [controller now enforces the fixed resource policy](../experiments/research-step-12/REPORT.md).
 The [versioned calibration trace now verifies](../experiments/research-step-20/REPORT.md),
-including every slowest-50 query and the final-p99 decision. The next step is
-the frozen cloud corpus package. The
+including every slowest-50 query and the final-p99 decision. The
+[full-corpus source kit](../experiments/research-step-33/REPORT.md) now binds all
+14 policy files, the saved trace, and both oracle sources. Two fixed Linux LiE
+builds match, and both oracles pass three known-answer checks. The next step
+is the cloud controller, result checker, and priced launch package. The
 [resource accounting component](../experiments/research-step-3/REPORT.md)
 now passes its exact percentile and failure-retention tests. The source-pinned contract is
 [`weight-multiplicity-transfer-r3`](../examples/weight-multiplicity/rev3-contract.json), and the
