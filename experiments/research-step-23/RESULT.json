@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "DRY-RUN.json": "c9bbbf978cd95ee6c1b527a29cb9f3fc7b0cbe9dc9af1cb7d9450eb8ccc3f8e4",
+    "EXECUTION-PLAN.json": "70eee53ef3ada5353d48fcb5323a45db7d4e3536241937e0a492516d38f93f6a",
+    "PACKAGE.json": "51afda907a9405cf63961db9d0aa42fd8387cf5a5a8b89ce162739d750df1c32",
+    "PREFLIGHT.json": "b5898ea5cf5fc537c0ee10e78e3004efb4c70ce2025ad95710148941ad0ee5aa",
+    "PUBLICATION.json": "2eaa38e555006ccc72f7017ad22adc6fa8818e402cb9c817db3d85fb6b1441fd",
+    "RUNTIME-CHECK.json": "2e5c52c5d0014efdc3d78f9fca8c767c602b78990701cca702268a6a87dba0ab"
+  },
+  "execution_sources": {
+    "scripts/aws/reasoner55-user-data.sh": "ae4d2614244dbdd15520d502fe17a6789e992501e220d6357c8d4bee2393193e",
+    "scripts/package_reasoner_cloud.py": "8fd5af91a27de2b14b898d7363862a4e8bde57c7593e2e5630456fa149773ac7",
+    "scripts/reasoner_cloud_launch.py": "906b693fd86ef7b3f63eb605defcbd230a70ea236f593b8767830ef304da7539",
+    "scripts/run_reasoner_cloud.mjs": "90f2cce93ca5d23ad6b2d150f43b5386e8d4b41a5fe14c112bcd6266be9d2175"
+  },
+  "linux_smoke_independent_replays": 96,
+  "linux_smoke_native_episodes": 384,
+  "local_test_groups": 10,
+  "package_sha256": "e7da18889a91796c2c42f49832b2e89dcb565dd4eefeec9b8b9307e72b26ec4d",
+  "paid_instances_created": 0,
+  "plan_sha256": "70eee53ef3ada5353d48fcb5323a45db7d4e3536241937e0a492516d38f93f6a",
+  "schema": "ilxyr.reasoner55_cloud_preparation.v1",
+  "scientific_comparison_status": "awaiting_full_run",
+  "source_commit": "25364d838739c30b8e07f6c05cebf47dc7679908",
+  "status": "prepared_for_execution_decision"
+}

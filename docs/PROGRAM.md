@@ -6,6 +6,10 @@ The [next-decision report](../experiments/research-step-18/REPORT.md) gives the
 current deliverable for each of the five projects, the failures behind those
 choices, and the shared comparison method. The immediate research priority is
 the fixed Reasoner guide against its matched lexical control on fresh families.
+Its [cloud comparison package](../experiments/research-step-23/REPORT.md) now
+passes the fixed Linux smoke, versioned read-back, and free AWS dry run. The
+full comparison is ready for a one-hour execution decision capped at $0.50
+before tax.
 
 The [Solomon count-probability step](../experiments/research-step-19/REPORT.md)
 adds two train-only confidence controls. Its known-window smoke preserves
