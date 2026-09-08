@@ -1,6 +1,8 @@
 import copy
 from collections import Counter
 import gzip
+import io
+import tarfile
 import hashlib
 import json
 import os
@@ -15,6 +17,7 @@ from unittest.mock import patch
 
 from feral_process import run_process
 from weight_source_kit import encode, sha
+from package_weight_corpus import SOURCES as PACKAGE_SOURCES, PLAN as PACKAGE_PLAN, unpack as unpack_controller
 from weight_process_tree import run_tree
 from weight_corpus_controller import CONTROLLER_PLAN, REPO, corpus_command, execution_deadline, plan_at
 from weight_corpus_result import check_result, digest, load_context, trace_metrics
@@ -188,6 +191,35 @@ class ResultTests(unittest.TestCase):
     def test_interrupted_process_rejects_complete_files(self):
         process = {**PROCESS, 'status': 'failed', 'stop_reason': 'deadline'}
         self.assertIn('successful result has failed process', self.check(process)['errors'])
+
+
+class PackageTests(unittest.TestCase):
+    def package(self, change=False):
+        source = b'fixture scientific archive'
+        files = {name: b'fixture code' for name in PACKAGE_SOURCES}
+        files[PACKAGE_PLAN] = encode({'source_kit_bytes': len(source), 'source_kit_sha256': sha(source)})
+        files['source-kit.tar'] = source
+        files['PACKAGE.json'] = encode({'schema': 'ilxyr.weight_corpus_controller_package.v1',
+            'files': {n: {'bytes': len(b), 'sha256': sha(b)} for n,b in files.items()}})
+        if change: files['scripts/weight_corpus_controller.py'] = b'changed code'
+        stream = io.BytesIO()
+        with tarfile.open(fileobj=stream, mode='w') as archive:
+            for name, raw in files.items():
+                entry = tarfile.TarInfo(name); entry.size = len(raw); archive.addfile(entry, io.BytesIO(raw))
+        return stream.getvalue()
+
+    def test_controller_package_round_trip_preserves_existing_output(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); raw = self.package(); package = root / 'package.tar'; package.write_bytes(raw)
+            unpack_controller(package, sha(raw), root / 'unpacked')
+            self.assertEqual((root / 'unpacked/source-kit.tar').read_bytes(), b'fixture scientific archive')
+            with self.assertRaises(FileExistsError): unpack_controller(package, sha(raw), root / 'unpacked')
+
+    def test_changed_controller_fails_before_extraction(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); raw = self.package(change=True); package = root / 'package.tar'; package.write_bytes(raw)
+            with self.assertRaisesRegex(ValueError, 'member binding differs'): unpack_controller(package, sha(raw), root / 'unpacked')
+            self.assertFalse((root / 'unpacked').exists())
 
 
 class CommandTests(unittest.TestCase):
