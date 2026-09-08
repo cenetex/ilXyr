@@ -1,0 +1,40 @@
+{
+  "common_policy": "Step 36 public example filter, feature definitions, bounded top-64 selection, shared syntax-order verifier challenge, exact verifier and canonical fallback",
+  "controls": [
+    "semantic_frequency",
+    "task_guide",
+    "raw_lexical_task_guide",
+    "task_without_prior_feature"
+  ],
+  "decision_rule": "Assess the full guide against matched lexical guidance and semantic frequency under common limits. Keep the earlier primary no-go as its own result.",
+  "exclude_keys": [
+    "target semantic behavior",
+    "primitive set"
+  ],
+  "execution_authorized": false,
+  "freshness_exclusions": [
+    "source families and declared source solutions",
+    "development families",
+    "original fixed-transfer cohort",
+    "128-family matched cohort",
+    "four opened matched-smoke families used in this engineering check"
+  ],
+  "hold_fixed": [
+    "source model and weights",
+    "compiler, machine, runtime and limits",
+    "family and arm orders",
+    "public proposal information",
+    "full process cost and failure collection"
+  ],
+  "model_sha256": "db0afc1e460df5192917fac1f8129a2ec1e753ddb67939a975076fae5579bb7a",
+  "next_deliverable": "Frozen fresh-family roster and controller with independent replay, followed by cloud package and budget preflight.",
+  "reported_costs": [
+    "complete process CPU and wall cost",
+    "per-family verifier checks",
+    "enumeration and grouping",
+    "feature work and ranking",
+    "fallback work and cap hits"
+  ],
+  "schema": "ilxyr.reasoner_eligible_next_design.v1",
+  "status": "fresh_comparison_to_prepare"
+}
