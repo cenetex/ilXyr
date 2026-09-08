@@ -1,0 +1,15 @@
+{
+  "bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1",
+  "bytes": 7782400,
+  "key": "packages/reasoner55/e7da18889a91796c2c42f49832b2e89dcb565dd4eefeec9b8b9307e72b26ec4d.tar",
+  "package_sha256": "e7da18889a91796c2c42f49832b2e89dcb565dd4eefeec9b8b9307e72b26ec4d",
+  "plan_sha256": "70eee53ef3ada5353d48fcb5323a45db7d4e3536241937e0a492516d38f93f6a",
+  "receipts": {
+    "readback-receipt.json": "45d3ba8dd23092ec90a1865b86a5e346bcd66a59a9c6aeb1d82f47cceda52019",
+    "stage-receipt.json": "45d1466b6393aff11dbf64bcf0c653d9e0b9648dab46d875ea48ff0296fdb41c"
+  },
+  "schema": "ilxyr.reasoner55_staged_package.v1",
+  "source_commit": "25364d838739c30b8e07f6c05cebf47dc7679908",
+  "status": "versioned_readback_verified",
+  "version_id": "4wuc9NXWBhCIhZBSc3bVkPFLI3vUaxgB"
+}

@@ -1,0 +1,41 @@
+{
+  "all_executable_payload_bytes_match": true,
+  "ci_package_sha256": "2a930abc44ab714cde9c35ffcd757fce831c9d08751153e2195ffd5411482819",
+  "ci_run_id": 34197168252,
+  "executables": {
+    "fast": "b60cac616f41f35afcb64135302c345dfce5151325538e1393df254e96721705",
+    "plain": "3bca3caf526accf2e02ae67de596d5f670e7a39faff8c617672162270fbed994"
+  },
+  "files": {
+    "build.stderr.log": "ecd205ecb69dca15363025eb7e2156b34f4d8ed47038d19eac9e4d7911407375",
+    "build.stdout.log": "3dcbe87a89ebdbb812b545608a93e9100a11a20687f9f19bb9c2d501915bfed0",
+    "executables.json": "441223b4d1c241e6e4327fc654b42018738ccef0fd696f7c46b8d2d5cd28b4f2",
+    "executables/reasoner55_matched_fast": "b60cac616f41f35afcb64135302c345dfce5151325538e1393df254e96721705",
+    "executables/reasoner55_matched_plain": "3bca3caf526accf2e02ae67de596d5f670e7a39faff8c617672162270fbed994",
+    "processes.json": "422a6973ef359d933d563f7664d8f18617248f0f6a9501969c9a565879acd25e",
+    "runtime.json": "021c5fe933daaddf82f3e534f4362e618765cfffb3fadfeb80a5d98a32484f97",
+    "smoke.json": "e89e21d4004834827dcfa4edbb17d1602be75309214be6d6b5d5859e3e673c57",
+    "smoke.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "smoke.stdout.log": "371fc39a11a2036b5c5c43f7e479824c02633b04e82c97a8e5dc5fe4cc2ccbc7",
+    "terminal.json": "53ca74ba3e55d741a14aaa7ecb51a9e9ab4c0b11ff547d2dc2afad87946a9811"
+  },
+  "local_package_sha256": "e7da18889a91796c2c42f49832b2e89dcb565dd4eefeec9b8b9307e72b26ec4d",
+  "manifest_difference": "source_commit identifies the CI merge checkout or local branch head",
+  "runtime": {
+    "compiler_flags": "-O2 -std=c11 -Wall -Wextra -Wpedantic",
+    "compiler_sha256": "75e997ec62297a6484f491bae28ab0ccb489daba23e398fd10fe68e9e6f0def8",
+    "compiler_version": "12.2.0",
+    "mode": "smoke",
+    "node": "v22.22.0",
+    "plan_sha256": "70eee53ef3ada5353d48fcb5323a45db7d4e3536241937e0a492516d38f93f6a",
+    "runtime_image": "docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870",
+    "timing_evidence": false
+  },
+  "status": "verified",
+  "terminal": {
+    "elapsed_ms": 29555,
+    "mode": "smoke",
+    "phase": "smoke",
+    "status": "complete"
+  }
+}

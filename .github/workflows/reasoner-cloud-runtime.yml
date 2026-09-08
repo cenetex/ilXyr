@@ -1,0 +1,56 @@
+name: reasoner cloud runtime
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/reasoner-cloud-runtime.yml'
+      - 'scripts/*reasoner*cloud*'
+      - 'scripts/aws/reasoner55-user-data.sh'
+      - 'experiments/research-step-23/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fixed-runtime-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check archive handling
+        run: |
+          python3 scripts/test_reasoner_cloud_package.py
+          python3 scripts/test_reasoner_cloud_launch.py
+      - name: Build the fixed public source archive
+        run: |
+          git init "$RUNNER_TEMP/reasoner-zero"
+          git -C "$RUNNER_TEMP/reasoner-zero" remote add origin https://github.com/atimics/zero-grounded-literary-lm.git
+          git -C "$RUNNER_TEMP/reasoner-zero" fetch --depth 1 --filter=blob:none origin 24fae8ea8aa42212c7058b084b66dfa725672dfd
+          python3 scripts/package_reasoner55_matched_source.py --zero-repo "$RUNNER_TEMP/reasoner-zero" --revision 24fae8ea8aa42212c7058b084b66dfa725672dfd --output "$RUNNER_TEMP/reasoner-source.tar"
+          python3 scripts/package_reasoner_cloud.py build --repo . --revision "$(git rev-parse HEAD)" --source "$RUNNER_TEMP/reasoner-source.tar" --output "$RUNNER_TEMP/reasoner-cloud.tar"
+          python3 scripts/package_reasoner_cloud.py unpack --package "$RUNNER_TEMP/reasoner-cloud.tar" --output "$RUNNER_TEMP/reasoner-bundle"
+      - name: Check the frozen Linux runtime
+        run: |
+          mkdir "$RUNNER_TEMP/reasoner-smoke"
+          docker run --rm --network none --memory 6g --cpus 1 --read-only --tmpfs /tmp:rw,size=256m --mount "type=bind,src=$RUNNER_TEMP/reasoner-bundle,dst=/work/package,readonly" --mount "type=bind,src=$RUNNER_TEMP/reasoner-smoke,dst=/work/output" --entrypoint node docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870 /work/package/scripts/run_reasoner_cloud.mjs /work/package /work/output smoke
+      - name: Show compact smoke status
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'reasoner-smoke'
+          for name in ['terminal.json','runtime.json','executables.json']:
+              path=root/name
+              if path.exists():print(name,json.loads(path.read_text()))
+          for name in ['build.stderr.log','smoke.stderr.log']:
+              path=root/name
+              if path.exists():print(name,path.read_text()[-2000:])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reasoner-cloud-smoke
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/reasoner-cloud.tar
+            ${{ runner.temp }}/reasoner-smoke/*.json
+            ${{ runner.temp }}/reasoner-smoke/*.log
+            ${{ runner.temp }}/reasoner-smoke/executables/
