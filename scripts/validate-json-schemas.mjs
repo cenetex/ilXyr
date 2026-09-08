@@ -46,6 +46,7 @@ const fixtures = {
     "examples/constraints/negative-knowledge-ledger.v1.json",
   ],
   "verdict.schema.json": [
+    "examples/constraints/feral.step25-package-capacity.v1.verdict.json",
     "examples/constraints/zero.reasoner55-matched-fresh-family.v1.verdict.json",
     "examples/constraints/feral.cuda-worker-startup.v1.verdict.json",
     "examples/constraints/feral.calculator-full-roster-coverage.v1.verdict.json",

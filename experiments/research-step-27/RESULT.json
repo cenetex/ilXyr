@@ -1,0 +1,29 @@
+{
+  "artifacts": {
+    "AUTHORIZATION.json": "008f589521004540c2def1e080095030fcbf1ab7e534b943408e2fe20a94d927",
+    "CAPACITY-FAILURES.json": "9a7471bac4960ee6975ffeb22162d784fb8ffad410f6598812f3fb4019fda1d7",
+    "DRY-RUN.json": "d977104ec4015ad2329d0ee9f579876a719828e110f4792df96092b868b7173a",
+    "FOLLOW-UP.json": "f77b9c7994ec22ffde4596bc7c00f587e16e1b915bae4d72317e3a608b5ed9d5",
+    "LAUNCH.json": "dfe0b85613a9c25f984601d44af7bc40f9dd4198c3bb866ba6debe5b28c19230",
+    "PREFLIGHT.json": "2e91279d4cfe5379cb8bef6e8302d7bcb7751d270c7863bf22d38ad7df660565",
+    "REASONER-PUBLICATION.json": "b07c78a012a5915c9e1c3c40c409c054b950d5dde1cde0525e21b417fb3b20a4",
+    "STARTUP.json": "5aa2dfe538b57fc126c98058e9f7d3d727a8ad864a0d2bd1cd83e2fee91e1922"
+  },
+  "capacity_failure_instances_created": 0,
+  "capacity_failures_before_launch": 3,
+  "deadline_utc": "2026-09-08T09:09:16Z",
+  "execution_plan_sha256": "eeb5658143faebd7aeb9db25185c5503a59ab5dc555c378cbdd243c35a2b3e49",
+  "follow_up_status": "ACTIVE",
+  "host_package_sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+  "instance_id": "i-05210fe6cd2d5817c",
+  "max_instance_seconds": 3600,
+  "maximum_before_tax_usd": "3.00",
+  "model_result_status": "awaiting_terminal_collection",
+  "paid_instances_created": 1,
+  "root_volume_id": "vol-0160c364f54a638d2",
+  "run_id": "feral-finqa-20260908T080916Z",
+  "schema": "ilxyr.feral_step27_launch.v1",
+  "shutdown_timer_armed": true,
+  "status": "running",
+  "user_data_bytes_verified": true
+}

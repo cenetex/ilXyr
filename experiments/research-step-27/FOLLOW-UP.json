@@ -1,0 +1,15 @@
+{
+  "feral": {
+    "automation_id": "collect-the-approved-feral-comparison",
+    "deadline_utc": "2026-09-08T09:09:16Z",
+    "interval_minutes": 5,
+    "scope": "Observe this approved run, enforce its original deadline, verify cleanup, and publish its results.",
+    "status": "ACTIVE"
+  },
+  "reasoner": {
+    "automation_id": "collect-the-approved-reasoner-comparison",
+    "reason": "Collection, provider cleanup, public release read-back, main CI, and live program publication verified.",
+    "status": "PAUSED"
+  },
+  "schema": "ilxyr.research_followup_record.v1"
+}
