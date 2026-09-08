@@ -1,0 +1,9 @@
+{
+  "first_pause_update": "rejected",
+  "raw_operational_receipts_custody": "local",
+  "reason": "The saved prompt repeated cloud account and infrastructure details.",
+  "resolution": "A short status prompt retained the counts, cutoff, local continuation paths, and pending run limits.",
+  "revised_pause_update": "accepted",
+  "saved_pause_verified": true,
+  "schema": "ilxyr.feral_followup_update_review.v1"
+}

@@ -1,0 +1,11 @@
+{
+  "active_feral_instances": 0,
+  "checked_at": "2026-09-08T17:04:34.684249+00:00",
+  "instances_for_all_request_tokens": 0,
+  "raw_receipts_custody": "local",
+  "receipts": {
+    "active-feral-instances.json": "a7ce7359393c06a423d23e3a32f1df64809059bf3618a008cd5d728eb77bb25b",
+    "all-request-reconciliation.json": "a7ce7359393c06a423d23e3a32f1df64809059bf3618a008cd5d728eb77bb25b"
+  },
+  "request_count": 12
+}

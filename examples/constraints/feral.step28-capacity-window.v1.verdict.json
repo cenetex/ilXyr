@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-30/CAPACITY-WINDOW.json",
+  "evidence_ref": "artifact://sha256/9fa41527fa058c3224fd5f926a45e1243905ae836036dd4f6246bc86cb773936",
+  "experiment_id": "feral.step28-capacity-window.v1",
+  "family": "feral",
+  "id": "verdict:feral.step28-capacity-window.v1",
+  "lineage_note": "Preserve every exact-request reconciliation and stop at the retry cutoff. Keep the scientific package fixed for a later resumption after fresh capacity and budget checks.",
+  "mechanism": "The provider listed the GPU type in four supported zones while each submitted launch request reported insufficient current capacity.",
+  "mechanism_tags": [
+    "cloud-capacity",
+    "bounded-launch",
+    "provider-observation"
+  ],
+  "outcome": "execution_failure",
+  "project": "feral",
+  "recorded_at_ms": 1788887271972,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "four initial attempts and eight scheduled follow-ups ended with zero instances and zero model answers",
+  "summary": "The approved FERAL package reached twelve capacity failures across four supported zones. All exact requests verified zero instances; the bounded follow-up was paused at its cutoff.",
+  "taxonomy": "venue"
+}
