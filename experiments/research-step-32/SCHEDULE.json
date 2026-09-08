@@ -1,0 +1,1802 @@
+[
+  {
+    "arm": "native",
+    "document": "pg-1342",
+    "index": 0,
+    "pass": 0
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1342",
+    "index": 1,
+    "pass": 0
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1342",
+    "index": 2,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1342",
+    "index": 3,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1342",
+    "index": 4,
+    "pass": 0
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1661",
+    "index": 5,
+    "pass": 0
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1661",
+    "index": 6,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1661",
+    "index": 7,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1661",
+    "index": 8,
+    "pass": 0
+  },
+  {
+    "arm": "native",
+    "document": "pg-1661",
+    "index": 9,
+    "pass": 0
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-35",
+    "index": 10,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-35",
+    "index": 11,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-35",
+    "index": 12,
+    "pass": 0
+  },
+  {
+    "arm": "native",
+    "document": "pg-35",
+    "index": 13,
+    "pass": 0
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-35",
+    "index": 14,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-98",
+    "index": 15,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-98",
+    "index": 16,
+    "pass": 0
+  },
+  {
+    "arm": "native",
+    "document": "pg-98",
+    "index": 17,
+    "pass": 0
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-98",
+    "index": 18,
+    "pass": 0
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-98",
+    "index": 19,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-84",
+    "index": 20,
+    "pass": 0
+  },
+  {
+    "arm": "native",
+    "document": "pg-84",
+    "index": 21,
+    "pass": 0
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-84",
+    "index": 22,
+    "pass": 0
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-84",
+    "index": 23,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-84",
+    "index": 24,
+    "pass": 0
+  },
+  {
+    "arm": "native",
+    "document": "pg-74",
+    "index": 25,
+    "pass": 0
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-74",
+    "index": 26,
+    "pass": 0
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-74",
+    "index": 27,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-74",
+    "index": 28,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-74",
+    "index": 29,
+    "pass": 0
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-205",
+    "index": 30,
+    "pass": 0
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-205",
+    "index": 31,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-205",
+    "index": 32,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-205",
+    "index": 33,
+    "pass": 0
+  },
+  {
+    "arm": "native",
+    "document": "pg-205",
+    "index": 34,
+    "pass": 0
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1228",
+    "index": 35,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1228",
+    "index": 36,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1228",
+    "index": 37,
+    "pass": 0
+  },
+  {
+    "arm": "native",
+    "document": "pg-1228",
+    "index": 38,
+    "pass": 0
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1228",
+    "index": 39,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-3300",
+    "index": 40,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-3300",
+    "index": 41,
+    "pass": 0
+  },
+  {
+    "arm": "native",
+    "document": "pg-3300",
+    "index": 42,
+    "pass": 0
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-3300",
+    "index": 43,
+    "pass": 0
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-3300",
+    "index": 44,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-132",
+    "index": 45,
+    "pass": 0
+  },
+  {
+    "arm": "native",
+    "document": "pg-132",
+    "index": 46,
+    "pass": 0
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-132",
+    "index": 47,
+    "pass": 0
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-132",
+    "index": 48,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-132",
+    "index": 49,
+    "pass": 0
+  },
+  {
+    "arm": "native",
+    "document": "pg-34901",
+    "index": 50,
+    "pass": 0
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-34901",
+    "index": 51,
+    "pass": 0
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-34901",
+    "index": 52,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-34901",
+    "index": 53,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-34901",
+    "index": 54,
+    "pass": 0
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-20203",
+    "index": 55,
+    "pass": 0
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-20203",
+    "index": 56,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-20203",
+    "index": 57,
+    "pass": 0
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-20203",
+    "index": 58,
+    "pass": 0
+  },
+  {
+    "arm": "native",
+    "document": "pg-20203",
+    "index": 59,
+    "pass": 0
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1661",
+    "index": 60,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1661",
+    "index": 61,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1661",
+    "index": 62,
+    "pass": 1
+  },
+  {
+    "arm": "native",
+    "document": "pg-1661",
+    "index": 63,
+    "pass": 1
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1661",
+    "index": 64,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-35",
+    "index": 65,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-35",
+    "index": 66,
+    "pass": 1
+  },
+  {
+    "arm": "native",
+    "document": "pg-35",
+    "index": 67,
+    "pass": 1
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-35",
+    "index": 68,
+    "pass": 1
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-35",
+    "index": 69,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-98",
+    "index": 70,
+    "pass": 1
+  },
+  {
+    "arm": "native",
+    "document": "pg-98",
+    "index": 71,
+    "pass": 1
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-98",
+    "index": 72,
+    "pass": 1
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-98",
+    "index": 73,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-98",
+    "index": 74,
+    "pass": 1
+  },
+  {
+    "arm": "native",
+    "document": "pg-84",
+    "index": 75,
+    "pass": 1
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-84",
+    "index": 76,
+    "pass": 1
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-84",
+    "index": 77,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-84",
+    "index": 78,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-84",
+    "index": 79,
+    "pass": 1
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-74",
+    "index": 80,
+    "pass": 1
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-74",
+    "index": 81,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-74",
+    "index": 82,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-74",
+    "index": 83,
+    "pass": 1
+  },
+  {
+    "arm": "native",
+    "document": "pg-74",
+    "index": 84,
+    "pass": 1
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-205",
+    "index": 85,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-205",
+    "index": 86,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-205",
+    "index": 87,
+    "pass": 1
+  },
+  {
+    "arm": "native",
+    "document": "pg-205",
+    "index": 88,
+    "pass": 1
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-205",
+    "index": 89,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1228",
+    "index": 90,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1228",
+    "index": 91,
+    "pass": 1
+  },
+  {
+    "arm": "native",
+    "document": "pg-1228",
+    "index": 92,
+    "pass": 1
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1228",
+    "index": 93,
+    "pass": 1
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1228",
+    "index": 94,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-3300",
+    "index": 95,
+    "pass": 1
+  },
+  {
+    "arm": "native",
+    "document": "pg-3300",
+    "index": 96,
+    "pass": 1
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-3300",
+    "index": 97,
+    "pass": 1
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-3300",
+    "index": 98,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-3300",
+    "index": 99,
+    "pass": 1
+  },
+  {
+    "arm": "native",
+    "document": "pg-132",
+    "index": 100,
+    "pass": 1
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-132",
+    "index": 101,
+    "pass": 1
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-132",
+    "index": 102,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-132",
+    "index": 103,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-132",
+    "index": 104,
+    "pass": 1
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-34901",
+    "index": 105,
+    "pass": 1
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-34901",
+    "index": 106,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-34901",
+    "index": 107,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-34901",
+    "index": 108,
+    "pass": 1
+  },
+  {
+    "arm": "native",
+    "document": "pg-34901",
+    "index": 109,
+    "pass": 1
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-20203",
+    "index": 110,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-20203",
+    "index": 111,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-20203",
+    "index": 112,
+    "pass": 1
+  },
+  {
+    "arm": "native",
+    "document": "pg-20203",
+    "index": 113,
+    "pass": 1
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-20203",
+    "index": 114,
+    "pass": 1
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1342",
+    "index": 115,
+    "pass": 1
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1342",
+    "index": 116,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1342",
+    "index": 117,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1342",
+    "index": 118,
+    "pass": 1
+  },
+  {
+    "arm": "native",
+    "document": "pg-1342",
+    "index": 119,
+    "pass": 1
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-35",
+    "index": 120,
+    "pass": 2
+  },
+  {
+    "arm": "native",
+    "document": "pg-35",
+    "index": 121,
+    "pass": 2
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-35",
+    "index": 122,
+    "pass": 2
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-35",
+    "index": 123,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-35",
+    "index": 124,
+    "pass": 2
+  },
+  {
+    "arm": "native",
+    "document": "pg-98",
+    "index": 125,
+    "pass": 2
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-98",
+    "index": 126,
+    "pass": 2
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-98",
+    "index": 127,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-98",
+    "index": 128,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-98",
+    "index": 129,
+    "pass": 2
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-84",
+    "index": 130,
+    "pass": 2
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-84",
+    "index": 131,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-84",
+    "index": 132,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-84",
+    "index": 133,
+    "pass": 2
+  },
+  {
+    "arm": "native",
+    "document": "pg-84",
+    "index": 134,
+    "pass": 2
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-74",
+    "index": 135,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-74",
+    "index": 136,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-74",
+    "index": 137,
+    "pass": 2
+  },
+  {
+    "arm": "native",
+    "document": "pg-74",
+    "index": 138,
+    "pass": 2
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-74",
+    "index": 139,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-205",
+    "index": 140,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-205",
+    "index": 141,
+    "pass": 2
+  },
+  {
+    "arm": "native",
+    "document": "pg-205",
+    "index": 142,
+    "pass": 2
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-205",
+    "index": 143,
+    "pass": 2
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-205",
+    "index": 144,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1228",
+    "index": 145,
+    "pass": 2
+  },
+  {
+    "arm": "native",
+    "document": "pg-1228",
+    "index": 146,
+    "pass": 2
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1228",
+    "index": 147,
+    "pass": 2
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1228",
+    "index": 148,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1228",
+    "index": 149,
+    "pass": 2
+  },
+  {
+    "arm": "native",
+    "document": "pg-3300",
+    "index": 150,
+    "pass": 2
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-3300",
+    "index": 151,
+    "pass": 2
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-3300",
+    "index": 152,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-3300",
+    "index": 153,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-3300",
+    "index": 154,
+    "pass": 2
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-132",
+    "index": 155,
+    "pass": 2
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-132",
+    "index": 156,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-132",
+    "index": 157,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-132",
+    "index": 158,
+    "pass": 2
+  },
+  {
+    "arm": "native",
+    "document": "pg-132",
+    "index": 159,
+    "pass": 2
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-34901",
+    "index": 160,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-34901",
+    "index": 161,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-34901",
+    "index": 162,
+    "pass": 2
+  },
+  {
+    "arm": "native",
+    "document": "pg-34901",
+    "index": 163,
+    "pass": 2
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-34901",
+    "index": 164,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-20203",
+    "index": 165,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-20203",
+    "index": 166,
+    "pass": 2
+  },
+  {
+    "arm": "native",
+    "document": "pg-20203",
+    "index": 167,
+    "pass": 2
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-20203",
+    "index": 168,
+    "pass": 2
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-20203",
+    "index": 169,
+    "pass": 2
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1342",
+    "index": 170,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1342",
+    "index": 171,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1342",
+    "index": 172,
+    "pass": 2
+  },
+  {
+    "arm": "native",
+    "document": "pg-1342",
+    "index": 173,
+    "pass": 2
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1342",
+    "index": 174,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1661",
+    "index": 175,
+    "pass": 2
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1661",
+    "index": 176,
+    "pass": 2
+  },
+  {
+    "arm": "native",
+    "document": "pg-1661",
+    "index": 177,
+    "pass": 2
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1661",
+    "index": 178,
+    "pass": 2
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1661",
+    "index": 179,
+    "pass": 2
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-98",
+    "index": 180,
+    "pass": 3
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-98",
+    "index": 181,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-98",
+    "index": 182,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-98",
+    "index": 183,
+    "pass": 3
+  },
+  {
+    "arm": "native",
+    "document": "pg-98",
+    "index": 184,
+    "pass": 3
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-84",
+    "index": 185,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-84",
+    "index": 186,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-84",
+    "index": 187,
+    "pass": 3
+  },
+  {
+    "arm": "native",
+    "document": "pg-84",
+    "index": 188,
+    "pass": 3
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-84",
+    "index": 189,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-74",
+    "index": 190,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-74",
+    "index": 191,
+    "pass": 3
+  },
+  {
+    "arm": "native",
+    "document": "pg-74",
+    "index": 192,
+    "pass": 3
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-74",
+    "index": 193,
+    "pass": 3
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-74",
+    "index": 194,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-205",
+    "index": 195,
+    "pass": 3
+  },
+  {
+    "arm": "native",
+    "document": "pg-205",
+    "index": 196,
+    "pass": 3
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-205",
+    "index": 197,
+    "pass": 3
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-205",
+    "index": 198,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-205",
+    "index": 199,
+    "pass": 3
+  },
+  {
+    "arm": "native",
+    "document": "pg-1228",
+    "index": 200,
+    "pass": 3
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1228",
+    "index": 201,
+    "pass": 3
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1228",
+    "index": 202,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1228",
+    "index": 203,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1228",
+    "index": 204,
+    "pass": 3
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-3300",
+    "index": 205,
+    "pass": 3
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-3300",
+    "index": 206,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-3300",
+    "index": 207,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-3300",
+    "index": 208,
+    "pass": 3
+  },
+  {
+    "arm": "native",
+    "document": "pg-3300",
+    "index": 209,
+    "pass": 3
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-132",
+    "index": 210,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-132",
+    "index": 211,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-132",
+    "index": 212,
+    "pass": 3
+  },
+  {
+    "arm": "native",
+    "document": "pg-132",
+    "index": 213,
+    "pass": 3
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-132",
+    "index": 214,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-34901",
+    "index": 215,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-34901",
+    "index": 216,
+    "pass": 3
+  },
+  {
+    "arm": "native",
+    "document": "pg-34901",
+    "index": 217,
+    "pass": 3
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-34901",
+    "index": 218,
+    "pass": 3
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-34901",
+    "index": 219,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-20203",
+    "index": 220,
+    "pass": 3
+  },
+  {
+    "arm": "native",
+    "document": "pg-20203",
+    "index": 221,
+    "pass": 3
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-20203",
+    "index": 222,
+    "pass": 3
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-20203",
+    "index": 223,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-20203",
+    "index": 224,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1342",
+    "index": 225,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1342",
+    "index": 226,
+    "pass": 3
+  },
+  {
+    "arm": "native",
+    "document": "pg-1342",
+    "index": 227,
+    "pass": 3
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1342",
+    "index": 228,
+    "pass": 3
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1342",
+    "index": 229,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1661",
+    "index": 230,
+    "pass": 3
+  },
+  {
+    "arm": "native",
+    "document": "pg-1661",
+    "index": 231,
+    "pass": 3
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1661",
+    "index": 232,
+    "pass": 3
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1661",
+    "index": 233,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1661",
+    "index": 234,
+    "pass": 3
+  },
+  {
+    "arm": "native",
+    "document": "pg-35",
+    "index": 235,
+    "pass": 3
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-35",
+    "index": 236,
+    "pass": 3
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-35",
+    "index": 237,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-35",
+    "index": 238,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-35",
+    "index": 239,
+    "pass": 3
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-84",
+    "index": 240,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-84",
+    "index": 241,
+    "pass": 4
+  },
+  {
+    "arm": "native",
+    "document": "pg-84",
+    "index": 242,
+    "pass": 4
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-84",
+    "index": 243,
+    "pass": 4
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-84",
+    "index": 244,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-74",
+    "index": 245,
+    "pass": 4
+  },
+  {
+    "arm": "native",
+    "document": "pg-74",
+    "index": 246,
+    "pass": 4
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-74",
+    "index": 247,
+    "pass": 4
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-74",
+    "index": 248,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-74",
+    "index": 249,
+    "pass": 4
+  },
+  {
+    "arm": "native",
+    "document": "pg-205",
+    "index": 250,
+    "pass": 4
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-205",
+    "index": 251,
+    "pass": 4
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-205",
+    "index": 252,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-205",
+    "index": 253,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-205",
+    "index": 254,
+    "pass": 4
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1228",
+    "index": 255,
+    "pass": 4
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1228",
+    "index": 256,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1228",
+    "index": 257,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1228",
+    "index": 258,
+    "pass": 4
+  },
+  {
+    "arm": "native",
+    "document": "pg-1228",
+    "index": 259,
+    "pass": 4
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-3300",
+    "index": 260,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-3300",
+    "index": 261,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-3300",
+    "index": 262,
+    "pass": 4
+  },
+  {
+    "arm": "native",
+    "document": "pg-3300",
+    "index": 263,
+    "pass": 4
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-3300",
+    "index": 264,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-132",
+    "index": 265,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-132",
+    "index": 266,
+    "pass": 4
+  },
+  {
+    "arm": "native",
+    "document": "pg-132",
+    "index": 267,
+    "pass": 4
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-132",
+    "index": 268,
+    "pass": 4
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-132",
+    "index": 269,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-34901",
+    "index": 270,
+    "pass": 4
+  },
+  {
+    "arm": "native",
+    "document": "pg-34901",
+    "index": 271,
+    "pass": 4
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-34901",
+    "index": 272,
+    "pass": 4
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-34901",
+    "index": 273,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-34901",
+    "index": 274,
+    "pass": 4
+  },
+  {
+    "arm": "native",
+    "document": "pg-20203",
+    "index": 275,
+    "pass": 4
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-20203",
+    "index": 276,
+    "pass": 4
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-20203",
+    "index": 277,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-20203",
+    "index": 278,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-20203",
+    "index": 279,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1342",
+    "index": 280,
+    "pass": 4
+  },
+  {
+    "arm": "native",
+    "document": "pg-1342",
+    "index": 281,
+    "pass": 4
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1342",
+    "index": 282,
+    "pass": 4
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1342",
+    "index": 283,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1342",
+    "index": 284,
+    "pass": 4
+  },
+  {
+    "arm": "native",
+    "document": "pg-1661",
+    "index": 285,
+    "pass": 4
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-1661",
+    "index": 286,
+    "pass": 4
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-1661",
+    "index": 287,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-1661",
+    "index": 288,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-1661",
+    "index": 289,
+    "pass": 4
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-35",
+    "index": 290,
+    "pass": 4
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-35",
+    "index": 291,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-35",
+    "index": 292,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-35",
+    "index": 293,
+    "pass": 4
+  },
+  {
+    "arm": "native",
+    "document": "pg-35",
+    "index": 294,
+    "pass": 4
+  },
+  {
+    "arm": "smoothed_point_mass",
+    "document": "pg-98",
+    "index": 295,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_empirical",
+    "document": "pg-98",
+    "index": 296,
+    "pass": 4
+  },
+  {
+    "arm": "suffix_unit_prior",
+    "document": "pg-98",
+    "index": 297,
+    "pass": 4
+  },
+  {
+    "arm": "native",
+    "document": "pg-98",
+    "index": 298,
+    "pass": 4
+  },
+  {
+    "arm": "point_mass",
+    "document": "pg-98",
+    "index": 299,
+    "pass": 4
+  }
+]

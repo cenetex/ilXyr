@@ -1,0 +1,39 @@
+{
+  "failures": [
+    {
+      "evidence": "SELECTION-V1-SHORT-CONTEXTS.json",
+      "id": "position_only_window_selection",
+      "kind": "data_preparation",
+      "next_step": "Preserve v1. Version 2 moves only these windows by the first eligible forward shift, bounded at 1024 bytes. Actual shifts are 19 and 8 bytes.",
+      "observation": "Two of 384 fixed-position contexts have fewer than 32 normalized bytes because of page-layout spacing."
+    },
+    {
+      "evidence": "SELECTION-V2-MATCHES.json",
+      "id": "zero_shared_phrase_rule",
+      "kind": "data_preparation",
+      "next_step": "Preserve v2 and all its windows. Version 3 retains shared phrases and groups linked books; it keeps strict 32-byte checks against prior candidate data and whole-context checks across fresh documents.",
+      "observation": "The zero-overlap rule across fresh documents rejects two selected contexts with ordinary shared phrases; six 32-byte spans overlap in total."
+    },
+    {
+      "evidence_sha256": "45ea1e2dcfe8126a03d96df8305e33731d78cfc8cb4c0ff4f2f8f348dfe5866c",
+      "id": "worker_integer_type",
+      "kind": "implementation",
+      "next_step": "Use u64 for the remainder and rerun native tests and probability parity.",
+      "observation": "The first native build stopped at Rust E0689: the smoothing remainder needed an explicit integer type."
+    },
+    {
+      "id": "assumed_root_license_file",
+      "kind": "preparation",
+      "next_step": "Enumerate and preserve the actual license-file roster and the original declaration in SOURCE-RIGHTS.json.",
+      "observation": "The initial source kit expected a root LICENSE file. The frozen NSRL tree declares MIT OR Apache-2.0 in Cargo.toml and contains zero root license files."
+    },
+    {
+      "id": "restricted_shell_fixture",
+      "kind": "environment",
+      "next_step": "The suite passed with shell process substitution available.",
+      "observation": "The restricted local suite failed because macOS denied /dev/fd access in existing FERAL bootstrap fixtures."
+    }
+  ],
+  "fresh_model_calls": 0,
+  "schema": "ilxyr.solomon_fresh_preparation_failures.v1"
+}

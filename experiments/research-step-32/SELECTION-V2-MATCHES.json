@@ -1,0 +1,36 @@
+[
+  {
+    "document": "pg-34901",
+    "hits": 2,
+    "kind": "selected_context_overlap",
+    "matching_spans_hex": [
+      "20696e20746865206d6f737420636f6d70726568656e736976652073656e7365",
+      "2c20696e20746865206d6f737420636f6d70726568656e736976652073656e73"
+    ],
+    "matching_spans_text": [
+      " in the most comprehensive sense",
+      ", in the most comprehensive sens"
+    ],
+    "reference": "pg-84",
+    "window": 5
+  },
+  {
+    "document": "pg-20203",
+    "hits": 4,
+    "kind": "selected_context_overlap",
+    "matching_spans_hex": [
+      "207468652072657065616c206f662074686520616d65726963616e207374616d",
+      "652072657065616c206f662074686520616d65726963616e207374616d702061",
+      "68652072657065616c206f662074686520616d65726963616e207374616d7020",
+      "7468652072657065616c206f662074686520616d65726963616e207374616d70"
+    ],
+    "matching_spans_text": [
+      " the repeal of the american stam",
+      "e repeal of the american stamp a",
+      "he repeal of the american stamp ",
+      "the repeal of the american stamp"
+    ],
+    "reference": "pg-3300",
+    "window": 30
+  }
+]
