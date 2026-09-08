@@ -1,0 +1,17 @@
+{
+  "approval_file_sha256": "3056091b9a15e064e71c36b46937372248dc062868a7a4fd38292b991316d984",
+  "approval_reference": "user-research-program-20260905-step21",
+  "approved_package": {
+    "approval_reference": "user-research-program-20260905-step21",
+    "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+    "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+    "max_infrastructure_usd": "3.00",
+    "max_instance_seconds": 3600
+  },
+  "approved_question": "Approve the prepared FERAL comparison for at most one hour and US$3 before tax?",
+  "execution_authorized": true,
+  "instance_count": 1,
+  "request_sha256": "7602f8a0ecfc500d680e2b7fb974037accc93f089717fb783fe87057628955cd",
+  "schema": "ilxyr.feral_user_approval.v1",
+  "user_response": "I approve"
+}

@@ -1,0 +1,39 @@
+{
+  "binding": {
+    "approval_reference": "user-research-program-20260905-step21",
+    "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+    "host_package_version": "LnSWe132MAfKJg_oTtMzaGXkwHgUMCHg",
+    "launch_epoch_seconds": 1788643617,
+    "run_id": "feral-finqa-20260905T212657Z"
+  },
+  "helper_sha256": "f2e302d5407581144c18455908b409e324775ba5790032fe5914c25138ea898b",
+  "helper_source_commit": "d9963b2d5365d9e6afba5ff855e6fc9765518bae",
+  "imds_http_tokens": "required",
+  "network_binding_sha256": "d4eccccfaa4f1263925bfa5195e6951aec950ece47ca0b76258ffe60157b2544",
+  "provider": {
+    "account": "022118847419",
+    "ami_id": "ami-0d3378afe7683c867",
+    "count": 1,
+    "encrypted_root_gib": 150,
+    "instance_type": "g6e.2xlarge",
+    "region": "us-east-1"
+  },
+  "provider_launch_time": "2026-09-05T21:27:01+00:00",
+  "raw_instance_receipt_sha256": "17864ea54e0763a4d54acfc23ffc36bd8b78a6ed185b8838e682f0a6df61b0ad",
+  "raw_shutdown_receipt_sha256": "be426f0d9c1a0b8a0353f7699c48da4f4f4dc5a18a395abbd41af87d0025aabe",
+  "receipt": {
+    "client_token": "feral-finqa-20260905T212657Z",
+    "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+    "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+    "instance_id": "i-03bcb139c46b6b11e",
+    "max_infrastructure_usd": "3.00",
+    "max_instance_seconds": 3600,
+    "request_sha256": "84ea30dac514fadb0843b5df2a7cf919f54d3a7a60ed425d226a3d21ab8aa511",
+    "status": "launched",
+    "user_data_sha256": "e08b70496fc73727ee6e7d0b2da7969f14850ad043c91f63b54ec0295ecd1ab0"
+  },
+  "root_delete_on_termination": true,
+  "root_volume_id": "vol-02a12230c958a11a0",
+  "schema": "ilxyr.feral_launch_review.v1",
+  "shutdown_behavior": "terminate"
+}
