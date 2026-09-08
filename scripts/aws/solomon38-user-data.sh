@@ -135,7 +135,7 @@ install -d -m 0755 "$ROOT/scratch"
   ulimit -f 2048
   bounded 3000 docker run --name "$W_RUN" --network none --cpuset-cpus 0 --memory 2g --memory-swap 2g \
     --pids-limit 256 --read-only --log-driver none --tmpfs /tmp:rw,exec,size=256m \
-    --env CARGO_BUILD_JOBS=1 --env CARGO_NET_OFFLINE=true --env CARGO_HOME=/tmp/solomon-cargo \
+    --env RUSTUP_TOOLCHAIN=1.98.0-x86_64-unknown-linux-gnu --env CARGO_BUILD_JOBS=1 --env CARGO_NET_OFFLINE=true --env CARGO_HOME=/tmp/solomon-cargo \
     --env PYTHONDONTWRITEBYTECODE=1 --env PYTHONHASHSEED=0 --env LANG=C.UTF-8 --env LC_ALL=C.UTF-8 --env TZ=UTC \
     --mount "type=bind,src=$ROOT/package,dst=/work/package,readonly" \
     --mount "type=bind,src=$OUT,dst=/work/output" --mount "type=bind,src=$ROOT/scratch,dst=/work/scratch" \

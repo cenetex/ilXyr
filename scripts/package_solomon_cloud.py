@@ -78,6 +78,7 @@ def vendor_files(root, lock):
         require(m['package'] == packages[key], 'vendor registry checksum differs')
         actual = {n[len(directory) + 1:]: sha(b) for n, b in files.items() if n.startswith(directory + '/') and n != directory + '/.cargo-checksum.json'}
         require(actual == m['files'], 'vendor source file checksum differs')
+        files[directory + '/.cargo-checksum.json'] = encode({'package': m['package'], 'files': m['files']})
     require(seen == set(packages), 'vendor dependency coverage differs')
     return {'vendor/' + n: b for n, b in files.items()}
 

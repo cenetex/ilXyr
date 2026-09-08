@@ -206,7 +206,7 @@ class IntegrityTests(unittest.TestCase):
             launch = {**terminal, 'status': 'launched'}; prefix = root / 's3'
             def fake_aws(args, deadline, profile):
                 if args[:2] == ['ec2', 'describe-instances']:
-                    return {'Reservations': [{'Instances': [{'InstanceId': launch['instance_id'], 'State': {'Name': 'terminated'},
+                    return {'Reservations': [{'Instances': [{'InstanceId': launch['instance_id'], 'State': {'Name': 'terminated'}, 'ImageId': plan['provider']['ami_id'], 'InstanceType': plan['provider']['instance_type'], 'Architecture': plan['provider']['architecture'],
                         'Tags': [{'Key': 'RunId', 'Value': launch['run_id']}, {'Key': 'PackageSha256', 'Value': launch['package_sha256']}]}]}]}
                 if args[:2] == ['ec2', 'describe-volumes']: return {'Volumes': []}
                 if args[:2] == ['ec2', 'describe-network-interfaces']: return {'NetworkInterfaces': []}

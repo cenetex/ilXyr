@@ -118,6 +118,9 @@ def receive(launch, plan, output, profile):
     tags = {v['Key']: v['Value'] for v in instances[0].get('Tags', [])}
     if tags.get('RunId') != launch['run_id'] or tags.get('PackageSha256') != launch['package_sha256']:
         raise ValueError('terminated instance binding differs')
+    provider = plan['provider']
+    if any(instances[0].get(k) != provider[v] for k, v in [('ImageId', 'ami_id'), ('InstanceType', 'instance_type'), ('Architecture', 'architecture')]):
+        raise ValueError('terminated machine identity differs')
     save(output / 'termination.json', description)
     volumes = aws(['ec2', 'describe-volumes', '--filters', 'Name=tag:RunId,Values=' + launch['run_id']], deadline, profile)
     addresses = aws(['ec2', 'describe-network-interfaces', '--filters', 'Name=attachment.instance-id,Values=' + instance], deadline, profile)
