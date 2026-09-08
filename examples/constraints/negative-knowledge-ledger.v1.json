@@ -701,6 +701,50 @@
       "seq": 33,
       "verdict_id": "verdict:feral.triton-read-only-cache.v1",
       "verdict_ref": "artifact://sha256/df52dad0984472f80e85ba74d03119393492a3ede2d69e873bc8b86751886546"
+    },
+    {
+      "seq": 34,
+      "verdict_id": "verdict:feral.step28-package-capacity.v1",
+      "verdict_ref": "artifact://sha256/61378d2b7dbd4e58afa95e4fca9976b3bee4285a8d1301c67a34204b12866673",
+      "experiment_id": "feral.step28-package-capacity.v1",
+      "family": "feral",
+      "outcome": "execution_failure",
+      "taxonomy": "venue",
+      "mechanism_tags": [
+        "cloud-capacity",
+        "bounded-launch",
+        "provider-observation"
+      ],
+      "summary": "All four supported zones rejected the approved FERAL package for insufficient GPU capacity. Each exact request verified zero instances.",
+      "recorded_at_ms": 1788883568526,
+      "project": "feral",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "All four supported zones rejected the approved FERAL package for insufficient GPU capacity. Each exact request verified zero instances.",
+      "lineage_note": "Retain each capacity failure and its provider reconciliation. Continue only the single approved run with fresh checks and the same package, machine, image, and budget.",
+      "evidence_path": "experiments/research-step-29/CAPACITY-FAILURES.json",
+      "evidence_ref": "artifact://sha256/b089459780a4af6ccf167cccc2071cb72534441daa218c5ef5a5efc1bbfa1917"
+    },
+    {
+      "seq": 35,
+      "verdict_id": "verdict:feral.price-document-drift.v1",
+      "verdict_ref": "artifact://sha256/8319a8a80474fe3a0df62f1e638a23408efb1acab1195b43aee2bfd90527f5fd",
+      "experiment_id": "feral.price-document-drift.v1",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "price-document",
+        "provider-drift",
+        "bounded-launch"
+      ],
+      "summary": "A preflight assertion failed because the provider price document changed while the complete selected GPU rate entry remained identical.",
+      "recorded_at_ms": 1788883568526,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "A preflight assertion failed because the provider price document changed while the complete selected GPU rate entry remained identical.",
+      "lineage_note": "Keep each price document and its checksum. Verify the selected full rate entry and total budget after document changes before launching.",
+      "evidence_path": "experiments/research-step-29/PRICE-CHECK-FAILURE.json",
+      "evidence_ref": "artifact://sha256/522d4a4f6b9f651731ffbacd87210bd6a684d316546d7c1579bc8d83927d0833"
     }
   ]
 }
