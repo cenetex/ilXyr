@@ -1,0 +1,31 @@
+{
+  "cause": "operator_terminated_during_image_setup",
+  "collection_sha256": "f6470ae1f4cd15aaccfa03dded97d0fc35231b4020e39d6e046aeeed0f017063",
+  "corrected_finding": "The host decoded the submitted data, verified the exact bootstrap and package, armed its deadline timer, and reached Docker setup before the operator terminated it.",
+  "decision_error": "The observer treated the provider data format mismatch as sufficient proof of startup failure before collecting the host log.",
+  "host_console_evidence": [
+    "Running timer as unit: feral-finqa-deadline.timer",
+    "Job for docker.service canceled."
+  ],
+  "host_console_sha256": "e6c4fc8105ce38b5aeb8dd1c18f159aa1c04496f6c8f4674f48a23dca7e3b5af",
+  "host_deadline_timer_observed": true,
+  "host_exit_code": 1,
+  "host_failed_phase": "image",
+  "host_package_verification_passed": true,
+  "host_script_sha256": "e08b70496fc73727ee6e7d0b2da7969f14850ad043c91f63b54ec0295ecd1ab0",
+  "initial_diagnosis": "The extra base64 encoding prevented the startup script and watchdog from starting.",
+  "launcher_defect": "The helper supplied base64 text to RunInstances, and the AWS CLI encoded that text again.",
+  "model_answers": 0,
+  "next_observation_rule": "Check the exact provider script bytes, then use the host log and bound terminal record to establish execution state. Keep the original deadline while resolving a format mismatch.",
+  "operator": "research_agent",
+  "outcome": "execution_failure",
+  "primary_metrics": null,
+  "provider_user_data_one_decode_sha256": "1db448ad48fea2629d5e4f96cb06daf7bba1e37f44c3f3a84d2120cef51c4a30",
+  "provider_user_data_response_sha256": "20d9cacf6a5de9954e67f0ed90e57d9ae64d18f4d45c6f80f5194eb9645eb2dd",
+  "provider_user_data_two_decodes_match_host_script": true,
+  "run_id": "feral-finqa-20260905T212657Z",
+  "schema": "ilxyr.feral_run_failure.v1",
+  "scientific_result": "unmeasured",
+  "terminal_sha256": "e137ad14540408c51ae931018c1a0c8810cd481636ed7ab6ff1408c79ef4fc52",
+  "termination_sha256": "e2d58baf5a704c355b571f6fe2c970ce63b74f5f135d4b4d490c0a0f0420e717"
+}

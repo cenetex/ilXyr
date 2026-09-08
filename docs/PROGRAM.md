@@ -13,9 +13,15 @@ both lower Brier error from empirical counts and higher error after smoothing.
 
 The [live preflight and trace recovery](../experiments/research-step-20/REPORT.md)
 stages the fixed FERAL package, passes the free EC2 dry run, and verifies all
-26,624 original weight-multiplicity calibration queries. FERAL's next decision
-is approval for the one-hour, $3 comparison. Weight multiplicity next needs its
-cloud corpus package.
+26,624 original weight-multiplicity calibration queries. Weight multiplicity
+next needs its cloud corpus package.
+
+The [first FERAL comparison attempt](../experiments/research-step-21/REPORT.md)
+ended during setup after the agent mistook extra encoding for proof of startup
+failure. The host had armed its timer and verified its package. The report
+preserves this operator error, provider cleanup, and zero model answers. The
+repaired launcher passes a real-CLI transport check. One replacement attempt
+is prepared for a separate one-hour, $3 execution decision.
 
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).
 The [second diagnostic](../experiments/research-step-2/REPORT.md) establishes a

@@ -190,7 +190,7 @@ class BootstrapTests(unittest.TestCase):
             self.assertEqual(request['ClientToken'],binding['run_id'])
             self.assertEqual(request['MinCount'],1);self.assertEqual(request['MaxCount'],1)
             self.assertEqual(request['InstanceInitiatedShutdownBehavior'],'terminate')
-            self.assertEqual(base64.b64decode(request['UserData']),user_data)
+            self.assertEqual(request['UserData'].encode('utf-8'),user_data)
             self.assertEqual(render_user_data(body,host,binding),user_data)
             for key in ['run_id','host_package_version','approval_reference']:
                 changed=copy.deepcopy(binding);changed[key]='value; $(touch /tmp/unwanted)'
@@ -214,6 +214,7 @@ class BootstrapTests(unittest.TestCase):
             self.assertEqual(result['status'],'launched')
             self.assertFalse(seen[-1]['DryRun'])
             self.assertEqual(result['instance_id'],'i-abc')
+            self.assertEqual(result['user_data_sha256'],sha(render_user_data(body,host,binding)))
 
     def test_wrong_account_stops_before_instance_request(self):
         with tempfile.TemporaryDirectory() as name:

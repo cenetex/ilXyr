@@ -1,0 +1,29 @@
+{
+  "actual_billed_usd": null,
+  "conservative_launch_to_observed_terminal_seconds": 497,
+  "cost_estimate": {
+    "approved_ceiling_usd": "3.00",
+    "compute_hourly_usd": "2.2420800000",
+    "compute_upper_estimate_usd": "0.3095316000",
+    "infrastructure_reserve_usd": "0.75",
+    "invoice_status": "pending",
+    "method": "Compute charged for every second from the binding launch time through the first locally saved terminated-state receipt, plus the full frozen infrastructure reserve. The observation bound includes provider shutdown delay.",
+    "price_source_sha256": "e250897c0fa060229e60ef1c9e4dd26c6489d0fcd9330a4b876af3f33ccb9a7c",
+    "total_upper_estimate_before_tax_usd": "1.0595316000",
+    "within_approved_ceiling": true
+  },
+  "deletion_receipt_saved_at": "2026-09-05T21:36:22.401087+00:00",
+  "deletion_response": "InvalidVolume.NotFound",
+  "deletion_response_sha256": "42e1cdf1ff2190604e13a6f37965c1aa0871f69cbf58ba99463e51b741120878",
+  "host_elapsed_at_terminal_write_seconds": 83.43480706214905,
+  "instance_id": "i-03bcb139c46b6b11e",
+  "provider_state": "terminated",
+  "root_volume_deleted": true,
+  "root_volume_id": "vol-02a12230c958a11a0",
+  "schema": "ilxyr.feral_termination_review.v1",
+  "terminal_receipt_saved_at": "2026-09-05T21:35:13.934388+00:00",
+  "terminal_receipt_sha256": "a1660121a2ec9ad235c37cd1c779a384171a02b7820cc2962676b5ba98175bde",
+  "termination_initiator": "research_agent",
+  "termination_request_time": "2026-09-05T21:28:18Z",
+  "termination_verified": true
+}
