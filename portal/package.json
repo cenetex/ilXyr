@@ -41,6 +41,9 @@
   },
   "overrides": {
     "browserslist": "4.28.8",
+    "miniflare": {
+      "sharp": "0.35.4"
+    },
     "@esbuild-kit/core-utils": {
       "esbuild": "0.25.12"
     }

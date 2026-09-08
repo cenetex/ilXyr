@@ -91,6 +91,12 @@ The corrected filenames use a hyphen. Both later jobs passed and published
 33 raw files each. [FAILURES.json](FAILURES.json) keeps this collection failure
 separate from the opened ranking result and forced guard cases.
 
+The first report check after merge also found a portal dependency failure.
+Its build, render checks and lint passed, then the security audit flagged
+`sharp` and `fflate`. The follow-up pins Miniflare to the patched `sharp`
+0.35.4 and refreshes `fflate` to 0.7.5. The failure log and advisory links
+remain in [FAILURES.json](FAILURES.json).
+
 [INPUTS.json](INPUTS.json) binds all 66 collected platform files and 31 source
 files. [SMOKE.json](SMOKE.json) records the model, cohort, source hashes and
 stable work counts. [PLATFORM-CHECKS.json](PLATFORM-CHECKS.json) records the

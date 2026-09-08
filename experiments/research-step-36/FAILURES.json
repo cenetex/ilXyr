@@ -34,6 +34,19 @@
       "kind": "injected_input_failure",
       "observation": "A child with its model file unavailable exits with failure after zero episode visits.",
       "resolution": "Keep its partial stdout, stderr and terminal status before checking its exit code."
+    },
+    {
+      "advisories": [
+        "https://github.com/advisories/GHSA-rgj7-g3m4-5g8c",
+        "https://github.com/advisories/GHSA-px8p-9vwx-vf98"
+      ],
+      "failure_log_sha256": "b14de774f576bd025c69e69fc2f3c1af5ac59f5f74de1891137a0e9616d093d5",
+      "id": "post_merge_portal_dependency_audit",
+      "kind": "observed_publication_dependency_failure",
+      "observation": "The portal build, render checks and lint passed. Its subsequent dependency audit reported one moderate and four high findings, including affected packages and their dependents.",
+      "resolution": "Pin Miniflare sharp to patch 0.35.4 and refresh the compatible fflate lock entry to 0.7.5. Verify the portal build, render and API checks, lint and dependency audit.",
+      "run": "https://github.com/cenetex/ilXyr/actions/runs/34285216741",
+      "source_commit": "5f750ea74d6cc55a5c263d3fc561b8401c29289f"
     }
   ],
   "schema": "zero.reasoner55_eligible_failures.v1"
