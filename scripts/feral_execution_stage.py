@@ -97,11 +97,15 @@ def run_arm(package, plan, output, arm):
     metrics = {'schema': 'ilxyr.feral_device_memory.v1', 'status': 'unknown',
                'scope': 'pytorch_cuda_allocator', 'whole_device_peak_bytes': None}
     torch = None
+    allocator_ready = False
     def factory():
-        nonlocal torch
+        nonlocal torch, allocator_ready
         import torch as loaded
         torch = loaded
+        # Each arm starts in a fresh process, including its CUDA allocator.
+        torch.cuda.init()
         torch.cuda.reset_peak_memory_stats(0)
+        allocator_ready = True
         inventory = json.loads((package / 'model/FILES.json').read_bytes())
         return BaseGenerator(output / 'model', inventory)
     destination = output / 'arms' / arm
@@ -110,7 +114,7 @@ def run_arm(package, plan, output, arm):
                     output / 'model', factory if arm == 'base' else None)
     finally:
         if arm == 'base' and destination.exists():
-            if torch is not None:
+            if allocator_ready:
                 try:
                     metrics.update(status='observed', allocated_peak_bytes=torch.cuda.max_memory_allocated(0),
                                    reserved_peak_bytes=torch.cuda.max_memory_reserved(0))

@@ -1,0 +1,22 @@
+{
+  "approval": {
+    "approval_reference": "user-research-program-20260908-step22",
+    "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+    "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+    "max_infrastructure_usd": "3.00",
+    "max_instance_seconds": 3600
+  },
+  "authority": {
+    "approval_reference": "user-research-program-20260908-step22",
+    "execution_authorized": true,
+    "interpreted_scope": "One replacement FERAL comparison capped at one hour and USD 3 before tax; continue preparation of the Reasoner comparison.",
+    "launcher_sha256": "11a76b6e9c2e2bfadac443e034d8f60608b041ea5cdf725f129f92492f54a4a0",
+    "maximum_instances": 1,
+    "request_sha256": "9b2dbb564e8c7cf92fb46d122aed86e495830f9d072b4da96567caa7077a10b8",
+    "schema": "ilxyr.feral_user_approval.v1",
+    "user_messages": [
+      "approve dbot",
+      "both"
+    ]
+  }
+}

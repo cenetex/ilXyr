@@ -588,6 +588,50 @@
       "seq": 28,
       "verdict_id": "verdict:feral.cli-transport-and-early-termination.v1",
       "verdict_ref": "artifact://sha256/76cb1929fa35d1bbb386485ad2f3621a4eb1ab06f75294f671054191acf805c1"
+    },
+    {
+      "seq": 29,
+      "verdict_id": "verdict:feral.cuda-worker-startup.v1",
+      "verdict_ref": "artifact://sha256/7da959b7ae46a646de6c4ef5fecd5c8f967d1619daa9acc534be3b48fa8af9ec",
+      "experiment_id": "feral.cuda-worker-startup.v1",
+      "family": "feral",
+      "outcome": "execution_failure",
+      "taxonomy": "implementation",
+      "mechanism_tags": [
+        "cuda-initialization",
+        "process-boundary",
+        "startup-failure"
+      ],
+      "summary": "The model produced zero answers after a CUDA allocator startup error; both full-roster control arms completed.",
+      "recorded_at_ms": 1788850484907,
+      "project": "feral",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "base worker failed before model loading",
+      "lineage_note": "Initialize CUDA in the model worker before resetting its counters. Preserve unknown memory when startup fails and verify the repaired process on a new frozen run.",
+      "evidence_path": "experiments/research-step-22/FAILURE.json",
+      "evidence_ref": "artifact://sha256/4649fec42d5e213db94f6a1f70f2eb027475c48dc39a1fd8dd735cd4305c2dd9"
+    },
+    {
+      "seq": 30,
+      "verdict_id": "verdict:feral.calculator-full-roster-coverage.v1",
+      "verdict_ref": "artifact://sha256/16b4f303cf8f1f25e5ccc0a50b484044efe5068b6b748d335b9e77d2823ba853",
+      "experiment_id": "feral.calculator-full-roster-coverage.v1",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "coverage-gap",
+        "arithmetic-control",
+        "smoke-scope"
+      ],
+      "summary": "The full FinQA roster exposes a calculator coverage gap: 24 of 1147 revised targets correct versus 4 of 5 in the small smoke.",
+      "recorded_at_ms": 1788850484907,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "calculator correct on 24 of 1147 revised cases, with 1056 abstentions",
+      "lineage_note": "Keep raw answers and abstentions. Audit coverage by evidence and question type, freeze any later rule change before fresh inputs, and retain the original full-roster result.",
+      "evidence_path": "experiments/research-step-22/SCORES.json",
+      "evidence_ref": "artifact://sha256/b487b9a8df7fc8d825c346c8a332bd81fe22ae4e351bd985ee5f8f8ac9b8d6bc"
     }
   ]
 }
