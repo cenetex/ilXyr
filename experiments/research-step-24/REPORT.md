@@ -4,7 +4,8 @@ The user approved the published Reasoner package for one instance, at most one
 hour, and $0.50 before tax. The free dry run passed again. AWS launched
 `i-0ffba5be5a2f4141b` at 07:12:34 UTC on September 8. The original binding fixes
 the deadline at 08:12:13 UTC. Its actual startup script matches the rendered
-bytes exactly. [AUTHORIZATION.json](AUTHORIZATION.json) and
+bytes exactly. The host armed its shutdown timer, downloaded the exact package
+version, and completed its fixed runtime image pull. [AUTHORIZATION.json](AUTHORIZATION.json) and
 [LAUNCH.json](LAUNCH.json) preserve the approval and live observation.
 
 The run uses the exact [published package](../research-step-23/REPORT.md):

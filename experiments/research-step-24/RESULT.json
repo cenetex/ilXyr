@@ -2,7 +2,7 @@
   "artifacts": {
     "AUTHORIZATION.json": "3bf8e9d6442baa2977b19b086ed9f71ed2cf425f15f3537e916772e1fb72754f",
     "FERAL-COVERAGE.json": "4af59214260f5f2b612b5e257c09e35e5d01089675d06b9e8ca077eb103bf8a2",
-    "LAUNCH.json": "4cc703498aabce17f9d9e0f8d4d1208e9484293df18eb63b2ed79cc96423fd4a"
+    "LAUNCH.json": "1fa18c1b69ada59655d35cc60a5c9f92a3e8824c71988fd8690843ffd7ff681c"
   },
   "feral_question_filter_abstentions": 911,
   "reasoner_comparison_status": "running",
