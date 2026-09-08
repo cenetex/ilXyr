@@ -1,0 +1,31 @@
+{
+  "provider_instances": {
+    "Reservations": []
+  },
+  "provider_receipt_sha256": "a7ce7359393c06a423d23e3a32f1df64809059bf3618a008cd5d728eb77bb25b",
+  "receipt": {
+    "client_token": "feral-finqa-20260908T061100Z",
+    "error": "AWS launch response needs inspection with the same client token: An error occurred (InsufficientInstanceCapacity) when calling the RunInstances operation (reached max retries: 2): We currently do not have sufficient g6e.2xlarge capacity in the Availability Zone you requested (us-east-1a). Our system will be working on provisioning additional capacity. You can currently get g6e.2xlarge capacity by not specifying an Availability Zone in your request or choosing us-east-1b, us-east-1c, us-east-1d.",
+    "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+    "request_sha256": "2370d2d477d371acc1bf215baf8f288500ccee96301acca162782941539499bc",
+    "status": "launch_outcome_unknown",
+    "submitted_request_sha256": "8c1840809d3c104b45bb86abf8794a4a0044f7b9b6dfdc2be2b9d7b27190742f",
+    "user_data_sha256": "b0407e618cc4c4cc4027b5912aec279f7054bc665f5db4322232cca21e93c4dd"
+  },
+  "resolution": {
+    "ami_changed": false,
+    "approved_instance_count": 1,
+    "cost_ceiling_changed": false,
+    "instance_type_changed": false,
+    "package_changed": false,
+    "prior_client_token": "feral-finqa-20260908T061100Z",
+    "prior_instances_created": 0,
+    "prior_network_binding_sha256": "d4eccccfaa4f1263925bfa5195e6951aec950ece47ca0b76258ffe60157b2544",
+    "prior_result": "InsufficientInstanceCapacity",
+    "provider_check_sha256": "a7ce7359393c06a423d23e3a32f1df64809059bf3618a008cd5d728eb77bb25b",
+    "reason": "AWS identified us-east-1b capacity. Use its existing default subnet in the same VPC, security group, main route table, and network ACL.",
+    "replacement_network_binding_sha256": "6b0aabcf5f3062638a503eb6a0e4382795616b418763d3a67d167acedc30deea"
+  },
+  "resolved_outcome": "capacity_failure_zero_instances",
+  "schema": "ilxyr.feral_capacity_failure.v1"
+}

@@ -1,0 +1,14 @@
+{
+  "artifacts": {
+    "AUTHORIZATION.json": "c4354af4df1be2e00371ebc532f9f5b28e3f63669debd78bb35ffc98714d294c",
+    "CAPACITY-FAILURE.json": "abcb1799ccc4222fa00db6e92ebed2a609494100a9d13d63324de97c1cc95a25",
+    "LAUNCH.json": "8efccca52e31ce02d78bac8584a926c8014164ac453df530066289f1a40a36ad",
+    "PREFLIGHT.json": "1c8d3246157fcb907c81b5e102070b4d3c292503fea495471d47716bcbece8de"
+  },
+  "capacity_failures_before_launch": 1,
+  "paid_instances_created": 1,
+  "schema": "ilxyr.feral_replacement_review.v1",
+  "scientific_result": "pending",
+  "source_commit": "fde65331ec2c2101d9d9b09452568df7ad0d6676",
+  "status": "running"
+}
