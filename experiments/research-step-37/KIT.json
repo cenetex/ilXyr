@@ -1,0 +1,23 @@
+{
+  "archive_bytes": 3851318,
+  "archive_name": "solomon-step37-controller-kit.tar.gz",
+  "archive_sha256": "f16285c151f4cc72b76f7a1ad4070c4814c708b59aab56b535718d8389fda4e0",
+  "base_archive_sha256": "a836f7d9ddda66a9399de0910ee9804a64367a8bad506cd902375ede45351901",
+  "bound_files": 158,
+  "execution_authorized": false,
+  "fresh_model_calls": 0,
+  "implementation": {
+    "check_solomon_study.py": "f453db2998ead030ca6060f6a1af7f17b30d13a58fb9ecb8b0a5f5ba5ad7fdff",
+    "feral_process.py": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526",
+    "research_solomon_answer_ownership.py": "eb817c68076acdcec4d06dcabbd84398168c81df8b46292d071967e3792cd8fa",
+    "research_solomon_confidence.py": "bc90462500cdc0c3f6f257731db61f806882c7e08a3fcba49b05fa499fb32775",
+    "research_solomon_study.py": "c2e12db142dcee7ae03a9965e629a1305e026c0bb7c6489bcf0bf8c6d86d4e36",
+    "research_solomon_suffix_probabilities.py": "9faeccbad5b0a63fded01c501bf23c98f2ecf2baa5c71b818d2e9826ec4f843e"
+  },
+  "implementation_commit": "8cbb70fce406752ab33a92a5b52ff908e2be4d17",
+  "manifest_sha256": "133d09a9e415ca57bf23ec7227c601cb5b507503f9a0e2d0d67f8627df596ecd",
+  "schema": "ilxyr.solomon_controller_source_kit.v1",
+  "scope": "Source, fixed document data, full controller and independent checker. Cloud machine, compiler environment, resource limits, watchdog, staging and price remain to bind.",
+  "status": "built_and_read_back_verified",
+  "uncompressed_file_bytes": 14966063
+}

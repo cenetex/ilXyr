@@ -1,0 +1,37 @@
+{
+  "artifact_bindings": {
+    "CONTROLLER-CONTRACT.md": "4508207c14a7c14f170e1eb964f6587f0ee3417ce81dce0007b55e47788dae7f",
+    "FAILURES.json": "6daf00e62d0cb33528df1768db936524d5cd716c7d87e644038ced427588266c",
+    "INPUTS.json": "11b7039d0e04496a62797974f7868f8cbf9ef323e1a12acc96e2ae462221eb69",
+    "KIT.json": "db716cf95c883256754f96adbe7ed95c56adff388982cd55aae1abb0746e56fa",
+    "SMOKE.json": "5f407acc0ffde4bfc637fa15ecf6bda9e121af86a8f4eca0d1069c69c50d8590"
+  },
+  "fresh_model_calls": 0,
+  "full_design": {
+    "arms": 5,
+    "control_forward_calls": 0,
+    "documents": 12,
+    "linked_document_groups": 10,
+    "native_forward_calls": 1920,
+    "passes": 5,
+    "probability_rows": 9600,
+    "processes": 300,
+    "windows_per_document": 32
+  },
+  "full_panel_execution": "pending_fixed_cloud_package",
+  "implementation_commit": "8cbb70fce406752ab33a92a5b52ff908e2be4d17",
+  "new_paid_instances": 0,
+  "next": "Bind cloud machine, compiler environment, CPU and memory, storage, watchdog, staging and price to the controller kit before requesting its exact run approval.",
+  "schema": "ilxyr.solomon_controller_result.v1",
+  "status": "controller_and_checker_verified_on_opened_windows",
+  "validation": {
+    "all_previous_scores_exact": true,
+    "complete_controller_cost_verified": true,
+    "first_mass_assumption_failure_reproduced": true,
+    "focused_tests": 13,
+    "independently_checked_rows_per_platform": 160,
+    "linux_opened_processes": 10,
+    "local_opened_processes": 10,
+    "worker_logs_identical": 20
+  }
+}

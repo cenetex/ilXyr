@@ -26,8 +26,12 @@ The [fresh-document preparation](../experiments/research-step-32/REPORT.md)
 freezes 384 windows from twelve public documents and checks each confidence
 method in a separate process. Its opened native parity check passes. Two
 intake failures remain recorded: layout spacing and shared phrases between
-books. Fresh-document scoring awaits the cloud controller and a fixed,
-priced execution package.
+books. The [full confidence controller](../experiments/research-step-37/REPORT.md)
+now keeps all 300 planned processes, whole-process costs and partial failures.
+Local and Linux opened checks reproduce every earlier score. A failed check
+exposed a wrong fixed-mass assumption; scoring now uses the observed integer
+mass, as the earlier reports did. Fresh-document scoring awaits the fixed,
+priced cloud execution package.
 
 The [live preflight and trace recovery](../experiments/research-step-20/REPORT.md)
 stages the fixed FERAL package, passes the free EC2 dry run, and verifies all

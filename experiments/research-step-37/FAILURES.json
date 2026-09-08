@@ -1,0 +1,67 @@
+{
+  "failures": [
+    {
+      "failure_process_sha256": "6771627e8d1240b49f2e2cb094a950c27e8b77463c82ee99f0fcb64d599a7c4f",
+      "failure_stderr_sha256": "33243a91e7e923f222abbf62a7acadbc346e2cd7686247337220932141a68b46",
+      "first_implementation": {
+        "check_solomon_study.py": "3aff9cfdb0564329b03efb5a242685c7f52047be481669487f7a9fdd90e0fe25",
+        "feral_process.py": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526",
+        "research_solomon_answer_ownership.py": "eb817c68076acdcec4d06dcabbd84398168c81df8b46292d071967e3792cd8fa",
+        "research_solomon_confidence.py": "bc90462500cdc0c3f6f257731db61f806882c7e08a3fcba49b05fa499fb32775",
+        "research_solomon_study.py": "1eba916281f400d1c198eb50bd8ab9eaca52249d9f170135ffff3ccc02d558c5",
+        "research_solomon_suffix_probabilities.py": "9faeccbad5b0a63fded01c501bf23c98f2ecf2baa5c71b818d2e9826ec4f843e"
+      },
+      "id": "fixed_native_mass_assumption",
+      "kind": "observed_opened_checker_failure",
+      "native_mass_totals": [
+        32873,
+        32876,
+        32861,
+        32905,
+        32772,
+        32965,
+        32834,
+        32814,
+        32958,
+        32861,
+        32786,
+        32894,
+        32771,
+        32877,
+        33007,
+        32838
+      ],
+      "reason": "The first checker required native masses to total 32767; the frozen integer approximation has varying totals.",
+      "reproduced_exit_code": 1,
+      "resolution": "Bound each native component and normalize by its observed positive sum. Reproduce all five exact historical Brier scores."
+    },
+    {
+      "id": "native_opened_confidence_error",
+      "kind": "retained_opened_result",
+      "observation": "Native normalized Brier is 0.702257; all four controls have lower error. Every method has the same four mistakes in sixteen windows.",
+      "reference": "../research-step-32/SMOKE.json"
+    },
+    {
+      "id": "outer_cancellation_handler",
+      "kind": "review_repair_with_injected_check",
+      "observation": "The first outer wrapper relied on default signal handling. Review found that it needed to forward cancellation to the child controller.",
+      "resolution": "Handle SIGTERM and SIGINT at both levels, pass cancellation to the process helper, allow child cleanup grace, and restore handlers."
+    },
+    {
+      "id": "partial_native_worker",
+      "kind": "injected_worker_failure",
+      "observation": "A native fixture emits partial stdout and exits with code 7. The attempt keeps the partial file and records zero confirmed calls, an upper bound of sixteen started calls, and an unknown actual failed call count."
+    },
+    {
+      "id": "deadline_and_cancellation",
+      "kind": "injected_process_controls",
+      "observation": "A sleeping worker reaches its deadline. Separate cancellation cases stop work before the next job and pass the outer signal to the process helper. Terminal records remain available."
+    },
+    {
+      "id": "altered_collection_and_costs",
+      "kind": "injected_integrity_controls",
+      "observation": "The checker rejects changed or extra files, changed job identity, altered control masses, incomplete job counts, and a whole-process CPU record that omits child work."
+    }
+  ],
+  "schema": "ilxyr.solomon_controller_failures.v1"
+}
