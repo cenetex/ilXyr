@@ -33,7 +33,11 @@ passed versioned read-back and the free launch dry run. The [completed attempt](
 loaded the model onto the GPU, then failed at a read-only Triton cache during
 synthetic generation. Both full-roster control results repeated. Cleanup is
 verified. The cache repair passes real native compilation and loading in the
-fixed image; its staged replacement awaits a new one-hour, $3 execution decision. Separate calculator v2 work scores 5/5 on the
+fixed image. The [approved replacement](../experiments/research-step-29/REPORT.md)
+awaits GPU capacity after four zone failures, each with zero instances verified.
+The five-minute follow-up continues the single approved one-hour, $3 run.
+The full selected GPU price entry stayed unchanged after a provider-document
+change stopped one preflight check. Separate calculator v2 work scores 5/5 on the
 five opened development cases; fresh coverage testing is next.
 
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).

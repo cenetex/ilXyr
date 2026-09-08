@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-29/CAPACITY-FAILURES.json",
+  "evidence_ref": "artifact://sha256/b089459780a4af6ccf167cccc2071cb72534441daa218c5ef5a5efc1bbfa1917",
+  "experiment_id": "feral.step28-package-capacity.v1",
+  "family": "feral",
+  "id": "verdict:feral.step28-package-capacity.v1",
+  "lineage_note": "Retain each capacity failure and its provider reconciliation. Continue only the single approved run with fresh checks and the same package, machine, image, and budget.",
+  "mechanism": "The provider offered the GPU type in four zones but lacked current launch capacity.",
+  "mechanism_tags": [
+    "cloud-capacity",
+    "bounded-launch",
+    "provider-observation"
+  ],
+  "outcome": "execution_failure",
+  "project": "feral",
+  "recorded_at_ms": 1788883568526,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "All four supported zones rejected the approved FERAL package for insufficient GPU capacity. Each exact request verified zero instances.",
+  "summary": "All four supported zones rejected the approved FERAL package for insufficient GPU capacity. Each exact request verified zero instances.",
+  "taxonomy": "venue"
+}
