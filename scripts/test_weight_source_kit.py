@@ -93,7 +93,7 @@ class KitTests(unittest.TestCase):
                 verify_payload(files)
 
     def test_unsafe_paths_duplicates_and_links_fail(self):
-        for names in [['a', 'a'], ['/outside'], ['../outside'], ['a/../outside'], ['a\\outside'], ['./a']]:
+        for names in [['a', 'a'], ['.'], ['a', 'a/b'], ['/outside'], ['../outside'], ['a/../outside'], ['a\\outside'], ['./a']]:
             with self.subTest(names=names), self.assertRaises(ValueError):
                 read_archive(archive([(name, b'') for name in names]))
         stream = io.BytesIO()

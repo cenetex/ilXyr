@@ -32,7 +32,7 @@ def check_binding(raw, binding, label):
 
 def check_path(name):
     path = PurePosixPath(name)
-    if not name or path.is_absolute() or '..' in path.parts or '\\' in name or str(path) != name:
+    if not name or name == '.' or path.is_absolute() or '..' in path.parts or '\\' in name or str(path) != name:
         raise ValueError('archive path differs: ' + name)
     return path
 
@@ -55,6 +55,9 @@ def read_archive(raw, *, selected=None, expanded_limit=64 * 1024 * 1024):
                 raise ValueError('expanded archive exceeds bound')
             if selected is None or name in selected:
                 files[name] = archive.extractfile(item).read()
+    for name in files:
+        if any(str(parent) in files for parent in PurePosixPath(name).parents):
+            raise ValueError('archive file and directory conflict')
     if selected is not None and set(files) != set(selected):
         raise ValueError('selected source roster differs')
     return files
