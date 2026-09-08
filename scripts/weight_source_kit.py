@@ -60,6 +60,18 @@ def read_archive(raw, *, selected=None, expanded_limit=64 * 1024 * 1024):
     return files
 
 
+def expand_lie(raw, output):
+    files = read_archive(raw, expanded_limit=2 * 1024 * 1024)
+    with tarfile.open(fileobj=io.BytesIO(raw), mode='r:*') as archive:
+        modes = {item.name: item.mode & 0o777 for item in archive if item.isfile()}
+    output.mkdir(parents=True, exist_ok=False)
+    for name, data in files.items():
+        target = output / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(data)
+        target.chmod(modes[name])
+
+
 def verify_payload(files):
     manifest = json.loads(files['KIT.json'])
     if manifest['schema'] != 'ilxyr.weight_source_kit.v1':

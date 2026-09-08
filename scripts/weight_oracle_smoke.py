@@ -3,11 +3,9 @@ import argparse
 import json
 import os
 from pathlib import Path
-import shutil
-import subprocess
 import time
 from feral_process import run_process, save
-from weight_source_kit import PLAN, check_binding, read_archive, sha
+from weight_source_kit import PLAN, check_binding, expand_lie, sha
 
 
 def smoke(repo, inputs, output):
@@ -47,14 +45,11 @@ def smoke(repo, inputs, output):
             raise ValueError('fixed runtime version differs')
         if runtime['bison'] != 'bison (GNU Bison) ' + plan['bison_version']:
             raise ValueError('fixed Bison version differs')
-        sources = read_archive((inputs / 'lie-2.2.2.tar.gz').read_bytes(), expanded_limit=2 * 1024 * 1024)
+        source_raw = (inputs / 'lie-2.2.2.tar.gz').read_bytes()
         hashes = []
         for index in [1, 2]:
             base = output / ('lie-' + str(index))
-            for name, raw in sources.items():
-                target = base / name
-                target.parent.mkdir(parents=True, exist_ok=True)
-                target.write_bytes(raw)
+            expand_lie(source_raw, base)
             directory = base / 'LiE'
             run('build-lie-' + str(index), ['make', 'noreadline', 'CC=/usr/bin/gcc', 'CFLAGS=' + plan['lie_cflags']], directory)
             hashes.append(sha((directory / 'Lie.exe').read_bytes()))

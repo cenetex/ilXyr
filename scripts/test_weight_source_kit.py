@@ -4,7 +4,7 @@ from pathlib import Path
 import tarfile
 import tempfile
 import unittest
-from weight_source_kit import EXTRA, INPUT_NAMES, PLAN, encode, read_archive, sha, unpack, verify_payload
+from weight_source_kit import EXTRA, INPUT_NAMES, PLAN, encode, expand_lie, read_archive, sha, unpack, verify_payload
 
 
 def archive(files):
@@ -49,6 +49,16 @@ class KitTests(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 unpack(package, sha(raw), root / 'out')
             self.assertEqual((root / 'out' / 'KIT.json').read_bytes(), files['KIT.json'])
+
+    def test_original_build_script_keeps_execute_mode(self):
+        stream = io.BytesIO()
+        with tarfile.open(fileobj=stream, mode='w') as writer:
+            entry = tarfile.TarInfo('LiE/make_lie'); entry.mode = 0o755; entry.size = 3
+            writer.addfile(entry, io.BytesIO(b'run'))
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / 'sources'
+            expand_lie(stream.getvalue(), output)
+            self.assertEqual((output / 'LiE/make_lie').stat().st_mode & 0o777, 0o755)
 
     def test_wrong_outer_digest_fails_before_output(self):
         with tempfile.TemporaryDirectory() as temp:
