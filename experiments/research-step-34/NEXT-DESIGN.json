@@ -1,0 +1,18 @@
+{
+  "controller_package_sha256": "13ac113cff5db7a22b66fdd9f1176746fb7d9a79e0a1ef0b1c8af6adde218712",
+  "full_corpus_rows": 458750,
+  "machine_candidate": "c6i.4xlarge, x86_64, 16 vCPUs, 32 GiB; resolve and verify before launch",
+  "maximum_instance_seconds": 5400,
+  "runtime_image": "docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870",
+  "schema": "ilxyr.weight_launch_next_design.v1",
+  "scientific_status": "full_run_pending",
+  "steps": [
+    "Resolve the exact AWS image, CPU shape, storage and current price",
+    "Build the bootstrap and launcher around this controller package",
+    "Arm shutdown before setup and keep the original launch deadline",
+    "Pin package and result storage versions; retain partial output and terminal status",
+    "Perform read-only preflight and an EC2 dry run",
+    "Publish the complete launch package, expected cost and fixed ceiling for approval",
+    "After the approved run, collect files and verify termination before research import"
+  ]
+}

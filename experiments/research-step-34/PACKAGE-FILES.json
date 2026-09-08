@@ -1,0 +1,41 @@
+{
+  "files": {
+    "experiments/research-step-34/CONTROLLER-PLAN.json": {
+      "bytes": 1246,
+      "sha256": "cd0eef617b1b78ee4156a3833d770d750f852748ee11b859b1f5cd88e7ffb9e1"
+    },
+    "scripts/feral_process.py": {
+      "bytes": 5673,
+      "sha256": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526"
+    },
+    "scripts/weight_corpus_controller.py": {
+      "bytes": 11586,
+      "sha256": "5a16c9651817f5d7e4bc62dd4e648ca2b33f53bcfb8be33992a047c1d44daacd"
+    },
+    "scripts/weight_corpus_result.py": {
+      "bytes": 26315,
+      "sha256": "a62a65bd042a904ea61c5580cb79418d921bf42100a57571d5282796dda6587c"
+    },
+    "scripts/weight_process_tree.py": {
+      "bytes": 2085,
+      "sha256": "c862c2ccda65edad129df448325e31b995514aa52f8a06302e40577f60835b40"
+    },
+    "scripts/weight_source_kit.py": {
+      "bytes": 8418,
+      "sha256": "606b540a79e66a2283a8db1cedc20882c5da4c7bb97c022bcbb0855982ae7cf2"
+    },
+    "source-kit.tar": {
+      "bytes": 16465920,
+      "sha256": "30e2926603988c29c5ff0d24138fd59d16c05eb21f01cc5bcfce00009d6433dd"
+    }
+  },
+  "pending_launch_package": [
+    "Exact machine and boot image",
+    "Encrypted storage and result storage versions",
+    "Early shutdown watchdog and collection",
+    "Current price, total cost ceiling and launch approval"
+  ],
+  "schema": "ilxyr.weight_corpus_controller_package.v1",
+  "scope": "controller_and_scientific_source_kit",
+  "source_commit": "96dd64c8e0487df7e49b054082d680f9bd2c5573"
+}

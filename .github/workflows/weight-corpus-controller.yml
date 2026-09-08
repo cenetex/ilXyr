@@ -1,0 +1,41 @@
+name: weight corpus controller
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/weight-corpus-controller.yml'
+      - 'scripts/weight_corpus*'
+      - 'scripts/weight_process_tree.py'
+      - 'scripts/package_weight_corpus.py'
+      - 'scripts/test_weight_corpus_controller.py'
+      - 'scripts/feral_process.py'
+      - 'experiments/research-step-34/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fixed-runtime-hold:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - name: Fetch the original public source for its input hash check
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,urllib.request
+          plan=json.loads(pathlib.Path('experiments/research-step-33/SOURCE-PLAN.json').read_text())
+          target=pathlib.Path(os.environ['RUNNER_TEMP'])/'weight-inputs';target.mkdir()
+          with urllib.request.urlopen(plan['source_urls']['lie'],timeout=60) as response:
+              raw=response.read(plan['inputs']['lie']['bytes']+1)
+          assert len(raw)==plan['inputs']['lie']['bytes'] and hashlib.sha256(raw).hexdigest()==plan['inputs']['lie']['sha256']
+          (target/'lie-2.2.2.tar.gz').write_bytes(raw)
+          PY
+      - name: Test complete fixtures and an actual runner Hold in the fixed Linux image
+        run: |
+          mkdir "$RUNNER_TEMP/weight-checks"
+          docker run --rm --network none --memory 4g --cpus 2 --read-only --tmpfs /tmp:rw,exec,size=256m --env WEIGHT_LIE_SOURCE_ARCHIVE=/work/inputs/lie-2.2.2.tar.gz --env WEIGHT_TEST_RECEIPTS=/work/output --mount "type=bind,src=$PWD,dst=/work/repo,readonly" --mount "type=bind,src=$RUNNER_TEMP/weight-inputs,dst=/work/inputs,readonly" --mount "type=bind,src=$RUNNER_TEMP/weight-checks,dst=/work/output" --entrypoint python3 docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870 /work/repo/scripts/test_weight_corpus_controller.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: weight-controller-hold
+          retention-days: 30
+          path: ${{ runner.temp }}/weight-checks/

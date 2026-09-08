@@ -1,0 +1,27 @@
+{
+  "deterministic_controller_rebuild_identical": true,
+  "expected_corpus_rows": 458750,
+  "full_research_checks": "passed",
+  "linux_tests_passed": 19,
+  "linux_validation_run": "https://github.com/cenetex/ilXyr/actions/runs/34276719487",
+  "local_linux_only_test_skipped": 1,
+  "local_tests_passed": 18,
+  "new_corpus_rows": 0,
+  "new_paid_instances": 0,
+  "next": "Complete the cloud launch package, machine/storage/watchdog/price preflight, then present the fixed budget.",
+  "package": {
+    "bytes": 16537600,
+    "files": 8,
+    "sha256": "13ac113cff5db7a22b66fdd9f1176746fb7d9a79e0a1ef0b1c8af6adde218712",
+    "source_commit": "96dd64c8e0487df7e49b054082d680f9bd2c5573",
+    "source_kit_sha256": "30e2926603988c29c5ff0d24138fd59d16c05eb21f01cc5bcfce00009d6433dd"
+  },
+  "policy_source_files_preserved": 14,
+  "prepare_oracle_processes_started": 0,
+  "saved_calibration_queries_verified": 26624,
+  "schema": "ilxyr.weight_controller_preparation_result.v1",
+  "scientific_full_corpus_runs": 0,
+  "source_kit_preserved": true,
+  "status": "controller_package_verified",
+  "unpacked_prepare_status": "prepared"
+}
