@@ -8,8 +8,12 @@ choices, and the shared comparison method. The [completed Reasoner comparison](.
 missed both primary benefit gates against matched lexical guidance on 128
 fresh families. All answers and 3,072 independent replays verified. Collection,
 provider termination, and root-volume deletion are confirmed. The next design
-should use lexical guidance as its reference and trace the prior feature's
-cost before freezing a changed mechanism.
+uses lexical guidance and semantic frequency as cost references. The
+[opened cost diagnostic](../experiments/research-step-31/REPORT.md) locates
+the prior feature's overhead in scoring. Even zero search time leaves the
+feature-removed guide above the frequency control in aggregate wall cost.
+The next engineering check reduces scoring and ranking work before search
+and applies shared changes to every control.
 
 The [Solomon count-probability step](../experiments/research-step-19/REPORT.md)
 adds two train-only confidence controls. Its known-window smoke preserves

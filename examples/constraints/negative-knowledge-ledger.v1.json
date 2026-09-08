@@ -767,6 +767,29 @@
       "lineage_note": "Preserve every exact-request reconciliation and stop at the retry cutoff. Keep the scientific package fixed for a later resumption after fresh capacity and budget checks.",
       "evidence_path": "experiments/research-step-30/CAPACITY-WINDOW.json",
       "evidence_ref": "artifact://sha256/9fa41527fa058c3224fd5f926a45e1243905ae836036dd4f6246bc86cb773936"
+    },
+    {
+      "seq": 37,
+      "verdict_id": "verdict:zero.reasoner55-prior-cost-floor.v1",
+      "verdict_ref": "artifact://sha256/64d6f682076e8b0c9057d9664c645c8142c936269761aee762af49e48f017660",
+      "experiment_id": "zero.reasoner55-prior-cost-floor.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "learned-search",
+        "stage-cost",
+        "prior-feature",
+        "frequency-control"
+      ],
+      "summary": "The feature-removed guide uses 14.31 percent more family-weighted CPU than semantic frequency on the opened cohort. Assigning zero search wall time leaves a 10.53 percent aggregate wall gap with other stages fixed.",
+      "recorded_at_ms": 1788892924492,
+      "project": "reasoner",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "The ablated guide spends more CPU in all 128 opened families; scoring and ranking dominate the remaining cost.",
+      "lineage_note": "Change work before search, apply shared optimizations to all controls, and retain semantic frequency as a cost reference. Use fresh families after the opened-data engineering check.",
+      "evidence_path": "experiments/research-step-31/RESULT.json",
+      "evidence_ref": "artifact://sha256/a8f1de11af093d3bd331ee6cefbda7da06e1348beb28145319aa1779fd763038"
     }
   ]
 }
