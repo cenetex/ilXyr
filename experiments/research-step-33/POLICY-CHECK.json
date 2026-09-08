@@ -1,0 +1,6 @@
+{
+  "oracle_processes_started": 0,
+  "policy_id": "weight-multiplicity.phase1-final-p99.v1",
+  "policy_sha256": "1ebc76e8692fa3d440386532ac562981e9965b430fd9af19d45f2415c7f64623",
+  "status": "policy_verified"
+}

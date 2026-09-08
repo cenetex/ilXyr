@@ -1,0 +1,31 @@
+{
+  "controller": [
+    "Build and verify both oracles inside the tested fixed Linux image",
+    "Pass --resource-policy experiments/research-step-12/RESOURCE-POLICY.json for the full corpus command",
+    "Use eight LiE workers and two Zero workers from the frozen policy",
+    "Keep every workload attempt in the trace, including failures and values above 31",
+    "Stop dispatch on the first Hold and drain in-flight work",
+    "Check final exact p99 and every resource gate before accepting a corpus manifest",
+    "Read terminal JSON files and preserve parse errors and partial outputs",
+    "Keep build, workload and collection within one original shutdown deadline"
+  ],
+  "full_corpus_result": "pending",
+  "planned_corpus_rows": 458750,
+  "preflight": [
+    "Resolve the exact CPU machine and image",
+    "Verify container memory, encrypted storage and deletion on termination",
+    "Arm the instance watchdog before setup",
+    "Bind the staged source kit, controller, bootstrap and storage versions",
+    "Check current price and a fixed total cost ceiling",
+    "Present the completed launch package and cost for paid-run approval"
+  ],
+  "preserve": [
+    "Original generator, seed, batches, filters and partition order",
+    "All 14 resource-policy source bindings",
+    "Both original oracle source identities",
+    "Calibration trace and historical wrapper failure"
+  ],
+  "schema": "ilxyr.weight_full_corpus_next_design.v1",
+  "source_kit_commit": "3e6a931b1fb8af385f753011e3b94bc29e839b44",
+  "source_kit_sha256": "30e2926603988c29c5ff0d24138fd59d16c05eb21f01cc5bcfce00009d6433dd"
+}
