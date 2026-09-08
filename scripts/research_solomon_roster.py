@@ -61,11 +61,11 @@ def windows(body, count=32, max_forward_shift=0):
     return rows
 
 
-def overlap(documents, references):
+def overlap(documents, references, group_shared_phrases=False):
     """Return every literal-overlap failure, without changing the chosen roster."""
     normalized = {key: normalize(value["body"]) for key, value in documents.items()}
     ref_normal = {key: normalize(value) for key, value in references.items()}
-    failures, checks = [], []
+    failures, checks, links = [], [], []
     for key, doc in documents.items():
         raw = doc["body"]
         normal = normalized[key]
@@ -89,21 +89,33 @@ def overlap(documents, references):
                 checks.append({"document": key, "window": row["index"], "reference": name,
                                "kind": "selected_context", "normalized_32_hits": hits32,
                                "normalized_16_hits": hits16})
-                if hits32:
+                if hits32 and name in other_docs:
+                    links.append({"document": key, "reference": name, "window": row["index"], "shared_32_spans": hits32})
+                if hits32 and (name in references or not group_shared_phrases):
                     failures.append({"document": key, "window": row["index"], "reference": name,
                                      "kind": "selected_context_overlap", "hits": hits32})
-            for name, value in references.items():
+                if group_shared_phrases and name in other_docs and query in value:
+                    failures.append({"document": key, "window": row["index"], "reference": name,
+                                     "kind": "whole_normalized_context_overlap"})
+            for name, value in {**references, **{name: doc["body"] for name, doc in documents.items() if name != key}}.items():
                 if example in value:
                     failures.append({"document": key, "window": row["index"], "reference": name,
                                      "kind": "exact_context_target_overlap"})
-    return {"status": "passed" if not failures else "failed", "checks": checks, "failures": failures}
+    groups = [{key} for key in documents]
+    for edge in links:
+        selected = [group for group in groups if edge["document"] in group or edge["reference"] in group]
+        groups = [group for group in groups if group not in selected] + [set().union(*selected)]
+    return {"status": "passed" if not failures else "failed", "checks": checks, "failures": failures,
+            "cross_document_shared_phrases": links, "document_groups": sorted(sorted(group) for group in groups)}
 
 
 def read_plan(path):
     plan = json.loads(path.read_bytes())
-    require(plan["schema"] in (SCHEMA, "ilxyr.solomon_fresh_roster_plan.v2"), "roster schema differs")
-    if plan["schema"].endswith(".v2"):
+    require(plan["schema"] in (SCHEMA, "ilxyr.solomon_fresh_roster_plan.v2", "ilxyr.solomon_fresh_roster_plan.v3"), "roster schema differs")
+    if plan["schema"] != SCHEMA:
         require(plan["windows"]["max_forward_shift"] == 1024, "forward shift limit differs")
+    if plan["schema"].endswith(".v3"):
+        require(plan["overlap"]["cross_document_policy"] == "group_shared_32_spans_reject_whole_context", "cross-document rule differs")
     require(plan["candidate_source_commit"] == ownership.REVISION
             and plan["candidate_model_sha256"] == ownership.MODEL_SHA, "candidate identity differs")
     docs = plan["documents"]
@@ -201,7 +213,7 @@ def freeze(plan_path, acquired, repo, output):
              "references": {name: {"bytes": len(blob), "sha256": sha(blob)} for name, blob in references.items()},
              "model_calls": 0})
         terminal["phase"] = "overlap"
-        checked = overlap(docs, references)
+        checked = overlap(docs, references, group_shared_phrases=plan["schema"].endswith(".v3"))
         save(output / "OVERLAP.json", checked)
         require(checked["status"] == "passed", "selected roster failed overlap checks; retain the fixed selection")
         terminal.update(status="complete", phase="complete", roster_sha256=sha((output / "ROSTER.json").read_bytes()),
