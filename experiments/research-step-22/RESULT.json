@@ -1,14 +1,30 @@
 {
   "artifacts": {
     "AUTHORIZATION.json": "c4354af4df1be2e00371ebc532f9f5b28e3f63669debd78bb35ffc98714d294c",
+    "BASE-FAILURE.json": "a12e5e7a9cf8939c6aaaf696265209e9301ff5f4c8616eb2ac42656de01fc71f",
     "CAPACITY-FAILURE.json": "abcb1799ccc4222fa00db6e92ebed2a609494100a9d13d63324de97c1cc95a25",
-    "LAUNCH.json": "8efccca52e31ce02d78bac8584a926c8014164ac453df530066289f1a40a36ad",
-    "PREFLIGHT.json": "1c8d3246157fcb907c81b5e102070b4d3c292503fea495471d47716bcbece8de"
+    "COLLECTION.json": "65a37bf4f98611d5e5b03cfd3797bbfdf3435db9fe320528d30ea99016bda4d8",
+    "FAILURE.json": "4649fec42d5e213db94f6a1f70f2eb027475c48dc39a1fd8dd735cd4305c2dd9",
+    "HOST-TERMINAL.json": "8dc36169036a25a3a4eef06495d005a04cbfeadb9250503ab4775117f26b2d9a",
+    "LAUNCH.json": "72801978f6c47e4f98d680b10a4a3a34da2512cf67c4a8b0d4d42d0c847815fe",
+    "PREFLIGHT.json": "1c8d3246157fcb907c81b5e102070b4d3c292503fea495471d47716bcbece8de",
+    "RUNTIME.json": "51f6aeda5e576aeed34f75bc4f4c38dbc2d004411a9c32daa338f68f89a9dfdf",
+    "SCORES.json": "b487b9a8df7fc8d825c346c8a332bd81fe22ae4e351bd985ee5f8f8ac9b8d6bc",
+    "TERMINATION.json": "4ef28e81d7c492518fb018c567a9c9ee218f7606a9ced563b853340c851fc222"
   },
   "capacity_failures_before_launch": 1,
+  "complete_control_rows_per_arm": 1147,
+  "execution_source_commit": "fde65331ec2c2101d9d9b09452568df7ad0d6676",
+  "model_predictions": 0,
+  "next_decision": "Keep these full-roster control scores and the model startup failure. Freeze a repaired execution package and validate GPU initialization before another model comparison.",
   "paid_instances_created": 1,
+  "provider_termination_verified": true,
+  "repair_commit": "9b86522af471ce2ca0b589c142ae17949a676186",
+  "repair_sources": {
+    "scripts/feral_execution_stage.py": "a88acbf30ceeb602daf1c3dd4fbded9419b62ccfd57ec9229b443e99f7cfa3a7",
+    "scripts/test_feral_execution.py": "c834c90515c98658a549c998e7d7db3f934747526370e36b50252940c5df331d"
+  },
+  "root_volume_deletion_verified": true,
   "schema": "ilxyr.feral_replacement_review.v1",
-  "scientific_result": "pending",
-  "source_commit": "fde65331ec2c2101d9d9b09452568df7ad0d6676",
-  "status": "running"
+  "status": "incomplete_comparison"
 }

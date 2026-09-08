@@ -20,8 +20,11 @@ The [first FERAL comparison attempt](../experiments/research-step-21/REPORT.md)
 ended during setup after the agent mistook extra encoding for proof of startup
 failure. The host had armed its timer and verified its package. The report
 preserves this operator error, provider cleanup, and zero model answers. The
-repaired launcher passes a real-CLI transport check. One replacement attempt
-is prepared for a separate one-hour, $3 execution decision.
+repaired launcher passes a real-CLI transport check. The [replacement result](../experiments/research-step-22/REPORT.md) preserves
+24/1,147 calculator successes, 3/1,147 operand-control successes, and the model
+worker's CUDA startup failure. Both controls abstained on 1,056 cases. Collection
+and provider cleanup are verified. The worker repair passes its local regression
+check; a new frozen GPU run will test it on the host.
 
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).
 The [second diagnostic](../experiments/research-step-2/REPORT.md) establishes a

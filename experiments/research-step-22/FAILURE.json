@@ -1,0 +1,20 @@
+{
+  "base_failure_sha256": "a12e5e7a9cf8939c6aaaf696265209e9301ff5f4c8616eb2ac42656de01fc71f",
+  "error": "Invalid device argument",
+  "failed_stage": "base",
+  "failing_call": "torch.cuda.reset_peak_memory_stats(0)",
+  "mechanism": "The base arm started in a fresh process. It reset the CUDA allocator counters before initializing CUDA in that process. The earlier GPU runtime check ran in another process.",
+  "model_files_verified": true,
+  "model_loaded": false,
+  "model_prediction_rows": 0,
+  "repair": "Call torch.cuda.init() before resetting peak counters. Keep memory status unknown if initialization fails.",
+  "repair_commit": "9b86522af471ce2ca0b589c142ae17949a676186",
+  "run_id": "feral-finqa-20260908T061358Z",
+  "runtime_cuda_available": true,
+  "runtime_gpu_count": 1,
+  "runtime_gpu_name": "NVIDIA L40S",
+  "schema": "ilxyr.feral_cuda_startup_failure.v1",
+  "status": "execution_failure",
+  "stderr_sha256": "9751f0f8fac2fa187af055e399d339a71d6c35df1068e6ec8f531540327d461c",
+  "validation": "Eighteen execution test groups pass, including cold-allocator and initialization-failure cases; full GPU validation awaits a new frozen execution package."
+}

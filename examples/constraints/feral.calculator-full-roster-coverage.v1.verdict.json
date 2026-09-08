@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-22/SCORES.json",
+  "evidence_ref": "artifact://sha256/b487b9a8df7fc8d825c346c8a332bd81fe22ae4e351bd985ee5f8f8ac9b8d6bc",
+  "experiment_id": "feral.calculator-full-roster-coverage.v1",
+  "family": "feral",
+  "id": "verdict:feral.calculator-full-roster-coverage.v1",
+  "lineage_note": "Keep raw answers and abstentions. Audit coverage by evidence and question type, freeze any later rule change before fresh inputs, and retain the original full-roster result.",
+  "mechanism": "The dated-operand calculator covered only 91 of 1147 supplied-evidence cases. It scored 21 correct returned answers and three required abstentions. The five-case smoke overstated full-roster coverage.",
+  "mechanism_tags": [
+    "coverage-gap",
+    "arithmetic-control",
+    "smoke-scope"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "feral",
+  "recorded_at_ms": 1788850484907,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "calculator correct on 24 of 1147 revised cases, with 1056 abstentions",
+  "summary": "The full FinQA roster exposes a calculator coverage gap: 24 of 1147 revised targets correct versus 4 of 5 in the small smoke.",
+  "taxonomy": "measurement"
+}

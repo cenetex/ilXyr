@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-22/FAILURE.json",
+  "evidence_ref": "artifact://sha256/4649fec42d5e213db94f6a1f70f2eb027475c48dc39a1fd8dd735cd4305c2dd9",
+  "experiment_id": "feral.cuda-worker-startup.v1",
+  "family": "feral",
+  "id": "verdict:feral.cuda-worker-startup.v1",
+  "lineage_note": "Initialize CUDA in the model worker before resetting its counters. Preserve unknown memory when startup fails and verify the repaired process on a new frozen run.",
+  "mechanism": "The base worker reset CUDA allocator counters before initializing CUDA in its fresh process. The successful runtime check ran in a separate process.",
+  "mechanism_tags": [
+    "cuda-initialization",
+    "process-boundary",
+    "startup-failure"
+  ],
+  "outcome": "execution_failure",
+  "project": "feral",
+  "recorded_at_ms": 1788850484907,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "base worker failed before model loading",
+  "summary": "The model produced zero answers after a CUDA allocator startup error; both full-roster control arms completed.",
+  "taxonomy": "implementation"
+}

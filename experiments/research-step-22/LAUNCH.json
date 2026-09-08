@@ -32,5 +32,5 @@
   },
   "root_volume_id": "vol-06f2ceeac00e67914",
   "schema": "ilxyr.feral_live_launch.v1",
-  "status": "running"
+  "status": "startup_observation"
 }
