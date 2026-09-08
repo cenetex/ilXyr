@@ -1,6 +1,7 @@
 """Execute one fixed FERAL comparison stage inside the frozen GPU runtime."""
 
 import argparse
+import copy
 import hashlib
 import importlib.metadata
 import json
@@ -8,6 +9,7 @@ import os
 from pathlib import Path
 import platform
 import sys
+import time
 import tomllib
 
 from feral_process import digest, save
@@ -100,14 +102,46 @@ def run_arm(package, plan, output, arm):
     allocator_ready = False
     def factory():
         nonlocal torch, allocator_ready
-        import torch as loaded
-        torch = loaded
-        # Each arm starts in a fresh process, including its CUDA allocator.
-        torch.cuda.init()
-        torch.cuda.reset_peak_memory_stats(0)
-        allocator_ready = True
-        inventory = json.loads((package / 'model/FILES.json').read_bytes())
-        return BaseGenerator(output / 'model', inventory)
+        from feral_responses import parse_response
+        check = plan['base_startup_check']
+        started = time.monotonic_ns()
+        record = {'schema': 'ilxyr.feral_base_startup_result.v1', 'status': 'running',
+                  'phase': 'cuda_initialization', 'pid': os.getpid(), 'scored_rows': 0,
+                  'check': copy.deepcopy(check)}
+        path = output / 'arms' / arm / 'startup-check.json'
+        save(path, record)
+        try:
+            import torch as loaded
+            torch = loaded
+            # Each arm starts in a fresh process, including its CUDA allocator.
+            torch.cuda.init()
+            torch.cuda.reset_peak_memory_stats(0)
+            allocator_ready = True
+            record['phase'] = 'model_load'
+            save(path, record)
+            inventory = json.loads((package / 'model/FILES.json').read_bytes())
+            generator = BaseGenerator(output / 'model', inventory)
+            record.update(device=str(generator.model.device),
+                          allocated_model_bytes=torch.cuda.memory_allocated(0))
+            if record['device'] != 'cuda:0' or record['allocated_model_bytes'] <= 0:
+                raise ValueError('model CUDA placement differs')
+            record['phase'] = 'generation'
+            save(path, record)
+            raw, work = generator(copy.deepcopy(check['messages']))
+            record.update(raw_response=raw, work=work)
+            if not isinstance(raw, str) or not raw.strip() or type(work.get('generated_tokens')) is not int or work['generated_tokens'] <= 0:
+                raise ValueError('startup generation produced an empty response')
+            parsed = parse_response(raw)
+            record.update(parsed_response=parsed,
+                          synthetic_answer_matches=parsed['prediction'] == check['expected_answer'],
+                          status='complete', phase='ready')
+            return generator
+        except BaseException as error:
+            record.update(status='failed', error=str(error))
+            raise
+        finally:
+            record['wall_ns'] = time.monotonic_ns() - started
+            save(path, record)
     destination = output / 'arms' / arm
     try:
         run_package(package, plan['source']['package_manifest_sha256'], arm, destination,

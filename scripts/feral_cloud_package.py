@@ -23,12 +23,12 @@ def encode(value):
     return (json.dumps(value,indent=2,sort_keys=True,allow_nan=False)+'\n').encode()
 
 
-def build(repo, revision, execution_archive, output):
+def build(repo, revision, execution_archive, output, execution_record='experiments/research-step-14/ARCHIVE.json'):
     if not re.fullmatch('[0-9a-f]{40}',revision):
         raise ValueError('a full committed revision is required')
     def committed(name):
         return subprocess.check_output(['git','-C',str(repo),'show',revision+':'+name],stderr=subprocess.PIPE)
-    execution=json.loads(committed('experiments/research-step-14/ARCHIVE.json'))
+    execution=json.loads(committed(execution_record))
     if execution_archive.stat().st_size!=execution['archive_bytes']:
         raise ValueError('execution archive size differs')
     raw=execution_archive.read_bytes()
@@ -36,6 +36,7 @@ def build(repo, revision, execution_archive, output):
         raise ValueError('execution archive differs')
     body=committed(BODY_PATH)
     host={'schema':'ilxyr.feral_host_package.v1','source_commit':revision,
+        'execution_record_path':execution_record,
         'bootstrap_body_sha256':sha(body),'execution_archive_sha256':sha(raw),
         'execution_archive_bytes':len(raw),'execution_plan_sha256':execution['execution_plan_sha256'],
         'max_instance_seconds':3600,'max_infrastructure_usd':'3.00','bucket':BUCKET}
@@ -149,6 +150,7 @@ def main():
     package=sub.add_parser('build')
     for name in ['repo','execution-archive','out']: package.add_argument('--'+name,type=Path,required=True)
     package.add_argument('--revision',required=True)
+    package.add_argument('--execution-record',default='experiments/research-step-14/ARCHIVE.json')
     for mode in ['render','dry-run','launch']:
         item=sub.add_parser(mode)
         for name in ['host-package','binding','network','out']: item.add_argument('--'+name,type=Path,required=True)
@@ -157,7 +159,7 @@ def main():
         if mode=='launch': item.add_argument('--approval',type=Path,required=True)
     args=parser.parse_args()
     if args.mode=='build':
-        print(json.dumps(build(args.repo,args.revision,args.execution_archive,args.out)))
+        print(json.dumps(build(args.repo,args.revision,args.execution_archive,args.out,args.execution_record)))
         return
     host,body=inspect_package(args.host_package,args.host_package_sha256)
     binding=json.loads(args.binding.read_bytes())

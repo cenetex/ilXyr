@@ -33,6 +33,7 @@ def build(repo, revision, source_archive, output):
     files = {'scripts/' + name: committed('scripts/' + name) for name in CONTROLLER_FILES}
     plan = {'schema': 'ilxyr.feral_execution_plan.v1', 'id': 'feral.finqa-base-calculator.v1',
         'execution_authorized': False, 'controller_source_commit': revision,
+        'base_startup_check': json.loads(committed('experiments/research-step-25/STARTUP-CHECK.json')),
         'arms': ['base', 'calculator', 'operand_only'],
         'failure_policy': 'retain_and_continue_remaining_arms_within_original_deadline',
         'controller_files': {name: {'bytes': len(files['scripts/' + name]), 'sha256': sha(files['scripts/' + name])}
