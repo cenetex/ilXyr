@@ -1,0 +1,54 @@
+name: Solomon isolated confidence
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/*solomon*'
+      - 'scripts/feral_process.py'
+      - 'experiments/research-step-32/**'
+      - '.github/workflows/solomon-confidence.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/*solomon*'
+      - 'scripts/feral_process.py'
+      - 'experiments/research-step-32/**'
+      - '.github/workflows/solomon-confidence.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  opened-window-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Check roster and worker controls
+        run: python3 scripts/test_solomon_fresh_confidence.py
+      - name: Fetch frozen public NSRL source
+        run: |
+          git init "$RUNNER_TEMP/nsrl"
+          git -C "$RUNNER_TEMP/nsrl" remote add origin https://github.com/atimics/nsrl.git
+          git -C "$RUNNER_TEMP/nsrl" fetch --depth 1 origin 96321943e1da7b67bf6c9b4954ff14e6057ac433
+      - name: Prepare the bound source and inputs
+        run: >-
+          python3 scripts/research_solomon_confidence.py prepare
+          --nsrl-repo "$RUNNER_TEMP/nsrl"
+          --plan experiments/research-step-32/ROSTER-PLAN.v3.json
+          --frozen experiments/research-step-32
+          --out "$RUNNER_TEMP/solomon-prepared"
+      - name: Fetch locked build dependencies
+        run: cargo fetch --locked --manifest-path "$RUNNER_TEMP/solomon-prepared/source/Cargo.toml"
+      - name: Check native parity using the opened sixteen-window fixture
+        run: >-
+          python3 scripts/research_solomon_confidence.py smoke
+          --prepared "$RUNNER_TEMP/solomon-prepared"
+          --out "$RUNNER_TEMP/solomon-smoke"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: solomon-opened-window-parity
+          path: ${{ runner.temp }}/solomon-smoke
+          if-no-files-found: ignore

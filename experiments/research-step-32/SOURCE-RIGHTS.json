@@ -1,0 +1,8 @@
+{
+  "declaration_path": "source/Cargo.toml",
+  "declared_workspace_license": "MIT OR Apache-2.0",
+  "license_text_custody": "Preserve any license files actually present in the frozen tree; retain its original Cargo license declaration.",
+  "root_license_files": [],
+  "source_commit": "96321943e1da7b67bf6c9b4954ff14e6057ac433",
+  "upstream": "https://github.com/atimics/nsrl"
+}

@@ -87,9 +87,15 @@ def prepare(repo, plan_path, frozen, output):
         require([d["id"] for d in plan["documents"]] == [d["id"] for d in roster["documents"]], "document roster differs")
         source = output / "source"
         bindings = ownership.materialize_sources(repo, source)
-        license_blob = subprocess.check_output(["git", "-C", str(repo), "show", ownership.REVISION + ":LICENSE"])
-        (source / "LICENSE").write_bytes(license_blob)
-        bindings["LICENSE"] = {"sha256": sha(license_blob), "bytes": len(license_blob)}
+        root_paths = subprocess.check_output(["git", "-C", str(repo), "ls-tree", "--name-only", ownership.REVISION]).decode().splitlines()
+        license_paths = [name for name in root_paths if name.upper().startswith(("LICENSE", "COPYING", "NOTICE"))]
+        for name in license_paths:
+            blob = subprocess.check_output(["git", "-C", str(repo), "show", ownership.REVISION + ":" + name])
+            (source / name).write_bytes(blob)
+            bindings[name] = {"sha256": sha(blob), "bytes": len(blob)}
+        save(output / "SOURCE-RIGHTS.json", {"upstream": "https://github.com/atimics/nsrl", "source_commit": ownership.REVISION,
+             "declared_workspace_license": "MIT OR Apache-2.0", "declaration_path": "source/Cargo.toml",
+             "root_license_files": license_paths, "license_text_custody": "Preserve any license files actually present in the frozen tree; retain its original Cargo license declaration."})
         worker = Path(__file__).with_name("solomon_confidence_arm.rs").read_bytes()
         (source / WORKER_PATH).write_bytes(worker)
         bindings[WORKER_PATH] = {"sha256": sha(worker), "bytes": len(worker), "origin": "ilxyr"}

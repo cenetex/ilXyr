@@ -1,0 +1,86 @@
+{
+  "checks": 5508,
+  "cross_document_shared_phrases": [
+    {
+      "document": "pg-34901",
+      "reference": "pg-84",
+      "shared_32_spans": 2,
+      "window": 5
+    },
+    {
+      "document": "pg-20203",
+      "reference": "pg-3300",
+      "shared_32_spans": 4,
+      "window": 30
+    }
+  ],
+  "document_groups": [
+    [
+      "pg-1228"
+    ],
+    [
+      "pg-132"
+    ],
+    [
+      "pg-1342"
+    ],
+    [
+      "pg-1661"
+    ],
+    [
+      "pg-20203",
+      "pg-3300"
+    ],
+    [
+      "pg-205"
+    ],
+    [
+      "pg-34901",
+      "pg-84"
+    ],
+    [
+      "pg-35"
+    ],
+    [
+      "pg-74"
+    ],
+    [
+      "pg-98"
+    ]
+  ],
+  "documents": 12,
+  "failures": 0,
+  "model_calls": 0,
+  "reference_16_span_hits": 1,
+  "reference_32_span_hits": 0,
+  "references": {
+    "candidate_train": {
+      "bytes": 9388,
+      "sha256": "82f29e7c36e4b93409e3db50a636783690f1e95bced88d9eb7afcfa47dde9d0a"
+    },
+    "opened_eval": {
+      "bytes": 5960,
+      "sha256": "11237cca31d90410ec3389bc8e1bf52be3e68b51c3da62c9ce73d424c482328a"
+    },
+    "stored_memory": {
+      "bytes": 9388,
+      "sha256": "82f29e7c36e4b93409e3db50a636783690f1e95bced88d9eb7afcfa47dde9d0a"
+    }
+  },
+  "schema": "ilxyr.solomon_fresh_overlap_summary.v1",
+  "shifted_windows": [
+    {
+      "document": "pg-1342",
+      "forward_shift": 19,
+      "window": 1
+    },
+    {
+      "document": "pg-205",
+      "forward_shift": 8,
+      "window": 19
+    }
+  ],
+  "source_bytes": 8523061,
+  "status": "passed",
+  "windows": 384
+}

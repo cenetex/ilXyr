@@ -14,6 +14,12 @@ cost before freezing a changed mechanism.
 The [Solomon count-probability step](../experiments/research-step-19/REPORT.md)
 adds two train-only confidence controls. Its known-window smoke preserves
 both lower Brier error from empirical counts and higher error after smoothing.
+The [fresh-document preparation](../experiments/research-step-32/REPORT.md)
+freezes 384 windows from twelve public documents and checks each confidence
+method in a separate process. Its opened native parity check passes. Two
+intake failures remain recorded: layout spacing and shared phrases between
+books. Fresh-document scoring awaits the cloud controller and a fixed,
+priced execution package.
 
 The [live preflight and trace recovery](../experiments/research-step-20/REPORT.md)
 stages the fixed FERAL package, passes the free EC2 dry run, and verifies all

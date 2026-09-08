@@ -1,31 +1,54 @@
 //! One frozen confidence method per process; gold bytes stay in the controller.
 #![deny(unsafe_code)]
 
-use std::{env, fs, io::{self, BufWriter, Write}};
 use nsrl_core::attention::base2_softmax_i32_q15;
-use nsrl_train::{MiniTransformerAttentionKind, MiniTransformerMlpEvalConfig,
-    MiniTransformerMlpModel, MiniTransformerPositionPolicy, evaluate_mini_transformer_mlp_windows};
+use nsrl_train::{
+    MiniTransformerAttentionKind, MiniTransformerMlpEvalConfig, MiniTransformerMlpModel,
+    MiniTransformerPositionPolicy, evaluate_mini_transformer_mlp_windows,
+};
+use std::{
+    env, fs,
+    io::{self, BufWriter, Write},
+};
 
-const ARMS: [&str; 5] = ["native", "point_mass", "smoothed_point_mass", "suffix_empirical", "suffix_unit_prior"];
+const ARMS: [&str; 5] = [
+    "native",
+    "point_mass",
+    "smoothed_point_mass",
+    "suffix_empirical",
+    "suffix_unit_prior",
+];
 
 fn counts(memory: &[u8], context: &[u8]) -> ([u64; 256], usize) {
     for order in [16, 8, 4, 3, 2, 1] {
-        if context.len() < order { continue; }
+        if context.len() < order {
+            continue;
+        }
         let suffix = &context[context.len() - order..];
         let mut result = [0; 256];
         for window in memory.windows(order + 1) {
-            if &window[..order] == suffix { result[usize::from(window[order])] += 1; }
+            if &window[..order] == suffix {
+                result[usize::from(window[order])] += 1;
+            }
         }
-        if result.iter().any(|&n| n > 0) { return (result, order); }
+        if result.iter().any(|&n| n > 0) {
+            return (result, order);
+        }
     }
     let mut result = [0; 256];
-    for &byte in memory { result[usize::from(byte)] += 1; }
+    for &byte in memory {
+        result[usize::from(byte)] += 1;
+    }
     (result, 0)
 }
 
 fn answer(counts: &[u64; 256]) -> usize {
     let mut chosen = 0;
-    for i in 1..256 { if counts[i] > counts[chosen] { chosen = i; } }
+    for i in 1..256 {
+        if counts[i] > counts[chosen] {
+            chosen = i;
+        }
+    }
     chosen
 }
 
@@ -37,8 +60,12 @@ fn control(arm: &str, counts: &[u64; 256]) -> [u64; 256] {
         "smoothed_point_mass" => {
             let mut extra: u64 = 3_276 % 255;
             for (i, value) in mass.iter_mut().enumerate() {
-                if i == chosen { *value = 29_491; }
-                else { *value = 3_276 / 255 + u64::from(extra > 0); extra = extra.saturating_sub(1); }
+                if i == chosen {
+                    *value = 29_491;
+                } else {
+                    *value = 3_276 / 255 + u64::from(extra > 0);
+                    extra = extra.saturating_sub(1);
+                }
             }
         }
         "suffix_empirical" => mass = *counts,
@@ -66,51 +93,91 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
         }
         Some(model)
     } else {
-        if artifact.is_empty() || artifact.len() > 65_536 { return Err("suffix memory size differs".into()); }
+        if artifact.is_empty() || artifact.len() > 65_536 {
+            return Err("suffix memory size differs".into());
+        }
         None
     };
+    let native_records = if let Some(model) = &model {
+        // Batch at most 32 contexts through the existing evaluator. Its frozen
+        // source uses one worker below 512 items. Gold stays in the controller.
+        let mut tokens = Vec::with_capacity(contexts.len() / 64 * 65);
+        for context in contexts.chunks_exact(64) {
+            tokens.extend_from_slice(context);
+            tokens.push(0);
+        }
+        let records = evaluate_mini_transformer_mlp_windows(
+            &tokens,
+            model,
+            MiniTransformerMlpEvalConfig {
+                seq_len: 64,
+                stride: 65,
+                max_windows: None,
+                attention_kind: MiniTransformerAttentionKind::Linear,
+                position_policy: MiniTransformerPositionPolicy::Nope,
+            },
+        )?;
+        if records.len() != contexts.len() / 64 {
+            return Err("native window coverage differs".into());
+        }
+        records
+    } else {
+        Vec::new()
+    };
+    let mut records = native_records.into_iter();
     let mut output = BufWriter::new(io::stdout().lock());
     writeln!(output, "index\tpredicted\tmasses")?;
     for (i, context) in contexts.chunks_exact(64).enumerate() {
-        let (predicted, mass) = if let Some(model) = &model {
-            // The legacy evaluation API expects one trailing target. A fixed zero
-            // allows its forward path to run while gold stays outside this process.
-            let mut tokens = context.to_vec();
-            tokens.push(0);
-            let mut records = evaluate_mini_transformer_mlp_windows(&tokens, model, MiniTransformerMlpEvalConfig {
-                seq_len: 64, stride: 1, max_windows: Some(1),
-                attention_kind: MiniTransformerAttentionKind::Linear,
-                position_policy: MiniTransformerPositionPolicy::Nope,
-            })?;
-            if records.len() != 1 { return Err("native window coverage differs".into()); }
-            let record = records.remove(0);
-            if record.start != 0 || record.end != 64 { return Err("native window identity differs".into()); }
+        let (predicted, mass) = if model.is_some() {
+            let record = records.next().ok_or("native record absent")?;
+            if record.start != i * 65 || record.end != i * 65 + 64 {
+                return Err("native window identity differs".into());
+            }
             let predicted = record.predicted_token.ok_or("native answer absent")?;
             let logits = record.logits_q8.ok_or("native logits absent")?;
             let mut vector = [0; 256];
-            base2_softmax_i32_q15(&logits, &mut vector).ok_or("native probability conversion failed")?;
-            if vector.iter().any(|&n| n < 0) { return Err("negative native mass".into()); }
+            base2_softmax_i32_q15(&logits, &mut vector)
+                .ok_or("native probability conversion failed")?;
+            if vector.iter().any(|&n| n < 0) {
+                return Err("negative native mass".into());
+            }
             (usize::from(predicted), vector.map(|n| n as u64))
         } else {
             let (vector, _) = counts(&artifact, context);
             (answer(&vector), control(arm, &vector))
         };
-        if mass.iter().sum::<u64>() == 0 { return Err("zero probability mass".into()); }
+        if mass.iter().sum::<u64>() == 0 {
+            return Err("zero probability mass".into());
+        }
         write!(output, "{i}\t{predicted}\t")?;
         for (j, value) in mass.iter().enumerate() {
-            if j > 0 { write!(output, ",")?; }
+            if j > 0 {
+                write!(output, ",")?;
+            }
             write!(output, "{value}")?;
         }
         writeln!(output)?;
     }
     output.flush()?;
-    eprintln!("{{\"arm\":\"{arm}\",\"windows\":{},\"native_forward_calls\":{},\"context_bytes\":{},\"artifact_bytes\":{}}}",
-        contexts.len() / 64, if arm == "native" { contexts.len() / 64 } else { 0 }, contexts.len(), artifact.len());
+    eprintln!(
+        "{{\"arm\":\"{arm}\",\"windows\":{},\"native_forward_calls\":{},\"context_bytes\":{},\"artifact_bytes\":{}}}",
+        contexts.len() / 64,
+        if arm == "native" {
+            contexts.len() / 64
+        } else {
+            0
+        },
+        contexts.len(),
+        artifact.len()
+    );
     Ok(())
 }
 
 fn main() {
-    if let Err(error) = run() { eprintln!("solomon-confidence-arm: {error}"); std::process::exit(1); }
+    if let Err(error) = run() {
+        eprintln!("solomon-confidence-arm: {error}");
+        std::process::exit(1);
+    }
 }
 
 #[cfg(test)]
@@ -126,7 +193,9 @@ mod tests {
     }
     #[test]
     fn fixed_controls_and_fractional_prior() {
-        let mut c = [0; 256]; c[7] = 3; c[9] = 1;
+        let mut c = [0; 256];
+        c[7] = 3;
+        c[9] = 1;
         assert_eq!(control("point_mass", &c)[7], 32_767);
         let smooth = control("smoothed_point_mass", &c);
         assert_eq!(smooth.iter().sum::<u64>(), 32_767);
