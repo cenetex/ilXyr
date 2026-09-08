@@ -1,0 +1,40 @@
+{
+  "failures": [
+    {
+      "exit_code": 1,
+      "id": "rust-version-tag-unavailable",
+      "next": "Pin the available Linux image digest and check opened-window parity before binding its compiler.",
+      "requested": "docker.io/library/rust:1.98.1-bookworm",
+      "stage": "runtime_selection",
+      "stderr": "no such manifest: docker.io/library/rust:1.98.1-bookworm"
+    },
+    {
+      "cause": "The source rust-toolchain.toml selects stable. Rustup tried to update it in the read-only image.",
+      "ci_run": 34291427320,
+      "confirmed_native_calls": 0,
+      "id": "stable-toolchain-update-in-read-only-image",
+      "phase": "compiler",
+      "repair": "Set RUSTUP_TOOLCHAIN to the installed 1.98.0-x86_64-unknown-linux-gnu toolchain.",
+      "source_commit": "89022f379cc07191a3f9a61e580225110968466c",
+      "stderr_sha256": "4d2a025cbddfd44d19aa12d2d08c5d24ac349f812df02c0156f53f7e8386cded"
+    },
+    {
+      "cause": "The newer Cargo version adds a $comment field to vendor checksum records.",
+      "changed_checksum_files": 53,
+      "ci_run": 34291427320,
+      "id": "cross-platform-vendor-metadata-difference",
+      "repair": "Verify package and file checksums, then encode those two fields in a fixed JSON form. Compare the complete packed archive in CI.",
+      "source_file_bytes_equal": true
+    },
+    {
+      "cause": "Automatic approval review treated the payload as private and required specific upload and retention permission.",
+      "id": "staging-review-public-source-classification",
+      "instances_created": 0,
+      "resolution": "Verified public repository visibility, the bound public source and document provenance, and expected bucket ownership. The same scoped staging operation then passed review.",
+      "stage": "staging",
+      "status": "resolved"
+    }
+  ],
+  "fresh_model_calls": 0,
+  "schema": "ilxyr.solomon_cloud_failures.v1"
+}

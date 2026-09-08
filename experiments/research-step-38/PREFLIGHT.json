@@ -1,0 +1,25 @@
+{
+  "checked_epoch": 1788911224.795501,
+  "checked_utc": "2026-09-08T23:47:04.795501+00:00",
+  "checks": [
+    "identity",
+    "machine",
+    "image_snapshot",
+    "volume_floor",
+    "network",
+    "role",
+    "bucket_privacy_encryption",
+    "versioned_package",
+    "bounded_retention",
+    "price",
+    "ec2_dry_run"
+  ],
+  "instances_created": 0,
+  "package_sha256": "52dfcf2f63668d02765a6b591f5b39a0b445a1b475c32ce4e2ba27fdc37e9f86",
+  "plan_sha256": "58ff514dae66d51c80ec727d7cf27250eccb74a713af127764f897948aa0db6a",
+  "preflight_receipt_sha256": "7e65f14e6bbfa38bb2376a5122c8d3024ab198bc3147f0add1d6b52fae5d563d",
+  "raw_receipts_custody": "Private local evidence folder",
+  "schema": "ilxyr.solomon_cloud_preflight.v1",
+  "staged_readback_verified": true,
+  "status": "passed"
+}
