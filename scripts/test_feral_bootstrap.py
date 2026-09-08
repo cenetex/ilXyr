@@ -160,6 +160,9 @@ class BootstrapTests(unittest.TestCase):
             docker=next(c['args'] for c in calls if c['name']=='docker' and c['args'][0]=='run')
             for flag in ['--network','none','--memory','56g','--cpus','8','--read-only','--entrypoint']:
                 self.assertIn(flag,docker)
+            self.assertIn('/tmp:rw,exec,size=1g',docker)
+            self.assertIn('TRITON_CACHE_DIR=/tmp/feral-triton',docker)
+            self.assertEqual(docker[docker.index('TRITON_CACHE_DIR=/tmp/feral-triton')-1],'--env')
 
     def test_setup_failures_keep_cause_and_shutdown(self):
         for mode,phase in [('metadata','metadata'),('package','package'),('image','image')]:
