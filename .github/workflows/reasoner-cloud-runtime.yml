@@ -16,7 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Check archive handling
-        run: python3 scripts/test_reasoner_cloud_package.py
+        run: |
+          python3 scripts/test_reasoner_cloud_package.py
+          python3 scripts/test_reasoner_cloud_launch.py
       - name: Build the fixed public source archive
         run: |
           git init "$RUNNER_TEMP/reasoner-zero"
@@ -42,3 +44,13 @@ jobs:
               path=root/name
               if path.exists():print(name,path.read_text()[-2000:])
           PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reasoner-cloud-smoke
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/reasoner-cloud.tar
+            ${{ runner.temp }}/reasoner-smoke/*.json
+            ${{ runner.temp }}/reasoner-smoke/*.log
+            ${{ runner.temp }}/reasoner-smoke/executables/

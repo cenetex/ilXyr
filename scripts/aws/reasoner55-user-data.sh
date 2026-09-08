@@ -3,7 +3,8 @@ trap 'shutdown -h now' EXIT
 remaining=$((R_LAUNCH + 3570 - $(date +%s)))
 test "$remaining" -gt 0
 systemd-run --unit=reasoner55-deadline --on-active="$remaining" /usr/sbin/shutdown -h now
-ROOT=/opt/reasoner55
+ROOT=${R_WORK_ROOT:-/opt/reasoner55}
+USER_DATA=${R_USER_DATA_FILE:-/var/lib/cloud/instance/user-data.txt}
 install -d -m 0755 "$ROOT/output"
 OUT="$ROOT/output"
 exec > >(tee -a "$ROOT/bootstrap.log") 2>&1
@@ -56,15 +57,15 @@ PY
   put_once "$ROOT/bootstrap-snapshot.log" "runs/$R_RUN/bootstrap.log" || COLLECTION_OK=0
   if [ "$COLLECTION_OK" -ne 1 ]; then code=1; fi
   python3 - "$ROOT/host-terminal.json" "$code" "$PHASE" "$R_RUN" "$R_LAUNCH" \
-    "$R_PACKAGE_SHA" "$R_PLAN_SHA" "$COLLECTION_OK" "${INSTANCE_ID:-}" <<'PY'
+    "$R_PACKAGE_SHA" "$R_PLAN_SHA" "$COLLECTION_OK" "${INSTANCE_ID:-}" "$USER_DATA" <<'PY'
 import hashlib,json,sys,time
 from pathlib import Path
-path,code,phase,run,launch,package,plan,collected,instance=sys.argv[1:]
+path,code,phase,run,launch,package,plan,collected,instance,user_data=sys.argv[1:]
 v={'schema':'ilxyr.reasoner55_host_terminal.v1','status':'complete' if code=='0' and collected=='1' else 'failed',
    'exit_code':int(code),'phase':phase,'run_id':run,'instance_id':instance or None,
    'package_sha256':package,'plan_sha256':plan,'collection_complete':collected=='1',
    'elapsed_instance_seconds':time.time()-int(launch),'actual_billed_usd':None,
-   'instance_termination_verified':False,'user_data_sha256':hashlib.sha256(Path('/var/lib/cloud/instance/user-data.txt').read_bytes()).hexdigest()}
+   'instance_termination_verified':False,'user_data_sha256':hashlib.sha256(Path(user_data).read_bytes()).hexdigest()}
 Path(path).write_text(json.dumps(v,indent=2,sort_keys=True)+'\n')
 PY
   put_once "$ROOT/host-terminal.json" "runs/$R_RUN/host-terminal.json"
@@ -73,6 +74,7 @@ PY
 }
 trap finish EXIT
 
+PHASE=metadata
 TOKEN=$(curl --fail --silent --show-error --connect-timeout 3 --max-time 5 --request PUT \
   --header 'X-aws-ec2-metadata-token-ttl-seconds: 3600' http://169.254.169.254/latest/api/token)
 metadata() {
@@ -83,12 +85,13 @@ INSTANCE_ID=$(metadata instance-id)
 test "$(metadata instance-type)" = c6i.xlarge
 test "$(metadata ami-id)" = ami-0d3378afe7683c867
 unset TOKEN
+PHASE=package
 bounded 3060 aws s3api get-object --bucket "$R_BUCKET" --key "$R_PACKAGE_KEY" \
   --version-id "$R_PACKAGE_VERSION" "$ROOT/package.tar" --no-cli-pager
-python3 - "$ROOT/package.tar" "$R_PACKAGE_SHA" "$R_PLAN_SHA" "$ROOT/package" <<'PY'
+python3 - "$ROOT/package.tar" "$R_PACKAGE_SHA" "$R_PLAN_SHA" "$ROOT/package" "$USER_DATA" <<'PY'
 import hashlib,io,json,sys,tarfile
 from pathlib import Path,PurePosixPath
-archive,expected,plan_sha,output=sys.argv[1:];root=Path(output);root.mkdir()
+archive,expected,plan_sha,output,user_data=sys.argv[1:];root=Path(output);root.mkdir()
 def unpack(raw,folder):
     if len(raw)>8*1024*1024:raise ValueError('package exceeds bound')
     with tarfile.open(fileobj=io.BytesIO(raw),mode='r:') as t:
@@ -105,7 +108,7 @@ for name,binding in manifest['files'].items():
     p=(root/name).resolve();assert p.is_relative_to(root.resolve())
     assert p.stat().st_size==binding['bytes'] and hashlib.sha256(p.read_bytes()).hexdigest()==binding['sha256']
 assert hashlib.sha256((root/'EXECUTION-PLAN.json').read_bytes()).hexdigest()==plan_sha
-body=Path('/var/lib/cloud/instance/user-data.txt').read_bytes().split(b'\n# REASONER_BODY\n')
+body=Path(user_data).read_bytes().split(b'\n# REASONER_BODY\n')
 assert len(body)==2 and body[1]==(root/'scripts/aws/reasoner55-user-data.sh').read_bytes()
 plan=json.loads((root/'EXECUTION-PLAN.json').read_bytes())
 assert plan['limits']['max_instance_seconds']==3600 and plan['budget']['maximum_before_tax_usd']=='0.50'
