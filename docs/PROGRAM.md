@@ -4,12 +4,12 @@ What the lab studies. The rest of `docs/` is the machinery that holds it account
 
 The [next-decision report](../experiments/research-step-18/REPORT.md) gives the
 current deliverable for each of the five projects, the failures behind those
-choices, and the shared comparison method. The immediate research priority is
-the fixed Reasoner guide against its matched lexical control on fresh families.
-Its [cloud comparison package](../experiments/research-step-23/REPORT.md) now
-passes the fixed Linux smoke, versioned read-back, and free AWS dry run. The
-full comparison is ready for a one-hour execution decision capped at $0.50
-before tax.
+choices, and the shared comparison method. The [completed Reasoner comparison](../experiments/research-step-26/REPORT.md)
+missed both primary benefit gates against matched lexical guidance on 128
+fresh families. All answers and 3,072 independent replays verified. Collection,
+provider termination, and root-volume deletion are confirmed. The next design
+should use lexical guidance as its reference and trace the prior feature's
+cost before freezing a changed mechanism.
 
 The [Solomon count-probability step](../experiments/research-step-19/REPORT.md)
 adds two train-only confidence controls. Its known-window smoke preserves
@@ -146,8 +146,11 @@ Reasoner 5 studies learned search guidance with exact answer checking. Its first
 five experiments produced two passes and three no-go results. Reasoner 5.5
 then tested generated families and measured the full search cost. An equally
 optimized task guide used 19.3% less paired CPU time than target-only search
-on the recorded 128-family public cohort. The next question is transfer to
-fresh families with the guide fixed and strong semantic controls.
+on the recorded 128-family public cohort. The later [matched comparison](../experiments/research-step-26/REPORT.md)
+on 128 fresh families missed both benefit gates against lexical guidance.
+Its CPU ratio was 1.000405 and verifier-work ratio was 1.036041. The fixed
+primary claim resolved no-go; the next mechanism must earn its added cost
+against that stronger reference.
 
 Reasoner 5.6 retains its development search and channel-readiness failures.
 Historical 3.x and 4.x results keep their original scope. The current evidence

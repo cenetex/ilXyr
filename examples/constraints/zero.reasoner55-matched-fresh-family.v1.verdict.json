@@ -1,0 +1,29 @@
+{
+  "evidence_kind": "existing_public_result",
+  "evidence_path": "experiments/research-step-26/RESULT.json",
+  "evidence_ref": "artifact://sha256/0b51b3c038f2e7095a5209175eeb9f6a1bd9dc4f8612bfe540f7a5a5741a961f",
+  "experiment_id": "zero.reasoner55-matched-fresh-family.v1",
+  "family": "zero",
+  "id": "verdict:zero.reasoner55-matched-fresh-family.v1",
+  "lineage_note": "Use matched lexical guidance as the reference. Trace prior-feature cost and stratum effects in the opened outputs, then freeze one changed mechanism and fresh-family comparison before another run.",
+  "mechanism": "Fixed learned semantic task guidance versus raw lexical guidance, with shared optimized search, on fresh target behaviors and primitive sets within the fixed family design.",
+  "mechanism_tags": [
+    "semantic-transfer",
+    "learned-search",
+    "lexical-control",
+    "matched-cost",
+    "fresh-families"
+  ],
+  "outcome": "complete_no_go",
+  "project": "reasoner",
+  "recorded_at_ms": 1788854349154,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "full matched cloud run completed; both primary benefit gates failed",
+  "summary": "On 128 fresh families, task-to-lexical CPU ratio 1.000405 has a one-sided 95 percent upper bound of 1.001546; verifier checks plus one ratio 1.036041 has an upper bound of 1.077057. Both benefit gates failed while all answers and 3072 independent replays verified.",
+  "taxonomy": "transfer"
+}

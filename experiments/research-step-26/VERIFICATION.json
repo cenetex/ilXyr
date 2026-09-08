@@ -1,0 +1,16 @@
+{
+  "status": "verified",
+  "source_bindings_verified": true,
+  "executable_hashes": {
+    "plain": "3bca3caf526accf2e02ae67de596d5f670e7a39faff8c617672162270fbed994",
+    "fast": "b60cac616f41f35afcb64135302c345dfce5151325538e1393df254e96721705"
+  },
+  "cohort_families": 128,
+  "processes": 72,
+  "native_episodes": 73728,
+  "exact_row_validation": true,
+  "paired_metrics_and_bootstraps_reproduced": true,
+  "independent_replay_scope": "3072 replays completed inside the frozen cloud run",
+  "local_independent_replay_repeated": false,
+  "analysis_sha256": "684c89928bfd2c79a72771c9deb76e9adeda3be9fe40a69fa0d67345362b3884"
+}

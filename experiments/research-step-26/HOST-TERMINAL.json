@@ -1,0 +1,15 @@
+{
+  "actual_billed_usd": null,
+  "collection_complete": true,
+  "elapsed_instance_seconds": 1088.189525604248,
+  "exit_code": 0,
+  "instance_id": "i-0ffba5be5a2f4141b",
+  "instance_termination_verified": false,
+  "package_sha256": "e7da18889a91796c2c42f49832b2e89dcb565dd4eefeec9b8b9307e72b26ec4d",
+  "phase": "complete",
+  "plan_sha256": "70eee53ef3ada5353d48fcb5323a45db7d4e3536241937e0a492516d38f93f6a",
+  "run_id": "reasoner55-20260908T071213Z",
+  "schema": "ilxyr.reasoner55_host_terminal.v1",
+  "status": "complete",
+  "user_data_sha256": "67c58a160a1969451b4f970e828de3f62af97e694712487be5e5ec164e110b21"
+}

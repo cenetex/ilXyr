@@ -632,6 +632,30 @@
       "lineage_note": "Keep raw answers and abstentions. Audit coverage by evidence and question type, freeze any later rule change before fresh inputs, and retain the original full-roster result.",
       "evidence_path": "experiments/research-step-22/SCORES.json",
       "evidence_ref": "artifact://sha256/b487b9a8df7fc8d825c346c8a332bd81fe22ae4e351bd985ee5f8f8ac9b8d6bc"
+    },
+    {
+      "evidence_kind": "existing_public_result",
+      "evidence_path": "experiments/research-step-26/RESULT.json",
+      "evidence_ref": "artifact://sha256/0b51b3c038f2e7095a5209175eeb9f6a1bd9dc4f8612bfe540f7a5a5741a961f",
+      "experiment_id": "zero.reasoner55-matched-fresh-family.v1",
+      "family": "zero",
+      "lineage_note": "Use matched lexical guidance as the reference. Trace prior-feature cost and stratum effects in the opened outputs, then freeze one changed mechanism and fresh-family comparison before another run.",
+      "mechanism_tags": [
+        "semantic-transfer",
+        "learned-search",
+        "lexical-control",
+        "matched-cost",
+        "fresh-families"
+      ],
+      "outcome": "complete_no_go",
+      "project": "reasoner",
+      "recorded_at_ms": 1788854349154,
+      "seq": 31,
+      "source_outcome": "full matched cloud run completed; both primary benefit gates failed",
+      "summary": "On 128 fresh families, task-to-lexical CPU ratio 1.000405 has a one-sided 95 percent upper bound of 1.001546; verifier checks plus one ratio 1.036041 has an upper bound of 1.077057. Both benefit gates failed while all answers and 3072 independent replays verified.",
+      "taxonomy": "transfer",
+      "verdict_id": "verdict:zero.reasoner55-matched-fresh-family.v1",
+      "verdict_ref": "artifact://sha256/bb15bba6f67abef028d64c8d2cb1fe4644c8f1eacf8049603df00b97574b148a"
     }
   ]
 }
