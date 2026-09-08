@@ -264,7 +264,14 @@ class ProcessTreeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             command = [sys.executable, '-c', 'import os,time\nr,w=os.pipe()\nchild=os.fork()\nif child:\n os.read(r,1)\n os._exit(0)\nos.setsid()\nos.write(w,b"1")\ntime.sleep(60)']
-            receipt = run_tree(command, root, root / 'process', time.monotonic() + 5, 1, 1024 * 1024)
+            driver = ('import json,os,sys,time\nfrom pathlib import Path\nsys.path.insert(0,sys.argv[1])\n'
+                'from weight_process_tree import run_tree\nroot=Path(sys.argv[2])\n'
+                'receipt=run_tree(' + repr(command) + ',root,root/"process",time.monotonic()+5,1,1048576)\n'
+                'receipt["controller_pid"]=os.getpid()\nprint(json.dumps(receipt))')
+            child = subprocess.run([sys.executable, '-c', driver, str(REPO / 'scripts'), str(root)],
+                capture_output=True, text=True, timeout=10, check=True)
+            receipt = json.loads(child.stdout)
+            self.assertNotEqual(receipt['controller_pid'], 1)
             self.assertEqual(receipt['status'], 'failed')
             self.assertTrue(receipt['adopted_cleanup']['adopted_pids'])
             self.assertEqual(receipt['stop_reason'], 'adopted_descendants_after_leader_exit')
