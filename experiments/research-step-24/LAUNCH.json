@@ -1,0 +1,24 @@
+{
+  "availability_zone": "us-east-1b",
+  "deadline_utc": "2026-09-08T08:12:13+00:00",
+  "dry_run_receipt_sha256": "48b9cb66598150992d7a65222c69d7fbac7c5bc36b09bebfa036e5e57816aa48",
+  "launch_epoch_seconds": 1788851533,
+  "launch_time": "2026-09-08T07:12:34+00:00",
+  "live_user_data_exact_match": true,
+  "package_source_commit": "25364d838739c30b8e07f6c05cebf47dc7679908",
+  "paid_instances_created": 1,
+  "provider_observation_sha256": "78ef7d5dcc5919a452ac998b1fca66490605b4fe0f127279fdf1393289badb53",
+  "receipt": {
+    "instance_id": "i-0ffba5be5a2f4141b",
+    "package_sha256": "e7da18889a91796c2c42f49832b2e89dcb565dd4eefeec9b8b9307e72b26ec4d",
+    "plan_sha256": "70eee53ef3ada5353d48fcb5323a45db7d4e3536241937e0a492516d38f93f6a",
+    "request_sha256": "b0d0430270eadf68313e259031f59d49f16c40150378f55d1e928783308b171d",
+    "run_id": "reasoner55-20260908T071213Z",
+    "status": "launched",
+    "user_data_sha256": "67c58a160a1969451b4f970e828de3f62af97e694712487be5e5ec164e110b21"
+  },
+  "root_volume_id": "vol-0409abb4e185a28c9",
+  "schema": "ilxyr.reasoner55_launch_observation.v1",
+  "source_commit": "613a2fd9eba18d08b922167e036b7d1687995ccb",
+  "status": "running"
+}

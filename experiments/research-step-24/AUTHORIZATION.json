@@ -1,0 +1,13 @@
+{
+  "approval": {
+    "approval_reference": "user-reasoner-20260908-usd050",
+    "maximum_before_tax_usd": "0.50",
+    "maximum_instance_seconds": 3600,
+    "package_sha256": "e7da18889a91796c2c42f49832b2e89dcb565dd4eefeec9b8b9307e72b26ec4d",
+    "plan_sha256": "70eee53ef3ada5353d48fcb5323a45db7d4e3536241937e0a492516d38f93f6a"
+  },
+  "maximum_instances": 1,
+  "schema": "ilxyr.reasoner55_execution_authorization.v1",
+  "scope": "The exact published research-step-23 package, for at most one hour and $0.50 before tax.",
+  "user_answer": "Approve the $0.50 Reasoner run"
+}
