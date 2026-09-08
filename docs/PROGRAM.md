@@ -263,8 +263,11 @@ The [versioned calibration trace now verifies](../experiments/research-step-20/R
 including every slowest-50 query and the final-p99 decision. The
 [full-corpus source kit](../experiments/research-step-33/REPORT.md) now binds all
 14 policy files, the saved trace, and both oracle sources. Two fixed Linux LiE
-builds match, and both oracles pass three known-answer checks. The next step
-is the cloud controller, result checker, and priced launch package. The
+builds match, and both oracles pass three known-answer checks. The
+[full-run controller and result checker](../experiments/research-step-34/REPORT.md)
+now select the fixed policy, retain failed attempts, verify corpus files, and
+check process cleanup. Their 19 Linux tests pass. The next step is the cloud
+launch package with machine, storage, watchdog, and price preflight. The
 [resource accounting component](../experiments/research-step-3/REPORT.md)
 now passes its exact percentile and failure-retention tests. The source-pinned contract is
 [`weight-multiplicity-transfer-r3`](../examples/weight-multiplicity/rev3-contract.json), and the
