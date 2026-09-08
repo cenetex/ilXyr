@@ -24,6 +24,7 @@ from feral_comparison_worker import run_package
 def plan_fixture():
     return {'schema':'ilxyr.feral_execution_plan.v1','arms':['base','calculator','operand_only'],
         'failure_policy':'retain_and_continue_remaining_arms_within_original_deadline',
+        'base_startup_check':json.loads((ROOT.parent/'experiments/research-step-25/STARTUP-CHECK.json').read_bytes()),
         'controller_files':{name:{'sha256':digest(ROOT/name),'bytes':(ROOT/name).stat().st_size} for name in CONTROLLER_FILES},
         'source':{'archive_sha256':'a'*64,'package_manifest_sha256':'b'*64,'scope':'full_finqa_1147'},
         'provider':{'name':'aws_ec2','instance_type':'g6e.2xlarge','region':'us-east-1'},
@@ -57,11 +58,14 @@ def archive_fixture(root, extra=None):
 
 
 class ExecutionTests(unittest.TestCase):
-    def test_fresh_base_process_initializes_allocator_and_keeps_init_failure(self):
+    def test_base_startup_check_reuses_loaded_model_and_preserves_each_failure(self):
         from test_feral_comparison import row
         from feral_targets_v2 import ndjson
-        for fail_init in [False, True]:
-            with self.subTest(fail_init=fail_init), tempfile.TemporaryDirectory() as name:
+        cases = [('', None), ('init', 'cuda_initialization'), ('load', 'model_load'),
+                 ('generate', 'generation'), ('empty', 'generation'), ('cpu', 'model_load'),
+                 ('wrong_answer', None)]
+        for failure, phase in cases:
+            with self.subTest(failure=failure), tempfile.TemporaryDirectory() as name:
                 root=Path(name); package=root/'package'; output=root/'output'; output.mkdir()
                 files={'inputs/model-inputs.jsonl':ndjson([row()]), 'model/FILES.json':b'{"files":{}}'}
                 bindings={}
@@ -69,37 +73,52 @@ class ExecutionTests(unittest.TestCase):
                     path=package/filename; path.parent.mkdir(parents=True,exist_ok=True); path.write_bytes(raw)
                     bindings[filename]={'bytes':len(raw),'sha256':digest(path),'phase':'prediction'}
                 save(package/'PACKAGE.json',{'files':bindings,'ordered_ids':['fixture'],'scope':'controlled_fixture'})
-                state={'initialized':False,'reset':False,'loaded':False}
+                state={'initialized':False,'reset':False,'loads':0,'calls':[]}
                 def init():
-                    if fail_init: raise RuntimeError('injected CUDA initialization failure')
+                    if failure == 'init': raise RuntimeError('injected initialization failure')
                     state['initialized']=True
                 def reset(_device):
                     if not state['initialized']: raise RuntimeError('Invalid device argument')
                     state['reset']=True
+                class Generator:
+                    model=SimpleNamespace(device='cpu' if failure == 'cpu' else 'cuda:0')
+                    def __call__(self, messages):
+                        state['calls'].append(copy.deepcopy(messages))
+                        if failure == 'generate': raise RuntimeError('injected generation failure')
+                        if failure == 'empty': return '', {'generated_tokens':1}
+                        answer = '999' if failure == 'wrong_answer' else '5' if len(state['calls']) == 1 else '30'
+                        return '{"answer":'+answer+'}', {'generated_tokens':5}
                 def generator(_model,_inventory):
-                    self.assertTrue(state['reset'])
-                    state['loaded']=True
-                    return lambda _messages: ('{"answer":30}', {})
-                cuda=SimpleNamespace(init=init,reset_peak_memory_stats=reset,
+                    self.assertTrue(state['reset']); state['loads']+=1
+                    if failure == 'load': raise RuntimeError('injected load failure')
+                    return Generator()
+                cuda=SimpleNamespace(init=init,reset_peak_memory_stats=reset,memory_allocated=lambda _device:256,
                     max_memory_allocated=lambda _device:512,max_memory_reserved=lambda _device:1024)
+                plan=plan_fixture();plan['source']['package_manifest_sha256']=digest(package/'PACKAGE.json')
                 with patch.dict(sys.modules,{'torch':SimpleNamespace(cuda=cuda)}), \
                      patch('feral_comparison_worker.BaseGenerator',side_effect=generator):
-                    plan={'source':{'package_manifest_sha256':digest(package/'PACKAGE.json')}}
-                    if fail_init:
-                        with self.assertRaisesRegex(RuntimeError,'injected CUDA initialization failure'):
-                            run_arm(package,plan,output,'base')
-                    else:
-                        run_arm(package,plan,output,'base')
+                    if phase:
+                        with self.assertRaises((RuntimeError, ValueError)):run_arm(package,plan,output,'base')
+                    else:run_arm(package,plan,output,'base')
                 result=json.loads((output/'arms/base/result.json').read_text())
                 memory=json.loads((output/'arms/base/device-memory.json').read_text())
-                self.assertEqual(state['loaded'],not fail_init)
-                self.assertEqual(result['rows'],0 if fail_init else 1)
-                self.assertEqual(memory['status'],'unknown' if fail_init else 'observed')
-                if fail_init:
-                    self.assertNotIn('allocated_peak_bytes',memory)
-                else:
-                    self.assertEqual(memory['allocated_peak_bytes'],512)
-                    self.assertEqual(memory['reserved_peak_bytes'],1024)
+                startup=json.loads((output/'arms/base/startup-check.json').read_text())
+                self.assertEqual(result['rows'],0 if phase else 1)
+                self.assertEqual(startup['status'],'failed' if phase else 'complete')
+                self.assertEqual(startup['phase'],phase or 'ready')
+                self.assertEqual(startup['scored_rows'],0)
+                self.assertEqual(memory['status'],'unknown' if failure == 'init' else 'observed')
+                if failure == 'init': self.assertNotIn('allocated_peak_bytes',memory)
+                if failure == 'empty': self.assertEqual(startup['raw_response'],'')
+                if phase is None:
+                    self.assertEqual(state['loads'],1)
+                    self.assertEqual(len(state['calls']),2)
+                    self.assertEqual(state['calls'][0],plan['base_startup_check']['messages'])
+                    self.assertEqual(state['calls'][1],row()['messages'])
+                    self.assertEqual(startup['synthetic_answer_matches'],failure != 'wrong_answer')
+                    predictions=(output/'arms/base/predictions.jsonl').read_text().splitlines()
+                    self.assertEqual(len(predictions),1)
+                    self.assertEqual(json.loads(predictions[0])['id'],'fixture')
 
     def test_process_stdout_stderr_cpu_and_peak_memory(self):
         with tempfile.TemporaryDirectory() as name:
@@ -225,7 +244,9 @@ class ExecutionTests(unittest.TestCase):
     def test_budget_and_source_changes_fail_before_execution(self):
         valid=plan_fixture()
         validate_plan(valid)
-        for change in [lambda p:p['budget'].update(max_infrastructure_usd='2'),
+        for change in [lambda p:p['base_startup_check'].update(scored_rows=1),
+                       lambda p:p['base_startup_check'].update(success_rule='answer_must_match'),
+                       lambda p:p['budget'].update(max_infrastructure_usd='2'),
                        lambda p:p['budget'].update(hourly_compute_usd='NaN'),
                        lambda p:p['limits'].update(collection_reserve_seconds=3600),
                        lambda p:p['limits']['stage_seconds'].update(base=float('inf')),

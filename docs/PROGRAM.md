@@ -28,7 +28,10 @@ repaired launcher passes a real-CLI transport check. The [replacement result](..
 24/1,147 calculator successes, 3/1,147 operand-control successes, and the model
 worker's CUDA startup failure. Both controls abstained on 1,056 cases. Collection
 and provider cleanup are verified. The worker repair passes its local regression
-check; a new frozen GPU run will test it on the host.
+check. The [startup-checked package](../experiments/research-step-25/REPORT.md)
+now passes versioned read-back and the free launch dry run. Its proposed limit
+is one hour and $3 before tax. Separate calculator v2 work scores 5/5 on the
+five opened development cases; fresh coverage testing is next.
 
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).
 The [second diagnostic](../experiments/research-step-2/REPORT.md) establishes a

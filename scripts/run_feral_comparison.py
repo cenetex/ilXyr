@@ -32,6 +32,13 @@ def validate_plan(plan):
         raise ValueError('fixed arm order differs')
     if plan['failure_policy'] != 'retain_and_continue_remaining_arms_within_original_deadline':
         raise ValueError('failure policy differs')
+    check = plan['base_startup_check']
+    if check['schema'] != 'ilxyr.feral_base_startup_check.v1' or check['scored_rows'] != 0 or check['success_rule'] != 'cuda_model_and_nonempty_generated_response' or check['cost_scope'] != 'included_in_base_setup_and_full_process_cost':
+        raise ValueError('base startup check scope differs')
+    if [m['role'] for m in check['messages']] != ['system', 'user'] or any(not isinstance(m['content'], str) or not 0 < len(m['content']) < 4096 for m in check['messages']):
+        raise ValueError('base startup messages differ')
+    if not isinstance(check['expected_answer'], str):
+        raise ValueError('startup diagnostic answer differs')
     limits = plan['limits']
     for key in ['max_instance_seconds', 'collection_reserve_seconds', 'termination_grace_seconds']:
         finite_positive(limits[key], key)

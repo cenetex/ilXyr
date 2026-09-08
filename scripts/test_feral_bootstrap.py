@@ -11,8 +11,9 @@ import tarfile
 import tempfile
 import time
 import unittest
+from unittest.mock import patch
 
-from feral_cloud_package import BODY_PATH, BUCKET, dispatch, encode, launch_request, render_user_data, sha
+from feral_cloud_package import BODY_PATH, BUCKET, build, dispatch, encode, inspect_package, launch_request, render_user_data, sha
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -114,6 +115,30 @@ def run_fixture(root, failure='', expired=False, tamper=False):
 
 
 class BootstrapTests(unittest.TestCase):
+    def test_new_execution_record_packages_exact_bytes_and_preserves_prior_record(self):
+        with tempfile.TemporaryDirectory() as name:
+            root=Path(name); body,_,_,archive=fixture_host(root)
+            with tarfile.open(archive,'r:') as package:
+                raw=package.extractfile('execution.tar').read()
+            execution=root/'new-execution.tar';execution.write_bytes(raw)
+            record='experiments/research-step-25/ARCHIVE.json'
+            binding={'archive_bytes':len(raw),'archive_sha256':sha(raw),'execution_plan_sha256':'c'*64}
+            reads=[]
+            def committed(args, **_kwargs):
+                name=args[-1].split(':',1)[1];reads.append(name)
+                return body if name==BODY_PATH else encode(binding) if name==record else b'{}'
+            with patch('feral_cloud_package.subprocess.check_output',side_effect=committed):
+                result=build(root,'a'*40,execution,root/'host.tar.new',record)
+                host,actual=inspect_package(root/'host.tar.new',result['archive_sha256'])
+                self.assertEqual(actual,body)
+                self.assertEqual(host['execution_archive_sha256'],sha(raw))
+                self.assertEqual(host['execution_record_path'],record)
+                self.assertEqual(reads,[record,BODY_PATH])
+                execution.write_bytes(raw[:-1]+b'x')
+                with self.assertRaisesRegex(ValueError,'execution archive differs'):
+                    build(root,'a'*40,execution,root/'changed.tar',record)
+                self.assertFalse((root/'changed.tar').exists())
+
     def test_success_collects_predictions_excludes_bulk_files_and_shuts_down(self):
         with tempfile.TemporaryDirectory() as name:
             root=Path(name);process,calls,status,binding=run_fixture(root)
