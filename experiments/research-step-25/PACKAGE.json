@@ -1,0 +1,23 @@
+{
+  "bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1",
+  "bytes": 1638400,
+  "host_archive": {
+    "archive_bytes": 1638400,
+    "archive_sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+    "bootstrap_body_sha256": "ba5dd1cee323d636c3770951dc09d5e970b4faa7521c48795670ec8efc0ffb43",
+    "execution_archive_sha256": "90f393eda219d4070e2b8318f3bd625eb76ea9eff4338dff096a247f58badf05",
+    "execution_authorized": false,
+    "execution_plan_sha256": "eeb5658143faebd7aeb9db25185c5503a59ab5dc555c378cbdd243c35a2b3e49",
+    "schema": "ilxyr.feral_host_archive.v1",
+    "source_commit": "37669764d1aa3346464595a325320810595dd389"
+  },
+  "host_package_sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+  "key": "packages/feral-comparison/3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75.tar",
+  "receipts": {
+    "readback-receipt.json": "b3a14e76e1011354a8b6f79899d4d50b13acf57163830f806e9aa6e7db8613a6",
+    "stage-receipt.json": "deb41f274bfe55c7e3da574c86323a20079c7626437e42883df4778d8bfbbb1f"
+  },
+  "schema": "ilxyr.feral_staged_package.v1",
+  "status": "versioned_readback_verified",
+  "version_id": "ZkHR6v0wApi4MSDdwXOk6VEcthWuwAmy"
+}

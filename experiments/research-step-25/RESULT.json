@@ -1,0 +1,30 @@
+{
+  "artifacts": {
+    "ARCHIVE.json": "6a14417238016353ced98fdf5d2f503bf43c808dc4f0dc38c4a4d5d4b4755e2e",
+    "CALCULATOR-V2-SMOKE.json": "1a095f82141a420c11f1a68c6e356c41970e2174d0629788856d1b85d79a7cb0",
+    "DRY-RUN.json": "d977104ec4015ad2329d0ee9f579876a719828e110f4792df96092b868b7173a",
+    "EXECUTION-PLAN.json": "eeb5658143faebd7aeb9db25185c5503a59ab5dc555c378cbdd243c35a2b3e49",
+    "HOST-ARCHIVE.json": "9ba72a5e218d179049bffb54dc9a375e3b66e53b4d275bcae444196f761ccbbd",
+    "PACKAGE.json": "24355239db4731e5a718c2d90e9a3ee26fb1b4f12a2c3ae7a11e6a0af5b71b62",
+    "PREFLIGHT.json": "b26f568b5d869369d22a203b99fc6ddf2f2c12b4eb8b59e3a60f9aa428f437ed",
+    "STARTUP-CHECK.json": "94d81565ef0f16baff748ca330065652d3f27ff1f3fbbcec48eb4c842817d792"
+  },
+  "calculator_v2_cases": 5,
+  "calculator_v2_correct": 5,
+  "calculator_v2_fresh_roster_status": "source_intake_pending",
+  "calculator_v2_scope": "five_opened_development_cases",
+  "host_package_sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+  "live_gpu_startup_verified": false,
+  "local_test_groups": {
+    "calculator_v2": 7,
+    "execution": 18,
+    "host_lifecycle": 12,
+    "real_cli_transport": 1
+  },
+  "paid_instances_created": 0,
+  "plan_sha256": "eeb5658143faebd7aeb9db25185c5503a59ab5dc555c378cbdd243c35a2b3e49",
+  "schema": "ilxyr.feral_step25_preparation.v1",
+  "scored_roster_rows": 1147,
+  "startup_scored_rows": 0,
+  "status": "prepared_for_execution_decision"
+}
