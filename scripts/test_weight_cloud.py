@@ -138,7 +138,7 @@ class IntegrityTests(unittest.TestCase):
     def test_receive_requires_termination_before_s3_calls(self):
         with tempfile.TemporaryDirectory() as name:
             root = Path(name); plan = json.loads((ROOT / PLAN).read_bytes())
-            launch = {'status': 'launched', 'instance_id': 'i-123abc'}
+            launch = {'status': 'launched', 'instance_id': 'i-123abc', 'plan_sha256': sha(encode(plan))}
             response = {'Reservations': [{'Instances': [{'InstanceId': 'i-123abc', 'State': {'Name': 'running'}}]}]}
             with patch('weight_cloud_collect.aws', return_value=response) as call, self.assertRaisesRegex(ValueError, 'termination required'):
                 receive(launch, plan, root / 'received', 'fixture')
@@ -183,10 +183,40 @@ class IntegrityTests(unittest.TestCase):
             calls = [json.loads(v) for v in (root / 'calls.jsonl').read_text().splitlines()]
             self.assertEqual(len(calls), 2)
 
+
+    def test_collection_checks_exact_versions_hashes_and_cleanup(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name); result, _, terminal, binding = host(root)
+            self.assertEqual(result.returncode, 0)
+            plan = json.loads((root / 'work/package' / PLAN).read_bytes())
+            launch = {**terminal, 'status': 'launched'}; prefix = root / 's3'
+            def fake_aws(args, deadline, profile):
+                if args[:2] == ['ec2', 'describe-instances']:
+                    return {'Reservations': [{'Instances': [{'InstanceId': launch['instance_id'], 'State': {'Name': 'terminated'},
+                        'Tags': [{'Key': 'RunId', 'Value': launch['run_id']}, {'Key': 'PackageSha256', 'Value': launch['package_sha256']}]}]}]}
+                if args[:2] == ['ec2', 'describe-volumes']: return {'Volumes': []}
+                if args[:2] == ['ec2', 'describe-network-interfaces']: return {'NetworkInterfaces': []}
+                key = args[args.index('--key') + 1]; source = prefix / key
+                if '--version-id' in args: self.assertEqual(args[args.index('--version-id') + 1], 'fixture-version')
+                raw = source.read_bytes()
+                import base64
+                metadata = {'VersionId': 'fixture-version', 'ContentLength': len(raw), 'ChecksumSHA256': base64.b64encode(hashlib.sha256(raw).digest()).decode()}
+                if args[:2] == ['s3api', 'get-object']: Path(args[-1]).write_bytes(raw)
+                else: self.assertEqual(args[:2], ['s3api', 'head-object'])
+                return metadata
+            with patch('weight_cloud_collect.aws', side_effect=fake_aws):
+                receipt = receive(launch, plan, root / 'received', 'fixture')
+                self.assertTrue(receipt['instance_termination_verified'])
+                self.assertEqual((root / 'received/results/controller/corpus-run/trace.jsonl').read_bytes(), b'{"id":"fixture"}\n')
+                self.assertTrue((root / 'received/volumes.json').exists())
+                archive = prefix / 'runs' / binding['run_id'] / 'results.tar'; archive.write_bytes(archive.read_bytes()[:-1] + b'x')
+                with self.assertRaisesRegex(ValueError, 'metadata differs'): receive(launch, plan, root / 'changed', 'fixture')
+                self.assertFalse((root / 'changed/results.tar').exists())
+
     def test_lifecycle_only_covers_new_study_folders(self):
         plan = json.loads((ROOT / PLAN).read_bytes()); rules = lifecycle_rules(plan)
-        self.assertEqual([v['Filter']['Prefix'] for v in rules], ['packages/weight35/', 'runs/weight35-'])
-        for rule in rules:
+        self.assertEqual([v['Filter']['Prefix'] for v in rules[:2]], ['packages/weight35/', 'runs/weight35-'])
+        for rule in rules[:2]:
             self.assertEqual(rule['Expiration']['Days'], 30); self.assertEqual(rule['NoncurrentVersionExpiration']['NoncurrentDays'], 1)
 
 

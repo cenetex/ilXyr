@@ -47,6 +47,8 @@ def render(package, expected, binding, network):
         for tag in group['Tags']:
             if tag['Key'] == 'Project': tag['Value'] = 'weight35'
             if tag['Key'] == 'HostPackageSha256': tag['Key'] = 'PackageSha256'
+    for group in request['TagSpecifications']:
+        group['Tags'] += [{'Key': 'DeadlineEpoch', 'Value': str(binding['launch_epoch_seconds'] + 5400)}]
     return script, request, manifest
 
 

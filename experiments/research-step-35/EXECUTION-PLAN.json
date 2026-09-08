@@ -39,6 +39,38 @@
     "shutdown_at_seconds": 5370,
     "tmpfs_gib": 1
   },
+  "price_products": {
+    "disk_usd_per_gb_month": [
+      "AmazonEC2",
+      "JG3KUJMBRGHV3N8G",
+      "GB-Mo"
+    ],
+    "download_usd_per_gb": [
+      "AWSDataTransfer",
+      "HQEH3ZWJVT46JHRG",
+      "GB"
+    ],
+    "get_usd_per_request": [
+      "AmazonS3",
+      "ZWQ6Q48CRJXX4FXE",
+      "Requests"
+    ],
+    "ipv4_usd_per_hour": [
+      "AmazonVPC",
+      "4GQUNXTFWVSGPUZK",
+      "Hrs"
+    ],
+    "put_usd_per_request": [
+      "AmazonS3",
+      "E9YHNFENF4XQBZR6",
+      "Requests"
+    ],
+    "s3_usd_per_gb_month": [
+      "AmazonS3",
+      "WP9ANXZGBYYSGJEA",
+      "GB-Mo"
+    ]
+  },
   "provider": {
     "account": "022118847419",
     "ami_id": "ami-0d3378afe7683c867",

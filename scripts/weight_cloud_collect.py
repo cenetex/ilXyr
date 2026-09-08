@@ -23,16 +23,18 @@ def save(path, value): path.write_bytes(encode(value))
 
 def archive_outputs(root, output, max_bytes, max_members, deadline):
     """Keep a bounded prefix and record every omitted or shortened file."""
-    records = []; complete = True
+    records = []; complete = True; stop_reason = None
     # Reserve archive headers, padding and a bounded inventory before adding data.
     available = max_bytes - max_members * 2048 - 2 * 1024 * 1024
     if available < 0: raise ValueError('archive ceiling is too small')
     with tarfile.open(output, 'x', format=tarfile.PAX_FORMAT) as archive:
         for path in sorted(root.rglob('*')):
-            if time.time() >= deadline: raise TimeoutError('archive deadline reached')
+            if time.time() >= deadline:
+                complete = False; stop_reason = 'archive_deadline'; break
             name = str(path.relative_to(root)); mode = path.lstat().st_mode
             if stat.S_ISDIR(mode): continue
-            if len(records) >= max_members: raise ValueError('archive member ceiling reached')
+            if len(records) >= max_members:
+                complete = False; stop_reason = 'member_ceiling'; break
             if not stat.S_ISREG(mode) or len(name.encode()) > 240:
                 records.append({'path': name, 'status': 'omitted_type_or_name'}); complete = False; continue
             size = path.stat().st_size; kept = min(size, max(0, available)); available -= kept
@@ -42,7 +44,7 @@ def archive_outputs(root, output, max_bytes, max_members, deadline):
             with path.open('rb') as source: archive.addfile(member, source)
             record = {'path': name, 'bytes': kept, 'original_bytes': size, 'status': 'complete' if kept == size else 'truncated_byte_ceiling'}
             records.append(record); complete = complete and kept == size
-        inventory = encode({'schema': 'ilxyr.weight_result_archive.v1', 'complete': complete, 'files': records})
+        inventory = encode({'schema': 'ilxyr.weight_result_archive.v1', 'complete': complete, 'stop_reason': stop_reason, 'files': records})
         if len(inventory) > 1024 * 1024: raise ValueError('archive inventory exceeds ceiling')
         member = tarfile.TarInfo('COLLECTION-INVENTORY.json'); member.size = len(inventory); member.mode = 0o644
         archive.addfile(member, io.BytesIO(inventory))
@@ -76,6 +78,7 @@ def collect_host(root, plan, identity):
     terminal = {**identity, 'schema': 'ilxyr.weight_host_terminal.v1', 'status': 'failed',
         'collection_complete': False, 'instance_termination_verified': False, 'actual_billed_usd': None}
     try:
+        terminal['bootstrap_receipt'] = put(root / 'output/bootstrap.log', storage['bucket'], prefix + 'bootstrap.log', deadline - 90)
         bundle = root / 'results.tar'
         receipt = archive_outputs(root / 'output', bundle, storage['max_archive_bytes'], storage['max_archive_members'], deadline - 60)
         receipt['object'] = put(bundle, storage['bucket'], prefix + 'results.tar', deadline - 40)
@@ -104,6 +107,7 @@ def get_bound(binding, bucket, path, deadline, profile):
 
 
 def receive(launch, plan, output, profile):
+    if launch.get('plan_sha256') != hashlib.sha256(encode(plan)).hexdigest(): raise ValueError('collection plan binding differs')
     if launch['status'] != 'launched': raise ValueError('confirmed launch identity required')
     output.mkdir(parents=True, exist_ok=False)
     deadline = time.time() + 900; instance = launch['instance_id']
@@ -115,6 +119,11 @@ def receive(launch, plan, output, profile):
     if tags.get('RunId') != launch['run_id'] or tags.get('PackageSha256') != launch['package_sha256']:
         raise ValueError('terminated instance binding differs')
     save(output / 'termination.json', description)
+    volumes = aws(['ec2', 'describe-volumes', '--filters', 'Name=tag:RunId,Values=' + launch['run_id']], deadline, profile)
+    addresses = aws(['ec2', 'describe-network-interfaces', '--filters', 'Name=attachment.instance-id,Values=' + instance], deadline, profile)
+    save(output / 'volumes.json', volumes); save(output / 'interfaces.json', addresses)
+    if volumes['Volumes'] or addresses['NetworkInterfaces']:
+        raise ValueError('resource cleanup still pending')
     bucket = plan['storage']['bucket']; prefix = 'runs/' + launch['run_id'] + '/'
     head = aws(['s3api', 'head-object', '--bucket', bucket, '--key', prefix + 'host-terminal.json', '--checksum-mode', 'ENABLED'], deadline, profile)
     if head['ContentLength'] > 65536 or not head.get('VersionId') or not head.get('ChecksumSHA256'):
@@ -125,6 +134,11 @@ def receive(launch, plan, output, profile):
     terminal = json.loads((output / 'host-terminal.json').read_bytes())
     for key in ['run_id', 'package_sha256', 'plan_sha256', 'instance_id', 'user_data_sha256']:
         if terminal[key] != launch[key]: raise ValueError('terminal identity differs: ' + key)
+    bootstrap = terminal.get('bootstrap_receipt')
+    if bootstrap:
+        if bootstrap['key'] != prefix + 'bootstrap.log' or bootstrap['bytes'] > plan['storage']['max_host_log_bytes']:
+            raise ValueError('bootstrap object scope differs')
+        get_bound(bootstrap, bucket, output / 'bootstrap.log', deadline, profile)
     receipt = terminal.get('collection_receipt')
     if receipt:
         if receipt['key'] != prefix + 'collection.json' or receipt['bytes'] > 2 * 1024 * 1024:

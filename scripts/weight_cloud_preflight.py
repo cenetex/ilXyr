@@ -19,6 +19,9 @@ def lifecycle_rules(plan):
              'Expiration': {'Days': s['current_expiry_days']},
              'NoncurrentVersionExpiration': {'NoncurrentDays': s['noncurrent_expiry_days']},
              'AbortIncompleteMultipartUpload': {'DaysAfterInitiation': 1}}
+            for kind, key in [('packages', 'package_prefix'), ('results', 'result_prefix')]] + [
+            {'ID': 'weight35-markers-' + kind, 'Status': 'Enabled', 'Filter': {'Prefix': s[key]},
+             'Expiration': {'ExpiredObjectDeleteMarker': True}}
             for kind, key in [('packages', 'package_prefix'), ('results', 'result_prefix')]]
 
 
@@ -96,6 +99,14 @@ def preflight(package, expected, binding, output, profile):
         from decimal import Decimal
         rates = [Decimal(d['pricePerUnit']['USD']) for raw in price['PriceList'] for term in json.loads(raw)['terms']['OnDemand'].values() for d in term['priceDimensions'].values() if d['unit'] == 'Hrs']
         require(len(rates) == 1 and rates[0] <= Decimal(plan['budget']['compute_usd_per_hour']), 'compute price exceeds frozen ceiling')
+        for budget_key, (service, sku, unit) in plan['price_products'].items():
+            source = call('price-' + budget_key, ['pricing', 'get-products', '--service-code', service,
+                '--filters', json.dumps([{'Type': 'TERM_MATCH', 'Field': 'sku', 'Value': sku}])])
+            rates = [Decimal(d['pricePerUnit']['USD']) for raw in source['PriceList'] for term in json.loads(raw)['terms']['OnDemand'].values()
+                     for d in term['priceDimensions'].values() if d['unit'] == unit and d.get('beginRange') == '0']
+            require(len(rates) == 1 and rates[0] <= Decimal(plan['budget'][budget_key]), 'price exceeds frozen ceiling: ' + budget_key)
+        objects = call('output-prefix', ['s3api', 'list-objects-v2', '--bucket', s['bucket'], '--prefix', 'runs/' + binding['run_id'] + '/', '--max-keys', '1'])
+        require(objects.get('KeyCount', 0) == 0, 'fresh output prefix required')
         _, request, _ = render(package, expected, binding, {k: p[k] for k in ['subnet_id', 'security_group_id']})
         (output / 'dry-run-request.json').write_bytes(encode(request))
         result = subprocess.run(['aws', 'ec2', 'run-instances', '--profile', profile, '--region', p['region'], '--cli-input-json', json.dumps(request), '--no-cli-pager'], capture_output=True, text=True, timeout=45)

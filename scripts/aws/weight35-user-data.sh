@@ -44,12 +44,22 @@ PY
     bounded 5345 python3 "$ROOT/package/scripts/weight_cloud_collect.py" host --root "$ROOT" \
       --plan "$ROOT/package/experiments/research-step-35/EXECUTION-PLAN.json" --identity "$ROOT/identity.json" || code=1
   else
-    python3 - "$ROOT/identity.json" "$ROOT/host-terminal.json" <<'PY'
-import json,sys
+    checksum=$(python3 -c 'import hashlib,base64,sys;print(base64.b64encode(hashlib.sha256(open(sys.argv[1],"rb").read()).digest()).decode())' "$OUT/bootstrap.log")
+    bounded 5300 aws s3api put-object --bucket "$W_BUCKET" --key "runs/$W_RUN/bootstrap.log" \
+      --body "$OUT/bootstrap.log" --server-side-encryption AES256 --if-none-match '*' \
+      --checksum-algorithm SHA256 --checksum-sha256 "$checksum" --cli-connect-timeout 3 --cli-read-timeout 15 --no-cli-pager > "$ROOT/bootstrap-put.json"
+    python3 - "$ROOT/identity.json" "$ROOT/host-terminal.json" "$OUT/bootstrap.log" "$ROOT/bootstrap-put.json" <<'PYINNER'
+import base64,hashlib,json,sys
 from pathlib import Path
-v=json.loads(Path(sys.argv[1]).read_bytes());v.update(schema='ilxyr.weight_host_terminal.v1',status='failed',collection_complete=False,instance_termination_verified=False,actual_billed_usd=None)
-Path(sys.argv[2]).write_text(json.dumps(v,indent=2,sort_keys=True)+'\n')
-PY
+identity,terminal,log,receipt=sys.argv[1:]
+v=json.loads(Path(identity).read_bytes());v.update(schema='ilxyr.weight_host_terminal.v1',status='failed',collection_complete=False,instance_termination_verified=False,actual_billed_usd=None)
+try:
+ r=json.loads(Path(receipt).read_bytes());raw=Path(log).read_bytes();h=hashlib.sha256(raw).digest()
+ assert r.get('VersionId') and r.get('ChecksumSHA256')==base64.b64encode(h).decode()
+ v['bootstrap_receipt']={'key':'runs/'+v['run_id']+'/bootstrap.log','version_id':r['VersionId'],'bytes':len(raw),'sha256':h.hex()}
+except Exception as error:v['bootstrap_upload_error']=str(error)
+Path(terminal).write_text(json.dumps(v,indent=2,sort_keys=True)+'\n')
+PYINNER
     checksum=$(python3 -c 'import hashlib,base64,sys;print(base64.b64encode(hashlib.sha256(open(sys.argv[1],"rb").read()).digest()).decode())' "$ROOT/host-terminal.json")
     bounded 5340 aws s3api put-object --bucket "$W_BUCKET" --key "runs/$W_RUN/host-terminal.json" \
       --body "$ROOT/host-terminal.json" --server-side-encryption AES256 --if-none-match '*' \
