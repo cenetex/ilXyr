@@ -1,0 +1,64 @@
+{
+  "failed_attempts": [
+    {
+      "binding": {
+        "approval_reference": "user-approved-step25-20260908",
+        "host_package_sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+        "host_package_version": "ZkHR6v0wApi4MSDdwXOk6VEcthWuwAmy",
+        "launch_epoch_seconds": 1788854598,
+        "run_id": "feral-finqa-20260908T080318Z"
+      },
+      "launch_receipt": {
+        "client_token": "feral-finqa-20260908T080318Z",
+        "error": "AWS launch response needs inspection with the same client token: An error occurred (InsufficientInstanceCapacity) when calling the RunInstances operation (reached max retries: 2): We currently do not have sufficient g6e.2xlarge capacity in the Availability Zone you requested (us-east-1b). Our system will be working on provisioning additional capacity. You can currently get g6e.2xlarge capacity by not specifying an Availability Zone in your request or choosing us-east-1a, us-east-1c, us-east-1d.",
+        "host_package_sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+        "request_sha256": "818bf7b3000a92db484099987c747a6acfcfc8d2f2a0a9b67f77b41657f015bc",
+        "status": "launch_outcome_unknown",
+        "submitted_request_sha256": "9006bfc1ac661284e5a6ba6e9b52c209f92d2bcd93ce76cedd3d4ccda6470fb5",
+        "user_data_sha256": "881263565d7db623d0ea87f5dd1dbdca8021426fcb0a116918a2aab578679c79"
+      },
+      "provider_observation": {
+        "Reservations": []
+      },
+      "receipt_hashes": {
+        "binding.json": "408f862449518fe99662ac62ac3b3533b7e217b30adbbb74186f005c38c735ea",
+        "capacity-instance-check.json": "a7ce7359393c06a423d23e3a32f1df64809059bf3618a008cd5d728eb77bb25b",
+        "launch/receipt.json": "fb9430a5995c74c14f50d1b6b2da04b83e1e9c8162a832a32cf8db4ad8e7cafd",
+        "launch/submitted-request.json": "9006bfc1ac661284e5a6ba6e9b52c209f92d2bcd93ce76cedd3d4ccda6470fb5"
+      },
+      "resolution": "capacity_unavailable_zero_instances_confirmed",
+      "zone": "us-east-1b"
+    },
+    {
+      "binding": {
+        "approval_reference": "user-approved-step25-20260908",
+        "host_package_sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+        "host_package_version": "ZkHR6v0wApi4MSDdwXOk6VEcthWuwAmy",
+        "launch_epoch_seconds": 1788854761,
+        "run_id": "feral-finqa-20260908T080601Z"
+      },
+      "launch_receipt": {
+        "client_token": "feral-finqa-20260908T080601Z",
+        "error": "AWS launch response needs inspection with the same client token: An error occurred (InsufficientInstanceCapacity) when calling the RunInstances operation (reached max retries: 2): We currently do not have sufficient g6e.2xlarge capacity in the Availability Zone you requested (us-east-1a). Our system will be working on provisioning additional capacity. You can currently get g6e.2xlarge capacity by not specifying an Availability Zone in your request or choosing us-east-1b, us-east-1c, us-east-1d.",
+        "host_package_sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+        "request_sha256": "1d9942158baea1eb5577d2d5aca06e22af7eb3b3a6347697ef5ad7044c7fdf5d",
+        "status": "launch_outcome_unknown",
+        "submitted_request_sha256": "dfdebaff648b14f2e54646e407df4447a1f94992b431239f8a116e644fc092ce",
+        "user_data_sha256": "55946c13af439da82a4d7420b2baf07403f7cc2acd832c541043089338736616"
+      },
+      "provider_observation": {
+        "Reservations": []
+      },
+      "receipt_hashes": {
+        "binding.json": "ce56caee9794e3cf5f8419dc00137c59ac4d90b1f64211c7c0aa4a1b5ee9c62a",
+        "capacity-instance-check.json": "a7ce7359393c06a423d23e3a32f1df64809059bf3618a008cd5d728eb77bb25b",
+        "launch/receipt.json": "a5832d8f389a9ac71eb39b9c6def6a769ffb97c46651ca59473bde9f178d02b9",
+        "launch/submitted-request.json": "dfdebaff648b14f2e54646e407df4447a1f94992b431239f8a116e644fc092ce"
+      },
+      "resolution": "capacity_unavailable_zero_instances_confirmed",
+      "zone": "us-east-1a"
+    }
+  ],
+  "paid_instances_from_these_attempts": 0,
+  "schema": "ilxyr.feral_capacity_failures.v1"
+}
