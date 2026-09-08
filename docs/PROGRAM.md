@@ -27,8 +27,9 @@ priced execution package.
 
 The [live preflight and trace recovery](../experiments/research-step-20/REPORT.md)
 stages the fixed FERAL package, passes the free EC2 dry run, and verifies all
-26,624 original weight-multiplicity calibration queries. Weight multiplicity
-next needs its cloud corpus package.
+26,624 original weight-multiplicity calibration queries. The [weight cloud package](../experiments/research-step-35/REPORT.md) now passes
+exact version readback and the free launch preflight. Its full corpus run
+awaits approval for the fixed 90-minute, $2 package.
 
 The [first FERAL comparison attempt](../experiments/research-step-21/REPORT.md)
 ended during setup after the agent mistook extra encoding for proof of startup
@@ -266,8 +267,11 @@ including every slowest-50 query and the final-p99 decision. The
 builds match, and both oracles pass three known-answer checks. The
 [full-run controller and result checker](../experiments/research-step-34/REPORT.md)
 now select the fixed policy, retain failed attempts, verify corpus files, and
-check process cleanup. Their 19 Linux tests pass. The next step is the cloud
-launch package with machine, storage, watchdog, and price preflight. The
+check process cleanup. Their 19 Linux tests pass. The
+[cloud launch package](../experiments/research-step-35/REPORT.md) adds the early
+shutdown timer, bounded immutable collection, and verified storage expiry.
+Its ten Linux host tests and live AWS preflight pass. The full corpus run
+awaits approval for the fixed 90-minute, $2 package. The
 [resource accounting component](../experiments/research-step-3/REPORT.md)
 now passes its exact percentile and failure-retention tests. The source-pinned contract is
 [`weight-multiplicity-transfer-r3`](../examples/weight-multiplicity/rev3-contract.json), and the

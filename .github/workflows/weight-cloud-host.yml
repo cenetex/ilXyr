@@ -4,6 +4,10 @@ on:
     paths:
       - '.github/workflows/weight-cloud-host.yml'
       - 'scripts/*weight_cloud*'
+      - 'scripts/feral_cloud_package.py'
+      - 'scripts/package_weight_corpus.py'
+      - 'scripts/weight_source_kit.py'
+      - 'scripts/test_feral_bootstrap.py'
       - 'scripts/aws/weight35-user-data.sh'
       - 'experiments/research-step-35/**'
   workflow_dispatch:

@@ -1,0 +1,28 @@
+{
+  "all_seven_price_components_within_frozen_ceiling": true,
+  "checked_epoch": 1788902894.188382,
+  "checked_utc": "2026-09-08T21:28:14.188382+00:00",
+  "checks": [
+    "identity",
+    "machine",
+    "image_snapshot",
+    "volume_floor",
+    "network",
+    "role",
+    "bucket_privacy_encryption",
+    "versioned_package",
+    "bounded_retention",
+    "price",
+    "ec2_dry_run"
+  ],
+  "current_expiry_days": 30,
+  "expired_delete_marker_cleanup": true,
+  "instances_created": 0,
+  "noncurrent_expiry_days": 1,
+  "package_sha256": "baca1320cc10071513a47bfd3d853ecf67a48f0aaf3c16429f2398cb7feaa29e",
+  "plan_sha256": "62e5d421dbb2b61a9e4e25816d059a1a569b819061ac1c70a940961864c16ecc",
+  "public_raw_provider_records": false,
+  "scope": "read_only_checks_and_ec2_dry_run",
+  "status": "passed",
+  "versioned_package_readback_identical": true
+}

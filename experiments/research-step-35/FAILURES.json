@@ -1,0 +1,36 @@
+{
+  "failures": [
+    {
+      "id": "macos_shell_pipe_restriction",
+      "kind": "observed_local_environment_failure",
+      "observation": "The first host test attempt failed at /dev/fd/62 with Operation not permitted before metadata checks.",
+      "resolution": "Reran the same mocked host lifecycle outside the restricted shell. The local and fixed Linux tests passed."
+    },
+    {
+      "id": "unbounded_bucket_retention",
+      "kind": "observed_preflight_gap",
+      "observation": "The existing study bucket returned NoSuchLifecycleConfiguration.",
+      "resolution": "Verified that both new study prefixes were empty, then added four rules for current versions, old versions and expired delete markers. The live preflight verified their exact scope."
+    },
+    {
+      "id": "upload_approval_review",
+      "kind": "approval_review_event",
+      "observation": "Automatic approval review rejected initial staging because it could not confirm export permission for private research material.",
+      "resolution": "Verified the package roster, public source provenance, numerical calibration fields, signed-in account ownership and destination privacy. The owner-checked encrypted upload passed review and exact version readback."
+    },
+    {
+      "id": "controlled_host_failures",
+      "kind": "injected_engineering_tests",
+      "observation": "Injected metadata, package, image, controller and result-upload errors. Also changed the package, expired its deadline and exceeded an archive size limit.",
+      "resolution": "The tests retained available logs and partial rows, marked incomplete collection and ended with shutdown."
+    },
+    {
+      "id": "changed_collected_archive",
+      "kind": "injected_integrity_test",
+      "observation": "Changed one byte of the saved result archive after its collection receipt was written.",
+      "resolution": "The collector rejected the checksum mismatch before the archive download."
+    }
+  ],
+  "schema": "ilxyr.weight_cloud_preparation_failures.v1",
+  "scientific_full_corpus_runs": 0
+}

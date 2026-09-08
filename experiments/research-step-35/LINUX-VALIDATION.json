@@ -1,0 +1,53 @@
+{
+  "actual_cloud_instances": 0,
+  "case_processes": [
+    {
+      "case": "host-collection",
+      "returncode": 1,
+      "sha256": "e9be039e4c2a3716d8b4bf87a504ed87a289fb1542232733d1f4e11120076d0f"
+    },
+    {
+      "case": "host-controller",
+      "returncode": 1,
+      "sha256": "e9be039e4c2a3716d8b4bf87a504ed87a289fb1542232733d1f4e11120076d0f"
+    },
+    {
+      "case": "host-image",
+      "returncode": 1,
+      "sha256": "e9be039e4c2a3716d8b4bf87a504ed87a289fb1542232733d1f4e11120076d0f"
+    },
+    {
+      "case": "host-metadata",
+      "returncode": 13,
+      "sha256": "8d40066e1c2bc96caf9f1bd3c85be04d4d78926daa8eebdf2609a56f15bdeeac"
+    },
+    {
+      "case": "host-package",
+      "returncode": 11,
+      "sha256": "4b52fbe04f41d5aba6b8e13f4f7d99571cb055f4caa97dac01dd132ab10e938c"
+    },
+    {
+      "case": "host-success",
+      "returncode": 0,
+      "sha256": "83395cbaf5cbebe654f352914cdd7b569643698a8b687ae84b6ea7e5b6f4dd9e"
+    },
+    {
+      "case": "host-success-expired",
+      "returncode": 1,
+      "sha256": "e9be039e4c2a3716d8b4bf87a504ed87a289fb1542232733d1f4e11120076d0f"
+    },
+    {
+      "case": "host-success-tampered",
+      "returncode": 1,
+      "sha256": "e9be039e4c2a3716d8b4bf87a504ed87a289fb1542232733d1f4e11120076d0f"
+    }
+  ],
+  "native_build_run": "https://github.com/cenetex/ilXyr/actions/runs/34280342116",
+  "run": "https://github.com/cenetex/ilXyr/actions/runs/34280342165",
+  "runtime_image": "docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870",
+  "schema": "ilxyr.weight_cloud_linux_validation.v1",
+  "scientific_full_corpus_runs": 0,
+  "source_commit": "f5d29f66151c5f5b27cfc2c3067f7e0260c30bad",
+  "status": "passed",
+  "tests": 10
+}
