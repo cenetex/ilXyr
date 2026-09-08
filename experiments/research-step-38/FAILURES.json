@@ -1,0 +1,14 @@
+{
+  "schema": "ilxyr.solomon_cloud_failures.v1",
+  "failures": [
+    {
+      "id": "rust-version-tag-unavailable",
+      "stage": "runtime_selection",
+      "requested": "docker.io/library/rust:1.98.1-bookworm",
+      "exit_code": 1,
+      "stderr": "no such manifest: docker.io/library/rust:1.98.1-bookworm",
+      "next": "Pin the available Linux image digest and check opened-window parity before binding its compiler."
+    }
+  ],
+  "fresh_model_calls": 0
+}

@@ -1,0 +1,51 @@
+name: Solomon fixed cloud runtime
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/solomon-cloud-host.yml'
+      - 'scripts/*solomon*cloud*'
+      - 'scripts/aws/solomon38-user-data.sh'
+      - 'experiments/research-step-38/**'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/solomon-cloud-host.yml'
+      - 'scripts/*solomon*cloud*'
+      - 'scripts/aws/solomon38-user-data.sh'
+      - 'experiments/research-step-38/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fixed-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Check bounded host controls
+        run: python3 scripts/test_solomon_cloud.py
+      - name: Prepare the identical fixed inputs and offline dependencies
+        run: |
+          git init "$RUNNER_TEMP/nsrl"
+          git -C "$RUNNER_TEMP/nsrl" remote add origin https://github.com/atimics/nsrl.git
+          git -C "$RUNNER_TEMP/nsrl" fetch --depth 1 origin 96321943e1da7b67bf6c9b4954ff14e6057ac433
+          mkdir -p "$RUNNER_TEMP/package/controller/controller" "$RUNNER_TEMP/package/deps" "$RUNNER_TEMP/output" "$RUNNER_TEMP/scratch"
+          cp -r scripts experiments "$RUNNER_TEMP/package/"
+          cp scripts/*solomon*.py scripts/feral_process.py "$RUNNER_TEMP/package/controller/controller/"
+          python3 scripts/research_solomon_confidence.py prepare --nsrl-repo "$RUNNER_TEMP/nsrl" --plan experiments/research-step-32/ROSTER-PLAN.v3.json --frozen experiments/research-step-32 --out "$RUNNER_TEMP/package/controller/prepared"
+          cargo vendor --locked --manifest-path "$RUNNER_TEMP/package/controller/prepared/source/Cargo.toml" "$RUNNER_TEMP/package/deps/vendor"
+          python3 scripts/package_solomon_cloud.py dependencies --vendor "$RUNNER_TEMP/package/deps/vendor" --lock "$RUNNER_TEMP/package/controller/prepared/source/Cargo.lock" --output "$RUNNER_TEMP/dependencies.tar.gz"
+      - name: Check the pinned image on the opened windows
+        run: |
+          docker pull docker.io/library/rust@sha256:4e4a7e7939c17991ab35f2b8c2e67593980f771d28f6b1254b1850f860fd0c7f
+          docker image inspect docker.io/library/rust@sha256:4e4a7e7939c17991ab35f2b8c2e67593980f771d28f6b1254b1850f860fd0c7f > "$RUNNER_TEMP/output/image-inspect.json"
+          docker run --rm --network none --cpuset-cpus 0 --memory 2g --memory-swap 2g --pids-limit 256 --read-only --tmpfs /tmp:rw,exec,size=256m --env CARGO_BUILD_JOBS=1 --env CARGO_NET_OFFLINE=true --env CARGO_HOME=/tmp/solomon-cargo --env PYTHONDONTWRITEBYTECODE=1 --env PYTHONHASHSEED=0 --env LANG=C.UTF-8 --env LC_ALL=C.UTF-8 --env TZ=UTC --mount "type=bind,src=$RUNNER_TEMP/package,dst=/work/package,readonly" --mount "type=bind,src=$RUNNER_TEMP/output,dst=/work/output" --mount "type=bind,src=$RUNNER_TEMP/scratch,dst=/work/scratch" --entrypoint python3 docker.io/library/rust@sha256:4e4a7e7939c17991ab35f2b8c2e67593980f771d28f6b1254b1850f860fd0c7f /work/package/scripts/solomon_cloud_runtime.py opened --package /work/package --output /work/output/runtime --work /work/scratch/build > "$RUNNER_TEMP/output/stdout.log" 2> "$RUNNER_TEMP/output/stderr.log"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: solomon-cloud-runtime
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/output/
+            ${{ runner.temp }}/dependencies.tar.gz
