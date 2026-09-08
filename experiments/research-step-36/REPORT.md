@@ -37,7 +37,7 @@ The reference computes every feature and sorts every group, then selects the
 same eligible proposals. The candidate and reference agree on eligible feature
 digests, proposal keys, exact answers, verifier counts and fallback receipts.
 An independent JavaScript implementation reconstructs each public task, checks
-features and ordering, and replays the verifier over all 125 input points.
+features and ordering, and checks accepted maps on all 125 input points.
 
 The planner receives public candidate evidence, guide weights and a tie salt.
 The verifier challenge follows planning. It uses the first syntactic candidate
@@ -107,7 +107,7 @@ costs, verifier work, fallback work and failed attempts remain in the result.
 
 This step sharpens the common research method: remove shared overhead, then
 identify the decision that learned state must improve. Reasoner now has a
-cheaper proposal-scoring path and an exposed ranking problem. Solomon separates
+proposal-scoring path with fewer feature calculations and an exposed ranking problem. Solomon separates
 answer ownership from confidence. ZERO.4 checks retained capability by source
 and through language tests. FERAL separates evidence coverage from execution
 failures. Weight multiplicity prepares exact labels under explicit resource
