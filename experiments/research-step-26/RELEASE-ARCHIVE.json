@@ -1,0 +1,9 @@
+{
+  "bytes": 10931427,
+  "collected_bytes": 60087559,
+  "contained_collected_objects": 241,
+  "name": "reasoner-step26-results.tar.gz",
+  "release_tag": "research-step-26",
+  "sha256": "30bfa06fd27e7b0620162ef4d95844e6d3ea703faa1a55d6753d0bae75675e2a",
+  "source_release": "https://github.com/cenetex/ilXyr/releases/tag/research-step-23"
+}

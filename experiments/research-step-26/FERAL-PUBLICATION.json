@@ -1,0 +1,25 @@
+{
+  "assets": [
+    {
+      "bytes": 184,
+      "name": "SHA256SUMS",
+      "sha256": "6c4d005343686c62197a6fee4aa2b5162e618d39719649d6652c3f1ac69db197"
+    },
+    {
+      "bytes": 1638400,
+      "name": "feral-step25-host.tar",
+      "sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75"
+    },
+    {
+      "bytes": 70271,
+      "name": "feral-step25-preflight.tar.gz",
+      "sha256": "b4f195a82cb289b532cf80d475870659eefc34e9efe964df3634ba266affa56c"
+    }
+  ],
+  "authorization": "User approved posting all research source, smoke, and result artifacts.",
+  "release_url": "https://github.com/cenetex/ilXyr/releases/tag/research-step-25",
+  "schema": "ilxyr.research_publication.v1",
+  "status": "public_download_bytes_verified",
+  "target_commit": "0391423e8ba34384c70f3050430f4c70dc953fe5",
+  "verified_at": "2026-09-08T07:56:34.912538+00:00"
+}
