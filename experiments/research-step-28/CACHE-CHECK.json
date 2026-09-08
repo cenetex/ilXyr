@@ -1,0 +1,17 @@
+{
+  "ci_run": 34207485437,
+  "ci_url": "https://github.com/cenetex/ilXyr/actions/runs/34207485437",
+  "gpu_generation_tested": false,
+  "local_host_test_groups": 12,
+  "native_module_compilation_loading_and_reuse_passed": true,
+  "original_failure_reproduced": true,
+  "runtime_image": "ghcr.io/atimics/feral-7b-sec-qwen@sha256:c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b",
+  "schema": "ilxyr.feral_cache_check_evidence.v1",
+  "source_bindings": {
+    "scripts/aws/feral-comparison-user-data.sh": "7f15605e396eaa61c68b10ccac5846bd2555103610495ae99328b1f5d05d73ce",
+    "scripts/check_feral_runtime_cache.py": "8d4f7a07494704dd14747e598693fba9839e7942949a49e1e49f21c173876415",
+    "scripts/test_feral_bootstrap.py": "bf19f2093cf1702b3c8b14587e58af7bbfea44bf2ce552419a8e873988c2c809"
+  },
+  "source_commit": "611ceae338aecc3eaa9ee77fbc20d25e6329534c",
+  "status": "complete"
+}

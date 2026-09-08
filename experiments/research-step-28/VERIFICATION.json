@@ -1,0 +1,17 @@
+{
+  "all_saved_grades_reproduced": true,
+  "base_rows": 0,
+  "control_answers_and_traces_match_step22": true,
+  "control_rows_per_arm": 1147,
+  "cross_run_excluded_fields": [
+    "prediction_wall_ns"
+  ],
+  "cross_run_timing_scope": "Each run retains its own measured timings.",
+  "execution_plan_verified": true,
+  "full_verification_sha256": "3c041cbf6a055df2e4c4058f6193b8812cd11cbd99b4a6e7fbf87c79ecf21b89",
+  "model_file_inventory_verified": true,
+  "schema": "ilxyr.feral_result_verification.v1",
+  "source_archive_sha256": "27a64e6f0b60691d3f9d4c40fdaec19cc9ae6934d8293df23b3886379aaa5202",
+  "source_package_verified": true,
+  "status": "verified"
+}

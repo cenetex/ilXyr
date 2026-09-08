@@ -1,0 +1,11 @@
+{
+  "cache_directory": "/tmp/feral-triton",
+  "cached_module_reused": true,
+  "gpu_generation_tested": false,
+  "module_sha256": "7bcae262565a9f314ac36cda5b17c2d00cd8fad41da204f43dd8e8156029f24d",
+  "native_module_loaded": true,
+  "schema": "ilxyr.feral_runtime_cache_smoke.v1",
+  "scored_rows": 0,
+  "status": "complete",
+  "triton_version": "3.7.1"
+}
