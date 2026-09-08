@@ -12,8 +12,12 @@ uses lexical guidance and semantic frequency as cost references. The
 [opened cost diagnostic](../experiments/research-step-31/REPORT.md) locates
 the prior feature's overhead in scoring. Even zero search time leaves the
 feature-removed guide above the frequency control in aggregate wall cost.
-The next engineering check reduces scoring and ranking work before search
-and applies shared changes to every control.
+The [eligible scoring check](../experiments/research-step-36/REPORT.md) now
+applies one public-evidence filter and bounded proposal selection to all four
+comparison arms. Linux and macOS agree on the opened results. Prior-score
+calls fall by 99.02%, while the full guide still uses more verifier checks
+than lexical guidance and semantic frequency on those cases. Fresh-family
+comparison preparation is next.
 
 The [Solomon count-probability step](../experiments/research-step-19/REPORT.md)
 adds two train-only confidence controls. Its known-window smoke preserves
