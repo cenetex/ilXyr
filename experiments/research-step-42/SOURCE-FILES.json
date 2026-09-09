@@ -1,0 +1,47 @@
+{
+  "commit": "9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d",
+  "files": {
+    "Makefile": {
+      "bytes": 137951,
+      "sha256": "224a1439c9b322783c694cc2519bb8f5b4711e59b06e2a3b99eeefa34cfda067"
+    },
+    "Makefile.zero4-retention": {
+      "bytes": 374,
+      "sha256": "35a639ceb37f044ffc3dc2f5671f2779b7fbcb0c4f00832e5b99da975e017e3a"
+    },
+    "channel_protocol.h": {
+      "bytes": 371,
+      "sha256": "0b382e315c8acd369973bb9377305d5ceae9ec387e7dbbc4e91ae670ef6f74e2"
+    },
+    "freeze_literary_teacher.c": {
+      "bytes": 5742,
+      "sha256": "0b4ba4e0dbb7bd3b6284d6a6fca414bc3bd1acb4d40d260546e79b3c6bea2cdb"
+    },
+    "literary_lm.c": {
+      "bytes": 197986,
+      "sha256": "5f4c47e0fedcc0f96d5eafcd8f45f6bfc4808a1d1af7434cb188693449ff53e3"
+    },
+    "scripts/build_zero4_retention_source.py": {
+      "bytes": 1307,
+      "sha256": "08116503ea80bd0df7d6b0e2dc7b7268473e8ba70388a1cb0092abd8990cbd46"
+    },
+    "scripts/check_zero4_retention_controls.py": {
+      "bytes": 20675,
+      "sha256": "7efcdcd8be32bf01cf6278996417cd04ac004845de1c669edec9834dfc359d6f"
+    },
+    "scripts/run_zero4_retention_controls.py": {
+      "bytes": 24467,
+      "sha256": "2ccc7c37f90280f173dafee943ff144a08c7c58a337f5565ee7285e7c4bedfb4"
+    },
+    "scripts/zero4_retention.patch": {
+      "bytes": 5691,
+      "sha256": "cf0a8197ed0d71e01945388dee4ac0013781968e7fa4b70123245b16f2a8869c"
+    },
+    "zero1_protocol.h": {
+      "bytes": 551,
+      "sha256": "2f5503c7d0f2b15e7d2ed6c8f2eb2277c3114f772103b6c163c04e9ddec922c9"
+    }
+  },
+  "repository": "https://github.com/atimics/zero-grounded-literary-lm",
+  "schema": "ilxyr.zero4_window_source_files.v1"
+}
