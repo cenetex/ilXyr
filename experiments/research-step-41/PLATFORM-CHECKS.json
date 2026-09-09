@@ -1,0 +1,28 @@
+{
+  "ci": {
+    "conclusion": "success",
+    "focused_tests_per_platform": 11,
+    "head_commit": "96cb48f7c1ed7888993a871a55e6416aebf3192f",
+    "native_altered_cases_per_platform": 3,
+    "native_opened_cases_per_platform": 201,
+    "platforms": [
+      "ubuntu-latest",
+      "macos-latest"
+    ],
+    "url": "https://github.com/cenetex/ilXyr/actions/runs/34299210684"
+  },
+  "local": {
+    "focused_tests": 11,
+    "full_schema_receipt_sha256": "e7ada96642c65d1c79d6443baed7c63ef8a0dda7e7a9d1ddda76151e3413a371",
+    "full_schema_suite": "passed",
+    "kit_data_check_sha256": "eb788424745de53944376607b035822ea2be0395cad0da434a0b28a8bc016201",
+    "kit_unit_check_sha256": "9a4cbcb62f41169e1c0186ee351bde6d05a7f1837062fd90e5cb9ec6a7b5291f",
+    "native_altered_cases": 3,
+    "native_fresh_gold_cases": 5500,
+    "native_opened_cases": 201,
+    "saved_data_alterations_rejected": 6,
+    "selection_file_replay": 147
+  },
+  "schema": "ilxyr.zero4_platform_checks.v1",
+  "scope": "Prepared inputs and engineering checks; model performance is a later comparison."
+}

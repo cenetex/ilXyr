@@ -1,0 +1,110 @@
+{
+  "commit": "9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d",
+  "files": {
+    "benchmarks/zero-eval-1/contract.json": {
+      "bytes": 8004,
+      "sha256": "a14261cd4b48ed04f8e89d162e20cbe1e019e1d02537be1ad06b83196aebac05"
+    },
+    "benchmarks/zero-eval-1/screen/contract.json": {
+      "bytes": 4432,
+      "sha256": "b4e8732cc0bc1101acdf972cc65f1f0980977486935c75ba974d139e34ae8654"
+    },
+    "benchmarks/zero4-q26-v1/contract.json": {
+      "bytes": 7548,
+      "sha256": "2fa40ace634c9fc737d6212f902b074685a7769628becf720cefe5f936e4ac80"
+    },
+    "benchmarks/zero4-q29-v1/contract.json": {
+      "bytes": 6062,
+      "sha256": "f0dd386a82cd1b24af504d113afbc4b6adc3654b651766d93a4de6b0995171c6"
+    },
+    "bpe_tokenizer.c": {
+      "bytes": 19695,
+      "sha256": "c041766f63494a38e0a2db3e43edcaed0c1ef5a391da22fd1f54592e951d1440"
+    },
+    "channel_corpus.c": {
+      "bytes": 31860,
+      "sha256": "362cfccdb29fc23363dbe6b31ab233b384067be9d4a7dec3fb510e7b0b74ab75"
+    },
+    "channel_protocol.h": {
+      "bytes": 371,
+      "sha256": "0b382e315c8acd369973bb9377305d5ceae9ec387e7dbbc4e91ae670ef6f74e2"
+    },
+    "corpus/RIGHTS.json": {
+      "bytes": 8294,
+      "sha256": "aa0a00e241f6d2d691cb19ab7d2711ca1e11e65ab2c595505a40422b13aa1db1"
+    },
+    "corpus/SHA256SUMS": {
+      "bytes": 1189,
+      "sha256": "d6ac4c3b38072af348c5fb9be6ade11cbcd47157c7d421cbe9a3edab1bfb54ae"
+    },
+    "corpus/blake.txt": {
+      "bytes": 65961,
+      "sha256": "1998764098fe6cde39040ae2b793ad828798894cf956739d7be61e91239f4040"
+    },
+    "corpus/crowley.txt": {
+      "bytes": 333456,
+      "sha256": "448c8ecabeee793aee640b3e50d01dc6fa26bd9b939d2fae2f0305fd30150dc4"
+    },
+    "corpus/literary.bpe": {
+      "bytes": 16,
+      "sha256": "b1e8d4cdf3a232ef880e133ff52fc53e5bd6e35c3d1ceec1d3c388e11b911152"
+    },
+    "corpus/shakespeare.txt": {
+      "bytes": 5422627,
+      "sha256": "a6209a86eb3de42530f24feaf317e94d43ea18d71ccb64a8cf5e54a368db23f2"
+    },
+    "corpus/zero-foundation.txt": {
+      "bytes": 1406,
+      "sha256": "d90f3cf5f9039b3626262e3c06bb5bd4b3948a6f26daf4532735650b2c5cdd2a"
+    },
+    "literary_lm.c": {
+      "bytes": 197986,
+      "sha256": "5f4c47e0fedcc0f96d5eafcd8f45f6bfc4808a1d1af7434cb188693449ff53e3"
+    },
+    "quantity_oracle.c": {
+      "bytes": 6754,
+      "sha256": "7f55a9ff1a5f31d6cb8ec894c590c6239e7063fa578fe1badba123ff74f95467"
+    },
+    "quantity_oracle.h": {
+      "bytes": 552,
+      "sha256": "8436a4793c1055c68f5e5ad5860bddf1e6d79716226a7b797c41078d4eb86701"
+    },
+    "scripts/check_zero4_retention_controls.py": {
+      "bytes": 20675,
+      "sha256": "7efcdcd8be32bf01cf6278996417cd04ac004845de1c669edec9834dfc359d6f"
+    },
+    "scripts/generate_zero4_q2.mjs": {
+      "bytes": 13581,
+      "sha256": "de34a72d158127fd12cad86a353b81aad7b3790090d839a359be1766405f2ded"
+    },
+    "scripts/prepare_kjv.sh": {
+      "bytes": 617,
+      "sha256": "8715e5f786936b2a998e8a72589733580535a96aebc4bee12713d26d74e50c07"
+    },
+    "scripts/prepare_zero_eval1.mjs": {
+      "bytes": 10131,
+      "sha256": "a5447261eba07e9e2266b1a774499632a82344634be285296bd50119d0ef99ed"
+    },
+    "scripts/run_zero4_retention_controls.py": {
+      "bytes": 24467,
+      "sha256": "2ccc7c37f90280f173dafee943ff144a08c7c58a337f5565ee7285e7c4bedfb4"
+    },
+    "scripts/sample_zero_eval1_calibration.mjs": {
+      "bytes": 2872,
+      "sha256": "6e672df78bba42c4bc93e7dd7ca917491b0fe92e6bec20c83397b8587d26f839"
+    },
+    "scripts/sample_zero_eval1_screen.mjs": {
+      "bytes": 8102,
+      "sha256": "1adfe5334a12298b2afcff12190ede6182e4f199f57fec6fd600777958e1608f"
+    },
+    "scripts/train_zero4_q26.mjs": {
+      "bytes": 25642,
+      "sha256": "8891760ad60d74ec796290d082849ddf2b6910c839cb0cb1b300e3b37f87bb90"
+    },
+    "scripts/zero4_retention.patch": {
+      "bytes": 5691,
+      "sha256": "cf0a8197ed0d71e01945388dee4ac0013781968e7fa4b70123245b16f2a8869c"
+    }
+  },
+  "repository": "https://github.com/atimics/zero-grounded-literary-lm"
+}

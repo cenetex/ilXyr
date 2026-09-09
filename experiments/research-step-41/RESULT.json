@@ -1,0 +1,88 @@
+{
+  "comparison_status": "fresh_retention_design_required",
+  "language": {
+    "blimp": {
+      "accepted": 1005,
+      "decision_counts": {
+        "accept": 1005,
+        "prior_id": 15,
+        "prior_text": 1
+      },
+      "prior_ids": 1062
+    },
+    "tinystories": {
+      "accepted": 1000,
+      "decision_counts": {
+        "accept": 1000,
+        "prior_id": 54,
+        "prior_window_overlap": 14
+      },
+      "prior_story_ids": 1000
+    }
+  },
+  "language_detail": {
+    "collapsed_blimp_pairs": 0,
+    "tinystories_window_bytes_max": 512,
+    "tinystories_window_bytes_min": 312,
+    "tinystories_windows_below_512": 50
+  },
+  "model_calls": 0,
+  "native_gold": {
+    "native_gold_rows": 5500
+  },
+  "paid_instances": 0,
+  "preparation_status": "verified",
+  "prepared_manifest_sha256": "48a43865bdfb61622e69c6fbb9e8863d702baf03a8b5c8032ea9e0896e30655f",
+  "prior_q26_split_pair_keys": {
+    "train_promotion": 57,
+    "train_validation": 62,
+    "validation_promotion": 3
+  },
+  "schema": "ilxyr.zero4_fresh_selection.v1",
+  "selection_plan_commit": "51228755626a6db12bf22a44b74950acfa32cc05",
+  "task": {
+    "accepted": 5500,
+    "cross_split_keys": 0,
+    "decision_counts": {
+      "accept": 5500,
+      "new_key": 954,
+      "prior_key": 2149
+    },
+    "decisions": 8603,
+    "prior": {
+      "by_source": {
+        "q26": {
+          "cross_split_keys": 120,
+          "duplicate_rows": 810,
+          "repeated_keys": 648,
+          "rows": 10500,
+          "unique_keys": 9690
+        },
+        "retention-smoke": {
+          "cross_split_keys": 0,
+          "duplicate_rows": 0,
+          "repeated_keys": 0,
+          "rows": 120,
+          "unique_keys": 120
+        }
+      },
+      "cross_split_keys": 123,
+      "duplicate_rows": 824,
+      "repeated_keys": 658,
+      "rows": 10620,
+      "unique_keys": 9796
+    },
+    "prior_shared_keys": 0,
+    "splits": {
+      "promotion": 500,
+      "train": 4750,
+      "validation": 250
+    }
+  },
+  "verification": {
+    "files": 147,
+    "manifest_sha256": "48a43865bdfb61622e69c6fbb9e8863d702baf03a8b5c8032ea9e0896e30655f",
+    "schema": "ilxyr.zero4_fresh_data_check.v1",
+    "selection_replay": "all rows, ranks, rejections and tokens match"
+  }
+}

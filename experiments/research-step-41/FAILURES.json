@@ -1,0 +1,73 @@
+{
+  "failures": [
+    {
+      "cross_split_keys": 120,
+      "example_ids": [
+        "quantity-request/train/000013",
+        "quantity-request/train/003543",
+        "quantity-request/train/008903",
+        "quantity-request/promotion/000333"
+      ],
+      "example_request": "quantity.convert 596 kg-to-g",
+      "id": "q26_repeated_problems_across_splits",
+      "implication": "Distinct split labels and whole-file hashes permit repeated problems; the new selection excludes equivalent keys.",
+      "rows": 10500,
+      "status": "preserved",
+      "train_promotion_keys": 57,
+      "unique_canonical_keys": 9690
+    },
+    {
+      "context_tokens": 512,
+      "eligible_validation_starts": 1,
+      "id": "foundation_validation_exhausted",
+      "implication": "A fresh retention test needs a new source or an explicit change to the window protocol.",
+      "source_tokens": 1406,
+      "status": "open_design_limit",
+      "unused_validation_starts": 0
+    },
+    {
+      "eligible_validation_starts": 2778,
+      "id": "blake_default_windows_cover_validation_tokens",
+      "implication": "Different start positions still share old evaluated text.",
+      "status": "open_design_limit",
+      "unused_positions_after_q26_default_sampler": 2770,
+      "unused_windows_disjoint_from_sampled_tokens": 0
+    },
+    {
+      "historical_limit": 2.553139779957201,
+      "id": "q29_language_retention_failure",
+      "implication": "A replay training proxy passed while the held-out story gate failed. The next comparison uses paired baseline scores on its own fresh cases.",
+      "source_path": "benchmarks/zero4-q29-v1/language-gate/results/result.json",
+      "status": "preserved_from_published_source",
+      "tinystories_bits": 2.5797352564366838
+    },
+    {
+      "failed_gold_tsv_sha256": "4837247ae860f7f86f9665d5d078e0a8c27cee29816835b26a299cbaaa14c1ba",
+      "failed_implementation_sha256": "75ddb400667eb2e6306578fe1e567e22b990b51bae1fbbb5cc806bc053d9f929",
+      "failed_record_sha256": "a80b5ae100e6bd851b6fab4c2cf61b8c766e50451f97f99e31314dd46e55a384",
+      "first_preparation_status": "failed_native_gold",
+      "id": "fresh_rational_integer_format",
+      "regression": "Native check accepts the exact integer answer and rejects the denominator-one spelling.",
+      "repair": "Write integer-valued rational answers as an integer, matching the native kernel. The initial preparer wrote denominator one.",
+      "selection_decisions_unchanged": true,
+      "status": "repaired_verified"
+    },
+    {
+      "detail": "The frozen plan used four windows as an audit count. Source inspection identified the Q2.6 defaults as two and eight windows per replay source. The report retains the four-window diagnostic and the default union of one, two and eight. Other historical schedules remain an open coverage question.",
+      "id": "four_window_audit_scope",
+      "status": "clarified"
+    },
+    {
+      "detail": "A manual byte-to-token check disagreed with the historical Shakespeare, Blake and Crowley hashes. The pinned native encoder normalizes UTF-8 text. Its reconstruction matches all six historical token files.",
+      "id": "naive_text_to_token_reconstruction",
+      "status": "repaired_verified"
+    },
+    {
+      "detail": "The first full local schema suite stopped at an existing FERAL bootstrap test because the sandbox denied a shell stream at /dev/fd. The complete suite passed with host permission. The focused ZERO.4 checks passed in both environments.",
+      "id": "local_schema_shell_stream_permission",
+      "status": "host_retry_passed",
+      "successful_retry_receipt_sha256": "e7ada96642c65d1c79d6443baed7c63ef8a0dda7e7a9d1ddda76151e3413a371"
+    }
+  ],
+  "schema": "ilxyr.zero4_data_failures.v1"
+}
