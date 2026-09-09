@@ -1,0 +1,75 @@
+name: Reasoner isolated comparison
+on:
+  pull_request:
+    paths:
+      - 'scripts/*reasoner_study*'
+      - 'scripts/reasoner_study_worker.c'
+      - 'scripts/feral_process.py'
+      - 'experiments/research-step-40/**'
+      - '.github/workflows/reasoner-study.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/*reasoner_study*'
+      - 'scripts/reasoner_study_worker.c'
+      - 'scripts/feral_process.py'
+      - 'experiments/research-step-40/**'
+      - '.github/workflows/reasoner-study.yml'
+permissions:
+  contents: read
+jobs:
+  opened-comparison:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check the plan, schedule and independent heap
+        run: |
+          python3 scripts/test_reasoner_study.py
+          node scripts/replay_reasoner_study.mjs --heap-unit
+      - name: Fetch the frozen public source
+        run: |
+          git init "$RUNNER_TEMP/zero"
+          git -C "$RUNNER_TEMP/zero" remote add origin https://github.com/atimics/zero-grounded-literary-lm.git
+          git -C "$RUNNER_TEMP/zero" fetch --depth 1 --filter=blob:none origin 0c5253604593acb3b9294fcc00c90f59b7dbbd3c
+      - name: Run the opened comparison and preserve failure probes
+        run: |
+          python3 - <<'PY'
+          import os,sys
+          from pathlib import Path
+          sys.path.insert(0,'scripts')
+          import research_reasoner_study as study
+          from check_reasoner_study import check
+          from test_reasoner_study import engineering
+          from feral_process import digest
+          root=Path(os.environ['RUNNER_TEMP'])/'reasoner-study'
+          root.mkdir()
+          prepared=root/'prepared';collected=root/'collected'
+          study.prepare(Path(os.environ['RUNNER_TEMP'])/'zero',prepared,git=True)
+          study.supervise(prepared,collected,root/'work','opened')
+          check(prepared,collected,digest(collected/'SUPERVISOR.json'),root/'verified')
+          engineering(prepared,collected,root/'failures')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reasoner-study-${{ matrix.os }}
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/reasoner-study/collected/
+            ${{ runner.temp }}/reasoner-study/verified/
+            ${{ runner.temp }}/reasoner-study/prepared/BINDINGS.json
+            ${{ runner.temp }}/reasoner-study/prepared/*SCHEDULE.json
+            ${{ runner.temp }}/reasoner-study/failures/CASES.json
+            ${{ runner.temp }}/reasoner-study/failures/*/process/
+            ${{ runner.temp }}/reasoner-study/failures/*/check/
+            ${{ runner.temp }}/reasoner-study/failures/missing_model/
+            ${{ runner.temp }}/reasoner-study/failures/deadline/
+            ${{ runner.temp }}/reasoner-study/failures/compiler-failure/
