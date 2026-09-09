@@ -117,6 +117,12 @@ the prepared work for all five lines into one report.
 The [retention-by-source step](../experiments/research-step-17/REPORT.md)
 records each ZERO.4 source's loss and coverage. It also imports Q2.9's later
 language failure, which narrows what the replay training proxy can support.
+The [fresh ZERO.4 data audit](../experiments/research-step-41/REPORT.md) now
+prepares 5,500 unique quantity cases, 1,005 grammar cases and 1,000 story windows.
+Every quantity answer passes the native kernel. The audit preserves 120 repeated
+problem keys across the older Q2.6 splits. Foundation has one exposed validation
+window, while every eligible Blake window shares tokens with the old default
+evaluation. Fresh retention sources or a revised window rule are the next step.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence

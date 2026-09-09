@@ -283,7 +283,10 @@ def retention_coverage(data, channel=False, context=512, samples=4):
     require(all(isinstance(s, int) and s > 0 for s in counts), 'sample counts must be positive')
     exposed = set()
     for count in counts:
-        exposed.update(choices[i * (len(choices) - 1) // (count - 1)] for i in range(count)) if count > 1 else exposed.add(choices[0])
+        if count > 1:
+            exposed.update(choices[i * (len(choices) - 1) // (count - 1)] for i in range(count))
+        else:
+            exposed.add(choices[0])
     disjoint = sum(all(abs(i - e) > context for e in exposed) for i in choices)
     return {'tokens': len(data), 'validation_start': start, 'validation_tokens': len(data) - start,
             'possible_validation_starts': len(choices), 'sampled_starts': sorted(exposed),
@@ -418,6 +421,7 @@ def main():
     parser.add_argument('--raw', type=Path)
     parser.add_argument('--cc', default='cc')
     args = parser.parse_args()
+    args.out = args.out.resolve()
     if args.mode == 'check':
         print(json.dumps(check(args.out), indent=2))
         return

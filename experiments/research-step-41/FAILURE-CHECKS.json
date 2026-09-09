@@ -1,0 +1,42 @@
+{
+  "cases": [
+    {
+      "altered_manifest_sha256": "47a7dc6971b936ae8f13124067805a2839303ccc8cd73e150b9c2086ce83d69d",
+      "case": "removed_rejection",
+      "reason": "selection decision replay differs",
+      "status": "rejected"
+    },
+    {
+      "altered_manifest_sha256": "dd090fed413beca8b50506d709526c51cef64e422c0f8ecfb9e1ae0489412b9c",
+      "case": "invented_rejection",
+      "reason": "selection decision replay differs",
+      "status": "rejected"
+    },
+    {
+      "altered_manifest_sha256": "c1665c5bb2df0dc6fd218d417a5f9e2469459ec61a5bca4ea0566b7b42e8e6a0",
+      "case": "altered_rank",
+      "reason": "selection decision replay differs",
+      "status": "rejected"
+    },
+    {
+      "altered_manifest_sha256": "86a1dc22a2f492dd6f1a26a06c78234c9664e4290d90bbc868bdca4f1a9e486f",
+      "case": "altered_gold",
+      "reason": "selection decision replay differs",
+      "status": "rejected"
+    },
+    {
+      "altered_manifest_sha256": "55149e210e7c3f1aa4351d2fb845b91d25ae5a1a51c0686e024e096b3557b3cf",
+      "case": "altered_old_task",
+      "reason": "bound historical input differs: q26/quantity-request.jsonl",
+      "status": "rejected"
+    },
+    {
+      "altered_manifest_sha256": "b76f73484f93c501ad1609195a790d50fbcb8b8b346691be3bc771b7b9aa055f",
+      "case": "altered_binding",
+      "reason": "input binding identity",
+      "status": "rejected"
+    }
+  ],
+  "original_manifest_sha256": "48a43865bdfb61622e69c6fbb9e8863d702baf03a8b5c8032ea9e0896e30655f",
+  "schema": "ilxyr.zero4_data_failure_checks.v1"
+}
