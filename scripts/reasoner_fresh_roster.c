@@ -62,7 +62,7 @@ static int r39_reason(const r55_family *family, const uint8_t seen[4096],
 }
 static int r39_probe(void)
 {
-    r55_family family; uint8_t seen[4096] = {0}; r55_affine target[1], key[1][8];
+    r55_family family; uint8_t seen[4096] = {0}; r55_affine target[1] = {{{0},{0}}}, key[1][8] = {{{{0},{0}}}};
     if (r39_candidate(&family, 0, 0)) return 1;
     if (r39_reason(&family, seen, target, key, 0) != -1) return 1;
     target[0] = family.target; target[0].bias[0] = (target[0].bias[0] + 1) % 5;

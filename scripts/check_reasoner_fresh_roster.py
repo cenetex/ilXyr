@@ -34,7 +34,7 @@ def run(source, output, git=False):
         script = str(ROOT / 'scripts/reasoner_fresh_roster.mjs')
         child('generate', ['node',script,'generate',str(work),str(FROZEN/'ROSTER-PLAN.json'),str(FROZEN/'EXCLUSIONS.json'),str(output/'roster')])
         child('embed', ['make','-f','Makefile.reasoner55-eligible','build/reasoner55_eligible_matched.h'])
-        cc = os.environ.get('CC','cc'); child('compiler',[cc,'--version'])
+        cc = os.environ.get('CC','clang'); child('compiler',[cc,'--version'])
         child('build',[cc,'-std=c11','-O2','-Wall','-Wextra','-Werror','-I'+str(work),'-I'+str(output/'roster'),'-DR55FAST_HASH=0','-DR55FAST_SORT=0',str(ROOT/'scripts/reasoner_fresh_roster.c'),'-lm','-o',str(output/'native')])
         child('native-guards',[str(output/'native'),'--self-test'])
         child('native-replay',[str(output/'native'),'replay-roster'])
