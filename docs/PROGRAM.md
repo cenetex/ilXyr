@@ -21,7 +21,10 @@ than lexical guidance and semantic frequency on those cases. The
 families, excludes all 396 earlier families and replays every candidate
 decision. A controlled test showed that the older checker accepted an
 invented rejection tally. The new C and JavaScript checks compare all 234
-decisions. The isolated four-method comparison controller is next.
+decisions. The [isolated four-method controller](../experiments/research-step-40/REPORT.md)
+now passes the opened comparison on Mac and Linux. Its checker reconstructs
+work counts as well as answers, after a controlled probe exposed an accepted
+altered heap count. The next step is the fixed cloud host package.
 
 The [Solomon count-probability step](../experiments/research-step-19/REPORT.md)
 adds two train-only confidence controls. Its known-window smoke preserves

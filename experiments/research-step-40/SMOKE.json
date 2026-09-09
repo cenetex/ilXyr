@@ -1,0 +1,20 @@
+{
+  "arms": 4,
+  "checks": {
+    "raw_lexical_task_guide": 176,
+    "semantic_frequency": 211,
+    "task_guide": 243,
+    "task_without_prior_feature": 233
+  },
+  "families": 4,
+  "fresh_episode_visits": 0,
+  "independent_measured_replays": 64,
+  "model_sha256": "db0afc1e460df5192917fac1f8129a2ec1e753ddb67939a975076fae5579bb7a",
+  "opened_episode_visits": 256,
+  "passes": 2,
+  "performance_evidence": false,
+  "processes": 8,
+  "schema": "ilxyr.reasoner_study_smoke.v1",
+  "stable_rows_sha256": "fdfc86fe9f096955099bdf622cf6d69aadd9ab2570071ddc6f7774c512dfde36",
+  "status": "verified"
+}
