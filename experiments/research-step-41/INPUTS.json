@@ -1,0 +1,386 @@
+{
+  "fresh_selection_plan_changed": false,
+  "kjv_raw": {
+    "sha256": "dfed950e8e6719a2536a9e70a171a4addb3093e024acc1cfc0c7d3bdc7ed9d76",
+    "url": "https://www.gutenberg.org/ebooks/30.txt.utf-8"
+  },
+  "language_sources": [
+    {
+      "benchmark": "BLiMP",
+      "id": "blimp_zip",
+      "license": "CC-BY-4.0",
+      "revision": "3e56b06fcabca9b30822fc66435fca6b1aa40bb1",
+      "sha256": "172a1a714d72e72a89e8384dd531483f3d0f8a9aee3d33dccaf7992d8cecbb73",
+      "url": "https://raw.githubusercontent.com/alexwarstadt/blimp/3e56b06fcabca9b30822fc66435fca6b1aa40bb1/BLiMP.zip"
+    },
+    {
+      "benchmark": "TinyStories",
+      "id": "tinystories_validation",
+      "license": "CDLA-Sharing-1.0",
+      "revision": "f54c09fd23315a6f9c86f9dc80f725de7d8f9c64",
+      "sha256": "94e431816c4cce81ff71e4408ff8d3bda9a42e8d2663986697c3954288cb38b4",
+      "url": "https://huggingface.co/datasets/roneneldan/TinyStories/resolve/f54c09fd23315a6f9c86f9dc80f725de7d8f9c64/TinyStories-valid.txt"
+    }
+  ],
+  "old_files": {
+    "corpus/bible-kjv.tok": {
+      "bytes": 8340260,
+      "sha256": "0c387e697fbe339712a62efb75d27c788365ce90911895dbf66e732deee44ed9"
+    },
+    "corpus/blake.tok": {
+      "bytes": 131622,
+      "sha256": "329bf291a5842897b59151640a57d2a2270a451e31c99adbf7d3d6f684d2576c"
+    },
+    "corpus/crowley.tok": {
+      "bytes": 501538,
+      "sha256": "68decb62cbd4f1efaff34067eb5a533406d99a6bc0e60ca219846b39306177da"
+    },
+    "corpus/literary-dialogue.tok": {
+      "bytes": 57245380,
+      "sha256": "d401868f33f2ac318315b167dd2bc6850edb3a8b0aaf5b18c1b2fa8cba42c379"
+    },
+    "corpus/shakespeare.tok": {
+      "bytes": 10704772,
+      "sha256": "ffa36c4890ca07d403e8d76fab47026e1b6d46b1fb2b9d2dc1c31c206ff9351d"
+    },
+    "corpus/zero-foundation.tok": {
+      "bytes": 2812,
+      "sha256": "87b039e5d4645ebf2a521454a13b1a912cbd1c53ff8fbcfb26baf9da1f5e638b"
+    },
+    "language/blimp-source/adjunct_island.jsonl": {
+      "bytes": 359284,
+      "sha256": "ecc71c452516de03deeb9262b4203e45220dc52727327a08eef07c79c01eac8b"
+    },
+    "language/blimp-source/anaphor_gender_agreement.jsonl": {
+      "bytes": 436749,
+      "sha256": "fd7d6e47196fa1310a251d3aa88ae9a62bb64d3cec35fc02617229d5799767e1"
+    },
+    "language/blimp-source/anaphor_number_agreement.jsonl": {
+      "bytes": 450861,
+      "sha256": "05c16b8bfe4feb5b3552dc2c53d1742ce0c91d9a1c896684335bdddd4373cc9b"
+    },
+    "language/blimp-source/animate_subject_passive.jsonl": {
+      "bytes": 462292,
+      "sha256": "245e91961cf597150244c3945c6d0033e691b27ba6cf298c62920d355426e70c"
+    },
+    "language/blimp-source/animate_subject_trans.jsonl": {
+      "bytes": 433098,
+      "sha256": "a7bffeda200f648c33dd215d91d8f5756fcd1e3f410bab467f1ed9235f215850"
+    },
+    "language/blimp-source/causative.jsonl": {
+      "bytes": 317162,
+      "sha256": "2e1006cc24094a3049586888105b22181d77e09e11dea65a326b49977bb366f1"
+    },
+    "language/blimp-source/complex_NP_island.jsonl": {
+      "bytes": 392362,
+      "sha256": "1c92472731dd9a21eb222d64bee756042a3763c3797b5283d5b84ab8e3cbb74c"
+    },
+    "language/blimp-source/coordinate_structure_constraint_complex_left_branch.jsonl": {
+      "bytes": 571696,
+      "sha256": "47e0e04efeb320449a8eb2ac722b895041a8609580fec2880dbc719f50fba194"
+    },
+    "language/blimp-source/coordinate_structure_constraint_object_extraction.jsonl": {
+      "bytes": 366045,
+      "sha256": "d01c27a7a893f3ec071a7913efa504d297671d86a987f26ddb565de914db2fd7"
+    },
+    "language/blimp-source/determiner_noun_agreement_1.jsonl": {
+      "bytes": 468642,
+      "sha256": "f48065fd760d0fd1a895012860d38bdf3c2ac115cd221e521684cc430c0f1855"
+    },
+    "language/blimp-source/determiner_noun_agreement_2.jsonl": {
+      "bytes": 488856,
+      "sha256": "8ae7eff7c7bd384ff5ef3113984834f4d78b34559203aa9d5cb14ea8394291a9"
+    },
+    "language/blimp-source/determiner_noun_agreement_irregular_1.jsonl": {
+      "bytes": 474932,
+      "sha256": "4f350e88db9e29e53ae96f1f0b5991c7809fd4fd403190907330b721e1e6e264"
+    },
+    "language/blimp-source/determiner_noun_agreement_irregular_2.jsonl": {
+      "bytes": 490854,
+      "sha256": "d688af0ccd0614d24a936e0929276784f37554f3ad3e247c3bade8dcaa9099df"
+    },
+    "language/blimp-source/determiner_noun_agreement_with_adj_2.jsonl": {
+      "bytes": 526806,
+      "sha256": "8d2828d7dfbfc3f7191024514060fedb033ea2e232304f63448c33051a85d2b3"
+    },
+    "language/blimp-source/determiner_noun_agreement_with_adj_irregular_1.jsonl": {
+      "bytes": 499664,
+      "sha256": "1f4c6e42a48f4220afec629679641479feac3883cd7fa346d9e9e129cd7e8f55"
+    },
+    "language/blimp-source/determiner_noun_agreement_with_adj_irregular_2.jsonl": {
+      "bytes": 528528,
+      "sha256": "aa3f297a7ce0c03b5fc00458834f89e54eb855973be098497f766a390b4bc669"
+    },
+    "language/blimp-source/determiner_noun_agreement_with_adjective_1.jsonl": {
+      "bytes": 504676,
+      "sha256": "2c3de4e7b7aea499fb7cf1b23b9c3b63662289880f991b9ffabe5ceb94cf7430"
+    },
+    "language/blimp-source/distractor_agreement_relational_noun.jsonl": {
+      "bytes": 525650,
+      "sha256": "37c1553f4c6594b162256edce0f6b40bad1898b311c8aaa69605b526b6494a34"
+    },
+    "language/blimp-source/distractor_agreement_relative_clause.jsonl": {
+      "bytes": 564770,
+      "sha256": "854728b6db8f23f12583f7332b654835351eaedb50783e6f2a3bf6c101b8c422"
+    },
+    "language/blimp-source/drop_argument.jsonl": {
+      "bytes": 304196,
+      "sha256": "e262339a262a57a8f56dc41941ee1dc32c62eb97054b27d33cd8c356a6e62064"
+    },
+    "language/blimp-source/ellipsis_n_bar_1.jsonl": {
+      "bytes": 411980,
+      "sha256": "3cc0bcf91631a4476ce573ea9dbf9627d52efbe071c26019e2c2448b68769d09"
+    },
+    "language/blimp-source/ellipsis_n_bar_2.jsonl": {
+      "bytes": 427551,
+      "sha256": "3dfc2b378ea4867186917ec9cce5ce927e4d3bb6addf018bc31b870dd2aa8474"
+    },
+    "language/blimp-source/existential_there_object_raising.jsonl": {
+      "bytes": 550672,
+      "sha256": "3781bfd54ec1208fc634f4d365189f948ec246526a7345b5148dd3ab6023ff4f"
+    },
+    "language/blimp-source/existential_there_quantifiers_1.jsonl": {
+      "bytes": 357321,
+      "sha256": "4bd0f6dee3c1824b51b0dafb9fce2b00933e8053fcd4a7b99b6202e1b8b49f9e"
+    },
+    "language/blimp-source/existential_there_quantifiers_2.jsonl": {
+      "bytes": 359216,
+      "sha256": "b1a80f4ebebae90a90927259f95b680059020e6bb4e38e64a41eb8e53bc3f617"
+    },
+    "language/blimp-source/existential_there_subject_raising.jsonl": {
+      "bytes": 394453,
+      "sha256": "7c6f5b13225f73a777755c1948beef5cfa31d135ae8a0e7ba8853d256fbece23"
+    },
+    "language/blimp-source/expletive_it_object_raising.jsonl": {
+      "bytes": 587648,
+      "sha256": "15ed3a52c978ecfe5eda7f64b0304b5bd133439cccb2c97fde20834f39874c93"
+    },
+    "language/blimp-source/inchoative.jsonl": {
+      "bytes": 298709,
+      "sha256": "d9389a7130ca84c6f920c9d892cc60c1b20f378d28e7041b1c53ae589fc84f1d"
+    },
+    "language/blimp-source/intransitive.jsonl": {
+      "bytes": 305487,
+      "sha256": "9af9f3f30c891cd21623922b62fd97685552b4ae94a6cfd5617a5f0cb0f731b3"
+    },
+    "language/blimp-source/irregular_past_participle_adjectives.jsonl": {
+      "bytes": 444520,
+      "sha256": "5e490be0723989499391ac14d11b3bb6677f4b470514486b2db3fbfe76d56b3c"
+    },
+    "language/blimp-source/irregular_past_participle_verbs.jsonl": {
+      "bytes": 420119,
+      "sha256": "75a990117c1a403d3b479e0fbe170f6919c2408def738ffcea8c62b49b70a555"
+    },
+    "language/blimp-source/irregular_plural_subject_verb_agreement_1.jsonl": {
+      "bytes": 460705,
+      "sha256": "0066174143671bffa54232d89254d14221afab666273edfefdfb625fbb75e226"
+    },
+    "language/blimp-source/irregular_plural_subject_verb_agreement_2.jsonl": {
+      "bytes": 453376,
+      "sha256": "9b22db814e7b7251f4abafe8beb9616f2f46eaa58f7cdb701cbc737cc8f1a124"
+    },
+    "language/blimp-source/left_branch_island_echo_question.jsonl": {
+      "bytes": 482617,
+      "sha256": "7dadbe3c5a5ceadb78b9408807ac88230ddd748abfe8de8121f064e2bce94ad8"
+    },
+    "language/blimp-source/left_branch_island_simple_question.jsonl": {
+      "bytes": 343450,
+      "sha256": "e2a64b8a1b7b8d94f931018cf9325836e9c79953a01379233da255eac5e8cd71"
+    },
+    "language/blimp-source/matrix_question_npi_licensor_present.jsonl": {
+      "bytes": 457806,
+      "sha256": "657c9d6e6d50a9cd651881fcbc57cef2fd998611f6f53158ed05e48822fcd2b5"
+    },
+    "language/blimp-source/npi_present_1.jsonl": {
+      "bytes": 438013,
+      "sha256": "9aa85dc5c2b0d85ea51f21db50d6d327ab5b45d1669e386d54b1360d3ac954af"
+    },
+    "language/blimp-source/npi_present_2.jsonl": {
+      "bytes": 422136,
+      "sha256": "52fcfa230a40ae27998273cc08ecd062aad17025c92389df3404a85ed519909b"
+    },
+    "language/blimp-source/only_npi_licensor_present.jsonl": {
+      "bytes": 459170,
+      "sha256": "475c6595187a32e4dcfb868d3db90394e89669a94a9312ebd60f88dad1665f1c"
+    },
+    "language/blimp-source/only_npi_scope.jsonl": {
+      "bytes": 583720,
+      "sha256": "ca1f0671643e37936515f02125036bc2904ab9b35c4689b0e7a3ea3914e571f6"
+    },
+    "language/blimp-source/passive_1.jsonl": {
+      "bytes": 340272,
+      "sha256": "e9374307bca5c24e9df18597a0859f7fb5ca4cfe5f136ec894d1ba69f4c90116"
+    },
+    "language/blimp-source/passive_2.jsonl": {
+      "bytes": 308350,
+      "sha256": "4d49e438185bed4122a252dd9ee69bc8eccb2fe6c1b09ccc78198fd925fed8c5"
+    },
+    "language/blimp-source/principle_A_c_command.jsonl": {
+      "bytes": 527689,
+      "sha256": "74c8111666542c797dee1c38c9e432b0b65751dfa0faa51874a990f2cbfc76fc"
+    },
+    "language/blimp-source/principle_A_case_1.jsonl": {
+      "bytes": 477239,
+      "sha256": "7efb5246fe315dc2cf56b80739783cffcddee9e52650716cf5aa0f6987f7644d"
+    },
+    "language/blimp-source/principle_A_case_2.jsonl": {
+      "bytes": 492973,
+      "sha256": "5de6db4c21a8433bc1f1030e81d5ee151efce02078460f7de7ca5e9566afd914"
+    },
+    "language/blimp-source/principle_A_domain_1.jsonl": {
+      "bytes": 499865,
+      "sha256": "2276dc35a51396c7d11a401e378e0f4b31cd10d7916c73e9a361703cb96eddc5"
+    },
+    "language/blimp-source/principle_A_domain_2.jsonl": {
+      "bytes": 493189,
+      "sha256": "9d14e5ae911fb8ddf571484ef2d6a6e6a053765c1c6d34253aec2c11f7d7306a"
+    },
+    "language/blimp-source/principle_A_domain_3.jsonl": {
+      "bytes": 513886,
+      "sha256": "a0d66b9d8541ab1df08f629161c6c4e8bca3aa2693eaa342edd2097e6b579bdd"
+    },
+    "language/blimp-source/principle_A_reconstruction.jsonl": {
+      "bytes": 345494,
+      "sha256": "65dc403c4d6e9a609f2c4cc2ec6c8baa05cf6fce89b920a816b0d9932204b2a3"
+    },
+    "language/blimp-source/regular_plural_subject_verb_agreement_1.jsonl": {
+      "bytes": 451850,
+      "sha256": "1a18d94062c8e792c0a200a3b00dff0e051a92bb084c05e9b5e5c73bee32a620"
+    },
+    "language/blimp-source/regular_plural_subject_verb_agreement_2.jsonl": {
+      "bytes": 456477,
+      "sha256": "e5b4668811e63b00ac4c9569cb9553281a39c21df43256905ad78e59ae24942c"
+    },
+    "language/blimp-source/sentential_negation_npi_licensor_present.jsonl": {
+      "bytes": 490996,
+      "sha256": "c43405aca13ba4aa6ad87f9b051e4ba5fc458f24e683cfe0af23e6e09ec7268b"
+    },
+    "language/blimp-source/sentential_negation_npi_scope.jsonl": {
+      "bytes": 614930,
+      "sha256": "6c341ccc39c94bea45c0412986751bf2f6eca48626728e30e23d2b6a22c8b949"
+    },
+    "language/blimp-source/sentential_subject_island.jsonl": {
+      "bytes": 365822,
+      "sha256": "a286b67cc5912aafeb06750b38923abf3338786ffa4309e0a6a07b1dbe2444bd"
+    },
+    "language/blimp-source/superlative_quantifiers_1.jsonl": {
+      "bytes": 381189,
+      "sha256": "bebc5c5ff28cf226cc35293c60cde1fcf7565a7b58cb219d01ac8908b952a497"
+    },
+    "language/blimp-source/superlative_quantifiers_2.jsonl": {
+      "bytes": 516120,
+      "sha256": "4bef08f3e6bd3fbb46021dda34000f3c00222c5576babe4882a8541f6820a106"
+    },
+    "language/blimp-source/tough_vs_raising_1.jsonl": {
+      "bytes": 343026,
+      "sha256": "8eb3a1ecbdbd969c5b77e2f85b12a39d33723bdc58d673e5067bb456da91d0e5"
+    },
+    "language/blimp-source/tough_vs_raising_2.jsonl": {
+      "bytes": 364074,
+      "sha256": "a6db2f24a8aee0c90a9be63e6bb6787fe04e990c518761115f69f27c7438b5ae"
+    },
+    "language/blimp-source/transitive.jsonl": {
+      "bytes": 460291,
+      "sha256": "48de2025571897c7590659c793d2d1ce85c247808d4199bad60f66cf2eb179ef"
+    },
+    "language/blimp-source/wh_island.jsonl": {
+      "bytes": 448630,
+      "sha256": "77824ca8c0008fb7a204e785ca2dcee1b2803f666bb545bd95cb8a51e04f1a4c"
+    },
+    "language/blimp-source/wh_questions_object_gap.jsonl": {
+      "bytes": 387435,
+      "sha256": "685c74eb8c199f30a24bba1bfabf9d9dff7962a64430e62b9b5f61d5369241ff"
+    },
+    "language/blimp-source/wh_questions_subject_gap.jsonl": {
+      "bytes": 389983,
+      "sha256": "3c33e4efc7182824211ff3288694cf010f4ce84f85c8df67410d784139c722b3"
+    },
+    "language/blimp-source/wh_questions_subject_gap_long_distance.jsonl": {
+      "bytes": 462660,
+      "sha256": "985bae202dbc5566b9b5c51bd77dd9d1dbcd87e0f38e008c34a11d7aa07db788"
+    },
+    "language/blimp-source/wh_vs_that_no_gap.jsonl": {
+      "bytes": 383262,
+      "sha256": "6a25d0d1499e9f522696a62ce9dba8c49f58c5446fddc6d852bf562d1016163c"
+    },
+    "language/blimp-source/wh_vs_that_no_gap_long_distance.jsonl": {
+      "bytes": 441429,
+      "sha256": "968faf59602a67f9cfd7c2e91a314a3f7342fd5daf41c21cadd25288fc85fdcf"
+    },
+    "language/blimp-source/wh_vs_that_with_gap.jsonl": {
+      "bytes": 367776,
+      "sha256": "56f1ca988a8ca368234f12359792c414fdfec2891154e3f8ce6404da1d3f3212"
+    },
+    "language/blimp-source/wh_vs_that_with_gap_long_distance.jsonl": {
+      "bytes": 425985,
+      "sha256": "3cb19100d6384264e512801e96c20e172a3c0c7778276b80ed60c65e97b86ab5"
+    },
+    "language/blimp.tsv": {
+      "bytes": 11897612,
+      "sha256": "b69d5f829d23c648dbf7cfbfd64ba9d7b3cc9f1650e8041ada06c7e0e67da55c"
+    },
+    "language/old-blimp-screen.tsv": {
+      "bytes": 177758,
+      "sha256": "06ffc0ee2832b193ff6ce895828bbe4a69befe2b1f30cfec19027b83692187a3"
+    },
+    "language/stories.jsonl": {
+      "bytes": 19751904,
+      "sha256": "415885298020012105c2701d5959e61e88d2d0abffedc4c4d1fecbd7760b21c9"
+    },
+    "language/tinystories.tsv": {
+      "bytes": 568036,
+      "sha256": "75e522b8c1e942eb0198be98b494dcefdec92f18f5e2e47fc14fdcfb66eb8b54"
+    },
+    "q26/manifest.json": {
+      "bytes": 1535,
+      "sha256": "8cb933994919a43f2cfab4cab8538a2481f08c8020dc602d26192c3b107ecb35"
+    },
+    "q26/quantity-request.jsonl": {
+      "bytes": 6054898,
+      "sha256": "49a94fceabab5ad37791743f9ae5dbe8faccd38a77860cfd970246263b850d3a"
+    },
+    "q26/quantity-request.promotion.tsv": {
+      "bytes": 97750,
+      "sha256": "9270ea2b72af90235407bd7924a0864b8eba35b2969e1657ed1c15bf04449519"
+    },
+    "q26/quantity-request.public.tsv": {
+      "bytes": 98296,
+      "sha256": "3e5c929124436a7eeb2fb71d1043a36dcd257c4c0e2b3a864026e28f667f8925"
+    },
+    "q26/quantity-request.sentinel.tsv": {
+      "bytes": 12644,
+      "sha256": "02c6908142f7affb035d606a02994c3ee15ef3bd6ecb8915f8f64f86c9aa2be3"
+    },
+    "q26/quantity-request.tok": {
+      "bytes": 2215096,
+      "sha256": "e04e518a6bd6ddd1698a65b18dfd4589cf0cee4f4737beaa6f72a3c3b4dce8f2"
+    },
+    "retention-smoke/manifest.json": {
+      "bytes": 1532,
+      "sha256": "756a9aba25376acdd4a842669514a50b31c699ba5542bcfb172b3ddda2317a8a"
+    },
+    "retention-smoke/quantity-request.jsonl": {
+      "bytes": 68865,
+      "sha256": "5b4a74f9c8a328714f364419e39b2ac663d8dfe569acf076522599b4ebff9414"
+    },
+    "retention-smoke/quantity-request.promotion.tsv": {
+      "bytes": 3982,
+      "sha256": "0b69ab452601c64921e8cb17a815e122d4cd2224316f49d64019cc949a0a6c4a"
+    },
+    "retention-smoke/quantity-request.public.tsv": {
+      "bytes": 1046,
+      "sha256": "47d3d6e2fa179ded173c5dc8a384e952977238144072c20c60f4e52608c3d347"
+    },
+    "retention-smoke/quantity-request.sentinel.tsv": {
+      "bytes": 1046,
+      "sha256": "47d3d6e2fa179ded173c5dc8a384e952977238144072c20c60f4e52608c3d347"
+    },
+    "retention-smoke/quantity-request.tok": {
+      "bytes": 22130,
+      "sha256": "374feaf61dbdf03ca2207143be1dfd73dbc2ebcb7c8a6d2ee38aa83536eb4376"
+    }
+  },
+  "retention_scope_correction": "The plan field prior_eval_samples=4 describes the initial four-window diagnostic. The source audit found Q2.6 default sample counts of two and eight per replay source, with the first window also used by the guard. The report retains both the four-window diagnostic and the union of counts one, two and eight. Other historical schedules remain a coverage question.",
+  "schema": "ilxyr.zero4_data_inputs.v1",
+  "source_commit": "9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d"
+}

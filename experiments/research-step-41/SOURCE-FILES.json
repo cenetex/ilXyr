@@ -97,6 +97,10 @@
       "bytes": 8102,
       "sha256": "1adfe5334a12298b2afcff12190ede6182e4f199f57fec6fd600777958e1608f"
     },
+    "scripts/train_zero4_q26.mjs": {
+      "bytes": 25642,
+      "sha256": "8891760ad60d74ec796290d082849ddf2b6910c839cb0cb1b300e3b37f87bb90"
+    },
     "scripts/zero4_retention.patch": {
       "bytes": 5691,
       "sha256": "cf0a8197ed0d71e01945388dee4ac0013781968e7fa4b70123245b16f2a8869c"
