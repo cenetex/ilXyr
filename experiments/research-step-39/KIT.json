@@ -1,0 +1,22 @@
+{
+  "archive_bytes": 8181760,
+  "archive_sha256": "9e38b0717fbb97029764551dc77f478c6bd809a4453d2d66968e1a799d32610d",
+  "execution_authorized": false,
+  "files": 50,
+  "fresh_method_evaluations": 0,
+  "implementation": {
+    "check_reasoner_fresh_roster.py": "4e9492a5fe1db125cd03d7aa1ab177912aff61620748eb6b0c6db6224e0c1979",
+    "feral_process.py": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526",
+    "probe_reasoner_roster_legacy.mjs": "7f530b590d1ac04d36d9fb1d014afb8269657cc3acfb61adcf492a9a3f3a9b5e",
+    "reasoner_fresh_roster.c": "c28760b97db135db4b42278ac02f680adaca38f3aa14022179782c7a6624b5c5",
+    "reasoner_fresh_roster.mjs": "24498fcf56032e3aa68c4707179be9c3079e96a2b630c75b660dc10968882c78",
+    "test_reasoner_fresh_roster.mjs": "8ab30c9fb4e0d72a7a772f7323d1d503cd5802e4ea87098962ff7fe03ec6b7ad"
+  },
+  "implementation_commit": "e9809373f00bea37fc268455fb54d371d98d5eb9",
+  "kit_check_sha256": "41f69dc6e08e0bbe7324385dc5a78aed8ac12e63e1decbf915ce49117cd57378",
+  "schema": "ilxyr.reasoner_fresh_roster_kit.v1",
+  "scope": "Frozen source, prior exclusions, accepted roster, complete selection decisions, independent native replay and controller contract.",
+  "source_commit": "0c5253604593acb3b9294fcc00c90f59b7dbbd3c",
+  "status": "built_and_read_back_verified",
+  "unpacked_kit_replay_verified": true
+}

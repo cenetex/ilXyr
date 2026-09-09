@@ -16,8 +16,12 @@ The [eligible scoring check](../experiments/research-step-36/REPORT.md) now
 applies one public-evidence filter and bounded proposal selection to all four
 comparison arms. Linux and macOS agree on the opened results. Prior-score
 calls fall by 99.02%, while the full guide still uses more verifier checks
-than lexical guidance and semantic frequency on those cases. Fresh-family
-comparison preparation is next.
+than lexical guidance and semantic frequency on those cases. The
+[fresh roster audit](../experiments/research-step-39/REPORT.md) now fixes 128
+families, excludes all 396 earlier families and replays every candidate
+decision. A controlled test showed that the older checker accepted an
+invented rejection tally. The new C and JavaScript checks compare all 234
+decisions. The isolated four-method comparison controller is next.
 
 The [Solomon count-probability step](../experiments/research-step-19/REPORT.md)
 adds two train-only confidence controls. Its known-window smoke preserves
