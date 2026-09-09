@@ -1,0 +1,20 @@
+{
+  "schema": "ilxyr.reasoner_roster_generation.v1",
+  "status": "complete",
+  "plan_sha256": "96b4345e1661eee5697300b591b0e1a2f6bcad97e8a45fd2af3d790b982dc501",
+  "exclusions_sha256": "c853efff3bce284c9e216f0ab6cd9b2477de652db4a3bc5e755e96543ce8dc1f",
+  "families": 128,
+  "candidates": 234,
+  "rejected": 106,
+  "rejections": [
+    95,
+    11,
+    0,
+    0
+  ],
+  "excluded_source_syntax": 259,
+  "unique_prior_behaviors": 396,
+  "unique_prior_primitive_multisets": 396,
+  "model_calls": 0,
+  "fresh_family_scoring": 0
+}
