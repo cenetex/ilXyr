@@ -2,7 +2,7 @@
   "schema": "ilxyr.reasoner_roster_generation.v1",
   "status": "complete",
   "plan_sha256": "96b4345e1661eee5697300b591b0e1a2f6bcad97e8a45fd2af3d790b982dc501",
-  "exclusions_sha256": "c853efff3bce284c9e216f0ab6cd9b2477de652db4a3bc5e755e96543ce8dc1f",
+  "exclusions_sha256": "e4bab3ee5950787140eccdeb39fb53c479c96c783d92dfc60cca73740f2759db",
   "families": 128,
   "candidates": 234,
   "rejected": 106,

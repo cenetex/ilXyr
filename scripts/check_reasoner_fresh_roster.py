@@ -40,10 +40,11 @@ def run(source, output, git=False):
         child('native-replay',[str(output/'native'),'replay-roster'])
         child('check',['node',script,'check',str(work),str(FROZEN/'ROSTER-PLAN.json'),str(FROZEN/'EXCLUSIONS.json'),str(output/'roster'),str(output/'native-replay/stdout.log'),str(output/'CHECK.json')])
         child('tamper-checks',['node',str(ROOT/'scripts/test_reasoner_fresh_roster.mjs'),str(work),str(output/'roster'),str(output/'native-replay/stdout.log')])
+        child('legacy-probe',['node',str(ROOT/'scripts/probe_reasoner_roster_legacy.mjs'),str(work),str(output/'LEGACY-PROBE.json')])
         for name in ['ROSTER.json','DECISIONS.json','SOURCE-SYNTAX.json','GENERATION.json']:
             require((output/'roster'/name).read_bytes()==(FROZEN/name).read_bytes(),'frozen roster differs: '+name)
         status.update(status='passed',phase='complete',native_sha256=digest(output/'native'),check=json.loads((output/'CHECK.json').read_bytes()),
-            source_commit=COMMIT,implementation={n:digest(ROOT/'scripts'/n) for n in ['reasoner_fresh_roster.mjs','reasoner_fresh_roster.c','check_reasoner_fresh_roster.py','test_reasoner_fresh_roster.mjs','feral_process.py']})
+            source_commit=COMMIT,implementation={n:digest(ROOT/'scripts'/n) for n in ['reasoner_fresh_roster.mjs','reasoner_fresh_roster.c','check_reasoner_fresh_roster.py','test_reasoner_fresh_roster.mjs','probe_reasoner_roster_legacy.mjs','feral_process.py']})
     except BaseException as error:
         status['error'] = str(error); raise
     finally: save(output/'TERMINAL.json',status)

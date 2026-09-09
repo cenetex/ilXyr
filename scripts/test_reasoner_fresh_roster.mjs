@@ -15,7 +15,7 @@ assert.equal(freshness(row,mask,empty,new Set([primitiveKey([...row.primitive_by
 const changed=structuredClone(row.primitive_by_role);changed[0]=changed[1];assert.notEqual(primitiveKey(changed),primitiveKey(row.primitive_by_role));checked++;
 const root=mkdtempSync(resolve(tmpdir(),'reasoner39-tamper-'));
 try {
-  const e=resolve(root,'excluded.json');writeFileSync(e,encode({records:prior.slice(1)}));assert.throws(()=>boundInputs(plan,e),/fixed exclusions differs/u);checked++;
+  const e=resolve(root,'excluded.json');writeFileSync(e,encode({records:prior.slice(1)}));assert.throws(()=>boundInputs(plan,e),/fixed exclusions differ/u);checked++;
   const p=resolve(root,'plan.json');writeFileSync(p,encode({...JSON.parse(readFileSync(plan)),seed:'0000000000000001'}));assert.throws(()=>boundInputs(p,excluded),/fixed plan differs/u);checked++;
   if(source&&roster&&native) {
     const original=readFileSync(native,'utf8').trim().split('\n').map(v=>JSON.parse(v));
@@ -33,6 +33,8 @@ try {
     }
     const copy=resolve(root,'roster');cpSync(roster,copy,{recursive:true});const h=resolve(copy,'exclusions.h');writeFileSync(h,readFileSync(h,'utf8')+'\n');
     await assert.rejects(main(['check',source,plan,excluded,copy,native,resolve(root,'changed-header.json')]),/native exclusion header differs/u);checked++;
+    writeFileSync(h,readFileSync(resolve(roster,'exclusions.h')));const g=resolve(copy,'GENERATION.json');const summary=JSON.parse(readFileSync(g));summary.candidates+=1;writeFileSync(g,encode(summary));
+    await assert.rejects(main(['check',source,plan,excluded,copy,native,resolve(root,'changed-summary.json')]),/roster generation summary differs/u);checked++;
   }
-  console.log(JSON.stringify({status:'passed',cases:checked,native_tamper_cases:source?7:0}));
+  console.log(JSON.stringify({status:'passed',cases:checked,native_tamper_cases:source?8:0}));
 } finally {rmSync(root,{recursive:true,force:true});}

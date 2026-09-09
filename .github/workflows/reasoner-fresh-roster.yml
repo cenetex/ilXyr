@@ -3,12 +3,14 @@ on:
   pull_request:
     paths:
       - 'scripts/*reasoner_fresh_roster*'
+      - 'scripts/probe_reasoner_roster_legacy.mjs'
       - 'experiments/research-step-39/**'
       - '.github/workflows/reasoner-fresh-roster.yml'
   push:
     branches: [main]
     paths:
       - 'scripts/*reasoner_fresh_roster*'
+      - 'scripts/probe_reasoner_roster_legacy.mjs'
       - 'experiments/research-step-39/**'
       - '.github/workflows/reasoner-fresh-roster.yml'
 permissions:
@@ -41,6 +43,7 @@ jobs:
           path: |
             ${{ runner.temp }}/reasoner-roster-check/TERMINAL.json
             ${{ runner.temp }}/reasoner-roster-check/CHECK.json
+            ${{ runner.temp }}/reasoner-roster-check/LEGACY-PROBE.json
             ${{ runner.temp }}/reasoner-roster-check/*/process.json
             ${{ runner.temp }}/reasoner-roster-check/*/*.log
             ${{ runner.temp }}/reasoner-roster-check/roster/

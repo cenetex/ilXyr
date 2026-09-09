@@ -7,9 +7,11 @@ import { pathToFileURL } from 'node:url';
 let generateR55FamilyFromSeed, decodeR55Replay;
 export const sha = b => createHash('sha256').update(b).digest('hex');
 export const encode = v => JSON.stringify(v, null, 2) + '\n';
+export const encodeRows = rows => '[\n'+rows.map(v=>'  '+JSON.stringify(v)).join(',\n')+'\n]\n';
+export const encodeExclusions = v => '{\n  \"schema\": '+JSON.stringify(v.schema)+',\n  \"inputs\": '+JSON.stringify(v.inputs)+',\n  \"records\": '+encodeRows(v.records).trimEnd()+'\n}\n';
 const read = p => JSON.parse(readFileSync(p));
 export const PLAN_SHA='96b4345e1661eee5697300b591b0e1a2f6bcad97e8a45fd2af3d790b982dc501';
-export const EXCLUSIONS_SHA='c853efff3bce284c9e216f0ab6cd9b2477de652db4a3bc5e755e96543ce8dc1f';
+export const EXCLUSIONS_SHA='e4bab3ee5950787140eccdeb39fb53c479c96c783d92dfc60cca73740f2759db';
 export function boundInputs(plan,exclusions) {
   assert.equal(sha(readFileSync(plan)),PLAN_SHA,'fixed plan differs');
   assert.equal(sha(readFileSync(exclusions)),EXCLUSIONS_SHA,'fixed exclusions differ');
@@ -154,6 +156,8 @@ export function exclusionInputs(source,matched,opened) {
   assert.deepEqual(Object.fromEntries(['source','development','fixed','matched','opened'].map(k=>[k,records.filter(r=>r.scope===k).length])),{source:128,development:8,fixed:128,matched:128,opened:4});
   return {schema:'ilxyr.reasoner_exclusions.v1',inputs:bindings,records};
 }
+export function summarize(result,exclusions) { return {schema:'ilxyr.reasoner_roster_generation.v1',status:'complete',plan_sha256:PLAN_SHA,exclusions_sha256:EXCLUSIONS_SHA,families:result.rows.length,candidates:result.decisions.length,
+      rejected:result.decisions.length-result.rows.length,rejections:[0,1,2,3].map(k=>result.decisions.filter(r=>r.reason===k).length),excluded_source_syntax:result.mask.reduce((a,b)=>a+b,0),unique_prior_behaviors:new Set(exclusions.map(r=>mapKey(r.target))).size,unique_prior_primitive_multisets:new Set(exclusions.map(r=>primitiveKey(r.primitive_by_role))).size,model_calls:0,fresh_family_scoring:0}; }
 function header(plan, exclusions) {
   const affine=map=>'{{'+map.matrix.join(',')+'},{'+map.bias.join(',')+'}}';
   return '#define R39_ROOT UINT64_C(0x'+plan.seed+')\n#define R39_PRIOR_COUNT '+exclusions.length+'\n'+
@@ -162,14 +166,13 @@ function header(plan, exclusions) {
 }
 export async function main(args) {
   const [mode,source,a,b,c]=args;await loadSource(source);
-  if(mode==='exclusions')writeFileSync(c,encode(exclusionInputs(source,a,b)),{flag:'wx'});
+  if(mode==='exclusions')writeFileSync(c,encodeExclusions(exclusionInputs(source,a,b)),{flag:'wx'});
   else if(mode==='generate') {
     const [plan,excluded]=boundInputs(a,b);mkdirSync(c,{recursive:false});
     const result=generate(plan,excluded.records);
-    writeFileSync(resolve(c,'ROSTER.json'),encode(result.rows));writeFileSync(resolve(c,'DECISIONS.json'),encode(result.decisions));writeFileSync(resolve(c,'SOURCE-SYNTAX.json'),encode(result.mask.flatMap((v,i)=>v?[i]:[])));
+    writeFileSync(resolve(c,'ROSTER.json'),encodeRows(result.rows));writeFileSync(resolve(c,'DECISIONS.json'),encodeRows(result.decisions));writeFileSync(resolve(c,'SOURCE-SYNTAX.json'),encode(result.mask.flatMap((v,i)=>v?[i]:[])));
     writeFileSync(resolve(c,'exclusions.h'),header(plan,excluded.records));
-    const summary={schema:'ilxyr.reasoner_roster_generation.v1',status:'complete',plan_sha256:sha(readFileSync(a)),exclusions_sha256:sha(readFileSync(b)),families:result.rows.length,candidates:result.decisions.length,
-      rejected:result.decisions.length-result.rows.length,rejections:[0,1,2,3].map(k=>result.decisions.filter(r=>r.reason===k).length),excluded_source_syntax:result.mask.reduce((a,b)=>a+b,0),unique_prior_behaviors:new Set(excluded.records.map(r=>mapKey(r.target))).size,unique_prior_primitive_multisets:new Set(excluded.records.map(r=>primitiveKey(r.primitive_by_role))).size,model_calls:0,fresh_family_scoring:0};
+    const summary=summarize(result,excluded.records);
     writeFileSync(resolve(c,'GENERATION.json'),encode(summary));console.log(encode(summary));
   } else if(mode==='check') {
     const [planFile,excludeFile,output,nativeFile,checkFile]=args.slice(2),[plan,excluded]=boundInputs(planFile,excludeFile),exclusions=excluded.records;
@@ -177,7 +180,7 @@ export async function main(args) {
     assert.deepEqual(native.filter(r=>r.kind==='decision').map(({kind,...r})=>r),result.decisions,'native rejection replay differs');
     assert.deepEqual(native.filter(r=>r.ordinal!==undefined&&!r.kind),result.rows,'native family bytes differ');
     assert.deepEqual(native.filter(r=>r.kind==='syntax').map(r=>r.ast),result.mask.flatMap((v,i)=>v?[i]:[]),'source exact solution mask differs');
-    assert.equal(read(resolve(output,'GENERATION.json')).plan_sha256,PLAN_SHA);assert.equal(read(resolve(output,'GENERATION.json')).exclusions_sha256,EXCLUSIONS_SHA);
+    assert.deepEqual(read(resolve(output,'GENERATION.json')),summarize(result,exclusions),'roster generation summary differs');
     assert.equal(readFileSync(resolve(output,'exclusions.h'),'utf8'),header(plan,exclusions),'native exclusion header differs');
     assert.deepEqual(read(resolve(output,'ROSTER.json')),result.rows);assert.deepEqual(read(resolve(output,'DECISIONS.json')),result.decisions);assert.deepEqual(read(resolve(output,'SOURCE-SYNTAX.json')),result.mask.flatMap((v,i)=>v?[i]:[]));
     assert.equal(native.length,result.decisions.length+result.rows.length+result.mask.reduce((a,b)=>a+b,0));
