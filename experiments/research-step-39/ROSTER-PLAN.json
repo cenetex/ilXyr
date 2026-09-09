@@ -1,0 +1,35 @@
+{
+  "behavior_key": "Exact 12-byte affine map over all 125 points.",
+  "cells": [
+    "sparse_distinct_roles",
+    "sparse_repeated_roles",
+    "dense_distinct_roles",
+    "dense_repeated_roles"
+  ],
+  "families": 128,
+  "families_per_cell": 32,
+  "fresh_scoring_authorized": false,
+  "maximum_nonce": 65535,
+  "model_sha256": "db0afc1e460df5192917fac1f8129a2ec1e753ddb67939a975076fae5579bb7a",
+  "next": "Build the isolated comparison controller after the roster and all rejection decisions pass independent native replay.",
+  "ordered_filters": [
+    "requires_role_6_or_7",
+    "source_solution_or_development_declared_syntax",
+    "previous_target_behavior",
+    "previous_primitive_multiset"
+  ],
+  "primitive_key": "Sort the eight 12-byte affine maps lexicographically, retaining repeated maps.",
+  "prior_scopes": {
+    "development": 8,
+    "fixed": 128,
+    "matched": 128,
+    "opened": 4,
+    "source": 128
+  },
+  "schema": "ilxyr.reasoner_fresh_roster_plan.v1",
+  "seed": "5535656c69673339",
+  "selection": "First candidate passing the ordered freshness filters at each ordinal. No model, proposal, search-cost or answer-quality filter.",
+  "source_commit": "0c5253604593acb3b9294fcc00c90f59b7dbbd3c",
+  "source_kit_sha256": "1372f33a5b9522f8b213cafa1153fbc51470e03ea6e83355b66db5b41e8d0245",
+  "source_syntax": "Exclude every exact four-operation source solution and each declared source and development solution."
+}
