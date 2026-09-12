@@ -45,6 +45,9 @@ jobs:
               python3 scripts/test_zero4_study.py
               python3 scripts/check_zero4_study.py --source upstream-zero --out /work/output/opened
             '
+      - name: Make container records readable by the artifact uploader
+        if: always()
+        run: sudo chmod -R a+rX runtime-checks
       - uses: actions/upload-artifact@v4
         if: always()
         with:
