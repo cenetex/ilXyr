@@ -7,8 +7,7 @@ allows later batches to ask the exact oracle again. Every repeated query in the
 saved trace has the same exact value.
 
 The next design needs a cache for known query results and a pilot that measures
-new accepted rows under the final selection rules. A larger call allowance would
-carry the same declining yield forward.
+new accepted rows under the final selection rules. The observed decline makes usable-row yield the next measurement target.
 
 ## Evidence and scope
 
