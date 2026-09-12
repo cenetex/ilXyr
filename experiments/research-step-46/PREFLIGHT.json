@@ -1,0 +1,17 @@
+{
+  "instances_created": 0,
+  "package_staged": false,
+  "paid_compute_started": false,
+  "provider_dry_run_passed": false,
+  "remaining_checks": [
+    "versioned_package_readback",
+    "current_prices",
+    "resolved_AMI_and_root_snapshot",
+    "machine_shape",
+    "network_and_role",
+    "bounded_bucket_retention",
+    "fresh_result_prefix",
+    "EC2_DryRun"
+  ],
+  "status": "waiting_for_sign_in"
+}

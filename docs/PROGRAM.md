@@ -24,7 +24,13 @@ invented rejection tally. The new C and JavaScript checks compare all 234
 decisions. The [isolated four-method controller](../experiments/research-step-40/REPORT.md)
 now passes the opened comparison on Mac and Linux. Its checker reconstructs
 work counts as well as answers, after a controlled probe exposed an accepted
-altered heap count. The next step is the fixed cloud host package.
+altered heap count. The [bounded cloud package](../experiments/research-step-46/REPORT.md)
+now passes fifteen host tests and the fixed Clang image check. All 64 opened
+measured results retain their earlier answers and work counts. Downloaded
+records also pass replay from their new paths. The report preserves a GCC
+build failure and a missing Python runtime from earlier images. The full
+comparison has a 90-minute, $0.30 ceiling before tax. Staging and free provider
+checks await AWS sign-in, followed by approval for the exact package.
 
 The [Solomon count-probability step](../experiments/research-step-19/REPORT.md)
 adds two train-only confidence controls. Its known-window smoke preserves

@@ -1,0 +1,53 @@
+{
+  "failures": [
+    {
+      "ci_run": 34710865968,
+      "error": "In file included from /work/output/runtime/build/source/build/reasoner55_fast_fixed.h:1,\n                 from /work/output/runtime/build/source/build/reasoner55_eligible_matched.h:2,\n                 from /work/output/runtime/study/study/inputs/eligible_source.h:2,\n                 from /work/package/controller/scripts/reasoner_study_worker.c:2:\n/work/output/runtime/build/source/build/reasoner55_fast_guide.h: In function 'r55sg_loss_gradient':\n/work/output/runtime/build/source/build/reasoner55_fast_guide.h:207:46: error: 'scores' may be used uninitialized [-Werror=maybe-uninitialized]\n  207 |         loss += log(total) + maximum - scores[family->label];\n      |                                        ~~~~~~^~~~~~~~~~~~~~~\n/work/output/runtime/build/source/build/reasoner55_fast_guide.h:197:16: note: 'scores' declared here\n  197 |         double scores[R55_CANDIDATES], maximum = -INFINITY, total = 0;\n      |                ^~~~~~\ncc1: all warnings being treated as errors\n",
+      "evidence_sha256": "9479017c85e5f89e6c1c3b33b3c3c015bacfbb0d4a6115fbd6e19d3945d05cc4",
+      "next_action": "Use Clang for the same source kit, compiler flags and study plan; verify the opened results in the fixed image.",
+      "phase": "GCC_build",
+      "source_commit": "f1ce91c4e56ed259aa3eb619144c0324d7aa5215",
+      "started_jobs": 0,
+      "status": "reproduced"
+    },
+    {
+      "ci_run": 34711168043,
+      "error": "docker: Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: exec: \"python3\": executable file not found in $PATH\n\nRun 'docker run --help' for more information\n",
+      "evidence_sha256": "672d175c4ac9bbdd4ba7b2230053dfff5dab575d8e95a020387b9bab94fd6c5a",
+      "next_action": "Check the complete C++ development image. Keep the separately bound official Node release.",
+      "phase": "Swift_image_startup",
+      "source_commit": "f4a2790a30e286ff99bdb5f017ce31243741456c",
+      "started_jobs": 0,
+      "status": "reproduced"
+    },
+    {
+      "evidence": {
+        "checked_utc": "2026-09-12T18:20:48.473104+00:00",
+        "error": "Error when retrieving token from sso: Token has expired and refresh failed",
+        "exit_code": 255,
+        "instances_created": 0,
+        "status": "credentials_pending"
+      },
+      "next_action": "Finish the pending AWS sign-in, then stage the exact package and run free preflight.",
+      "phase": "provider_identity",
+      "status": "waiting_for_sign_in"
+    },
+    {
+      "ci_run": 34711380267,
+      "error": "runtime toolchain differs: compiler_identity",
+      "expected": "pending-fixed-image-check",
+      "next_action": "Bind these observed identities and check the opened study in the same image.",
+      "observed": {
+        "compiler_identity": "Debian clang version 14.0.6\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/bin",
+        "node_identity": "v22.22.0",
+        "python_identity": "Python 3.11.2"
+      },
+      "phase": "compiler_identity_freeze",
+      "source_commit": "ced7b178",
+      "started_jobs": 0,
+      "status": "intentional_identity_probe"
+    }
+  ],
+  "fresh_episode_visits": 0,
+  "schema": "ilxyr.reasoner_cloud_preparation_failures.v1"
+}
