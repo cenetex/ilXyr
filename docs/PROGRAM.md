@@ -10,7 +10,13 @@ rules. Solomon's fresh panel favored smoothed suffix-count confidence. The
 weight corpus reached its call limit with 79,452 training rows preserved.
 ZERO.4 stopped at its disk-reserve check before scientific work. Four result
 checks pass after download, and ZERO.4's failure records verify. The shared
-failure ledger now has 70 entries, with a linked next design for each project.
+failure ledger now has 71 entries, with a linked next design for each project.
+
+The [weight yield audit](../experiments/research-step-54/REPORT.md) finds that
+81.63% of generation calls repeat earlier queries. Almost all those repeats miss
+the requested stratum. Nonzero yield falls from 3,012 to 53 accepted rows per full
+250,000-call block. The next design caches exact results and measures unique
+accepted yield under the final query and orbit rules as the selected set grows.
 
 The [FERAL request control](../experiments/research-step-53/REPORT.md) fixes the
 opened wrong-index answer and solves 22 invented wording cases. It also loses

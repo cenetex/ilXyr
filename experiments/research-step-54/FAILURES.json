@@ -1,0 +1,33 @@
+{
+  "claim_boundary": "The cache proposal and revised pilot still need implementation and a separately frozen comparison.",
+  "failures": [
+    {
+      "id": "repeated-rejection-queries",
+      "next": "Cache completed exact query results across rejected and accepted candidates; record cache hits separately from calls.",
+      "observed": "1,962,195 of 2,403,763 generation calls repeat a canonical query from generation; 1,960,732 of those repeats miss the requested stratum. All repeated query values agree.",
+      "source": "generateStratified deletes rejected query keys from usedQueries and releases their orbit reservations. createCandidateBatch can propose those queries again."
+    },
+    {
+      "id": "pilot-yield-target-mismatch",
+      "interpretation": "Raw label yield fails to predict new usable rows as the selected set grows. The trace measures the drift; attribution between orbit exclusion, finite support and candidate draws needs new counters.",
+      "next": "Measure accepted unique rows under the final selection rules at increasing occupancy for every quota.",
+      "observed": "The pilot uses sampling with replacement. Training dominant label 1 has 483 hits but only 234 distinct matching queries. Generation obtains 517 matching rows from 301,409 calls for that slice.",
+      "source": "Budget.freeze uses hits/attempts. Generation applies query and orbit exclusions before dispatch."
+    },
+    {
+      "id": "declining-nonzero-yield",
+      "next": "Gate projected quota completion on an occupancy curve and candidate support; retain the original call and resource limits.",
+      "observed": "Nonzero accepted rows per 250,000 generation calls fall from 3,012 in the first block to 53 in the final full block. The last partial 153,763 calls produce 30."
+    }
+  ],
+  "local_preparation_failures": [
+    {
+      "error": "Initial append failed because family and project used weight-multiplicity, which is outside the verdict schema enums. The following copy then failed because append had produced no output.",
+      "id": "verdict-enum-fields",
+      "repair": "Use existing family ilxyr and project weight_multiplicity. Run append with a checked exit before replacing the ledger.",
+      "research_effect": "The prior 70 entries remained unchanged."
+    }
+  ],
+  "schema": "ilxyr.weight_yield_failures.v1",
+  "status": "diagnosed_opened_run"
+}
