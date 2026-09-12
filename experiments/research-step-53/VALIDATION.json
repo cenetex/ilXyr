@@ -1,0 +1,32 @@
+{
+  "full_source_ci": {
+    "head": "40662371339120917e4f2072803bb3c3ecf66a8a",
+    "run": 34724865643,
+    "status": "passed"
+  },
+  "ledger_check_sha256": "5437cf76203844b841810f1076c8cdb6630d0a2867b5455415d0dd11243efbdc",
+  "local_schema_suite": {
+    "receipt_sha256": "afd015e642006b2e86f97f654b8acadaa66a17b1f607fdd11aa7e9794ac7fcd7",
+    "scope": "Full suite during development. The final year-label repair also passed the separate 14-test run and the full source CI suite.",
+    "status": "passed",
+    "wall_seconds": 173.892316625
+  },
+  "records": {
+    "DESIGN.json": "2949facc5eb99ce793fa74a4c0d95fb76e99f85aa67d99fd1ed27eb3a810aef3",
+    "FAILURES.json": "63c732ca0f2ef88134b3c89fd874ff7c7c1e5f7bc056d5ee350b087d7f25f73b",
+    "NEXT.json": "2caafcc9239c4080f493cb8246fb979562e531d4c259e249dd941ffb3104974c",
+    "RESULT.json": "2fa95d97add754d9a343ca576b4a15eeedf95daeb1fa2e151616ac78aabd0ffb",
+    "RUNTIME-CHECK.json": "51cd7d3332f28e0aa3172f5a7f73749317ed251c167439dc034ae86efaf6e7d3",
+    "SOURCES.json": "95451d75e7f5ed8d0e1ca6cd57f60ca8ce6882ab2787f9e2b600cd5cbf6a1956"
+  },
+  "retained_ledger_entries": 69,
+  "schema": "ilxyr.feral_entity_control_validation.v1",
+  "source_commit": "40662371339120917e4f2072803bb3c3ecf66a8a",
+  "status": "tests_and_cross_platform_development_checks_passed",
+  "total_ledger_entries": 70,
+  "unit_tests": {
+    "receipt_sha256": "fbdc844e2bdd8286555834f30ae1d7bc115be1d78020b11130e0da0f66389f9d",
+    "status": "passed",
+    "tests": 14
+  }
+}

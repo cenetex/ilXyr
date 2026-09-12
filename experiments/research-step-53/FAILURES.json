@@ -1,0 +1,39 @@
+{
+  "failures": [
+    {
+      "after": "V3 requires the complete entity label and abstains when the requested index is absent.",
+      "before": "V2 reduces S&P 500 Index to index and selects a different index.",
+      "id": "generic-index-overlap",
+      "scope": "One opened failure and controlled source changes.",
+      "source": "experiments/research-step-51/FERAL-DIAGNOSTIC.json",
+      "source_sha256": "e768ce828282012028154ec4a55e2aea58827366cc13ac19d6b57bc3f3a61f6f"
+    },
+    {
+      "after": "V3 uses both final wealth amounts and both source baseline amounts. It returns 90 percentage points.",
+      "before": "V2 subtracts final wealth amounts directly. It returns -180 on the invented unequal-baseline fixture.",
+      "id": "unequal-wealth-baselines",
+      "scope": "Invented source values of 120/50 and 300/200. This tests arithmetic interpretation."
+    },
+    {
+      "after": "V3 abstains on all three. The two required abstentions remain correct.",
+      "before": "V2 answers all three numeric questions in the five old development cases.",
+      "causes": [
+        "Masco common stock requires a mapping to the shorter table label and a shared investment baseline from prose.",
+        "Private investor repurchase claims requires the table category and its context.",
+        "Research and development costs requires a mapping to expense."
+      ],
+      "decision": "Retain v3 as a comparison control. Replacement remains on hold.",
+      "evidence_sha256": "2fa95d97add754d9a343ca576b4a15eeedf95daeb1fa2e151616ac78aabd0ffb",
+      "id": "strict-label-development-coverage"
+    },
+    {
+      "after_sha256": "40a33846ee3ddfe67ce240fa870ac0c3dfad2eedb5f5f1614bbd9c1c32e753f4",
+      "before_sha256": "ba7dbf8f5b3d3168411e7d3f2bb52793a9337c02e3e74d86f566ac178221398c",
+      "id": "year-bearing-entity-label",
+      "observed": "The inherited parser discarded Target 2030 Fund because its label contains a year.",
+      "repair": "The v3 canonical cell parser preserves a year inside the entity label and reads the separate fact period.",
+      "scope": "Invented 2030 and 2035 fund labels with 2025 facts and source-span checks."
+    }
+  ],
+  "schema": "ilxyr.feral_entity_control_failures.v1"
+}

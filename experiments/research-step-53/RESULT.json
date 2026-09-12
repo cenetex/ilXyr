@@ -1,0 +1,510 @@
+{
+  "decision": "Keep v3 as an explicit-request control. Its loss of all three older numeric answers keeps replacement on hold.",
+  "development_predictor_calls_including_one_replay": 111,
+  "fresh_evaluation_calls": 0,
+  "invented": {
+    "arms": {
+      "calculator_v1": {
+        "abstained": 17,
+        "canonical_correct": 5,
+        "paraphrase_correct": 0,
+        "wrong_numeric": 0
+      },
+      "calculator_v2": {
+        "abstained": 11,
+        "canonical_correct": 10,
+        "paraphrase_correct": 0,
+        "wrong_numeric": 1
+      },
+      "calculator_v3": {
+        "abstained": 0,
+        "canonical_correct": 11,
+        "paraphrase_correct": 11,
+        "wrong_numeric": 0
+      },
+      "v3_operand_only": {
+        "abstained": 0,
+        "canonical_correct": 1,
+        "paraphrase_correct": 1,
+        "wrong_numeric": 20
+      }
+    },
+    "cases": 22
+  },
+  "next": "Test context-supported question-to-fact mapping with source spans, entity-confusion controls, and independent fresh wording.",
+  "older_development": {
+    "calculator_v1": {
+      "abstention_cases": 2,
+      "correct_abstentions": 2,
+      "numeric_cases": 3,
+      "numeric_correct": 2,
+      "rows": [
+        {
+          "correct": false,
+          "id": "MAS/2017/page_27.pdf-2",
+          "kind": "numeric",
+          "prediction": null,
+          "reason": "question_needs_distinct_years"
+        },
+        {
+          "correct": true,
+          "id": "AES/2002/page_128.pdf-2",
+          "kind": "abstention",
+          "prediction": null,
+          "reason": "question_needs_distinct_years"
+        },
+        {
+          "correct": true,
+          "id": "PNC/2012/page_100.pdf-3",
+          "kind": "numeric",
+          "prediction": "184",
+          "reason": "answered"
+        },
+        {
+          "correct": true,
+          "id": "CE/2016/page_19.pdf-4",
+          "kind": "numeric",
+          "prediction": "38.37%",
+          "reason": "answered"
+        },
+        {
+          "correct": true,
+          "id": "HIG/2011/page_53.pdf-4",
+          "kind": "abstention",
+          "prediction": null,
+          "reason": "missing_matching_series"
+        }
+      ]
+    },
+    "calculator_v2": {
+      "abstention_cases": 2,
+      "correct_abstentions": 2,
+      "numeric_cases": 3,
+      "numeric_correct": 3,
+      "rows": [
+        {
+          "correct": true,
+          "id": "MAS/2017/page_27.pdf-2",
+          "kind": "numeric",
+          "prediction": "111.97",
+          "reason": "answered"
+        },
+        {
+          "correct": true,
+          "id": "AES/2002/page_128.pdf-2",
+          "kind": "abstention",
+          "prediction": null,
+          "reason": "question_needs_distinct_years"
+        },
+        {
+          "correct": true,
+          "id": "PNC/2012/page_100.pdf-3",
+          "kind": "numeric",
+          "prediction": "184",
+          "reason": "answered"
+        },
+        {
+          "correct": true,
+          "id": "CE/2016/page_19.pdf-4",
+          "kind": "numeric",
+          "prediction": "38.37%",
+          "reason": "answered"
+        },
+        {
+          "correct": true,
+          "id": "HIG/2011/page_53.pdf-4",
+          "kind": "abstention",
+          "prediction": null,
+          "reason": "missing_matching_series"
+        }
+      ]
+    },
+    "calculator_v3": {
+      "abstention_cases": 2,
+      "correct_abstentions": 2,
+      "numeric_cases": 3,
+      "numeric_correct": 0,
+      "rows": [
+        {
+          "correct": false,
+          "id": "MAS/2017/page_27.pdf-2",
+          "kind": "numeric",
+          "prediction": null,
+          "reason": "missing_requested_entity"
+        },
+        {
+          "correct": true,
+          "id": "AES/2002/page_128.pdf-2",
+          "kind": "abstention",
+          "prediction": null,
+          "reason": "unsupported_or_ambiguous_request"
+        },
+        {
+          "correct": false,
+          "id": "PNC/2012/page_100.pdf-3",
+          "kind": "numeric",
+          "prediction": null,
+          "reason": "unsupported_or_ambiguous_request"
+        },
+        {
+          "correct": false,
+          "id": "CE/2016/page_19.pdf-4",
+          "kind": "numeric",
+          "prediction": null,
+          "reason": "missing_requested_entity"
+        },
+        {
+          "correct": true,
+          "id": "HIG/2011/page_53.pdf-4",
+          "kind": "abstention",
+          "prediction": null,
+          "reason": "missing_requested_entity"
+        }
+      ]
+    },
+    "v3_operand_only": {
+      "abstention_cases": 2,
+      "correct_abstentions": 2,
+      "numeric_cases": 3,
+      "numeric_correct": 0,
+      "rows": [
+        {
+          "correct": false,
+          "id": "MAS/2017/page_27.pdf-2",
+          "kind": "numeric",
+          "prediction": null,
+          "reason": "missing_requested_entity"
+        },
+        {
+          "correct": true,
+          "id": "AES/2002/page_128.pdf-2",
+          "kind": "abstention",
+          "prediction": null,
+          "reason": "unsupported_or_ambiguous_request"
+        },
+        {
+          "correct": false,
+          "id": "PNC/2012/page_100.pdf-3",
+          "kind": "numeric",
+          "prediction": null,
+          "reason": "unsupported_or_ambiguous_request"
+        },
+        {
+          "correct": false,
+          "id": "CE/2016/page_19.pdf-4",
+          "kind": "numeric",
+          "prediction": null,
+          "reason": "missing_requested_entity"
+        },
+        {
+          "correct": true,
+          "id": "HIG/2011/page_53.pdf-4",
+          "kind": "abstention",
+          "prediction": null,
+          "reason": "missing_requested_entity"
+        }
+      ]
+    }
+  },
+  "opened_index_failure": {
+    "after": {
+      "arm": "calculator",
+      "exact_result": null,
+      "operands": [
+        {
+          "evidence_id": "e05",
+          "label": "Apple Inc.",
+          "span": [
+            26,
+            30
+          ],
+          "text": "$234",
+          "unit": "usd",
+          "value": "234",
+          "year": 2025
+        }
+      ],
+      "operation": "ratio",
+      "prediction": null,
+      "reason": "missing_requested_entity",
+      "request": {
+        "facts": [
+          {
+            "label": "apple inc",
+            "year": 2025
+          },
+          {
+            "label": "s&p 500 index",
+            "year": 2025
+          }
+        ],
+        "operation": "ratio",
+        "question_sha256": "ee85f906ab96b84f2fccb9d5687fcc2b4bb67cf844716a81fecd93094ab3a262",
+        "schema": "ilxyr.feral_arithmetic_request.v1"
+      },
+      "schema": "ilxyr.feral_evidence_calculator.v3",
+      "unit": null,
+      "work": {
+        "arithmetic_operations": 0,
+        "evidence_rows": 12,
+        "fact_lookups": 2,
+        "parsed_cells": 12
+      }
+    },
+    "before": {
+      "arm": "calculator",
+      "exact_result": "234/287",
+      "operands": [
+        {
+          "evidence_id": "e05",
+          "label": "Apple Inc.",
+          "span": [
+            26,
+            30
+          ],
+          "text": "$234",
+          "unit": "usd",
+          "value": "234",
+          "year": 2025
+        },
+        {
+          "evidence_id": "e11",
+          "label": "Dow Jones U.S. Technology Total Stock Market Index",
+          "span": [
+            66,
+            70
+          ],
+          "text": "$287",
+          "unit": "usd",
+          "value": "287",
+          "year": 2025
+        }
+      ],
+      "operation": "ratio",
+      "prediction": "0.82",
+      "reason": "answered",
+      "route": "single_year",
+      "schema": "ilxyr.feral_evidence_calculator.v2",
+      "selected_series": [
+        "apple inc.",
+        "dow jones u.s. technology total stock market index"
+      ],
+      "unit": "ratio",
+      "work": {
+        "arithmetic_operations": 1,
+        "evidence_rows": 12,
+        "parsed_cells": 12,
+        "series_scored": 4
+      }
+    },
+    "old_entity_words": [
+      "index"
+    ],
+    "source_sha256": "e768ce828282012028154ec4a55e2aea58827366cc13ac19d6b57bc3f3a61f6f"
+  },
+  "previous_development_source_sha256": "f554af04923799b4cb22c1928efd7d6c808d76488ef7f48e91344df225669261",
+  "promotion_evidence": false,
+  "schema": "ilxyr.feral_entity_contract_diagnostic.v1",
+  "scope": "22 invented numeric questions, five old development cases, and one opened failure from the completed comparison.",
+  "status": "complete_development_coverage_hold",
+  "traces_sha256": "75e4ae22a378e5722f83dd460cc1e0994517dd6166a17fe38ca0bf36c022e270",
+  "unequal_return_baselines": {
+    "expected_percentage_points": "90",
+    "source_facts": [
+      [
+        "a0",
+        "the Alpha Inc. of 2020 is $50"
+      ],
+      [
+        "a4",
+        "the Alpha Inc. of 2024 is $80"
+      ],
+      [
+        "a5",
+        "the Alpha Inc. of 2025 is $120"
+      ],
+      [
+        "b0",
+        "the Beta Index of 2020 is $200"
+      ],
+      [
+        "b4",
+        "the Beta Index of 2024 is $240"
+      ],
+      [
+        "b5",
+        "the Beta Index of 2025 is $300"
+      ]
+    ],
+    "traces": [
+      {
+        "arm": "calculator_v2",
+        "case": 10,
+        "expected": {
+          "evidence_ids": [
+            "a5",
+            "a0",
+            "b5",
+            "b0"
+          ],
+          "exact": "90",
+          "unit": "percentage_points"
+        },
+        "question": "What was the difference in percentage cumulative total shareholder return on Alpha Inc. versus Beta Index for the five year period ended 2025?",
+        "result": {
+          "arm": "calculator",
+          "exact_result": "-180",
+          "operands": [
+            {
+              "evidence_id": "a5",
+              "label": "Alpha Inc.",
+              "span": [
+                26,
+                30
+              ],
+              "text": "$120",
+              "unit": "usd",
+              "value": "120",
+              "year": 2025
+            },
+            {
+              "evidence_id": "b5",
+              "label": "Beta Index",
+              "span": [
+                26,
+                30
+              ],
+              "text": "$300",
+              "unit": "usd",
+              "value": "300",
+              "year": 2025
+            }
+          ],
+          "operation": "difference",
+          "prediction": "-180",
+          "reason": "answered",
+          "route": "single_year",
+          "schema": "ilxyr.feral_evidence_calculator.v2",
+          "selected_series": [
+            "alpha inc.",
+            "beta index"
+          ],
+          "unit": "percentage_points",
+          "work": {
+            "arithmetic_operations": 1,
+            "evidence_rows": 6,
+            "parsed_cells": 6,
+            "series_scored": 4
+          }
+        },
+        "scope": "invented",
+        "style": "canonical"
+      },
+      {
+        "arm": "calculator_v3",
+        "case": 10,
+        "expected": {
+          "evidence_ids": [
+            "a5",
+            "a0",
+            "b5",
+            "b0"
+          ],
+          "exact": "90",
+          "unit": "percentage_points"
+        },
+        "question": "What was the difference in percentage cumulative total shareholder return on Alpha Inc. versus Beta Index for the five year period ended 2025?",
+        "result": {
+          "arm": "calculator",
+          "exact_result": "90",
+          "operands": [
+            {
+              "evidence_id": "a5",
+              "label": "Alpha Inc.",
+              "span": [
+                26,
+                30
+              ],
+              "text": "$120",
+              "unit": "usd",
+              "value": "120",
+              "year": 2025
+            },
+            {
+              "evidence_id": "a0",
+              "label": "Alpha Inc.",
+              "span": [
+                26,
+                29
+              ],
+              "text": "$50",
+              "unit": "usd",
+              "value": "50",
+              "year": 2020
+            },
+            {
+              "evidence_id": "b5",
+              "label": "Beta Index",
+              "span": [
+                26,
+                30
+              ],
+              "text": "$300",
+              "unit": "usd",
+              "value": "300",
+              "year": 2025
+            },
+            {
+              "evidence_id": "b0",
+              "label": "Beta Index",
+              "span": [
+                26,
+                30
+              ],
+              "text": "$200",
+              "unit": "usd",
+              "value": "200",
+              "year": 2020
+            }
+          ],
+          "operation": "return_difference",
+          "prediction": "90",
+          "reason": "answered",
+          "request": {
+            "facts": [
+              {
+                "label": "alpha inc",
+                "year": 2025
+              },
+              {
+                "label": "alpha inc",
+                "year": 2020
+              },
+              {
+                "label": "beta index",
+                "year": 2025
+              },
+              {
+                "label": "beta index",
+                "year": 2020
+              }
+            ],
+            "operation": "return_difference",
+            "question_sha256": "0db345fd44f56de637177ef4398a3474321ff1dbf066982ac4581d16a84eb4ba",
+            "schema": "ilxyr.feral_arithmetic_request.v1"
+          },
+          "schema": "ilxyr.feral_evidence_calculator.v3",
+          "unit": "percentage_points",
+          "work": {
+            "arithmetic_operations": 4,
+            "evidence_rows": 6,
+            "fact_lookups": 4,
+            "parsed_cells": 6
+          }
+        },
+        "scope": "invented",
+        "style": "canonical"
+      }
+    ]
+  }
+}
