@@ -1,0 +1,180 @@
+{
+  "schema": "ilxyr.constraint_diff_report.v1",
+  "report_id": "constraint-diff:zero4.storage-repair.step52",
+  "experiment_id": "zero4.storage-repair.step52",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "ledger_ref": "artifact://sha256/23934f7d4e72aed4330f14a63d84784a94fb28ed74fc7bc39c850cc08b74a931",
+  "generated_at_ms": 1789251608112,
+  "proposed_mechanism_tags": [
+    "fixed-runtime",
+    "bounded-cost",
+    "storage-capacity"
+  ],
+  "matches": [
+    {
+      "verdict_id": "verdict:research.step35.storage-retention.v1",
+      "experiment_id": "research.step35.storage-retention.v1",
+      "family": "ilxyr",
+      "outcome": "execution_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "bounded-cost"
+      ],
+      "verdict_summary": "The first live check found that the study bucket had no lifecycle configuration. The scoped repair added expiry for the new study prefixes.",
+      "same_mechanism_tags": false,
+      "project": "weight_multiplicity",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Verify current and old object expiry before staging, and preserve earlier rules when adding a study.",
+      "verdict_ref": "artifact://sha256/6f4500eba0a4c23ea9f170d058b84291c8183c779fa9361db35dd0b03056f4a6",
+      "evidence_ref": "artifact://sha256/cb357f2342c1e9695447ca889f269deb45e14a83a3e194c1c5e833e853e5c551",
+      "evidence_path": "experiments/research-step-35/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step38.runtime-toolchain.v1",
+      "experiment_id": "research.step38.runtime-toolchain.v1",
+      "family": "solomon",
+      "outcome": "execution_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "fixed-runtime"
+      ],
+      "verdict_summary": "The source selected the stable Rust toolchain, which triggered an update inside a read-only image. A separate cross-platform vendor check differed because newer Cargo added comment metadata.",
+      "same_mechanism_tags": false,
+      "project": "solomon",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Select the installed 1.98.0 toolchain and normalize verified package and file checksums before packing the vendor archive.",
+      "verdict_ref": "artifact://sha256/2353592e9828b58c284c14a0eada4ca9da91953a1cf2952550d72aaa9931dbb7",
+      "evidence_ref": "artifact://sha256/82d0a88ac0c14e64e5f47956fc62a2e3dad2e485ae0bbf50a8ac1cf7c7fef7c1",
+      "evidence_path": "experiments/research-step-38/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step45.run-preflight-binding.v1",
+      "experiment_id": "research.step45.run-preflight-binding.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "bounded-cost"
+      ],
+      "verdict_summary": "The old ZERO.4 launcher accepted a preflight for another run ID and reused that other output-prefix check in a controlled probe.",
+      "same_mechanism_tags": false,
+      "project": "zero4",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Record the run ID in each preflight and require its exact match at dispatch. Verify rejection before any provider call.",
+      "verdict_ref": "artifact://sha256/a49f5cbd683dddfa42b996c86555e12c5d189aa34973415a08c8026790626880",
+      "evidence_ref": "artifact://sha256/72fb79edf55682efa3c09a6d6c026a8a6104dde28e5bbbdcb70ffe3ad5a29099",
+      "evidence_path": "experiments/research-step-45/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step46.host-runtime-intake.v1",
+      "experiment_id": "research.step46.host-runtime-intake.v1",
+      "family": "zero",
+      "outcome": "execution_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "fixed-runtime"
+      ],
+      "verdict_summary": "The GCC build stopped on a maybe-uninitialized warning in the frozen gradient function. The next Swift image lacked Python and stopped before study jobs.",
+      "same_mechanism_tags": false,
+      "project": "reasoner",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Verify the complete tool roster inside the fixed image and bind compiler, Python and Node identities before packaging.",
+      "verdict_ref": "artifact://sha256/0d206d2d74880eaf7fd002aaabd8b836755970f930f4140437b59b01130cbbf5",
+      "evidence_ref": "artifact://sha256/84f67e09ea6fae3decf09c0d8dba8e9695d0c60d16a266448a458c3c5d9cb1bc",
+      "evidence_path": "experiments/research-step-46/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step50.shared-run-preflight.v1",
+      "experiment_id": "research.step50.shared-run-preflight.v1",
+      "family": "ilxyr",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "bounded-cost"
+      ],
+      "verdict_summary": "The older Solomon and weight launchers each accepted a preflight for another run ID. Each controlled reproduction reached one fake EC2 request; actual instances created were zero.",
+      "same_mechanism_tags": false,
+      "project": "program",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Apply the exact run-ID check across all five launchers and retain the shared fifty-case test.",
+      "verdict_ref": "artifact://sha256/e7266c4e0aa5d291c761eacbc3ec8e12fefc4a112148cdd074ec7c8f4dee4930",
+      "evidence_ref": "artifact://sha256/546495231305b47e0a4a3a689ecd16c75e0e835c6041ce842ad89e8bd07f46a2",
+      "evidence_path": "experiments/research-step-50/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step50.public-build-input-timeout.v1",
+      "experiment_id": "research.step50.public-build-input-timeout.v1",
+      "family": "ilxyr",
+      "outcome": "execution_failure",
+      "taxonomy": "venue",
+      "matched_tags": [
+        "fixed-runtime"
+      ],
+      "verdict_summary": "The weight source-kit CI job timed out after sixty seconds while opening a fixed public build-input URL. The same job passed on its second attempt with the same source and input hashes.",
+      "same_mechanism_tags": false,
+      "project": "weight_multiplicity",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Retain the first log and retry identity. Distinguish source-transfer failures from compiler or scientific outcomes.",
+      "verdict_ref": "artifact://sha256/e5bb48ff469905d34b4b197b72a91c7d9f3ae2b28694f215dc2464f1bdb39bd1",
+      "evidence_ref": "artifact://sha256/546495231305b47e0a4a3a689ecd16c75e0e835c6041ce842ad89e8bd07f46a2",
+      "evidence_path": "experiments/research-step-50/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step51.weight-outcome.v1",
+      "experiment_id": "research.step51.weight-outcome.v1",
+      "family": "ilxyr",
+      "outcome": "measurement_floor",
+      "taxonomy": "venue",
+      "matched_tags": [
+        "bounded-cost"
+      ],
+      "verdict_summary": "The full corpus attempt reached its 2430387 workload-call limit and preserved 79452 training rows. The independent checker confirmed a resource Hold. Final p99 acceptance remained pending corpus completion.",
+      "same_mechanism_tags": false,
+      "project": "weight_multiplicity",
+      "evidence_kind": "existing_public_result",
+      "source_outcome": "verified_hold",
+      "lineage_note": "Trace observed yield and duplicate or rejected draws by stratum against the pilot projection. Keep the original budget and incomplete corpus status visible.",
+      "verdict_ref": "artifact://sha256/a2de886633b14d0495fc06a31a9092d10408f36c416951ccb2cb40f0d59d3c9a",
+      "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+      "evidence_path": "experiments/research-step-51/FINDINGS.json"
+    },
+    {
+      "verdict_id": "verdict:research.step51.zero4-outcome.v1",
+      "experiment_id": "research.step51.zero4-outcome.v1",
+      "family": "zero",
+      "outcome": "execution_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "fixed-runtime",
+        "bounded-cost",
+        "storage-capacity"
+      ],
+      "verdict_summary": "The host stopped before scientific work when available disk space was 27919421440 bytes and the frozen reserve required 39795556352 bytes. Its failure archive and provider cleanup verified.",
+      "same_mechanism_tags": true,
+      "project": "zero4",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "execution_failure",
+      "lineage_note": "Size the root disk for the observed image footprint plus the frozen output and archive reserve, then test and publish a replacement package.",
+      "verdict_ref": "artifact://sha256/4e8c6dd08c87dcdd8385734e6a53fd505576bf837be8431af4433324ffc30bcc",
+      "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+      "evidence_path": "experiments/research-step-51/FINDINGS.json"
+    }
+  ],
+  "taxonomy_counts": {
+    "transfer": 0,
+    "interference": 0,
+    "measurement": 0,
+    "venue": 2,
+    "implementation": 6
+  },
+  "superseded_entries": 0,
+  "proposed_change": "Use a 160 GiB root disk, reserve the complete 80 GiB source snapshot plus setup and collection space, and verify the expanded filesystem before the same frozen study.",
+  "summary": "8 prior results share these mechanism tags. Review their evidence and the required design changes.",
+  "recommendation": "review"
+}

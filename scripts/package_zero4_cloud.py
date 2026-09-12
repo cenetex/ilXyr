@@ -6,13 +6,49 @@ from pathlib import Path
 import subprocess
 from package_solomon_cloud import archive, encode, read_archive, require, sha, write_files
 
-PLAN = 'experiments/research-step-45/EXECUTION-PLAN.json'
-BODY = 'scripts/aws/zero4-45-user-data.sh'
+PLAN = 'experiments/research-step-52/EXECUTION-PLAN.json'
+BODY = 'scripts/aws/zero4-52-user-data.sh'
 KIT = 'experiments/research-step-44/KIT.json'
 SOURCES = [PLAN, BODY, KIT, 'scripts/package_zero4_cloud.py', 'scripts/package_solomon_cloud.py',
            'scripts/zero4_cloud_runtime.py', 'scripts/zero4_cloud_collect.py',
            'scripts/zero4_cloud_launch.py', 'scripts/zero4_cloud_preflight.py', 'scripts/feral_cloud_package.py']
 MAX_BYTES = 128 * 1024 * 1024
+
+
+def layout(files):
+    versions = [step for step in [45, 52] if f'experiments/research-step-{step}/EXECUTION-PLAN.json' in files]
+    require(len(versions) == 1, 'one supported host plan required')
+    step = versions[0]
+    return step, f'experiments/research-step-{step}/EXECUTION-PLAN.json', f'scripts/aws/zero4-{step}-user-data.sh'
+
+
+def check_storage(plan):
+    sizing = plan['storage_sizing']
+    for name in ['root_snapshot_gib', 'setup_reserve_gib', 'filesystem_reserve_gib']:
+        require(type(sizing[name]) is int and sizing[name] > 0, 'storage sizing must use positive integer GiB')
+    require(sizing['setup_reserve_gib'] >= 16 and sizing['filesystem_reserve_gib'] >= 1, 'storage setup reserve differs')
+    required = (plan['study_limits']['max_output_bytes'] + plan['storage']['max_archive_bytes'] +
+                plan['storage']['archive_chunk_bytes'] + 1024**3)
+    minimum = sum(sizing[name] for name in ['root_snapshot_gib', 'setup_reserve_gib', 'filesystem_reserve_gib']) * 1024**3 + required
+    require(type(plan['provider']['disk_gib']) is int and plan['provider']['disk_gib'] > 0, 'root disk must use positive integer GiB')
+    planned = plan['provider']['disk_gib'] * 1024**3
+    require(planned >= minimum, 'root disk omits snapshot, setup or collection reserve')
+    return {'required_free_bytes': required, 'minimum_root_bytes': minimum, 'planned_root_bytes': planned,
+            'planned_headroom_bytes': planned - minimum}
+
+
+def disk_receipt(plan, filesystem):
+    sizing = check_storage(plan)
+    rows = filesystem.splitlines()
+    require(len(rows) == 2, 'one filesystem row required')
+    fields = rows[1].split()
+    require(len(fields) == 6, 'filesystem fields differ')
+    total, used, free = [int(value) * 1024 for value in fields[1:4]]
+    require(0 <= used <= total and 0 <= free <= total and used + free <= total, 'filesystem byte counts differ')
+    floor = sizing['planned_root_bytes'] - plan['storage_sizing']['filesystem_reserve_gib'] * 1024**3
+    return {**sizing, 'filesystem_bytes': total, 'used_bytes': used, 'free_bytes': free,
+            'minimum_filesystem_bytes': floor, 'required_bytes': sizing['required_free_bytes'],
+            'passes': total >= floor and free >= sizing['required_free_bytes']}
 
 
 def check_budget(plan):
@@ -40,10 +76,15 @@ def inspect(package, expected):
     require(package.stat().st_size <= MAX_BYTES, 'host package byte ceiling')
     raw = package.read_bytes(); require(sha(raw) == expected, 'host package digest differs')
     files = read_archive(raw); manifest = json.loads(files['HOST.json'])
-    require(set(files) == set(SOURCES) | {'controller.tar', 'prepared.tar', 'HOST.json'}, 'host roster differs')
+    step, plan_path, body_path = layout(files)
+    sources = (set(SOURCES) - {PLAN, BODY}) | {plan_path, body_path}
+    require(set(files) == sources | {'controller.tar', 'prepared.tar', 'HOST.json'}, 'host roster differs')
     require(manifest['files'] == {n: {'bytes': len(b), 'sha256': sha(b)} for n, b in files.items() if n != 'HOST.json'}, 'host member binding differs')
-    plan = json.loads(files[PLAN]); require(manifest['plan_sha256'] == sha(files[PLAN]), 'plan digest differs')
+    plan = json.loads(files[plan_path]); require(manifest['plan_sha256'] == sha(files[plan_path]), 'plan digest differs')
     check_budget(plan)
+    require(plan['storage']['package_prefix'] == f'packages/zero4-{step}/' and
+            plan['storage']['result_prefix'] == f'runs/zero4-{step}-', 'host storage namespace differs')
+    if step == 52: check_storage(plan)
     kit = json.loads(files[KIT]); controller = read_archive(files['controller.tar'])
     require(sha(files['controller.tar']) == kit['sha256'] == plan['controller_sha256'] and
             len(files['controller.tar']) == kit['bytes'] == plan['controller_bytes'], 'controller archive differs')

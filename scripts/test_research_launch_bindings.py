@@ -16,7 +16,7 @@ PROJECTS = [
     ('feral_coverage', 'feral-49', 1800, '0.15'),
     ('solomon', 'solomon38', 3600, '0.25'),
     ('weight', 'weight35', 5400, '2.00'),
-    ('zero4', 'zero4-45', 48600, '12.00'),
+    ('zero4', 'zero4-52', 48600, '12.00'),
 ]
 
 

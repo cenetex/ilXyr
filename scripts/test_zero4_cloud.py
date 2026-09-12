@@ -1,4 +1,4 @@
-"""Controlled host failures, archive integrity and approval boundaries for zero4-45."""
+"""Controlled host failures, archive integrity and approval boundaries for zero4-52."""
 import copy
 import hashlib
 import json
@@ -19,7 +19,7 @@ from zero4_cloud_preflight import lifecycle_rules
 from test_feral_bootstrap import STUB, write_tar
 
 ROOT = Path(__file__).resolve().parents[1]
-STUB = STUB.replace("if name=='docker':", "if name=='df':\n    print('Filesystem 1024-blocks Used Available Capacity Mounted on');print('fixture 83886080 16777216 '+('0' if mode=='storage' else '67108864')+' 20% /');sys.exit(0)\nif name=='docker':")
+STUB = STUB.replace("if name=='docker':", "if name=='df':\n    print('Filesystem 1024-blocks Used Available Capacity Mounted on');print('fixture 83808236 56543176 27265060 68% /' if mode=='observed-storage' else 'fixture 83808236 16777172 67031064 20% /' if mode=='unexpanded-storage' else 'fixture 167694316 56543176 '+('0' if mode=='storage' else '111151140')+' 34% /');sys.exit(0)\nif name=='docker':")
 STUB = STUB.replace("'g6e.2xlarge'", "'c6i.4xlarge'").replace('run/model/weight.bin', 'runtime/study/bin/lm').replace('run/source/grader/targets.jsonl', 'runtime/study/RESULT.json').replace('run/arms/base/predictions.jsonl', 'runtime/study/processes/0000-fixture/stdout.log').replace('run/execution.json', 'runtime/RUNTIME.json').replace("key.endswith('predictions.jsonl')", "key.endswith('results-00.part')")
 STUB = STUB.replace("if args[:2]==['image','inspect']:print('[]');sys.exit(0)", "if args[:2]==['image','inspect']:print(json.dumps([{'Id':'sha256:a3535ab419a167bf1c5acc0ea5d536c358152a9fb8dd8504068ef24bb0f4a1f1','Architecture':'amd64','Os':'linux'}]));sys.exit(0)").replace("if args[:2]==['rm','-f']:sys.exit(0)", "if args[:2]==['rm','-f']:sys.exit(0)\n    if args[0]=='inspect':print('[]');sys.exit(0)")
 
@@ -45,7 +45,7 @@ def fixture(root):
     manifest = {'plan_sha256': sha(files[PLAN]), 'files': {n: {'bytes': len(b), 'sha256': sha(b)} for n, b in files.items()}}
     files['HOST.json'] = encode(manifest)
     package = root / 'host.tar'; write_tar(package, files)
-    binding = {'run_id': 'zero4-45-20260912T000000Z', 'launch_epoch_seconds': int(time.time()), 'package_version': 'fixture-version', 'approval_reference': 'fixture-approval'}
+    binding = {'run_id': 'zero4-52-20260912T000000Z', 'launch_epoch_seconds': int(time.time()), 'package_version': 'fixture-version', 'approval_reference': 'fixture-approval'}
     network = {k: plan['provider'][k] for k in ['subnet_id', 'security_group_id']}
     return package, binding, network, manifest
 
@@ -78,6 +78,22 @@ def host(root, failure='', expired=False, tamper=False):
 
 
 class HostTests(unittest.TestCase):
+    def test_observed_space_failure_and_unexpanded_disk_stop_before_controller(self):
+        for mode in ['observed-storage', 'unexpanded-storage']:
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as name:
+                root = Path(name); result, calls, terminal, _ = host(root, mode)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual(terminal['phase'], 'storage')
+                self.assertEqual(calls[-1]['name'], 'shutdown')
+                self.assertFalse(any(v['name'] == 'docker' and v['args'][0] == 'run' for v in calls))
+                disk = json.loads((root / 'work/output/DISK.json').read_bytes())
+                self.assertFalse(disk['passes'])
+                if mode == 'observed-storage':
+                    self.assertEqual(disk['free_bytes'], 27919421440)
+                else:
+                    self.assertGreater(disk['free_bytes'], disk['required_bytes'])
+                    self.assertLess(disk['filesystem_bytes'], disk['minimum_filesystem_bytes'])
+
     def test_success_arms_watchdog_first_collects_native_bytes_and_uses_fixed_limits(self):
         with tempfile.TemporaryDirectory() as name:
             root = Path(name); result, calls, terminal, binding = host(root)
@@ -126,6 +142,44 @@ class HostTests(unittest.TestCase):
 
 
 class IntegrityTests(unittest.TestCase):
+    def test_storage_sizing_covers_snapshot_setup_and_observed_space(self):
+        from package_zero4_cloud import check_storage, disk_receipt
+        plan = json.loads((ROOT / PLAN).read_bytes())
+        sizing = check_storage(plan)
+        self.assertEqual(sizing['required_free_bytes'], 39795556352)
+        self.assertEqual(sizing['minimum_root_bytes'], 143948513280)
+        self.assertEqual(sizing['planned_root_bytes'], 160 * 1024**3)
+        observed = json.loads((ROOT / 'experiments/research-step-52/OBSERVED-DISK.json').read_bytes())
+        self.assertEqual(sha(observed['filesystem_text'].encode()), observed['filesystem_sha256'])
+        self.assertFalse(disk_receipt(plan, observed['filesystem_text'])['passes'])
+        expanded = observed['filesystem_text'].splitlines()
+        fields = expanded[1].split()
+        for position in [1, 3]: fields[position] = str(int(fields[position]) + 80 * 1024**2)
+        expanded[1] = ' '.join(fields)
+        receipt = disk_receipt(plan, '\n'.join(expanded) + '\n')
+        self.assertTrue(receipt['passes'])
+        self.assertEqual(receipt['free_bytes'], 113818767360)
+        plan['provider']['disk_gib'] = 128
+        with self.assertRaisesRegex(ValueError, 'root disk omits'): check_storage(plan)
+
+    def test_storage_check_retains_free_space_boundary(self):
+        from package_zero4_cloud import check_storage, disk_receipt
+        plan = json.loads((ROOT / PLAN).read_bytes()); required = check_storage(plan)['required_free_bytes']
+        total = 160 * 1024**2
+        for available, expected in [(required // 1024 - 1, False), (required // 1024, True)]:
+            text = f'Filesystem 1024-blocks Used Available Capacity Mounted on\nfixture {total} {total-available} {available} 70% /\n'
+            self.assertEqual(disk_receipt(plan, text)['passes'], expected)
+
+    def test_snapshot_capacity_must_match_sizing_basis(self):
+        from zero4_cloud_preflight import validate
+        plan = json.loads((ROOT / PLAN).read_bytes()); p = plan['provider']
+        data = {'identity': {'Account': p['account']}, 'image': {'Images': [{
+            'ImageId': p['ami_id'], 'State': 'available', 'Architecture': p['architecture'],
+            'BlockDeviceMappings': [{'DeviceName': p['root_device'], 'Ebs': {
+                'SnapshotId': p['root_snapshot_id'], 'VolumeSize': 81}}]}]}}
+        with self.assertRaisesRegex(ValueError, 'snapshot capacity differs'):
+            validate(data, plan, 'a' * 64, 1)
+
     def test_archive_bound_keeps_prefix_and_marks_incomplete(self):
         with tempfile.TemporaryDirectory() as name:
             root = Path(name); source = root / 'output'; source.mkdir()
@@ -165,7 +219,7 @@ class IntegrityTests(unittest.TestCase):
             self.assertEqual(request['MinCount'], 1); self.assertEqual(request['MaxCount'], 1)
             self.assertTrue(request['DryRun']); self.assertEqual(request['ClientToken'], binding['run_id'])
             self.assertEqual(request['MetadataOptions']['HttpTokens'], 'required')
-            disk = request['BlockDeviceMappings'][0]['Ebs']; self.assertEqual(disk['VolumeSize'], 80)
+            disk = request['BlockDeviceMappings'][0]['Ebs']; self.assertEqual(disk['VolumeSize'], 160)
             self.assertTrue(disk['Encrypted']); self.assertTrue(disk['DeleteOnTermination'])
             for key in ['run_id', 'package_version', 'approval_reference']:
                 with self.subTest(key=key), self.assertRaises(ValueError): render(package, expected, {**binding, key: 'x; touch /tmp/unsafe'}, network)
@@ -189,7 +243,7 @@ class IntegrityTests(unittest.TestCase):
             result = subprocess.run(command, env=env, capture_output=True, text=True, timeout=15)
             self.assertIn('fresh successful preflight required', result.stderr); self.assertFalse((root / 'calls.jsonl').exists())
             preflight = {'status': 'passed', 'package_sha256': expected, 'plan_sha256': manifest['plan_sha256'], 'package_version': binding['package_version'], 'checked_epoch': time.time()}
-            preflight['run_id'] = 'zero4-45-20260911T000000Z'
+            preflight['run_id'] = 'zero4-52-20260911T000000Z'
             (root / 'preflight.json').write_bytes(encode(preflight))
             wrong = subprocess.run(command + ['--preflight', str(root / 'preflight.json')], env=env, capture_output=True, text=True, timeout=15)
             if os.environ.get('ZERO4_CLOUD_TEST_RECEIPTS'):
@@ -240,7 +294,7 @@ class IntegrityTests(unittest.TestCase):
 
     def test_lifecycle_only_covers_new_study_folders(self):
         plan = json.loads((ROOT / PLAN).read_bytes()); rules = lifecycle_rules(plan)
-        self.assertEqual([v['Filter']['Prefix'] for v in rules[:2]], ['packages/zero4-45/', 'runs/zero4-45-'])
+        self.assertEqual([v['Filter']['Prefix'] for v in rules[:2]], ['packages/zero4-52/', 'runs/zero4-52-'])
         for rule in rules[:2]:
             self.assertEqual(rule['Expiration']['Days'], 30); self.assertEqual(rule['NoncurrentVersionExpiration']['NoncurrentDays'], 1)
 
