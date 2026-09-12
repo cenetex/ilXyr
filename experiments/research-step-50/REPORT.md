@@ -133,3 +133,7 @@ The first response check included an extra provider metadata field and failed
 a whole-object comparison. Comparing the submitted rules and retained metadata
 separately resolved the check. That failure is preserved in FAILURES.json.
 The full local schema suite and source CI pass; RESULT.json binds their scope.
+
+The final source-kit CI check also recorded a public-input download timeout
+before compilation. Its unchanged second attempt passed. The first log and
+retry identity remain in FAILURES.json and the private evidence folder.

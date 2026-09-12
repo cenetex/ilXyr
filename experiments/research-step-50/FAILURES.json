@@ -154,6 +154,19 @@
       "provider_write_count": 1,
       "resolution": "Compare the submitted Rules with returned Rules, then verify every prior rule and provider metadata field separately. All eight earlier rules and the metadata remain identical; twelve rules cover the three new packages and result prefixes.",
       "status": "verified_after_comparison_repair"
+    },
+    {
+      "actual_instances_created": 0,
+      "ci_attempt": 1,
+      "ci_run": 34718366356,
+      "head": "c4ee4042b504a283c4e90e9d6ae6e8d7d4e949f1",
+      "id": "ci-public-build-input-timeout",
+      "log_sha256": "907952d9f5b096ee5777be0fb15a39ac195a725cb6054d23503042e1639a6a28",
+      "observed": "The weight source-kit job timed out after 60 seconds while opening a fixed public build-input URL. The job stopped before compilation.",
+      "resolution": "The same job passed on its second attempt with the same code and fixed input hashes.",
+      "retry_attempt": 2,
+      "retry_receipt_sha256": "e812f5ea90dccb58983a9fd598aa7a6e29d618e86d063a72bf23f9627d735340",
+      "status": "unchanged_retry_passed"
     }
   ],
   "preserved_source_reproduction": {
