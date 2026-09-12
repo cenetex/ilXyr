@@ -1,0 +1,15 @@
+{
+  "archive_name": "package-01.tar",
+  "bytes": 54886400,
+  "calculated_ceiling_before_tax_usd": "11.5591",
+  "local_check_sha256": "a72ac2b321cea92c31dec2bb2946dda4d7a8881e86ff8258c553a657cfae0d7c",
+  "maximum_before_tax_usd": "12.00",
+  "maximum_instance_seconds": 48600,
+  "plan_sha256": "15348fa220cca1c84ba0d3c89f831baa32aac7404eea11c5e735c82cb3f3b109",
+  "provider_instance_type": "c6i.4xlarge",
+  "root_disk_gib": 160,
+  "schema": "ilxyr.zero4_cloud_package.v1",
+  "sha256": "2c95f705a90146f77e120ba844f36f7031440d854bf9373ab809d2369aba026a",
+  "source_commit": "0c0eee3239fb3f078742200b567aa1b26541036f",
+  "status": "built_and_locally_checked"
+}
