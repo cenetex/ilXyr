@@ -21,7 +21,7 @@ from test_feral_bootstrap import STUB, write_tar
 ROOT = Path(__file__).resolve().parents[1]
 STUB = STUB.replace("if name=='docker':", "if name=='df':\n    print('Filesystem 1024-blocks Used Available Capacity Mounted on');print('fixture 83886080 16777216 '+('0' if mode=='storage' else '67108864')+' 20% /');sys.exit(0)\nif name=='docker':")
 STUB = STUB.replace("'g6e.2xlarge'", "'c6i.large'").replace('run/model/weight.bin', 'runtime/study/bin/lm').replace('run/source/grader/targets.jsonl', 'runtime/study/RESULT.json').replace('run/arms/base/predictions.jsonl', 'runtime/study/processes/0000-fixture/stdout.log').replace('run/execution.json', 'runtime/RUNTIME.json').replace("key.endswith('predictions.jsonl')", "key.endswith('results-00.part')")
-STUB = STUB.replace("if args[:2]==['image','inspect']:print('[]');sys.exit(0)", "if args[:2]==['image','inspect']:print(json.dumps([{'Id':'sha256:2ac3c6609ceba9bcafff275e0c96a180ad66460923c474003095c64ebf5581fb','Architecture':'amd64','Os':'linux'}]));sys.exit(0)").replace("if args[:2]==['rm','-f']:sys.exit(0)", "if args[:2]==['rm','-f']:sys.exit(0)\n    if args[0]=='inspect':print('[]');sys.exit(0)")
+STUB = STUB.replace("if args[:2]==['image','inspect']:print('[]');sys.exit(0)", "if args[:2]==['image','inspect']:print(json.dumps([{'Id':'sha256:7b4141c49095bb5a8dfa2ba85266d4f1d836887c46deb33b43f542387e5656bd','Architecture':'amd64','Os':'linux'}]));sys.exit(0)").replace("if args[:2]==['rm','-f']:sys.exit(0)", "if args[:2]==['rm','-f']:sys.exit(0)\n    if args[0]=='inspect':print('[]');sys.exit(0)")
 
 
 def fixture(root):
@@ -137,6 +137,19 @@ class HostTests(unittest.TestCase):
 
 
 class IntegrityTests(unittest.TestCase):
+    def test_node_archive_requires_fixed_bytes_and_bounded_regular_binary(self):
+        from package_reasoner_study_cloud import node_bytes, read_archive
+        with tempfile.TemporaryDirectory() as name:
+            package, _, _, _ = fixture(Path(name))
+            files = read_archive(package.read_bytes()); plan = json.loads(files[PLAN]); raw = files['node.tar.xz']
+            self.assertEqual(node_bytes(raw, plan['node_binary']), b'controlled-node')
+            with self.assertRaisesRegex(ValueError, 'Node archive differs'):
+                node_bytes(raw[:-1] + bytes([raw[-1] ^ 1]), plan['node_binary'])
+            with self.assertRaisesRegex(ValueError, 'byte ceiling'):
+                node_bytes(raw, {**plan['node_binary'], 'binary_bytes': 129 * 1024**2})
+            with self.assertRaisesRegex(ValueError, 'Node binary differs'):
+                node_bytes(raw, {**plan['node_binary'], 'binary_sha256': '0' * 64})
+
     def test_archive_bound_keeps_prefix_and_marks_incomplete(self):
         with tempfile.TemporaryDirectory() as name:
             root = Path(name); source = root / 'output'; source.mkdir()
