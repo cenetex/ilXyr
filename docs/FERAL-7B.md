@@ -1,5 +1,9 @@
 # FERAL-7B training lab
 
+The [v3 XBRL and regulatory tagging proposal](FERAL-7B-V3-XBRL-REGULATORY-PROPOSAL.md)
+sets out a research plan for structured evidence, exact calculations, and
+requirement-linked analysis, with comparisons against the existing controls.
+
 FERAL-7B is owned by ilXyr as a training experiment. The surrounding systems have narrower roles:
 
 - Braid builds and releases `dataset://braid/feral-7b-sec/v1`.
