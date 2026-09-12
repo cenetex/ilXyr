@@ -8,6 +8,15 @@
       "predictor_calls": 0,
       "resolution": "The same 15 checks passed with local process-pipe access.",
       "scope": "test_environment"
+    },
+    {
+      "id": "tamper-test-archive-path",
+      "log_sha256": "142ba6096d8fd1f1b01f13eb796dce1db32e6b9315438c9785fb10eb1a6de041",
+      "observed": "The new tamper test reused an existing archive path with a create-only tar writer. It stopped at FileExistsError before testing package integrity.",
+      "paid_instances_created": 0,
+      "predictor_calls": 0,
+      "resolution": "Write the changed archive to its own path so the original package stays available.",
+      "scope": "test_fixture"
     }
   ],
   "schema": "ilxyr.feral_coverage_cloud_failures.v1"

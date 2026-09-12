@@ -164,9 +164,9 @@ class IntegrityTests(unittest.TestCase):
             files[PLAN] = encode(plan)
             files['HOST.json'] = encode({'plan_sha256': sha(files[PLAN]), 'files': {
                 n: {'bytes': len(b), 'sha256': sha(b)} for n, b in files.items() if n != 'HOST.json'}})
-            write_tar(package, files)
+            changed = root / 'changed-host.tar'; write_tar(changed, files)
             with self.assertRaisesRegex(ValueError, 'prepared member identity differs: raw/fixture.html'):
-                inspect(package, sha(package.read_bytes()))
+                inspect(changed, sha(changed.read_bytes()))
 
     def test_archive_bound_keeps_prefix_and_marks_incomplete(self):
         with tempfile.TemporaryDirectory() as name:
