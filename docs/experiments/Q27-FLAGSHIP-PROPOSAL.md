@@ -5,6 +5,51 @@ document freezes the intended design so the hypothesis, foundation,
 engineering-review, and experiment-design contributions can be written against
 it.
 
+> **Revision 2 (2026-09-12) — the Q2.7 identifier is taken upstream and the
+> original premise is partly pre-empted. Read this before section 1.**
+>
+> The upstream Zero repository (`atimics/zero-grounded-literary-lm`) has already
+> run a Q2.7, and has since moved to Q3.4. The ilxyr ledger tracks upstream only
+> through Q2.6/EXP-005 and ZERO.5 C5.2, so this repository's numbering was
+> behind. Confirmed upstream records:
+>
+> - **Upstream Q2.7 — top-FFN isolation. No-go, 2026-08-08.** All 300 updates
+>   committed at full scale, but syntax, operation, and exact-request rates
+>   stayed at zero. The matched-trace review found Q2.6 succeeded through
+>   *distributed cross-layer* movement, so a small isolated trainable subspace
+>   is contradicted as the acquisition mechanism.
+> - **Q3.0 — Q-only rank-4 low-rank adapters over all FFN matrices. No-go.**
+>   11.23% loss reduction against an 80% requirement.
+> - **Q3.1/Q3.2 — 7,685-parameter linear head over deployment-exact frozen
+>   features. Go for explicit operation routing.** Private, public, and
+>   promotion gates combined to 1,499/1,500 (99.93%) with the base frozen.
+> - **Q3.3 — semantic paraphrase routing. No-go (26.0%).**
+> - **Q3.4 — linear head retrained on 4,500 canonical + 4,500 semantic
+>   records. No-go (41.6% private).** Semantic signal improved but never
+>   reached 80% overall / 60% per class.
+>
+> Three consequences:
+>
+> 1. **Do not register this as Q2.7 or Q2.7.x.** A free identifier must be
+>    chosen (see open decision 5).
+> 2. **The replay-interference framing is moot in the current winning design.**
+>    Q3.2 freezes the base, so replay drift is zero by construction. The
+>    quantity/replay sequence this proposal was built on (Q2.3–Q2.6) is no
+>    longer where the open problem sits.
+> 3. **The genuinely open gap is semantic routing.** Q3.3 and Q3.4 show a
+>    *linear* readout over frozen deep features cannot route paraphrases. A
+>    random sparse expansion with winner-take-all is a nonlinear random-feature
+>    map whose whole purpose is to make a linear readout separable. That is a
+>    direct, cheap, falsifiable attack on the Q3.4 no-go, and it does not need
+>    the replay story at all.
+>
+> The original sections below remain as the frozen design of record for the
+> architecture. Sections 5, 6, and 7 (gates, falsification, sequencing) must be
+> rewritten against the Q3.x frozen-base harness before any registration. The
+> continual-learning value of the fly architecture (adding faculties without
+> interference, when the base is *not* frozen) is preserved as a separate line
+> rather than the flagship.
+
 ## 1. Position
 
 Q2.7 is **not** another repair to ZERO.4. ZERO.4 is promoted and its Q2.6
@@ -174,6 +219,10 @@ not the replay claim alone.
 4. Whether the readout is a single linear tensor or one small nonlinearity
    (recommended: linear for the flagship; nonlinear variants belong to
    follow-ups if quantity fails).
+5. **Free identifier.** Q2.7 and Q2.7.x collide with settled upstream records.
+   Recommended: register the semantic-feature variant as **Q3.5** (direct
+   follow-up to the Q3.4 no-go) and the continual-faculty variant under a new
+   line label, not Q2.x.
 
 ---
 
