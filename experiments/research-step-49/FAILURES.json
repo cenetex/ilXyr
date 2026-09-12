@@ -10,12 +10,14 @@
       "scope": "test_environment"
     },
     {
+      "ci_log_sha256": "78b18b2c130837a3f5e5e3b7d9a33c571c94353996c38f102574f6b16506def3",
+      "ci_run": 34716884782,
       "id": "tamper-test-archive-path",
       "log_sha256": "142ba6096d8fd1f1b01f13eb796dce1db32e6b9315438c9785fb10eb1a6de041",
       "observed": "The new tamper test reused an existing archive path with a create-only tar writer. It stopped at FileExistsError before testing package integrity.",
       "paid_instances_created": 0,
       "predictor_calls": 0,
-      "resolution": "Write the changed archive to its own path so the original package stays available.",
+      "resolution": "Write the changed archive to its own path. The focused check and all 16 fixed-image CI host tests pass.",
       "scope": "test_fixture"
     }
   ],
