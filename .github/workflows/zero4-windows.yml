@@ -1,0 +1,38 @@
+name: ZERO.4 explicit windows
+on:
+  pull_request:
+    paths:
+      - 'scripts/*zero4*window*'
+      - 'experiments/research-step-42/**'
+      - '.github/workflows/zero4-windows.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/*zero4*window*'
+      - 'experiments/research-step-42/**'
+      - '.github/workflows/zero4-windows.yml'
+permissions:
+  contents: read
+jobs:
+  opened:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: atimics/zero-grounded-literary-lm
+          ref: 9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d
+          path: upstream-zero
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 scripts/test_zero4_window_data.py
+      - run: python3 scripts/check_zero4_windows.py --source upstream-zero --out opened-window-checks
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zero4-windows-${{ matrix.os }}
+          path: opened-window-checks

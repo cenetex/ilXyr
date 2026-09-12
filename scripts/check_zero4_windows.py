@@ -3,6 +3,7 @@ import argparse
 from collections import defaultdict
 import json
 import math
+import os
 from pathlib import Path
 import struct
 import time
@@ -20,6 +21,9 @@ def require(condition, message):
 def run(args, root, name, cwd, success=True):
     receipt = run_process([str(x) for x in args], cwd, root / 'processes' / name, time.monotonic() + 60, 2)
     require(receipt['status'] == 'complete' if success else receipt['status'] == 'failed', name + ': unexpected process status')
+    if not success:
+        require(receipt['exit_code'] == 1 and receipt['stop_reason'] is None and
+                'error:' in (root / 'processes' / name / 'stderr.log').read_text(), name + ': failure was not a clean native rejection')
     return receipt
 
 
@@ -44,6 +48,7 @@ def main():
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--cc', default='cc')
     parser.add_argument('--fresh', type=Path)
+    parser.add_argument('--sanitize', action='store_true')
     args = parser.parse_args()
     source, root = args.source.resolve(), args.out.resolve()
     root.mkdir(parents=True, exist_ok=False)
@@ -54,10 +59,15 @@ def main():
         result['derived_source_sha256'] = build(source, new_c)
         run(['patch', '-s', '-o', old_c, source / 'literary_lm.c', source / 'scripts/zero4_retention.patch'], root, 'old-source', source)
         flags = ['-std=c11', '-O2', '-Wall', '-Wextra', '-Werror', '-Wno-unused-parameter', '-I', str(source), '-I', str(w.ROOT / 'scripts')]
+        if args.sanitize:
+            flags += ['-O1', '-fsanitize=address,undefined', '-fno-omit-frame-pointer']
+            os.environ['ASAN_OPTIONS'] = 'detect_leaks=0'
+            os.environ['UBSAN_OPTIONS'] = 'halt_on_error=1'
         native, legacy, freeze = root / 'windows', root / 'legacy', root / 'freeze'
         for name, file, executable in [('new', new_c, native), ('legacy', old_c, legacy), ('freeze', source / 'freeze_literary_teacher.c', freeze)]:
             run([args.cc, *flags, file, '-o', executable, '-lm'], root, 'compile-' + name, source)
         result['compiler_flags'] = flags[:6]
+        result['sanitizers'] = ['address', 'undefined'] if args.sanitize else []
         data = root / 'data'
         data.mkdir()
         raw_paths, replay, endpoint, expected = [], [], [], {}
@@ -147,6 +157,11 @@ def main():
             require(math.isclose(sum(g['loss'] for g in summary['ranges']) / 6, summary['loss'], rel_tol=2e-7), 'equal source mean differs')
             evaluations[arm] = {'loss': summary['loss'], 'windows': len(rows), 'learned_state': summary['learned_state_before']}
         result['opened_evaluations'] = evaluations
+        baseline = json.loads((root / 'eval-frozen.json').read_text())
+        guarded = json.loads((root / 'eval-replay_guard.json').read_text())
+        result['opened_source_changes'] = [{'index': i, 'baseline_loss': before['loss'], 'guarded_loss': after['loss'],
+                                            'relative_change': after['loss'] / before['loss'] - 1}
+                                           for i, (before, after) in enumerate(zip(baseline['ranges'], guarded['ranges']))]
         require(digest(teacher) == teacher_hash, 'teacher bytes changed')
         # Each endpoint window must agree with the original evaluator on identical tokens.
         native_losses = w.prior.jsonl(root / 'eval-frozen.json.windows.jsonl')
