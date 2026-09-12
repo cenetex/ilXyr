@@ -143,8 +143,22 @@
       "id": "aws-session-expired",
       "observed": "Error when retrieving token from sso: Token has expired and refresh failed",
       "profile": "default",
-      "status": "waiting_for_refreshed_sign_in"
+      "resolution": "The configured SSO login completed, the expected account verified, and all five free provider checks passed.",
+      "status": "resolved_by_fresh_sso_login"
+    },
+    {
+      "actual_instances_created": 0,
+      "id": "provider-metadata-comparison",
+      "observed": "The whole-response equality check included TransitionDefaultMinimumObjectSize, which is provider response metadata outside the submitted Rules object.",
+      "proof_sha256": "8915ade9f7ae80a925ffdef88485d7566f1c3aff777be4d5c98235284d5aa87c",
+      "provider_write_count": 1,
+      "resolution": "Compare the submitted Rules with returned Rules, then verify every prior rule and provider metadata field separately. All eight earlier rules and the metadata remain identical; twelve rules cover the three new packages and result prefixes.",
+      "status": "verified_after_comparison_repair"
     }
   ],
+  "preserved_source_reproduction": {
+    "sha256": "07f7b51d9c969f9a0ebd191fb5996a133f98008761a005125fe6dfe8f40c51d0",
+    "status": "reproduced_from_preserved_sources"
+  },
   "schema": "ilxyr.research_launch_readiness_failures.v1"
 }
