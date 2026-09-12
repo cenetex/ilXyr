@@ -10,7 +10,8 @@ PLAN = 'experiments/research-step-45/EXECUTION-PLAN.json'
 BODY = 'scripts/aws/zero4-45-user-data.sh'
 KIT = 'experiments/research-step-44/KIT.json'
 SOURCES = [PLAN, BODY, KIT, 'scripts/package_zero4_cloud.py', 'scripts/package_solomon_cloud.py',
-           'scripts/zero4_cloud_runtime.py', 'scripts/zero4_cloud_collect.py']
+           'scripts/zero4_cloud_runtime.py', 'scripts/zero4_cloud_collect.py',
+           'scripts/zero4_cloud_launch.py', 'scripts/zero4_cloud_preflight.py', 'scripts/feral_cloud_package.py']
 MAX_BYTES = 128 * 1024 * 1024
 
 
