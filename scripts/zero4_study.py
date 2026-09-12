@@ -21,7 +21,7 @@ THREAD_ENV = {'OMP_NUM_THREADS': '1', 'OPENBLAS_NUM_THREADS': '1', 'VECLIB_MAXIM
               'MKL_NUM_THREADS': '1', 'LC_ALL': 'C'}
 # The pinned evaluator uses POSIX process calls and the pinned exporter uses sprintf.
 FLAGS = ['-std=c11', '-O2', '-Wall', '-Wextra', '-Werror', '-Wno-unused-parameter',
-         '-D_POSIX_C_SOURCE=200809L', '-Wno-deprecated-declarations']
+         '-D_POSIX_C_SOURCE=200809L', '-D_DARWIN_C_SOURCE', '-Wno-deprecated-declarations']
 IMPLEMENTATION = ['zero4_study.py', 'zero4_study_scores.py', 'zero4_task_cases.c', 'zero4_native_gold.c',
                   'zero4_window_data.py', 'zero4_fresh_data.py', 'zero4_window_io.h',
                   'build_zero4_window_source.py', 'build_zero4_study_source.py', 'feral_process.py', 'check_zero4_study.py']

@@ -1,6 +1,18 @@
 {
   "commit": "9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d",
   "files": {
+    "LICENSE": {
+      "bytes": 11358,
+      "sha256": "37f6b7d766eb6791edb89211111a48e3e12ff5cb06578299019bb009fd5be44c"
+    },
+    "LICENSE-DATA.md": {
+      "bytes": 956,
+      "sha256": "5fcefdd14cc087db9007a9f118e74862a602315ad8612631216a3de29edb5669"
+    },
+    "NOTICE": {
+      "bytes": 741,
+      "sha256": "9b45a6adb245a0604c70c310d2cb6c720521620889dee6ce777dee5932f960dd"
+    },
     "channel_protocol.h": {
       "bytes": 371,
       "sha256": "0b382e315c8acd369973bb9377305d5ceae9ec387e7dbbc4e91ae670ef6f74e2"
