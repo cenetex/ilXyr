@@ -1,0 +1,14 @@
+{
+  "failures": [
+    {
+      "id": "local-process-pipe-access",
+      "log_sha256": "50ae83ec367beab3316f36488667f5e55b3aa1b5bc61bb435ea000c0f9077ae2",
+      "observed": "The sandbox denied /dev/fd/62 during bootstrap process substitution. The first captured run had two failures and seven errors.",
+      "paid_instances_created": 0,
+      "predictor_calls": 0,
+      "resolution": "The same 15 checks passed with local process-pipe access.",
+      "scope": "test_environment"
+    }
+  ],
+  "schema": "ilxyr.feral_coverage_cloud_failures.v1"
+}
