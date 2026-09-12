@@ -187,6 +187,17 @@ class IntegrityTests(unittest.TestCase):
             result = subprocess.run(command, env=env, capture_output=True, text=True, timeout=15)
             self.assertIn('fresh successful preflight required', result.stderr); self.assertFalse((root / 'calls.jsonl').exists())
             preflight = {'status': 'passed', 'package_sha256': expected, 'plan_sha256': manifest['plan_sha256'], 'package_version': binding['package_version'], 'checked_epoch': time.time()}
+            preflight['run_id'] = 'zero4-45-20260911T000000Z'
+            (root / 'preflight.json').write_bytes(encode(preflight))
+            wrong = subprocess.run(command + ['--preflight', str(root / 'preflight.json')], env=env, capture_output=True, text=True, timeout=15)
+            if os.environ.get('ZERO4_CLOUD_TEST_RECEIPTS'):
+                destination = Path(os.environ['ZERO4_CLOUD_TEST_RECEIPTS']) / 'changed-preflight-run'
+                shutil.copytree(root, destination)
+                (destination / 'CHECK.json').write_bytes(encode({'returncode': wrong.returncode, 'stderr': wrong.stderr,
+                    'aws_called': (root / 'calls.jsonl').exists()}))
+            self.assertIn('fresh successful preflight required', wrong.stderr)
+            self.assertFalse((root / 'calls.jsonl').exists())
+            preflight['run_id'] = binding['run_id']
             (root / 'preflight.json').write_bytes(encode(preflight))
             result = subprocess.run(command + ['--preflight', str(root / 'preflight.json')], env=env, capture_output=True, text=True, timeout=15)
             receipt = json.loads((root / 'launch/receipt.json').read_bytes())
