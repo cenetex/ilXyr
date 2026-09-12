@@ -10,7 +10,13 @@ rules. Solomon's fresh panel favored smoothed suffix-count confidence. The
 weight corpus reached its call limit with 79,452 training rows preserved.
 ZERO.4 stopped at its disk-reserve check before scientific work. Four result
 checks pass after download, and ZERO.4's failure records verify. The shared
-failure ledger now has 69 entries, with a linked next design for each project.
+failure ledger now has 70 entries, with a linked next design for each project.
+
+The [FERAL request control](../experiments/research-step-53/REPORT.md) fixes the
+opened wrong-index answer and solves 22 invented wording cases. It also loses
+all three older numeric development answers. That coverage failure is preserved
+in the shared ledger. The next selector needs source context for label and
+baseline mappings, plus an independent wording roster.
 
 The [ZERO.4 storage repair](../experiments/research-step-52/REPORT.md) now uses
 a 160 GiB disk and the observed 75 GiB source snapshot. Eighteen host tests

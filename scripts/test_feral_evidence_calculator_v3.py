@@ -106,6 +106,17 @@ class EvidenceTests(unittest.TestCase):
         rows.append(['c','the Revenue of 2025 is $190'])
         self.assertEqual(predict('What was the value of Revenue in 2025?',rows)['exact_result'],'190')
 
+    def test_year_inside_entity_label_has_its_own_fact_period(self):
+        rows=[['a','in millions the Target 2030 Fund of 2025 is $120 ; the Target 2035 Fund of 2025 is $150 ;']]
+        q='What was the value of Target 2030 Fund in 2025?'
+        result=predict(q,rows);self.assertEqual(result['exact_result'],'120');self.assertEqual(result['unit'],'usd_million')
+        self.assertEqual(result['operands'][0]['year'],2025)
+        self.assertEqual(result['operands'][0]['label'],'Target 2030 Fund')
+        self.assertEqual(result['work']['parsed_cells'],2)
+        for name in ['Target 2025 Fund','Target 2040 Fund']:
+            self.assertEqual(predict(q.replace('Target 2030 Fund',name),rows)['reason'],'missing_requested_entity')
+        cell=result['operands'][0];self.assertEqual(rows[0][1][slice(*cell['span'])],cell['text'])
+
     def test_case_space_and_terminal_full_stop_are_the_only_name_changes(self):
         q='What was the value of ALPHA   INC. in 2025?'
         self.assertEqual(predict(q,evidence())['exact_result'],'120')

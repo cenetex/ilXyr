@@ -1,0 +1,170 @@
+{
+  "schema": "ilxyr.constraint_diff_report.v1",
+  "report_id": "constraint-diff:feral.context-mapping.step53",
+  "experiment_id": "feral.context-mapping.step53",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "ledger_ref": "artifact://sha256/9f404e719918b5154de85b7c1a9eac74724cdb61ec6687a4fdd1c8ca6f0644e9",
+  "generated_at_ms": 1789254508035,
+  "proposed_mechanism_tags": [
+    "fact-selection",
+    "wording-transfer",
+    "calculator-control",
+    "abstention",
+    "exact-labels"
+  ],
+  "matches": [
+    {
+      "verdict_id": "verdict:feral.finqa-retrieved-evidence-gap.v2",
+      "experiment_id": "feral.finqa-retrieved-evidence-gap.v2",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "abstention"
+      ],
+      "verdict_summary": "The HIG 2011 model input has reserve totals, while the source program uses 2009 and 2010 net asbestos-reserve increases from text outside that input.",
+      "same_mechanism_tags": false,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "source and context review found a label failure",
+      "lineage_note": "Include an explicit abstention target and measure answer coverage alongside accuracy.",
+      "verdict_ref": "artifact://sha256/8acaed9515061c52a52f52f9a18c1baa6662ac2a8efa7642ff97e7586885c2c2",
+      "evidence_ref": "artifact://sha256/e63fbfee0b2b67cb4327205347338939000a5163786228fc32b06d3efb81fccb",
+      "evidence_path": "experiments/research-step-7/MANIFEST.json"
+    },
+    {
+      "verdict_id": "verdict:feral.finqa-question-and-basis-gaps.v2",
+      "experiment_id": "feral.finqa-question-and-basis-gaps.v2",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "abstention"
+      ],
+      "verdict_summary": "AES repeats the same year and mixes expense with commitments. ETR leaves the relation between its gain and net revenue unresolved. Both receive diagnostic abstention targets.",
+      "same_mechanism_tags": false,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "source and context review found a label failure",
+      "lineage_note": "Keep the supplied evidence fixed and record ambiguous questions and unsupported accounting relations as separate label failures.",
+      "verdict_ref": "artifact://sha256/b2a1d4e44a824279fad00efa5705aa6ce2d0a15101c83ffcafafdf805749f27b",
+      "evidence_ref": "artifact://sha256/e63fbfee0b2b67cb4327205347338939000a5163786228fc32b06d3efb81fccb",
+      "evidence_path": "experiments/research-step-7/MANIFEST.json"
+    },
+    {
+      "verdict_id": "verdict:feral.evidence-calculator-cross-series.v1",
+      "experiment_id": "feral.evidence-calculator-cross-series.v1",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "abstention"
+      ],
+      "verdict_summary": "The fixed calculator abstains on an answerable cross-series question in its five-case development smoke.",
+      "same_mechanism_tags": false,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "five-case opened-data smoke retained one numeric coverage failure",
+      "lineage_note": "Freeze a rule for cross-series relationships and test fresh examples. Keep this known-case coverage failure when comparing learned models with the control.",
+      "verdict_ref": "artifact://sha256/49928a1380a0e7264f67fa080a32d2209eff5930e371d7c8929cc98792e44d72",
+      "evidence_ref": "artifact://sha256/f554af04923799b4cb22c1928efd7d6c808d76488ef7f48e91344df225669261",
+      "evidence_path": "experiments/research-step-8/RESULT.json"
+    },
+    {
+      "verdict_id": "verdict:research.step48.selected-series-check.v1",
+      "experiment_id": "research.step48.selected-series-check.v1",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "fact-selection"
+      ],
+      "verdict_summary": "The first checker accepted a selected-series label changed from operating income to net income while the operands still named Operating income. All three passes and output inventories were altered together.",
+      "same_mechanism_tags": false,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Require selected-series order and completion to agree with source operand labels, including partial abstentions.",
+      "verdict_ref": "artifact://sha256/74112394b9426700ad65cf73780aaa56b8b97656e8eb336cc2bc5f5daea7bdf3",
+      "evidence_ref": "artifact://sha256/15fc33c81a87cd7ad1f04baa2b3910c2608caffb4b90f35c63f82f4c95d13128",
+      "evidence_path": "experiments/research-step-48/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step48.wording-coverage.v1",
+      "experiment_id": "research.step48.wording-coverage.v1",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "fact-selection",
+        "wording-transfer",
+        "calculator-control"
+      ],
+      "verdict_summary": "In the invented fixture, calculator v2 answered all 21 canonical numeric questions and zero of their 21 paraphrases. It correctly abstained on all sixteen required cases.",
+      "same_mechanism_tags": false,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "opened_engineering; invented fixture; zero fresh predictor calls",
+      "lineage_note": "Measure canonical and varied wording separately in the fixed fresh control comparison. Use the measured gap to set the next fact and operation selection target.",
+      "verdict_ref": "artifact://sha256/3e3401b4dbddb997f90002de739b9abe2884c0d55c3f2ad94795f03a6ceef841",
+      "evidence_ref": "artifact://sha256/b28d4928ad413a7280bc584d41ad3f4651fc7d907b5860df35faff3e0f427781",
+      "evidence_path": "experiments/research-step-48/SMOKE.json"
+    },
+    {
+      "verdict_id": "verdict:research.step51.feral-outcome.v1",
+      "experiment_id": "research.step51.feral-outcome.v1",
+      "family": "feral",
+      "outcome": "complete_no_go",
+      "taxonomy": "transfer",
+      "matched_tags": [
+        "fact-selection",
+        "wording-transfer",
+        "calculator-control",
+        "abstention"
+      ],
+      "verdict_summary": "On the fixed fresh roster, v2 answered 77 of 82 canonical numeric questions and zero of 82 paraphrases. It gave one numeric answer on a required-abstention case and correctly abstained on 63 of 64 such cases.",
+      "same_mechanism_tags": false,
+      "project": "feral",
+      "evidence_kind": "existing_public_result",
+      "source_outcome": "complete_no_go",
+      "lineage_note": "Diagnose the wording failures and the erroneous answer on a required-abstention case. Freeze a fact and operation selector with explicit ambiguity handling.",
+      "verdict_ref": "artifact://sha256/a3e95cf2182840f8cbada42e00731f4b1fb04d7d8e4ea0a03c2ed96b47fcc3a2",
+      "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+      "evidence_path": "experiments/research-step-51/FINDINGS.json"
+    },
+    {
+      "verdict_id": "verdict:research.step53.feral-entity-coverage.v1",
+      "experiment_id": "research.step53.feral-entity-coverage.v1",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "transfer",
+      "matched_tags": [
+        "fact-selection",
+        "wording-transfer",
+        "calculator-control",
+        "abstention",
+        "exact-labels"
+      ],
+      "verdict_summary": "The strict request control fixes the opened wrong-index failure and answers 22 invented questions. It answers zero of three older numeric development questions, versus three for v2, while preserving both required abstentions.",
+      "same_mechanism_tags": true,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "development_coverage_hold",
+      "lineage_note": "Use the strict control to expose context-dependent question-to-fact mapping. Require source context, fact spans and independent fresh wording before a replacement claim.",
+      "verdict_ref": "artifact://sha256/3ba1bff54811f027630cc076da6e24395e60b48e4b5d2bc2bc00c5b46dd8d180",
+      "evidence_ref": "artifact://sha256/2fa95d97add754d9a343ca576b4a15eeedf95daeb1fa2e151616ac78aabd0ffb",
+      "evidence_path": "experiments/research-step-53/RESULT.json"
+    }
+  ],
+  "taxonomy_counts": {
+    "transfer": 2,
+    "interference": 0,
+    "measurement": 4,
+    "venue": 0,
+    "implementation": 1
+  },
+  "superseded_entries": 0,
+  "proposed_change": "Map questions to source facts with explicit context spans. Keep the strict-label coverage failure and the fresh wrong-index failure in the next design.",
+  "summary": "7 prior results share these mechanism tags. Review their evidence and the required design changes.",
+  "recommendation": "review"
+}

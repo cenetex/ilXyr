@@ -1467,6 +1467,30 @@
       "lineage_note": "Size the root disk for the observed image footprint plus the frozen output and archive reserve, then test and publish a replacement package.",
       "evidence_path": "experiments/research-step-51/FINDINGS.json",
       "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3"
+    },
+    {
+      "seq": 69,
+      "verdict_id": "verdict:research.step53.feral-entity-coverage.v1",
+      "verdict_ref": "artifact://sha256/3ba1bff54811f027630cc076da6e24395e60b48e4b5d2bc2bc00c5b46dd8d180",
+      "experiment_id": "research.step53.feral-entity-coverage.v1",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "transfer",
+      "mechanism_tags": [
+        "fact-selection",
+        "wording-transfer",
+        "calculator-control",
+        "abstention",
+        "exact-labels"
+      ],
+      "summary": "The strict request control fixes the opened wrong-index failure and answers 22 invented questions. It answers zero of three older numeric development questions, versus three for v2, while preserving both required abstentions.",
+      "recorded_at_ms": 1789254425838,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "development_coverage_hold",
+      "lineage_note": "Use the strict control to expose context-dependent question-to-fact mapping. Require source context, fact spans and independent fresh wording before a replacement claim.",
+      "evidence_path": "experiments/research-step-53/RESULT.json",
+      "evidence_ref": "artifact://sha256/2fa95d97add754d9a343ca576b4a15eeedf95daeb1fa2e151616ac78aabd0ffb"
     }
   ]
 }

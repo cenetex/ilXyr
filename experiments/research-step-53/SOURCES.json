@@ -1,0 +1,34 @@
+{
+  "files": {
+    "scripts/feral_comparison_worker.py": {
+      "bytes": 9374,
+      "sha256": "b4c6062108f0aa4dfcce14c2f80b26f48bb3e8e909ff983201118048063d6612"
+    },
+    "scripts/feral_evidence_calculator.py": {
+      "bytes": 12481,
+      "sha256": "40790cad9cdfd1b53caac7764f9f8e9b0607ceba300699edcc9326e18c96953c"
+    },
+    "scripts/feral_evidence_calculator_v2.py": {
+      "bytes": 4969,
+      "sha256": "7bf3e5627006d12dd835f40d5b364d8252c2bd8fe668ab179d793b9bc5830eba"
+    },
+    "scripts/feral_evidence_calculator_v3.py": {
+      "bytes": 10539,
+      "sha256": "ed82207bb12fb9f81fc30472e8d6e921f40e2723d8c5855a6bceb2b29422fa9e"
+    },
+    "scripts/research_feral_entity_contract.py": {
+      "bytes": 6016,
+      "sha256": "fcf95ba9e864bcd4cc88f6965c5f1ec7cab507fa8159c52bf43b5d2a4f28edc7"
+    },
+    "scripts/test_feral_evidence_calculator_v3.py": {
+      "bytes": 12033,
+      "sha256": "5808684317e8105194b89730ac81de3eb37c55ad5a976b362896840005aee5d4"
+    }
+  },
+  "historical_inputs": {
+    "experiments/research-step-51/FERAL-DIAGNOSTIC.json": "e768ce828282012028154ec4a55e2aea58827366cc13ac19d6b57bc3f3a61f6f",
+    "experiments/research-step-8/RESULT.json": "f554af04923799b4cb22c1928efd7d6c808d76488ef7f48e91344df225669261"
+  },
+  "runtime_dependencies": "Python standard library and the listed repository sources.",
+  "schema": "ilxyr.feral_entity_control_sources.v1"
+}

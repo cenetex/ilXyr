@@ -4,6 +4,8 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import platform
+import sys
 
 from feral_evidence_calculator import predict as v1, words
 from feral_evidence_calculator_v2 import predict as v2
@@ -77,4 +79,8 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',type=Path,required=True);args=parser.parse_args()
     args.output.mkdir(parents=True,exist_ok=False)
     result,traces=run();(args.output/'RESULT.json').write_bytes(encode(result));(args.output/'TRACES.json').write_bytes(encode(traces))
+    sources=['feral_evidence_calculator.py','feral_evidence_calculator_v2.py','feral_evidence_calculator_v3.py',
+             'test_feral_evidence_calculator_v3.py','research_feral_entity_contract.py','feral_comparison_worker.py']
+    (args.output/'RUNTIME.json').write_bytes(encode({'python':sys.version,'platform':platform.platform(),
+        'sources':{name:digest((ROOT/'scripts'/name).read_bytes()) for name in sources}}))
     print(json.dumps({'status':result['status'],'development_calls':result['development_predictor_calls_including_one_replay'],'fresh_evaluation_calls':0}))

@@ -5,7 +5,7 @@ import hashlib
 import json
 import re
 
-from feral_evidence_calculator import extract_cells, render
+from feral_evidence_calculator import AMOUNT, YEAR as YEAR_TOKEN, amount, extract_cells as legacy_cells, render
 
 VERSION = 'ilxyr.feral_evidence_calculator.v3'
 YEAR = r'((?:19|20)\d{2})'
@@ -83,6 +83,25 @@ def validate_input(question, evidence, arm):
         names.add(name)
 
 
+def source_cells(evidence):
+    cells = legacy_cells(evidence)
+    for evidence_id, text in evidence:
+        for clause in re.finditer(r'[^;]+', text):
+            match = re.search(r'\bthe (.+) of ((?:19|20)\d{2}) is (.+?)\s*$', clause.group(), re.I)
+            if not match or not YEAR_TOKEN.search(match[1]) or not AMOUNT.fullmatch(match[3]):
+                continue
+            inherited = 'number_million' if re.search(r'\bin millions\b', text[:clause.end()]) else 'number'
+            if '$' in match[3] and inherited == 'number_million': inherited = 'usd_million'
+            try:
+                value, unit = amount(match[3], inherited)
+            except (ValueError, ArithmeticError):
+                continue
+            start = clause.start() + match.start(3); end = clause.start() + match.end(3)
+            cells.append({'evidence_id': evidence_id, 'label': match[1].strip(), 'year': int(match[2]),
+                          'value': str(value), 'unit': unit, 'span': [start, end], 'text': text[start:end]})
+    return cells
+
+
 def arithmetic(operation, values, unit, arm):
     if arm == 'operand_only':
         return values[-1], unit, 0
@@ -114,7 +133,7 @@ def predict(question, evidence, arm='calculator'):
         return result
 
     if parsed is None: return abstain('unsupported_or_ambiguous_request')
-    cells = extract_cells(evidence); result['work']['parsed_cells'] = len(cells)
+    cells = source_cells(evidence); result['work']['parsed_cells'] = len(cells)
     index = {}; labels = set()
     for cell in cells:
         label = label_key(cell['label']); labels.add(label)
