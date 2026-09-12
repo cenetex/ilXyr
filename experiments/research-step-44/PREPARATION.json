@@ -1,0 +1,26 @@
+{
+  "historical_language_runtime": {
+    "elapsed_seconds": 298.423172702,
+    "jobs": 16,
+    "path": "benchmarks/zero4-q29-v1/language-gate/results/result.json",
+    "scope": "Historical engineering context; the new runtime needs its own matched measurements.",
+    "sha256": "0bdfc0e986f57b158319030afb957d138b90c8c1dae77833f7f5f17c6dd313c9",
+    "source_commit": "9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d"
+  },
+  "local_failures": [
+    {
+      "check": "aws_identity",
+      "next_action": "Sign-in question is pending; continue independent preparation.",
+      "result": "SSO token expired and refresh failed"
+    },
+    {
+      "check": "container_service",
+      "next_action": "Use the fixed Linux image in CI for the small runtime check.",
+      "result": "Docker could not connect to its configured socket; the referenced Podman VM is absent."
+    }
+  ],
+  "prior_step": "https://github.com/cenetex/ilXyr/pull/202",
+  "prior_step_status": "published_verified",
+  "production_teacher_forward_calls": 0,
+  "schema": "ilxyr.zero4_runtime_preparation.v1"
+}
