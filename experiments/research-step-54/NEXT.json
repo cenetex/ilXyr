@@ -1,0 +1,25 @@
+{
+  "checks": [
+    "Invented finite-support case exposes quota exhaustion even with perfect raw label yield.",
+    "A repeated rejected query uses its cached exact value and preserves source identity.",
+    "Cache capacity has a fixed memory bound and an explicit stop rule.",
+    "Changing desired stratum reuses the result and still applies the requested quota and orbit rules.",
+    "Quota projections use accepted unique yield at increasing occupancy.",
+    "Keep the published partial run and all existing resource and scientific gates."
+  ],
+  "fresh_compute_status": "candidate package and budget pending",
+  "next_tangible_move": "Build a bounded query cache and a pilot that measures accepted unique rows under the same query and orbit selection rules as generation.",
+  "program_link": "Each project must measure the capability it needs at its decision boundary: guidance benefit, source selection, calibrated confidence, retained skills, and useful unique-row yield.",
+  "required_counters": [
+    "candidate draws",
+    "failed candidate construction",
+    "query duplicate exclusions",
+    "orbit exclusions",
+    "cache hits by requested and observed stratum",
+    "new oracle calls",
+    "accepted rows by stratum and target status",
+    "reachable candidate support or an explicit unknown state"
+  ],
+  "schema": "ilxyr.weight_yield_next.v1",
+  "status": "design_from_opened_failure"
+}

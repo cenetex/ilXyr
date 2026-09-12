@@ -1,0 +1,16 @@
+{
+  "prior_ledger_entries_preserved": 70,
+  "read_only_audit": {
+    "oracle_calls": 0,
+    "receipt_sha256": "734bbb4bb48c2ede55cbc189b46fb1880f9d340409c08059d576ca064882cc35",
+    "status": "passed"
+  },
+  "schema": "ilxyr.weight_yield_validation.v1",
+  "status": "focused_checks_passed_full_checks_running",
+  "total_ledger_entries": 71,
+  "unit_tests": {
+    "receipt_sha256": "6f08d807d19a35db9e85f09eefc5d268ac8423d76f1526422c26a439618c9fa2",
+    "status": "passed",
+    "tests": 13
+  }
+}
