@@ -1,0 +1,96 @@
+name: FERAL coverage cloud package checks
+on:
+  pull_request:
+    paths:
+      - 'scripts/*feral_coverage_cloud*'
+      - 'scripts/aws/feral-49-user-data.sh'
+      - 'scripts/package_solomon_cloud.py'
+      - 'scripts/feral_cloud_package.py'
+      - 'scripts/feral_process.py'
+      - 'experiments/research-step-49/**'
+      - 'experiments/research-step-48/**'
+      - 'scripts/*feral_coverage*'
+      - 'scripts/*feral_fresh*'
+      - '.github/workflows/feral-coverage-cloud-host.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/*feral_coverage_cloud*'
+      - 'scripts/aws/feral-49-user-data.sh'
+      - 'scripts/package_solomon_cloud.py'
+      - 'scripts/feral_cloud_package.py'
+      - 'scripts/feral_process.py'
+      - 'experiments/research-step-49/**'
+      - 'experiments/research-step-48/**'
+      - 'scripts/*feral_coverage*'
+      - 'scripts/*feral_fresh*'
+      - '.github/workflows/feral-coverage-cloud-host.yml'
+permissions:
+  contents: read
+jobs:
+  host-and-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      FERAL_IMAGE: mcr.microsoft.com/devcontainers/cpp@sha256:49a08fb3871da2fd63108773c662e6c739027982215491494995ba12f2fbb29b
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check shutdown, failure records and exact result collection
+        run: FERAL_COVERAGE_CLOUD_TEST_RECEIPTS="$RUNNER_TEMP/host-records" python3 scripts/test_feral_coverage_cloud.py
+      - name: Fetch and verify the fixed official Node release
+        run: |
+          python3 - <<'PYCODE'
+          import hashlib,json,os,pathlib,urllib.request
+          p=json.load(open('experiments/research-step-49/EXECUTION-PLAN.json'))['node_binary']
+          raw=urllib.request.urlopen(p['url'],timeout=60).read()
+          assert len(raw)==p['distribution_bytes'] and hashlib.sha256(raw).hexdigest()==p['distribution_sha256']
+          (pathlib.Path(os.environ['RUNNER_TEMP'])/'node.tar.xz').write_bytes(raw)
+          PYCODE
+      - name: Fetch the fixed public report bytes
+        run: python3 scripts/fetch_feral_fresh_sources.py --output "$RUNNER_TEMP/raw"
+      - name: Reconstruct the exact source kit and complete prepared inputs
+        run: python3 scripts/prepare_feral_coverage_cloud_check.py --repo . --raw "$RUNNER_TEMP/raw" --node "$RUNNER_TEMP/node.tar.xz" --output "$RUNNER_TEMP/package"
+      - name: Package and verify the committed host
+        run: |
+          python3 scripts/package_feral_coverage_cloud.py build --repo . --revision "$(git rev-parse HEAD)" --controller "$RUNNER_TEMP/package/controller.tar" --prepared "$RUNNER_TEMP/package/prepared.tar" --node "$RUNNER_TEMP/node.tar.xz" --output "$RUNNER_TEMP/host.tar" > "$RUNNER_TEMP/package-binding.json"
+      - name: Run the opened cases through the fixed runtime
+        run: |
+          mkdir "$RUNNER_TEMP/runtime-output"
+          docker pull "$FERAL_IMAGE"
+          docker image inspect "$FERAL_IMAGE" > "$RUNNER_TEMP/runtime-output/image-inspect.json"
+          docker run --rm --network none --cgroupns private --read-only --cpus 1 --memory 3g --memory-swap 3g --pids-limit 256 \
+            --tmpfs /tmp:rw,exec,size=512m --log-driver none \
+            --env PATH=/work/package/runtime/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin --env NODE_OPTIONS=--max-old-space-size=1536 \
+            --env PYTHONDONTWRITEBYTECODE=1 --env PYTHONHASHSEED=0 --env LANG=C --env LC_ALL=C --env TZ=UTC \
+            --env OMP_NUM_THREADS=1 --env OPENBLAS_NUM_THREADS=1 --env MKL_NUM_THREADS=1 --env VECLIB_MAXIMUM_THREADS=1 \
+            --mount "type=bind,src=$RUNNER_TEMP/package,dst=/work/package,readonly" \
+            --mount "type=bind,src=$RUNNER_TEMP/runtime-output,dst=/work/output" \
+            --entrypoint python3 "$FERAL_IMAGE" /work/package/scripts/feral_coverage_cloud_runtime.py opened \
+            --package /work/package --output /work/output/runtime \
+            > "$RUNNER_TEMP/runtime-output/stdout.log" 2> "$RUNNER_TEMP/runtime-output/stderr.log"
+      - name: Make container records readable
+        if: always()
+        run: |
+          if [ -d "$RUNNER_TEMP/runtime-output" ]; then sudo chmod -R a+rX "$RUNNER_TEMP/runtime-output"; fi
+      - name: Confirm opened coverage, identity and memory receipts
+        run: |
+          python3 - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'runtime-output'
+          r=json.loads((root/'runtime/RUNTIME.json').read_bytes())
+          assert r['status']=='complete' and r['fresh_predictor_calls']==0 and r['distinct_results']==174
+          assert r['stable_rows_sha256']=='6da367284c7b7a0b23391b4e76aaa51a413736b782511e773f50332f0a28e792'
+          m=r['memory_after'];assert 0<m['peak_bytes']<=3*1024**3 and m['limit_bytes']==3*1024**3 and m['events']['oom_kill']==0
+          assert m['cpu']['usage_usec']>r['memory_before']['cpu']['usage_usec']
+          images=json.loads((root/'image-inspect.json').read_bytes())
+          assert len(images)==1 and images[0]['Id']=='sha256:7b4141c49095bb5a8dfa2ba85266d4f1d836887c46deb33b43f542387e5656bd'
+          print(json.dumps({k:r[k] for k in ['status','fresh_predictor_calls','distinct_results','stable_rows_sha256','memory_after']}))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: feral-coverage-cloud-package-checks
+          path: |
+            ${{ runner.temp }}/host-records
+            ${{ runner.temp }}/runtime-output
+            ${{ runner.temp }}/package-binding.json

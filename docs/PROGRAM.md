@@ -85,8 +85,13 @@ now passes 19 checks and reproduces 174 distinct invented results on Linux,
 Mac, and from its source archive. V2 answers 21/21 canonical numeric questions
 and 0/21 paired paraphrases in that engineering fixture. The checker repair
 preserves an earlier accepted change to a selected-series label. Fresh predictor
-calls are zero; the fixed cloud host package is next. This source-linked baseline also supports
-the [FERAL v3 tagging proposal](FERAL-7B-V3-XBRL-REGULATORY-PROPOSAL.md).
+calls are zero. The [fixed cloud host package](../experiments/research-step-49/REPORT.md)
+now passes 16 host tests and the exact-image check. The 174 invented results
+match step 48 and pass another check after download. The package uses the
+same Python image as Reasoner, with a 30-minute, $0.15 ceiling before tax.
+Free provider checks await AWS sign-in, followed by approval for the exact
+package. This source-linked baseline also supports the
+[FERAL v3 tagging proposal](FERAL-7B-V3-XBRL-REGULATORY-PROPOSAL.md).
 
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).
 The [second diagnostic](../experiments/research-step-2/REPORT.md) establishes a
