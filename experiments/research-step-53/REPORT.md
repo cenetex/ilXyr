@@ -22,6 +22,10 @@ requests retain explicit reasons. Both the calculator and operand control use th
 same source selection and denominator checks.
 
 Fourteen local tests cover the request, source, ambiguity and replay rules.
+The full schema suite passes. Linux and Mac CI reproduce every diagnostic
+result and trace byte. [RUNTIME-CHECK.json](RUNTIME-CHECK.json) records both
+Python versions and source hashes; [VALIDATION.json](VALIDATION.json) binds
+the test receipts.
 The request parser covers eleven declared arithmetic forms in two wording styles.
 The templates are development material. The two earlier calculators keep their
 frozen source bytes. [SOURCES.json](SOURCES.json) binds the new control, tests,
