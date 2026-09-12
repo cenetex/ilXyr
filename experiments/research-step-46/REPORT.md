@@ -1,9 +1,11 @@
 # Reasoner: the fixed four-method cloud package
 
 Reasoner's next comparison uses the source kit and study plan sealed in
-[step 40](../research-step-40/REPORT.md). This step prepares its cloud host,
-complete inputs, runtime tools, shutdown path and result collection. It keeps
-all preparation failures in [FAILURES.json](FAILURES.json).
+[step 40](../research-step-40/REPORT.md). This step seals its cloud host,
+complete inputs, runtime tools, shutdown path and result collection. All 15 host
+tests and the fixed-image opened study pass. The downloaded records also pass
+a separate local replay check. [FAILURES.json](FAILURES.json) preserves the
+two earlier runtime failures and the tool-identity probe.
 
 ## The comparison
 
@@ -33,7 +35,8 @@ The [execution plan](EXECUTION-PLAN.json) fixes one `c6i.large` in `us-east-1`,
 with two CPUs, 4 GiB host memory and an encrypted 80 GiB root volume. The
 worker container uses one fixed CPU, 3 GiB memory, 256 process slots and a
 512 MiB temporary filesystem. It runs offline from a read-only package.
-The compiler flags and one-worker study shape remain those of step 40.
+Clang 14.0.6, Python 3.11.2 and Node 22.22.0 are fixed by image and executable
+identities. The compiler flags and one-worker study shape remain those of step 40.
 
 The host arms its shutdown timer first. Setup has ten minutes. The study
 controller has fifty minutes and the separate checker has ten minutes.
@@ -82,6 +85,22 @@ receipts and the expected bytes of the uncertain upload. The receiver rejects
 changed stored bytes before extraction. The runtime retains whole-container
 CPU, memory peak and memory-exhaustion events; the study and checker keep
 separate process costs.
+
+## Package and verified scope
+
+[PACKAGE.json](PACKAGE.json) binds the **46,868,480-byte** archive:
+`080ed8f974acccd187abef55a81fbf46462da2851cfc0feaa9df8a574ab332d5`.
+Its original source kit and complete prepared inputs rebuilt byte for byte.
+The [fixed-image check](https://github.com/cenetex/ilXyr/actions/runs/34711503333)
+passed all eight opened workers and both checks of the 64 distinct measured
+results. Their stable rows match step 40. A further local check replayed the
+downloaded records from their new paths and reproduced the same result.
+
+[RESULT.json](RESULT.json) binds those checks and the whole-container memory
+record. The engineering image used 134,111,232 bytes at peak, with a 3 GiB
+limit and zero memory-exhaustion kills. Fresh episode visits and paid
+instances created are both zero. These are preparation checks; the fixed
+cloud comparison will supply the next performance finding.
 
 ## Shared research method and next move
 

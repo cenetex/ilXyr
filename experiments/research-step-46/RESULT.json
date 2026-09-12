@@ -1,0 +1,127 @@
+{
+  "ci_head": "a35f8c3d6a76b2595a2b82e1bd8387c81a3ee77a",
+  "ci_run": 34711503333,
+  "fresh_episode_visits": 0,
+  "full_run_status": "pending_free_provider_preflight_and_exact_launch_approval",
+  "host_tests": 15,
+  "moved_result_check": {
+    "replayed_distinct_results": 64,
+    "sha256": "fe70076c8603173800fa34ad396e1123e4ebb49a6a4d163075504549cebd34d9",
+    "stable_rows_sha256": "fdfc86fe9f096955099bdf622cf6d69aadd9ab2570071ddc6f7774c512dfde36",
+    "status": "verified_complete"
+  },
+  "opened_distinct_measured_results": 64,
+  "opened_stable_rows_match_step40": true,
+  "opened_workers": 8,
+  "paid_instances_created": 0,
+  "performance_claim": "opened_engineering_only",
+  "runtime": {
+    "check_sha256": "444ed647d3adca86805fff3875c5ecbb2ef74c085ddebf60f8430d44cce784a8",
+    "checker_command": [
+      "/usr/bin/python3",
+      "/work/package/controller/scripts/check_reasoner_study.py",
+      "--prepared",
+      "/work/package/prepared",
+      "--collected",
+      "/work/output/runtime/study",
+      "--supervisor-sha256",
+      "cb6383cba26422cba8d9ed17df117d66cd75ad795163a81d643a5a40bedf81b9",
+      "--out",
+      "/work/output/runtime/verified"
+    ],
+    "checker_receipt_sha256": "29089e5affd539cd9399f11a1aa6eed75b14c29cc56f99971313b57d4fddb1cd",
+    "compiler_identity": "Debian clang version 14.0.6\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/bin",
+    "controller_command": [
+      "/usr/bin/python3",
+      "/work/package/controller/scripts/research_reasoner_study.py",
+      "opened",
+      "--prepared",
+      "/work/package/prepared",
+      "--out",
+      "/work/output/runtime/study",
+      "--work",
+      "/work/output/runtime/build"
+    ],
+    "controller_exit_code": 0,
+    "decision": "opened_engineering",
+    "environment": {
+      "CC": "/usr/bin/clang",
+      "LANG": "C",
+      "LC_ALL": "C",
+      "MKL_NUM_THREADS": "1",
+      "NODE_OPTIONS": "--max-old-space-size=1536",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PATH": "/work/package/runtime/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONHASHSEED": "0",
+      "TZ": "UTC",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "fresh_episode_visits": 0,
+    "independent_measured_replays": 64,
+    "memory_after": {
+      "cpu": {
+        "burst_usec": 0,
+        "core_sched.force_idle_usec": 0,
+        "nice_usec": 0,
+        "nr_bursts": 0,
+        "nr_periods": 46,
+        "nr_throttled": 37,
+        "system_usec": 382987,
+        "throttled_usec": 1052006,
+        "usage_usec": 4471559,
+        "user_usec": 4088571
+      },
+      "events": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "limit_bytes": 3221225472,
+      "peak_bytes": 134111232,
+      "scope": "whole_container_cgroup_v2"
+    },
+    "memory_before": {
+      "cpu": {
+        "burst_usec": 0,
+        "core_sched.force_idle_usec": 0,
+        "nice_usec": 0,
+        "nr_bursts": 0,
+        "nr_periods": 2,
+        "nr_throttled": 0,
+        "system_usec": 55154,
+        "throttled_usec": 0,
+        "usage_usec": 201564,
+        "user_usec": 146409
+      },
+      "events": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "limit_bytes": 3221225472,
+      "peak_bytes": 134111232,
+      "scope": "whole_container_cgroup_v2"
+    },
+    "mode": "opened",
+    "node_identity": "v22.22.0",
+    "phase": "complete",
+    "python_identity": "Python 3.11.2",
+    "schema": "ilxyr.reasoner_runtime.v1",
+    "stable_rows_sha256": "fdfc86fe9f096955099bdf622cf6d69aadd9ab2570071ddc6f7774c512dfde36",
+    "status": "complete",
+    "stop_signal": null,
+    "supervisor_sha256": "cb6383cba26422cba8d9ed17df117d66cd75ad795163a81d643a5a40bedf81b9"
+  },
+  "runtime_record_sha256": "01c46417f6b4fb01166802512e42eb1a0e466e0183837a0c30f396d5a71554d8",
+  "schema": "ilxyr.reasoner_cloud_preparation.v1",
+  "status": "local_and_fixed_image_checks_passed",
+  "study_plan_sha256": "177e6053242b03db6767c6ce2bcd73436013153633605d46425c8c157ee93c95"
+}
