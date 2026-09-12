@@ -1,0 +1,140 @@
+[
+  {
+    "company": "Invented income",
+    "facts": [
+      {
+        "id": "invented-income-a-2025",
+        "label": "Operating income",
+        "role": "a",
+        "unit": "usd_million",
+        "value": "10",
+        "year": 2025
+      },
+      {
+        "id": "invented-income-a-2024",
+        "label": "Operating income",
+        "role": "a",
+        "unit": "usd_million",
+        "value": "8",
+        "year": 2024
+      },
+      {
+        "id": "invented-income-b-2025",
+        "label": "Net income",
+        "role": "b",
+        "unit": "usd_million",
+        "value": "4",
+        "year": 2025
+      },
+      {
+        "id": "invented-income-b-2024",
+        "label": "Net income",
+        "role": "b",
+        "unit": "usd_million",
+        "value": "3",
+        "year": 2024
+      },
+      {
+        "id": "invented-income-c-2025",
+        "label": "Pretax income",
+        "role": "c",
+        "unit": "usd_million",
+        "value": "7",
+        "year": 2025
+      },
+      {
+        "id": "invented-income-c-2024",
+        "label": "Pretax income",
+        "role": "c",
+        "unit": "usd_million",
+        "value": "6",
+        "year": 2024
+      }
+    ],
+    "id": "invented-income",
+    "kind": "income",
+    "report_key": "INVENTED-income/2025",
+    "unit": "usd_million"
+  },
+  {
+    "company": "Invented shareholder",
+    "facts": [
+      {
+        "id": "invented-shareholder-a-2025",
+        "label": "Example company",
+        "role": "a",
+        "unit": "usd",
+        "value": "150",
+        "year": 2025
+      },
+      {
+        "id": "invented-shareholder-a-2024",
+        "label": "Example company",
+        "role": "a",
+        "unit": "usd",
+        "value": "120",
+        "year": 2024
+      },
+      {
+        "id": "invented-shareholder-a-2020",
+        "label": "Example company",
+        "role": "a",
+        "unit": "usd",
+        "value": "100",
+        "year": 2020
+      },
+      {
+        "id": "invented-shareholder-b-2025",
+        "label": "Example index",
+        "role": "b",
+        "unit": "usd",
+        "value": "130",
+        "year": 2025
+      },
+      {
+        "id": "invented-shareholder-b-2024",
+        "label": "Example index",
+        "role": "b",
+        "unit": "usd",
+        "value": "110",
+        "year": 2024
+      },
+      {
+        "id": "invented-shareholder-b-2020",
+        "label": "Example index",
+        "role": "b",
+        "unit": "usd",
+        "value": "100",
+        "year": 2020
+      },
+      {
+        "id": "invented-shareholder-c-2025",
+        "label": "Example peer",
+        "role": "c",
+        "unit": "usd",
+        "value": "140",
+        "year": 2025
+      },
+      {
+        "id": "invented-shareholder-c-2024",
+        "label": "Example peer",
+        "role": "c",
+        "unit": "usd",
+        "value": "115",
+        "year": 2024
+      },
+      {
+        "id": "invented-shareholder-c-2020",
+        "label": "Example peer",
+        "role": "c",
+        "unit": "usd",
+        "value": "100",
+        "year": 2020
+      }
+    ],
+    "id": "invented-shareholder",
+    "kind": "shareholder",
+    "report_key": "INVENTED-shareholder/2025",
+    "unit": "usd"
+  }
+]
