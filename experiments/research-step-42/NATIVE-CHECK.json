@@ -1,0 +1,147 @@
+{
+  "checked_pack_training_samples": 3,
+  "compiler_flags": [
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-unused-parameter"
+  ],
+  "derived_source_sha256": "54bb8f66e120f594a7e9b0692977d964ef19054a431524ce1c5933dbf5610bd7",
+  "fresh_input_audits": {
+    "endpoint": 81,
+    "replay": 577
+  },
+  "individual_legacy_losses_matched": 12,
+  "invalid_pack_rejections": [
+    {
+      "case": "bad_magic",
+      "exit_code": 1
+    },
+    {
+      "case": "short_header",
+      "exit_code": 1
+    },
+    {
+      "case": "short_payload",
+      "exit_code": 1
+    },
+    {
+      "case": "extra_payload",
+      "exit_code": 1
+    },
+    {
+      "case": "wrong_context",
+      "exit_code": 1
+    },
+    {
+      "case": "zero_count",
+      "exit_code": 1
+    },
+    {
+      "case": "large_count",
+      "exit_code": 1
+    },
+    {
+      "case": "wrong_kind",
+      "exit_code": 1
+    },
+    {
+      "case": "wrong_role",
+      "exit_code": 1
+    },
+    {
+      "case": "outside_vocab",
+      "exit_code": 1
+    },
+    {
+      "case": "missing_channel_start",
+      "exit_code": 1
+    },
+    {
+      "case": "zero_channel_targets",
+      "exit_code": 1
+    },
+    {
+      "case": "endpoint_training",
+      "exit_code": 1
+    }
+  ],
+  "legacy_checkpoint_parity": {
+    "replay": "4229b4b64204760185431e037eaa31c0d3800ede5f363e3a468cf2d5d47a0881",
+    "replay_guard": "1c03eac1650e5594315a741bf0d13ede7750d1550d8f8bceebafe6ed974dd8de",
+    "replay_projection": "4c373b25594a67c62bc467c46947cc55fda13b8232c71f5cb7b0c2c0d1501403",
+    "task_only": "12146d94463c8715e8b4c7958781e065c1802ed6cc5ed63dd3ab9a0ff99f3e2e"
+  },
+  "opened_evaluations": {
+    "frozen": {
+      "learned_state": "470db5f16eafa78f",
+      "loss": 4.85686731,
+      "windows": 12
+    },
+    "replay": {
+      "learned_state": "2cba6f4a21986a68",
+      "loss": 3.81208634,
+      "windows": 12
+    },
+    "replay_guard": {
+      "learned_state": "2cba6f4a21986a68",
+      "loss": 3.81208634,
+      "windows": 12
+    },
+    "replay_projection": {
+      "learned_state": "8a6c4ca4413b7018",
+      "loss": 3.81234741,
+      "windows": 12
+    },
+    "task_only": {
+      "learned_state": "644b54526ff66e1d",
+      "loss": 5.61455679,
+      "windows": 12
+    }
+  },
+  "opened_source_changes": [
+    {
+      "baseline_loss": 4.86201191,
+      "guarded_loss": 3.36209059,
+      "index": 0,
+      "relative_change": -0.30849807605674906
+    },
+    {
+      "baseline_loss": 4.85414886,
+      "guarded_loss": 3.30909348,
+      "index": 1,
+      "relative_change": -0.31829583817089613
+    },
+    {
+      "baseline_loss": 4.85676956,
+      "guarded_loss": 3.56659245,
+      "index": 2,
+      "relative_change": -0.26564511535111834
+    },
+    {
+      "baseline_loss": 4.85610676,
+      "guarded_loss": 3.56861472,
+      "index": 3,
+      "relative_change": -0.2651284462288058
+    },
+    {
+      "baseline_loss": 4.85441351,
+      "guarded_loss": 4.00344944,
+      "index": 4,
+      "relative_change": -0.1752969886572353
+    },
+    {
+      "baseline_loss": 4.85775232,
+      "guarded_loss": 5.06267738,
+      "index": 5,
+      "relative_change": 0.04218516023476471
+    }
+  ],
+  "paired_replay_samples": 4,
+  "production_teacher_forwards": 0,
+  "sanitizers": [],
+  "schema": "ilxyr.zero4_window_native_checks.v1",
+  "status": "passed"
+}

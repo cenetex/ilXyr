@@ -4,8 +4,10 @@ from pathlib import Path
 import struct
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import zero4_window_data as w
+import check_zero4_window_roster as independent
 
 
 class WindowTests(unittest.TestCase):
@@ -54,6 +56,56 @@ class WindowTests(unittest.TestCase):
         for byte in b'\x01\x00\x00\x01':
             value = ((value ^ byte) * 1099511628211) % (1 << 64)
         self.assertEqual(w.fnv([1, 256]), format(value, '016x'))
+
+    def test_independent_origin_check_rejects_changed_boundaries_and_roles(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            record = root / 'experiments/research-step-42'
+            record.mkdir(parents=True)
+            prior_record = root / 'experiments/research-step-41'
+            prior_record.mkdir()
+            prior_record.joinpath('PLAN.json').write_text(json.dumps({'task': {'counts': {'train': 1, 'validation': 1}}}))
+            data, windows = root / 'prepared', root / 'windows'
+            data.mkdir(); windows.mkdir()
+            names = ['zero-foundation', 'shakespeare', 'blake', 'crowley', 'bible-kjv', 'literary-dialogue']
+            inputs, ranges, rows, raw = {}, {}, [], {}
+            for name in names:
+                text = ''.join(w.prior.sha(f'{name}:{i}') for i in range(64))
+                raw[name] = w.token_bytes(list(text.encode()))
+                inputs['old/corpus/' + name + '.tok'] = raw[name]
+                ranges[name + '.tok'] = {'sampled_starts': [3000], 'validation_start': 3000}
+            inputs['RETENTION.json'] = json.dumps({'q26_default_sampler_union': ranges}).encode()
+            inputs['fresh/task/quantity-request.tok'] = w.token_bytes([1, 65, 6, 66, 4, 5] * 2)
+            for name, payload in inputs.items():
+                file = data / name; file.parent.mkdir(parents=True, exist_ok=True); file.write_bytes(payload)
+            metadata = {'files': {name: {'sha256': w.prior.sha(payload)} for name, payload in inputs.items()}}
+            data.joinpath('MANIFEST.json').write_text(json.dumps(metadata))
+            record.joinpath('PLAN-v2.json').write_text(json.dumps({'source_order': names,
+                'input_preparation_manifest_sha256': w.digest(data / 'MANIFEST.json'),
+                'endpoint_windows': dict.fromkeys(names, 1), 'replay_windows': dict.fromkeys(names, 1)}))
+            for role, start in [('endpoint', 0), ('replay', 1000)]:
+                (windows / role).mkdir()
+                for name in names:
+                    kind = 'foundation' if name == names[0] else 'channel' if name == names[-1] else 'text'
+                    payload = raw[name][start * 2:(start + 513) * 2]
+                    tokens = struct.unpack('<513H', payload)
+                    (windows / role / (name + '.z4w')).write_bytes(w.pack([tokens], 512, kind, role))
+                    rows.append({'source': name, 'role': role, 'start': start, 'end': start + 513, 'tokens_sha256': w.prior.sha(payload)})
+            w.prior.write_rows(windows / 'ROSTER.jsonl', rows)
+            windows.joinpath('MANIFEST.json').write_text('{}')
+            with patch.object(independent, '__file__', str(root / 'scripts/checker.py')):
+                self.assertEqual(independent.check(data, windows)['origin_windows_checked'], 12)
+                saved = dict(rows[0])
+                rows[0].update(start=3000, end=3513, tokens_sha256=w.prior.sha(raw[names[0]][6000:7026]))
+                w.prior.write_rows(windows / 'ROSTER.jsonl', rows)
+                with self.assertRaisesRegex(ValueError, 'old validation partition'):
+                    independent.check(data, windows)
+                rows[0] = saved
+                w.prior.write_rows(windows / 'ROSTER.jsonl', rows)
+                file = windows / 'replay/zero-foundation.z4w'
+                changed = bytearray(file.read_bytes()); struct.pack_into('<I', changed, 20, 2); file.write_bytes(changed)
+                with self.assertRaisesRegex(ValueError, 'pack differs'):
+                    independent.check(data, windows)
 
 
 if __name__ == '__main__':

@@ -51,6 +51,8 @@ def main():
     parser.add_argument('--sanitize', action='store_true')
     args = parser.parse_args()
     source, root = args.source.resolve(), args.out.resolve()
+    if args.fresh is not None:
+        args.fresh = args.fresh.resolve()
     root.mkdir(parents=True, exist_ok=False)
     (root / 'processes').mkdir()
     result = {'schema': 'ilxyr.zero4_window_native_checks.v1', 'status': 'in_progress', 'production_teacher_forwards': 0}
