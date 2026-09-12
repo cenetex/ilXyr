@@ -8,13 +8,13 @@ import struct
 import subprocess
 import time
 
-from build_zero4_window_source import build as build_native
+from build_zero4_study_source import build as build_native
 from feral_process import digest, run_process, save
 import zero4_study_scores as scores
 import zero4_window_data as windows
 
 ROOT = Path(__file__).resolve().parents[1]
-PLAN_SHA = 'a38954dfbb4065de5cdb52f803e23f8d7305e57f1dc4387a00436ff08eb44696'
+PLAN_SHA = 'dd24ba5662dde39de82ffbc53d3dfb6a8de438f0907998e28576df7780575127'
 ARMS = ['frozen', 'task_only', 'replay', 'replay_guard', 'replay_projection']
 MODES = {'replay_guard': 'cumulative-backtracking', 'replay_projection': 'cumulative-tangent'}
 THREAD_ENV = {'OMP_NUM_THREADS': '1', 'OPENBLAS_NUM_THREADS': '1', 'VECLIB_MAXIMUM_THREADS': '1',
@@ -22,13 +22,13 @@ THREAD_ENV = {'OMP_NUM_THREADS': '1', 'OPENBLAS_NUM_THREADS': '1', 'VECLIB_MAXIM
 FLAGS = ['-std=c11', '-O2', '-Wall', '-Wextra', '-Werror', '-Wno-unused-parameter']
 IMPLEMENTATION = ['zero4_study.py', 'zero4_study_scores.py', 'zero4_task_cases.c', 'zero4_native_gold.c',
                   'zero4_window_data.py', 'zero4_fresh_data.py', 'zero4_window_io.h',
-                  'build_zero4_window_source.py', 'feral_process.py', 'check_zero4_study.py']
+                  'build_zero4_window_source.py', 'build_zero4_study_source.py', 'feral_process.py', 'check_zero4_study.py']
 require = scores.require
 load = scores.load
 
 
 def plan():
-    file = ROOT / 'experiments/research-step-43/PLAN.json'
+    file = ROOT / 'experiments/research-step-43/PLAN-v2.json'
     require(digest(file) == PLAN_SHA, 'study plan differs')
     return load(file)
 
@@ -280,6 +280,8 @@ def training_args(prepared, binary, cfg, state, folder):
                 '--warmup', '0', '--dropout', '0', '--patience', '0', '--report', '1000000',
                 '--validation', str(t['validation_batches']), '--seed', str(state['seed']), '--save', folder / 'active.ckpt',
                 '--tokens', '0', '--training-samples', folder / 'samples.jsonl']
+    if not t['automatic_validation']:
+        command += ['--controller-no-validation']
     if state['arm'] in MODES:
         command += ['--transaction-mode', MODES[state['arm']], '--transaction-log', folder / 'attempts.jsonl',
                     '--transaction-phase', 'acquisition', '--transaction-probe', '1', '--transaction-budget', str(t['guard_budget']),

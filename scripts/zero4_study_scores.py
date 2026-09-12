@@ -36,17 +36,20 @@ def finite(value, minimum=0):
 
 def retention(summary, rows, packs, context):
     require(summary['schema'] == 'zero.literary_eval.v3', 'retention schema differs')
-    require(summary['context'] == context and summary['requested_validation_batches'] == 6,
+    require(all(type(summary[k]) is int for k in ['context', 'requested_validation_batches', 'evaluated_windows', 'validation_batches']) and
+            summary['context'] == context and summary['requested_validation_batches'] == 6,
             'retention invocation differs')
     require(re.fullmatch('[0-9a-f]{16}', summary['learned_state_before']) is not None and
             summary['learned_state_before'] == summary['learned_state_after'], 'evaluation changed learned state')
     require(len(packs) == len(summary['ranges']) == 6, 'retention source roster differs')
     expected = [(i, j) for i, pack in enumerate(packs) for j in range(len(pack))]
-    require([(r['range'], r['window']) for r in rows] == expected, 'retention window roster differs')
+    require(all(type(r['range']) is int and type(r['window']) is int for r in rows) and
+            [(r['range'], r['window']) for r in rows] == expected, 'retention window roster differs')
     require(summary['evaluated_windows'] == summary['validation_batches'] == len(rows), 'retention coverage differs')
     losses = []
     for i, (pack, group) in enumerate(zip(packs, summary['ranges'])):
-        require(group['index'] == i and group['channel'] == int(i == 5) and group['foundation'] == int(i == 0)
+        require(all(type(group[k]) is int for k in ['index', 'channel', 'foundation', 'windows']) and
+                group['index'] == i and group['channel'] == int(i == 5) and group['foundation'] == int(i == 0)
                 and group['weight'] == 1 and group['windows'] == len(pack), 'retention source identity differs')
         values = [r for r in rows if r['range'] == i]
         for r, tokens in zip(values, pack):
@@ -65,9 +68,9 @@ def task(rows, inputs):
     require(len(rows) == len(inputs) > 0, 'task coverage differs')
     require(len({r['id'] for r in inputs}) == len(inputs), 'duplicate task input id')
     for i, (r, item) in enumerate(zip(rows, inputs)):
-        require(r['schema'] == 'ilxyr.zero4_task_case.v1' and r['ordinal'] == i and r['id'] == item['id'],
+        require(r['schema'] == 'ilxyr.zero4_task_case.v1' and type(r['ordinal']) is int and r['ordinal'] == i and r['id'] == item['id'],
                 'task case identity differs')
-        require(r['cases'] == r['operation_only'] == 1, 'task case mode differs')
+        require(type(r['cases']) is int and type(r['operation_only']) is int and r['cases'] == r['operation_only'] == 1, 'task case mode differs')
         require(all(type(r[k]) is int and r[k] in (0, 1) for k in COUNTS), 'invalid task count')
         require(r['oracle_arithmetic'] == r['arguments'] == 1, 'exact task control failed')
         require(r['syntax'] <= r['closed'] and r['exact_request'] <= r['operation'] <= r['syntax'] and
@@ -83,7 +86,7 @@ def language(rows, inputs, name):
     require(len(rows) == len(inputs) > 0, 'language coverage differs')
     require(len({r['id'] for r in inputs}) == len(inputs), 'duplicate language input id')
     for i, (r, item) in enumerate(zip(rows, inputs)):
-        require(r['schema'] == 'zero.external_eval_case_result.v1' and r['ordinal'] == i and
+        require(r['schema'] == 'zero.external_eval_case_result.v1' and type(r['ordinal']) is int and r['ordinal'] == i and
                 all(r[k] == item[k] for k in ['id', 'benchmark', 'group', 'kind']) and r['gold'] == int(item['gold']),
                 'language case identity differs')
         count = 2 if name == 'blimp' else 1
@@ -95,7 +98,8 @@ def language(rows, inputs, name):
                     type(score['greedy_exact']) is bool, 'invalid language score')
         raw = min(range(count), key=lambda j: r['scores'][j]['bits'])
         normalized = min(range(count), key=lambda j: r['scores'][j]['bits'] / r['scores'][j]['bytes'])
-        require(r['raw_prediction'] == raw and r['normalized_prediction'] == normalized, 'language prediction differs')
+        require(type(r['raw_prediction']) is int and type(r['normalized_prediction']) is int and
+                r['raw_prediction'] == raw and r['normalized_prediction'] == normalized, 'language prediction differs')
     return {'cases': len(rows), 'correct': sum(r['raw_prediction'] == r['gold'] for r in rows),
             'bits_per_byte': sum(r['scores'][0]['bits'] for r in rows) / sum(r['scores'][0]['bytes'] for r in rows)}
 

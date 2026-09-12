@@ -1,0 +1,40 @@
+name: ZERO.4 sealed comparison
+on:
+  pull_request:
+    paths:
+      - 'scripts/*zero4*'
+      - 'scripts/feral_process.py'
+      - 'experiments/research-step-43/**'
+      - '.github/workflows/zero4-study.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/*zero4*'
+      - 'scripts/feral_process.py'
+      - 'experiments/research-step-43/**'
+      - '.github/workflows/zero4-study.yml'
+permissions:
+  contents: read
+jobs:
+  opened:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: atimics/zero-grounded-literary-lm
+          ref: 9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d
+          path: upstream-zero
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 scripts/test_zero4_study.py
+      - run: python3 scripts/check_zero4_study.py --source upstream-zero --out opened-study-checks
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zero4-study-${{ matrix.os }}
+          path: opened-study-checks

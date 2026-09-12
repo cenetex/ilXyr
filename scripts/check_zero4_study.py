@@ -5,8 +5,10 @@ import json
 import math
 import os
 from pathlib import Path
+import shutil
 import statistics
 import time
+import traceback
 
 from feral_process import digest, run_process, save
 import zero4_study as study
@@ -88,6 +90,9 @@ def check(prepared, output, write=True):
         require([(s['seed'], s['arm']) for s in states] == expected_owners, 'training arm roster differs')
         require(seal['choices'] == [{k: s[k] for k in ['arm', 'seed', 'owner', 'status', 'selected']} for s in states], 'sealed choices differ')
         require([p['ordinal'] for p in processes] == list(range(len(processes))), 'process order differs')
+        require([(p['owner'], p['stage']) for p in processes[:5]] == [('setup', 'compile-' + name) for name in ['lm', 'export', 'task', 'language', 'gold']],
+                'setup process roster differs')
+        require(all(p['owner'] != 'setup' and not p['stage'].startswith('compile-') for p in processes[5:]), 'unexpected setup process')
         seal_sha, receipts = digest(output / 'SELECTION.json'), []
         owner_costs = {s['owner']: {'training_cpu_us': 0, 'endpoint_cpu_us': 0, 'peak_child_rss_bytes': 0} for s in states}
         for p in processes:
@@ -114,6 +119,7 @@ def check(prepared, output, write=True):
                 if usage:
                     costs['peak_child_rss_bytes'] = max(costs['peak_child_rss_bytes'], usage['max_rss_bytes'])
         binary_record = load(output / 'BINARIES.json')
+        require(set(binary_record) == {'lm', 'export', 'task', 'language', 'gold'}, 'binary roster differs')
         binaries = {k: study.bound(v, output) for k, v in binary_record.items()}
         endpoints, incomplete = {}, result['status'] != 'complete'
         for state in states:
@@ -144,11 +150,15 @@ def check(prepared, output, write=True):
                 previous_cpu, previous_attempts = candidate['controller_cpu_us'], candidate['attempts']
             chosen = max((c for c in state['candidates'] if c['training_cpu_us'] <= cfg['training_cpu_us']), key=lambda c: c['attempts'])
             require(state['selected'] == chosen, 'selected checkpoint differs from fixed CPU rule')
+            owner_costs[state['owner']].update(training_controller_cpu_us=state['controller_cpu_us'],
+                                              selected_attempts=chosen['attempts'], selected_training_cpu_us=chosen['training_cpu_us'])
             if state['attempts']:
                 study.verify_samples(folder, state, cfg, prepared)
                 guard_log(folder, state, cfg)
             end = [p for p in own if p['stage'] != 'training']
-            if len(end) != 5 or any(p['status'] != 'complete' for p in own) or state['status'] == 'failed':
+            if any(p['status'] != 'complete' for p in training) or state['status'] == 'failed':
+                incomplete = True
+            if len(end) != 5 or any(p['status'] != 'complete' for p in end):
                 incomplete = True
                 continue
             require([p['stage'] for p in end] == ['export', 'retention', 'task', 'blimp', 'tinystories'], 'endpoint process roster differs')
@@ -175,16 +185,26 @@ def check(prepared, output, write=True):
             common = min(map(len, logs), default=0)
             require(all(rows[:common] == logs[0][:common] for rows in logs), 'paired replay samples differ')
         gold = [p for p in processes if p['stage'] == 'exact-parser']
+        gold_cases = None
         if len(gold) == 1 and gold[0]['status'] == 'complete':
             require(load(output / gold[0]['path'] / 'stdout.log') == {'native_gold_rows': cfg['counts']['task']}, 'exact parser coverage differs')
+            require(receipts[gold[0]['ordinal']]['command'][1 + len(study.THREAD_ENV):] ==
+                    [str(binaries['gold']), str(prepared / 'data/task.tsv')], 'exact parser invocation differs')
+            gold_cases = cfg['counts']['task']
         else:
             incomplete = True
         child_cpu = sum(cpu(r) for r in receipts)
+        require(sum(p.stat().st_size for p in output.rglob('*') if p.is_file()) <= cfg['limits']['max_output_bytes'], 'result output allowance exceeded')
+        owner_controller = sum(s['controller_cpu_us'] + owner_costs[s['owner']].get('endpoint_controller_cpu_us', 0) for s in states)
+        require(result['controller_cpu_us'] >= result['setup_controller_cpu_us'] + owner_controller, 'controller CPU split differs')
         verification.update(status='complete' if not incomplete else 'incomplete',
                             plan_sha256=study.PLAN_SHA, manifest_sha256=digest(prepared / 'MANIFEST.json'), selection_sha256=seal_sha,
-                            endpoint_models=len(endpoints), exact_parser_cases=cfg['counts']['task'] if not incomplete else None,
+                            endpoint_models=len(endpoints), exact_parser_cases=gold_cases,
                             decisions=scores.decisions(endpoints, cfg['seeds'], study.plan()['primary']) if not incomplete else None,
                             owners=owner_costs, total_child_cpu_us=child_cpu, controller_cpu_us=result['controller_cpu_us'],
+                            setup_child_cpu_us=sum(cpu(r) for r in receipts[:5]), setup_controller_cpu_us=result['setup_controller_cpu_us'],
+                            reference_child_cpu_us=sum(cpu(receipts[p['ordinal']]) for p in gold),
+                            unassigned_controller_cpu_us=result['controller_cpu_us'] - result['setup_controller_cpu_us'] - owner_controller,
                             actual_cpu_us_before_replay=child_cpu + result['controller_cpu_us'],
                             child_wall_ns=sum(r['total_wall_ns'] for r in receipts), controller_wall_ns=result['controller_wall_ns'],
                             peak_child_rss_bytes=max((r['resource_usage']['max_rss_bytes'] for r in receipts if r.get('resource_usage')), default=None),
@@ -207,6 +227,9 @@ def check(prepared, output, write=True):
 
 def opened(source, output, git=False, cc='cc', sanitize=False):
     output.mkdir(parents=True, exist_ok=False)
+    (output / 'implementation').mkdir()
+    for name in study.IMPLEMENTATION:
+        study.cp(study.ROOT / 'scripts' / name, output / 'implementation' / name)
     prepared = output / 'prepared'
     prepared.mkdir()
     study.prepare_source(source, prepared, git)
@@ -249,6 +272,25 @@ def opened(source, output, git=False, cc='cc', sanitize=False):
     processes.run([fixture / 'freeze', fixture / 'initial.ckpt', data / 'zero3.teacher'], prepared, 'fixture', 'freeze')
     study.make_manifest(prepared, 'opened')
     study.run_study(prepared, output / 'study', cc, sanitize)
+    # The historical window trainer and the new default must yield identical bytes.
+    from build_zero4_window_source import build as old_build
+    old_build(prepared / 'source', fixture / 'old.c')
+    processes.run([cc, *flags, fixture / 'old.c', '-o', fixture / 'old-lm', '-lm'], prepared, 'fixture', 'compile-old')
+    parity = {}
+    cfg = load(prepared / 'MANIFEST.json')['config']
+    for arm in study.ARMS[1:]:
+        for name, exe in [('old', fixture / 'old-lm'), ('default', native)]:
+            folder = fixture / (name + '-' + arm)
+            folder.mkdir()
+            state = {'attempts': 0, 'seed': 71, 'arm': arm}
+            for offset in [0, 2]:
+                state['attempts'] = offset
+                args = [a for a in study.training_args(prepared, exe, cfg, state, folder) if a != '--controller-no-validation']
+                processes.run(args, prepared, 'parity', name + '-' + arm + '-' + str(offset))
+            current = output / 'study' / ('seed-71-' + arm)
+            require(digest(folder / 'active.ckpt') == digest(current / 'checkpoint-000004.ckpt') and
+                    (folder / 'samples.jsonl').read_bytes() == (current / 'samples.jsonl').read_bytes(), 'training-validation checkpoint or sample parity differs')
+        parity[arm] = digest(output / 'study' / ('seed-71-' + arm) / 'checkpoint-000004.ckpt')
     # Compare every per-case aggregate with the historical evaluator on the same model.
     historical = fixture / 'quantity-legacy'
     processes.run([cc, *flags, '-DLITERARY_INFER_NO_MAIN', '-DFACULTY_CONTROLLER_NO_MAIN',
@@ -262,10 +304,128 @@ def opened(source, output, git=False, cc='cc', sanitize=False):
         new = scores.task(scores.jsonl(folder / 'task.jsonl'), scores.tsv(data / 'task.tsv'))
         require(all(old[k] == new[k] for k in ['cases', *scores.COUNTS]) and math.isclose(old['target_bits'], new['target_bits'], abs_tol=1e-8),
                 'historical task evaluation differs')
+    attacks = row_attacks(prepared, output / 'study')
+    save(output / 'ROW-ATTACKS.json', attacks)
+    # A completed over-budget chunk stays in custody while the frozen model is selected.
+    budget_data = output / 'budget-prepared'
+    shutil.copytree(prepared, budget_data)
+    manifest = load(budget_data / 'MANIFEST.json')
+    manifest['config']['training_cpu_us'] = 1
+    save(budget_data / 'MANIFEST.json', manifest)
+    study.run_study(budget_data, output / 'budget-study', cc, sanitize)
+    budget_check = load(output / 'budget-study/CHECK.json')
+    require(all(s['selected']['attempts'] == 0 for s in load(output / 'budget-study/TRAINING.json')) and
+            all(s['status'] == 'training_budget_reached' for s in load(output / 'budget-study/TRAINING.json') if s['arm'] != 'frozen'), 'over-budget selection differs')
+    require(sum(r['training_cpu_us'] for r in budget_check['owners'].values()) > 1, 'over-budget work disappeared from costs')
+    # An invalid native training input keeps every failed process and the fallback model.
+    failure_data = output / 'failure-prepared'
+    shutil.copytree(prepared, failure_data)
+    (failure_data / 'data/train.tok').write_bytes(windows.token_bytes([1, 97, 4]))
+    manifest = load(failure_data / 'MANIFEST.json')
+    manifest['files']['data/train.tok'] = study.binding(failure_data / 'data/train.tok', failure_data)
+    save(failure_data / 'MANIFEST.json', manifest)
+    failure = study.run_study(failure_data, output / 'failure-study', cc, sanitize)
+    require(failure['status'] == 'failed' and load(output / 'failure-study/CHECK.json')['status'] == 'incomplete', 'failed comparison claimed completion')
+    require(sum(s['status'] == 'failed' for s in load(output / 'failure-study/TRAINING.json')) == 4, 'failed training process coverage differs')
     report = {'schema': 'ilxyr.zero4_opened_study.v1', 'status': 'complete', 'production_teacher_forward_calls': 0,
-              'historical_task_parity_models': 5, 'check': load(output / 'study/CHECK.json'), 'sanitized': sanitize}
+              'historical_task_parity_models': 5, 'training_validation_parity': parity,
+              'row_attacks': attacks, 'budget_check': budget_check, 'failure_check': load(output / 'failure-study/CHECK.json'),
+              'check': load(output / 'study/CHECK.json'), 'sanitized': sanitize}
     save(output / 'OPENED.json', report)
     return report
+
+
+def row_attacks(prepared, output):
+    cfg = load(prepared / 'MANIFEST.json')['config']
+    folder = output / 'seed-71-frozen'
+    results = []
+
+    def rejected(name, function, message):
+        try:
+            function()
+        except ValueError as error:
+            require(message in str(error), name + ': rejection came from another check')
+            results.append({'case': name, 'status': 'rejected', 'error': str(error)})
+        else:
+            raise ValueError('altered record accepted: ' + name)
+
+    task = scores.jsonl(folder / 'task.jsonl')
+    inputs = scores.tsv(prepared / 'data/task.tsv')
+    rejected('missing-task-case', lambda: scores.task(task[:-1], inputs), 'coverage')
+    for name, field, value, reason in [('wrong-task-id', 'id', 'changed', 'identity'), ('boolean-task-count', 'closed', True, 'count'),
+                                       ('invented-artifact', 'exact_artifact', 1, 'inconsistent'), ('oracle-failure', 'oracle_arithmetic', 0, 'control'),
+                                       ('nonfinite-task-bits', 'target_bits', float('nan'), 'bits')]:
+        changed = copy.deepcopy(task)
+        changed[0][field] = value
+        rejected(name, lambda changed=changed: scores.task(changed, inputs), reason)
+    for name in ['blimp', 'tinystories']:
+        rows, inputs = scores.jsonl(folder / (name + '.jsonl')), scores.tsv(prepared / ('data/' + name + '.tsv'))
+        rejected('missing-' + name, lambda rows=rows, inputs=inputs, name=name: scores.language(rows[:-1], inputs, name), 'coverage')
+        changed = copy.deepcopy(rows)
+        changed[0]['scores'][0]['bytes'] += 1
+        rejected('wrong-byte-count-' + name, lambda changed=changed, inputs=inputs, name=name: scores.language(changed, inputs, name), 'score')
+    inputs = scores.tsv(prepared / 'data/blimp.tsv')
+    changed = scores.jsonl(folder / 'blimp.jsonl')
+    changed[0]['raw_prediction'] = 1 - changed[0]['raw_prediction']
+    rejected('invented-language-prediction', lambda: scores.language(changed, inputs, 'blimp'), 'prediction')
+    packs = [windows.unpack((prepared / f'data/endpoint/{name}.z4w').read_bytes(), cfg['context'],
+                             'foundation' if i == 0 else 'channel' if i == 5 else 'text')
+             for i, name in enumerate(study.plan()['source_order'])]
+    summary, rows = load(folder / 'retention.json'), scores.jsonl(folder / 'retention.json.windows.jsonl')
+    rejected('missing-retention-window', lambda: scores.retention(summary, rows[:-1], packs, cfg['context']), 'roster')
+    changed = copy.deepcopy(rows)
+    changed[0]['tokens_hash'] = '0' * 16
+    rejected('changed-retention-input', lambda: scores.retention(summary, changed, packs, cfg['context']), 'input')
+    changed_summary = copy.deepcopy(summary)
+    changed_summary['ranges'][5]['loss'] *= 1.05
+    rejected('invented-source-mean', lambda: scores.retention(changed_summary, rows, packs, cfg['context']), 'mean')
+    changed_summary = copy.deepcopy(summary)
+    changed_summary['learned_state_after'] = '0' * 16
+    rejected('evaluation-state-mutation', lambda: scores.retention(changed_summary, rows, packs, cfg['context']), 'state')
+    # Mutate a journal in place and restore its exact bytes after each read-only replay.
+    journal = output / 'PROCESSES.json'
+    original = journal.read_bytes()
+    try:
+        altered = json.loads(original)
+        next(p for p in altered if p['stage'] == 'training')['stage'] = 'retention'
+        save(journal, altered)
+        rejected('endpoint-before-seal', lambda: check(prepared, output, write=False), 'before selection seal')
+    finally:
+        journal.write_bytes(original)
+    # Rebind the edited receipt so the test reaches CPU arithmetic, not a hash mismatch.
+    logs = json.loads(original)
+    first = next(p for p in logs if p['stage'] == 'training')
+    receipt_file = output / first['path'] / 'process.json'
+    receipt_original = receipt_file.read_bytes()
+    try:
+        changed = json.loads(receipt_original)
+        changed['resource_usage']['user_cpu_seconds'] += 1
+        save(receipt_file, changed)
+        first['receipt_sha256'] = digest(receipt_file)
+        save(journal, logs)
+        rejected('changed-training-cpu', lambda: check(prepared, output, write=False), 'candidate CPU accounting')
+    finally:
+        receipt_file.write_bytes(receipt_original)
+        journal.write_bytes(original)
+    training_file, seal_file = output / 'TRAINING.json', output / 'SELECTION.json'
+    training_original, seal_original = training_file.read_bytes(), seal_file.read_bytes()
+    try:
+        states, seal = json.loads(training_original), json.loads(seal_original)
+        states[0]['selected']['attempts'] = 1
+        save(training_file, states)
+        seal['training_sha256'] = digest(training_file)
+        seal['choices'][0]['selected']['attempts'] = 1
+        save(seal_file, seal)
+        logs = json.loads(original)
+        for p in logs[seal['processes_before_seal']:]:
+            p['selection_sha256'] = digest(seal_file)
+        save(journal, logs)
+        rejected('changed-sealed-checkpoint-choice', lambda: check(prepared, output, write=False), 'selected checkpoint differs')
+    finally:
+        training_file.write_bytes(training_original)
+        seal_file.write_bytes(seal_original)
+        journal.write_bytes(original)
+    return results
 
 
 def main():
@@ -277,7 +437,12 @@ def main():
     parser.add_argument('--cc', default='cc')
     parser.add_argument('--sanitize', action='store_true')
     args = parser.parse_args()
-    result = opened(args.source.resolve(), args.out.resolve(), args.git, args.cc, args.sanitize) if args.source else check(args.prepared.resolve(), args.out.resolve())
+    try:
+        result = opened(args.source.resolve(), args.out.resolve(), args.git, args.cc, args.sanitize) if args.source else check(args.prepared.resolve(), args.out.resolve())
+    except BaseException as error:
+        if args.source and args.out.exists():
+            save(args.out / 'OPENED.json', {'status': 'failed', 'error': str(error), 'traceback': traceback.format_exc(), 'production_teacher_forward_calls': 0})
+        raise
     print(json.dumps({'status': result['status']}))
 
 
