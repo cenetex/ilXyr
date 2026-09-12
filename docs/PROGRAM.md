@@ -123,6 +123,13 @@ Every quantity answer passes the native kernel. The audit preserves 120 repeated
 problem keys across the older Q2.6 splits. Foundation has one exposed validation
 window, while every eligible Blake window shares tokens with the old default
 evaluation. Fresh retention sources or a revised window rule are the next step.
+The [explicit-window step](../experiments/research-step-42/REPORT.md) now
+supplies 81 separate final retention windows and 577 replay windows at the
+existing model context. All 658 input identities and target counts verify.
+The five-method opened check preserves old-path checkpoint bytes. It also
+shows an improving mean alongside a 4.22% dialogue loss increase, which makes
+fixed source-specific limits part of the next controller design. The failed
+Blake capacity assumption and every selection rejection remain recorded.
 The shared question is when learned state reduces the work needed for a correct
 answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence

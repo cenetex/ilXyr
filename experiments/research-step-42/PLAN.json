@@ -1,0 +1,70 @@
+{
+  "candidate_rule": "Process endpoint role before replay role, and sources in source_order. For candidate index starting at zero, rank is SHA256(UTF8(seed + NUL + role + NUL + source + NUL + decimal index)). Interpret the full rank as a big-endian integer and reduce modulo eligible start count. Endpoint starts are in the original training prefix and end before its validation boundary. Replay starts use the whole original source. Channel starts use native record starts with a complete 513-token span.",
+  "content_key": "Render printable ASCII tokens as their characters and other tokens as spaces; collapse whitespace and use lowercase. Compare every exact 64-character substring.",
+  "context_tokens": 512,
+  "endpoint_exclusions": [
+    "earlier candidate start for this source and role",
+    "zero channel reply targets",
+    "any shared source-token position with accepted endpoint windows",
+    "any shared 64-character substring with Q2.6 default evaluation windows or task training records from step41",
+    "any shared 64-character substring with accepted endpoint windows across all six sources"
+  ],
+  "endpoint_windows": {
+    "bible-kjv": 16,
+    "blake": 16,
+    "crowley": 16,
+    "literary-dialogue": 16,
+    "shakespeare": 16,
+    "zero-foundation": 1
+  },
+  "evaluation_rule": "Evaluate every endpoint window once; report each window loss, target count, the mean within each source, and the equal-source mean. Keep learned-state digests before and after. One foundation window is a fixed source check with limited coverage. A later full comparison must freeze per-source limits and uncertainty rules.",
+  "guard_rule": "The first replay window of each source is its guard probe. That window is also available to replay training. Preserve the existing equal-source cumulative loss guard and 0.015 threshold. The endpoint windows are used only by separate evaluation processes.",
+  "historical_score_rule": "Keep earlier published scores and the legacy native sampler available. New replay may include old validation text, so a legacy-window score in this series is an exposed development diagnostic. Final retention uses the new separate endpoint windows.",
+  "initialization_exposure": "Endpoint text comes from the original training partition, which may have trained the initial teachers. Retention asks whether prior capability survives new adaptation. Fresh means separate from the declared old evaluation windows and the new adaptation windows.",
+  "input_preparation_manifest_sha256": "48a43865bdfb61622e69c6fbb9e8863d702baf03a8b5c8032ea9e0896e30655f",
+  "input_record": "experiments/research-step-41/INPUTS.json",
+  "local_checks": "Data preparation, native parsing and small synthetic model checks only. Retain every selection rejection, parser failure and parity failure. No production teacher forward pass or paid compute.",
+  "maximum_candidates_per_source_and_role": 65536,
+  "native_rule": "Add an explicit fixed-window option to a hash-bound derivative of the retention trainer. Replay samples only listed windows. Evaluation scores all listed windows. Raw-source behavior and checkpoint bytes must match the prior native implementation on the opened control.",
+  "pack_format": {
+    "header": "8-byte magic, then uint32 little-endian context, window count, kind, role",
+    "kind_codes": {
+      "channel": 2,
+      "foundation": 1,
+      "text": 0
+    },
+    "limits": "1 through 8192 windows; exact file length; context and kind must match the native invocation; endpoint role requires eval-only; token vocabulary and channel target checks apply.",
+    "magic": "Z4WIND1 followed by NUL",
+    "payload": "window_count consecutive arrays of context+1 uint16 little-endian tokens",
+    "role_codes": {
+      "endpoint": 2,
+      "replay": 1
+    }
+  },
+  "replay_exclusions": [
+    "earlier candidate start for this source and role",
+    "zero channel reply targets",
+    "any shared source-token position with any accepted endpoint or replay window",
+    "any shared 64-character substring with any accepted endpoint or replay window across all six sources"
+  ],
+  "replay_windows": {
+    "bible-kjv": 128,
+    "blake": 128,
+    "crowley": 128,
+    "literary-dialogue": 128,
+    "shakespeare": 128,
+    "zero-foundation": 1
+  },
+  "schema": "ilxyr.zero4_window_plan.v1",
+  "seed": "zero4-step42-retention-v1",
+  "source_commit": "9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d",
+  "source_order": [
+    "zero-foundation",
+    "shakespeare",
+    "blake",
+    "crowley",
+    "bible-kjv",
+    "literary-dialogue"
+  ],
+  "window_tokens": 513
+}
