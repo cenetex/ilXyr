@@ -87,8 +87,11 @@ def upload_parts(bundle, storage, prefix, deadline, receipt, progress):
                 while remaining and (raw := source.read(min(1024 * 1024, remaining))):
                     if time.time() >= deadline: raise TimeoutError('archive chunk deadline reached')
                     target.write(raw); remaining -= len(raw)
-            part = put(temporary, storage['bucket'], prefix + f'results-{index:02d}.part', deadline)
-            receipt['parts'].append(part); save(progress, receipt)
+            key = prefix + f'results-{index:02d}.part'
+            receipt['pending_part'] = {'key': key, 'bytes': temporary.stat().st_size, 'sha256': digest(temporary)}
+            save(progress, receipt)
+            part = put(temporary, storage['bucket'], key, deadline)
+            receipt['parts'].append(part); receipt.pop('pending_part'); save(progress, receipt)
             temporary.unlink(); index += 1
     if sum(p['bytes'] for p in receipt['parts']) != receipt['bytes']:
         raise ValueError('uploaded archive coverage differs')

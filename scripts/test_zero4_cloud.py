@@ -276,6 +276,8 @@ class ChunkTests(unittest.TestCase):
             kept = json.loads((root / 'collection.json').read_bytes())
             self.assertEqual(len(kept['parts']), 1)
             self.assertEqual(kept['parts'][0]['key'], 'runs/fixture/results-00.part')
+            self.assertEqual(kept['pending_part'], {'key': 'runs/fixture/results-01.part', 'bytes': 32,
+                                                  'sha256': sha(bytes(range(32, 64)))})
             self.assertEqual(bundle.with_suffix('.part').read_bytes(), bytes(range(32, 64)))
 
     def test_cost_ceiling_rejects_an_omitted_download_charge(self):
