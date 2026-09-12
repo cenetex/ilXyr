@@ -12,6 +12,12 @@ ZERO.4 stopped at its disk-reserve check before scientific work. Four result
 checks pass after download, and ZERO.4's failure records verify. The shared
 failure ledger now has 69 entries, with a linked next design for each project.
 
+The [ZERO.4 storage repair](../experiments/research-step-52/REPORT.md) now uses
+a 160 GiB disk and the observed 75 GiB source snapshot. Eighteen host tests
+and the fixed Linux runtime check pass. The corrected package awaits explicit
+staging approval after automatic review rejected its upload. Its full study
+keeps the same inputs, methods, rules, $12 ceiling and 13.5-hour limit.
+
 The [completed Reasoner comparison](../experiments/research-step-26/REPORT.md)
 missed both primary benefit gates against matched lexical guidance on 128
 fresh families. All answers and 3,072 independent replays verified. Collection,
@@ -184,7 +190,7 @@ result parts, disk reserve and provider cleanup checks. Fourteen controlled
 host tests and the small fixed-image runtime check pass. A probe exposed a
 preflight receipt reused across different run IDs; the repaired check keeps
 the launch tied to its own output-prefix check. Staging and the shared free
-provider check passed. The [approved attempt](../experiments/research-step-51/REPORT.md) stopped at its disk-reserve check. A replacement host package must account for the observed image footprint.
+provider check passed. The [approved attempt](../experiments/research-step-51/REPORT.md) stopped at its disk-reserve check. The [tested replacement](../experiments/research-step-52/REPORT.md) sizes storage from the observed source snapshot and keeps 30.9375 GiB of planned headroom. Its corrected package awaits staging approval.
 
 ## Mission
 

@@ -24,6 +24,13 @@ snapshot and reserves, changed snapshot capacity, and the exact free-space
 boundary. The successful fixture reaches the controller and preserves its
 output. Every host failure retains the available evidence and reaches shutdown.
 The shared seven-method launch suite passes all fifty controlled cases too.
+The fixed Linux image check also passes on the corrected source commit.
+Its five small endpoint models retain identical scores and decisions after
+their folders move. These are engineering fixtures. [RUNTIME-CHECK.json](RUNTIME-CHECK.json)
+binds the image, compiler, source files and downloaded receipts.
+The local schema checks also finish successfully across the preserved first
+segment and six groups rerun with fresh receipt paths. The complete suite
+passes in CI on the corrected source commit.
 
 The earlier package still verifies with the current inspector. Its plan and
 bootstrap remain under their original paths. The replacement uses its own
@@ -35,7 +42,7 @@ step-52 plan, bootstrap and storage prefixes.
 field. The controller archive, prepared archive, scientific implementation,
 study plan, study limits, runtime image, compiler, Python and environment are
 identical to the earlier package. The new package reuses both archive files
-byte for byte. Its scientific calls during preparation are zero.
+byte for byte. Fresh study calls during preparation are zero.
 
 | Item | Earlier host | Replacement |
 | --- | ---: | ---: |
@@ -50,10 +57,26 @@ quantity, retention, BLiMP and TinyStories endpoints. Each candidate must gain
 25 exact task artifacts against both frozen and plain replay in every seed.
 Every source and both language screens retain their fixed limits.
 
-[PACKAGE.json](PACKAGE.json) binds the replacement archive to its source
-commit. The fixed-image check, private staging and free provider preflight
-are the remaining readiness steps. A launch approval follows the completed
-package and budget record.
+[PACKAGE.json](PACKAGE.json) binds the corrected archive to source commit
+`4569cd01c82a58b9c32bba117623d86b79f82d0e`. Its SHA-256 is
+`b9cd62c7577536bc284e53cc066d789eb0e65890ccff7668529bb6a33262aa02`.
+
+The first preflight caught a second setup error: the sizing basis used the
+old host's 80 GiB disk as the snapshot capacity. The provider reports 75 GiB.
+[SNAPSHOT.json](SNAPSHOT.json) preserves that observation. The corrected plan
+and its test use the observed source identity and capacity.
+
+Automatic approval review requires explicit permission to upload the corrected
+package into the same private bucket. Read-only checks confirm the account,
+bucket owner, public-access blocks, earlier staged object, identical scientific
+archives, and exact public source bytes. The upload remains pending after two
+rejections. [PREFLIGHT.json](PREFLIGHT.json) records the remaining version readback
+and complete provider check. [FAILURES.json](FAILURES.json) preserves both
+setup errors, the staging review events, and a resolved local permission error and a reused test-output folder.
+
+The next approval can name this exact package and private destination. Paid
+execution also requires the fixed $12 budget and 13.5-hour limit. The launcher
+requires the completed free preflight before dispatch.
 
 The [shared failure report](DESIGN.json) links this repair to the same ledger
 used by Reasoner, FERAL, Solomon and weight multiplicity. The disk failure

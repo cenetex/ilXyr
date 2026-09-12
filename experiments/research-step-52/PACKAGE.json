@@ -1,15 +1,15 @@
 {
-  "archive_name": "package-01.tar",
+  "archive_name": "package-02.tar",
   "bytes": 54886400,
   "calculated_ceiling_before_tax_usd": "11.5591",
-  "local_check_sha256": "a72ac2b321cea92c31dec2bb2946dda4d7a8881e86ff8258c553a657cfae0d7c",
+  "local_check_sha256": "cc7e75cd1f17fc3b32d9eb0042fa0d4ce0e08bca35f1478038f00fd96dd0cb87",
   "maximum_before_tax_usd": "12.00",
   "maximum_instance_seconds": 48600,
-  "plan_sha256": "15348fa220cca1c84ba0d3c89f831baa32aac7404eea11c5e735c82cb3f3b109",
+  "plan_sha256": "9a8e016502e693e37c6333a852854d1896a37807cf4ea7477b7374b784c4393b",
   "provider_instance_type": "c6i.4xlarge",
   "root_disk_gib": 160,
   "schema": "ilxyr.zero4_cloud_package.v1",
-  "sha256": "2c95f705a90146f77e120ba844f36f7031440d854bf9373ab809d2369aba026a",
-  "source_commit": "0c0eee3239fb3f078742200b567aa1b26541036f",
-  "status": "built_and_locally_checked"
+  "sha256": "b9cd62c7577536bc284e53cc066d789eb0e65890ccff7668529bb6a33262aa02",
+  "source_commit": "4569cd01c82a58b9c32bba117623d86b79f82d0e",
+  "status": "local_and_fixed_runtime_checks_passed_staging_requires_approval"
 }

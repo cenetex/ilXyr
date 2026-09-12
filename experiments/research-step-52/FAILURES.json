@@ -15,7 +15,7 @@
         "source_run": "zero4-45-20260912T204834Z",
         "source_step51_verification_sha256": "b26bffd0ec6a8153aff0420671ec85171007df752c1f708c01e76cb9abb7a797"
       },
-      "repair": "Use160GiB and check expanded filesystem and free collection space."
+      "repair": "Use 160 GiB and check expanded filesystem and free collection space."
     },
     {
       "id": "staging-automatic-review",
@@ -32,10 +32,73 @@
       "initial_package_sha256": "2c95f705a90146f77e120ba844f36f7031440d854bf9373ab809d2369aba026a",
       "initial_plan_sha256": "15348fa220cca1c84ba0d3c89f831baa32aac7404eea11c5e735c82cb3f3b109",
       "instances_created": 0,
-      "observed": "Initial sizing used the earlier80GiB host disk as source snapshot capacity. Provider image metadata reports75GiB. The exact preflight stopped before the launch permission check.",
+      "observed": "Initial sizing used the earlier 80 GiB host disk as source snapshot capacity. Provider image metadata reports 75 GiB. The exact preflight stopped before the launch permission check.",
       "preflight_receipt_sha256": "3c1e08922499b5cb8410b685667201858e1ee0dc6764f89ab1e6dbefab722f3e",
-      "repair": "Bind75GiB from the provider snapshot receipt. Keep the160GiB target disk and the full free-space reserve. Add the observed snapshot identity and size to the sizing test.",
-      "status": "corrected_pending_repeat_preflight"
+      "repair": "Bind 75 GiB from the provider snapshot receipt. Keep the 160 GiB target disk and the full free-space reserve. Add the observed snapshot identity and size to the sizing test.",
+      "status": "corrected_and_tested_repeat_preflight_waits_for_staging"
+    },
+    {
+      "action": "Upload the corrected immutable package into the same private bucket. Verify the exact object version after upload.",
+      "action_executed": false,
+      "id": "corrected-package-staging-review",
+      "observed": "Automatic approval review requires explicit user approval for this payload and destination. It classified provider ownership evidence as untrusted even after read-only proof.",
+      "package_sha256": "b9cd62c7577536bc284e53cc066d789eb0e65890ccff7668529bb6a33262aa02",
+      "read_only_proof_sha256": "d2e09c723f36a560187851969bf2a1e8c5c3eb2b48847c4eb244079d432fde3d",
+      "rejections": 2,
+      "status": "awaiting_explicit_user_approval"
+    },
+    {
+      "id": "local-process-pipe-permission",
+      "observed": "The sandbox host test stopped at /dev/fd with Operation not permitted. Eleven assertions then failed because host receipts were absent.",
+      "passed_receipt_sha256": "92a2689dd92a48460c1cd5e7ff1274a9a7be079515ba819542cd03085ed39862",
+      "resolution": "The same 18 host tests passed with permitted local process-pipe access.",
+      "status": "resolved"
+    },
+    {
+      "error": "FileExistsError: changed-preflight-run",
+      "failed_receipt_sha256": "dff3d06d13dbb323ae12c56e175a94f63d7ab4162f877fe9ecc00f9a75da409b",
+      "id": "test-receipt-directory-reused",
+      "observed": "The full local suite inherited the receipt directory used by the earlier host test. The changed-preflight-run copy stopped because that destination already existed.",
+      "repair": "Run the affected host group and every remaining suite group with fresh temporary receipt paths.",
+      "resolution_receipts": [
+        {
+          "group": "zero4-cloud",
+          "receipt_sha256": "951e26b08b49332e3d93aee6b417cd3cce710bb06cf825bab529c0adedca56e4",
+          "status": "passed",
+          "wall_seconds": 51.149576375
+        },
+        {
+          "group": "reasoner-study-cloud",
+          "receipt_sha256": "3546100b3ccf4c8106164d2a455ec8154e5854901ac19e6080ec18c732c0f7f8",
+          "status": "passed",
+          "wall_seconds": 40.026861291
+        },
+        {
+          "group": "feral-fresh",
+          "receipt_sha256": "d4544054e32c6841faf8bb3e02e9aed03d781568179e9dc57ea1714593771f5d",
+          "status": "passed",
+          "wall_seconds": 0.885302
+        },
+        {
+          "group": "feral-coverage",
+          "receipt_sha256": "71078ae58915fed2f687f0e50ba16a6c7ad89be78c97c745b29c09867ab0f71b",
+          "status": "passed",
+          "wall_seconds": 5.245719917
+        },
+        {
+          "group": "feral-coverage-cloud",
+          "receipt_sha256": "d3af411f6438b292c0d975f09507943fbd945ec68e63b6308cc51ebe862857ab",
+          "status": "passed",
+          "wall_seconds": 43.138312125
+        },
+        {
+          "group": "research-launch-bindings",
+          "receipt_sha256": "aa69c8c195a934f957f8028dfc9ce93ed5df0b3de3429da19d994abef09ab43a",
+          "status": "passed",
+          "wall_seconds": 0.76218175
+        }
+      ],
+      "status": "resolved_all_remaining_groups_passed"
     }
   ],
   "schema": "ilxyr.zero4_storage_repair_failures.v1"
