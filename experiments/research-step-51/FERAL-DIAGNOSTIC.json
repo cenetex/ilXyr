@@ -1,0 +1,129 @@
+{
+  "finding": "The question requests S&P 500 Index. That series is absent. V2 chooses Dow Jones U.S. Technology Total Stock Market Index and computes 234/287 instead. The selected facts and arithmetic are internally consistent with a different series.",
+  "new_predictor_calls": 0,
+  "next_control": "Require the chosen series to satisfy the requested entity. Include a present but unrelated series as a distractor when the requested series is missing.",
+  "paraphrase_numeric_abstention_reasons": {
+    "question_needs_distinct_years": 42,
+    "unsupported_question_shape": 40
+  },
+  "prediction_file_sha256": "9057d1a559c0e1afb4f71ef61a1d1b62a8658146d965f83026f813aea795bacb",
+  "required_abstention_error": {
+    "company": "Apple",
+    "family": "aapl-shareholder-2025",
+    "input": {
+      "id": "feral47-b99cedfc74f7948641f3adba",
+      "question": "What was the ratio of Apple Inc. to S&P 500 Index in 2025?",
+      "retrieved_evidence": [
+        [
+          "e00",
+          "the Apple Inc. of 2020 is $100"
+        ],
+        [
+          "e01",
+          "the Apple Inc. of 2021 is $132"
+        ],
+        [
+          "e02",
+          "the Apple Inc. of 2022 is $136"
+        ],
+        [
+          "e03",
+          "the Apple Inc. of 2023 is $155"
+        ],
+        [
+          "e04",
+          "the Apple Inc. of 2024 is $208"
+        ],
+        [
+          "e05",
+          "the Apple Inc. of 2025 is $234"
+        ],
+        [
+          "e06",
+          "the Dow Jones U.S. Technology Total Stock Market Index of 2020 is $100"
+        ],
+        [
+          "e07",
+          "the Dow Jones U.S. Technology Total Stock Market Index of 2021 is $147"
+        ],
+        [
+          "e08",
+          "the Dow Jones U.S. Technology Total Stock Market Index of 2022 is $107"
+        ],
+        [
+          "e09",
+          "the Dow Jones U.S. Technology Total Stock Market Index of 2023 is $147"
+        ],
+        [
+          "e10",
+          "the Dow Jones U.S. Technology Total Stock Market Index of 2024 is $220"
+        ],
+        [
+          "e11",
+          "the Dow Jones U.S. Technology Total Stock Market Index of 2025 is $287"
+        ]
+      ],
+      "schema": "ilxyr.feral_fresh_input.v1"
+    },
+    "input_sha256": "b99cedfc74f7948641f3adba87146c507761e98f5465266bf5be19bfa655faaa",
+    "prediction": {
+      "arm": "calculator_v2",
+      "id": "feral47-b99cedfc74f7948641f3adba",
+      "pass": 1,
+      "result": {
+        "arm": "calculator",
+        "exact_result": "234/287",
+        "operands": [
+          {
+            "evidence_id": "e05",
+            "label": "Apple Inc.",
+            "span": [
+              26,
+              30
+            ],
+            "text": "$234",
+            "unit": "usd",
+            "value": "234",
+            "year": 2025
+          },
+          {
+            "evidence_id": "e11",
+            "label": "Dow Jones U.S. Technology Total Stock Market Index",
+            "span": [
+              66,
+              70
+            ],
+            "text": "$287",
+            "unit": "usd",
+            "value": "287",
+            "year": 2025
+          }
+        ],
+        "operation": "ratio",
+        "prediction": "0.82",
+        "reason": "answered",
+        "route": "single_year",
+        "schema": "ilxyr.feral_evidence_calculator.v2",
+        "selected_series": [
+          "apple inc.",
+          "dow jones u.s. technology total stock market index"
+        ],
+        "unit": "ratio",
+        "work": {
+          "arithmetic_operations": 1,
+          "evidence_rows": 12,
+          "parsed_cells": 12,
+          "series_scored": 4
+        }
+      }
+    },
+    "target": {
+      "id": "feral47-b99cedfc74f7948641f3adba",
+      "kind": "abstention",
+      "reason": "requested_series_omitted"
+    },
+    "target_sha256": "67cc9aae4074ea0722a3318f31c5bdcc69361652801721d43416497e2a5b1190"
+  },
+  "schema": "ilxyr.feral_opened_failure_diagnostic.v1",
+  "scope": "Read-only inspection of one collected v2 pass after the frozen fresh comparison. Repeated predictions were verified by the full checker."
+}

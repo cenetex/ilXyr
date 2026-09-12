@@ -15,6 +15,12 @@ source-formula, retrieval, and answerability failures.
 The [calculator smoke](../experiments/research-step-8/REPORT.md) adds its
 cross-series coverage limit.
 
+The [five-run closeout](../experiments/research-step-51/REPORT.md) extends the
+ledger from 38 to 69 entries. It adds 26 verified findings from steps 32–50
+and five outcomes from the approved cloud runs. Its source index binds all
+nineteen intervening step records, including their controlled tests. The five
+new design reports connect each project's next move to this complete ledger.
+
 ## Records and evidence
 
 [`verdict.schema.json`](../schemas/verdict.schema.json) describes a result.
@@ -37,8 +43,8 @@ reports use the latest correction while the ledger keeps the full history.
 The checker validates contiguous sequence numbers, unique identities,
 correction order, each declared verdict field, and each declared digest.
 The first ten imported entries currently have `reference_only` evidence.
-The fourteen later entries have local evidence whose bytes are checked against
-their SHA-256 references. New recording authors identify the model agent.
+Every later entry has local evidence whose bytes are checked against its
+SHA-256 reference. New recording authors identify the model agent.
 
 ## Use failures in the next design
 

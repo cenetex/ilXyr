@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-48/SMOKE.json",
+  "evidence_ref": "artifact://sha256/b28d4928ad413a7280bc584d41ad3f4651fc7d907b5860df35faff3e0f427781",
+  "experiment_id": "research.step48.wording-coverage.v1",
+  "family": "feral",
+  "id": "verdict:research.step48.wording-coverage.v1",
+  "lineage_note": "Measure canonical and varied wording separately in the fixed fresh control comparison. Use the measured gap to set the next fact and operation selection target.",
+  "mechanism": "wording coverage",
+  "mechanism_tags": [
+    "fact-selection",
+    "wording-transfer",
+    "calculator-control"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "feral",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "opened_engineering; invented fixture; zero fresh predictor calls",
+  "summary": "In the invented fixture, calculator v2 answered all 21 canonical numeric questions and zero of their 21 paraphrases. It correctly abstained on all sixteen required cases.",
+  "taxonomy": "measurement"
+}

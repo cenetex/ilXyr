@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-43/FAILURES.json",
+  "evidence_ref": "artifact://sha256/68fde0cbda3d7a04cad1cbbc60d38f0811deca0cdfb4de72d1c05ad1c395def6",
+  "experiment_id": "research.step43.language-endpoint-damage.v1",
+  "family": "zero",
+  "id": "verdict:research.step43.language-endpoint-damage.v1",
+  "lineage_note": "Keep separate source and language gates and preserve the failed candidate decision alongside its accepted updates.",
+  "mechanism": "language endpoint damage",
+  "mechanism_tags": [
+    "replay-guard",
+    "source-retention",
+    "language-retention"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "zero4",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "On the tiny synthetic model and opened cases, every guard update was accepted. Dialogue loss rose 4.218516 percent, story bits per byte rose 17.184475 percent, and task exact artifacts stayed at zero of five.",
+  "taxonomy": "interference"
+}

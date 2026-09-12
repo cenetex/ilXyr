@@ -1,0 +1,163 @@
+{
+  "schema": "ilxyr.constraint_diff_report.v1",
+  "report_id": "constraint-diff:research.step51.solomon",
+  "experiment_id": "research.step51.solomon",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "ledger_ref": "artifact://sha256/23934f7d4e72aed4330f14a63d84784a94fb28ed74fc7bc39c850cc08b74a931",
+  "generated_at_ms": 1789248868720,
+  "proposed_mechanism_tags": [
+    "confidence",
+    "frequency-control",
+    "document-groups"
+  ],
+  "matches": [
+    {
+      "verdict_id": "verdict:zero.reasoner55-prior-cost-floor.v1",
+      "experiment_id": "zero.reasoner55-prior-cost-floor.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "frequency-control"
+      ],
+      "verdict_summary": "The feature-removed guide uses 14.31 percent more family-weighted CPU than semantic frequency on the opened cohort. Assigning zero search wall time leaves a 10.53 percent aggregate wall gap with other stages fixed.",
+      "same_mechanism_tags": false,
+      "project": "reasoner",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "The ablated guide spends more CPU in all 128 opened families; scoring and ranking dominate the remaining cost.",
+      "lineage_note": "Change work before search, apply shared optimizations to all controls, and retain semantic frequency as a cost reference. Use fresh families after the opened-data engineering check.",
+      "verdict_ref": "artifact://sha256/64d6f682076e8b0c9057d9664c645c8142c936269761aee762af49e48f017660",
+      "evidence_ref": "artifact://sha256/a8f1de11af093d3bd331ee6cefbda7da06e1348beb28145319aa1779fd763038",
+      "evidence_path": "experiments/research-step-31/RESULT.json"
+    },
+    {
+      "verdict_id": "verdict:research.step32.window-selection.v1",
+      "experiment_id": "research.step32.window-selection.v1",
+      "family": "solomon",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "document-groups"
+      ],
+      "verdict_summary": "Two of 384 fixed-position contexts were too short after layout normalization. A later zero-shared-phrase rule rejected two contexts across fresh documents.",
+      "same_mechanism_tags": false,
+      "project": "solomon",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Check normalized context length, retain shared phrases in linked document groups, and apply the declared overlap rule against prior candidate data.",
+      "verdict_ref": "artifact://sha256/6ffce531c93357594e1229f2203e53285282d92bdd9bff1215d2f608a6acfdfc",
+      "evidence_ref": "artifact://sha256/32056ec4d4f359be55cdd0236e92ee1a495e3a48420382d64bd410ab6c613305",
+      "evidence_path": "experiments/research-step-32/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step36.eligible-guide-work.v1",
+      "experiment_id": "research.step36.eligible-guide-work.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "frequency-control"
+      ],
+      "verdict_summary": "On sixteen opened measured visits, the full task guide used 243 verifier checks, semantic frequency 211, lexical guidance 176, and the prior-feature ablation 233.",
+      "same_mechanism_tags": false,
+      "project": "reasoner",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Keep both simple references in the fresh comparison and count scoring plus verifier work. A further full-study failure directs work toward a different guidance mechanism.",
+      "verdict_ref": "artifact://sha256/f880e85ace6cb5c2020f3365c0c22e89b8cce5145082c9f49575455a391be5e4",
+      "evidence_ref": "artifact://sha256/d0f683fa9767fd70a90cd584768bda28a50cc1c98a09126be2fb415ffbc8f031",
+      "evidence_path": "experiments/research-step-36/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step37.native-probability-mass.v1",
+      "experiment_id": "research.step37.native-probability-mass.v1",
+      "family": "solomon",
+      "outcome": "execution_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "confidence"
+      ],
+      "verdict_summary": "The first independent checker assumed native integer mass totaled 32767. The sixteen observed totals ranged from 32771 to 33007.",
+      "same_mechanism_tags": false,
+      "project": "solomon",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Bound each component and normalize by its observed positive sum. Verify exact historical score parity.",
+      "verdict_ref": "artifact://sha256/d506dd66dd1183a0de4a6f2f73edaf4eea3c4f473068d8553917becb895f4b96",
+      "evidence_ref": "artifact://sha256/6daf00e62d0cb33528df1768db936524d5cd716c7d87e644038ced427588266c",
+      "evidence_path": "experiments/research-step-37/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step37.native-confidence.v1",
+      "experiment_id": "research.step37.native-confidence.v1",
+      "family": "solomon",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "confidence",
+        "frequency-control",
+        "document-groups"
+      ],
+      "verdict_summary": "Native normalized Brier error was 0.702257 on sixteen opened windows. All four controls had lower error. Every method chose the same bytes and made the same four mistakes.",
+      "same_mechanism_tags": true,
+      "project": "solomon",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Compare confidence at fixed chosen bytes on the frozen document panel. Report document-weighted Brier error and complete inference cost.",
+      "verdict_ref": "artifact://sha256/19e4b284739c52296323b3fd7349ae05cf27815e264ed8646d8a80c4b36946e8",
+      "evidence_ref": "artifact://sha256/6daf00e62d0cb33528df1768db936524d5cd716c7d87e644038ced427588266c",
+      "evidence_path": "experiments/research-step-37/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step51.reasoner-outcome.v1",
+      "experiment_id": "research.step51.reasoner-outcome.v1",
+      "family": "zero",
+      "outcome": "complete_no_go",
+      "taxonomy": "transfer",
+      "matched_tags": [
+        "frequency-control"
+      ],
+      "verdict_summary": "The revised guide missed both fixed benefit gates on 128 fresh families. Its CPU ratios were 1.000772 against lexical guidance and 0.996838 against semantic frequency. All 2048 measured replays verified.",
+      "same_mechanism_tags": false,
+      "project": "reasoner",
+      "evidence_kind": "existing_public_result",
+      "source_outcome": "complete_no_go",
+      "lineage_note": "Change the guidance representation or mechanism before another fresh comparison.",
+      "verdict_ref": "artifact://sha256/812ca8bfb956c88cdd33f7382336a5e81ad4e5a37923fde42be3445374166949",
+      "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+      "evidence_path": "experiments/research-step-51/FINDINGS.json"
+    },
+    {
+      "verdict_id": "verdict:research.step51.solomon-outcome.v1",
+      "experiment_id": "research.step51.solomon-outcome.v1",
+      "family": "solomon",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "confidence",
+        "frequency-control",
+        "document-groups"
+      ],
+      "verdict_summary": "On 384 windows from twelve documents, native confidence had equal-document Brier error 1.071032. Empirical suffix counts scored 1.017686 and smoothed suffix counts 0.883474. Each method chose the same bytes and made 261 mistakes. This is a fixed-panel confidence diagnostic.",
+      "same_mechanism_tags": true,
+      "project": "solomon",
+      "evidence_kind": "existing_public_result",
+      "source_outcome": "fixed_panel_confidence_diagnostic",
+      "lineage_note": "Use smoothed suffix counts as the confidence reference, inspect document differences, and register a fresh comparison before fitting another confidence method.",
+      "verdict_ref": "artifact://sha256/5a3d79980b041c038ffdceff82072a6b590869c72348767ee4fd89cd8bf185f8",
+      "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+      "evidence_path": "experiments/research-step-51/FINDINGS.json"
+    }
+  ],
+  "taxonomy_counts": {
+    "transfer": 1,
+    "interference": 0,
+    "measurement": 5,
+    "venue": 0,
+    "implementation": 1
+  },
+  "superseded_entries": 0,
+  "proposed_change": "Use smoothed suffix counts as the confidence reference, inspect document differences, and register a fresh comparison before fitting another confidence method.",
+  "summary": "7 prior results share these mechanism tags. Review their evidence and the required design changes.",
+  "recommendation": "review"
+}

@@ -1,0 +1,28 @@
+{
+  "evidence_kind": "existing_public_result",
+  "evidence_path": "experiments/research-step-51/FINDINGS.json",
+  "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+  "experiment_id": "research.step51.feral-outcome.v1",
+  "family": "feral",
+  "id": "verdict:research.step51.feral-outcome.v1",
+  "lineage_note": "Diagnose the wording failures and the erroneous answer on a required-abstention case. Freeze a fact and operation selector with explicit ambiguity handling.",
+  "mechanism": "Source-linked numeric selection and arithmetic",
+  "mechanism_tags": [
+    "fact-selection",
+    "wording-transfer",
+    "calculator-control",
+    "abstention"
+  ],
+  "outcome": "complete_no_go",
+  "project": "feral",
+  "recorded_at_ms": 1789248868556,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "complete_no_go",
+  "summary": "On the fixed fresh roster, v2 answered 77 of 82 canonical numeric questions and zero of 82 paraphrases. It gave one numeric answer on a required-abstention case and correctly abstained on 63 of 64 such cases.",
+  "taxonomy": "transfer"
+}

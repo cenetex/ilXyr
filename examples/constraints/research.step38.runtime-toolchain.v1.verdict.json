@@ -1,0 +1,26 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-38/FAILURES.json",
+  "evidence_ref": "artifact://sha256/82d0a88ac0c14e64e5f47956fc62a2e3dad2e485ae0bbf50a8ac1cf7c7fef7c1",
+  "experiment_id": "research.step38.runtime-toolchain.v1",
+  "family": "solomon",
+  "id": "verdict:research.step38.runtime-toolchain.v1",
+  "lineage_note": "Select the installed 1.98.0 toolchain and normalize verified package and file checksums before packing the vendor archive.",
+  "mechanism": "runtime toolchain",
+  "mechanism_tags": [
+    "fixed-runtime",
+    "package-integrity"
+  ],
+  "outcome": "execution_failure",
+  "project": "solomon",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The source selected the stable Rust toolchain, which triggered an update inside a read-only image. A separate cross-platform vendor check differed because newer Cargo added comment metadata.",
+  "taxonomy": "implementation"
+}

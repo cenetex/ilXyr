@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-49/FAILURES.json",
+  "evidence_ref": "artifact://sha256/de9a374c36632baa9d79840396574c5cec0b13bd4f797b5503b045242f236caa",
+  "experiment_id": "research.step49.tamper-fixture-path.v1",
+  "family": "feral",
+  "id": "verdict:research.step49.tamper-fixture-path.v1",
+  "lineage_note": "Write the altered archive to its own path and check that the intended integrity assertion is reached.",
+  "mechanism": "tamper fixture path",
+  "mechanism_tags": [
+    "failure-capture",
+    "independent-checker",
+    "package-integrity"
+  ],
+  "outcome": "execution_failure",
+  "project": "feral",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The new archive-tamper fixture reused an existing path with a create-only writer and stopped at FileExistsError before testing integrity.",
+  "taxonomy": "implementation"
+}
