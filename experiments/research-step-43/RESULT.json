@@ -1,0 +1,1308 @@
+{
+  "kit": {
+    "archive_files_match_checked_source": true,
+    "bytes": 6696960,
+    "sha256": "67f14e2ee85563c6a8f4a8419322c5de5f788d83b74755a1643670ee0cf3299e"
+  },
+  "local_schema_check": {
+    "receipt_sha256": "22fa5f50cc3c8ee1febcb198b0f95f3a17607faf8d12c7081d263b7b17b9925d",
+    "status": "complete"
+  },
+  "opened": {
+    "budget_check": {
+      "actual_cpu_us_before_replay": 1920035,
+      "actual_cpu_us_with_replay": 1941377,
+      "child_wall_ns": 2514111624,
+      "controller_cpu_us": 163458,
+      "controller_wall_ns": 2625999875,
+      "decisions": [
+        {
+          "arm": "replay_guard",
+          "passes": false,
+          "seeds": [
+            {
+              "changes": {
+                "blimp_change": {
+                  "count": 2,
+                  "mean": 0,
+                  "standard_error": 0.0
+                },
+                "blimp_passes": true,
+                "retention_passes": true,
+                "sources": [
+                  {
+                    "index": 0,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 1,
+                      "mean": 0.0,
+                      "standard_error": null
+                    },
+                    "passes": true,
+                    "relative_change": 0.0
+                  },
+                  {
+                    "index": 1,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 2,
+                      "mean": 0.0,
+                      "standard_error": 0.0
+                    },
+                    "passes": true,
+                    "relative_change": 0.0
+                  },
+                  {
+                    "index": 2,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 3,
+                      "mean": 0.0,
+                      "standard_error": 0.0
+                    },
+                    "passes": true,
+                    "relative_change": 0.0
+                  },
+                  {
+                    "index": 3,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 1,
+                      "mean": 0.0,
+                      "standard_error": null
+                    },
+                    "passes": true,
+                    "relative_change": 0.0
+                  },
+                  {
+                    "index": 4,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 2,
+                      "mean": 0.0,
+                      "standard_error": 0.0
+                    },
+                    "passes": true,
+                    "relative_change": 0.0
+                  },
+                  {
+                    "index": 5,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 3,
+                      "mean": 0.0,
+                      "standard_error": 0.0
+                    },
+                    "passes": true,
+                    "relative_change": 0.0
+                  }
+                ],
+                "task_change": {
+                  "count": 5,
+                  "mean": 0,
+                  "standard_error": 0.0
+                },
+                "tinystories_case_change": {
+                  "count": 2,
+                  "mean": 0.0,
+                  "standard_error": 0.0
+                },
+                "tinystories_passes": true,
+                "tinystories_relative_change": 0.0
+              },
+              "passes": false,
+              "seed": 71,
+              "task_gains": {
+                "frozen": 0.0,
+                "replay": 0.0
+              }
+            }
+          ]
+        },
+        {
+          "arm": "replay_projection",
+          "passes": false,
+          "seeds": [
+            {
+              "changes": {
+                "blimp_change": {
+                  "count": 2,
+                  "mean": 0,
+                  "standard_error": 0.0
+                },
+                "blimp_passes": true,
+                "retention_passes": true,
+                "sources": [
+                  {
+                    "index": 0,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 1,
+                      "mean": 0.0,
+                      "standard_error": null
+                    },
+                    "passes": true,
+                    "relative_change": 0.0
+                  },
+                  {
+                    "index": 1,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 2,
+                      "mean": 0.0,
+                      "standard_error": 0.0
+                    },
+                    "passes": true,
+                    "relative_change": 0.0
+                  },
+                  {
+                    "index": 2,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 3,
+                      "mean": 0.0,
+                      "standard_error": 0.0
+                    },
+                    "passes": true,
+                    "relative_change": 0.0
+                  },
+                  {
+                    "index": 3,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 1,
+                      "mean": 0.0,
+                      "standard_error": null
+                    },
+                    "passes": true,
+                    "relative_change": 0.0
+                  },
+                  {
+                    "index": 4,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 2,
+                      "mean": 0.0,
+                      "standard_error": 0.0
+                    },
+                    "passes": true,
+                    "relative_change": 0.0
+                  },
+                  {
+                    "index": 5,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 3,
+                      "mean": 0.0,
+                      "standard_error": 0.0
+                    },
+                    "passes": true,
+                    "relative_change": 0.0
+                  }
+                ],
+                "task_change": {
+                  "count": 5,
+                  "mean": 0,
+                  "standard_error": 0.0
+                },
+                "tinystories_case_change": {
+                  "count": 2,
+                  "mean": 0.0,
+                  "standard_error": 0.0
+                },
+                "tinystories_passes": true,
+                "tinystories_relative_change": 0.0
+              },
+              "passes": false,
+              "seed": 71,
+              "task_gains": {
+                "frozen": 0.0,
+                "replay": 0.0
+              }
+            }
+          ]
+        }
+      ],
+      "endpoint_models": 5,
+      "exact_parser_cases": 5,
+      "manifest_sha256": "750a0a8840a3ab1d05b7c3c4549dd7eb4a29d5ef3159ad511e4588f1dc4e71cc",
+      "memory_scope": "maximum wait4 peak of one child and waited descendants; controller peak and whole process-tree peak are separate cloud-host measurements",
+      "owners": {
+        "seed-71-frozen": {
+          "endpoint_controller_cpu_us": 20273,
+          "endpoint_cpu_us": 21334,
+          "peak_child_rss_bytes": 1589248,
+          "selected_attempts": 0,
+          "selected_training_cpu_us": 0,
+          "training_controller_cpu_us": 0,
+          "training_cpu_us": 0
+        },
+        "seed-71-replay": {
+          "endpoint_controller_cpu_us": 20352,
+          "endpoint_cpu_us": 19378,
+          "peak_child_rss_bytes": 1753088,
+          "selected_attempts": 0,
+          "selected_training_cpu_us": 0,
+          "training_controller_cpu_us": 4366,
+          "training_cpu_us": 3459
+        },
+        "seed-71-replay_guard": {
+          "endpoint_controller_cpu_us": 20924,
+          "endpoint_cpu_us": 19206,
+          "peak_child_rss_bytes": 1818624,
+          "selected_attempts": 0,
+          "selected_training_cpu_us": 0,
+          "training_controller_cpu_us": 3764,
+          "training_cpu_us": 3888
+        },
+        "seed-71-replay_projection": {
+          "endpoint_controller_cpu_us": 22361,
+          "endpoint_cpu_us": 19287,
+          "peak_child_rss_bytes": 1818624,
+          "selected_attempts": 0,
+          "selected_training_cpu_us": 0,
+          "training_controller_cpu_us": 4094,
+          "training_cpu_us": 4470
+        },
+        "seed-71-task_only": {
+          "endpoint_controller_cpu_us": 17788,
+          "endpoint_cpu_us": 19361,
+          "peak_child_rss_bytes": 1638400,
+          "selected_attempts": 0,
+          "selected_training_cpu_us": 0,
+          "training_controller_cpu_us": 4345,
+          "training_cpu_us": 3770
+        }
+      },
+      "peak_child_rss_bytes": 96223232,
+      "plan_sha256": "dd24ba5662dde39de82ffbc53d3dfb6a8de438f0907998e28576df7780575127",
+      "reference_child_cpu_us": 2898,
+      "schema": "ilxyr.zero4_study_check.v1",
+      "selection_sha256": "9501102e33372d8f45d1d748f96ed3f37bc56b008ecb9c213b0fc0486c267429",
+      "setup_child_cpu_us": 1639526,
+      "setup_controller_cpu_us": 37171,
+      "status": "complete",
+      "summaries": [
+        {
+          "arm": "frozen",
+          "blimp": {
+            "bits_per_byte": 6.9955905193872185,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            4.86201191,
+            4.8541488600000005,
+            4.85676972,
+            4.85610676,
+            4.8544135100000005,
+            4.85775232
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.0081359614112
+          },
+          "tinystories": {
+            "bits_per_byte": 6.999527316367621,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "task_only",
+          "blimp": {
+            "bits_per_byte": 6.9955905193872185,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            4.86201191,
+            4.8541488600000005,
+            4.85676972,
+            4.85610676,
+            4.8544135100000005,
+            4.85775232
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.0081359614112
+          },
+          "tinystories": {
+            "bits_per_byte": 6.999527316367621,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "replay",
+          "blimp": {
+            "bits_per_byte": 6.9955905193872185,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            4.86201191,
+            4.8541488600000005,
+            4.85676972,
+            4.85610676,
+            4.8544135100000005,
+            4.85775232
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.0081359614112
+          },
+          "tinystories": {
+            "bits_per_byte": 6.999527316367621,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "replay_guard",
+          "blimp": {
+            "bits_per_byte": 6.9955905193872185,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            4.86201191,
+            4.8541488600000005,
+            4.85676972,
+            4.85610676,
+            4.8544135100000005,
+            4.85775232
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.0081359614112
+          },
+          "tinystories": {
+            "bits_per_byte": 6.999527316367621,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "replay_projection",
+          "blimp": {
+            "bits_per_byte": 6.9955905193872185,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            4.86201191,
+            4.8541488600000005,
+            4.85676972,
+            4.85610676,
+            4.8544135100000005,
+            4.85775232
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.0081359614112
+          },
+          "tinystories": {
+            "bits_per_byte": 6.999527316367621,
+            "cases": 2,
+            "correct": 2
+          }
+        }
+      ],
+      "total_child_cpu_us": 1756577,
+      "unassigned_controller_cpu_us": 8020,
+      "verification_cpu_us": 21342
+    },
+    "check": {
+      "actual_cpu_us_before_replay": 1950493,
+      "actual_cpu_us_with_replay": 1973119,
+      "child_wall_ns": 2975615291,
+      "controller_cpu_us": 190433,
+      "controller_wall_ns": 3106108500,
+      "decisions": [
+        {
+          "arm": "replay_guard",
+          "passes": false,
+          "seeds": [
+            {
+              "changes": {
+                "blimp_change": {
+                  "count": 2,
+                  "mean": 0,
+                  "standard_error": 0.0
+                },
+                "blimp_passes": true,
+                "retention_passes": false,
+                "sources": [
+                  {
+                    "index": 0,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 1,
+                      "mean": -1.4999213199999994,
+                      "standard_error": null
+                    },
+                    "passes": true,
+                    "relative_change": -0.30849807605674906
+                  },
+                  {
+                    "index": 1,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 2,
+                      "mean": -1.545055265,
+                      "standard_error": 0.03744900499999981
+                    },
+                    "passes": true,
+                    "relative_change": -0.31829581447982214
+                  },
+                  {
+                    "index": 2,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 3,
+                      "mean": -1.2901772666666667,
+                      "standard_error": 0.1680052807258953
+                    },
+                    "passes": true,
+                    "relative_change": -0.26564513885716345
+                  },
+                  {
+                    "index": 3,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 1,
+                      "mean": -1.2874920400000005,
+                      "standard_error": null
+                    },
+                    "passes": true,
+                    "relative_change": -0.2651284462288058
+                  },
+                  {
+                    "index": 4,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 2,
+                      "mean": -0.85096383,
+                      "standard_error": 0.14957165999999988
+                    },
+                    "passes": true,
+                    "relative_change": -0.1752969392176894
+                  },
+                  {
+                    "index": 5,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 3,
+                      "mean": 0.20492505999999988,
+                      "standard_error": 0.0
+                    },
+                    "passes": false,
+                    "relative_change": 0.04218516023476471
+                  }
+                ],
+                "task_change": {
+                  "count": 5,
+                  "mean": 0,
+                  "standard_error": 0.0
+                },
+                "tinystories_case_change": {
+                  "count": 2,
+                  "mean": 1.27388881251423,
+                  "standard_error": 0.8763673538448294
+                },
+                "tinystories_passes": false,
+                "tinystories_relative_change": 0.17184474689135598
+              },
+              "passes": false,
+              "seed": 71,
+              "task_gains": {
+                "frozen": 0.0,
+                "replay": 0.0
+              }
+            }
+          ]
+        },
+        {
+          "arm": "replay_projection",
+          "passes": false,
+          "seeds": [
+            {
+              "changes": {
+                "blimp_change": {
+                  "count": 2,
+                  "mean": 0,
+                  "standard_error": 0.0
+                },
+                "blimp_passes": true,
+                "retention_passes": false,
+                "sources": [
+                  {
+                    "index": 0,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 1,
+                      "mean": -1.5003728899999995,
+                      "standard_error": null
+                    },
+                    "passes": true,
+                    "relative_change": -0.3085909532459371
+                  },
+                  {
+                    "index": 1,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 2,
+                      "mean": -1.545343155,
+                      "standard_error": 0.03739190499999956
+                    },
+                    "passes": true,
+                    "relative_change": -0.31835512250854214
+                  },
+                  {
+                    "index": 2,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 3,
+                      "mean": -1.29042244,
+                      "standard_error": 0.16799871802912494
+                    },
+                    "passes": true,
+                    "relative_change": -0.26569561959795773
+                  },
+                  {
+                    "index": 3,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 1,
+                      "mean": -1.2877433300000005,
+                      "standard_error": null
+                    },
+                    "passes": true,
+                    "relative_change": -0.26518019344368793
+                  },
+                  {
+                    "index": 4,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 2,
+                      "mean": -0.8512169150000002,
+                      "standard_error": 0.14957201499999948
+                    },
+                    "passes": true,
+                    "relative_change": -0.1753490742489302
+                  },
+                  {
+                    "index": 5,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 3,
+                      "mean": 0.20798158999999927,
+                      "standard_error": 0.0
+                    },
+                    "passes": false,
+                    "relative_change": 0.04281436687163165
+                  }
+                ],
+                "task_change": {
+                  "count": 5,
+                  "mean": 0,
+                  "standard_error": 0.0
+                },
+                "tinystories_case_change": {
+                  "count": 2,
+                  "mean": 1.2730817386887718,
+                  "standard_error": 0.8760714776205214
+                },
+                "tinystories_passes": false,
+                "tinystories_relative_change": 0.17173287021369887
+              },
+              "passes": false,
+              "seed": 71,
+              "task_gains": {
+                "frozen": 0.0,
+                "replay": 0.0
+              }
+            }
+          ]
+        }
+      ],
+      "endpoint_models": 5,
+      "exact_parser_cases": 5,
+      "manifest_sha256": "764a60cb72b533f0f4c75a4ea588945dcfc313c29ff3d792ddd1509ee0b56cc7",
+      "memory_scope": "maximum wait4 peak of one child and waited descendants; controller peak and whole process-tree peak are separate cloud-host measurements",
+      "owners": {
+        "seed-71-frozen": {
+          "endpoint_controller_cpu_us": 21914,
+          "endpoint_cpu_us": 21026,
+          "peak_child_rss_bytes": 1605632,
+          "selected_attempts": 0,
+          "selected_training_cpu_us": 0,
+          "training_controller_cpu_us": 0,
+          "training_cpu_us": 0
+        },
+        "seed-71-replay": {
+          "endpoint_controller_cpu_us": 21194,
+          "endpoint_cpu_us": 18378,
+          "peak_child_rss_bytes": 1753088,
+          "selected_attempts": 4,
+          "selected_training_cpu_us": 15190,
+          "training_controller_cpu_us": 8135,
+          "training_cpu_us": 7055
+        },
+        "seed-71-replay_guard": {
+          "endpoint_controller_cpu_us": 23195,
+          "endpoint_cpu_us": 18660,
+          "peak_child_rss_bytes": 1802240,
+          "selected_attempts": 4,
+          "selected_training_cpu_us": 17270,
+          "training_controller_cpu_us": 8754,
+          "training_cpu_us": 8516
+        },
+        "seed-71-replay_projection": {
+          "endpoint_controller_cpu_us": 23847,
+          "endpoint_cpu_us": 18129,
+          "peak_child_rss_bytes": 1818624,
+          "selected_attempts": 4,
+          "selected_training_cpu_us": 18012,
+          "training_controller_cpu_us": 8958,
+          "training_cpu_us": 9054
+        },
+        "seed-71-task_only": {
+          "endpoint_controller_cpu_us": 19089,
+          "endpoint_cpu_us": 15663,
+          "peak_child_rss_bytes": 1638400,
+          "selected_attempts": 4,
+          "selected_training_cpu_us": 15927,
+          "training_controller_cpu_us": 8240,
+          "training_cpu_us": 7687
+        }
+      },
+      "peak_child_rss_bytes": 96256000,
+      "plan_sha256": "dd24ba5662dde39de82ffbc53d3dfb6a8de438f0907998e28576df7780575127",
+      "reference_child_cpu_us": 2982,
+      "schema": "ilxyr.zero4_study_check.v1",
+      "selection_sha256": "1ac5bf605421f089787bd0cfac7cd69b11817d615aee02867038a9d5d9eb66d8",
+      "setup_child_cpu_us": 1632910,
+      "setup_controller_cpu_us": 36798,
+      "status": "complete",
+      "summaries": [
+        {
+          "arm": "frozen",
+          "blimp": {
+            "bits_per_byte": 6.9955905193872185,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            4.86201191,
+            4.8541488600000005,
+            4.85676972,
+            4.85610676,
+            4.8544135100000005,
+            4.85775232
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.0081359614112
+          },
+          "tinystories": {
+            "bits_per_byte": 6.999527316367621,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "task_only",
+          "blimp": {
+            "bits_per_byte": 8.295099085428825,
+            "cases": 2,
+            "correct": 0
+          },
+          "retention": [
+            4.75979471,
+            4.764820335,
+            4.754684763333334,
+            4.75009155,
+            4.753850935,
+            9.9040966
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 5,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 8.9950196321816
+          },
+          "tinystories": {
+            "bits_per_byte": 7.770281878650594,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "replay",
+          "blimp": {
+            "bits_per_byte": 8.84265983203887,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            3.36209059,
+            3.309093595,
+            3.566592453333333,
+            3.56861472,
+            4.00344968,
+            5.06267738
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.3613912671998
+          },
+          "tinystories": {
+            "bits_per_byte": 8.202359316407946,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "replay_guard",
+          "blimp": {
+            "bits_per_byte": 8.84265983203887,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            3.36209059,
+            3.309093595,
+            3.566592453333333,
+            3.56861472,
+            4.00344968,
+            5.06267738
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.3613912671998
+          },
+          "tinystories": {
+            "bits_per_byte": 8.202359316407946,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "replay_projection",
+          "blimp": {
+            "bits_per_byte": 8.84161630183387,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            3.36163902,
+            3.308805705,
+            3.56634728,
+            3.56836343,
+            4.003196595,
+            5.06573391
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.360718452067
+          },
+          "tinystories": {
+            "bits_per_byte": 8.201576232546621,
+            "cases": 2,
+            "correct": 2
+          }
+        }
+      ],
+      "total_child_cpu_us": 1760060,
+      "unassigned_controller_cpu_us": 10309,
+      "verification_cpu_us": 22626
+    },
+    "failure_check": {
+      "actual_cpu_us_before_replay": 1933674,
+      "actual_cpu_us_with_replay": 1952456,
+      "child_wall_ns": 2544404669,
+      "controller_cpu_us": 165304,
+      "controller_wall_ns": 2656051959,
+      "decisions": null,
+      "endpoint_models": 5,
+      "exact_parser_cases": 5,
+      "manifest_sha256": "ab513feba4a4bb88aab01763f9432c5acebcdd7ed23254d267531f2d95100d61",
+      "memory_scope": "maximum wait4 peak of one child and waited descendants; controller peak and whole process-tree peak are separate cloud-host measurements",
+      "owners": {
+        "seed-71-frozen": {
+          "endpoint_controller_cpu_us": 19220,
+          "endpoint_cpu_us": 20896,
+          "peak_child_rss_bytes": 1605632,
+          "selected_attempts": 0,
+          "selected_training_cpu_us": 0,
+          "training_controller_cpu_us": 0,
+          "training_cpu_us": 0
+        },
+        "seed-71-replay": {
+          "endpoint_controller_cpu_us": 19750,
+          "endpoint_cpu_us": 19727,
+          "peak_child_rss_bytes": 1703936,
+          "selected_attempts": 0,
+          "selected_training_cpu_us": 0,
+          "training_controller_cpu_us": 3375,
+          "training_cpu_us": 2997
+        },
+        "seed-71-replay_guard": {
+          "endpoint_controller_cpu_us": 23608,
+          "endpoint_cpu_us": 20832,
+          "peak_child_rss_bytes": 1769472,
+          "selected_attempts": 0,
+          "selected_training_cpu_us": 0,
+          "training_controller_cpu_us": 3212,
+          "training_cpu_us": 3203
+        },
+        "seed-71-replay_projection": {
+          "endpoint_controller_cpu_us": 23462,
+          "endpoint_cpu_us": 20728,
+          "peak_child_rss_bytes": 1785856,
+          "selected_attempts": 0,
+          "selected_training_cpu_us": 0,
+          "training_controller_cpu_us": 3813,
+          "training_cpu_us": 3713
+        },
+        "seed-71-task_only": {
+          "endpoint_controller_cpu_us": 19276,
+          "endpoint_cpu_us": 20974,
+          "peak_child_rss_bytes": 1572864,
+          "selected_attempts": 0,
+          "selected_training_cpu_us": 0,
+          "training_controller_cpu_us": 3805,
+          "training_cpu_us": 3186
+        }
+      },
+      "peak_child_rss_bytes": 97746944,
+      "plan_sha256": "dd24ba5662dde39de82ffbc53d3dfb6a8de438f0907998e28576df7780575127",
+      "reference_child_cpu_us": 3045,
+      "schema": "ilxyr.zero4_study_check.v1",
+      "selection_sha256": "3a25cd7c7b03c2590f726d72c7fde97eef385f67f723f96fc16a89f4ab0097a4",
+      "setup_child_cpu_us": 1649069,
+      "setup_controller_cpu_us": 37755,
+      "status": "incomplete",
+      "summaries": [
+        {
+          "arm": "frozen",
+          "blimp": {
+            "bits_per_byte": 6.9955905193872185,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            4.86201191,
+            4.8541488600000005,
+            4.85676972,
+            4.85610676,
+            4.8544135100000005,
+            4.85775232
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.0081359614112
+          },
+          "tinystories": {
+            "bits_per_byte": 6.999527316367621,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "task_only",
+          "blimp": {
+            "bits_per_byte": 6.9955905193872185,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            4.86201191,
+            4.8541488600000005,
+            4.85676972,
+            4.85610676,
+            4.8544135100000005,
+            4.85775232
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.0081359614112
+          },
+          "tinystories": {
+            "bits_per_byte": 6.999527316367621,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "replay",
+          "blimp": {
+            "bits_per_byte": 6.9955905193872185,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            4.86201191,
+            4.8541488600000005,
+            4.85676972,
+            4.85610676,
+            4.8544135100000005,
+            4.85775232
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.0081359614112
+          },
+          "tinystories": {
+            "bits_per_byte": 6.999527316367621,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "replay_guard",
+          "blimp": {
+            "bits_per_byte": 6.9955905193872185,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            4.86201191,
+            4.8541488600000005,
+            4.85676972,
+            4.85610676,
+            4.8544135100000005,
+            4.85775232
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.0081359614112
+          },
+          "tinystories": {
+            "bits_per_byte": 6.999527316367621,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "replay_projection",
+          "blimp": {
+            "bits_per_byte": 6.9955905193872185,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            4.86201191,
+            4.8541488600000005,
+            4.85676972,
+            4.85610676,
+            4.8544135100000005,
+            4.85775232
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.0081359614112
+          },
+          "tinystories": {
+            "bits_per_byte": 6.999527316367621,
+            "cases": 2,
+            "correct": 2
+          }
+        }
+      ],
+      "total_child_cpu_us": 1768370,
+      "unassigned_controller_cpu_us": 8028,
+      "verification_cpu_us": 18782
+    },
+    "historical_task_parity_models": 5,
+    "production_teacher_forward_calls": 0,
+    "row_attacks": [
+      {
+        "case": "missing-task-case",
+        "error": "task coverage differs",
+        "status": "rejected"
+      },
+      {
+        "case": "wrong-task-id",
+        "error": "task case identity differs",
+        "status": "rejected"
+      },
+      {
+        "case": "boolean-task-count",
+        "error": "invalid task count",
+        "status": "rejected"
+      },
+      {
+        "case": "invented-artifact",
+        "error": "inconsistent task counts",
+        "status": "rejected"
+      },
+      {
+        "case": "oracle-failure",
+        "error": "exact task control failed",
+        "status": "rejected"
+      },
+      {
+        "case": "nonfinite-task-bits",
+        "error": "invalid task bits",
+        "status": "rejected"
+      },
+      {
+        "case": "missing-blimp",
+        "error": "language coverage differs",
+        "status": "rejected"
+      },
+      {
+        "case": "wrong-byte-count-blimp",
+        "error": "invalid language score",
+        "status": "rejected"
+      },
+      {
+        "case": "missing-tinystories",
+        "error": "language coverage differs",
+        "status": "rejected"
+      },
+      {
+        "case": "wrong-byte-count-tinystories",
+        "error": "invalid language score",
+        "status": "rejected"
+      },
+      {
+        "case": "invented-language-prediction",
+        "error": "language prediction differs",
+        "status": "rejected"
+      },
+      {
+        "case": "missing-retention-window",
+        "error": "retention window roster differs",
+        "status": "rejected"
+      },
+      {
+        "case": "changed-retention-input",
+        "error": "retention window input differs",
+        "status": "rejected"
+      },
+      {
+        "case": "invented-source-mean",
+        "error": "retention source mean differs",
+        "status": "rejected"
+      },
+      {
+        "case": "evaluation-state-mutation",
+        "error": "evaluation changed learned state",
+        "status": "rejected"
+      },
+      {
+        "case": "endpoint-before-seal",
+        "error": "endpoint executed before selection seal",
+        "status": "rejected"
+      },
+      {
+        "case": "changed-training-cpu",
+        "error": "candidate CPU accounting differs",
+        "status": "rejected"
+      },
+      {
+        "case": "changed-sealed-checkpoint-choice",
+        "error": "selected checkpoint differs from fixed CPU rule",
+        "status": "rejected"
+      }
+    ],
+    "sanitized": false,
+    "schema": "ilxyr.zero4_opened_study.v1",
+    "status": "complete",
+    "training_validation_parity": {
+      "replay": "bf234fe99dbe89991718886b8008724c4221e1bfb444668fcb3d412cc2babad0",
+      "replay_guard": "67cec745b4e98f28e8094ada80654faf9797295076a59f053cda57dd5b4e8093",
+      "replay_projection": "5eef0aee3e009073f2eb44e3d0cc60b0102a0cf8ca58b8cc75b7d28a5c92ec1c",
+      "task_only": "12146d94463c8715e8b4c7958781e065c1802ed6cc5ed63dd3ab9a0ff99f3e2e"
+    }
+  },
+  "plan_commit": "8881cd0",
+  "plan_sha256": "dd24ba5662dde39de82ffbc53d3dfb6a8de438f0907998e28576df7780575127",
+  "prepared": {
+    "bytes": 47987778,
+    "files": 63,
+    "initial_teacher_sha256": "c865769461ef12374cadf3c5851016efb4bac06cf760e7599f610aa4cd35f137",
+    "manifest_sha256": "58bef171d497bd51d8ec171d6a71fb3965a68cfa45893c06e2b959429ec4529c"
+  },
+  "prior_plan_commit": "5eeae3c",
+  "production_teacher_forward_calls": 0,
+  "sanitized": {
+    "check_sha256": "d1e6dde17c175b7754963e9bec4879c747cb5056c2e2d34990773278eaed0981",
+    "status": "complete",
+    "training_validation_parity": {
+      "replay": "c60a9e1ebd5b1c8368edfa2b3b7255b372bb50611d6508b2a8f6a002a407c1c2",
+      "replay_guard": "898d6b60ab8549b778c449be25a58640a387c810c21a22f9b2aaade56aa5759a",
+      "replay_projection": "83e43049aedeff421a74d65f9ef48976151eabba005d5061073b19ba9dba6495",
+      "task_only": "036ad0252cb3791fe2261268f8b80161ae46decde471026f8c213674d115b169"
+    }
+  },
+  "schema": "ilxyr.zero4_study_step_result.v1",
+  "status": "source_kit_checked"
+}

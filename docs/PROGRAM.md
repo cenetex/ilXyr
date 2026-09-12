@@ -135,6 +135,16 @@ answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
 integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence
 use; weight multiplicity tests structural transfer from an exact oracle.
 
+The [sealed ZERO.4 controller](../experiments/research-step-43/REPORT.md) now
+chooses all checkpoints before final task, retention and language tests.
+It keeps a separate limit for every source and records all work, including
+failed processes and chunks that finish over the training allowance. Its small
+native check preserves an accepted-guard failure: dialogue loss rises 4.22%
+and story bits per byte rise 17.18%. The exact parser checks all five opened
+tasks while the learned methods produce zero exact artifacts. Checkpoint
+parity, altered-record checks, budget handling and memory-safety checks pass.
+The full inputs are bound; the next step is the cloud host package and budget.
+
 ## Mission
 
 Produce a family of certified micromodels: small enough to audit fully, trained

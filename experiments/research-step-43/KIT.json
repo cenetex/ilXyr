@@ -1,0 +1,308 @@
+{
+  "archive_entries": 61,
+  "bytes": 6696960,
+  "files": {
+    "LICENSE": {
+      "bytes": 1075,
+      "path": "LICENSE",
+      "sha256": "3a162b507a69a4301565b2be2e79b9d5072be1652e8e83f7843dcfaee1cf797a"
+    },
+    "README.md": {
+      "bytes": 476,
+      "path": "README.md",
+      "sha256": "65609383f94174d6d15e46190136a7793ba020a5164d9889918fb619e7d1c5ba"
+    },
+    "experiments/research-step-41/SOURCE-FILES.json": {
+      "bytes": 3983,
+      "path": "experiments/research-step-41/SOURCE-FILES.json",
+      "sha256": "002d58d590424152e53133ebd32b9e16732e248fe741a4f406502d1fa3e0e794"
+    },
+    "experiments/research-step-42/SOURCE-FILES.json": {
+      "bytes": 1663,
+      "path": "experiments/research-step-42/SOURCE-FILES.json",
+      "sha256": "93ebb74d78c38e7c09a527db08b6151fc8672a2805dc971dd45e0f2764e89931"
+    },
+    "experiments/research-step-43/PLAN-v2.json": {
+      "bytes": 7435,
+      "path": "experiments/research-step-43/PLAN-v2.json",
+      "sha256": "dd24ba5662dde39de82ffbc53d3dfb6a8de438f0907998e28576df7780575127"
+    },
+    "experiments/research-step-43/PLAN.json": {
+      "bytes": 6787,
+      "path": "experiments/research-step-43/PLAN.json",
+      "sha256": "a38954dfbb4065de5cdb52f803e23f8d7305e57f1dc4387a00436ff08eb44696"
+    },
+    "experiments/research-step-43/SOURCE-FILES.json": {
+      "bytes": 1970,
+      "path": "experiments/research-step-43/SOURCE-FILES.json",
+      "sha256": "ebf0da0011a666856f6ca5933ca68e89bada5f9961ce453f6c49d2d2c44ab491"
+    },
+    "scripts/build_zero4_study_source.py": {
+      "bytes": 2990,
+      "path": "scripts/build_zero4_study_source.py",
+      "sha256": "14ccb5d8f711b15b98da199bd0c78a82c4c62f1d2a48beafd5e1b0438eaf02d6"
+    },
+    "scripts/build_zero4_window_source.py": {
+      "bytes": 7708,
+      "path": "scripts/build_zero4_window_source.py",
+      "sha256": "c4aed406ef7817044499a7349c227e2eea4102a827cdc19a6ada891e4bc36664"
+    },
+    "scripts/check_zero4_study.py": {
+      "bytes": 31143,
+      "path": "scripts/check_zero4_study.py",
+      "sha256": "3cafb01652ed2c80f9c72f248cb75ab2a7021557d8b105a94d44f1c7c774b2da"
+    },
+    "scripts/feral_process.py": {
+      "bytes": 5673,
+      "path": "scripts/feral_process.py",
+      "sha256": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526"
+    },
+    "scripts/test_zero4_study.py": {
+      "bytes": 3606,
+      "path": "scripts/test_zero4_study.py",
+      "sha256": "4b3ddd39ed99d6a6b75d7b1b07254f89227f78b6c5bdea25e7c23c4337373c2e"
+    },
+    "scripts/zero4_fresh_data.py": {
+      "bytes": 23682,
+      "path": "scripts/zero4_fresh_data.py",
+      "sha256": "111f7293f51d55eb018c6c86a48ae42d53d76b213d86e0cae281af0fba10f734"
+    },
+    "scripts/zero4_native_gold.c": {
+      "bytes": 1649,
+      "path": "scripts/zero4_native_gold.c",
+      "sha256": "e79c48d971a8934a5937bd908e7a14701657b09195feb52b7e87210dadc24567"
+    },
+    "scripts/zero4_study.py": {
+      "bytes": 27802,
+      "path": "scripts/zero4_study.py",
+      "sha256": "28a1a4f5c6ecd83a87e91734f914495cd9efa6a5993386ac878acb243fd1c7df"
+    },
+    "scripts/zero4_study_scores.py": {
+      "bytes": 8995,
+      "path": "scripts/zero4_study_scores.py",
+      "sha256": "537cad43bb0f8c21e2c9755bc84e347779aa9b442c281dc8f3a62ff037e2c380"
+    },
+    "scripts/zero4_task_cases.c": {
+      "bytes": 1871,
+      "path": "scripts/zero4_task_cases.c",
+      "sha256": "0c0e83c945b1e4d7a33297651e396faf0be8567fe04a773d516465b73dbd845c"
+    },
+    "scripts/zero4_window_data.py": {
+      "bytes": 10112,
+      "path": "scripts/zero4_window_data.py",
+      "sha256": "1cdc3266c8ab713f5170442175a0d829d42f698ab73b4898da31a08ed98e95bb"
+    },
+    "scripts/zero4_window_io.h": {
+      "bytes": 6392,
+      "path": "scripts/zero4_window_io.h",
+      "sha256": "b43a6e8ace022b941479dd113cf1057834739dfa35af0c5e2189c2a1eff03af9"
+    },
+    "source/LICENSE": {
+      "bytes": 11358,
+      "path": "source/LICENSE",
+      "sha256": "37f6b7d766eb6791edb89211111a48e3e12ff5cb06578299019bb009fd5be44c"
+    },
+    "source/LICENSE-DATA.md": {
+      "bytes": 956,
+      "path": "source/LICENSE-DATA.md",
+      "sha256": "5fcefdd14cc087db9007a9f118e74862a602315ad8612631216a3de29edb5669"
+    },
+    "source/Makefile": {
+      "bytes": 137951,
+      "path": "source/Makefile",
+      "sha256": "224a1439c9b322783c694cc2519bb8f5b4711e59b06e2a3b99eeefa34cfda067"
+    },
+    "source/Makefile.zero4-retention": {
+      "bytes": 374,
+      "path": "source/Makefile.zero4-retention",
+      "sha256": "35a639ceb37f044ffc3dc2f5671f2779b7fbcb0c4f00832e5b99da975e017e3a"
+    },
+    "source/NOTICE": {
+      "bytes": 741,
+      "path": "source/NOTICE",
+      "sha256": "9b45a6adb245a0604c70c310d2cb6c720521620889dee6ce777dee5932f960dd"
+    },
+    "source/benchmarks/zero-eval-1/contract.json": {
+      "bytes": 8004,
+      "path": "source/benchmarks/zero-eval-1/contract.json",
+      "sha256": "a14261cd4b48ed04f8e89d162e20cbe1e019e1d02537be1ad06b83196aebac05"
+    },
+    "source/benchmarks/zero-eval-1/screen/contract.json": {
+      "bytes": 4432,
+      "path": "source/benchmarks/zero-eval-1/screen/contract.json",
+      "sha256": "b4e8732cc0bc1101acdf972cc65f1f0980977486935c75ba974d139e34ae8654"
+    },
+    "source/benchmarks/zero4-q26-v1/contract.json": {
+      "bytes": 7548,
+      "path": "source/benchmarks/zero4-q26-v1/contract.json",
+      "sha256": "2fa40ace634c9fc737d6212f902b074685a7769628becf720cefe5f936e4ac80"
+    },
+    "source/benchmarks/zero4-q29-v1/contract.json": {
+      "bytes": 6062,
+      "path": "source/benchmarks/zero4-q29-v1/contract.json",
+      "sha256": "f0dd386a82cd1b24af504d113afbc4b6adc3654b651766d93a4de6b0995171c6"
+    },
+    "source/bpe_tokenizer.c": {
+      "bytes": 19695,
+      "path": "source/bpe_tokenizer.c",
+      "sha256": "c041766f63494a38e0a2db3e43edcaed0c1ef5a391da22fd1f54592e951d1440"
+    },
+    "source/channel_corpus.c": {
+      "bytes": 31860,
+      "path": "source/channel_corpus.c",
+      "sha256": "362cfccdb29fc23363dbe6b31ab233b384067be9d4a7dec3fb510e7b0b74ab75"
+    },
+    "source/channel_protocol.h": {
+      "bytes": 371,
+      "path": "source/channel_protocol.h",
+      "sha256": "0b382e315c8acd369973bb9377305d5ceae9ec387e7dbbc4e91ae670ef6f74e2"
+    },
+    "source/corpus/RIGHTS.json": {
+      "bytes": 8294,
+      "path": "source/corpus/RIGHTS.json",
+      "sha256": "aa0a00e241f6d2d691cb19ab7d2711ca1e11e65ab2c595505a40422b13aa1db1"
+    },
+    "source/corpus/SHA256SUMS": {
+      "bytes": 1189,
+      "path": "source/corpus/SHA256SUMS",
+      "sha256": "d6ac4c3b38072af348c5fb9be6ade11cbcd47157c7d421cbe9a3edab1bfb54ae"
+    },
+    "source/corpus/blake.txt": {
+      "bytes": 65961,
+      "path": "source/corpus/blake.txt",
+      "sha256": "1998764098fe6cde39040ae2b793ad828798894cf956739d7be61e91239f4040"
+    },
+    "source/corpus/crowley.txt": {
+      "bytes": 333456,
+      "path": "source/corpus/crowley.txt",
+      "sha256": "448c8ecabeee793aee640b3e50d01dc6fa26bd9b939d2fae2f0305fd30150dc4"
+    },
+    "source/corpus/literary.bpe": {
+      "bytes": 16,
+      "path": "source/corpus/literary.bpe",
+      "sha256": "b1e8d4cdf3a232ef880e133ff52fc53e5bd6e35c3d1ceec1d3c388e11b911152"
+    },
+    "source/corpus/shakespeare.txt": {
+      "bytes": 5422627,
+      "path": "source/corpus/shakespeare.txt",
+      "sha256": "a6209a86eb3de42530f24feaf317e94d43ea18d71ccb64a8cf5e54a368db23f2"
+    },
+    "source/corpus/zero-foundation.txt": {
+      "bytes": 1406,
+      "path": "source/corpus/zero-foundation.txt",
+      "sha256": "d90f3cf5f9039b3626262e3c06bb5bd4b3948a6f26daf4532735650b2c5cdd2a"
+    },
+    "source/export_literary.c": {
+      "bytes": 8046,
+      "path": "source/export_literary.c",
+      "sha256": "c7b1ba5a2763211871df1720f01f49b765365253924b7d4c1113643403ce463c"
+    },
+    "source/external_eval.c": {
+      "bytes": 10223,
+      "path": "source/external_eval.c",
+      "sha256": "6fcbbbfc2b017c817d830057b284f323597e0aba55f4ab9908635b9d4da7f95b"
+    },
+    "source/faculty_controller.c": {
+      "bytes": 14904,
+      "path": "source/faculty_controller.c",
+      "sha256": "42681a75a11660aba6d9b274398abbc1ddc51f35f324302e01b994ea1e0627d9"
+    },
+    "source/faculty_protocol.h": {
+      "bytes": 2448,
+      "path": "source/faculty_protocol.h",
+      "sha256": "c9c1f5ba1cbb2e33b8a069d4e44ca4a041ce585783f335ac45b7d2e4e4760c81"
+    },
+    "source/freeze_literary_teacher.c": {
+      "bytes": 5742,
+      "path": "source/freeze_literary_teacher.c",
+      "sha256": "0b4ba4e0dbb7bd3b6284d6a6fca414bc3bd1acb4d40d260546e79b3c6bea2cdb"
+    },
+    "source/literary_infer.c": {
+      "bytes": 30125,
+      "path": "source/literary_infer.c",
+      "sha256": "7a0d0156587647881e8b18108b8a1265117ddee5827e42c5ece37d066f852f76"
+    },
+    "source/literary_infer.h": {
+      "bytes": 771,
+      "path": "source/literary_infer.h",
+      "sha256": "f947d132d2ca5b9bdfe9a44fdea00f339850efe91fb26c673f0f6a1a6b004453"
+    },
+    "source/literary_lm.c": {
+      "bytes": 197986,
+      "path": "source/literary_lm.c",
+      "sha256": "5f4c47e0fedcc0f96d5eafcd8f45f6bfc4808a1d1af7434cb188693449ff53e3"
+    },
+    "source/quantity_oracle.c": {
+      "bytes": 6754,
+      "path": "source/quantity_oracle.c",
+      "sha256": "7f55a9ff1a5f31d6cb8ec894c590c6239e7063fa578fe1badba123ff74f95467"
+    },
+    "source/quantity_oracle.h": {
+      "bytes": 552,
+      "path": "source/quantity_oracle.h",
+      "sha256": "8436a4793c1055c68f5e5ad5860bddf1e6d79716226a7b797c41078d4eb86701"
+    },
+    "source/quantity_request_eval.c": {
+      "bytes": 21990,
+      "path": "source/quantity_request_eval.c",
+      "sha256": "1627c00a2a49846170b8ee49160ac55ae02e1f4f687397f3e46641e271537902"
+    },
+    "source/scripts/build_zero4_retention_source.py": {
+      "bytes": 1307,
+      "path": "source/scripts/build_zero4_retention_source.py",
+      "sha256": "08116503ea80bd0df7d6b0e2dc7b7268473e8ba70388a1cb0092abd8990cbd46"
+    },
+    "source/scripts/check_zero4_retention_controls.py": {
+      "bytes": 20675,
+      "path": "source/scripts/check_zero4_retention_controls.py",
+      "sha256": "7efcdcd8be32bf01cf6278996417cd04ac004845de1c669edec9834dfc359d6f"
+    },
+    "source/scripts/generate_zero4_q2.mjs": {
+      "bytes": 13581,
+      "path": "source/scripts/generate_zero4_q2.mjs",
+      "sha256": "de34a72d158127fd12cad86a353b81aad7b3790090d839a359be1766405f2ded"
+    },
+    "source/scripts/prepare_kjv.sh": {
+      "bytes": 617,
+      "path": "source/scripts/prepare_kjv.sh",
+      "sha256": "8715e5f786936b2a998e8a72589733580535a96aebc4bee12713d26d74e50c07"
+    },
+    "source/scripts/prepare_zero_eval1.mjs": {
+      "bytes": 10131,
+      "path": "source/scripts/prepare_zero_eval1.mjs",
+      "sha256": "a5447261eba07e9e2266b1a774499632a82344634be285296bd50119d0ef99ed"
+    },
+    "source/scripts/run_zero4_retention_controls.py": {
+      "bytes": 24467,
+      "path": "source/scripts/run_zero4_retention_controls.py",
+      "sha256": "2ccc7c37f90280f173dafee943ff144a08c7c58a337f5565ee7285e7c4bedfb4"
+    },
+    "source/scripts/sample_zero_eval1_calibration.mjs": {
+      "bytes": 2872,
+      "path": "source/scripts/sample_zero_eval1_calibration.mjs",
+      "sha256": "6e672df78bba42c4bc93e7dd7ca917491b0fe92e6bec20c83397b8587d26f839"
+    },
+    "source/scripts/sample_zero_eval1_screen.mjs": {
+      "bytes": 8102,
+      "path": "source/scripts/sample_zero_eval1_screen.mjs",
+      "sha256": "1adfe5334a12298b2afcff12190ede6182e4f199f57fec6fd600777958e1608f"
+    },
+    "source/scripts/train_zero4_q26.mjs": {
+      "bytes": 25642,
+      "path": "source/scripts/train_zero4_q26.mjs",
+      "sha256": "8891760ad60d74ec796290d082849ddf2b6910c839cb0cb1b300e3b37f87bb90"
+    },
+    "source/scripts/zero4_retention.patch": {
+      "bytes": 5691,
+      "path": "source/scripts/zero4_retention.patch",
+      "sha256": "cf0a8197ed0d71e01945388dee4ac0013781968e7fa4b70123245b16f2a8869c"
+    },
+    "source/zero1_protocol.h": {
+      "bytes": 551,
+      "path": "source/zero1_protocol.h",
+      "sha256": "2f5503c7d0f2b15e7d2ed6c8f2eb2277c3114f772103b6c163c04e9ddec922c9"
+    }
+  },
+  "schema": "ilxyr.zero4_study_source_kit.v1",
+  "sha256": "67f14e2ee85563c6a8f4a8419322c5de5f788d83b74755a1643670ee0cf3299e"
+}
