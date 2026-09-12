@@ -2,12 +2,17 @@
 
 What the lab studies. The rest of `docs/` is the machinery that holds it accountable.
 
-The [current five-project report](../experiments/research-step-50/REPORT.md)
-checks each fixed package, gives the decision it can change, and brings the
-failures and costs into one view. It also repairs a shared run-ID gap in the
-older Solomon and weight launch tools. The five individual run ceilings sum
-to $14.70 before tax. All five free provider checks and exact package readbacks
-now pass. The prepared run set awaits approval for its individual ceilings. The [completed Reasoner comparison](../experiments/research-step-26/REPORT.md)
+The [current five-project result](../experiments/research-step-51/REPORT.md)
+closes the approved $14.70 run set. All five instances terminated and their
+volumes and network interfaces were cleared. Reasoner missed both benefit
+gates. FERAL v2 improved canonical coverage and failed wording and abstention
+rules. Solomon's fresh panel favored smoothed suffix-count confidence. The
+weight corpus reached its call limit with 79,452 training rows preserved.
+ZERO.4 stopped at its disk-reserve check before scientific work. Four result
+checks pass after download, and ZERO.4's failure records verify. The shared
+failure ledger now has 69 entries, with a linked next design for each project.
+
+The [completed Reasoner comparison](../experiments/research-step-26/REPORT.md)
 missed both primary benefit gates against matched lexical guidance on 128
 fresh families. All answers and 3,072 independent replays verified. Collection,
 provider termination, and root-volume deletion are confirmed. The next design
@@ -33,8 +38,7 @@ measured results retain their earlier answers and work counts. Downloaded
 records also pass replay from their new paths. The report preserves a GCC
 build failure and a missing Python runtime from earlier images. The full
 comparison has a 90-minute, $0.30 ceiling before tax. The shared readiness
-check now verifies staging and current provider state. The exact run awaits
-its package and budget approval.
+check verified staging and provider state. The [completed revised run](../experiments/research-step-51/REPORT.md) missed both benefit gates. Its next step changes the guidance mechanism.
 
 The [Solomon count-probability step](../experiments/research-step-19/REPORT.md)
 adds two train-only confidence controls. Its known-window smoke preserves
@@ -52,13 +56,13 @@ now fixes the Rust image, installed compiler, offline dependencies, host limits
 and collection path. Its opened-window Linux check passes. The first attempt
 exposed an automatic toolchain update in the read-only image; the repair and
 original failure are retained. The one-hour comparison has a $0.25 ceiling
-before tax and awaits approval for its exact package.
+before tax. The [completed panel](../experiments/research-step-51/REPORT.md) favors smoothed suffix counts for confidence.
 
 The [live preflight and trace recovery](../experiments/research-step-20/REPORT.md)
 stages the fixed FERAL package, passes the free EC2 dry run, and verifies all
 26,624 original weight-multiplicity calibration queries. The [weight cloud package](../experiments/research-step-35/REPORT.md) now passes
 exact version readback and the free launch preflight. Its full corpus run
-awaits approval for the fixed 90-minute, $2 package.
+reached its original call limit in the [approved run](../experiments/research-step-51/REPORT.md), with 79,452 training rows preserved.
 
 The [first FERAL comparison attempt](../experiments/research-step-21/REPORT.md)
 ended during setup after the agent mistook extra encoding for proof of startup
@@ -77,7 +81,7 @@ fixed image. The [approved replacement](../experiments/research-step-29/REPORT.m
 reached a [closed capacity window](../experiments/research-step-30/REPORT.md):
 twelve launch attempts across four zones, each with zero instances verified.
 The follow-up is paused after its cutoff. Instance compute spend is $0, and
-the approved first one-hour, $3 run remains pending capacity. The full selected
+the earlier one-hour, $3 authorization belongs to that closed window. The full selected
 GPU price entry stayed unchanged after a provider-document change stopped
 one preflight check. Separate calculator v2 work scores 5/5 on the
 five opened development cases. The [fresh coverage preparation](../experiments/research-step-47/REPORT.md)
@@ -93,8 +97,7 @@ calls are zero. The [fixed cloud host package](../experiments/research-step-49/R
 now passes 16 host tests and the exact-image check. The 174 invented results
 match step 48 and pass another check after download. The package uses the
 same Python image as Reasoner, with a 30-minute, $0.15 ceiling before tax.
-Its shared free provider check now passes. The exact package awaits
-launch approval. This source-linked baseline also supports the
+The [completed coverage run](../experiments/research-step-51/REPORT.md) records 77/82 canonical numeric answers, 0/82 paraphrase answers and 63/64 correct required abstentions. This source-linked baseline also supports the
 [FERAL v3 tagging proposal](FERAL-7B-V3-XBRL-REGULATORY-PROPOSAL.md).
 
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).
@@ -181,7 +184,7 @@ result parts, disk reserve and provider cleanup checks. Fourteen controlled
 host tests and the small fixed-image runtime check pass. A probe exposed a
 preflight receipt reused across different run IDs; the repaired check keeps
 the launch tied to its own output-prefix check. Staging and the shared free
-provider check now pass. The exact package awaits launch approval.
+provider check passed. The [approved attempt](../experiments/research-step-51/REPORT.md) stopped at its disk-reserve check. A replacement host package must account for the observed image footprint.
 
 ## Mission
 
@@ -351,7 +354,7 @@ check process cleanup. Their 19 Linux tests pass. The
 [cloud launch package](../experiments/research-step-35/REPORT.md) adds the early
 shutdown timer, bounded immutable collection, and verified storage expiry.
 Its ten Linux host tests and live AWS preflight pass. The full corpus run
-awaits approval for the fixed 90-minute, $2 package. The
+reached its original call limit in the [approved run](../experiments/research-step-51/REPORT.md), with 79,452 training rows preserved. The
 [resource accounting component](../experiments/research-step-3/REPORT.md)
 now passes its exact percentile and failure-retention tests. The source-pinned contract is
 [`weight-multiplicity-transfer-r3`](../examples/weight-multiplicity/rev3-contract.json), and the

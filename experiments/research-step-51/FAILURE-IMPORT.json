@@ -1,0 +1,384 @@
+{
+  "added_entries": 26,
+  "current_run_verdicts": [
+    {
+      "evidence_path": "experiments/research-step-51/FINDINGS.json",
+      "evidence_sha256": "d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+      "project": "reasoner",
+      "verdict_id": "verdict:research.step51.reasoner-outcome.v1",
+      "verdict_path": "examples/constraints/research.step51.reasoner-outcome.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-51/FINDINGS.json",
+      "evidence_sha256": "d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+      "project": "feral",
+      "verdict_id": "verdict:research.step51.feral-outcome.v1",
+      "verdict_path": "examples/constraints/research.step51.feral-outcome.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-51/FINDINGS.json",
+      "evidence_sha256": "d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+      "project": "solomon",
+      "verdict_id": "verdict:research.step51.solomon-outcome.v1",
+      "verdict_path": "examples/constraints/research.step51.solomon-outcome.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-51/FINDINGS.json",
+      "evidence_sha256": "d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+      "project": "weight_multiplicity",
+      "verdict_id": "verdict:research.step51.weight-outcome.v1",
+      "verdict_path": "examples/constraints/research.step51.weight-outcome.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-51/FINDINGS.json",
+      "evidence_sha256": "d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+      "project": "zero4",
+      "verdict_id": "verdict:research.step51.zero4-outcome.v1",
+      "verdict_path": "examples/constraints/research.step51.zero4-outcome.v1.verdict.json"
+    }
+  ],
+  "new_run_entries": 5,
+  "prior_entries": 38,
+  "recorded_epoch": 1789248213.469,
+  "schema": "ilxyr.research_failure_import.v1",
+  "selection": "Verified design limits and observed repairs with a concrete follow-up. Passing injected controls stay in their source records. Related opened findings retain their fixture scope.",
+  "source_index": [
+    {
+      "bytes": 2140,
+      "event_count": 5,
+      "path": "experiments/research-step-32/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "32056ec4d4f359be55cdd0236e92ee1a495e3a48420382d64bd410ab6c613305",
+      "step": 32
+    },
+    {
+      "bytes": 1743,
+      "event_count": 4,
+      "path": "experiments/research-step-33/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "f10e3e826d537e20e4364b49a100980bff16e1d66d46c82af98d36b41f969cf2",
+      "step": 33
+    },
+    {
+      "bytes": 1384,
+      "event_count": 3,
+      "path": "experiments/research-step-34/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "2a8bb397b47a7b5d2dd96e614ed8576c2e0226a4153e4f5b19032579f9ca55a8",
+      "step": 34
+    },
+    {
+      "bytes": 2055,
+      "event_count": 5,
+      "path": "experiments/research-step-35/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "cb357f2342c1e9695447ca889f269deb45e14a83a3e194c1c5e833e853e5c551",
+      "step": 35
+    },
+    {
+      "bytes": 2932,
+      "event_count": 5,
+      "path": "experiments/research-step-36/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "d0f683fa9767fd70a90cd584768bda28a50cc1c98a09126be2fb415ffbc8f031",
+      "step": 36
+    },
+    {
+      "bytes": 3301,
+      "event_count": 6,
+      "path": "experiments/research-step-37/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "6daf00e62d0cb33528df1768db936524d5cd716c7d87e644038ced427588266c",
+      "step": 37
+    },
+    {
+      "bytes": 1889,
+      "event_count": 4,
+      "path": "experiments/research-step-38/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "82d0a88ac0c14e64e5f47956fc62a2e3dad2e485ae0bbf50a8ac1cf7c7fef7c1",
+      "step": 38
+    },
+    {
+      "bytes": 2707,
+      "event_count": 5,
+      "path": "experiments/research-step-39/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "44f7e2d33c2593161dbceec8b0135d8befafb56c4db05377026deff519d3084f",
+      "step": 39
+    },
+    {
+      "bytes": 2672,
+      "event_count": null,
+      "path": "experiments/research-step-40/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "8d5227c9c02af1995beaf7345435ac1c36cc760a7176b4844dc6b6e32a625fa5",
+      "step": 40
+    },
+    {
+      "bytes": 3750,
+      "event_count": 8,
+      "path": "experiments/research-step-41/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "bc9b376975f9f36f8992835ca6624684777bccf6b52f4a1c80dd239b71b268ea",
+      "step": 41
+    },
+    {
+      "bytes": 3290,
+      "event_count": 5,
+      "path": "experiments/research-step-42/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "90b3170439d18101a7a319d4a2c101f8008220b78234534ec827190d174b75f5",
+      "step": 42
+    },
+    {
+      "bytes": 3419,
+      "event_count": 9,
+      "path": "experiments/research-step-43/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "68fde0cbda3d7a04cad1cbbc60d38f0811deca0cdfb4de72d1c05ad1c395def6",
+      "step": 43
+    },
+    {
+      "bytes": 5251,
+      "event_count": null,
+      "path": "experiments/research-step-44/RUNTIME-CHECK.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "bcaf78dd49d35fb626b4ad908361ad12c23b30fa27bd2bb40cf33ddbfd2c90ac",
+      "step": 44
+    },
+    {
+      "bytes": 1991,
+      "event_count": 3,
+      "path": "experiments/research-step-45/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "72fb79edf55682efa3c09a6d6c026a8a6104dde28e5bbbdcb70ffe3ad5a29099",
+      "step": 45
+    },
+    {
+      "bytes": 3411,
+      "event_count": 4,
+      "path": "experiments/research-step-46/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "84f67e09ea6fae3decf09c0d8dba8e9695d0c60d16a266448a458c3c5d9cb1bc",
+      "step": 46
+    },
+    {
+      "bytes": 2250,
+      "event_count": 2,
+      "path": "experiments/research-step-47/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "acae1f25543d6a5518a1a3086f54d1f61cb21769d4f0b9f4302e4a82011d05e8",
+      "step": 47
+    },
+    {
+      "bytes": 1990,
+      "event_count": 2,
+      "path": "experiments/research-step-48/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "15fc33c81a87cd7ad1f04baa2b3910c2608caffb4b90f35c63f82f4c95d13128",
+      "step": 48
+    },
+    {
+      "bytes": 1194,
+      "event_count": 2,
+      "path": "experiments/research-step-49/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "de9a374c36632baa9d79840396574c5cec0b13bd4f797b5503b045242f236caa",
+      "step": 49
+    },
+    {
+      "bytes": 7237,
+      "event_count": 4,
+      "path": "experiments/research-step-50/FAILURES.json",
+      "scope": "Original failure records and controlled tests; each record retains its original classification.",
+      "sha256": "546495231305b47e0a4a3a689ecd16c75e0e835c6041ce842ad89e8bd07f46a2",
+      "step": 50
+    }
+  ],
+  "total_added_entries": 31,
+  "verdicts": [
+    {
+      "evidence_path": "experiments/research-step-32/FAILURES.json",
+      "evidence_sha256": "32056ec4d4f359be55cdd0236e92ee1a495e3a48420382d64bd410ab6c613305",
+      "project": "solomon",
+      "verdict_id": "verdict:research.step32.window-selection.v1",
+      "verdict_path": "examples/constraints/research.step32.window-selection.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-33/FAILURES.json",
+      "evidence_sha256": "f10e3e826d537e20e4364b49a100980bff16e1d66d46c82af98d36b41f969cf2",
+      "project": "weight_multiplicity",
+      "verdict_id": "verdict:research.step33.policy-package.v1",
+      "verdict_path": "examples/constraints/research.step33.policy-package.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-34/FAILURES.json",
+      "evidence_sha256": "2a8bb397b47a7b5d2dd96e614ed8576c2e0226a4153e4f5b19032579f9ca55a8",
+      "project": "weight_multiplicity",
+      "verdict_id": "verdict:research.step34.capture-before-assert.v1",
+      "verdict_path": "examples/constraints/research.step34.capture-before-assert.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-35/FAILURES.json",
+      "evidence_sha256": "cb357f2342c1e9695447ca889f269deb45e14a83a3e194c1c5e833e853e5c551",
+      "project": "weight_multiplicity",
+      "verdict_id": "verdict:research.step35.storage-retention.v1",
+      "verdict_path": "examples/constraints/research.step35.storage-retention.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-36/FAILURES.json",
+      "evidence_sha256": "d0f683fa9767fd70a90cd584768bda28a50cc1c98a09126be2fb415ffbc8f031",
+      "project": "reasoner",
+      "verdict_id": "verdict:research.step36.eligible-guide-work.v1",
+      "verdict_path": "examples/constraints/research.step36.eligible-guide-work.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-37/FAILURES.json",
+      "evidence_sha256": "6daf00e62d0cb33528df1768db936524d5cd716c7d87e644038ced427588266c",
+      "project": "solomon",
+      "verdict_id": "verdict:research.step37.native-probability-mass.v1",
+      "verdict_path": "examples/constraints/research.step37.native-probability-mass.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-37/FAILURES.json",
+      "evidence_sha256": "6daf00e62d0cb33528df1768db936524d5cd716c7d87e644038ced427588266c",
+      "project": "solomon",
+      "verdict_id": "verdict:research.step37.native-confidence.v1",
+      "verdict_path": "examples/constraints/research.step37.native-confidence.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-38/FAILURES.json",
+      "evidence_sha256": "82d0a88ac0c14e64e5f47956fc62a2e3dad2e485ae0bbf50a8ac1cf7c7fef7c1",
+      "project": "solomon",
+      "verdict_id": "verdict:research.step38.runtime-toolchain.v1",
+      "verdict_path": "examples/constraints/research.step38.runtime-toolchain.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-39/FAILURES.json",
+      "evidence_sha256": "44f7e2d33c2593161dbceec8b0135d8befafb56c4db05377026deff519d3084f",
+      "project": "reasoner",
+      "verdict_id": "verdict:research.step39.fresh-selection-replay.v1",
+      "verdict_path": "examples/constraints/research.step39.fresh-selection-replay.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-39/FAILURES.json",
+      "evidence_sha256": "44f7e2d33c2593161dbceec8b0135d8befafb56c4db05377026deff519d3084f",
+      "project": "reasoner",
+      "verdict_id": "verdict:research.step39.canonical-family-keys.v1",
+      "verdict_path": "examples/constraints/research.step39.canonical-family-keys.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-40/FAILURES.json",
+      "evidence_sha256": "8d5227c9c02af1995beaf7345435ac1c36cc760a7176b4844dc6b6e32a625fa5",
+      "project": "reasoner",
+      "verdict_id": "verdict:research.step40.heap-count-replay.v1",
+      "verdict_path": "examples/constraints/research.step40.heap-count-replay.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-41/FAILURES.json",
+      "evidence_sha256": "bc9b376975f9f36f8992835ca6624684777bccf6b52f4a1c80dd239b71b268ea",
+      "project": "zero4",
+      "verdict_id": "verdict:research.step41.canonical-task-overlap.v1",
+      "verdict_path": "examples/constraints/research.step41.canonical-task-overlap.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-41/FAILURES.json",
+      "evidence_sha256": "bc9b376975f9f36f8992835ca6624684777bccf6b52f4a1c80dd239b71b268ea",
+      "project": "zero4",
+      "verdict_id": "verdict:research.step41.retention-window-exposure.v1",
+      "verdict_path": "examples/constraints/research.step41.retention-window-exposure.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-42/FAILURES.json",
+      "evidence_sha256": "90b3170439d18101a7a319d4a2c101f8008220b78234534ec827190d174b75f5",
+      "project": "zero4",
+      "verdict_id": "verdict:research.step42.source-quota.v1",
+      "verdict_path": "examples/constraints/research.step42.source-quota.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-42/FAILURES.json",
+      "evidence_sha256": "90b3170439d18101a7a319d4a2c101f8008220b78234534ec827190d174b75f5",
+      "project": "zero4",
+      "verdict_id": "verdict:research.step42.mean-retention-mask.v1",
+      "verdict_path": "examples/constraints/research.step42.mean-retention-mask.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-43/FAILURES.json",
+      "evidence_sha256": "68fde0cbda3d7a04cad1cbbc60d38f0811deca0cdfb4de72d1c05ad1c395def6",
+      "project": "zero4",
+      "verdict_id": "verdict:research.step43.report-validation-cost.v1",
+      "verdict_path": "examples/constraints/research.step43.report-validation-cost.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-43/FAILURES.json",
+      "evidence_sha256": "68fde0cbda3d7a04cad1cbbc60d38f0811deca0cdfb4de72d1c05ad1c395def6",
+      "project": "zero4",
+      "verdict_id": "verdict:research.step43.language-endpoint-damage.v1",
+      "verdict_path": "examples/constraints/research.step43.language-endpoint-damage.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-45/FAILURES.json",
+      "evidence_sha256": "72fb79edf55682efa3c09a6d6c026a8a6104dde28e5bbbdcb70ffe3ad5a29099",
+      "project": "zero4",
+      "verdict_id": "verdict:research.step45.run-preflight-binding.v1",
+      "verdict_path": "examples/constraints/research.step45.run-preflight-binding.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-46/FAILURES.json",
+      "evidence_sha256": "84f67e09ea6fae3decf09c0d8dba8e9695d0c60d16a266448a458c3c5d9cb1bc",
+      "project": "reasoner",
+      "verdict_id": "verdict:research.step46.host-runtime-intake.v1",
+      "verdict_path": "examples/constraints/research.step46.host-runtime-intake.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-47/FAILURES.json",
+      "evidence_sha256": "acae1f25543d6a5518a1a3086f54d1f61cb21769d4f0b9f4302e4a82011d05e8",
+      "project": "feral",
+      "verdict_id": "verdict:research.step47.filing-source-fetch.v1",
+      "verdict_path": "examples/constraints/research.step47.filing-source-fetch.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-48/FAILURES.json",
+      "evidence_sha256": "15fc33c81a87cd7ad1f04baa2b3910c2608caffb4b90f35c63f82f4c95d13128",
+      "project": "feral",
+      "verdict_id": "verdict:research.step48.selected-series-check.v1",
+      "verdict_path": "examples/constraints/research.step48.selected-series-check.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-48/SMOKE.json",
+      "evidence_sha256": "b28d4928ad413a7280bc584d41ad3f4651fc7d907b5860df35faff3e0f427781",
+      "project": "feral",
+      "verdict_id": "verdict:research.step48.wording-coverage.v1",
+      "verdict_path": "examples/constraints/research.step48.wording-coverage.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-49/FAILURES.json",
+      "evidence_sha256": "de9a374c36632baa9d79840396574c5cec0b13bd4f797b5503b045242f236caa",
+      "project": "feral",
+      "verdict_id": "verdict:research.step49.tamper-fixture-path.v1",
+      "verdict_path": "examples/constraints/research.step49.tamper-fixture-path.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-50/FAILURES.json",
+      "evidence_sha256": "546495231305b47e0a4a3a689ecd16c75e0e835c6041ce842ad89e8bd07f46a2",
+      "project": "program",
+      "verdict_id": "verdict:research.step50.shared-run-preflight.v1",
+      "verdict_path": "examples/constraints/research.step50.shared-run-preflight.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-50/FAILURES.json",
+      "evidence_sha256": "546495231305b47e0a4a3a689ecd16c75e0e835c6041ce842ad89e8bd07f46a2",
+      "project": "program",
+      "verdict_id": "verdict:research.step50.provider-response-fields.v1",
+      "verdict_path": "examples/constraints/research.step50.provider-response-fields.v1.verdict.json"
+    },
+    {
+      "evidence_path": "experiments/research-step-50/FAILURES.json",
+      "evidence_sha256": "546495231305b47e0a4a3a689ecd16c75e0e835c6041ce842ad89e8bd07f46a2",
+      "project": "weight_multiplicity",
+      "verdict_id": "verdict:research.step50.public-build-input-timeout.v1",
+      "verdict_path": "examples/constraints/research.step50.public-build-input-timeout.v1.verdict.json"
+    }
+  ]
+}

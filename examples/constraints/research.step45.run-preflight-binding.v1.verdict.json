@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-45/FAILURES.json",
+  "evidence_ref": "artifact://sha256/72fb79edf55682efa3c09a6d6c026a8a6104dde28e5bbbdcb70ffe3ad5a29099",
+  "experiment_id": "research.step45.run-preflight-binding.v1",
+  "family": "zero",
+  "id": "verdict:research.step45.run-preflight-binding.v1",
+  "lineage_note": "Record the run ID in each preflight and require its exact match at dispatch. Verify rejection before any provider call.",
+  "mechanism": "run preflight binding",
+  "mechanism_tags": [
+    "launch-binding",
+    "independent-checker",
+    "bounded-cost"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "zero4",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The old ZERO.4 launcher accepted a preflight for another run ID and reused that other output-prefix check in a controlled probe.",
+  "taxonomy": "implementation"
+}

@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-50/FAILURES.json",
+  "evidence_ref": "artifact://sha256/546495231305b47e0a4a3a689ecd16c75e0e835c6041ce842ad89e8bd07f46a2",
+  "experiment_id": "research.step50.public-build-input-timeout.v1",
+  "family": "ilxyr",
+  "id": "verdict:research.step50.public-build-input-timeout.v1",
+  "lineage_note": "Retain the first log and retry identity. Distinguish source-transfer failures from compiler or scientific outcomes.",
+  "mechanism": "public build input timeout",
+  "mechanism_tags": [
+    "source-intake",
+    "fixed-runtime",
+    "failure-capture"
+  ],
+  "outcome": "execution_failure",
+  "project": "weight_multiplicity",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The weight source-kit CI job timed out after sixty seconds while opening a fixed public build-input URL. The same job passed on its second attempt with the same source and input hashes.",
+  "taxonomy": "venue"
+}

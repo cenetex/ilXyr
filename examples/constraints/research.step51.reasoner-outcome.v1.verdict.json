@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "existing_public_result",
+  "evidence_path": "experiments/research-step-51/FINDINGS.json",
+  "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+  "experiment_id": "research.step51.reasoner-outcome.v1",
+  "family": "zero",
+  "id": "verdict:research.step51.reasoner-outcome.v1",
+  "lineage_note": "Change the guidance representation or mechanism before another fresh comparison.",
+  "mechanism": "Eligible semantic task guidance",
+  "mechanism_tags": [
+    "learned-search",
+    "frequency-control",
+    "stage-cost"
+  ],
+  "outcome": "complete_no_go",
+  "project": "reasoner",
+  "recorded_at_ms": 1789248868555,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "complete_no_go",
+  "summary": "The revised guide missed both fixed benefit gates on 128 fresh families. Its CPU ratios were 1.000772 against lexical guidance and 0.996838 against semantic frequency. All 2048 measured replays verified.",
+  "taxonomy": "transfer"
+}

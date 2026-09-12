@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-41/FAILURES.json",
+  "evidence_ref": "artifact://sha256/bc9b376975f9f36f8992835ca6624684777bccf6b52f4a1c80dd239b71b268ea",
+  "experiment_id": "research.step41.canonical-task-overlap.v1",
+  "family": "zero",
+  "id": "verdict:research.step41.canonical-task-overlap.v1",
+  "lineage_note": "Exclude equivalent task keys before creating the new split roster and verify actual problem content.",
+  "mechanism": "canonical task overlap",
+  "mechanism_tags": [
+    "fresh-data",
+    "canonical-keys",
+    "content-overlap"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "zero4",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The Q2.6 audit found 120 canonical problem keys shared across splits, including 57 shared between training and promotion.",
+  "taxonomy": "measurement"
+}

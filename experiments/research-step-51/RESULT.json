@@ -1,0 +1,46 @@
+{
+  "approval_ceiling_before_tax_usd": "14.70",
+  "artifacts": {
+    "COLLECTION.json": "5bc75707079e40cd2b8032057a5e74e68c95bb631c7febe929cb9fce4148a6d7",
+    "EXECUTIONS.json": "0a9c3ea5b3160a2af78696d766702b446e00eb840aa3aecbbbfaa06c5bca4a91",
+    "FAILURE-IMPORT.json": "ac94b555bdf24138a728c04e8aaa45412c0c1db9f7ef94af08879f1c7864ab0a",
+    "FAILURES.json": "dab781ac0da2b7b9732c60fa915bd816ed3690787e48abe7746196289852952b",
+    "FERAL-CHECK.json": "74d9af7bbb541dfbe5f73b9ca9266473c131f8e3c2447b9509d095919414b3b2",
+    "FERAL-DIAGNOSTIC.json": "e768ce828282012028154ec4a55e2aea58827366cc13ac19d6b57bc3f3a61f6f",
+    "FINDINGS.json": "d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+    "LEDGER-CHECK.json": "a6bb27c691bf878b26de76affa447b65c0188bae3590b60984d8038eafff6909",
+    "REASONER-CHECK.json": "bc242adbb7b90f42c78b7a643e09c163ddb9517bfa89292d7a3c3be9d0285d12",
+    "REPORT.md": "170089f1b6d66f8331bd9bf95a6682675e33370b2186c4534b3af2d26a655c51",
+    "SOLOMON-CHECK.json": "f6bd6e82c6fbbab7053f21206c83b85f187f689b89c6d0211d9b111df4a5b987",
+    "VERIFICATION.json": "b26bffd0ec6a8153aff0420671ec85171007df752c1f708c01e76cb9abb7a797",
+    "WEIGHT-CHECK.json": "477a7a22f56eff1464b591c69bbce49fceefe81b6b213cc295c25db2eac96748",
+    "feral-design.json": "9f5c84ca344d36d10db0e63b40ecf8b12f7b787cded89515e2a186805eed15dc",
+    "reasoner-design.json": "1a627a9903a427accfe1f8a568297c85cbfae68308650170336364b65acffdea",
+    "solomon-design.json": "03ba67fe3ed2d86beeb896ad4ebc39a9825a773f16e2cf26fe21d2d457a36a49",
+    "weight_multiplicity-design.json": "4d8c440540898ff79a49dc3d32ee6c1c83eb39a44e55b2a8a5d1fd8d7ff5d6e7",
+    "zero4-design.json": "f75d6c194305cb848a21a386111aab23f8933594ab26b08af020921850aa7f58"
+  },
+  "historical_findings_imported": 26,
+  "historical_ledger_entries_preserved": 38,
+  "independent_result_checks_passed": 4,
+  "instances_created": 5,
+  "instances_terminated": 5,
+  "ledger_entries": 69,
+  "new_research_outcomes": {
+    "feral": "complete_no_go",
+    "reasoner": "complete_no_go",
+    "solomon": "fixed_panel_confidence_diagnostic",
+    "weight": "verified_hold",
+    "zero4": "execution_failure_before_scientific_work"
+  },
+  "new_run_ledger_entries": 5,
+  "resource_cleanup_verified": true,
+  "schema": "ilxyr.research_step51_result.v1",
+  "status": "five_runs_closed_and_recorded",
+  "validation": {
+    "elapsed_seconds": 143.20978175,
+    "ledger_bindings": "69_verified_59_local_evidence",
+    "process_receipt_sha256": "af7780835b426d3254afc871285e67b3112186172fde5b293506f4e3a4998875",
+    "schema_suite": "passed"
+  }
+}

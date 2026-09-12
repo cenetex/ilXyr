@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-37/FAILURES.json",
+  "evidence_ref": "artifact://sha256/6daf00e62d0cb33528df1768db936524d5cd716c7d87e644038ced427588266c",
+  "experiment_id": "research.step37.native-probability-mass.v1",
+  "family": "solomon",
+  "id": "verdict:research.step37.native-probability-mass.v1",
+  "lineage_note": "Bound each component and normalize by its observed positive sum. Verify exact historical score parity.",
+  "mechanism": "native probability mass",
+  "mechanism_tags": [
+    "confidence",
+    "independent-checker",
+    "probability-mass"
+  ],
+  "outcome": "execution_failure",
+  "project": "solomon",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The first independent checker assumed native integer mass totaled 32767. The sixteen observed totals ranged from 32771 to 33007.",
+  "taxonomy": "implementation"
+}

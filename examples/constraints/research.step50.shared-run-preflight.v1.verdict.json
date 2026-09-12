@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-50/FAILURES.json",
+  "evidence_ref": "artifact://sha256/546495231305b47e0a4a3a689ecd16c75e0e835c6041ce842ad89e8bd07f46a2",
+  "experiment_id": "research.step50.shared-run-preflight.v1",
+  "family": "ilxyr",
+  "id": "verdict:research.step50.shared-run-preflight.v1",
+  "lineage_note": "Apply the exact run-ID check across all five launchers and retain the shared fifty-case test.",
+  "mechanism": "shared run preflight",
+  "mechanism_tags": [
+    "launch-binding",
+    "independent-checker",
+    "bounded-cost"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "program",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The older Solomon and weight launchers each accepted a preflight for another run ID. Each controlled reproduction reached one fake EC2 request; actual instances created were zero.",
+  "taxonomy": "implementation"
+}

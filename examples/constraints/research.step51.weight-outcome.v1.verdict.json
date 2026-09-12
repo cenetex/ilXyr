@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "existing_public_result",
+  "evidence_path": "experiments/research-step-51/FINDINGS.json",
+  "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+  "experiment_id": "research.step51.weight-outcome.v1",
+  "family": "ilxyr",
+  "id": "verdict:research.step51.weight-outcome.v1",
+  "lineage_note": "Trace observed yield and duplicate or rejected draws by stratum against the pilot projection. Keep the original budget and incomplete corpus status visible.",
+  "mechanism": "Original corpus distribution under its fixed resource policy",
+  "mechanism_tags": [
+    "oracle-frontier",
+    "resource-policy",
+    "bounded-cost"
+  ],
+  "outcome": "measurement_floor",
+  "project": "weight_multiplicity",
+  "recorded_at_ms": 1789248868556,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "verified_hold",
+  "summary": "The full corpus attempt reached its 2430387 workload-call limit and preserved 79452 training rows. The independent checker confirmed a resource Hold. Final p99 acceptance remained pending corpus completion.",
+  "taxonomy": "venue"
+}

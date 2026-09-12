@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-33/FAILURES.json",
+  "evidence_ref": "artifact://sha256/f10e3e826d537e20e4364b49a100980bff16e1d66d46c82af98d36b41f969cf2",
+  "experiment_id": "research.step33.policy-package.v1",
+  "family": "ilxyr",
+  "id": "verdict:research.step33.policy-package.v1",
+  "lineage_note": "Include all fourteen bound source files and select the unchanged resource policy explicitly.",
+  "mechanism": "policy package",
+  "mechanism_tags": [
+    "oracle-frontier",
+    "resource-policy",
+    "package-integrity"
+  ],
+  "outcome": "execution_failure",
+  "project": "weight_multiplicity",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The historical corpus packager included three oracle libraries and omitted the fixed resource-policy module and its bindings. Its launcher selected the earlier per-query rule.",
+  "taxonomy": "implementation"
+}
