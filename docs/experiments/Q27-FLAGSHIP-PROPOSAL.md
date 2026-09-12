@@ -49,6 +49,9 @@ it.
 > continual-learning value of the fly architecture (adding faculties without
 > interference, when the base is *not* frozen) is preserved as a separate line
 > rather than the flagship.
+>
+> The semantic path is now frozen at
+> [`Q35-SPARSE-SEMANTIC-HEAD-PREREGISTRATION.md`](Q35-SPARSE-SEMANTIC-HEAD-PREREGISTRATION.md).
 
 ## 1. Position
 
