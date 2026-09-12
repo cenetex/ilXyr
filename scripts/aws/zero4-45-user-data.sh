@@ -137,6 +137,17 @@ plan=json.loads(Path(sys.argv[1]).read_bytes());images=json.loads(Path(sys.argv[
 assert len(images)==1 and images[0]['Id']==plan['runtime_image_id']
 assert images[0]['Architecture']=='amd64' and images[0]['Os']=='linux'
 PYIMAGE
+PHASE=storage
+bounded 1200 df -Pk "$ROOT" > "$OUT/filesystem.txt"
+python3 - "$PLAN" "$OUT/filesystem.txt" "$OUT/DISK.json" <<'PYDISK'
+import json,sys
+from pathlib import Path
+plan=json.loads(Path(sys.argv[1]).read_bytes())
+free=int(Path(sys.argv[2]).read_text().splitlines()[1].split()[3])*1024
+required=plan['study_limits']['max_output_bytes']+plan['storage']['max_archive_bytes']+plan['storage']['archive_chunk_bytes']+1024**3
+Path(sys.argv[3]).write_text(json.dumps({'free_bytes':free,'required_bytes':required,'passes':free>=required},sort_keys=True)+'\n')
+assert free>=required, 'disk space must cover output, archive, one upload part and host reserve'
+PYDISK
 PHASE=controller
 (
   ulimit -f 32768

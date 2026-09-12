@@ -19,6 +19,7 @@ from zero4_cloud_preflight import lifecycle_rules
 from test_feral_bootstrap import STUB, write_tar
 
 ROOT = Path(__file__).resolve().parents[1]
+STUB = STUB.replace("if name=='docker':", "if name=='df':\n    print('Filesystem 1024-blocks Used Available Capacity Mounted on');print('fixture 83886080 16777216 '+('0' if mode=='storage' else '67108864')+' 20% /');sys.exit(0)\nif name=='docker':")
 STUB = STUB.replace("'g6e.2xlarge'", "'c6i.4xlarge'").replace('run/model/weight.bin', 'runtime/study/bin/lm').replace('run/source/grader/targets.jsonl', 'runtime/study/RESULT.json').replace('run/arms/base/predictions.jsonl', 'runtime/study/processes/0000-fixture/stdout.log').replace('run/execution.json', 'runtime/RUNTIME.json').replace("key.endswith('predictions.jsonl')", "key.endswith('results-00.part')")
 STUB = STUB.replace("if args[:2]==['image','inspect']:print('[]');sys.exit(0)", "if args[:2]==['image','inspect']:print(json.dumps([{'Id':'sha256:a3535ab419a167bf1c5acc0ea5d536c358152a9fb8dd8504068ef24bb0f4a1f1','Architecture':'amd64','Os':'linux'}]));sys.exit(0)").replace("if args[:2]==['rm','-f']:sys.exit(0)", "if args[:2]==['rm','-f']:sys.exit(0)\n    if args[0]=='inspect':print('[]');sys.exit(0)")
 
@@ -51,7 +52,7 @@ def fixture(root):
 
 def environment(root, package, failure=''):
     bin_dir = root / 'bin'; bin_dir.mkdir()
-    for name in ['aws', 'curl', 'docker', 'systemd-run', 'systemctl', 'shutdown', 'timeout']:
+    for name in ['aws', 'curl', 'docker', 'df', 'systemd-run', 'systemctl', 'shutdown', 'timeout']:
         path = bin_dir / name; path.write_text('#!' + sys.executable + '\n' + STUB); path.chmod(0o755)
     return {**os.environ, 'PATH': str(bin_dir) + os.pathsep + os.environ['PATH'], 'FERAL_TEST_LOG': str(root / 'calls.jsonl'),
             'FERAL_TEST_PACKAGE': str(package), 'FERAL_TEST_S3': str(root / 's3'), 'FERAL_TEST_FAILURE': failure}
@@ -89,6 +90,7 @@ class HostTests(unittest.TestCase):
             for option, value in [('--memory', '24g'), ('--memory-swap', '24g'), ('--cpuset-cpus', '0-15'), ('--network', 'none'), ('--pids-limit', '1024')]:
                 self.assertEqual(docker[docker.index(option) + 1], value)
             self.assertIn('/tmp:rw,exec,size=512m', docker)
+            self.assertTrue(json.loads((root / 'work/output/DISK.json').read_bytes())['passes'])
             prefix = root / 's3/runs' / binding['run_id']
             receipt = json.loads((prefix / 'collection.json').read_bytes())
             self.assertEqual(receipt['sha256'], sha((prefix / 'results-00.part').read_bytes()))
@@ -98,12 +100,12 @@ class HostTests(unittest.TestCase):
             self.assertEqual(terminal['user_data_sha256'], sha((root / 'user-data.sh').read_bytes()))
 
     def test_failures_preserve_cause_and_shutdown(self):
-        for mode in ['metadata', 'package', 'image', 'controller', 'collection']:
+        for mode in ['metadata', 'package', 'image', 'storage', 'controller', 'collection']:
             with self.subTest(mode=mode), tempfile.TemporaryDirectory() as name:
                 root = Path(name); result, calls, terminal, binding = host(root, mode)
                 self.assertNotEqual(result.returncode, 0)
                 self.assertEqual(terminal['status'], 'failed'); self.assertEqual(calls[-1]['name'], 'shutdown')
-                if mode in ['metadata', 'package', 'image']:
+                if mode in ['metadata', 'package', 'image', 'storage']:
                     self.assertEqual(terminal['phase'], mode)
                     self.assertFalse(any(v['name'] == 'docker' and v['args'][0] == 'run' for v in calls))
                 if mode == 'controller':
