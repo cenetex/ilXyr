@@ -2,9 +2,12 @@
 
 What the lab studies. The rest of `docs/` is the machinery that holds it accountable.
 
-The [next-decision report](../experiments/research-step-18/REPORT.md) gives the
-current deliverable for each of the five projects, the failures behind those
-choices, and the shared comparison method. The [completed Reasoner comparison](../experiments/research-step-26/REPORT.md)
+The [current five-project report](../experiments/research-step-50/REPORT.md)
+checks each fixed package, gives the decision it can change, and brings the
+failures and costs into one view. It also repairs a shared run-ID gap in the
+older Solomon and weight launch tools. The five individual run ceilings sum
+to $14.70 before tax. All five free provider checks and exact package readbacks
+now pass. The prepared run set awaits approval for its individual ceilings. The [completed Reasoner comparison](../experiments/research-step-26/REPORT.md)
 missed both primary benefit gates against matched lexical guidance on 128
 fresh families. All answers and 3,072 independent replays verified. Collection,
 provider termination, and root-volume deletion are confirmed. The next design
@@ -29,8 +32,9 @@ now passes fifteen host tests and the fixed Clang image check. All 64 opened
 measured results retain their earlier answers and work counts. Downloaded
 records also pass replay from their new paths. The report preserves a GCC
 build failure and a missing Python runtime from earlier images. The full
-comparison has a 90-minute, $0.30 ceiling before tax. Staging and free provider
-checks await AWS sign-in, followed by approval for the exact package.
+comparison has a 90-minute, $0.30 ceiling before tax. The shared readiness
+check now verifies staging and current provider state. The exact run awaits
+its package and budget approval.
 
 The [Solomon count-probability step](../experiments/research-step-19/REPORT.md)
 adds two train-only confidence controls. Its known-window smoke preserves
@@ -89,8 +93,8 @@ calls are zero. The [fixed cloud host package](../experiments/research-step-49/R
 now passes 16 host tests and the exact-image check. The 174 invented results
 match step 48 and pass another check after download. The package uses the
 same Python image as Reasoner, with a 30-minute, $0.15 ceiling before tax.
-Free provider checks await AWS sign-in, followed by approval for the exact
-package. This source-linked baseline also supports the
+Its shared free provider check now passes. The exact package awaits
+launch approval. This source-linked baseline also supports the
 [FERAL v3 tagging proposal](FERAL-7B-V3-XBRL-REGULATORY-PROPOSAL.md).
 
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).
@@ -130,7 +134,7 @@ adds shared deadlines, process cleanup, complete-row grading after failures,
 and a bounded cloud budget draft.
 The [FERAL host package](../experiments/research-step-15/REPORT.md) adds the
 instance shutdown path, verified collection, and retained unknown launch
-outcomes. Live preflight awaits a refreshed AWS session.
+outcomes. Its later provider checks are recorded in the shared readiness report.
 The [Solomon answer-ownership audit](../experiments/research-step-16/REPORT.md)
 shows that suffix memory selects the frozen combined candidate's answers while
 the transformer supplies confidence. It updates the next comparison and brings
@@ -176,8 +180,8 @@ It fixes a 13½-hour instance limit and a $12 ceiling before tax, with bounded
 result parts, disk reserve and provider cleanup checks. Fourteen controlled
 host tests and the small fixed-image runtime check pass. A probe exposed a
 preflight receipt reused across different run IDs; the repaired check keeps
-the launch tied to its own output-prefix check. AWS sign-in is pending for
-staging and free provider preflight, followed by exact package approval.
+the launch tied to its own output-prefix check. Staging and the shared free
+provider check now pass. The exact package awaits launch approval.
 
 ## Mission
 

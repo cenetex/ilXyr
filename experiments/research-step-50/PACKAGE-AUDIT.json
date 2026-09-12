@@ -1,0 +1,234 @@
+{
+  "actual_instances_created": 0,
+  "checked_epoch": 1789245549.470307,
+  "fresh_scientific_calls": 0,
+  "projects": [
+    {
+      "archive": "reasoner-cloud-step46-20260912/package-02.tar",
+      "bound_host_repository_files": 11,
+      "host_files_match_published_source_and_checkout": true,
+      "inspector": "package_reasoner_study_cloud.inspect",
+      "local_launch_tools": {
+        "reasoner_study_cloud_launch.py": "2165c09525d4939835cf1ef2b834b8379ead99d9aac62720ead63300b690d77d",
+        "reasoner_study_cloud_preflight.py": "3cc9086b0cfa6c4d101725a379a369c836601730214466ec1ae59b0fab72c3e0"
+      },
+      "local_launch_tools_are_in_host_archive": true,
+      "machine": "c6i.large",
+      "maximum_before_tax_usd": "0.30",
+      "maximum_instance_seconds": 5400,
+      "package_bytes": 46868480,
+      "package_sha256": "080ed8f974acccd187abef55a81fbf46462da2851cfc0feaa9df8a574ab332d5",
+      "plan_sha256": "018f4002c85a3fca99da12557e1915fa1703ea68defda807cf426aabd8bb87a0",
+      "prior_preflight": {
+        "instances_created": 0,
+        "package_staged": false,
+        "paid_compute_started": false,
+        "provider_dry_run_passed": false,
+        "remaining_checks": [
+          "versioned_package_readback",
+          "current_prices",
+          "resolved_AMI_and_root_snapshot",
+          "machine_shape",
+          "network_and_role",
+          "bounded_bucket_retention",
+          "fresh_result_prefix",
+          "EC2_DryRun"
+        ],
+        "status": "waiting_for_sign_in"
+      },
+      "project": "reasoner",
+      "source_commit": "a35f8c3d6a76b2595a2b82e1bd8387c81a3ee77a",
+      "source_step": 46,
+      "status": "verified"
+    },
+    {
+      "archive": "feral-cloud-step49-20260912/package-01.tar",
+      "bound_host_repository_files": 14,
+      "host_files_match_published_source_and_checkout": true,
+      "inspector": "package_feral_coverage_cloud.inspect",
+      "local_launch_tools": {
+        "feral_coverage_cloud_launch.py": "3be04357f164918271c9e1735d1d1e2c1977818182aa4a76b6d970e4ab44b766",
+        "feral_coverage_cloud_preflight.py": "8166f3f5c6764a37abc938d6af690a9e3dbb6c9fcbc5b86ebb9aa9c1b999ba5e"
+      },
+      "local_launch_tools_are_in_host_archive": true,
+      "machine": "c6i.large",
+      "maximum_before_tax_usd": "0.15",
+      "maximum_instance_seconds": 1800,
+      "package_bytes": 41840640,
+      "package_sha256": "c392e3a51d333e2a48b04bf91f9b6cab3959953b9afbd585f8aab59dd381872c",
+      "plan_sha256": "7ddfbf97455e972c53f924088dd195396d82f47bb4ffcc5ab4af0b38eecb4413",
+      "prior_preflight": {
+        "instances_created": 0,
+        "latest_identity_check": {
+          "date": "2026-09-12",
+          "error": "Error when retrieving token from sso: Token has expired and refresh failed",
+          "exit_code": 255,
+          "profile": "default"
+        },
+        "package_staged": false,
+        "paid_compute_started": false,
+        "provider_dry_run_passed": false,
+        "remaining_checks": [
+          "versioned_package_readback",
+          "current_prices",
+          "resolved_AMI_and_root_snapshot",
+          "machine_shape",
+          "network_and_role",
+          "bounded_bucket_retention",
+          "fresh_result_prefix",
+          "EC2_DryRun"
+        ],
+        "status": "waiting_for_sign_in"
+      },
+      "project": "feral",
+      "source_commit": "4eafdd9ad5e9eb84959624b7a41e0c1461c108cb",
+      "source_step": 49,
+      "status": "verified"
+    },
+    {
+      "archive": "solomon-cloud-step38-20260908/host.tar",
+      "bound_host_repository_files": 5,
+      "host_files_match_published_source_and_checkout": true,
+      "inspector": "package_solomon_cloud.inspect",
+      "local_launch_tools": {
+        "solomon_cloud_launch.py": "2dffab6232592240f1be6488286ed1759f2105346b246478f46aa7f4afcd7b92",
+        "solomon_cloud_preflight.py": "51e0901fcfc53de19440581e4f5b8cef8f73207339f249d93df39eb2c75e4b74"
+      },
+      "local_launch_tools_are_in_host_archive": false,
+      "machine": "c6i.large",
+      "maximum_before_tax_usd": "0.25",
+      "maximum_instance_seconds": 3600,
+      "package_bytes": 14428160,
+      "package_sha256": "52dfcf2f63668d02765a6b591f5b39a0b445a1b475c32ce4e2ba27fdc37e9f86",
+      "plan_sha256": "58ff514dae66d51c80ec727d7cf27250eccb74a713af127764f897948aa0db6a",
+      "prior_preflight": {
+        "checked_epoch": 1788911224.795501,
+        "checked_utc": "2026-09-08T23:47:04.795501+00:00",
+        "checks": [
+          "identity",
+          "machine",
+          "image_snapshot",
+          "volume_floor",
+          "network",
+          "role",
+          "bucket_privacy_encryption",
+          "versioned_package",
+          "bounded_retention",
+          "price",
+          "ec2_dry_run"
+        ],
+        "instances_created": 0,
+        "package_sha256": "52dfcf2f63668d02765a6b591f5b39a0b445a1b475c32ce4e2ba27fdc37e9f86",
+        "plan_sha256": "58ff514dae66d51c80ec727d7cf27250eccb74a713af127764f897948aa0db6a",
+        "preflight_receipt_sha256": "7e65f14e6bbfa38bb2376a5122c8d3024ab198bc3147f0add1d6b52fae5d563d",
+        "raw_receipts_custody": "Private local evidence folder",
+        "schema": "ilxyr.solomon_cloud_preflight.v1",
+        "staged_readback_verified": true,
+        "status": "passed"
+      },
+      "project": "solomon",
+      "source_commit": "76e568e383b6e852ec536cdf4810d4f7d491feb4",
+      "source_step": 38,
+      "status": "verified"
+    },
+    {
+      "archive": "weight-cloud-step35-20260908/host.tar",
+      "bound_host_repository_files": 3,
+      "host_files_match_published_source_and_checkout": true,
+      "inspector": "package_weight_cloud.inspect",
+      "local_launch_tools": {
+        "weight_cloud_launch.py": "56c81a239bd4696b96a1ee6c4b979c118db08cf24ec820740a2c2602b08a7663",
+        "weight_cloud_preflight.py": "b2d545e8acbe3a2214df013f708deea38236a7a18826832931b44666858e392a"
+      },
+      "local_launch_tools_are_in_host_archive": false,
+      "machine": "c6i.4xlarge",
+      "maximum_before_tax_usd": "2.00",
+      "maximum_instance_seconds": 5400,
+      "package_bytes": 16568320,
+      "package_sha256": "baca1320cc10071513a47bfd3d853ecf67a48f0aaf3c16429f2398cb7feaa29e",
+      "plan_sha256": "62e5d421dbb2b61a9e4e25816d059a1a569b819061ac1c70a940961864c16ecc",
+      "prior_preflight": {
+        "all_seven_price_components_within_frozen_ceiling": true,
+        "checked_epoch": 1788902894.188382,
+        "checked_utc": "2026-09-08T21:28:14.188382+00:00",
+        "checks": [
+          "identity",
+          "machine",
+          "image_snapshot",
+          "volume_floor",
+          "network",
+          "role",
+          "bucket_privacy_encryption",
+          "versioned_package",
+          "bounded_retention",
+          "price",
+          "ec2_dry_run"
+        ],
+        "current_expiry_days": 30,
+        "expired_delete_marker_cleanup": true,
+        "instances_created": 0,
+        "noncurrent_expiry_days": 1,
+        "package_sha256": "baca1320cc10071513a47bfd3d853ecf67a48f0aaf3c16429f2398cb7feaa29e",
+        "plan_sha256": "62e5d421dbb2b61a9e4e25816d059a1a569b819061ac1c70a940961864c16ecc",
+        "public_raw_provider_records": false,
+        "scope": "read_only_checks_and_ec2_dry_run",
+        "status": "passed",
+        "versioned_package_readback_identical": true
+      },
+      "project": "weight",
+      "source_commit": "f5d29f66151c5f5b27cfc2c3067f7e0260c30bad",
+      "source_step": 35,
+      "status": "verified"
+    },
+    {
+      "archive": "zero4-cloud-step45-20260912/package-03.tar",
+      "bound_host_repository_files": 10,
+      "host_files_match_published_source_and_checkout": true,
+      "inspector": "package_zero4_cloud.inspect",
+      "local_launch_tools": {
+        "zero4_cloud_launch.py": "2c9b1e2541805bf481bddad9428eaec2d53ca0e6c3018b22ef61c2be17484dd0",
+        "zero4_cloud_preflight.py": "08a01a15fce774870111bc7566d5f100f0e94e5d20aa4e93d0909fd57670dcbc"
+      },
+      "local_launch_tools_are_in_host_archive": true,
+      "machine": "c6i.4xlarge",
+      "maximum_before_tax_usd": "12.00",
+      "maximum_instance_seconds": 48600,
+      "package_bytes": 54886400,
+      "package_sha256": "0ed0d960d8cfbe7e4e86d600c490867c732c4ac2d3cd462f8ccbb1b9f7e35ac3",
+      "plan_sha256": "79aa4932de1fe8f4da66ad57d17d989bb57de45e1843afe01f969443dbc66ee2",
+      "prior_preflight": {
+        "instances_created": 0,
+        "package_sha256": "0ed0d960d8cfbe7e4e86d600c490867c732c4ac2d3cd462f8ccbb1b9f7e35ac3",
+        "package_staged": false,
+        "plan_sha256": "79aa4932de1fe8f4da66ad57d17d989bb57de45e1843afe01f969443dbc66ee2",
+        "remaining_checks": [
+          "provider_identity",
+          "image_and_capacity_shape",
+          "network_and_permissions",
+          "storage_configuration",
+          "current_prices",
+          "versioned_package_readback",
+          "free_ec2_dry_run"
+        ],
+        "status": "waiting_for_aws_sign_in",
+        "verified_checks": [
+          "source_package_integrity",
+          "full_input_bindings",
+          "cost_arithmetic",
+          "rendered_launch_limits",
+          "controlled_host_failures"
+        ]
+      },
+      "project": "zero4",
+      "source_commit": "6c859ca354bce30a3c3c8b1d53ba33e5fa504544",
+      "source_step": 45,
+      "status": "verified"
+    }
+  ],
+  "provider_status": "waiting_for_refreshed_sign_in",
+  "schema": "ilxyr.research_program_readiness.v1",
+  "scope": "Local package bytes, nested inventories checked by the existing inspectors, published plan identity and bound host source files. Current provider checks and launch approvals remain pending.",
+  "status": "all_five_local_packages_verified",
+  "sum_of_individual_ceilings_before_tax_usd": "14.70",
+  "sum_of_individual_instance_limits_seconds": 64800
+}

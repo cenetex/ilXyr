@@ -174,7 +174,7 @@ class IntegrityTests(unittest.TestCase):
             (root / 'approval.json').write_bytes(encode(approval)); command += ['--approval', str(root / 'approval.json')]
             result = subprocess.run(command, env=env, capture_output=True, text=True, timeout=15)
             self.assertIn('fresh successful preflight required', result.stderr); self.assertFalse((root / 'calls.jsonl').exists())
-            preflight = {'status': 'passed', 'package_sha256': expected, 'plan_sha256': manifest['plan_sha256'], 'package_version': binding['package_version'], 'checked_epoch': time.time()}
+            preflight = {'status': 'passed', 'run_id': binding['run_id'], 'package_sha256': expected, 'plan_sha256': manifest['plan_sha256'], 'package_version': binding['package_version'], 'checked_epoch': time.time()}
             (root / 'preflight.json').write_bytes(encode(preflight))
             result = subprocess.run(command + ['--preflight', str(root / 'preflight.json')], env=env, capture_output=True, text=True, timeout=15)
             receipt = json.loads((root / 'launch/receipt.json').read_bytes())

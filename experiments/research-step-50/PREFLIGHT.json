@@ -1,0 +1,394 @@
+{
+  "actual_instances_created": 0,
+  "freshness": "Repeat each preflight if its receipt is older than one hour at launch. Keep the same run identity and exact object version.",
+  "projects": [
+    {
+      "checked_epoch": 1789246168.411634,
+      "checks": [
+        "identity",
+        "machine",
+        "image_snapshot",
+        "volume_floor",
+        "network",
+        "role",
+        "bucket_privacy_encryption",
+        "versioned_package",
+        "bounded_retention",
+        "price",
+        "ec2_dry_run"
+      ],
+      "immutable_version_readback_verified": true,
+      "instances_created": 0,
+      "package_sha256": "080ed8f974acccd187abef55a81fbf46462da2851cfc0feaa9df8a574ab332d5",
+      "plan_sha256": "018f4002c85a3fca99da12557e1915fa1703ea68defda807cf426aabd8bb87a0",
+      "prices": {
+        "compute_usd_per_hour": {
+          "ceiling_usd": "0.085",
+          "observed_usd": "0.0850000000",
+          "response_sha256": "c839a010e8be570095d4c09e7e318529e88a02c74f74dfd6100d23b009adcc78",
+          "service": "AmazonEC2",
+          "unit": "Hrs"
+        },
+        "disk_usd_per_gb_month": {
+          "ceiling_usd": "0.08",
+          "observed_usd": "0.0800000000",
+          "response_sha256": "51f02a3c19d3e2f2b2c2d9d84660ea4e0c17b4cef4dc1594a2f20a2d6c298e35",
+          "service": "AmazonEC2",
+          "unit": "GB-Mo"
+        },
+        "download_usd_per_gb": {
+          "ceiling_usd": "0.09",
+          "observed_usd": "0.0900000000",
+          "response_sha256": "2251ee28a406a9c897ef2ae060308007c154b426e553785c5018bde881e7c1e7",
+          "service": "AWSDataTransfer",
+          "unit": "GB"
+        },
+        "get_usd_per_request": {
+          "ceiling_usd": "0.0000004",
+          "observed_usd": "0.0000004000",
+          "response_sha256": "05d0046da963b3897a84f85f0a3f204c70a5c3f202e742e087962e75409da288",
+          "service": "AmazonS3",
+          "unit": "Requests"
+        },
+        "ipv4_usd_per_hour": {
+          "ceiling_usd": "0.005",
+          "observed_usd": "0.0050000000",
+          "response_sha256": "aa4a356b9dad4441ffb5ffe397cbb68a4d6b4371e59afe8d0ddf6b7bcb886626",
+          "service": "AmazonVPC",
+          "unit": "Hrs"
+        },
+        "put_usd_per_request": {
+          "ceiling_usd": "0.000005",
+          "observed_usd": "0.0000050000",
+          "response_sha256": "c81bb10440dca3e736ea39a77afd4c905355cd9f636bc185ac17d85e6d413828",
+          "service": "AmazonS3",
+          "unit": "Requests"
+        },
+        "s3_usd_per_gb_month": {
+          "ceiling_usd": "0.023",
+          "observed_usd": "0.0230000000",
+          "response_sha256": "ef8f45621b3026c4592f3e9adee9b26bd7976b4c9425b4b36935b8462a6b614a",
+          "service": "AmazonS3",
+          "unit": "GB-Mo"
+        }
+      },
+      "project": "reasoner",
+      "receipt_sha256": "cfb654ed8973f5461b58497045982ff6bc2e90667221356b68e35cfb10a3c859",
+      "request_sha256": "99a8018130d82a48a85b10fe14b04a4393c934ef95acd15170900869afff9566",
+      "run_id": "reasoner-46-20260912T204829Z",
+      "stage_receipt_sha256": "7ee002973290368705ece4a180ae6e0a929d5c669ae2e85f6adfb2b756bf57a7",
+      "status": "passed"
+    },
+    {
+      "checked_epoch": 1789246168.716987,
+      "checks": [
+        "identity",
+        "machine",
+        "image_snapshot",
+        "volume_floor",
+        "network",
+        "role",
+        "bucket_privacy_encryption",
+        "versioned_package",
+        "bounded_retention",
+        "price",
+        "ec2_dry_run"
+      ],
+      "immutable_version_readback_verified": true,
+      "instances_created": 0,
+      "package_sha256": "c392e3a51d333e2a48b04bf91f9b6cab3959953b9afbd585f8aab59dd381872c",
+      "plan_sha256": "7ddfbf97455e972c53f924088dd195396d82f47bb4ffcc5ab4af0b38eecb4413",
+      "prices": {
+        "compute_usd_per_hour": {
+          "ceiling_usd": "0.085",
+          "observed_usd": "0.0850000000",
+          "response_sha256": "c839a010e8be570095d4c09e7e318529e88a02c74f74dfd6100d23b009adcc78",
+          "service": "AmazonEC2",
+          "unit": "Hrs"
+        },
+        "disk_usd_per_gb_month": {
+          "ceiling_usd": "0.08",
+          "observed_usd": "0.0800000000",
+          "response_sha256": "51f02a3c19d3e2f2b2c2d9d84660ea4e0c17b4cef4dc1594a2f20a2d6c298e35",
+          "service": "AmazonEC2",
+          "unit": "GB-Mo"
+        },
+        "download_usd_per_gb": {
+          "ceiling_usd": "0.09",
+          "observed_usd": "0.0900000000",
+          "response_sha256": "2251ee28a406a9c897ef2ae060308007c154b426e553785c5018bde881e7c1e7",
+          "service": "AWSDataTransfer",
+          "unit": "GB"
+        },
+        "get_usd_per_request": {
+          "ceiling_usd": "0.0000004",
+          "observed_usd": "0.0000004000",
+          "response_sha256": "05d0046da963b3897a84f85f0a3f204c70a5c3f202e742e087962e75409da288",
+          "service": "AmazonS3",
+          "unit": "Requests"
+        },
+        "ipv4_usd_per_hour": {
+          "ceiling_usd": "0.005",
+          "observed_usd": "0.0050000000",
+          "response_sha256": "aa4a356b9dad4441ffb5ffe397cbb68a4d6b4371e59afe8d0ddf6b7bcb886626",
+          "service": "AmazonVPC",
+          "unit": "Hrs"
+        },
+        "put_usd_per_request": {
+          "ceiling_usd": "0.000005",
+          "observed_usd": "0.0000050000",
+          "response_sha256": "c81bb10440dca3e736ea39a77afd4c905355cd9f636bc185ac17d85e6d413828",
+          "service": "AmazonS3",
+          "unit": "Requests"
+        },
+        "s3_usd_per_gb_month": {
+          "ceiling_usd": "0.023",
+          "observed_usd": "0.0230000000",
+          "response_sha256": "ef8f45621b3026c4592f3e9adee9b26bd7976b4c9425b4b36935b8462a6b614a",
+          "service": "AmazonS3",
+          "unit": "GB-Mo"
+        }
+      },
+      "project": "feral",
+      "receipt_sha256": "2cc402336f9d8c66698a4685d8b22d4e0da4ffa2b0f2ceee7d636cf6f45ca62b",
+      "request_sha256": "18d0c656aa64fd6550afa606fba2919a1abd0455a593c67692be09b7e7f1de3c",
+      "run_id": "feral-49-20260912T204831Z",
+      "stage_receipt_sha256": "1eeaa63d9fc2042f267f9dfd74a067657e0506f88f100adb0257322b67eb6ed3",
+      "status": "passed"
+    },
+    {
+      "checked_epoch": 1789246165.489434,
+      "checks": [
+        "identity",
+        "machine",
+        "image_snapshot",
+        "volume_floor",
+        "network",
+        "role",
+        "bucket_privacy_encryption",
+        "versioned_package",
+        "bounded_retention",
+        "price",
+        "ec2_dry_run"
+      ],
+      "immutable_version_readback_verified": true,
+      "instances_created": 0,
+      "package_sha256": "52dfcf2f63668d02765a6b591f5b39a0b445a1b475c32ce4e2ba27fdc37e9f86",
+      "plan_sha256": "58ff514dae66d51c80ec727d7cf27250eccb74a713af127764f897948aa0db6a",
+      "prices": {
+        "compute_usd_per_hour": {
+          "ceiling_usd": "0.085",
+          "observed_usd": "0.0850000000",
+          "response_sha256": "c839a010e8be570095d4c09e7e318529e88a02c74f74dfd6100d23b009adcc78",
+          "service": "AmazonEC2",
+          "unit": "Hrs"
+        },
+        "disk_usd_per_gb_month": {
+          "ceiling_usd": "0.08",
+          "observed_usd": "0.0800000000",
+          "response_sha256": "51f02a3c19d3e2f2b2c2d9d84660ea4e0c17b4cef4dc1594a2f20a2d6c298e35",
+          "service": "AmazonEC2",
+          "unit": "GB-Mo"
+        },
+        "download_usd_per_gb": {
+          "ceiling_usd": "0.09",
+          "observed_usd": "0.0900000000",
+          "response_sha256": "2251ee28a406a9c897ef2ae060308007c154b426e553785c5018bde881e7c1e7",
+          "service": "AWSDataTransfer",
+          "unit": "GB"
+        },
+        "get_usd_per_request": {
+          "ceiling_usd": "0.0000004",
+          "observed_usd": "0.0000004000",
+          "response_sha256": "05d0046da963b3897a84f85f0a3f204c70a5c3f202e742e087962e75409da288",
+          "service": "AmazonS3",
+          "unit": "Requests"
+        },
+        "ipv4_usd_per_hour": {
+          "ceiling_usd": "0.005",
+          "observed_usd": "0.0050000000",
+          "response_sha256": "aa4a356b9dad4441ffb5ffe397cbb68a4d6b4371e59afe8d0ddf6b7bcb886626",
+          "service": "AmazonVPC",
+          "unit": "Hrs"
+        },
+        "put_usd_per_request": {
+          "ceiling_usd": "0.000005",
+          "observed_usd": "0.0000050000",
+          "response_sha256": "c81bb10440dca3e736ea39a77afd4c905355cd9f636bc185ac17d85e6d413828",
+          "service": "AmazonS3",
+          "unit": "Requests"
+        },
+        "s3_usd_per_gb_month": {
+          "ceiling_usd": "0.023",
+          "observed_usd": "0.0230000000",
+          "response_sha256": "ef8f45621b3026c4592f3e9adee9b26bd7976b4c9425b4b36935b8462a6b614a",
+          "service": "AmazonS3",
+          "unit": "GB-Mo"
+        }
+      },
+      "project": "solomon",
+      "receipt_sha256": "e78363b4ebae45474c19398ef813099b51c9a90b7ae5addacfbc9c162ba7845e",
+      "request_sha256": "102f0aa7e4751bd6765c1cff2a8e66d15372986d090f4713fb9d66251f5d68a9",
+      "run_id": "solomon38-20260912T204834Z",
+      "stage_receipt_sha256": "2ddbc1b408a938dc50fae31d585a210f3936aadbdc110b825ba883ddb9a0c04d",
+      "status": "passed"
+    },
+    {
+      "checked_epoch": 1789246164.241517,
+      "checks": [
+        "identity",
+        "machine",
+        "image_snapshot",
+        "volume_floor",
+        "network",
+        "role",
+        "bucket_privacy_encryption",
+        "versioned_package",
+        "bounded_retention",
+        "price",
+        "ec2_dry_run"
+      ],
+      "immutable_version_readback_verified": true,
+      "instances_created": 0,
+      "package_sha256": "baca1320cc10071513a47bfd3d853ecf67a48f0aaf3c16429f2398cb7feaa29e",
+      "plan_sha256": "62e5d421dbb2b61a9e4e25816d059a1a569b819061ac1c70a940961864c16ecc",
+      "prices": {
+        "compute_usd_per_hour": {
+          "ceiling_usd": "0.68",
+          "observed_usd": "0.6800000000",
+          "response_sha256": "5c3e89ff6089386e1fc3deb4a7728721152d497781080722216fccf2a7cd6f21",
+          "service": "AmazonEC2",
+          "unit": "Hrs"
+        },
+        "disk_usd_per_gb_month": {
+          "ceiling_usd": "0.08",
+          "observed_usd": "0.0800000000",
+          "response_sha256": "51f02a3c19d3e2f2b2c2d9d84660ea4e0c17b4cef4dc1594a2f20a2d6c298e35",
+          "service": "AmazonEC2",
+          "unit": "GB-Mo"
+        },
+        "download_usd_per_gb": {
+          "ceiling_usd": "0.09",
+          "observed_usd": "0.0900000000",
+          "response_sha256": "2251ee28a406a9c897ef2ae060308007c154b426e553785c5018bde881e7c1e7",
+          "service": "AWSDataTransfer",
+          "unit": "GB"
+        },
+        "get_usd_per_request": {
+          "ceiling_usd": "0.0000004",
+          "observed_usd": "0.0000004000",
+          "response_sha256": "05d0046da963b3897a84f85f0a3f204c70a5c3f202e742e087962e75409da288",
+          "service": "AmazonS3",
+          "unit": "Requests"
+        },
+        "ipv4_usd_per_hour": {
+          "ceiling_usd": "0.005",
+          "observed_usd": "0.0050000000",
+          "response_sha256": "aa4a356b9dad4441ffb5ffe397cbb68a4d6b4371e59afe8d0ddf6b7bcb886626",
+          "service": "AmazonVPC",
+          "unit": "Hrs"
+        },
+        "put_usd_per_request": {
+          "ceiling_usd": "0.000005",
+          "observed_usd": "0.0000050000",
+          "response_sha256": "c81bb10440dca3e736ea39a77afd4c905355cd9f636bc185ac17d85e6d413828",
+          "service": "AmazonS3",
+          "unit": "Requests"
+        },
+        "s3_usd_per_gb_month": {
+          "ceiling_usd": "0.023",
+          "observed_usd": "0.0230000000",
+          "response_sha256": "ef8f45621b3026c4592f3e9adee9b26bd7976b4c9425b4b36935b8462a6b614a",
+          "service": "AmazonS3",
+          "unit": "GB-Mo"
+        }
+      },
+      "project": "weight",
+      "receipt_sha256": "bb2ee1fe1f6c795a06d1e4021894d87a7fa040cc40cf6f02f4d8acca7b056cc0",
+      "request_sha256": "b3875378347c31142f878a29e0388980f6222817ff1d9edf47879eb649df17f6",
+      "run_id": "weight35-20260912T204834Z",
+      "stage_receipt_sha256": "6cc7f9b735ac8c8fc91aeb5a19209f3690d36e774fc9d7d0ece1bf038d563721",
+      "status": "passed"
+    },
+    {
+      "checked_epoch": 1789246165.566139,
+      "checks": [
+        "identity",
+        "machine",
+        "image_snapshot",
+        "volume_floor",
+        "network",
+        "role",
+        "bucket_privacy_encryption",
+        "versioned_package",
+        "bounded_retention",
+        "price",
+        "ec2_dry_run"
+      ],
+      "immutable_version_readback_verified": true,
+      "instances_created": 0,
+      "package_sha256": "0ed0d960d8cfbe7e4e86d600c490867c732c4ac2d3cd462f8ccbb1b9f7e35ac3",
+      "plan_sha256": "79aa4932de1fe8f4da66ad57d17d989bb57de45e1843afe01f969443dbc66ee2",
+      "prices": {
+        "compute_usd_per_hour": {
+          "ceiling_usd": "0.68",
+          "observed_usd": "0.6800000000",
+          "response_sha256": "5c3e89ff6089386e1fc3deb4a7728721152d497781080722216fccf2a7cd6f21",
+          "service": "AmazonEC2",
+          "unit": "Hrs"
+        },
+        "disk_usd_per_gb_month": {
+          "ceiling_usd": "0.08",
+          "observed_usd": "0.0800000000",
+          "response_sha256": "51f02a3c19d3e2f2b2c2d9d84660ea4e0c17b4cef4dc1594a2f20a2d6c298e35",
+          "service": "AmazonEC2",
+          "unit": "GB-Mo"
+        },
+        "download_usd_per_gb": {
+          "ceiling_usd": "0.09",
+          "observed_usd": "0.0900000000",
+          "response_sha256": "2251ee28a406a9c897ef2ae060308007c154b426e553785c5018bde881e7c1e7",
+          "service": "AWSDataTransfer",
+          "unit": "GB"
+        },
+        "get_usd_per_request": {
+          "ceiling_usd": "0.0000004",
+          "observed_usd": "0.0000004000",
+          "response_sha256": "05d0046da963b3897a84f85f0a3f204c70a5c3f202e742e087962e75409da288",
+          "service": "AmazonS3",
+          "unit": "Requests"
+        },
+        "ipv4_usd_per_hour": {
+          "ceiling_usd": "0.005",
+          "observed_usd": "0.0050000000",
+          "response_sha256": "aa4a356b9dad4441ffb5ffe397cbb68a4d6b4371e59afe8d0ddf6b7bcb886626",
+          "service": "AmazonVPC",
+          "unit": "Hrs"
+        },
+        "put_usd_per_request": {
+          "ceiling_usd": "0.000005",
+          "observed_usd": "0.0000050000",
+          "response_sha256": "c81bb10440dca3e736ea39a77afd4c905355cd9f636bc185ac17d85e6d413828",
+          "service": "AmazonS3",
+          "unit": "Requests"
+        },
+        "s3_usd_per_gb_month": {
+          "ceiling_usd": "0.023",
+          "observed_usd": "0.0230000000",
+          "response_sha256": "ef8f45621b3026c4592f3e9adee9b26bd7976b4c9425b4b36935b8462a6b614a",
+          "service": "AmazonS3",
+          "unit": "GB-Mo"
+        }
+      },
+      "project": "zero4",
+      "receipt_sha256": "9ead8f1d2e4f96b4213dc37d097e83e5cc3ff75899549ba1ecb657e6cff2ecf0",
+      "request_sha256": "a35916f9dbd75a0e3de2e4391e8796a6eae965a74a4d9975697a63a377a3041b",
+      "run_id": "zero4-45-20260912T204834Z",
+      "stage_receipt_sha256": "4785df5d964634597b50604b9db8bb021733501af1dd8de7e23979f2acce34f5",
+      "status": "passed"
+    }
+  ],
+  "raw_provider_records": "Private local evidence folder",
+  "schema": "ilxyr.research_program_preflight.v1",
+  "status": "all_five_passed"
+}
