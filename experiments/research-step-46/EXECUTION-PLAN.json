@@ -1,0 +1,159 @@
+{
+  "budget": {
+    "billable_storage_and_download_gb_ceiling": "1",
+    "calculated_ceiling_usd": "0.272868",
+    "compute_ceiling_usd": "0.127500",
+    "compute_usd_per_hour": "0.085",
+    "disk_ceiling_usd": "0.013334",
+    "disk_usd_per_gb_month": "0.08",
+    "download_ceiling_usd": "0.090000",
+    "download_usd_per_gb": "0.09",
+    "free_tier_assumed": false,
+    "get_usd_per_request": "0.0000004",
+    "ipv4_ceiling_usd": "0.007500",
+    "ipv4_usd_per_hour": "0.005",
+    "margin_usd": "0.027132",
+    "maximum_before_tax_usd": "0.30",
+    "put_usd_per_request": "0.000005",
+    "request_allowance_usd": "0.01",
+    "s3_usd_per_gb_month": "0.023",
+    "storage_ceiling_usd": "0.024534",
+    "tax_included": false
+  },
+  "checker_seconds": 600,
+  "compiler_flags": [
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-DR55FAST_HASH=0",
+    "-DR55FAST_SORT=0"
+  ],
+  "compiler_identity": "gcc (Debian 12.2.0-14+deb12u1) 12.2.0\nCopyright (C) 2022 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+  "controller_bytes": 8007680,
+  "controller_sha256": "370cc2b4d39ea23af5dea9283cffd70aa056f5c7c22c4aad021b690be47eb8cc",
+  "controller_source_commit": "2d6bc9dccf3797a917f898a322d4edf6d0b161e5",
+  "environment": {
+    "CC": "/usr/bin/gcc",
+    "LANG": "C",
+    "LC_ALL": "C",
+    "MKL_NUM_THREADS": "1",
+    "NODE_OPTIONS": "--max-old-space-size=1536",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "TZ": "UTC",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "implementation": {
+    "check_reasoner_study.py": "5cd7fdae2e9a9d44d39871307bb04d700fb84293b042c23f378c8773ff57c84d",
+    "feral_process.py": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526",
+    "reasoner_study_worker.c": "c582dca8f4fa85a289f55762304da040fed7c7e65dc7fcbd232cd2520542b950",
+    "replay_reasoner_study.mjs": "a054d5e9e97f587af53bbf2f05e188faf6b668272b59fb72214bc9bd1752a953",
+    "research_reasoner_study.py": "7b87bfd0d3533a45f949248275eba6c149dad19df8e216961641f0ca4012af41"
+  },
+  "limits": {
+    "collection_deadline_seconds": 5340,
+    "container_memory_gib": 3,
+    "container_pids": 256,
+    "controller_deadline_seconds": 4230,
+    "cpuset": "0",
+    "max_instance_seconds": 5400,
+    "setup_deadline_seconds": 600,
+    "shutdown_at_seconds": 5370,
+    "tmpfs_mib": 512
+  },
+  "node_identity": "v22.22.0",
+  "prepared": {
+    "bindings_sha256": "47b0c3ac6bce7979c3672f36e8871fe685494dd7a293867e3e4490f16b0493d5",
+    "bytes": 7966720,
+    "sha256": "fba839b5e6ef87522623b3c33e38e5be71bb2d4b1332062c291b950e327f264c"
+  },
+  "price_products": {
+    "disk_usd_per_gb_month": [
+      "AmazonEC2",
+      "JG3KUJMBRGHV3N8G",
+      "GB-Mo"
+    ],
+    "download_usd_per_gb": [
+      "AWSDataTransfer",
+      "HQEH3ZWJVT46JHRG",
+      "GB"
+    ],
+    "get_usd_per_request": [
+      "AmazonS3",
+      "ZWQ6Q48CRJXX4FXE",
+      "Requests"
+    ],
+    "ipv4_usd_per_hour": [
+      "AmazonVPC",
+      "4GQUNXTFWVSGPUZK",
+      "Hrs"
+    ],
+    "put_usd_per_request": [
+      "AmazonS3",
+      "E9YHNFENF4XQBZR6",
+      "Requests"
+    ],
+    "s3_usd_per_gb_month": [
+      "AmazonS3",
+      "WP9ANXZGBYYSGJEA",
+      "GB-Mo"
+    ]
+  },
+  "price_scope": "These rates are frozen ceilings. Free preflight must verify current provider rates at or below each ceiling before launch.",
+  "provider": {
+    "account": "022118847419",
+    "ami_id": "ami-0d3378afe7683c867",
+    "architecture": "x86_64",
+    "delete_on_termination": true,
+    "disk_gib": 80,
+    "disk_iops": 3000,
+    "disk_throughput": 125,
+    "disk_type": "gp3",
+    "encrypted": true,
+    "instance_profile": "ilxyr-feral-7b-calibration-ec2",
+    "instance_type": "c6i.large",
+    "memory_mib": 4096,
+    "public_ipv4": true,
+    "region": "us-east-1",
+    "root_device": "/dev/xvda",
+    "root_snapshot_id": "snap-00fc8bf70edbceb6c",
+    "security_group_id": "sg-02b40b678ab46e5f4",
+    "subnet_id": "subnet-6d16a437",
+    "vcpus": 2
+  },
+  "python_identity": "Python 3.11.2",
+  "result_collection": "Archive up to 576 MiB in one immutable object. Bind its version and SHA-256 in collection.json. Preserve partial output and upload errors.",
+  "runtime_identity_scope": "Frozen from the image used in step 23; the small step 46 fixed-image check must confirm every identity before publication.",
+  "runtime_image": "docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870",
+  "runtime_image_id": "sha256:d07e49b39003f79e067c4434a20b1505ff061d2002e6e5e938c2354d8f8bd807",
+  "schema": "ilxyr.reasoner_cloud_plan.v1",
+  "storage": {
+    "archive_chunk_bytes": 603979776,
+    "bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1",
+    "budget_storage_days": 32,
+    "current_expiry_days": 30,
+    "max_archive_bytes": 603979776,
+    "max_archive_chunks": 1,
+    "max_archive_members": 2048,
+    "max_cloud_objects_per_run": 4,
+    "max_host_log_bytes": 16777216,
+    "max_output_bytes": 536870912,
+    "maximum_downloads": 1,
+    "noncurrent_expiry_days": 1,
+    "package_prefix": "packages/reasoner-46/",
+    "result_prefix": "runs/reasoner-46-"
+  },
+  "study_limits": {
+    "build_seconds": 180,
+    "check_seconds": 600,
+    "grace_seconds": 2,
+    "job_seconds": 60,
+    "max_log_bytes": 4194304,
+    "total_seconds": 3000
+  },
+  "study_plan_sha256": "177e6053242b03db6767c6ce2bcd73436013153633605d46425c8c157ee93c95"
+}
