@@ -1,0 +1,76 @@
+{
+  "checks": {
+    "ci": {
+      "independent_check": {
+        "abstention_cases": 64,
+        "arithmetic": "independent_BigInt_rationals",
+        "cases": 228,
+        "forms": {
+          "ambiguous_label": 16,
+          "conflicting_year": 16,
+          "cumulative_return_difference": 4,
+          "excess": 16,
+          "lookup": 16,
+          "missing_series": 16,
+          "missing_year": 16,
+          "percent_of": 16,
+          "single_year_ratio": 16,
+          "single_year_sum": 16,
+          "year_average": 16,
+          "year_change": 16,
+          "year_percent_change": 16,
+          "year_ratio": 16,
+          "year_sum": 16
+        },
+        "fresh_predictor_calls": 0,
+        "numeric_cases": 164,
+        "question_pairs": 114,
+        "status": "verified"
+      },
+      "independent_check_sha256": "a02ddbbf2c8e967dc02456d5dcadb8048bc6452abef45cc86b883948740cf847",
+      "raw_source_rebuild": "byte_identical",
+      "run_id": 34713140117,
+      "source_commit": "b048ff1f8f2a9d34fecd8d73899bf5f4d1b1e466",
+      "source_receipt_sha256": "efc7c8b033ba845e91d5f8077024c515957ddb301ee62389f6b268dc3950ed23",
+      "url": "https://github.com/cenetex/ilXyr/actions/runs/34713140117"
+    },
+    "local_schema_suite": {
+      "receipt_sha256": "7162ee716a225a65196825d9ea4ec43d33b18be67a8c23face5d168caa298505",
+      "scope": "engineering validation",
+      "status": "passed"
+    },
+    "unit_tests": 9,
+    "unpacked_source_kit": {
+      "check_sha256": "a02ddbbf2c8e967dc02456d5dcadb8048bc6452abef45cc86b883948740cf847",
+      "opened_audit_rebuild": "byte_identical",
+      "raw_source_rebuild": "byte_identical",
+      "status": "verified",
+      "unit_tests": 9
+    }
+  },
+  "comparison_status": "next_bounded_controller_then_cloud_host_package",
+  "coverage": {
+    "abstention_cases": 64,
+    "cases": 228,
+    "companies": 3,
+    "company_overlap": [
+      "AAPL"
+    ],
+    "families": 8,
+    "latest_opened_document_year": 2019,
+    "numeric_cases": 164,
+    "opened_cases": 1147,
+    "opened_document_keys": 278,
+    "opened_input_overlap": [],
+    "question_pairs": 114,
+    "source_document_overlap": [],
+    "source_facts": 81
+  },
+  "fresh_predictor_calls": 0,
+  "paid_instances_created": 0,
+  "preparation_sha256": "e62e9344e7d5113487b0ae13467cae61e7fb78885a1f034733e6b9138fbd2e2f",
+  "schema": "ilxyr.feral_fresh_preparation_result.v1",
+  "scientific_claim": "Constructed source-grounded coverage and independent arithmetic targets are prepared. Fresh predictor outcomes await the comparison.",
+  "source_intake_failures": 2,
+  "status": "source_and_target_preparation_verified"
+}

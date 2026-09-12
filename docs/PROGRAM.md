@@ -76,7 +76,13 @@ The follow-up is paused after its cutoff. Instance compute spend is $0, and
 the approved first one-hour, $3 run remains pending capacity. The full selected
 GPU price entry stayed unchanged after a provider-document change stopped
 one preflight check. Separate calculator v2 work scores 5/5 on the
-five opened development cases; fresh coverage testing is next.
+five opened development cases. The [fresh coverage preparation](../experiments/research-step-47/REPORT.md)
+now fixes 228 questions from 81 figures in eight table families across three
+2025 company reports: 164 numeric targets and 64 required abstentions. Every
+question has a paired plain-English form. Source reconstruction and independent
+exact arithmetic checks pass. Fresh predictor calls are zero; the bounded
+three-control comparison is next. This source-linked baseline also supports
+the [FERAL v3 tagging proposal](FERAL-7B-V3-XBRL-REGULATORY-PROPOSAL.md).
 
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).
 The [second diagnostic](../experiments/research-step-2/REPORT.md) establishes a
