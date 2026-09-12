@@ -4,10 +4,10 @@ import json
 from pathlib import Path
 import shutil
 import sys
-from package_reasoner_study_cloud import PLAN, KIT, SOURCES, archive, require, sha, write_files
+from package_reasoner_study_cloud import PLAN, KIT, SOURCES, node_bytes, archive, require, sha, write_files
 
 
-def prepare(repo, source, output):
+def prepare(repo, source, node, output):
     kit = json.loads((repo / KIT).read_bytes())
     raw = (repo / 'experiments/research-step-46/CONTROLLER-FILES.json').read_bytes()
     require(sha(raw) == kit['manifest_sha256'], 'source kit inventory differs')
@@ -30,10 +30,14 @@ def prepare(repo, source, output):
     result_inputs = archive(prepared, output / 'prepared.tar')
     plan = json.loads((output / PLAN).read_bytes())
     require(result_inputs == {k: plan['prepared'][k] for k in ['bytes', 'sha256']}, 'full prepared bytes differ')
+    raw_node = node.read_bytes(); binary = node_bytes(raw_node, plan['node_binary'])
+    (output / 'node.tar.xz').write_bytes(raw_node)
+    write_files({'bin/node': binary}, output / 'runtime')
+    (output / 'runtime/bin/node').chmod(0o755)
     return {'status': 'complete', 'source_kit': result, 'prepared': result_inputs, 'fresh_episode_visits': 0}
 
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__)
-    for n in ['repo', 'source', 'output']: p.add_argument('--' + n, type=Path, required=True)
-    a = p.parse_args(); print(json.dumps(prepare(a.repo, a.source, a.output), sort_keys=True))
+    for n in ['repo', 'source', 'node', 'output']: p.add_argument('--' + n, type=Path, required=True)
+    a = p.parse_args(); print(json.dumps(prepare(a.repo, a.source, a.node, a.output), sort_keys=True))

@@ -1,5 +1,7 @@
 """Bind Reasoner's fixed four-method study, complete inputs and cloud host."""
 import argparse
+import tarfile
+import io
 from decimal import Decimal, ROUND_CEILING
 import json
 from pathlib import Path
@@ -13,6 +15,17 @@ SOURCES = [PLAN, BODY, KIT, 'scripts/package_reasoner_study_cloud.py', 'scripts/
            'scripts/reasoner_study_cloud_runtime.py', 'scripts/reasoner_study_cloud_collect.py',
            'scripts/reasoner_study_cloud_launch.py', 'scripts/reasoner_study_cloud_preflight.py', 'scripts/feral_cloud_package.py', 'scripts/feral_process.py']
 MAX_BYTES = 128 * 1024 * 1024
+
+
+def node_bytes(raw, binding):
+    require(len(raw) == binding['distribution_bytes'] and sha(raw) == binding['distribution_sha256'], 'Node archive differs')
+    require(0 < binding['binary_bytes'] <= MAX_BYTES, 'Node binary byte ceiling')
+    with tarfile.open(fileobj=io.BytesIO(raw), mode='r:xz') as source:
+        member = source.getmember('node-v22.22.0-linux-x64/bin/node')
+        require(member.isfile() and member.size == binding['binary_bytes'], 'Node archive member differs')
+        binary = source.extractfile(member).read(binding['binary_bytes'] + 1)
+    require(len(binary) == binding['binary_bytes'] and sha(binary) == binding['binary_sha256'], 'Node binary differs')
+    return binary
 
 
 def check_budget(plan):
@@ -41,10 +54,11 @@ def inspect(package, expected):
     require(package.stat().st_size <= MAX_BYTES, 'host package byte ceiling')
     raw = package.read_bytes(); require(sha(raw) == expected, 'host package digest differs')
     files = read_archive(raw); manifest = json.loads(files['HOST.json'])
-    require(set(files) == set(SOURCES) | {'controller.tar', 'prepared.tar', 'HOST.json'}, 'host roster differs')
+    require(set(files) == set(SOURCES) | {'controller.tar', 'prepared.tar', 'node.tar.xz', 'HOST.json'}, 'host roster differs')
     require(manifest['files'] == {n: {'bytes': len(b), 'sha256': sha(b)} for n, b in files.items() if n != 'HOST.json'}, 'host member binding differs')
     plan = json.loads(files[PLAN]); require(manifest['plan_sha256'] == sha(files[PLAN]), 'plan digest differs')
     check_budget(plan)
+    node_bytes(files['node.tar.xz'], plan['node_binary'])
     kit = json.loads(files[KIT]); controller = read_archive(files['controller.tar'])
     require(sha(files['controller.tar']) == kit['archive_sha256'] == plan['controller_sha256'] and
             len(files['controller.tar']) == kit['archive_bytes'] == plan['controller_bytes'], 'controller archive differs')
@@ -63,10 +77,10 @@ def inspect(package, expected):
     return files, manifest, plan
 
 
-def build(repo, revision, controller, prepared, output):
+def build(repo, revision, controller, prepared, node, output):
     commit = subprocess.check_output(['git', '-C', str(repo), 'rev-parse', revision + '^{commit}'], text=True).strip()
     files = {n: subprocess.check_output(['git', '-C', str(repo), 'show', commit + ':' + n]) for n in SOURCES}
-    files.update({'controller.tar': controller.read_bytes(), 'prepared.tar': prepared.read_bytes()})
+    files.update({'controller.tar': controller.read_bytes(), 'prepared.tar': prepared.read_bytes(), 'node.tar.xz': node.read_bytes()})
     files['HOST.json'] = encode({'schema': 'ilxyr.reasoner_host_package.v1', 'source_commit': commit,
         'plan_sha256': sha(files[PLAN]), 'files': {n: {'bytes': len(b), 'sha256': sha(b)} for n, b in files.items()}})
     result = archive(files, output); inspect(output, result['sha256'])
@@ -74,18 +88,20 @@ def build(repo, revision, controller, prepared, output):
 
 
 def unpack(package, expected, output):
-    files, manifest, _ = inspect(package, expected)
+    files, manifest, plan = inspect(package, expected)
     write_files(files, output)
     write_files(read_archive(files['controller.tar']), output / 'controller')
     write_files(read_archive(files['prepared.tar']), output / 'prepared')
+    write_files({'bin/node': node_bytes(files['node.tar.xz'], plan['node_binary'])}, output / 'runtime')
+    (output / 'runtime/bin/node').chmod(0o755)
     return manifest
 
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__); p.add_argument('mode', choices=['build', 'verify', 'unpack'])
-    for n in ['repo', 'controller', 'prepared', 'package', 'output']: p.add_argument('--' + n, type=Path)
+    for n in ['repo', 'controller', 'prepared', 'node', 'package', 'output']: p.add_argument('--' + n, type=Path)
     p.add_argument('--revision'); p.add_argument('--expected-sha256'); a = p.parse_args()
-    if a.mode == 'build': result = build(a.repo, a.revision, a.controller, a.prepared, a.output)
+    if a.mode == 'build': result = build(a.repo, a.revision, a.controller, a.prepared, a.node, a.output)
     elif a.mode == 'unpack': result = unpack(a.package, a.expected_sha256, a.output)
     else: result = inspect(a.package, a.expected_sha256)[1]
     print(json.dumps(result, sort_keys=True))

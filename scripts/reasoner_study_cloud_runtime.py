@@ -41,9 +41,11 @@ def run(package, output, mode, execution):
         kit, prepared = package / 'controller', package / 'prepared'
         require(sha((prepared / 'BINDINGS.json').read_bytes()) == plan['prepared']['bindings_sha256'], 'runtime input bindings differ')
         for name, expected in plan['implementation'].items(): require(sha((kit / 'scripts' / name).read_bytes()) == expected, 'runtime source differs: ' + name)
-        for key, command in [('compiler_identity', ['/usr/bin/gcc', '--version']), ('python_identity', [sys.executable, '--version']), ('node_identity', ['node', '--version'])]:
+        for key, command in [('compiler_identity', [plan['environment']['CC'], '--version']), ('python_identity', [sys.executable, '--version']), ('node_identity', ['node', '--version'])]:
             record[key] = subprocess.check_output(command, text=True, timeout=10).strip()
+        for key in ['compiler_identity', 'python_identity', 'node_identity']:
             require(record[key] == plan[key], 'runtime toolchain differs: ' + key)
+        require(sha((package / 'runtime/bin/node').read_bytes()) == plan['node_binary']['binary_sha256'], 'runtime Node bytes differ')
         record['environment'] = {k: os.environ.get(k) for k in plan['environment']}
         record['memory_before'] = memory()
         require(mode in ['cloud', 'opened'], 'runtime mode differs')

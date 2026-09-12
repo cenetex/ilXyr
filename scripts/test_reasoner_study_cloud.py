@@ -21,11 +21,19 @@ from test_feral_bootstrap import STUB, write_tar
 ROOT = Path(__file__).resolve().parents[1]
 STUB = STUB.replace("if name=='docker':", "if name=='df':\n    print('Filesystem 1024-blocks Used Available Capacity Mounted on');print('fixture 83886080 16777216 '+('0' if mode=='storage' else '67108864')+' 20% /');sys.exit(0)\nif name=='docker':")
 STUB = STUB.replace("'g6e.2xlarge'", "'c6i.large'").replace('run/model/weight.bin', 'runtime/study/bin/lm').replace('run/source/grader/targets.jsonl', 'runtime/study/RESULT.json').replace('run/arms/base/predictions.jsonl', 'runtime/study/processes/0000-fixture/stdout.log').replace('run/execution.json', 'runtime/RUNTIME.json').replace("key.endswith('predictions.jsonl')", "key.endswith('results-00.part')")
-STUB = STUB.replace("if args[:2]==['image','inspect']:print('[]');sys.exit(0)", "if args[:2]==['image','inspect']:print(json.dumps([{'Id':'sha256:d07e49b39003f79e067c4434a20b1505ff061d2002e6e5e938c2354d8f8bd807','Architecture':'amd64','Os':'linux'}]));sys.exit(0)").replace("if args[:2]==['rm','-f']:sys.exit(0)", "if args[:2]==['rm','-f']:sys.exit(0)\n    if args[0]=='inspect':print('[]');sys.exit(0)")
+STUB = STUB.replace("if args[:2]==['image','inspect']:print('[]');sys.exit(0)", "if args[:2]==['image','inspect']:print(json.dumps([{'Id':'sha256:2ac3c6609ceba9bcafff275e0c96a180ad66460923c474003095c64ebf5581fb','Architecture':'amd64','Os':'linux'}]));sys.exit(0)").replace("if args[:2]==['rm','-f']:sys.exit(0)", "if args[:2]==['rm','-f']:sys.exit(0)\n    if args[0]=='inspect':print('[]');sys.exit(0)")
 
 
 def fixture(root):
     plan = json.loads((ROOT / PLAN).read_bytes())
+    import io
+    raw_node = b'controlled-node'
+    buffer = io.BytesIO()
+    with tarfile.open(fileobj=buffer, mode='w:xz') as archive:
+        member = tarfile.TarInfo('node-v22.22.0-linux-x64/bin/node'); member.size = len(raw_node)
+        archive.addfile(member, io.BytesIO(raw_node))
+    node = buffer.getvalue()
+    plan['node_binary'] = {'distribution_bytes': len(node), 'distribution_sha256': sha(node), 'binary_bytes': len(raw_node), 'binary_sha256': sha(raw_node)}
     controller_files = {'scripts/research_reasoner_study.py': b'# controlled source fixture\n', 'source/fixture': b'controlled inputs'}
     controller_files['FILES.json'] = encode({n: {'bytes': len(b), 'sha256': sha(b)} for n, b in controller_files.items()})
     controller = root / 'controller.tar'; write_tar(controller, controller_files)
@@ -44,7 +52,7 @@ def fixture(root):
         prepared={'sha256': sha(prepared.read_bytes()), 'bytes': prepared.stat().st_size,
                   'bindings_sha256': sha(prepared_files['BINDINGS.json'])})
     files = {n: (ROOT / n).read_bytes() for n in SOURCES}; files[PLAN] = encode(plan); files[KIT] = encode(kit)
-    files['controller.tar'] = controller.read_bytes(); files['prepared.tar'] = prepared.read_bytes()
+    files['node.tar.xz'] = node; files['controller.tar'] = controller.read_bytes(); files['prepared.tar'] = prepared.read_bytes()
     manifest = {'plan_sha256': sha(files[PLAN]), 'files': {n: {'bytes': len(b), 'sha256': sha(b)} for n, b in files.items()}}
     files['HOST.json'] = encode(manifest)
     package = root / 'host.tar'; write_tar(package, files)

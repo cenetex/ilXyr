@@ -155,7 +155,7 @@ PHASE=controller
   ulimit -f 32768
   bounded 4230 docker run --name "$W_RUN" --network none --cgroupns private --cpuset-cpus 0 --memory 3g --memory-swap 3g \
     --pids-limit 256 --read-only --log-driver none --tmpfs /tmp:rw,exec,size=512m \
-    --env CC=/usr/bin/gcc --env NODE_OPTIONS=--max-old-space-size=1536 \
+    --env PATH=/work/package/runtime/bin:/usr/local/swift/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin --env CC=/usr/local/swift/usr/bin/clang --env NODE_OPTIONS=--max-old-space-size=1536 \
     --env PYTHONDONTWRITEBYTECODE=1 --env PYTHONHASHSEED=0 --env LANG=C --env LC_ALL=C --env TZ=UTC \
     --env OMP_NUM_THREADS=1 --env OPENBLAS_NUM_THREADS=1 --env MKL_NUM_THREADS=1 --env VECLIB_MAXIMUM_THREADS=1 \
     --mount "type=bind,src=$ROOT/package,dst=/work/package,readonly" \

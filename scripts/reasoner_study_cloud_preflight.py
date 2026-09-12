@@ -1,4 +1,4 @@
-"""Read the frozen zero4 launch dependencies and prove EC2 dry-run permission."""
+"""Read the frozen Reasoner launch dependencies and prove EC2 dry-run permission."""
 import argparse
 import base64
 import json

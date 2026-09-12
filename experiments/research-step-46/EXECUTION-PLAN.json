@@ -30,18 +30,19 @@
     "-DR55FAST_HASH=0",
     "-DR55FAST_SORT=0"
   ],
-  "compiler_identity": "gcc (Debian 12.2.0-14+deb12u1) 12.2.0\nCopyright (C) 2022 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+  "compiler_identity": "pending-fixed-image-check",
   "controller_bytes": 8007680,
   "controller_sha256": "370cc2b4d39ea23af5dea9283cffd70aa056f5c7c22c4aad021b690be47eb8cc",
   "controller_source_commit": "2d6bc9dccf3797a917f898a322d4edf6d0b161e5",
   "environment": {
-    "CC": "/usr/bin/gcc",
+    "CC": "/usr/local/swift/usr/bin/clang",
     "LANG": "C",
     "LC_ALL": "C",
     "MKL_NUM_THREADS": "1",
     "NODE_OPTIONS": "--max-old-space-size=1536",
     "OMP_NUM_THREADS": "1",
     "OPENBLAS_NUM_THREADS": "1",
+    "PATH": "/work/package/runtime/bin:/usr/local/swift/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
     "PYTHONDONTWRITEBYTECODE": "1",
     "PYTHONHASHSEED": "0",
     "TZ": "UTC",
@@ -64,6 +65,13 @@
     "setup_deadline_seconds": 600,
     "shutdown_at_seconds": 5370,
     "tmpfs_mib": 512
+  },
+  "node_binary": {
+    "binary_bytes": 123405064,
+    "binary_sha256": "1bec56ef7cfa9a76f3e0b7c0a87f220eb73f23102b9c0b4c7529a3f7c3ce7c31",
+    "distribution_bytes": 30779824,
+    "distribution_sha256": "9aa8e9d2298ab68c600bd6fb86a6c13bce11a4eca1ba9b39d79fa021755d7c37",
+    "url": "https://nodejs.org/dist/v22.22.0/node-v22.22.0-linux-x64.tar.xz"
   },
   "node_identity": "v22.22.0",
   "prepared": {
@@ -127,9 +135,9 @@
   },
   "python_identity": "Python 3.11.2",
   "result_collection": "Archive up to 576 MiB in one immutable object. Bind its version and SHA-256 in collection.json. Preserve partial output and upload errors.",
-  "runtime_identity_scope": "Frozen from the image used in step 23; the small step 46 fixed-image check must confirm every identity before publication.",
-  "runtime_image": "docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870",
-  "runtime_image_id": "sha256:d07e49b39003f79e067c4434a20b1505ff061d2002e6e5e938c2354d8f8bd807",
+  "runtime_identity_scope": "Clang and Python identities require the fixed-image check. Node 22.22.0 is bound to the official release bytes.",
+  "runtime_image": "docker.io/library/swift@sha256:56feb50581c162c204659f299c777aa106c2c73f6bc688632b2a42be11f6e481",
+  "runtime_image_id": "sha256:2ac3c6609ceba9bcafff275e0c96a180ad66460923c474003095c64ebf5581fb",
   "schema": "ilxyr.reasoner_cloud_plan.v1",
   "storage": {
     "archive_chunk_bytes": 603979776,

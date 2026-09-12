@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      REASONER_IMAGE: docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870
+      REASONER_IMAGE: docker.io/library/swift@sha256:56feb50581c162c204659f299c777aa106c2c73f6bc688632b2a42be11f6e481
     steps:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
@@ -36,11 +36,20 @@ jobs:
           path: upstream-zero
       - name: Check shutdown, failure records and exact result collection
         run: REASONER_CLOUD_TEST_RECEIPTS="$RUNNER_TEMP/host-records" python3 scripts/test_reasoner_study_cloud.py
+      - name: Fetch and verify the fixed official Node release
+        run: |
+          python3 - <<'PYCODE'
+          import hashlib,json,os,pathlib,urllib.request
+          p=json.load(open('experiments/research-step-46/EXECUTION-PLAN.json'))['node_binary']
+          raw=urllib.request.urlopen(p['url'],timeout=60).read()
+          assert len(raw)==p['distribution_bytes'] and hashlib.sha256(raw).hexdigest()==p['distribution_sha256']
+          (pathlib.Path(os.environ['RUNNER_TEMP'])/'node.tar.xz').write_bytes(raw)
+          PYCODE
       - name: Reconstruct the exact source kit and complete prepared inputs
-        run: python3 scripts/prepare_reasoner_study_cloud_check.py --repo . --source upstream-zero --output "$RUNNER_TEMP/package"
+        run: python3 scripts/prepare_reasoner_study_cloud_check.py --repo . --source upstream-zero --node "$RUNNER_TEMP/node.tar.xz" --output "$RUNNER_TEMP/package"
       - name: Package and verify the committed host
         run: |
-          python3 scripts/package_reasoner_study_cloud.py build --repo . --revision "$(git rev-parse HEAD)" --controller "$RUNNER_TEMP/package/controller.tar" --prepared "$RUNNER_TEMP/package/prepared.tar" --output "$RUNNER_TEMP/host.tar" > "$RUNNER_TEMP/package-binding.json"
+          python3 scripts/package_reasoner_study_cloud.py build --repo . --revision "$(git rev-parse HEAD)" --controller "$RUNNER_TEMP/package/controller.tar" --prepared "$RUNNER_TEMP/package/prepared.tar" --node "$RUNNER_TEMP/node.tar.xz" --output "$RUNNER_TEMP/host.tar" > "$RUNNER_TEMP/package-binding.json"
       - name: Run the opened cases through the fixed runtime
         run: |
           mkdir "$RUNNER_TEMP/runtime-output"
@@ -48,7 +57,7 @@ jobs:
           docker image inspect "$REASONER_IMAGE" > "$RUNNER_TEMP/runtime-output/image-inspect.json"
           docker run --rm --network none --cgroupns private --read-only --cpus 1 --memory 3g --memory-swap 3g --pids-limit 256 \
             --tmpfs /tmp:rw,exec,size=512m --log-driver none \
-            --env CC=/usr/bin/gcc --env NODE_OPTIONS=--max-old-space-size=1536 \
+            --env PATH=/work/package/runtime/bin:/usr/local/swift/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin --env CC=/usr/local/swift/usr/bin/clang --env NODE_OPTIONS=--max-old-space-size=1536 \
             --env PYTHONDONTWRITEBYTECODE=1 --env PYTHONHASHSEED=0 --env LANG=C --env LC_ALL=C --env TZ=UTC \
             --env OMP_NUM_THREADS=1 --env OPENBLAS_NUM_THREADS=1 --env MKL_NUM_THREADS=1 --env VECLIB_MAXIMUM_THREADS=1 \
             --mount "type=bind,src=$RUNNER_TEMP/package,dst=/work/package,readonly" \
@@ -71,7 +80,7 @@ jobs:
           m=r['memory_after'];assert 0<m['peak_bytes']<=3*1024**3 and m['limit_bytes']==3*1024**3 and m['events']['oom_kill']==0
           assert m['cpu']['usage_usec']>r['memory_before']['cpu']['usage_usec']
           images=json.loads((root/'image-inspect.json').read_bytes())
-          assert len(images)==1 and images[0]['Id']=='sha256:d07e49b39003f79e067c4434a20b1505ff061d2002e6e5e938c2354d8f8bd807'
+          assert len(images)==1 and images[0]['Id']=='sha256:2ac3c6609ceba9bcafff275e0c96a180ad66460923c474003095c64ebf5581fb'
           print(json.dumps({k:r[k] for k in ['status','fresh_episode_visits','independent_measured_replays','stable_rows_sha256','memory_after']}))
           PY
       - uses: actions/upload-artifact@v4
