@@ -4,18 +4,22 @@ on:
     paths:
       - 'scripts/*zero4*cloud*'
       - 'scripts/aws/zero4-45-user-data.sh'
+      - 'scripts/aws/zero4-52-user-data.sh'
       - 'scripts/package_solomon_cloud.py'
       - 'scripts/feral_cloud_package.py'
       - 'experiments/research-step-45/**'
+      - 'experiments/research-step-52/**'
       - '.github/workflows/zero4-cloud-host.yml'
   push:
     branches: [main]
     paths:
       - 'scripts/*zero4*cloud*'
       - 'scripts/aws/zero4-45-user-data.sh'
+      - 'scripts/aws/zero4-52-user-data.sh'
       - 'scripts/package_solomon_cloud.py'
       - 'scripts/feral_cloud_package.py'
       - 'experiments/research-step-45/**'
+      - 'experiments/research-step-52/**'
       - '.github/workflows/zero4-cloud-host.yml'
 permissions:
   contents: read

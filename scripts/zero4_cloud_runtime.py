@@ -59,7 +59,7 @@ def run(package, output, mode, execution):
             require(e['machine'] == {'provider': 'AWS', **{k: p[k] for k in ['region', 'instance_type', 'ami_id', 'architecture']},
                     'runtime_image': plan['runtime_image']}, 'runtime machine differs')
             require(e['limits'] == plan['limits'] and record['memory_before'].get('limit_bytes') == plan['limits']['container_memory_gib'] * 1024**3, 'runtime memory limit differs')
-            require(len(e['package_sha256']) == 64 and e['run_id'].startswith('zero4-45-'), 'runtime package binding differs')
+            require(len(e['package_sha256']) == 64 and e['run_id'].startswith('zero4-52-'), 'runtime package binding differs')
             record['execution_sha256'] = sha(execution.read_bytes())
             command = [sys.executable, str(Path(__file__)), 'controller', '--package', str(package), '--output', str(output / 'study')]
         else:

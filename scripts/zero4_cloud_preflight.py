@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import subprocess
 import time
-from package_zero4_cloud import inspect, encode
+from package_zero4_cloud import inspect, encode, check_storage
 from zero4_cloud_launch import render
 
 
@@ -15,12 +15,14 @@ def require(ok, message):
 
 def lifecycle_rules(plan):
     s = plan['storage']
-    return [{'ID': 'zero4-45-' + kind, 'Status': 'Enabled', 'Filter': {'Prefix': s[key]},
+    series = s['result_prefix'].removeprefix('runs/').removesuffix('-')
+    require(series in ['zero4-45', 'zero4-52'] and s['package_prefix'] == 'packages/' + series + '/', 'storage namespace differs')
+    return [{'ID': series + '-' + kind, 'Status': 'Enabled', 'Filter': {'Prefix': s[key]},
              'Expiration': {'Days': s['current_expiry_days']},
              'NoncurrentVersionExpiration': {'NoncurrentDays': s['noncurrent_expiry_days']},
              'AbortIncompleteMultipartUpload': {'DaysAfterInitiation': 1}}
             for kind, key in [('packages', 'package_prefix'), ('results', 'result_prefix')]] + [
-            {'ID': 'zero4-45-markers-' + kind, 'Status': 'Enabled', 'Filter': {'Prefix': s[key]},
+            {'ID': series + '-markers-' + kind, 'Status': 'Enabled', 'Filter': {'Prefix': s[key]},
              'Expiration': {'ExpiredObjectDeleteMarker': True}}
             for kind, key in [('packages', 'package_prefix'), ('results', 'result_prefix')]]
 
@@ -32,6 +34,9 @@ def validate(data, plan, package_sha, package_bytes):
     require(image['ImageId'] == p['ami_id'] and image['State'] == 'available' and image['Architecture'] == p['architecture'], 'image differs')
     root = next(v['Ebs'] for v in image['BlockDeviceMappings'] if v['DeviceName'] == p['root_device'])
     require(root['SnapshotId'] == p['root_snapshot_id'] and root['VolumeSize'] <= p['disk_gib'], 'image disk differs')
+    if s['result_prefix'] == 'runs/zero4-52-':
+        check_storage(plan)
+        require(root['VolumeSize'] == plan['storage_sizing']['root_snapshot_gib'], 'snapshot capacity differs from storage sizing')
     machine = data['machine']['InstanceTypes'][0]
     require(machine['InstanceType'] == p['instance_type'] and machine['VCpuInfo']['DefaultVCpus'] == p['vcpus']
             and machine['MemoryInfo']['SizeInMiB'] == p['memory_mib'] and p['architecture'] in machine['ProcessorInfo']['SupportedArchitectures'], 'machine differs')

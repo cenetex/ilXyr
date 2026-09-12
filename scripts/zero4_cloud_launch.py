@@ -10,11 +10,12 @@ import subprocess
 import time
 
 from feral_cloud_package import launch_request
-from package_zero4_cloud import encode, sha, inspect, BODY
+from package_zero4_cloud import encode, sha, inspect, layout
 
 
 def render(package, expected, binding, network):
     files, manifest, plan = inspect(package, expected)
+    step, _, body_path = layout(files)
     provider = plan['provider']
     if network != {k: provider[k] for k in ['subnet_id', 'security_group_id']}:
         raise ValueError('frozen network differs')
@@ -22,7 +23,7 @@ def render(package, expected, binding, network):
         raise ValueError('machine differs')
     if plan['limits']['max_instance_seconds'] != 48600 or plan['budget']['maximum_before_tax_usd'] != '12.00':
         raise ValueError('budget differs')
-    patterns = {'run_id': r'zero4-45-[0-9]{8}T[0-9]{6}Z',
+    patterns = {'run_id': rf'zero4-{step}-[0-9]{{8}}T[0-9]{{6}}Z',
                 'package_version': r'[A-Za-z0-9._+/=-]{1,256}',
                 'approval_reference': r'[A-Za-z0-9._-]{1,100}'}
     for key, pattern in patterns.items():
@@ -32,20 +33,20 @@ def render(package, expected, binding, network):
         raise ValueError('launch time differs')
     values = {'W_RUN': binding['run_id'], 'W_LAUNCH': str(binding['launch_epoch_seconds']),
               'W_BUCKET': 'ilxyr-feral-7b-calibration-022118847419-us-east-1',
-              'W_PACKAGE_KEY': 'packages/zero4-45/' + expected + '.tar',
+              'W_PACKAGE_KEY': plan['storage']['package_prefix'] + expected + '.tar',
               'W_PACKAGE_SHA': expected, 'W_PACKAGE_VERSION': binding['package_version'],
               'W_PLAN_SHA': manifest['plan_sha256'], 'W_APPROVAL': binding['approval_reference']}
     prefix = '#!/bin/bash\n' + ''.join(k + '=' + shlex.quote(v) + '\n' for k, v in values.items())
-    body = files[BODY]
-    script = (prefix + '\n# ZERO4_45_BODY\n').encode() + body
+    body = files[body_path]
+    script = (prefix + f'\n# ZERO4_{step}_BODY\n').encode() + body
     if len(script) > 16384:
         raise ValueError('user data exceeds bound')
     request = launch_request(script, {**binding, 'host_package_sha256': expected}, network)
     request['InstanceType'] = 'c6i.4xlarge'
-    request['BlockDeviceMappings'][0]['Ebs'].update(VolumeSize=80, Iops=3000, Throughput=125)
+    request['BlockDeviceMappings'][0]['Ebs'].update(VolumeSize=provider['disk_gib'], Iops=3000, Throughput=125)
     for group in request['TagSpecifications']:
         for tag in group['Tags']:
-            if tag['Key'] == 'Project': tag['Value'] = 'zero4-45'
+            if tag['Key'] == 'Project': tag['Value'] = f'zero4-{step}'
             if tag['Key'] == 'HostPackageSha256': tag['Key'] = 'PackageSha256'
     for group in request['TagSpecifications']:
         group['Tags'] += [{'Key': 'DeadlineEpoch', 'Value': str(binding['launch_epoch_seconds'] + 48600)}]

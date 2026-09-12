@@ -1,0 +1,37 @@
+{
+  "actual_instances_created": 0,
+  "corrected_provider_configuration": {
+    "receipt_sha256": "d501902bf803132797ffeccdbab781bfbd5bb04a8d7c41496f0b90edab56280e",
+    "scope": "Recorded machine, snapshot, network, role and storage settings. The object check refers to the earlier staged package.",
+    "status": "corrected_plan_matches_observed_provider_configuration"
+  },
+  "freshness": "The successful preflight must be at most one hour old at launch.",
+  "initial_attempt": {
+    "checked_epoch": 1789252375.0419369,
+    "error": "snapshot capacity differs from storage sizing",
+    "instances_created": 0,
+    "package_sha256": "2c95f705a90146f77e120ba844f36f7031440d854bf9373ab809d2369aba026a",
+    "package_version": "l6xPZGJh8YaY8lui79exHkII0ktVd8do",
+    "plan_sha256": "15348fa220cca1c84ba0d3c89f831baa32aac7404eea11c5e735c82cb3f3b109",
+    "run_id": "zero4-52-20260912T222041Z",
+    "status": "failed"
+  },
+  "package_sha256": "b9cd62c7577536bc284e53cc066d789eb0e65890ccff7668529bb6a33262aa02",
+  "payload_and_destination_proof_sha256": "d2e09c723f36a560187851969bf2a1e8c5c3eb2b48847c4eb244079d432fde3d",
+  "plan_sha256": "9a8e016502e693e37c6333a852854d1896a37807cf4ea7477b7374b784c4393b",
+  "remaining": [
+    "Stage the corrected package after explicit payload and destination approval.",
+    "Verify exact version readback.",
+    "Run the complete free provider preflight for the corrected package."
+  ],
+  "schema": "ilxyr.zero4_replacement_preflight.v1",
+  "source_snapshot_verified": {
+    "checked_epoch": 1789252375.0419369,
+    "image_id": "ami-0d3378afe7683c867",
+    "schema": "ilxyr.zero4_source_snapshot.v1",
+    "snapshot_id": "snap-00fc8bf70edbceb6c",
+    "source_receipt_sha256": "e91b42309bc7c679c0b9ad4b8090d2b04fedfe0ef9525b9d6ab2ccd63c843a3b",
+    "volume_size_gib": 75
+  },
+  "status": "corrected_package_staging_requires_approval"
+}
