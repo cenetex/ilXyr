@@ -1,0 +1,47 @@
+{
+  "commit": "9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d",
+  "files": {
+    "channel_protocol.h": {
+      "bytes": 371,
+      "sha256": "0b382e315c8acd369973bb9377305d5ceae9ec387e7dbbc4e91ae670ef6f74e2"
+    },
+    "export_literary.c": {
+      "bytes": 8046,
+      "sha256": "c7b1ba5a2763211871df1720f01f49b765365253924b7d4c1113643403ce463c"
+    },
+    "external_eval.c": {
+      "bytes": 10223,
+      "sha256": "6fcbbbfc2b017c817d830057b284f323597e0aba55f4ab9908635b9d4da7f95b"
+    },
+    "faculty_controller.c": {
+      "bytes": 14904,
+      "sha256": "42681a75a11660aba6d9b274398abbc1ddc51f35f324302e01b994ea1e0627d9"
+    },
+    "faculty_protocol.h": {
+      "bytes": 2448,
+      "sha256": "c9c1f5ba1cbb2e33b8a069d4e44ca4a041ce585783f335ac45b7d2e4e4760c81"
+    },
+    "literary_infer.c": {
+      "bytes": 30125,
+      "sha256": "7a0d0156587647881e8b18108b8a1265117ddee5827e42c5ece37d066f852f76"
+    },
+    "literary_infer.h": {
+      "bytes": 771,
+      "sha256": "f947d132d2ca5b9bdfe9a44fdea00f339850efe91fb26c673f0f6a1a6b004453"
+    },
+    "quantity_oracle.c": {
+      "bytes": 6754,
+      "sha256": "7f55a9ff1a5f31d6cb8ec894c590c6239e7063fa578fe1badba123ff74f95467"
+    },
+    "quantity_oracle.h": {
+      "bytes": 552,
+      "sha256": "8436a4793c1055c68f5e5ad5860bddf1e6d79716226a7b797c41078d4eb86701"
+    },
+    "quantity_request_eval.c": {
+      "bytes": 21990,
+      "sha256": "1627c00a2a49846170b8ee49160ac55ae02e1f4f687397f3e46641e271537902"
+    }
+  },
+  "repository": "https://github.com/atimics/zero-grounded-literary-lm",
+  "schema": "ilxyr.zero4_study_sources.v1"
+}
