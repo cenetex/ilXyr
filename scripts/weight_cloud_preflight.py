@@ -75,7 +75,7 @@ def preflight(package, expected, binding, output, profile):
         (output / (name + '.stderr.txt')).write_text(result.stderr)
         if result.returncode: raise RuntimeError(name + ': ' + result.stderr[:2000])
         data[name] = json.loads(result.stdout); (output / (name + '.json')).write_bytes(encode(data[name])); return data[name]
-    receipt = {'status': 'failed', 'package_sha256': expected, 'package_version': binding['package_version'], 'plan_sha256': manifest['plan_sha256'], 'instances_created': 0}
+    receipt = {'status': 'failed', 'run_id': binding['run_id'], 'package_sha256': expected, 'package_version': binding['package_version'], 'plan_sha256': manifest['plan_sha256'], 'instances_created': 0}
     try:
         call('identity', ['sts', 'get-caller-identity'])
         call('image', ['ec2', 'describe-images', '--image-ids', p['ami_id']])

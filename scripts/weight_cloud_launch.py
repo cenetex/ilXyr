@@ -75,6 +75,7 @@ def main():
             raise ValueError('fresh launch time required')
         preflight = json.loads(args.preflight.read_bytes()) if args.preflight else {}
         if (preflight.get('status') != 'passed' or preflight.get('package_sha256') != args.package_sha256
+            or preflight.get('run_id') != binding['run_id']
             or preflight.get('package_version') != binding['package_version']
             or preflight.get('plan_sha256') != manifest['plan_sha256']
             or not 0 <= time.time() - preflight.get('checked_epoch', 0) <= 3600):

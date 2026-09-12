@@ -1,0 +1,150 @@
+{
+  "failures": [
+    {
+      "actual_instances_created": 0,
+      "affected_projects": [
+        "solomon",
+        "weight"
+      ],
+      "after": {
+        "feral_coverage": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        },
+        "reasoner_study": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        },
+        "solomon": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        },
+        "weight": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        },
+        "zero4": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        }
+      },
+      "after_sha256": "c1aca4dfa29232a4ecc3d8eae5d1ee03f3bf761345dd367735139bcac3671d1d",
+      "before": {
+        "feral_coverage": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        },
+        "reasoner_study": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        },
+        "solomon": {
+          "actual_instances_created": 0,
+          "error": null,
+          "provider_calls": 2,
+          "provider_operations": [
+            [
+              "sts",
+              "get-caller-identity"
+            ],
+            [
+              "ec2",
+              "run-instances"
+            ]
+          ],
+          "receipt": {
+            "instance_id": "i-0123456789abcdef0",
+            "launch_epoch_seconds": 1789245428,
+            "package_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "package_version": "fixture-version",
+            "plan_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "request_sha256": "eb3e7ec045d99d33d06b455437c82bbaa92e679ceb8e083b070f873c86df4329",
+            "run_id": "solomon38-20260912T000000Z",
+            "status": "launched",
+            "user_data_sha256": "516b03596d13e9b326d4aad03059d5742faf2bf09183aed37abf2040c46e0329"
+          },
+          "submitted_paid_request": true
+        },
+        "weight": {
+          "actual_instances_created": 0,
+          "error": null,
+          "provider_calls": 2,
+          "provider_operations": [
+            [
+              "sts",
+              "get-caller-identity"
+            ],
+            [
+              "ec2",
+              "run-instances"
+            ]
+          ],
+          "receipt": {
+            "instance_id": "i-0123456789abcdef0",
+            "launch_epoch_seconds": 1789245428,
+            "package_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "package_version": "fixture-version",
+            "plan_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "request_sha256": "eb3e7ec045d99d33d06b455437c82bbaa92e679ceb8e083b070f873c86df4329",
+            "run_id": "weight35-20260912T000000Z",
+            "status": "launched",
+            "user_data_sha256": "516b03596d13e9b326d4aad03059d5742faf2bf09183aed37abf2040c46e0329"
+          },
+          "submitted_paid_request": true
+        },
+        "zero4": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        }
+      },
+      "before_sha256": "70d49c93ac59a0c5ae734e10ffcb4d63538fd0b57d34b12a84111bc39ff758e7",
+      "before_test_log_sha256": "e3970322a0c9c9cd57d29f7c36e31bbc546514d223f1897d42b71b63e58f2df6",
+      "id": "preflight-for-other-run",
+      "impact": "The launch could use an output-prefix check made for another run.",
+      "observed": "Both older launchers accepted a fresh preflight for a different run ID. The controlled test reached one fake EC2 request in each.",
+      "repair": "The preflight records its run ID and the launcher requires an exact match. The shared tests cover all five projects."
+    },
+    {
+      "actual_instances_created": 0,
+      "date": "2026-09-12",
+      "exit_code": 255,
+      "id": "aws-session-expired",
+      "observed": "Error when retrieving token from sso: Token has expired and refresh failed",
+      "profile": "default",
+      "status": "waiting_for_refreshed_sign_in"
+    }
+  ],
+  "schema": "ilxyr.research_launch_readiness_failures.v1"
+}
