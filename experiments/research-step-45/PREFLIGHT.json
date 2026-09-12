@@ -1,0 +1,23 @@
+{
+  "instances_created": 0,
+  "package_sha256": "0ed0d960d8cfbe7e4e86d600c490867c732c4ac2d3cd462f8ccbb1b9f7e35ac3",
+  "package_staged": false,
+  "plan_sha256": "79aa4932de1fe8f4da66ad57d17d989bb57de45e1843afe01f969443dbc66ee2",
+  "remaining_checks": [
+    "provider_identity",
+    "image_and_capacity_shape",
+    "network_and_permissions",
+    "storage_configuration",
+    "current_prices",
+    "versioned_package_readback",
+    "free_ec2_dry_run"
+  ],
+  "status": "waiting_for_aws_sign_in",
+  "verified_checks": [
+    "source_package_integrity",
+    "full_input_bindings",
+    "cost_arithmetic",
+    "rendered_launch_limits",
+    "controlled_host_failures"
+  ]
+}

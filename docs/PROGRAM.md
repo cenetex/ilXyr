@@ -150,7 +150,13 @@ image, ordinary Linux CI and Mac CI. Worker cancellation keeps partial
 records, parent CPU includes waited workers, and collected records replay
 after their folders move. The deadline-status and CI upload failures are kept
 with their repairs. The full inputs and checked source kit are bound; cloud
-host packaging and free preflight follow next.
+host packaging now has a [sealed package](../experiments/research-step-45/REPORT.md).
+It fixes a 13½-hour instance limit and a $12 ceiling before tax, with bounded
+result parts, disk reserve and provider cleanup checks. Fourteen controlled
+host tests and the small fixed-image runtime check pass. A probe exposed a
+preflight receipt reused across different run IDs; the repaired check keeps
+the launch tied to its own output-prefix check. AWS sign-in is pending for
+staging and free provider preflight, followed by exact package approval.
 
 ## Mission
 

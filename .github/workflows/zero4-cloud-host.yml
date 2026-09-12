@@ -1,0 +1,63 @@
+name: ZERO.4 cloud package checks
+on:
+  pull_request:
+    paths:
+      - 'scripts/*zero4*cloud*'
+      - 'scripts/aws/zero4-45-user-data.sh'
+      - 'scripts/package_solomon_cloud.py'
+      - 'scripts/feral_cloud_package.py'
+      - 'experiments/research-step-45/**'
+      - '.github/workflows/zero4-cloud-host.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/*zero4*cloud*'
+      - 'scripts/aws/zero4-45-user-data.sh'
+      - 'scripts/package_solomon_cloud.py'
+      - 'scripts/feral_cloud_package.py'
+      - 'experiments/research-step-45/**'
+      - '.github/workflows/zero4-cloud-host.yml'
+permissions:
+  contents: read
+jobs:
+  host-and-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      ZERO4_IMAGE: docker.io/library/rust@sha256:4e4a7e7939c17991ab35f2b8c2e67593980f771d28f6b1254b1850f860fd0c7f
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: atimics/zero-grounded-literary-lm
+          ref: 9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d
+          path: upstream-zero
+      - name: Check host controls and bounded result transport
+        run: ZERO4_CLOUD_TEST_RECEIPTS="$RUNNER_TEMP/host-records" python3 scripts/test_zero4_cloud.py
+      - name: Reconstruct the exact source kit and full manifest metadata
+        run: python3 scripts/prepare_zero4_cloud_check.py --repo . --source upstream-zero --output "$RUNNER_TEMP/package"
+      - name: Run the small native study through the fixed runtime
+        run: |
+          mkdir "$RUNNER_TEMP/runtime-output"
+          docker pull "$ZERO4_IMAGE"
+          docker image inspect "$ZERO4_IMAGE" > "$RUNNER_TEMP/runtime-output/image-inspect.json"
+          docker run --rm --network none --cgroupns private --read-only --cpus 2 --memory 2g --memory-swap 2g --pids-limit 256 \
+            --tmpfs /tmp:rw,exec,size=512m --log-driver none \
+            --env PYTHONDONTWRITEBYTECODE=1 --env PYTHONHASHSEED=0 --env LANG=C --env LC_ALL=C --env TZ=UTC \
+            --env OMP_NUM_THREADS=1 --env OPENBLAS_NUM_THREADS=1 --env MKL_NUM_THREADS=1 --env VECLIB_MAXIMUM_THREADS=1 \
+            --mount "type=bind,src=$RUNNER_TEMP/package,dst=/work/package,readonly" \
+            --mount "type=bind,src=$RUNNER_TEMP/runtime-output,dst=/work/output" \
+            --entrypoint python3 "$ZERO4_IMAGE" /work/package/scripts/zero4_cloud_runtime.py opened \
+            --package /work/package --output /work/output/runtime \
+            > "$RUNNER_TEMP/runtime-output/stdout.log" 2> "$RUNNER_TEMP/runtime-output/stderr.log"
+      - name: Make container records readable
+        if: always()
+        run: |
+          if [ -d "$RUNNER_TEMP/runtime-output" ]; then sudo chmod -R a+rX "$RUNNER_TEMP/runtime-output"; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zero4-cloud-package-checks
+          path: |
+            ${{ runner.temp }}/host-records
+            ${{ runner.temp }}/runtime-output
