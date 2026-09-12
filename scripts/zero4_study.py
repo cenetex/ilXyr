@@ -210,7 +210,9 @@ class Processes:
             require(receipt['status'] == 'complete', 'native process failed: ' + row['path'])
             return receipt
         except BaseException as error:
-            row.update(status='failed', error=str(error))
+            row['error'] = str(error)
+            if row['status'] == 'running':
+                row['status'] = 'failed'
             raise
         finally:
             save(self.output / 'PROCESSES.json', self.rows)

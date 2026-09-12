@@ -33,6 +33,20 @@
       "check": "worker_receipt_path_check",
       "repair": "Resolve the checker paths before command comparison; rerun the complete check after moving the collected folder.",
       "result": "The checker compared the macOS /var alias with the resolved /private/var path and rejected a matching command."
+    },
+    {
+      "check": "expired_study_deadline",
+      "repair": "Keep the recorded process status when raising the study error. The regression keeps the skipped receipt and proves the child never starts.",
+      "reproduction": {
+        "error": "native process failed: processes/0000-opened-task",
+        "receipt_status": "skipped",
+        "reproduced": true,
+        "row_status": "failed",
+        "source_commit": "17243b4a65792aec9f8c5ab3525ca06fa968358c",
+        "source_sha256": "50b577f6b4ac7f0eb85a0549764a180017280f78e21a7ab6058904da6ddf2c54",
+        "stop_reason": "deadline"
+      },
+      "result": "The process runner retained skipped/deadline, while the study wrapper relabelled its row failed; replay then rejected the status mismatch."
     }
   ],
   "prior_step": "https://github.com/cenetex/ilXyr/pull/202",

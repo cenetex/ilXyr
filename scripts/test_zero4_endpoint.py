@@ -10,6 +10,7 @@ import unittest
 
 from feral_process import run_process
 import zero4_endpoint as worker
+import zero4_study as study
 
 
 class EndpointTests(unittest.TestCase):
@@ -93,6 +94,31 @@ with open(output,'w') as stream:
         (self.root / 'worker-01.jsonl').write_text(json.dumps({'ordinal': 1, 'id': 'b'}) + '\n')
         with self.assertRaisesRegex(ValueError, 'shard coverage'):
             worker.merge_rows(self.root, worker.read_cases(self.cases), 2)
+
+    def test_expired_study_deadline_preserves_skipped_process(self):
+        output = self.root / 'study'
+        output.mkdir()
+        processes = study.Processes(output, study.plan()['limits'])
+        processes.deadline = time.monotonic() - 1
+        marker = self.root / 'started'
+        with self.assertRaisesRegex(ValueError, 'native process failed'):
+            processes.run([sys.executable, '-c', 'from pathlib import Path; Path(' + repr(str(marker)) + ').touch()'],
+                          self.root, 'opened', 'task')
+        row = json.loads((output / 'PROCESSES.json').read_bytes())[0]
+        receipt = json.loads((output / row['path'] / 'process.json').read_bytes())
+        self.assertEqual(row['status'], 'skipped')
+        self.assertEqual(receipt['status'], row['status'])
+        self.assertEqual(receipt['stop_reason'], 'deadline')
+        self.assertEqual(row['receipt_sha256'], worker.digest(output / row['path'] / 'process.json'))
+        self.assertFalse(marker.exists())
+
+    def test_invalid_worker_cpu_is_rejected(self):
+        for value in [-1, True, float('nan'), float('inf')]:
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, 'invalid worker CPU'):
+                worker.cpu({'status': 'complete', 'resource_usage': {'user_cpu_seconds': value, 'system_cpu_seconds': 0}})
+        with self.assertRaisesRegex(ValueError, 'lacks CPU'):
+            worker.cpu({'status': 'complete', 'resource_usage': None})
+        self.assertEqual(worker.cpu({'status': 'skipped', 'resource_usage': None}), 0)
 
 
 if __name__ == '__main__':

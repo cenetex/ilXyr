@@ -3,6 +3,7 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import csv
 import json
+import math
 from pathlib import Path
 import signal
 import threading
@@ -25,7 +26,12 @@ def command(kind, native, model, cases, rows, index, count):
 
 def cpu(receipt):
     usage = receipt.get('resource_usage')
-    return round(1000000 * (usage['user_cpu_seconds'] + usage['system_cpu_seconds'])) if usage else 0
+    if usage is None:
+        require(receipt.get('status') != 'complete', 'complete worker lacks CPU usage')
+        return 0
+    values = [usage['user_cpu_seconds'], usage['system_cpu_seconds']]
+    require(all(type(v) in [int, float] and math.isfinite(v) and v >= 0 for v in values), 'invalid worker CPU usage')
+    return round(1000000 * sum(values))
 
 
 def read_cases(path):
