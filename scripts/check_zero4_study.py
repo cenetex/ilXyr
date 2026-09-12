@@ -7,11 +7,13 @@ import os
 from pathlib import Path
 import shutil
 import statistics
+import sys
 import time
 import traceback
 
 from feral_process import digest, run_process, save
 import zero4_study as study
+import zero4_endpoint as endpoint_worker
 import zero4_study_scores as scores
 import zero4_window_data as windows
 
@@ -76,12 +78,33 @@ def read_endpoint(prepared, folder, cfg):
 
 
 def check(prepared, output, write=True):
+    prepared, output = prepared.resolve(), output.resolve()
     started = time.process_time_ns()
     verification = {'schema': 'ilxyr.zero4_study_check.v1', 'status': 'failed'}
     try:
         manifest = load(prepared / 'MANIFEST.json')
         cfg = study.validate(manifest, prepared)
         result, seal = load(output / 'RESULT.json'), load(output / 'SELECTION.json')
+        paths = load(output / 'PATHS.json')
+        require(seal['paths_sha256'] == digest(output / 'PATHS.json') and set(paths) == {'prepared', 'output', 'implementation', 'python'},
+                'execution path binding differs')
+        require(all(type(v) is str and Path(v).is_absolute() and '..' not in Path(v).parts and v != '/' for v in paths.values()),
+                'execution path shape differs')
+        roots = sorted([(str(prepared), paths['prepared']), (str(output), paths['output']), (str(study.ROOT.resolve()), paths['implementation'])],
+                       key=lambda pair: len(pair[0]), reverse=True)
+
+        def recorded_command(args):
+            mapped = []
+            for arg in map(str, args):
+                if arg == sys.executable:
+                    mapped.append(paths['python'])
+                    continue
+                for current, original in roots:
+                    if arg == current or arg.startswith(current + '/'):
+                        arg = original + arg[len(current):]
+                        break
+                mapped.append(arg)
+            return mapped
         states, processes = load(output / 'TRAINING.json'), load(output / 'PROCESSES.json')
         require(seal['manifest_sha256'] == digest(prepared / 'MANIFEST.json') and seal['training_sha256'] == digest(output / 'TRAINING.json'),
                 'sealed input or training record differs')
@@ -131,7 +154,7 @@ def check(prepared, output, write=True):
                 expected_state = {**state, 'attempts': offset}
                 command = ['env', *[k + '=' + v for k, v in study.THREAD_ENV.items()],
                            *map(str, study.training_args(prepared, binaries['lm'], cfg, expected_state, folder))]
-                require(receipts[p['ordinal']]['command'] == command, 'training command differs')
+                require(receipts[p['ordinal']]['command'] == recorded_command(command), 'training command differs')
                 candidates = [c for c in state['candidates'] if c.get('process_ordinal') == p['ordinal']]
                 if p['status'] == 'complete':
                     require(len(candidates) == 1, 'complete training process lacks its checkpoint')
@@ -171,11 +194,17 @@ def check(prepared, output, write=True):
                 [binaries['export'], model, folder / 'selected.litq8'],
                 [binaries['lm'], '--init' if chosen['initial'] else '--resume', model, '--eval-only', '--tokens', '0',
                  '--tokenizer', prepared / 'data/literary.bpe', '--validation', '6', '--evaluation-json', folder / 'retention.json', *study.data_args(prepared, 'endpoint', cfg)],
-                [binaries['task'], folder / 'selected.litq8', prepared / 'data/task.tsv', folder / 'task.jsonl'],
-                *[[binaries['language'], folder / 'selected.litq8', prepared / ('data/' + name + '.tsv'), '--jsonl', folder / (name + '.jsonl')]
-                  for name in ['blimp', 'tinystories']]]
+                *[study.endpoint_args(prepared, binaries, cfg, folder, name) for name in ['task', 'blimp', 'tinystories']]]
             for p, command in zip(end, expected):
-                require(receipts[p['ordinal']]['command'][1 + len(study.THREAD_ENV):] == list(map(str, command)), 'endpoint invocation differs')
+                require(receipts[p['ordinal']]['command'][1 + len(study.THREAD_ENV):] == recorded_command(command), 'endpoint invocation differs')
+            breakdown = {}
+            for p, name in zip(end[2:], ['task', 'blimp', 'tinystories']):
+                kind = 'task' if name == 'task' else 'language'
+                breakdown[name] = endpoint_worker.check(folder / (name + '-workers'), kind, binaries[kind],
+                    folder / 'selected.litq8', prepared / ('data/' + name + '.tsv'), cfg['endpoint_workers'], cpu(receipts[p['ordinal']]), recorded_command)
+                require((folder / (name + '-workers/ROWS.jsonl')).read_bytes() == (folder / (name + '.jsonl')).read_bytes(),
+                        'endpoint copied rows differ')
+            owner_costs[state['owner']]['endpoint_workers'] = breakdown
             endpoints[state['seed'], state['arm']] = read_endpoint(prepared, folder, cfg)
             owner_costs[state['owner']].update(training_controller_cpu_us=state['controller_cpu_us'], endpoint_controller_cpu_us=info['controller_cpu_us'],
                                               selected_attempts=chosen['attempts'], selected_training_cpu_us=chosen['training_cpu_us'])
@@ -189,7 +218,7 @@ def check(prepared, output, write=True):
         if len(gold) == 1 and gold[0]['status'] == 'complete':
             require(load(output / gold[0]['path'] / 'stdout.log') == {'native_gold_rows': cfg['counts']['task']}, 'exact parser coverage differs')
             require(receipts[gold[0]['ordinal']]['command'][1 + len(study.THREAD_ENV):] ==
-                    [str(binaries['gold']), str(prepared / 'data/task.tsv')], 'exact parser invocation differs')
+                    recorded_command([binaries['gold'], prepared / 'data/task.tsv']), 'exact parser invocation differs')
             gold_cases = cfg['counts']['task']
         else:
             incomplete = True
@@ -304,6 +333,17 @@ def opened(source, output, git=False, cc='cc', sanitize=False):
         new = scores.task(scores.jsonl(folder / 'task.jsonl'), scores.tsv(data / 'task.tsv'))
         require(all(old[k] == new[k] for k in ['cases', *scores.COUNTS]) and math.isclose(old['target_bits'], new['target_bits'], abs_tol=1e-8),
                 'historical task evaluation differs')
+    serial_parity = []
+    for arm in study.ARMS:
+        folder = output / 'study' / ('seed-71-' + arm)
+        for name in ['task', 'blimp', 'tinystories']:
+            result_file = fixture / (arm + '-' + name + '-serial.jsonl')
+            kind = 'task' if name == 'task' else 'language'
+            command = [output / 'study/bin' / kind, folder / 'selected.litq8', data / (name + '.tsv')]
+            if kind == 'language': command += ['--jsonl']
+            processes.run([*command, result_file], prepared, 'serial-parity', arm + '-' + name)
+            require(scores.jsonl(result_file) == scores.jsonl(folder / (name + '.jsonl')), 'parallel case result differs from serial')
+            serial_parity.append({'arm': arm, 'endpoint': name, 'cases': len(scores.jsonl(result_file))})
     attacks = row_attacks(prepared, output / 'study')
     save(output / 'ROW-ATTACKS.json', attacks)
     # A completed over-budget chunk stays in custody while the frozen model is selected.
@@ -328,9 +368,13 @@ def opened(source, output, git=False, cc='cc', sanitize=False):
     require(failure['status'] == 'failed' and load(output / 'failure-study/CHECK.json')['status'] == 'incomplete', 'failed comparison claimed completion')
     require(sum(s['status'] == 'failed' for s in load(output / 'failure-study/TRAINING.json')) == 4, 'failed training process coverage differs')
     report = {'schema': 'ilxyr.zero4_opened_study.v1', 'status': 'complete', 'production_teacher_forward_calls': 0,
-              'historical_task_parity_models': 5, 'training_validation_parity': parity,
+              'historical_task_parity_models': 5, 'training_validation_parity': parity, 'parallel_case_parity': serial_parity,
               'row_attacks': attacks, 'budget_check': budget_check, 'failure_check': load(output / 'failure-study/CHECK.json'),
               'check': load(output / 'study/CHECK.json'), 'sanitized': sanitize}
+    relocated = output / 'relocated'
+    shutil.copytree(prepared, relocated / 'prepared')
+    shutil.copytree(output / 'study', relocated / 'study')
+    report['relocated_check'] = check(relocated / 'prepared', relocated / 'study')
     save(output / 'OPENED.json', report)
     return report
 

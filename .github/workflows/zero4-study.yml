@@ -5,6 +5,7 @@ on:
       - 'scripts/*zero4*'
       - 'scripts/feral_process.py'
       - 'experiments/research-step-43/**'
+      - 'experiments/research-step-44/**'
       - '.github/workflows/zero4-study.yml'
   push:
     branches: [main]
@@ -12,6 +13,7 @@ on:
       - 'scripts/*zero4*'
       - 'scripts/feral_process.py'
       - 'experiments/research-step-43/**'
+      - 'experiments/research-step-44/**'
       - '.github/workflows/zero4-study.yml'
 permissions:
   contents: read
@@ -33,6 +35,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: python3 scripts/test_zero4_study.py
+      - run: python3 scripts/test_zero4_endpoint.py
       - run: python3 scripts/check_zero4_study.py --source upstream-zero --out opened-study-checks
       - uses: actions/upload-artifact@v4
         if: always()
