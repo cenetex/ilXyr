@@ -34,7 +34,7 @@
       "after": {
         "basis": "Reserve the complete source snapshot capacity, setup space, filesystem space, and the fixed study output and collection reserve.",
         "filesystem_reserve_gib": 1,
-        "root_snapshot_gib": 80,
+        "root_snapshot_gib": 75,
         "setup_reserve_gib": 16
       },
       "before": null,
@@ -58,7 +58,7 @@
     "price_products"
   ],
   "previous_plan_sha256": "79aa4932de1fe8f4da66ad57d17d989bb57de45e1843afe01f969443dbc66ee2",
-  "replacement_plan_sha256": "15348fa220cca1c84ba0d3c89f831baa32aac7404eea11c5e735c82cb3f3b109",
+  "replacement_plan_sha256": "9a8e016502e693e37c6333a852854d1896a37807cf4ea7477b7374b784c4393b",
   "reused_archives": {
     "controller.tar": {
       "bytes": 6717440,

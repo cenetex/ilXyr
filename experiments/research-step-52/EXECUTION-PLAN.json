@@ -142,7 +142,7 @@
   "storage_sizing": {
     "basis": "Reserve the complete source snapshot capacity, setup space, filesystem space, and the fixed study output and collection reserve.",
     "filesystem_reserve_gib": 1,
-    "root_snapshot_gib": 80,
+    "root_snapshot_gib": 75,
     "setup_reserve_gib": 16
   },
   "study_limits": {

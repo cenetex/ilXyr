@@ -1,9 +1,9 @@
 # Research step 52: ZERO.4 storage sized from the failed host
 
 The replacement host uses a 160 GiB root disk. Its package check reserves the
-complete 80 GiB source snapshot, 16 GiB for setup, 1 GiB for filesystem overhead,
-and 37.0625 GiB for study output and collection. This requires 134.0625 GiB and
-leaves 25.9375 GiB of planned headroom.
+complete 75 GiB source snapshot, 16 GiB for setup, 1 GiB for filesystem overhead,
+and 37.0625 GiB for study output and collection. This requires 129.0625 GiB and
+leaves 30.9375 GiB of planned headroom.
 
 The previous [approved attempt](../research-step-51/REPORT.md) stopped at its
 disk check. It had 27,919,421,440 free bytes and required 39,795,556,352 bytes.

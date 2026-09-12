@@ -147,7 +147,11 @@ class IntegrityTests(unittest.TestCase):
         plan = json.loads((ROOT / PLAN).read_bytes())
         sizing = check_storage(plan)
         self.assertEqual(sizing['required_free_bytes'], 39795556352)
-        self.assertEqual(sizing['minimum_root_bytes'], 143948513280)
+        self.assertEqual(sizing['minimum_root_bytes'], 138579804160)
+        observed_image = json.loads((ROOT / 'experiments/research-step-52/SNAPSHOT.json').read_bytes())
+        self.assertEqual(plan['provider']['ami_id'], observed_image['image_id'])
+        self.assertEqual(plan['provider']['root_snapshot_id'], observed_image['snapshot_id'])
+        self.assertEqual(plan['storage_sizing']['root_snapshot_gib'], observed_image['volume_size_gib'])
         self.assertEqual(sizing['planned_root_bytes'], 160 * 1024**3)
         observed = json.loads((ROOT / 'experiments/research-step-52/OBSERVED-DISK.json').read_bytes())
         self.assertEqual(sha(observed['filesystem_text'].encode()), observed['filesystem_sha256'])
@@ -176,7 +180,7 @@ class IntegrityTests(unittest.TestCase):
         data = {'identity': {'Account': p['account']}, 'image': {'Images': [{
             'ImageId': p['ami_id'], 'State': 'available', 'Architecture': p['architecture'],
             'BlockDeviceMappings': [{'DeviceName': p['root_device'], 'Ebs': {
-                'SnapshotId': p['root_snapshot_id'], 'VolumeSize': 81}}]}]}}
+                'SnapshotId': p['root_snapshot_id'], 'VolumeSize': 80}}]}]}}
         with self.assertRaisesRegex(ValueError, 'snapshot capacity differs'):
             validate(data, plan, 'a' * 64, 1)
 

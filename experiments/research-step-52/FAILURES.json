@@ -1,0 +1,42 @@
+{
+  "failures": [
+    {
+      "id": "observed-step51-disk-reserve",
+      "observed": {
+        "disk": {
+          "free_bytes": 27919421440,
+          "passes": false,
+          "required_bytes": 39795556352
+        },
+        "disk_sha256": "645ffb863c9d2a8484f622d621509a45786b7d726b3bd6a9839bbeaf2e4f7961",
+        "filesystem_sha256": "a3c56945ab74c9ed42cd45341051f2f627ee9abc0aa4d2350a2fcbe116f980e1",
+        "filesystem_text": "Filesystem     1024-blocks     Used Available Capacity Mounted on\n/dev/nvme0n1p1    83808236 56543176  27265060      68% /\n",
+        "schema": "ilxyr.zero4_observed_disk.v1",
+        "source_run": "zero4-45-20260912T204834Z",
+        "source_step51_verification_sha256": "b26bffd0ec6a8153aff0420671ec85171007df752c1f708c01e76cb9abb7a797"
+      },
+      "repair": "Use160GiB and check expanded filesystem and free collection space."
+    },
+    {
+      "id": "staging-automatic-review",
+      "initial_action_executed": false,
+      "observed": "Automatic approval review rejected the first package upload and lifecycle change because payload, bucket ownership and authorization were unverified.",
+      "proof_sha256": "36354ab1054c04f0094920d88b4f0f74cd87d2fb1c1853e3f1eaaa5abd55a374",
+      "resolution": "Read-only provider checks confirmed expected bucket owner and private access. Both scientific archives matched the earlier approved payload exactly. All changed sources matched the public commit. The scoped staging retry passed.",
+      "stage_receipt_sha256": "82eed339ad0b35c2f1942c93d05be92924530d1497e1cee129fa296e42a25250",
+      "status": "resolved"
+    },
+    {
+      "id": "source-snapshot-confused-with-host-disk",
+      "image_receipt_sha256": "e91b42309bc7c679c0b9ad4b8090d2b04fedfe0ef9525b9d6ab2ccd63c843a3b",
+      "initial_package_sha256": "2c95f705a90146f77e120ba844f36f7031440d854bf9373ab809d2369aba026a",
+      "initial_plan_sha256": "15348fa220cca1c84ba0d3c89f831baa32aac7404eea11c5e735c82cb3f3b109",
+      "instances_created": 0,
+      "observed": "Initial sizing used the earlier80GiB host disk as source snapshot capacity. Provider image metadata reports75GiB. The exact preflight stopped before the launch permission check.",
+      "preflight_receipt_sha256": "3c1e08922499b5cb8410b685667201858e1ee0dc6764f89ab1e6dbefab722f3e",
+      "repair": "Bind75GiB from the provider snapshot receipt. Keep the160GiB target disk and the full free-space reserve. Add the observed snapshot identity and size to the sizing test.",
+      "status": "corrected_pending_repeat_preflight"
+    }
+  ],
+  "schema": "ilxyr.zero4_storage_repair_failures.v1"
+}
