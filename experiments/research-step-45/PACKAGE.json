@@ -1,0 +1,77 @@
+{
+  "bytes": 54886400,
+  "host_files": {
+    "controller.tar": {
+      "bytes": 6717440,
+      "sha256": "b00e96da55ce4f0711bdd28d4ef5f10fafc7ed5eb24dfd82da36b72883fab884"
+    },
+    "experiments/research-step-44/KIT.json": {
+      "bytes": 12809,
+      "sha256": "82af108cbef438feb9490d1ffbd866d24a4a55b5cf5e3ffd2c884c4b81b5d018"
+    },
+    "experiments/research-step-45/EXECUTION-PLAN.json": {
+      "bytes": 5834,
+      "sha256": "79aa4932de1fe8f4da66ad57d17d989bb57de45e1843afe01f969443dbc66ee2"
+    },
+    "prepared.tar": {
+      "bytes": 48056320,
+      "sha256": "7df0fb342d3b9baf52583510a0e5c731a8a11fc90b419faa54770250f42f3032"
+    },
+    "scripts/aws/zero4-45-user-data.sh": {
+      "bytes": 9234,
+      "sha256": "10b8ac262f742eeaf013e72c1f3b39d17bca4a36965a00211da991d008060492"
+    },
+    "scripts/feral_cloud_package.py": {
+      "bytes": 11594,
+      "sha256": "6c5488d187ae597b9f7f7f7c2e7c6df4b2068b853171d8be3476067b682b1a67"
+    },
+    "scripts/package_solomon_cloud.py": {
+      "bytes": 7620,
+      "sha256": "664464883cae7f45e4cedce850169f4b6ddd69a3f3decf7be693cbd916345cd3"
+    },
+    "scripts/package_zero4_cloud.py": {
+      "bytes": 6512,
+      "sha256": "a856c5f24c14d9fdb8b10e701cc5f1e260224aa201b42479689485b06b3a9c2e"
+    },
+    "scripts/zero4_cloud_collect.py": {
+      "bytes": 15610,
+      "sha256": "9f1b99168ca7e29ce514108a5478e78a1c0aef8ca1be3281f765bc8385c8e0a4"
+    },
+    "scripts/zero4_cloud_launch.py": {
+      "bytes": 6985,
+      "sha256": "2c9b1e2541805bf481bddad9428eaec2d53ca0e6c3018b22ef61c2be17484dd0"
+    },
+    "scripts/zero4_cloud_preflight.py": {
+      "bytes": 11590,
+      "sha256": "08a01a15fce774870111bc7566d5f100f0e94e5d20aa4e93d0909fd57670dcbc"
+    },
+    "scripts/zero4_cloud_runtime.py": {
+      "bytes": 5755,
+      "sha256": "ae4b0a5a6214cc2443a7d34af68a2004fc1bc515f7b1f2dc422c93d216f5a8f7"
+    }
+  },
+  "local_check": {
+    "bound_input_files": 63,
+    "dry_run_default": true,
+    "input_bytes": 47987778,
+    "instance_count": [
+      1,
+      1
+    ],
+    "instance_type": "c6i.4xlarge",
+    "package": {
+      "bytes": 54886400,
+      "plan_sha256": "79aa4932de1fe8f4da66ad57d17d989bb57de45e1843afe01f969443dbc66ee2",
+      "sha256": "0ed0d960d8cfbe7e4e86d600c490867c732c4ac2d3cd462f8ccbb1b9f7e35ac3",
+      "source_commit": "6c859ca354bce30a3c3c8b1d53ba33e5fa504544"
+    },
+    "prepared_manifest_sha256": "ed1caf4772d0100108251b9a5270b07330452a393ebdfea853dcdaf492c83e3a",
+    "production_teacher_forward_calls": 0,
+    "rendered_request_sha256": "ce2e9db776e77f3a2cc8ec0ce120f4e7e4b0138d1a7844f04fc865ea885b1a96",
+    "rendered_user_data_bytes": 9686,
+    "status": "complete"
+  },
+  "plan_sha256": "79aa4932de1fe8f4da66ad57d17d989bb57de45e1843afe01f969443dbc66ee2",
+  "sha256": "0ed0d960d8cfbe7e4e86d600c490867c732c4ac2d3cd462f8ccbb1b9f7e35ac3",
+  "source_commit": "6c859ca354bce30a3c3c8b1d53ba33e5fa504544"
+}
