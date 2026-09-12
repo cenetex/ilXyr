@@ -1,0 +1,44 @@
+{
+  "plan_sha256": "82a39e63329b76af9fd4bd6293eb7ad811c2dcc199f161a4b19c61234b588a73",
+  "schema": "ilxyr.zero4_window_capacity.v1",
+  "selection_started": false,
+  "sources": [
+    {
+      "length_feasible": true,
+      "required_disjoint_tokens": 1026,
+      "source": "zero-foundation",
+      "source_tokens": 1406
+    },
+    {
+      "length_feasible": true,
+      "required_disjoint_tokens": 73872,
+      "source": "shakespeare",
+      "source_tokens": 5352386
+    },
+    {
+      "length_feasible": false,
+      "required_disjoint_tokens": 73872,
+      "source": "blake",
+      "source_tokens": 65811
+    },
+    {
+      "length_feasible": true,
+      "required_disjoint_tokens": 73872,
+      "source": "crowley",
+      "source_tokens": 250769
+    },
+    {
+      "length_feasible": true,
+      "required_disjoint_tokens": 73872,
+      "source": "bible-kjv",
+      "source_tokens": 4170130
+    },
+    {
+      "length_feasible": true,
+      "required_disjoint_tokens": 73872,
+      "source": "literary-dialogue",
+      "source_tokens": 28622690
+    }
+  ],
+  "status": "failed"
+}
