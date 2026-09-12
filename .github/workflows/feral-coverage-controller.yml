@@ -1,0 +1,52 @@
+name: FERAL coverage controller
+on:
+  pull_request:
+    paths:
+      - 'scripts/*feral*'
+      - 'experiments/research-step-47/**'
+      - 'experiments/research-step-48/**'
+      - '.github/workflows/feral-coverage-controller.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/*feral*'
+      - 'experiments/research-step-47/**'
+      - 'experiments/research-step-48/**'
+      - '.github/workflows/feral-coverage-controller.yml'
+permissions:
+  contents: read
+jobs:
+  opened-controller:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Exercise complete and altered invented collections
+        run: python3 -B scripts/test_feral_coverage.py
+      - name: Fetch the fixed public source copies
+        run: python3 -B scripts/fetch_feral_fresh_sources.py --output "$RUNNER_TEMP/raw"
+      - name: Prepare the fixed inputs and run the invented fixtures
+        run: |
+          python3 -B scripts/research_feral_coverage.py prepare --raw "$RUNNER_TEMP/raw" --out "$RUNNER_TEMP/prepared"
+          python3 -B scripts/research_feral_coverage.py opened --prepared "$RUNNER_TEMP/prepared" --out "$RUNNER_TEMP/opened" --work "$RUNNER_TEMP/worker"
+          python3 - <<'PY'
+          import hashlib,os,pathlib,subprocess
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          expected=hashlib.sha256((root/'opened/SUPERVISOR.json').read_bytes()).hexdigest()
+          subprocess.run(['python3','-B','scripts/check_feral_coverage.py','--prepared',str(root/'prepared'),'--collected',str(root/'opened'),'--supervisor-sha256',expected,'--out',str(root/'checked')],check=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: feral-coverage-${{ matrix.os }}
+          path: |
+            ${{ runner.temp }}/prepared/BINDINGS.json
+            ${{ runner.temp }}/opened
+            ${{ runner.temp }}/checked
