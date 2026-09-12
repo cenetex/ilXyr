@@ -1,0 +1,51 @@
+{
+  "ci_run": 34715213640,
+  "ci_url": "https://github.com/cenetex/ilXyr/actions/runs/34715213640",
+  "platforms": {
+    "linux": {
+      "cases": 58,
+      "check_sha256": "d70165dd2e9ecb5ba772bf0a7603e6630b678fc19d1ab9b43b51aace461abc25",
+      "checker_receipt_sha256": "7acbd21ebfb8be50c209bfd51399475280a7827a7f27d6de9660faf7ddac581e",
+      "distinct_results": 174,
+      "fresh_predictor_calls": 0,
+      "jobs": 9,
+      "predictor_calls": 522,
+      "prepared_bindings_sha256": "73c1eb214c42058e1d702cd5412240758f76b2baf1ef54d79b6213473b93330f",
+      "stable_rows_sha256": "6da367284c7b7a0b23391b4e76aaa51a413736b782511e773f50332f0a28e792",
+      "status": "verified_complete",
+      "supervisor_sha256": "546aa7cb68e00148fc1f9c2f504f82bb6a5c317bf06998dc849092042341fdd4",
+      "unit_tests": 19
+    },
+    "local": {
+      "cases": 58,
+      "check_sha256": "0bfb8851d5a395b997deb3902981c52756a37c67f11a9e103f3ac5c64f5c5dc3",
+      "checker_receipt_sha256": "b1825bc26e2c126639aed1b434a1e437e9f2140bcaa14710cb02df592d332560",
+      "distinct_results": 174,
+      "fresh_predictor_calls": 0,
+      "jobs": 9,
+      "predictor_calls": 522,
+      "prepared_bindings_sha256": "73c1eb214c42058e1d702cd5412240758f76b2baf1ef54d79b6213473b93330f",
+      "stable_rows_sha256": "6da367284c7b7a0b23391b4e76aaa51a413736b782511e773f50332f0a28e792",
+      "status": "verified_complete",
+      "supervisor_sha256": "8069bf6d83e869c1f553ffff63bc19c19b3004d98684a5859241fcc42ac557bc",
+      "unit_tests": 19
+    },
+    "mac": {
+      "cases": 58,
+      "check_sha256": "7795b0c5900c146a238fc0ac26208410b006b06c0bda8b0828cce650c8bf444d",
+      "checker_receipt_sha256": "0bc7416421e8d9155c5019bbef08df3ef0e2c583dadd00d94bcae9a39e177f78",
+      "distinct_results": 174,
+      "fresh_predictor_calls": 0,
+      "jobs": 9,
+      "predictor_calls": 522,
+      "prepared_bindings_sha256": "73c1eb214c42058e1d702cd5412240758f76b2baf1ef54d79b6213473b93330f",
+      "stable_rows_sha256": "6da367284c7b7a0b23391b4e76aaa51a413736b782511e773f50332f0a28e792",
+      "status": "verified_complete",
+      "supervisor_sha256": "d4d54425625a547f8622c871ae28a65a423b41e346e0d5f52d6bb77bd64240c2",
+      "unit_tests": 19
+    }
+  },
+  "schema": "ilxyr.feral_coverage_platform_checks.v1",
+  "scope": "Invented engineering fixtures; fresh predictor calls are zero.",
+  "source_commit": "075d4894979a7fcf6b886f09cf0e8fe453664370"
+}

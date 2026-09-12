@@ -80,8 +80,12 @@ five opened development cases. The [fresh coverage preparation](../experiments/r
 now fixes 228 questions from 81 figures in eight table families across three
 2025 company reports: 164 numeric targets and 64 required abstentions. Every
 question has a paired plain-English form. Source reconstruction and independent
-exact arithmetic checks pass. Fresh predictor calls are zero; the bounded
-three-control comparison is next. This source-linked baseline also supports
+exact arithmetic checks pass. The [bounded comparison runner](../experiments/research-step-48/REPORT.md)
+now passes 19 checks and reproduces 174 distinct invented results on Linux,
+Mac, and from its source archive. V2 answers 21/21 canonical numeric questions
+and 0/21 paired paraphrases in that engineering fixture. The checker repair
+preserves an earlier accepted change to a selected-series label. Fresh predictor
+calls are zero; the fixed cloud host package is next. This source-linked baseline also supports
 the [FERAL v3 tagging proposal](FERAL-7B-V3-XBRL-REGULATORY-PROPOSAL.md).
 
 Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).

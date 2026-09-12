@@ -1,0 +1,14 @@
+{
+  "archive_bytes": 5529600,
+  "archive_sha256": "4da00d713fbc901a862de94493e21ffa1d00e6d1d13f775c32282b6a68ff1c13",
+  "bound_files": 27,
+  "fresh_predictor_calls": 0,
+  "manifest_sha256": "f4e1de0c25ec75b9179dd3aba0bd3ca4ad611d6b0f91dcfd8d74a8300f7f944a",
+  "opened_check": "verified_complete",
+  "opened_distinct_results": 174,
+  "opened_stable_rows_sha256": "6da367284c7b7a0b23391b4e76aaa51a413736b782511e773f50332f0a28e792",
+  "prepared_bindings_sha256": "73c1eb214c42058e1d702cd5412240758f76b2baf1ef54d79b6213473b93330f",
+  "schema": "ilxyr.feral_coverage_source_kit.v1",
+  "scope": "Frozen source, report bytes, fresh data, invented fixtures, controller and independent checker. The cloud host package and budget follow.",
+  "source_commit": "075d4894979a7fcf6b886f09cf0e8fe453664370"
+}
