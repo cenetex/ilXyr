@@ -1,0 +1,55 @@
+name: ZERO.4 fixed Linux runtime
+on:
+  pull_request:
+    paths:
+      - 'scripts/*zero4*'
+      - 'scripts/feral_process.py'
+      - 'experiments/research-step-44/**'
+      - '.github/workflows/zero4-cloud.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/*zero4*'
+      - 'scripts/feral_process.py'
+      - 'experiments/research-step-44/**'
+      - '.github/workflows/zero4-cloud.yml'
+permissions:
+  contents: read
+jobs:
+  fixed-image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      ZERO4_IMAGE: docker.io/library/rust@sha256:4e4a7e7939c17991ab35f2b8c2e67593980f771d28f6b1254b1850f860fd0c7f
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: atimics/zero-grounded-literary-lm
+          ref: 9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d
+          path: upstream-zero
+      - run: |
+          mkdir runtime-checks
+          docker pull "$ZERO4_IMAGE"
+          docker image inspect "$ZERO4_IMAGE" > runtime-checks/image-inspect.json
+          docker run --rm --network none --read-only --cpus 2 --memory 2g --memory-swap 2g --pids-limit 256 \
+            --tmpfs /tmp:rw,exec,size=512m --log-driver none \
+            --env PYTHONDONTWRITEBYTECODE=1 --env PYTHONHASHSEED=0 --env LC_ALL=C --env TZ=UTC \
+            --env ZERO4_TEST_EVIDENCE_ROOT=/work/output/unit-tests \
+            --mount "type=bind,src=$PWD,dst=/work/package,readonly" \
+            --mount "type=bind,src=$PWD/runtime-checks,dst=/work/output" \
+            --workdir /work/package --entrypoint bash "$ZERO4_IMAGE" -e -c '
+              cc --version > /work/output/compiler.txt
+              python3 --version > /work/output/python.txt
+              python3 scripts/test_zero4_endpoint.py
+              python3 scripts/test_zero4_study.py
+              python3 scripts/check_zero4_study.py --source upstream-zero --out /work/output/opened
+            '
+      - name: Make container records readable by the artifact uploader
+        if: always()
+        run: sudo chmod -R a+rX runtime-checks
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zero4-fixed-image
+          path: runtime-checks

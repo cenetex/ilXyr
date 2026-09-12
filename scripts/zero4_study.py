@@ -6,6 +6,7 @@ from pathlib import Path
 import shutil
 import struct
 import subprocess
+import sys
 import time
 
 from build_zero4_study_source import build as build_native
@@ -14,7 +15,7 @@ import zero4_study_scores as scores
 import zero4_window_data as windows
 
 ROOT = Path(__file__).resolve().parents[1]
-PLAN_SHA = 'dd24ba5662dde39de82ffbc53d3dfb6a8de438f0907998e28576df7780575127'
+PLAN_SHA = 'b538f826b010daedec222da11b3bb1881fcf16091f95c6fa2c44cd0ef38581a0'
 ARMS = ['frozen', 'task_only', 'replay', 'replay_guard', 'replay_projection']
 MODES = {'replay_guard': 'cumulative-backtracking', 'replay_projection': 'cumulative-tangent'}
 THREAD_ENV = {'OMP_NUM_THREADS': '1', 'OPENBLAS_NUM_THREADS': '1', 'VECLIB_MAXIMUM_THREADS': '1',
@@ -22,7 +23,7 @@ THREAD_ENV = {'OMP_NUM_THREADS': '1', 'OPENBLAS_NUM_THREADS': '1', 'VECLIB_MAXIM
 # The pinned evaluator uses POSIX process calls and the pinned exporter uses sprintf.
 FLAGS = ['-std=c11', '-O2', '-Wall', '-Wextra', '-Werror', '-Wno-unused-parameter',
          '-D_POSIX_C_SOURCE=200809L', '-D_DARWIN_C_SOURCE', '-Wno-deprecated-declarations']
-IMPLEMENTATION = ['zero4_study.py', 'zero4_study_scores.py', 'zero4_task_cases.c', 'zero4_native_gold.c',
+IMPLEMENTATION = ['zero4_endpoint.py', 'zero4_study.py', 'zero4_study_scores.py', 'zero4_task_cases.c', 'zero4_native_gold.c',
                   'zero4_window_data.py', 'zero4_fresh_data.py', 'zero4_window_io.h',
                   'build_zero4_window_source.py', 'build_zero4_study_source.py', 'feral_process.py', 'check_zero4_study.py']
 require = scores.require
@@ -30,7 +31,7 @@ load = scores.load
 
 
 def plan():
-    file = ROOT / 'experiments/research-step-43/PLAN-v2.json'
+    file = ROOT / 'experiments/research-step-44/PLAN.json'
     require(digest(file) == PLAN_SHA, 'study plan differs')
     return load(file)
 
@@ -118,10 +119,10 @@ def prepare(source, fresh, packed, teachers, output, git=False):
 def make_manifest(root, mode):
     p = plan()
     config = {'seeds': p['seeds'], 'training': p['training'], 'training_cpu_us': p['selection']['training_cpu_us'],
-              'context': 512, 'limits': p['limits'], 'counts': p['final_cases']}
+              'context': 512, 'limits': p['limits'], 'counts': p['final_cases'], 'endpoint_workers': p['endpoint_workers']}
     if mode == 'opened':
         o = p['local_checks']
-        config.update(seeds=o['seeds'], context=o['context'], training_cpu_us=o['training_cpu_us'],
+        config.update(seeds=o['seeds'], context=o['context'], training_cpu_us=o['training_cpu_us'], endpoint_workers=o['endpoint_workers'],
                       limits={**p['limits'], **{k: o[k] for k in ['total_seconds', 'child_seconds', 'max_output_bytes']}},
                       counts={'task': 5, 'blimp': 2, 'tinystories': 2, 'retention_windows': 12, 'retention_counts': [1, 2, 3, 1, 2, 3]},
                       training={**p['training'], 'attempts': o['attempts'], 'chunk_attempts': o['chunk_attempts'], 'batch': 1,
@@ -145,7 +146,7 @@ def validate(m, root):
     require(m['mode'] in ['cloud', 'opened'], 'manifest mode differs')
     if m['mode'] == 'cloud':
         require(cfg == {'seeds': p['seeds'], 'training': p['training'], 'training_cpu_us': p['selection']['training_cpu_us'],
-                        'context': 512, 'limits': p['limits'], 'counts': p['final_cases']}, 'full configuration differs')
+                        'context': 512, 'limits': p['limits'], 'counts': p['final_cases'], 'endpoint_workers': p['endpoint_workers']}, 'full configuration differs')
         for name, sha in p['teachers'].items():
             require(m['files']['data/' + name + '.teacher']['sha256'] == sha, 'full teacher differs')
         for label in ['fresh', 'windows']:
@@ -160,7 +161,7 @@ def validate(m, root):
                 key = f'{role}/{name}.z4w'
                 require(m['files']['data/' + key]['sha256'] == packs[key]['sha256'], 'window input identity differs')
     else:
-        require(cfg['seeds'] == [71] and cfg['context'] == 16 and cfg['training']['attempts'] == 4 and
+        require(cfg['seeds'] == [71] and cfg['context'] == 16 and cfg['endpoint_workers'] == 2 and cfg['training']['attempts'] == 4 and
                 cfg['training']['chunk_attempts'] == 2 and cfg['training']['batch'] == 1 and
                 0 < cfg['training_cpu_us'] <= 20000000 and cfg['limits']['total_seconds'] <= 240 and
                 cfg['limits']['child_seconds'] <= 60 and cfg['limits']['max_output_bytes'] <= 67108864,
@@ -209,7 +210,9 @@ class Processes:
             require(receipt['status'] == 'complete', 'native process failed: ' + row['path'])
             return receipt
         except BaseException as error:
-            row.update(status='failed', error=str(error))
+            row['error'] = str(error)
+            if row['status'] == 'running':
+                row['status'] = 'failed'
             raise
         finally:
             save(self.output / 'PROCESSES.json', self.rows)
@@ -378,10 +381,19 @@ def train(prepared, output, cfg, binaries, processes):
         require(all(rows[:common] == logs[0][:common] for rows in logs), 'paired replay samples differ')
     save(output / 'TRAINING.json', states)
     seal = {'schema': 'ilxyr.zero4_selection.v1', 'manifest_sha256': digest(prepared / 'MANIFEST.json'),
+            'paths_sha256': digest(output / 'PATHS.json'),
             'training_sha256': digest(output / 'TRAINING.json'), 'training_cpu_us': cfg['training_cpu_us'],
             'processes_before_seal': len(processes.rows), 'choices': [{k: s[k] for k in ['arm', 'seed', 'owner', 'status', 'selected']} for s in states]}
     save(output / 'SELECTION.json', seal)
     return states
+
+
+def endpoint_args(prepared, binaries, cfg, folder, name):
+    kind = 'task' if name == 'task' else 'language'
+    return [sys.executable, ROOT / 'scripts/zero4_endpoint.py', '--kind', kind, '--native', binaries[kind],
+            '--model', folder / 'selected.litq8', '--cases', prepared / ('data/' + name + '.tsv'),
+            '--jobs', str(cfg['endpoint_workers']), '--out', folder / (name + '-workers'),
+            '--seconds', str(cfg['limits']['child_seconds'] - 5)]
 
 
 def evaluate(prepared, output, cfg, binaries, state, processes):
@@ -394,10 +406,9 @@ def evaluate(prepared, output, cfg, binaries, state, processes):
     processes.run([binaries['lm'], '--init' if selected['initial'] else '--resume', model, '--eval-only', '--tokens', '0',
                    '--tokenizer', prepared / 'data/literary.bpe', '--validation', '6', '--evaluation-json', folder / 'retention.json',
                    *data_args(prepared, 'endpoint', cfg)], prepared, state['owner'], 'retention')
-    processes.run([binaries['task'], folder / 'selected.litq8', prepared / 'data/task.tsv', folder / 'task.jsonl'], prepared, state['owner'], 'task')
-    for name in ['blimp', 'tinystories']:
-        processes.run([binaries['language'], folder / 'selected.litq8', prepared / ('data/' + name + '.tsv'), '--jsonl', folder / (name + '.jsonl')],
-                      prepared, state['owner'], name)
+    for name in ['task', 'blimp', 'tinystories']:
+        processes.run(endpoint_args(prepared, binaries, cfg, folder, name), prepared, state['owner'], name)
+        cp(folder / (name + '-workers/ROWS.jsonl'), folder / (name + '.jsonl'))
     require(digest(model) == selected['model']['sha256'] and digest(output / 'SELECTION.json') == seal_sha, 'sealed selection changed')
     record = {'model_sha256': digest(model), 'quantized': binding(folder / 'selected.litq8', output), 'selection_sha256': seal_sha,
               'controller_cpu_us': round((time.process_time_ns() - started) / 1000)}
@@ -406,7 +417,9 @@ def evaluate(prepared, output, cfg, binaries, state, processes):
 
 
 def run_study(prepared, output, cc='cc', sanitize=False, cloud_adapter=False):
+    prepared, output = prepared.resolve(), output.resolve()
     output.mkdir(parents=True, exist_ok=False)
+    save(output / 'PATHS.json', {'prepared': str(prepared), 'output': str(output), 'implementation': str(ROOT.resolve()), 'python': sys.executable})
     started_cpu, started_wall = time.process_time_ns(), time.monotonic_ns()
     result = {'schema': 'ilxyr.zero4_study_result.v1', 'status': 'failed', 'performance_evidence': False, 'errors': []}
     processes = None

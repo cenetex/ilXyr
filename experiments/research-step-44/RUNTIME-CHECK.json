@@ -1,0 +1,176 @@
+{
+  "architecture": "amd64",
+  "ci_url": "https://github.com/cenetex/ilXyr/actions/runs/34707559189",
+  "compiler_identity": "cc (Debian 12.2.0-14+deb12u1) 12.2.0\nCopyright (C) 2022 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "endpoint_unit_tests": 7,
+  "files": {
+    "RUN.json": {
+      "bytes": 1924,
+      "sha256": "d52ea9b0237f8321ededc3e479851586cc66e28e16131677f45c8dd69e2176a5"
+    },
+    "compiler.txt": {
+      "bytes": 239,
+      "sha256": "7e575ab6fefd049c43d6a74b298b043016556f4e410e77194274a0414054e807"
+    },
+    "image-inspect.json": {
+      "bytes": 2958,
+      "sha256": "13e5b341c485760b4e10ac0119e27c6c5c7bf75e9c7329692aa06955025e9586"
+    },
+    "python.txt": {
+      "bytes": 14,
+      "sha256": "cb64a3a0ddcaff0ce013ea3612beda0be4a4d3537087505bd8850d8f8476f4f8"
+    },
+    "unit-tests/test_expired_study_deadline_preserves_skipped_process/study/PROCESSES.json": {
+      "bytes": 326,
+      "sha256": "a5761bb89d6206cc88d2d34a046cd7f6ab4e94d4636a43f5582336c4256b1c32"
+    },
+    "unit-tests/test_waited_worker_cpu_is_counted_once/endpoint/WORKERS.json": {
+      "bytes": 924,
+      "sha256": "b230e8645c3817a13d38575d299104f9aca7fe655396a43eabaddbd8a35bfc17"
+    },
+    "unit-tests/test_waited_worker_cpu_is_counted_once/parent/process.json": {
+      "bytes": 1099,
+      "sha256": "77aa4caaa54e38dc9d43d04eb208fecedf53f79ac3d86a5b8a4895aab0630bff"
+    }
+  },
+  "image_id": "sha256:a3535ab419a167bf1c5acc0ea5d536c358152a9fb8dd8504068ef24bb0f4a1f1",
+  "opened": {
+    "altered_records_rejected": 18,
+    "budget_check_status": "complete",
+    "budget_selected_attempts": {
+      "seed-71-frozen": 0,
+      "seed-71-replay": 0,
+      "seed-71-replay_guard": 0,
+      "seed-71-replay_projection": 0,
+      "seed-71-task_only": 0
+    },
+    "decisions": [
+      {
+        "arm": "replay_guard",
+        "passes": false
+      },
+      {
+        "arm": "replay_projection",
+        "passes": false
+      }
+    ],
+    "endpoint_models": 5,
+    "exact_parser_cases": 5,
+    "historical_task_parity_models": 5,
+    "native_failure_check_status": "incomplete",
+    "native_failure_endpoint_models": 5,
+    "opened_guard_failure": {
+      "dialogue_relative_change": 0.04218496467106814,
+      "story_bpb_relative_change": 0.1718447595894239,
+      "task_mean_change": 0
+    },
+    "opened_sha256": "f57a0a82077a994fd313eb68805ecba3080c8d470f9d4f02d54326eabf463094",
+    "parallel_case_comparisons": [
+      {
+        "arm": "frozen",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "frozen",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "frozen",
+        "cases": 2,
+        "endpoint": "tinystories"
+      },
+      {
+        "arm": "task_only",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "task_only",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "task_only",
+        "cases": 2,
+        "endpoint": "tinystories"
+      },
+      {
+        "arm": "replay",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "replay",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "replay",
+        "cases": 2,
+        "endpoint": "tinystories"
+      },
+      {
+        "arm": "replay_guard",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "replay_guard",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "replay_guard",
+        "cases": 2,
+        "endpoint": "tinystories"
+      },
+      {
+        "arm": "replay_projection",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "replay_projection",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "replay_projection",
+        "cases": 2,
+        "endpoint": "tinystories"
+      }
+    ],
+    "relocated_check_status": "complete",
+    "status": "complete",
+    "training_validation_parity": {
+      "replay": "b19f49821e28ac95ed9c5d3a98507c327c80fb902214ec288ac1a665e3008fec",
+      "replay_guard": "77a99f69516874aaec0498d3ef7e4f30013b1b8b2eb6348d2d32826701f42bb8",
+      "replay_projection": "c8d8233013a886e5b6c495fc4a8f02885d3a44e169d752af38162ac829e312d9",
+      "task_only": "990dcd19bea7c3314d1ad7a34d6e8924f8c36e9092540f16ca2df0bc5c645b9b"
+    }
+  },
+  "opened_container": {
+    "cpus": 2,
+    "memory_bytes": 2147483648,
+    "memory_swap_bytes": 2147483648,
+    "network": "none",
+    "pids": 256,
+    "root_read_only": true,
+    "tmpfs_bytes": 536870912
+  },
+  "os": "linux",
+  "python_identity": "Python 3.11.2",
+  "runtime_image": "docker.io/library/rust@sha256:4e4a7e7939c17991ab35f2b8c2e67593980f771d28f6b1254b1850f860fd0c7f",
+  "schema": "ilxyr.zero4_runtime_check.v1",
+  "source_commit": "8355feec434cc9be4a25bad7eaced0aaf8fa2f12",
+  "status": "complete",
+  "study_unit_tests": 8,
+  "waited_cpu_check": {
+    "parent_cpu_us": 398531,
+    "scope": "Synthetic busy workers, used only to check accounting.",
+    "study_total_rule": "Count parent once; retain worker CPU as a breakdown.",
+    "worker_cpu_us": 344989
+  }
+}

@@ -17,9 +17,13 @@ static void case_string(FILE *out, const char *text)
 int main(int argc, char **argv)
 {
     static RequestCase cases[MAX_CASES];
-    int count = 0;
+    int count = 0, shard_index = 0, shard_count = 1;
     size_t length;
-    if (argc != 4 || !read_tsv(argv[2], cases, &count) || count < 1) return 2;
+    if (argc != 4 && argc != 8) return 2;
+    if (argc == 8 && (strcmp(argv[4], "--shard-index") || strcmp(argv[6], "--shard-count") ||
+        !parse_integer(argv[5], 0, MAX_JOBS - 1, &shard_index) ||
+        !parse_integer(argv[7], 1, MAX_JOBS, &shard_count) || shard_index >= shard_count)) return 2;
+    if (!read_tsv(argv[2], cases, &count) || count < 1) return 2;
     unsigned char *model = read_binary(argv[1], &length);
     if (!model || length > INT_MAX || lm_load(model, (int)length)) {
         free(model);
@@ -28,6 +32,7 @@ int main(int argc, char **argv)
     FILE *out = fopen(argv[3], "wx");
     if (!out) { free(model); return 4; }
     for (int i = 0; i < count; ++i) {
+        if (i % shard_count != shard_index) continue;
         RequestResult r = {0};
         evaluate_case(&cases[i], &r, 0);
         fprintf(out, "{\"schema\":\"ilxyr.zero4_task_case.v1\",\"ordinal\":%d,\"id\":", i);
