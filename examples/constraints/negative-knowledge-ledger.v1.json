@@ -1560,6 +1560,52 @@
       "lineage_note": "Measure accepted unique rows at increasing occupancy and carry finite support evidence or an explicit unknown state into each quota decision.",
       "evidence_path": "experiments/research-step-55/RESULT.json",
       "evidence_ref": "artifact://sha256/d2c89e7db382dd94ff5291e5815b0fb215e0f25bf9cfc113efcbf2db88830e83"
+    },
+    {
+      "seq": 73,
+      "verdict_id": "verdict:research.step56.weight-occupancy-record.v1",
+      "verdict_ref": "artifact://sha256/733d5b63e7326f31f98027d23a81f53706133c7f8ba270569ca585fac8ac89f8",
+      "experiment_id": "research.step56.weight-occupancy-record.v1",
+      "family": "ilxyr",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "native-oracle",
+        "result-replay",
+        "cost-accounting",
+        "failure-custody"
+      ],
+      "summary": "A completed batch counts its next matching label before the row-limit hold. The initial trace omits that decision, so independent replay rejects the checkpoint counters. An explicit occupancy-limit event repairs the record; all twelve fixtures verify.",
+      "recorded_at_ms": 1789261104808,
+      "project": "weight_multiplicity",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "validation_failure",
+      "lineage_note": "Record every counted decision before a hold. Require independent replay of counters and retained rows.",
+      "evidence_path": "experiments/research-step-56/FAILURES.json",
+      "evidence_ref": "artifact://sha256/cc0950eac03dc6f5bb311116eb839c4f4612e6a641fcd00026ae8f1e3c7c756c"
+    },
+    {
+      "seq": 74,
+      "verdict_id": "verdict:research.step56.weight-native-output-permission.v1",
+      "verdict_ref": "artifact://sha256/5b9b9976df7aab15bb95ab9e8402baaeb0d6b3cc54d6a3ac471383925711b193",
+      "experiment_id": "research.step56.weight-native-output-permission.v1",
+      "family": "ilxyr",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "implementation",
+      "mechanism_tags": [
+        "native-oracle",
+        "result-replay",
+        "cost-accounting",
+        "failure-custody"
+      ],
+      "summary": "The native smoke finishes, then the host-side checker cannot create CHECK.json in the container-owned directory. Verification and generator replay now run in the fixed container. The saved records verify after download.",
+      "recorded_at_ms": 1789261104808,
+      "project": "weight_multiplicity",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "validation_failure",
+      "lineage_note": "Use a consistent writer for native results and verification records. Preserve a failed verification write separately from completed oracle work.",
+      "evidence_path": "experiments/research-step-56/FAILURES.json",
+      "evidence_ref": "artifact://sha256/cc0950eac03dc6f5bb311116eb839c4f4612e6a641fcd00026ae8f1e3c7c756c"
     }
   ]
 }

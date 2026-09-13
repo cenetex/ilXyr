@@ -1,0 +1,52 @@
+{
+  "focused_tests": {
+    "linux_passed": 41,
+    "local_mac_passed": 40,
+    "local_mac_skipped": 1,
+    "python_tests": 41,
+    "selection_node_tests": 18
+  },
+  "ledger": {
+    "ledger_sha256": "7a67b5bdcc1666cda89b6b89cc59cb7344309d1a37f421606a43422816c3ebd7",
+    "prior_entries_preserved": 73,
+    "status": "passed",
+    "total_entries": 75,
+    "verified_bindings": 75
+  },
+  "local_schema_suite": {
+    "receipt_sha256": "c8597b312e27bc538361ad4aac162470517fcb8067f9e462b644c01810ebc810",
+    "status": "passed",
+    "wall_seconds": 123.132447459
+  },
+  "native_ci": {
+    "run": 34729240833,
+    "source_commit": "57db690ec7c03dd19d6358bb52d173111a4bcd07",
+    "status": "passed",
+    "url": "https://github.com/cenetex/ilXyr/actions/runs/34729240833"
+  },
+  "package_preparation": {
+    "jobs": 16,
+    "oracle_starts": 0,
+    "receipt_sha256": "cd05cfbb86aa24eb516d926b7c660312418d5351b35e71afaf33d395264986a3",
+    "status": "passed"
+  },
+  "record_check_sha256": "5bae8f9a862cf2df652a758a0ddac01e912058aa8bd34e6bca671f781cb99fd0",
+  "records": {
+    "FAILURES.json": "cc0950eac03dc6f5bb311116eb839c4f4612e6a641fcd00026ae8f1e3c7c756c",
+    "INITIAL-CHECK.json": "4b33acdb8d1bb8f587d4981526392f668587f9c724c397d4e5c84a348cc36f9d",
+    "NATIVE-SMOKE.json": "d6b84ba5a4084750696123c933f3d3dc35ccd4eb5293a3e55dec14ff4d768265",
+    "NEXT.json": "20614074e627c667058de8d817dc36de437ba685169c60b0a6431e0e04bca79e",
+    "PACKAGE.json": "9767402dcdcb0ea1bb2c1d008ef5f549ea99aaf2c6b2bbc0a9909b13acc30df3",
+    "PILOT-PLAN.json": "a6e902e9441817cfdea7566b88e26b9edf6625b94fba70220335d294c3787da8",
+    "REPAIRED-CHECK.json": "b4edbd8325588300e293e87ef3b454c54f0f4976e5937539dbc0237f39874062",
+    "SOURCES.json": "473e9af32b0147d1c0a521efddb29b1957a1ccc4cdc98300eaca0a74a99622d2"
+  },
+  "schema": "ilxyr.weight_native_pilot_validation.v1",
+  "source_ci": {
+    "receipt_sha256": "42ef632208b350870f89f913894db63a27111a0902fa638ce3ead8a3d32fe944",
+    "run": 34729240731,
+    "status": "passed"
+  },
+  "source_commit": "57db690ec7c03dd19d6358bb52d173111a4bcd07",
+  "status": "local_source_ci_native_and_package_checks_passed"
+}
