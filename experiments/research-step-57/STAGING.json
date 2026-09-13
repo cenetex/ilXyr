@@ -1,0 +1,9 @@
+{
+  "status": "staged_and_readback_verified",
+  "bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1",
+  "key": "packages/zero4-52/b9cd62c7577536bc284e53cc066d789eb0e65890ccff7668529bb6a33262aa02.tar",
+  "version_id": "uzHPhD4e.jjpziCh9RE2rOb3cW10D60R",
+  "bytes": 54886400,
+  "sha256": "b9cd62c7577536bc284e53cc066d789eb0e65890ccff7668529bb6a33262aa02",
+  "checked_epoch_seconds": 1789263502
+}

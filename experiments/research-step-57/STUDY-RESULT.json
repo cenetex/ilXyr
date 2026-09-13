@@ -1,0 +1,14 @@
+{
+  "controller_cpu_us": 82608,
+  "controller_wall_ns": 82628937,
+  "errors": [
+    {
+      "error": "full execution requires the frozen cloud adapter",
+      "phase": "controller"
+    }
+  ],
+  "performance_evidence": false,
+  "process_count": 0,
+  "schema": "ilxyr.zero4_study_result.v1",
+  "status": "failed"
+}

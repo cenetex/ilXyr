@@ -3,6 +3,7 @@ import copy
 import hashlib
 import json
 import os
+import runpy
 import shutil
 from pathlib import Path
 import subprocess
@@ -348,6 +349,27 @@ class ChunkTests(unittest.TestCase):
 
 
 class RuntimeTests(unittest.TestCase):
+    def test_cloud_cli_reaches_native_boundary_and_direct_study_keeps_guard(self):
+        import zero4_study as study
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name); prepared = root / 'prepared'; prepared.mkdir()
+            (prepared / 'MANIFEST.json').write_bytes(encode({'mode': 'cloud'}))
+            limits = json.loads((ROOT / PLAN).read_bytes())['study_limits']
+            with patch.object(study, 'validate', return_value={'limits': limits}), \
+                 patch.object(study, 'compile_binaries', side_effect=RuntimeError('controlled native boundary')) as build:
+                with self.assertRaisesRegex(ValueError, 'full execution requires the frozen cloud adapter'):
+                    study.run_study(prepared, root / 'direct')
+                build.assert_not_called()
+                args = ['zero4_cloud_runtime.py', 'controller', '--package', str(root), '--output', str(root / 'adapter')]
+                with patch.object(sys, 'argv', args), patch.object(sys, 'path', list(sys.path)):
+                    with self.assertRaisesRegex(RuntimeError, 'controlled native boundary'):
+                        runpy.run_path(str(ROOT / 'scripts/zero4_cloud_runtime.py'), run_name='__main__')
+                build.assert_called_once()
+            record = json.loads((root / 'adapter/RESULT.json').read_bytes())
+            self.assertEqual(record['mode'], 'cloud')
+            self.assertEqual(record['process_count'], 0)
+            self.assertEqual(record['errors'], [{'phase': 'controller', 'error': 'controlled native boundary'}])
+
     def test_changed_memory_limit_stops_before_full_controller(self):
         from package_zero4_cloud import unpack
         import zero4_cloud_runtime as runtime
