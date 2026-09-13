@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 import tarfile
 import tempfile
+import subprocess
+import sys
 import unittest
 from unittest.mock import patch
 from weight_pilot_package import OVERLAY, PLAN, payload, verify, archive
@@ -100,6 +102,15 @@ class PackageTests(unittest.TestCase):
         guard=MemoryGuard(100,0.02,reader=lambda:reads.append(1) or 3,clock=lambda:next(times))
         guard();guard();guard();self.assertEqual(len(reads),2)
 
+    @unittest.skipUnless(sys.platform=='linux','Linux process observations')
+    def test_live_descendant_memory(self):
+        child=subprocess.Popen([sys.executable,'-c','import time; b=bytearray(2*1024*1024); print("ready",flush=True); time.sleep(10)'],stdout=subprocess.PIPE,text=True)
+        try:
+            self.assertEqual(child.stdout.readline().strip(),'ready')
+            self.assertGreater(MemoryGuard.read(),2*1024*1024)
+        finally:
+            child.kill();child.wait(timeout=3);child.stdout.close()
+
     def test_frozen_control_order(self):
         plan=json.loads((Path(__file__).resolve().parents[1]/PLAN).read_bytes())
         roster=commands(Path('/runtime'),Path('/output'),plan)['jobs']
@@ -107,6 +118,67 @@ class PackageTests(unittest.TestCase):
         self.assertEqual(len({tuple(r['run']) for r in roster}),16)
         for r in roster:
             self.assertEqual(r['run'][2],r['id']);self.assertIn(r['directory'],r['check']);self.assertEqual(r['replay'][-1],r['directory'])
+
+
+class ControllerTests(unittest.TestCase):
+    def run_controller(self, fail=None, controller_seconds=None):
+        from contextlib import ExitStack
+        from weight_pilot_controller import execute
+        plan=json.loads((Path(__file__).resolve().parents[1]/PLAN).read_bytes())
+        if controller_seconds is not None:
+            plan['execution_limits']['maximum_controller_seconds']=controller_seconds
+        invoked=[];cleanup_calls=[]
+        with tempfile.TemporaryDirectory() as tmp, ExitStack() as stack:
+            output=Path(tmp)/'output';output.mkdir();runtime=output/'runtime';runtime.mkdir()
+            roster=commands(runtime,output,plan)
+            prepared={'source_commit':'a'*40,'plan_sha256':'b'*64,'commands':roster}
+            def fake_load(path):
+                path=Path(path)
+                if path.name=='PILOT-PLAN.json':
+                    return plan
+                if path.parent.name=='build':
+                    return {'status':'pass','lie_executable_sha256':[plan['runtime']['lie_sha256']]*2,'zero_executable_sha256':plan['runtime']['zero_sha256']}
+                return {'hold':'oracle_call_limit','totals':{'oracle_calls':20}}
+            def fake_process(command,cwd,path,deadline,grace,**kwargs):
+                path.mkdir(parents=True);invoked.append(path.name)
+                return {'status':'failed' if path.name==fail else 'complete','stop_reason':'invented_process_failure' if path.name==fail else None}
+            def cleanup():
+                cleanup_calls.append(1);return {'adopted_pids':[],'remaining_pids':[]}
+            for name,value in [('prepare',lambda *a:prepared),('load',fake_load),('sha',lambda p:'c'*64),
+                               ('run_process',fake_process),('adopt_children',lambda:None),('stop_adopted_children',cleanup)]:
+                stack.enter_context(patch('weight_pilot_controller.'+name,value))
+            stack.enter_context(patch('weight_pilot_controller.platform.system',return_value='Linux'))
+            stack.enter_context(patch('weight_pilot_controller.platform.machine',return_value='x86_64'))
+            result=execute(Path(tmp)/'package','d'*64,output)
+            saved=json.loads((output/'RESULT.json').read_bytes());self.assertEqual(saved,result)
+        self.assertEqual(len(cleanup_calls),len(invoked)+1)
+        return result,invoked
+
+    def test_all_jobs_keep_saved_holds(self):
+        result,invoked=self.run_controller()
+        self.assertEqual(result['status'],'complete_record');self.assertEqual(len(invoked),49)
+        self.assertEqual(len(result['jobs']),16)
+        self.assertTrue(all(j['status']=='verified' and j['hold']=='oracle_call_limit' for j in result['jobs']))
+
+    def test_job_failure_preserves_and_skips_remaining(self):
+        result,invoked=self.run_controller('0-uncached_fixed')
+        self.assertEqual(invoked,['build','0-uncached_fixed']);self.assertEqual(result['status'],'partial_record')
+        self.assertEqual(result['jobs'][0]['status'],'failed');self.assertEqual(sum(j['status']=='skipped' for j in result['jobs']),15)
+
+    def test_checker_failure_stops_future_jobs(self):
+        result,invoked=self.run_controller('0-uncached_fixed-check')
+        self.assertEqual(invoked,['build','0-uncached_fixed','0-uncached_fixed-check'])
+        self.assertEqual(result['jobs'][0]['reason'],'check_failed');self.assertEqual(sum(j['status']=='skipped' for j in result['jobs']),15)
+
+    def test_controller_reserves_collection_and_verification(self):
+        result,invoked=self.run_controller(controller_seconds=700)
+        self.assertEqual(invoked,['build']);self.assertEqual(result['status'],'partial_record')
+        self.assertTrue(all(j['reason']=='controller_reserve' for j in result['jobs']))
+
+    def test_build_failure_keeps_full_skipped_roster(self):
+        result,invoked=self.run_controller('build')
+        self.assertEqual(invoked,['build']);self.assertEqual(result['status'],'failed')
+        self.assertTrue(all(j['status']=='skipped' for j in result['jobs']));self.assertEqual(len(result['jobs']),16)
 
 
 if __name__=='__main__':
