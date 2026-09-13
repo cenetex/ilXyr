@@ -4,6 +4,10 @@ on:
     paths:
       - '.github/workflows/weight-source-kit.yml'
       - 'scripts/weight_*'
+      - 'scripts/lib/weight-*'
+      - 'scripts/test-weight-selection-pilot.mjs'
+      - 'scripts/research_weight_selection.mjs'
+      - 'experiments/research-step-55/**'
       - 'scripts/test_weight_source_kit.py'
       - 'scripts/feral_process.py'
       - 'experiments/research-step-33/**'
@@ -43,13 +47,16 @@ jobs:
         run: |
           mkdir "$RUNNER_TEMP/weight-smoke-root"
           docker run --rm --network none --memory 4g --cpus 2 --read-only --tmpfs /tmp:rw,size=128m --mount "type=bind,src=$PWD,dst=/work/repo,readonly" --mount "type=bind,src=$RUNNER_TEMP/weight-inputs,dst=/work/inputs,readonly" --mount "type=bind,src=$RUNNER_TEMP/weight-smoke-root,dst=/work/output" --entrypoint python3 docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870 /work/repo/scripts/weight_oracle_smoke.py --repo /work/repo --inputs /work/inputs --output /work/output/smoke
+      - name: Check the selection pilot against both native oracles
+        run: |
+          docker run --rm --network none --memory 2g --cpus 2 --read-only --tmpfs /tmp:rw,size=64m --mount "type=bind,src=$PWD,dst=/work/repo,readonly" --mount "type=bind,src=$RUNNER_TEMP/weight-smoke-root,dst=/work/output" --entrypoint timeout docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870 60s node /work/repo/scripts/weight_selection_smoke.mjs /work/output/smoke/lie-1/LiE/Lie.exe /work/output/smoke/zero/weight_multiplicity /work/output/smoke/SELECTION.json
       - name: Show compact status
         if: always()
         run: |
           python3 - <<'PY'
           import os,pathlib
           root=pathlib.Path(os.environ['RUNNER_TEMP'])/'weight-smoke-root/smoke'
-          for name in ['RESULT.json','FIXTURES.json']:
+          for name in ['RESULT.json','FIXTURES.json','SELECTION.json']:
               path=root/name
               if path.exists():print(name,path.read_text())
           for path in root.glob('logs/*/stderr.log'):
@@ -63,4 +70,5 @@ jobs:
           path: |
             ${{ runner.temp }}/weight-smoke-root/smoke/RESULT.json
             ${{ runner.temp }}/weight-smoke-root/smoke/FIXTURES.json
+            ${{ runner.temp }}/weight-smoke-root/smoke/SELECTION.json
             ${{ runner.temp }}/weight-smoke-root/smoke/logs/
