@@ -1606,6 +1606,28 @@
       "lineage_note": "Use a consistent writer for native results and verification records. Preserve a failed verification write separately from completed oracle work.",
       "evidence_path": "experiments/research-step-56/FAILURES.json",
       "evidence_ref": "artifact://sha256/cc0950eac03dc6f5bb311116eb839c4f4612e6a641fcd00026ae8f1e3c7c756c"
+    },
+    {
+      "seq": 75,
+      "verdict_id": "verdict:research.step57.zero4-cloud-adapter.v1",
+      "verdict_ref": "artifact://sha256/c59bd69c1cac573efc372efaa02f37446872e7f850f014c27c01936b336a809b",
+      "experiment_id": "research.step57.zero4-cloud-adapter.v1",
+      "family": "zero",
+      "outcome": "execution_failure",
+      "taxonomy": "implementation",
+      "mechanism_tags": [
+        "fixed-runtime",
+        "bounded-cost",
+        "controller-handoff"
+      ],
+      "summary": "The 160 GiB disk passed its reserve check. The cloud adapter omitted its full-mode flag, so the study stopped with zero native processes. Failure collection and provider cleanup verified.",
+      "recorded_at_ms": 1789264089528,
+      "project": "zero4",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "execution_failure",
+      "lineage_note": "Test the real cloud adapter command through a controlled native boundary, then bind the repaired adapter to a new exact package and approval.",
+      "evidence_path": "experiments/research-step-57/FINDINGS.json",
+      "evidence_ref": "artifact://sha256/07bbbc5429f6d1dacc703a8e33e1b73011013f3a1cf268f22fbce18cd4bb212c"
     }
   ]
 }

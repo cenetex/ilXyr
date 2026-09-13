@@ -10,7 +10,15 @@ rules. Solomon's fresh panel favored smoothed suffix-count confidence. The
 weight corpus reached its call limit with 79,452 training rows preserved.
 ZERO.4 stopped at its disk-reserve check before scientific work. Four result
 checks pass after download, and ZERO.4's failure records verify. The shared
-failure ledger now has 75 entries, with a linked next design for each project.
+failure ledger now has 76 entries, with a linked next design for each project.
+
+The [ZERO.4 replacement run](../experiments/research-step-57/REPORT.md) passed
+the larger disk check, then stopped before model work because its cloud adapter
+omitted the full-mode flag. Its complete failure archive and provider cleanup
+verify. The repaired adapter passes all 19 host tests, including a regression
+through the real command entry point. A new exact package preserves the
+scientific inputs and rules. Its next paid comparison follows replacement
+package approval.
 
 The [native weight pilot package](../experiments/research-step-56/REPORT.md)
 now binds all four controls, sixteen ordered jobs, exact native call records
@@ -40,11 +48,11 @@ all three older numeric development answers. That coverage failure is preserved
 in the shared ledger. The next selector needs source context for label and
 baseline mappings, plus an independent wording roster.
 
-The [ZERO.4 storage repair](../experiments/research-step-52/REPORT.md) now uses
-a 160 GiB disk and the observed 75 GiB source snapshot. Eighteen host tests
-and the fixed Linux runtime check pass. The corrected package awaits explicit
-staging approval after automatic review rejected its upload. Its full study
-keeps the same inputs, methods, rules, $12 ceiling and 13.5-hour limit.
+The [ZERO.4 storage repair](../experiments/research-step-52/REPORT.md) uses
+a 160 GiB disk and the observed 75 GiB source snapshot. Its approved replacement
+passed the live disk reserve check. The later adapter failure and repair are
+recorded in step 57. The full study keeps the same inputs, methods, rules,
+$12 ceiling and 13.5-hour limit.
 
 The [completed Reasoner comparison](../experiments/research-step-26/REPORT.md)
 missed both primary benefit gates against matched lexical guidance on 128
