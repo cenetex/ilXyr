@@ -1,0 +1,211 @@
+{
+  "arms": [
+    {
+      "cache": false,
+      "id": "uncached_fixed",
+      "rotate": false
+    },
+    {
+      "cache": true,
+      "id": "cached_fixed",
+      "rotate": false
+    },
+    {
+      "cache": false,
+      "id": "uncached_rotated",
+      "rotate": true
+    },
+    {
+      "cache": true,
+      "id": "cached_rotated",
+      "rotate": true
+    }
+  ],
+  "cache_limits": {
+    "maxEntries": 20000,
+    "maxKeyBytes": 512,
+    "maxPayloadBytes": 16777216,
+    "maxValueBytes": 4096
+  },
+  "cloud_status": "host_package_price_preflight_and_exact_approval_pending",
+  "differential": {
+    "require_all_selected_answers": "exact_agreement",
+    "sample_every": 100,
+    "sampling": "first_successful_type_stratum_status_and_sha256_key_mod_100_zero",
+    "scope": "Successful new primary queries, including labels outside the requested range."
+  },
+  "execution_limits": {
+    "build_seconds": 260,
+    "collection_seconds": 300,
+    "hard_query_timeout_ms": 10000,
+    "job_seconds": 180,
+    "max_descendant_rss_bytes": 2147483648,
+    "max_log_bytes_per_process": 8388608,
+    "max_result_bytes_per_job": 67108864,
+    "max_trace_bytes_per_job": 67108864,
+    "maximum_controller_seconds": 3900,
+    "memory_sample_ms": 20,
+    "verification_seconds": 300
+  },
+  "gates": {
+    "capacity": "Sampled support remains unknown; finite capacity claims require a complete declared roster.",
+    "original_corpus": "Keep partition, exact label, global query, orbit, differential, latency and resource gates for later corpus acceptance.",
+    "timing": "Compare the four arms only on this frozen machine and runtime. Include failed calls and cache lookup work.",
+    "usefulness": "Compare new accepted rows by stratum at matched draw and new-call limits. Preserve every incomplete or failed job."
+  },
+  "input_hashes": {
+    "examples/weight-multiplicity/phase06-reduced-corpus-manifest-v1.json": "1d097675fbff83e704cfd0128ea98caa116d6bcb3573fa7ef314b9d1f357a733",
+    "examples/weight-multiplicity/phase1-corpus-plan-v1.json": "9311b0f28de0f3f42614fd17fa808d812ae7a0ad354fa723f55222b0b4116e18",
+    "examples/weight-multiplicity/phase1-root-systems-v1.json": "b8b175011909e6734bc6d6a6d55b3d09a67c34a5106a5908a5029206bf4f0271"
+  },
+  "ordered_jobs": [
+    {
+      "arm": "uncached_fixed",
+      "id": "0-uncached_fixed",
+      "seed": 1378397233
+    },
+    {
+      "arm": "cached_fixed",
+      "id": "0-cached_fixed",
+      "seed": 1378397233
+    },
+    {
+      "arm": "uncached_rotated",
+      "id": "0-uncached_rotated",
+      "seed": 1378397233
+    },
+    {
+      "arm": "cached_rotated",
+      "id": "0-cached_rotated",
+      "seed": 1378397233
+    },
+    {
+      "arm": "cached_fixed",
+      "id": "1-cached_fixed",
+      "seed": 1378397234
+    },
+    {
+      "arm": "uncached_rotated",
+      "id": "1-uncached_rotated",
+      "seed": 1378397234
+    },
+    {
+      "arm": "cached_rotated",
+      "id": "1-cached_rotated",
+      "seed": 1378397234
+    },
+    {
+      "arm": "uncached_fixed",
+      "id": "1-uncached_fixed",
+      "seed": 1378397234
+    },
+    {
+      "arm": "uncached_rotated",
+      "id": "2-uncached_rotated",
+      "seed": 1378397235
+    },
+    {
+      "arm": "cached_rotated",
+      "id": "2-cached_rotated",
+      "seed": 1378397235
+    },
+    {
+      "arm": "uncached_fixed",
+      "id": "2-uncached_fixed",
+      "seed": 1378397235
+    },
+    {
+      "arm": "cached_fixed",
+      "id": "2-cached_fixed",
+      "seed": 1378397235
+    },
+    {
+      "arm": "cached_rotated",
+      "id": "3-cached_rotated",
+      "seed": 1378397236
+    },
+    {
+      "arm": "uncached_fixed",
+      "id": "3-uncached_fixed",
+      "seed": 1378397236
+    },
+    {
+      "arm": "cached_fixed",
+      "id": "3-cached_fixed",
+      "seed": 1378397236
+    },
+    {
+      "arm": "uncached_rotated",
+      "id": "3-uncached_rotated",
+      "seed": 1378397236
+    }
+  ],
+  "pilot_limits": {
+    "batchSize": 64,
+    "maxAcceptedRows": 4096,
+    "maxBatches": 1024,
+    "maxDraws": 50000,
+    "maxEvaluations": 50000,
+    "maxOracleCalls": 20000
+  },
+  "representations": 245,
+  "role": "training_or_development",
+  "runtime": {
+    "architecture": "x86_64",
+    "gcc": "12.2.0",
+    "image": "docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870",
+    "lie_sha256": "bf34052d0fd655ba975bd03c892454b0ef1298994bc72aceaf6706b6cc65d83c",
+    "lie_workers": 1,
+    "node": "22.22.0",
+    "zero_sha256": "8e273da671bb0a883bc5668e3e76e409a98b59c54b2cc94977bc052b3b7ee9bf"
+  },
+  "schema": "ilxyr.weight_native_pilot_plan.v1",
+  "scope": "Opened training-source sampling and capacity comparison. Full corpus acceptance remains a later gate.",
+  "slices": [
+    {
+      "desired": "0",
+      "required": 768,
+      "status": "dominant"
+    },
+    {
+      "desired": "0",
+      "required": 256,
+      "status": "non_dominant"
+    },
+    {
+      "desired": "1",
+      "required": 768,
+      "status": "dominant"
+    },
+    {
+      "desired": "1",
+      "required": 256,
+      "status": "non_dominant"
+    },
+    {
+      "desired": "2-7",
+      "required": 768,
+      "status": "dominant"
+    },
+    {
+      "desired": "2-7",
+      "required": 256,
+      "status": "non_dominant"
+    },
+    {
+      "desired": "8-31",
+      "required": 768,
+      "status": "dominant"
+    },
+    {
+      "desired": "8-31",
+      "required": 256,
+      "status": "non_dominant"
+    }
+  ],
+  "source_kit": {
+    "bytes": 16465920,
+    "sha256": "30e2926603988c29c5ff0d24138fd59d16c05eb21f01cc5bcfce00009d6433dd"
+  },
+  "status": "source_package_preparation"
+}
