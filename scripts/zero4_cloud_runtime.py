@@ -88,6 +88,6 @@ if __name__ == '__main__':
     if a.mode == 'controller':
         sys.path.insert(0, str(a.package.resolve() / 'controller/scripts'))
         from zero4_study import run_study
-        result = run_study(a.package.resolve() / 'prepared', a.output.resolve())
+        result = run_study(a.package.resolve() / 'prepared', a.output.resolve(), cloud_adapter=True)
     else: result = run(a.package, a.output, a.mode, a.execution)
     print(json.dumps({'status': result['status']}))
