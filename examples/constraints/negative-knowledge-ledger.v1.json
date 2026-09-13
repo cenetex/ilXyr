@@ -1514,6 +1514,52 @@
       "lineage_note": "Cache known exact query results. Estimate new accepted rows under the final query and orbit rules at increasing occupancy before freezing a new budget.",
       "evidence_path": "experiments/research-step-54/RESULT.json",
       "evidence_ref": "artifact://sha256/7918937c639897101c1a4e6f8a0d465cbd949d7a475bb5851e78bd117fb2c5d4"
+    },
+    {
+      "seq": 71,
+      "verdict_id": "verdict:research.step55.weight-slice-starvation.v1",
+      "verdict_ref": "artifact://sha256/65d1457e7a19e3a81f1712b53da17b99d0b8747f755b3ee1ba783504dbf22117",
+      "experiment_id": "research.step55.weight-slice-starvation.v1",
+      "family": "ilxyr",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "implementation",
+      "mechanism_tags": [
+        "query-cache",
+        "sampling-yield",
+        "selection-capacity",
+        "batch-scheduling"
+      ],
+      "summary": "A two-range development fixture accepts zero rows with original ordering because its first range repeatedly reserves and rejects the shared query. Rotating the first unfinished range accepts the reachable row with the same one new query and one cache hit.",
+      "recorded_at_ms": 1789257825608,
+      "project": "weight_multiplicity",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "development_quota_hold",
+      "lineage_note": "Use the rotated scheduler in both the pilot and training selection. Preserve the original ordering as a control.",
+      "evidence_path": "experiments/research-step-55/RESULT.json",
+      "evidence_ref": "artifact://sha256/d2c89e7db382dd94ff5291e5815b0fb215e0f25bf9cfc113efcbf2db88830e83"
+    },
+    {
+      "seq": 72,
+      "verdict_id": "verdict:research.step55.weight-finite-capacity.v1",
+      "verdict_ref": "artifact://sha256/9dc53904338b8ec97128ad489d79e0752a50de888194daabc70c1c89df97c9cc",
+      "experiment_id": "research.step55.weight-finite-capacity.v1",
+      "family": "ilxyr",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "mechanism_tags": [
+        "query-cache",
+        "sampling-yield",
+        "selection-capacity",
+        "batch-scheduling"
+      ],
+      "summary": "A finite two-query roster has perfect raw label matches yet can fill only one of two required rows because both queries share one allowed orbit. The source-bound A1 smoke also fills one of two requested rows. Cache reuse retains the quota hold.",
+      "recorded_at_ms": 1789257825608,
+      "project": "weight_multiplicity",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "development_quota_hold",
+      "lineage_note": "Measure accepted unique rows at increasing occupancy and carry finite support evidence or an explicit unknown state into each quota decision.",
+      "evidence_path": "experiments/research-step-55/RESULT.json",
+      "evidence_ref": "artifact://sha256/d2c89e7db382dd94ff5291e5815b0fb215e0f25bf9cfc113efcbf2db88830e83"
     }
   ]
 }

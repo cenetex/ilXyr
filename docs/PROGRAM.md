@@ -10,7 +10,15 @@ rules. Solomon's fresh panel favored smoothed suffix-count confidence. The
 weight corpus reached its call limit with 79,452 training rows preserved.
 ZERO.4 stopped at its disk-reserve check before scientific work. Four result
 checks pass after download, and ZERO.4's failure records verify. The shared
-failure ledger now has 71 entries, with a linked next design for each project.
+failure ledger now has 73 entries, with a linked next design for each project.
+
+The [weight selection pilot](../experiments/research-step-55/REPORT.md) now caches
+exact query results in fixed buffers and measures accepted rows after query and
+orbit selection. Its tests expose a fixed-start scheduling failure and a finite
+roster that cannot fill its quotas despite perfect raw label matches. Rotation
+repairs the reachable range; quota holds and unknown support remain explicit.
+The next package must bind the native pilot, its controls and an independent
+result checker before a fresh cloud comparison.
 
 The [weight yield audit](../experiments/research-step-54/REPORT.md) finds that
 81.63% of generation calls repeat earlier queries. Almost all those repeats miss

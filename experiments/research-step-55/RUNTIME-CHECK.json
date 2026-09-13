@@ -1,0 +1,36 @@
+{
+  "development": [
+    {
+      "bytes": 48818,
+      "platform": "ubuntu-latest",
+      "result_sha256": "d2c89e7db382dd94ff5291e5815b0fb215e0f25bf9cfc113efcbf2db88830e83",
+      "run": 34726942398,
+      "status": "byte_equal"
+    },
+    {
+      "bytes": 48818,
+      "platform": "macos-latest",
+      "result_sha256": "d2c89e7db382dd94ff5291e5815b0fb215e0f25bf9cfc113efcbf2db88830e83",
+      "run": 34726942398,
+      "status": "byte_equal"
+    }
+  ],
+  "native_smoke": {
+    "build_record_sha256": "41969d04f8880beacfc8bff95446f80e9d7a0654c545d39612047feec6de40c0",
+    "build_runtime": {
+      "bison": "bison (GNU Bison) 3.8.2",
+      "gcc": "12.2.0",
+      "node": "22.22.0",
+      "python": "Python 3.11.2"
+    },
+    "matched_binary_hashes": true,
+    "native_calls_per_smoke_invocation": 15,
+    "result_sha256": "48f4f4e69a90daea5217e820ea899d4ca4d9d85cc26d0a57ce26504b7f482a3e",
+    "run": 34726942371,
+    "status": "passed_with_expected_quota_hold"
+  },
+  "schema": "ilxyr.weight_selection_runtime_check.v1",
+  "scope": "Correctness and record equality. Full corpus yield and performance remain for the separately frozen comparison.",
+  "source_commit": "8b6ebb32920fcca25d1eb733457fe8d3765726c7",
+  "status": "verified"
+}
