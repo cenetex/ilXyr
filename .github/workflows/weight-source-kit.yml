@@ -8,6 +8,7 @@ on:
       - 'scripts/test-weight-selection-pilot.mjs'
       - 'scripts/research_weight_selection.mjs'
       - 'experiments/research-step-55/**'
+      - 'experiments/research-step-56/**'
       - 'scripts/test_weight_source_kit.py'
       - 'scripts/feral_process.py'
       - 'experiments/research-step-33/**'
@@ -50,6 +51,11 @@ jobs:
       - name: Check the selection pilot against both native oracles
         run: |
           docker run --rm --network none --memory 2g --cpus 2 --read-only --tmpfs /tmp:rw,size=64m --mount "type=bind,src=$PWD,dst=/work/repo,readonly" --mount "type=bind,src=$RUNNER_TEMP/weight-smoke-root,dst=/work/output" --entrypoint timeout docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870 60s node /work/repo/scripts/weight_selection_smoke.mjs /work/output/smoke/lie-1/LiE/Lie.exe /work/output/smoke/zero/weight_multiplicity /work/output/smoke/SELECTION.json
+      - name: Record and independently verify the native A1 pilot
+        run: |
+          docker run --rm --network none --memory 2g --cpus 2 --read-only --tmpfs /tmp:rw,size=64m --mount "type=bind,src=$PWD,dst=/work/repo,readonly" --mount "type=bind,src=$RUNNER_TEMP/weight-smoke-root,dst=/work/output" --entrypoint timeout docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870 60s node /work/repo/scripts/weight_pilot_job.mjs smoke /work/output/smoke/lie-1/LiE/Lie.exe /work/output/smoke/zero/weight_multiplicity /work/output/smoke/native-pilot
+          python3 -B scripts/weight_native_check.py --directory "$RUNNER_TEMP/weight-smoke-root/smoke/native-pilot" --repo "$PWD" --output "$RUNNER_TEMP/weight-smoke-root/smoke/native-pilot/CHECK.json"
+          node scripts/weight_pilot_replay.mjs "$RUNNER_TEMP/weight-smoke-root/smoke/native-pilot" > "$RUNNER_TEMP/weight-smoke-root/smoke/native-pilot/REPLAY.json"
       - name: Show compact status
         if: always()
         run: |
@@ -72,3 +78,4 @@ jobs:
             ${{ runner.temp }}/weight-smoke-root/smoke/FIXTURES.json
             ${{ runner.temp }}/weight-smoke-root/smoke/SELECTION.json
             ${{ runner.temp }}/weight-smoke-root/smoke/logs/
+            ${{ runner.temp }}/weight-smoke-root/smoke/native-pilot/

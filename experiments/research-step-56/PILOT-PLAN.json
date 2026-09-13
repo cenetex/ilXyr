@@ -148,6 +148,10 @@
     "maxEvaluations": 50000,
     "maxOracleCalls": 20000
   },
+  "random": {
+    "candidate_domain": "weight-pilot-candidate-v1",
+    "picker_domain": "weight-pilot-v1"
+  },
   "representations": 245,
   "role": "training_or_development",
   "runtime": {
@@ -203,6 +207,37 @@
       "status": "non_dominant"
     }
   ],
+  "smoke": {
+    "cache_limits": {
+      "maxEntries": 16,
+      "maxKeyBytes": 512,
+      "maxPayloadBytes": 4096,
+      "maxValueBytes": 64
+    },
+    "job": {
+      "arm": "cached_rotated",
+      "id": "smoke",
+      "seed": 17
+    },
+    "limits": {
+      "batchSize": 4,
+      "maxAcceptedRows": 4,
+      "maxBatches": 4,
+      "maxDraws": 1000,
+      "maxEvaluations": 64,
+      "maxOracleCalls": 16
+    },
+    "representation_ids": [
+      "A1:1"
+    ],
+    "slices": [
+      {
+        "desired": "1",
+        "required": 2,
+        "status": "dominant"
+      }
+    ]
+  },
   "source_kit": {
     "bytes": 16465920,
     "sha256": "30e2926603988c29c5ff0d24138fd59d16c05eb21f01cc5bcfce00009d6433dd"
