@@ -1,9 +1,9 @@
 // Reproduce the frozen generator with saved answers; native calls belong to the run.
 import assert from 'node:assert/strict';
-import { readFileSync, statSync } from 'node:fs';
+import { readFileSync, statSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { setup, selection, encode, digest } from './weight_pilot_job.mjs';
-const [directory] = process.argv.slice(2); assert.equal(process.argv.length,3);
+const [directory, output] = process.argv.slice(2); assert.ok([3,4].includes(process.argv.length));
 const load = name => { const path=resolve(directory,name); assert.ok(statSync(path).size <= 64*1024*1024); return JSON.parse(readFileSync(path)); };
 const run=load('RUN.json'); const settings=setup(run.job.id);
 assert.deepEqual(run.job,settings.job); assert.deepEqual(load('CONFIG.json'),settings.config);
@@ -20,5 +20,7 @@ const replayed=await selection(settings,async (candidate,number) => {
 },event => hash.update(JSON.stringify({sequence:++sequence,...event})+'\n'));
 assert.equal(index,answers.length); assert.deepEqual(replayed,result);
 assert.equal(hash.digest('hex'),run.files['events.jsonl'].sha256);
-console.log(JSON.stringify({status:'verified_generator_replay',events:sequence,new_answers:index,native_oracle_calls:0,
-  contract_sha256:digest(encode(settings.contract))}));
+const receipt=JSON.stringify({status:'verified_generator_replay',events:sequence,new_answers:index,native_oracle_calls:0,
+  contract_sha256:digest(encode(settings.contract))});
+if (output) writeFileSync(output,receipt+'\n',{flag:'wx'});
+console.log(receipt);
