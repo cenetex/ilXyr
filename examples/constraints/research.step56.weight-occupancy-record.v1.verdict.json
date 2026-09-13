@@ -1,0 +1,28 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-56/FAILURES.json",
+  "evidence_ref": "artifact://sha256/cc0950eac03dc6f5bb311116eb839c4f4612e6a641fcd00026ae8f1e3c7c756c",
+  "experiment_id": "research.step56.weight-occupancy-record.v1",
+  "family": "ilxyr",
+  "id": "verdict:research.step56.weight-occupancy-record.v1",
+  "lineage_note": "Record every counted decision before a hold. Require independent replay of counters and retained rows.",
+  "mechanism": "Row-limit decisions and independent cost replay",
+  "mechanism_tags": [
+    "native-oracle",
+    "result-replay",
+    "cost-accounting",
+    "failure-custody"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "weight_multiplicity",
+  "recorded_at_ms": 1789261104808,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "validation_failure",
+  "summary": "A completed batch counts its next matching label before the row-limit hold. The initial trace omits that decision, so independent replay rejects the checkpoint counters. An explicit occupancy-limit event repairs the record; all twelve fixtures verify.",
+  "taxonomy": "measurement"
+}

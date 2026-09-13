@@ -1,0 +1,18 @@
+{
+  "archive_name": "pilot-package-02.tar",
+  "base_source_kit": {
+    "bytes": 16465920,
+    "sha256": "30e2926603988c29c5ff0d24138fd59d16c05eb21f01cc5bcfce00009d6433dd"
+  },
+  "bytes": 16578560,
+  "execution_authorized": false,
+  "external_gate": "host wrapper, fixed machine and image receipt, price, preflight and package approval",
+  "files": 13,
+  "preparation_oracle_starts": 0,
+  "prepare_sha256": "cd05cfbb86aa24eb516d926b7c660312418d5351b35e71afaf33d395264986a3",
+  "prepared_jobs": 16,
+  "schema": "ilxyr.weight_pilot_package_record.v1",
+  "sha256": "adea1791925e3336d28e4a26ccc80c5c20baa7892fc84675b422e325295569c7",
+  "source_commit": "57db690ec7c03dd19d6358bb52d173111a4bcd07",
+  "status": "source_package_verified_and_prepared"
+}

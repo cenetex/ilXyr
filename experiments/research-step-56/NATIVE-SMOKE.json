@@ -1,0 +1,413 @@
+{
+  "CHECK.json": {
+    "generator_order": "requires_source_bound_replay",
+    "job": {
+      "arm": "cached_rotated",
+      "id": "smoke",
+      "seed": 17
+    },
+    "native": {
+      "calls": 3,
+      "groups": {
+        "lie_setup": {
+          "calls": 1,
+          "p99_ms": 1.6254800000000031,
+          "statuses": {
+            "ok": 1
+          },
+          "total_elapsed_ms": 1.6254800000000031
+        },
+        "lie_workload": {
+          "calls": 1,
+          "p99_ms": 0.4354770000000059,
+          "statuses": {
+            "ok": 1
+          },
+          "total_elapsed_ms": 0.4354770000000059
+        },
+        "zero_setup": {
+          "calls": 0,
+          "p99_ms": null,
+          "statuses": {},
+          "total_elapsed_ms": 0
+        },
+        "zero_workload": {
+          "calls": 1,
+          "p99_ms": 2.0163829999999905,
+          "statuses": {
+            "ok": 1
+          },
+          "total_elapsed_ms": 2.0163829999999905
+        }
+      },
+      "selected_differential_calls": 1,
+      "status": "verified_native_calls",
+      "trace_sha256": "6d5c30e2fdb00f6d71d1e088a1480c148d75b8af214f4f246859b754f9d3d26d"
+    },
+    "run_sha256": "6035e0beb83c62e19c5bb47206983a313fdf69aa219a9cd2e593d7fa890bb2b6",
+    "schema": "ilxyr.weight_native_check.v1",
+    "selection": {
+      "accepted_rows": 1,
+      "cache_hits": 0,
+      "events": 805,
+      "hold": "candidate_generation_exhausted",
+      "oracle_calls": 1,
+      "status": "verified_selection_and_accounting"
+    },
+    "status": "verified_native_and_selection",
+    "timing_scope": "Recorded native call durations including failures. Full job cost belongs to the process receipt."
+  },
+  "CONFIG.json": {
+    "cache": true,
+    "cache_limits": {
+      "maxEntries": 16,
+      "maxKeyBytes": 512,
+      "maxPayloadBytes": 4096,
+      "maxValueBytes": 64
+    },
+    "limits": {
+      "batchSize": 4,
+      "maxAcceptedRows": 4,
+      "maxBatches": 4,
+      "maxDraws": 1000,
+      "maxEvaluations": 64,
+      "maxOracleCalls": 16
+    },
+    "oracle_sha256": "46acee7e68dafa3af6bcf4b701989f1581e30f62153db7fee7a24b5e11c9c628",
+    "rotate": true,
+    "slices": [
+      {
+        "desired": "1",
+        "required": 2,
+        "status": "dominant"
+      }
+    ]
+  },
+  "CONTRACT.json": {
+    "coordinate_mapping": {
+      "E6": [
+        0,
+        5,
+        1,
+        2,
+        3,
+        4
+      ],
+      "E7": [
+        0,
+        6,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "E8": [
+        0,
+        7,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "F4": [
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    "differential": "Zero_fresh_process_query",
+    "differential_sample_every": 100,
+    "hard_query_timeout_ms": 10000,
+    "lie_sha256": "bf34052d0fd655ba975bd03c892454b0ef1298994bc72aceaf6706b6cc65d83c",
+    "primary": "LiE_persistent_dom_char",
+    "schema": "ilxyr.weight_pilot_oracle_contract.v1",
+    "zero_sha256": "8e273da671bb0a883bc5668e3e76e409a98b59c54b2cc94977bc052b3b7ee9bf"
+  },
+  "REPLAY.json": {
+    "contract_sha256": "46acee7e68dafa3af6bcf4b701989f1581e30f62153db7fee7a24b5e11c9c628",
+    "events": 805,
+    "native_oracle_calls": 0,
+    "new_answers": 1,
+    "status": "verified_generator_replay"
+  },
+  "RESULT.json": {
+    "accepted": [
+      {
+        "canonical_type": "A1",
+        "highest_weight": [
+          1
+        ],
+        "multiplicity": "1",
+        "orbit_key": "A1|A1:1|1",
+        "query_key": "A1\t1\t1",
+        "slice_id": "1|dominant",
+        "source_query_sequence": 1,
+        "target_status": "dominant",
+        "target_weight": [
+          1
+        ]
+      }
+    ],
+    "by_slice": {
+      "1|dominant": {
+        "accepted_rows": 1,
+        "cache_hits": 0,
+        "candidate_draws": 800,
+        "candidate_evaluations": 1,
+        "candidates_reserved": 1,
+        "construction_failed": 0,
+        "label_matches": 1,
+        "no_representation": 0,
+        "oracle_calls": 1,
+        "oracle_failures": 0,
+        "orbit_exclusions": 0,
+        "query_exclusions": 799,
+        "quota_rejections": 0,
+        "stratum_rejections": 0
+      }
+    },
+    "cache": {
+      "allocated_buffer_bytes": 4480,
+      "entries": 1,
+      "max_entries": 16,
+      "max_key_bytes": 512,
+      "max_payload_bytes": 4096,
+      "max_value_bytes": 64,
+      "oracle_sha256": "46acee7e68dafa3af6bcf4b701989f1581e30f62153db7fee7a24b5e11c9c628",
+      "used_payload_bytes": 7
+    },
+    "candidate_support": {
+      "reason": "Sampling observations cover proposed candidates; complete reachable support requires a separate finite roster.",
+      "status": "unknown"
+    },
+    "checkpoints": [
+      {
+        "accepted_rows": 1,
+        "batch": 1,
+        "slices": [
+          {
+            "accepted": 1,
+            "accepted_rows": 1,
+            "cache_hits": 0,
+            "calls_for_remaining_at_block_rate": 1,
+            "candidate_draws": 400,
+            "candidate_evaluations": 1,
+            "candidates_reserved": 1,
+            "construction_failed": 0,
+            "id": "1|dominant",
+            "label_matches": 1,
+            "new_rows_per_draw": 0.0025,
+            "no_representation": 0,
+            "oracle_calls": 1,
+            "oracle_failures": 0,
+            "orbit_exclusions": 0,
+            "query_exclusions": 399,
+            "quota_rejections": 0,
+            "remaining": 1,
+            "stratum_rejections": 0
+          }
+        ]
+      },
+      {
+        "accepted_rows": 1,
+        "batch": 2,
+        "slices": [
+          {
+            "accepted": 1,
+            "accepted_rows": 0,
+            "cache_hits": 0,
+            "calls_for_remaining_at_block_rate": null,
+            "candidate_draws": 400,
+            "candidate_evaluations": 0,
+            "candidates_reserved": 0,
+            "construction_failed": 0,
+            "id": "1|dominant",
+            "label_matches": 0,
+            "new_rows_per_draw": 0,
+            "no_representation": 0,
+            "oracle_calls": 0,
+            "oracle_failures": 0,
+            "orbit_exclusions": 0,
+            "query_exclusions": 400,
+            "quota_rejections": 0,
+            "remaining": 1,
+            "stratum_rejections": 0
+          }
+        ]
+      }
+    ],
+    "evaluations": [
+      {
+        "disposition": "accepted",
+        "multiplicity": "1",
+        "observed_stratum": "1",
+        "query_key": "A1\t1\t1",
+        "slice_id": "1|dominant",
+        "source": "oracle",
+        "source_query_sequence": 1,
+        "status": "ok"
+      }
+    ],
+    "hold": "candidate_generation_exhausted",
+    "limits": {
+      "batchSize": 4,
+      "maxAcceptedRows": 4,
+      "maxBatches": 4,
+      "maxDraws": 1000,
+      "maxEvaluations": 64,
+      "maxOracleCalls": 16
+    },
+    "mode": "cached",
+    "oracle_sha256": "46acee7e68dafa3af6bcf4b701989f1581e30f62153db7fee7a24b5e11c9c628",
+    "projection_scope": "Observed block rates only. Adaptive selection and cache occupancy require a new prospective budget study.",
+    "scheduling": "rotate_unfinished_slices_each_batch",
+    "schema": "ilxyr.weight_selection_pilot.v1",
+    "selected_orbits": 1,
+    "selected_queries": 1,
+    "slices": [
+      {
+        "accepted": 1,
+        "attempts": 1,
+        "desired": "1",
+        "id": "1|dominant",
+        "required": 2,
+        "status": "dominant"
+      }
+    ],
+    "status": "hold",
+    "totals": {
+      "accepted_rows": 1,
+      "cache_hits": 0,
+      "candidate_draws": 800,
+      "candidate_evaluations": 1,
+      "candidates_reserved": 1,
+      "construction_failed": 0,
+      "label_matches": 1,
+      "no_representation": 0,
+      "oracle_calls": 1,
+      "oracle_failures": 0,
+      "orbit_exclusions": 0,
+      "query_exclusions": 799,
+      "quota_rejections": 0,
+      "stratum_rejections": 0
+    }
+  },
+  "RUN.json": {
+    "contract_sha256": "46acee7e68dafa3af6bcf4b701989f1581e30f62153db7fee7a24b5e11c9c628",
+    "files": {
+      "CONFIG.json": {
+        "bytes": 509,
+        "sha256": "98d7d2782eef54c4523135e51627d68572493e1a29b6d8f45be3012431d222b9"
+      },
+      "CONTRACT.json": {
+        "bytes": 708,
+        "sha256": "46acee7e68dafa3af6bcf4b701989f1581e30f62153db7fee7a24b5e11c9c628"
+      },
+      "RESULT.json": {
+        "bytes": 4212,
+        "sha256": "3a164f8a0ced2a850ff8d1a3ea51eacb432524683933d2c8e1078629bf620082"
+      },
+      "events.jsonl": {
+        "bytes": 228443,
+        "events": 805,
+        "sha256": "7944a68ae68d51db09bc65dec5c2646eb1fbed690a7ef2ab83fd0afc509b1f62"
+      },
+      "native.jsonl": {
+        "bytes": 838,
+        "events": 6,
+        "sha256": "6d5c30e2fdb00f6d71d1e088a1480c148d75b8af214f4f246859b754f9d3d26d"
+      }
+    },
+    "job": {
+      "arm": "cached_rotated",
+      "id": "smoke",
+      "seed": 17
+    },
+    "plan_sha256": "a6e902e9441817cfdea7566b88e26b9edf6625b94fba70220335d294c3787da8",
+    "representations": [
+      "A1:1"
+    ],
+    "schema": "ilxyr.weight_native_job.v1",
+    "scope": "small_A1_correctness",
+    "status": "complete_record"
+  },
+  "downloaded_recheck": {
+    "check_sha256": "358c231b3a2538ab21aaa77ce207ce719f9d699dc8193423a5cc9726c34a6c22",
+    "native_oracle_calls": 0,
+    "replay_sha256": "ec0593353c39df9055cc26f3371d3f716197f672a86e7ff89600a6c8c2e144de"
+  },
+  "native_events": [
+    {
+      "call_id": 1,
+      "input": "dom_char([1],[1],A1)",
+      "kind": "start",
+      "oracle": "lie",
+      "phase": "setup",
+      "query_key": "A1\t1\t1",
+      "sequence": 1,
+      "source_query_sequence": 0
+    },
+    {
+      "call_id": 1,
+      "elapsed_ms": 1.6254800000000031,
+      "kind": "finish",
+      "multiplicity": "1",
+      "sequence": 2,
+      "status": "ok"
+    },
+    {
+      "call_id": 2,
+      "input": "dom_char([1],[1],A1)",
+      "kind": "start",
+      "oracle": "lie",
+      "phase": "workload",
+      "query_key": "A1\t1\t1",
+      "sequence": 3,
+      "slice_id": "1|dominant",
+      "source_query_sequence": 1
+    },
+    {
+      "call_id": 2,
+      "elapsed_ms": 0.4354770000000059,
+      "kind": "finish",
+      "multiplicity": "1",
+      "sequence": 4,
+      "status": "ok"
+    },
+    {
+      "call_id": 3,
+      "input": [
+        "query",
+        "A1",
+        "1",
+        "1"
+      ],
+      "kind": "start",
+      "oracle": "zero",
+      "phase": "workload",
+      "query_key": "A1\t1\t1",
+      "sequence": 5,
+      "slice_id": "1|dominant",
+      "source_query_sequence": 1
+    },
+    {
+      "call_id": 3,
+      "elapsed_ms": 2.0163829999999905,
+      "kind": "finish",
+      "multiplicity": "1",
+      "sequence": 6,
+      "status": "ok"
+    }
+  ],
+  "scope": "small_A1_correctness_with_saved_call_durations",
+  "source_ci": {
+    "run": 34729240833,
+    "source_commit": "57db690ec7c03dd19d6358bb52d173111a4bcd07",
+    "status": "passed",
+    "url": "https://github.com/cenetex/ilXyr/actions/runs/34729240833"
+  }
+}
