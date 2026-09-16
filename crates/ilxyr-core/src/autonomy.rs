@@ -803,6 +803,17 @@ fn reserve_allocation(
     Ok(allocation)
 }
 
+fn reserve_credits(total: u64, percentage: f64, label: &str) -> Result<u64> {
+    let basis_points = percentage_basis_points(percentage)?;
+    let product = u128::from(total) * basis_points;
+    let reserved = product
+        .checked_add(BASIS_POINTS_PER_WHOLE - 1)
+        .ok_or_else(|| Error::Conflict(format!("{label} reserve exceeds u128 capacity")))?
+        / BASIS_POINTS_PER_WHOLE;
+    u64::try_from(reserved)
+        .map_err(|_| Error::Conflict(format!("{label} reserve exceeds u64 capacity")))
+}
+
 fn check_capacity(
     workspace: &Workspace,
     budget: &EpochBudget,
@@ -831,17 +842,20 @@ fn check_capacity(
     }
     let allocations = allocations_for(workspace, &budget.id)?;
     let total = checked_allocation_total(&allocations, |_| true)?;
-    let reserve_basis_points = percentage_basis_points(budget.replication_reserve_pct)?;
-    let reserve_product = u128::from(budget.total_compute_credits) * reserve_basis_points;
-    let reserved = reserve_product
-        .checked_add(BASIS_POINTS_PER_WHOLE - 1)
-        .ok_or_else(|| Error::Conflict("replication reserve exceeds u128 capacity".to_owned()))?
-        / BASIS_POINTS_PER_WHOLE;
-    let reserved = u64::try_from(reserved)
-        .map_err(|_| Error::Conflict("replication reserve exceeds u64 capacity".to_owned()))?;
-    let general_limit = budget
-        .total_compute_credits
-        .saturating_sub(reserved.min(budget.total_compute_credits));
+    let reserved = reserve_credits(
+        budget.total_compute_credits,
+        budget.replication_reserve_pct,
+        "replication",
+    )?;
+    let probe_reserved = reserve_credits(
+        budget.total_compute_credits,
+        budget.probe_reserve_pct,
+        "probe",
+    )?;
+    let withheld = reserved
+        .saturating_add(probe_reserved)
+        .min(budget.total_compute_credits);
+    let general_limit = budget.total_compute_credits.saturating_sub(withheld);
     if total
         .checked_add(compute_credits)
         .is_none_or(|next| next > budget.total_compute_credits)
@@ -862,6 +876,23 @@ fn check_capacity(
             {
                 return Err(Error::Security(format!(
                     "replication reserve {reserved} would be exceeded"
+                )));
+            }
+        }
+        // A probe reserve is the sandbox lane's floor and its ceiling both, the
+        // same shape the replication reserve has: work that cannot starve and
+        // cannot overrun. Without one the lane shares the general pool with
+        // promoted work, which is the pre-0008 behaviour a zero keeps.
+        AllocationKind::Sandbox if probe_reserved > 0 => {
+            let sandbox_total = checked_allocation_total(&allocations, |allocation| {
+                allocation.kind == AllocationKind::Sandbox
+            })?;
+            if sandbox_total
+                .checked_add(compute_credits)
+                .is_none_or(|next| next > probe_reserved)
+            {
+                return Err(Error::Security(format!(
+                    "probe reserve {probe_reserved} would be exceeded; promote the work to claim general capacity"
                 )));
             }
         }

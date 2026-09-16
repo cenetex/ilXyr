@@ -104,7 +104,10 @@ const fixtures = {
   ],
   "corpus-release.schema.json": ["examples/corpus/braid-corpus-five.json"],
   "epoch-budget.schema.json": ["examples/schema/epoch-budget-v1.json"],
-  "epoch-budget-v2.schema.json": ["examples/schema/epoch-budget.json"],
+  "epoch-budget-v2.schema.json": [
+    "examples/schema/epoch-budget.json",
+    "examples/schema/epoch-budget-probe-reserve.json",
+  ],
   "evidence-bundle.schema.json": ["examples/schema/evidence-bundle.json"],
   "evidence-graph-edge.schema.json": [
     "examples/schema/evidence-graph-edge.json",
@@ -392,6 +395,16 @@ expectInvalid(
   "experiment-proposal.schema.json",
   "first proposal revision with a predecessor",
   firstProposalWithPredecessor,
+);
+
+const probeReserve = await readJson(
+  "examples/schema/epoch-budget-probe-reserve.json",
+);
+probeReserve.probe_reserve_pct = 150;
+expectInvalid(
+  "epoch-budget-v2.schema.json",
+  "probe reserve above the whole epoch",
+  probeReserve,
 );
 
 const certificate = await readJson("examples/schema/certificate.json");
