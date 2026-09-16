@@ -714,6 +714,19 @@ pub fn epoch_budget(budget: &EpochBudget) -> Result<()> {
         "epoch_budget.replication_reserve_pct",
         &mut errors,
     );
+    finite_percentage(
+        budget.probe_reserve_pct,
+        "epoch_budget.probe_reserve_pct",
+        &mut errors,
+    );
+    if budget.replication_reserve_pct.is_finite()
+        && budget.probe_reserve_pct.is_finite()
+        && budget.replication_reserve_pct + budget.probe_reserve_pct > 100.0
+    {
+        errors.push(
+            "epoch_budget reserves must not exceed 100 percent of the epoch together".to_owned(),
+        );
+    }
     if budget.per_executable_caps.is_empty() {
         errors.push("epoch_budget.per_executable_caps must not be empty".to_owned());
     }
