@@ -1,0 +1,113 @@
+{
+  "schema": "ilxyr.weight_calibration_trace_verification.v1",
+  "scope": "read_only_verification_of_recorded_cloud_latencies",
+  "performance_run_started": false,
+  "source": {
+    "closeout_sha256": "4ddedd80e464ffa901fa24304b59139a5cc449871a8f7dcb8c525db69e93a398",
+    "trace_sha256": "191c82bb4ec80d5eb9779b6c9dd46ec2e9b582df87adb9e1d449a7317ddc219a",
+    "trace_bytes": 13248076,
+    "trace_s3_version_id": "rCLHHZLTQfaz_2dKrGtfj6fx75bKTG51",
+    "tail_sha256": "9d48cc8fc8adba793b1173b7ed8de43b35cffb1f3b0279d375cf4c7d93254949"
+  },
+  "overall": {
+    "calls": 26624,
+    "mean_ms": 2.4775983792442897,
+    "p50_ms": 0.16454700000031153,
+    "p95_ms": 3.0808299999989686,
+    "p99_ms": 39.60266599999886,
+    "p999_ms": 442.4040810000006,
+    "maximum_ms": 884.6037080000024
+  },
+  "total_query_ms": 65963.57924899997,
+  "by_label_range": {
+    "inside_0_31": {
+      "calls": 21246,
+      "mean_ms": 0.44032267744517994,
+      "p50_ms": 0.13792000000103144,
+      "p95_ms": 0.7053589999995893,
+      "p99_ms": 6.481214999999793,
+      "p999_ms": 53.79938700000639,
+      "maximum_ms": 87.48301999999967
+    },
+    "outside_above_31": {
+      "calls": 5378,
+      "mean_ms": 10.52593596950534,
+      "p50_ms": 0.5341320000006817,
+      "p95_ms": 31.697612000003573,
+      "p99_ms": 178.7371439999988,
+      "p999_ms": 763.0292790000021,
+      "maximum_ms": 884.6037080000024
+    }
+  },
+  "proposed_final_p99_ms": 50,
+  "recorded_query_gates": {
+    "final_p99": true,
+    "hard_timeout": true,
+    "calls": true,
+    "total_query_ms": true
+  },
+  "wall_gate": "workload_wall_clock_unavailable_in_per_query_trace",
+  "full_corpus_status": "pending_separate_package_and_run",
+  "slowest_50": {
+    "all_multiplicities_above_31": true,
+    "by_type": {
+      "B8": 14,
+      "D8": 3,
+      "E7": 29,
+      "E8": 4
+    },
+    "sequences": [
+      25740,
+      18994,
+      12350,
+      12498,
+      19068,
+      25703,
+      25925,
+      25777,
+      19438,
+      19105,
+      26073,
+      26110,
+      12720,
+      25851,
+      25629,
+      25999,
+      19327,
+      12572,
+      25888,
+      25814,
+      18957,
+      19216,
+      19401,
+      19253,
+      12609,
+      12313,
+      12683,
+      19031,
+      10118,
+      23778,
+      21634,
+      15026,
+      17350,
+      16858,
+      21154,
+      10610,
+      21178,
+      17326,
+      23322,
+      12387,
+      14510,
+      26113,
+      13069,
+      21868,
+      8124,
+      19597,
+      10652,
+      16834,
+      21646,
+      26578
+    ]
+  },
+  "historical_wrapper_status": "post_measurement_wrapper_failed"
+}

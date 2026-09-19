@@ -1,0 +1,285 @@
+{
+  "schema": "ilxyr.research_ledger_check.v1",
+  "prior_entries": 38,
+  "entries": 69,
+  "prior_entries_preserved": true,
+  "ledger_sha256": "23934f7d4e72aed4330f14a63d84784a94fb28ed74fc7bc39c850cc08b74a931",
+  "bindings": [
+    {
+      "verdict_id": "verdict:zero.q23.seed2.local-guard.v1",
+      "evidence_status": "reference_only"
+    },
+    {
+      "verdict_id": "verdict:zero.q24.seed2.cumulative-guard.v1",
+      "evidence_status": "reference_only"
+    },
+    {
+      "verdict_id": "verdict:zero.q25.seed2.deterministic-backtracking.v1",
+      "evidence_status": "reference_only"
+    },
+    {
+      "verdict_id": "verdict:solomon.q22-compositional-routing.three-seed.v1",
+      "evidence_status": "reference_only"
+    },
+    {
+      "verdict_id": "verdict:weight-multiplicity.phase0.oracle-frontier.v1",
+      "evidence_status": "reference_only"
+    },
+    {
+      "verdict_id": "verdict:solomon.nsrl-p10m-target-margin-head-v1.negative.v1",
+      "evidence_status": "reference_only"
+    },
+    {
+      "verdict_id": "verdict:solomon.nsrl-p10m-direct-head-nll-guard-v1.negative.v1",
+      "evidence_status": "reference_only"
+    },
+    {
+      "verdict_id": "verdict:solomon.nsrl-p10m-direct-head-nll-safe-set-v1.negative.v1",
+      "evidence_status": "reference_only"
+    },
+    {
+      "verdict_id": "verdict:solomon.nsrl-p10m-direct-head-cross-document-stability-v1.negative.v1",
+      "evidence_status": "reference_only"
+    },
+    {
+      "verdict_id": "verdict:solomon.nsrl-p10m-target-margin-trust-region-v1.negative.v1",
+      "evidence_status": "reference_only"
+    },
+    {
+      "verdict_id": "verdict:solomon.context-use-audit.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:feral.finqa-empty-label-audit.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:zero.reasoner55-semantic-control-audit.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:zero.reasoner58-development-current.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:zero.reasoner59a-development-current.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:weight-multiplicity.phase1-pilot-resource.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:weight-multiplicity.tail-wrapper-failure.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:zero.reasoner58-prose-mismatch-audit.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:weight-multiplicity.completed-call-accounting.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:weight-multiplicity.transformed-target-depth.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:feral.finqa-source-formula-review.v2",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:feral.finqa-retrieved-evidence-gap.v2",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:feral.finqa-question-and-basis-gaps.v2",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:feral.evidence-calculator-cross-series.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:solomon.fixed-answer-confidence.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:zero.retention-oracle-subscore.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:solomon.suffix-answer-ownership.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:zero.q29.language-retention.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:feral.cli-transport-and-early-termination.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:feral.cuda-worker-startup.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:feral.calculator-full-roster-coverage.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:zero.reasoner55-matched-fresh-family.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:feral.step25-package-capacity.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:feral.triton-read-only-cache.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:feral.step28-package-capacity.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:feral.price-document-drift.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:feral.step28-capacity-window.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:zero.reasoner55-prior-cost-floor.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step32.window-selection.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step33.policy-package.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step34.capture-before-assert.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step35.storage-retention.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step36.eligible-guide-work.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step37.native-probability-mass.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step37.native-confidence.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step38.runtime-toolchain.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step39.fresh-selection-replay.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step39.canonical-family-keys.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step40.heap-count-replay.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step41.canonical-task-overlap.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step41.retention-window-exposure.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step42.source-quota.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step42.mean-retention-mask.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step43.report-validation-cost.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step43.language-endpoint-damage.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step45.run-preflight-binding.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step46.host-runtime-intake.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step47.filing-source-fetch.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step48.selected-series-check.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step48.wording-coverage.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step49.tamper-fixture-path.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step50.shared-run-preflight.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step50.provider-response-fields.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step50.public-build-input-timeout.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step51.reasoner-outcome.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step51.feral-outcome.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step51.solomon-outcome.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step51.weight-outcome.v1",
+      "evidence_status": "local_digest_verified"
+    },
+    {
+      "verdict_id": "verdict:research.step51.zero4-outcome.v1",
+      "evidence_status": "local_digest_verified"
+    }
+  ]
+}

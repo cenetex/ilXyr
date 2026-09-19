@@ -1,0 +1,47 @@
+{
+  "schema": "ilxyr.constraint_diff_report.v1",
+  "report_id": "constraint-diff:solomon.next-comparison.v1",
+  "experiment_id": "solomon.next-comparison.v1",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "ledger_ref": "artifact://sha256/8be79f853a182e39a9a7fe2be8b2b67438680c03e0b4804591f63880a3e7dc67",
+  "generated_at_ms": 1788600742008,
+  "proposed_mechanism_tags": [
+    "integer-model",
+    "context-use",
+    "simple-baseline"
+  ],
+  "matches": [
+    {
+      "verdict_id": "verdict:solomon.context-use-audit.v1",
+      "experiment_id": "solomon.context-use-audit.v1",
+      "family": "solomon",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "integer-model",
+        "context-use",
+        "simple-baseline"
+      ],
+      "verdict_summary": "The historical candidate has constant embeddings and zero context weights. Its score replays exactly. A previous-byte bigram lowers the same integer loss by 6.08% and reaches 28.97% accuracy on the opened partition.",
+      "same_mechanism_tags": true,
+      "project": "solomon",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "context-independent artifact",
+      "lineage_note": "Compare the next model with the integer bigram on fresh documents and include a fixed context control.",
+      "verdict_ref": "artifact://sha256/36eaea2b67e27a4860adda0470a29805bbf42cc5c1a4bd76340c4f71662cb4b8",
+      "evidence_ref": "artifact://sha256/4feae1ce7a23f9774adf7ec6eb42d738d0beef9beaa5a088d2fb34100ca964d2",
+      "evidence_path": "experiments/research-step-2/RESULT.json"
+    }
+  ],
+  "taxonomy_counts": {
+    "transfer": 0,
+    "interference": 0,
+    "measurement": 1,
+    "venue": 0,
+    "implementation": 0
+  },
+  "superseded_entries": 0,
+  "proposed_change": "Train a context model against the integer bigram on fresh documents and include a fixed context control.",
+  "summary": "1 prior results share these mechanism tags. Review their evidence and the required design changes.",
+  "recommendation": "review"
+}

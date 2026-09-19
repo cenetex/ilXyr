@@ -1,0 +1,27 @@
+{
+  "deterministic_kit_rebuild_identical": true,
+  "expected_full_corpus_rows": 458750,
+  "final_p99_limit_ms": 50,
+  "independent_lie_builds_identical": true,
+  "known_cross_oracle_fixtures_passed": 3,
+  "linux_ci_run": "https://github.com/cenetex/ilXyr/actions/runs/34272013671",
+  "linux_ci_source_commit": "3e6a931b1fb8af385f753011e3b94bc29e839b44",
+  "linux_result_sha256": "41969d04f8880beacfc8bff95446f80e9d7a0654c545d39612047feec6de40c0",
+  "linux_smoke_status": "pass",
+  "local_archive_tests": 9,
+  "new_full_corpus_rows": 0,
+  "new_paid_compute_instances": 0,
+  "next": "Build the full cloud controller and result checker, then freeze machine, storage, watchdog, price and launch package.",
+  "policy_files_bound": 14,
+  "saved_calibration_p99_ms": 39.60266599999886,
+  "schema": "ilxyr.weight_source_preparation_result.v1",
+  "source_kit": {
+    "bytes": 16465920,
+    "files": 34,
+    "resource_policy_sha256": "1ebc76e8692fa3d440386532ac562981e9965b430fd9af19d45f2415c7f64623",
+    "sha256": "30e2926603988c29c5ff0d24138fd59d16c05eb21f01cc5bcfce00009d6433dd",
+    "source_commit": "3e6a931b1fb8af385f753011e3b94bc29e839b44"
+  },
+  "status": "scientific_source_kit_verified",
+  "unpacked_trace_queries_verified": 26624
+}

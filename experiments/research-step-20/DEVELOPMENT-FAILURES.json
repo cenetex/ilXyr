@@ -1,0 +1,16 @@
+[
+  {
+    "failed_key": "experiments/weight-multiplicity-phase1-tail-calibration-v1/runs/20260901015649/state/pilot-trace.jsonl",
+    "operation": "S3 HeadObject",
+    "resolution": "The exact recorded version is under state/calibration/pilot-trace.jsonl; listing the recorded run prefix located it.",
+    "scope": "artifact_lookup",
+    "status_code": 404,
+    "verified_trace_sha256": "191c82bb4ec80d5eb9779b6c9dd46ec2e9b582df87adb9e1d449a7317ddc219a"
+  },
+  {
+    "error": "Direct JSON decoding failed because the response bytes were gzip compressed.",
+    "resolution": "Decode the gzip payload, then verify the JSON source digest and exact instance price.",
+    "scope": "price_feed_decode",
+    "wire_sha256": "18cbef6aa13a3a811a9c556ec7268ec9713e2d55c79a6367a3fc8edd85eeeafe"
+  }
+]

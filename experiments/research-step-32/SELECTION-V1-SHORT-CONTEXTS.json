@@ -1,0 +1,18 @@
+[
+  {
+    "body_start": 35269,
+    "context_hex": "2020202020202020202020202020202020202020202020202020202020202020202020202020202020203437360d0a0d0a0d0a0d0a0d0a5b496c6c7573747261",
+    "document": "pg-1342",
+    "normalized_bytes": 13,
+    "title": "Pride and Prejudice",
+    "window": 1
+  },
+  {
+    "body_start": 394875,
+    "context_hex": "696e64210d0a202020202020202020202020202020202a202020202a202020202a202020202a202020202a0d0a202020202043616e2075736520746869732068",
+    "document": "pg-205",
+    "normalized_bytes": 29,
+    "title": "Walden, and On the Duty of Civil Disobedience",
+    "window": 19
+  }
+]

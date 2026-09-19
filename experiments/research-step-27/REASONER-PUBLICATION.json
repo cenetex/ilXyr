@@ -1,0 +1,26 @@
+{
+  "assets": [
+    {
+      "bytes": 97,
+      "name": "SHA256SUMS",
+      "sha256": "68e32c279b1ab63dc142d84b78bb2fe10ef305ec8170cc105c1408bf711e5631"
+    },
+    {
+      "bytes": 10931427,
+      "name": "reasoner-step26-results.tar.gz",
+      "sha256": "30bfa06fd27e7b0620162ef4d95844e6d3ea703faa1a55d6753d0bae75675e2a"
+    }
+  ],
+  "live_program_bytes_match": true,
+  "live_program_sha256": "507d72defe13ac03655acb1b3ff0e5af4b8ad159b580872a8a27a1c60fb71db0",
+  "live_program_url": "https://cenetex.github.io/ilXyr/PROGRAM.md",
+  "main_ci": 34202332445,
+  "main_ci_status": "success",
+  "pages_run": 34202332441,
+  "pages_status": "success",
+  "release_url": "https://github.com/cenetex/ilXyr/releases/tag/research-step-26",
+  "schema": "ilxyr.research_publication.v1",
+  "status": "public_download_bytes_verified",
+  "target_commit": "363ec2cc64012c42fa0b2cf117e60a3098610e92",
+  "verified_at": "2026-09-08T08:06:02.673723+00:00"
+}

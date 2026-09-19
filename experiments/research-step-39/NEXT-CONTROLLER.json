@@ -1,0 +1,38 @@
+{
+  "acceptance": "All exact answers and every stable replay must verify before comparing cost. Compare the full guide with both lexical guidance and semantic frequency. Freeze statistical gates and all machine limits with the controller before cloud execution.",
+  "arm_order": "Rotate the four arms once per pass; each of the four positions occurs three times for every arm.",
+  "arms": [
+    "semantic_frequency",
+    "task_guide",
+    "raw_lexical_task_guide",
+    "task_without_prior_feature"
+  ],
+  "costs": [
+    "whole child process CPU and wall time",
+    "peak memory",
+    "corpus preparation and model loading",
+    "enumeration and grouping",
+    "feature work and ranking",
+    "verifier work and canonical fallback",
+    "complete controller and independent-check costs"
+  ],
+  "execution_authorized": false,
+  "failure_collection": "Keep stdout, stderr, process receipts and completed rows before reporting failure.",
+  "families": 128,
+  "family_view_order": "Use the same fixed pass-specific shuffle for every arm, shared by warmup and measured phases.",
+  "full_venue": "cloud",
+  "independent_unique_measured_replays": 2048,
+  "measured_passes_per_process": 1,
+  "model_sha256": "db0afc1e460df5192917fac1f8129a2ec1e753ddb67939a975076fae5579bb7a",
+  "opened_smoke": "Use the four existing step 36 families for worker parity and injected failures.",
+  "planned_episode_visits": 49152,
+  "planned_processes": 48,
+  "planner": "eligible",
+  "replays_per_arm": 12,
+  "roster_sha256": "037caefb37b9656e5681dc3dd145a2cf20d4517582c5faf373b42265782da42e",
+  "schema": "ilxyr.reasoner_fresh_controller_next.v1",
+  "source_commit": "0c5253604593acb3b9294fcc00c90f59b7dbbd3c",
+  "status": "controller_to_build",
+  "views_per_family": 4,
+  "warmup_passes_per_process": 1
+}

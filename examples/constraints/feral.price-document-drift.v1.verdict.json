@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-29/PRICE-CHECK-FAILURE.json",
+  "evidence_ref": "artifact://sha256/522d4a4f6b9f651731ffbacd87210bd6a684d316546d7c1579bc8d83927d0833",
+  "experiment_id": "feral.price-document-drift.v1",
+  "family": "feral",
+  "id": "verdict:feral.price-document-drift.v1",
+  "lineage_note": "Keep each price document and its checksum. Verify the selected full rate entry and total budget after document changes before launching.",
+  "mechanism": "A whole-document digest bound unrelated provider price entries to the selected instance rate.",
+  "mechanism_tags": [
+    "price-document",
+    "provider-drift",
+    "bounded-launch"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "feral",
+  "recorded_at_ms": 1788883568526,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "A preflight assertion failed because the provider price document changed while the complete selected GPU rate entry remained identical.",
+  "summary": "A preflight assertion failed because the provider price document changed while the complete selected GPU rate entry remained identical.",
+  "taxonomy": "measurement"
+}

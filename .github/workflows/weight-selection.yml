@@ -1,0 +1,39 @@
+name: weight selection pilot
+on:
+  pull_request:
+    paths:
+      - 'scripts/lib/weight-*'
+      - 'scripts/test-weight-selection-pilot.mjs'
+      - 'scripts/research_weight_selection.mjs'
+      - 'experiments/research-step-55/**'
+      - '.github/workflows/weight-selection.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/lib/weight-*'
+      - 'scripts/test-weight-selection-pilot.mjs'
+      - 'scripts/research_weight_selection.mjs'
+      - 'experiments/research-step-55/**'
+      - '.github/workflows/weight-selection.yml'
+permissions:
+  contents: read
+jobs:
+  development:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test scripts/test-weight-selection-pilot.mjs
+      - run: node scripts/research_weight_selection.mjs --output "$RUNNER_TEMP/weight-selection"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: weight-selection-${{ matrix.os }}
+          path: ${{ runner.temp }}/weight-selection

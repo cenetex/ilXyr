@@ -2,6 +2,11 @@
 
 ## Status
 
+Historical amendment frozen on 2026-08-30. The authorization below records that
+original scope. Any future dispatch requires approval of its exact package,
+current provider preflight, and a new execution record. The current program
+state is recorded in [PROGRAM.md](../PROGRAM.md).
+
 Authorized on 2026-08-30 by the client statement, “ok lets do it.” This
 amendment moves the fresh Phase 0.5 execution to one bounded AWS CPU instance.
 It does not authorize a corpus, model training, or a change to the mathematical
@@ -74,3 +79,9 @@ If any default memory failure returns below the gate when presized, the report
 must state that the observed memory frontier is allocation-policy-dependent.
 Time and order-sensitivity results remain separate facts.
 
+
+Comparison requires matching oracle and plan digests and the complete selected
+set of cells. Missing RSS, a worker error, or a hard timeout keeps that cell
+unknown. A memory-boundary improvement requires complete measurements on both
+sides. The source manifest is checked against the frontier digest before audit
+selection.

@@ -1,0 +1,16 @@
+{
+  "schema": "ilxyr.oci_job_dispatch.v1",
+  "id": "dispatch:sec-qwen-v1",
+  "experiment_id": "sec-qwen-v1",
+  "compiled_ref": "artifact://sha256/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "executor": {
+    "id": "service://ilxyr/aws-sagemaker-v1",
+    "kind": "service"
+  },
+  "provider_job_ref": "sagemaker://us-west-2/training-jobs/sec-qwen-v1",
+  "idempotency_key": "sec-qwen-v1-aaaaaaaaaaaa",
+  "materializations": {
+    "dataset://stonks/sec-filings-v1": "artifact://sha256/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "dispatched_at_ms": 1788048000000
+}

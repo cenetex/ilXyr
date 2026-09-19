@@ -1,0 +1,13 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "solomon.q22-compositional.forecast.empirical.v1",
+  "experiment_id": "solomon.q22-compositional-routing.three-seed.v1",
+  "forecaster": {
+    "id": "model://solomon/q22-compositional/forecaster-empirical",
+    "kind": "model",
+    "model_ref": "model://solomon/q22/compositional-training-liveness-forecast/v1"
+  },
+  "probabilities": {"go": 0.82, "no_go": 0.17, "execution_failure": 0.01},
+  "stake": 10,
+  "rationale": "All three fixed seeds reached exact training routing after the first epoch and remained exact for the remaining epochs. The forecast stays well below certainty because none of the 20 held-out promotion template families has been scored and the preregistered result is the conjunction of three strict gates."
+}

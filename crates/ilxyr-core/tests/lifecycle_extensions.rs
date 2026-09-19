@@ -12,7 +12,7 @@ use ilxyr_core::lifecycle::{
 use ilxyr_core::mechanism::{
     attach_mechanism_condition, metric_condition, settle_mechanism_forecast,
 };
-use ilxyr_core::model::ComparisonOperator;
+use ilxyr_core::model::{ActorKind, ComparisonOperator};
 use ilxyr_core::papers::{
     ExternalReceipt, PaperState, SufficiencyCriterion, candidate_state, nominate, record_decision,
     record_submission, register_candidate,
@@ -51,8 +51,8 @@ impl Drop for TestDirectory {
     }
 }
 
-/// Build the toy lifecycle through a completed run with recorded evidence.
-fn build_completed_ledger(dir: &TestDirectory) {
+/// Build the toy lifecycle while prospective inputs are still open.
+fn build_open_ledger(dir: &TestDirectory) -> Workspace {
     let workspace = Workspace::init(&dir.0).expect("workspace must initialize");
     for json in [
         include_str!("../../../examples/toy/hypothesis.json"),
@@ -82,6 +82,12 @@ fn build_completed_ledger(dir: &TestDirectory) {
         let funding: FundingCommitment = serde_json::from_str(json).expect("funding must parse");
         commit_funding(&workspace, funding).expect("funding must be accepted");
     }
+    workspace
+}
+
+/// Build the toy lifecycle through a completed run with recorded evidence.
+fn build_completed_ledger(dir: &TestDirectory) {
+    let workspace = build_open_ledger(dir);
     decide_admission(&workspace, "toy.score.v1").expect("admission must decide");
     run_experiment(&workspace, "toy.score.v1").expect("run must complete");
 }
@@ -97,10 +103,9 @@ fn condition_set(id: &str, threshold: f64) -> ConditionSet {
 #[test]
 fn mechanism_forecasts_settle_from_facts() {
     let dir = TestDirectory::create("mech");
-    build_completed_ledger(&dir);
-    let workspace = Workspace::open(&dir.0).unwrap();
+    let workspace = build_open_ledger(&dir);
 
-    // Attach two mechanism predictions before settlement.
+    // Attach two mechanism predictions while forecast inputs are open.
     attach_mechanism_condition(
         &workspace,
         "toy.forecast.model.v1",
@@ -113,6 +118,23 @@ fn mechanism_forecasts_settle_from_facts() {
         condition_set("mech.human.v1", f64::MAX / 4.0), // impossible
     )
     .expect("attach must succeed");
+
+    assert!(
+        attach_mechanism_condition(
+            &workspace,
+            "toy.forecast.model.v1",
+            condition_set("mech.model.replacement.v1", 0.0),
+        )
+        .is_err(),
+        "a frozen mechanism condition cannot be replaced"
+    );
+    assert!(
+        settle_mechanism_forecast(&workspace, "toy.forecast.model.v1").is_err(),
+        "a mechanism forecast cannot settle before its experiment"
+    );
+
+    decide_admission(&workspace, "toy.score.v1").expect("admission must decide");
+    run_experiment(&workspace, "toy.score.v1").expect("run must complete");
 
     let good = settle_mechanism_forecast(&workspace, "toy.forecast.model.v1")
         .expect("settlement must succeed");
@@ -141,8 +163,7 @@ fn mechanism_forecasts_settle_from_facts() {
 #[test]
 fn intent_defaults_exploratory_and_declares_confirmatory() {
     let dir = TestDirectory::create("intent");
-    build_completed_ledger(&dir);
-    let workspace = Workspace::open(&dir.0).unwrap();
+    let workspace = build_open_ledger(&dir);
 
     let undeclared = RunIntent::resolve(&workspace, "toy.score.v1").unwrap();
     assert_eq!(undeclared, RunIntent::Exploratory, "default is exploratory");
@@ -151,6 +172,17 @@ fn intent_defaults_exploratory_and_declares_confirmatory() {
         .expect("declaration must append");
     let declared = RunIntent::resolve(&workspace, "toy.score.v1").unwrap();
     assert_eq!(declared, RunIntent::Confirmatory);
+    assert!(
+        RunIntent::declare(&workspace, "toy.score.v1", RunIntent::Exploratory).is_err(),
+        "run intent cannot be replaced"
+    );
+
+    decide_admission(&workspace, "toy.score.v1").expect("admission must decide");
+    run_experiment(&workspace, "toy.score.v1").expect("run must complete");
+    assert_eq!(
+        RunIntent::resolve(&workspace, "toy.score.v1").unwrap(),
+        RunIntent::Confirmatory
+    );
 
     assert!(
         RunIntent::declare(&workspace, "nonexistent.v1", RunIntent::Confirmatory).is_err(),
@@ -161,35 +193,82 @@ fn intent_defaults_exploratory_and_declares_confirmatory() {
 #[test]
 fn sealed_digest_blocks_execution_until_released() {
     let dir = TestDirectory::create("seal");
-    build_completed_ledger(&dir);
-    let workspace = Workspace::open(&dir.0).unwrap();
+    let workspace = build_open_ledger(&dir);
 
     let digest: String = "a".repeat(64);
+    assert!(seal_test_digest(&workspace, "toy.score.v1", "xyz").is_err());
     seal_test_digest(&workspace, "toy.score.v1", &digest).expect("sealing must succeed");
 
-    // Execution is refused while sealed.
     assert!(ensure_test_access_allowed(&workspace, "toy.score.v1").is_err());
+    let admission = decide_admission(&workspace, "toy.score.v1").expect("admission must decide");
+    assert!(
+        !admission.accepted,
+        "sealed test access is an admission gate"
+    );
+    assert!(
+        run_experiment(&workspace, "toy.score.v1").is_err(),
+        "normal execution must enforce sealed test access"
+    );
 
-    // Malformed digests reject at sealing time.
-    assert!(seal_test_digest(&workspace, "toy.score.v1", "xyz").is_err());
-
-    release_test_digest(
-        &workspace,
-        "toy.score.v1",
-        &ilxyr_core::ActorRef::service("service://ilxyr/human-ack"),
-    )
-    .expect("release must succeed");
+    let invalid_authorizer = ilxyr_core::ActorRef::service("human://wrong-actor-kind");
+    assert!(
+        release_test_digest(&workspace, "toy.score.v1", &invalid_authorizer).is_err(),
+        "release authority must be a valid actor"
+    );
+    let authorizer = ilxyr_core::ActorRef {
+        id: "human://test-release-authorizer".to_owned(),
+        kind: ActorKind::Human,
+        model_ref: None,
+    };
+    release_test_digest(&workspace, "toy.score.v1", &authorizer).expect("release must succeed");
     ensure_test_access_allowed(&workspace, "toy.score.v1")
         .expect("released digest must allow execution");
+    assert!(
+        seal_test_digest(&workspace, "toy.score.v1", &"b".repeat(64)).is_err(),
+        "a released digest cannot be replaced before execution"
+    );
+    let release_event = workspace
+        .latest_event("TestDigestReleased", "toy.score.v1")
+        .expect("release event query")
+        .expect("release event");
+    assert_eq!(release_event.actor, authorizer);
 
-    // Releasing without a sealed digest fails.
+    let admission = decide_admission(&workspace, "toy.score.v1").expect("admission must retry");
+    assert!(admission.accepted);
+    run_experiment(&workspace, "toy.score.v1").expect("released experiment must execute");
+
     assert!(
         release_test_digest(
             &workspace,
             "toy.score.v1",
-            &ilxyr_core::ActorRef::service("service://ilxyr/human-ack"),
+            &ilxyr_core::ActorRef::service("service://ilxyr/release-retry"),
         )
         .is_err()
+    );
+    assert!(
+        seal_test_digest(&workspace, "toy.score.v1", &"c".repeat(64)).is_err(),
+        "a completed experiment cannot be resealed"
+    );
+}
+
+#[test]
+fn prospective_controls_reject_post_result_mutation() {
+    let dir = TestDirectory::create("post-result");
+    build_completed_ledger(&dir);
+    let workspace = Workspace::open(&dir.0).unwrap();
+
+    assert!(
+        RunIntent::declare(&workspace, "toy.score.v1", RunIntent::Confirmatory).is_err(),
+        "a completed run cannot be relabelled as confirmatory"
+    );
+    assert!(
+        attach_mechanism_condition(
+            &workspace,
+            "toy.forecast.model.v1",
+            condition_set("mech.late.v1", 0.5),
+        )
+        .is_err(),
+        "a mechanism condition cannot be selected after results exist"
     );
 }
 

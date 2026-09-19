@@ -1,0 +1,73 @@
+{
+  "arms": 5,
+  "documents": 1,
+  "fresh_model_calls": 0,
+  "implementation": {
+    "check_solomon_study.py": "f453db2998ead030ca6060f6a1af7f17b30d13a58fb9ecb8b0a5f5ba5ad7fdff",
+    "feral_process.py": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526",
+    "research_solomon_answer_ownership.py": "eb817c68076acdcec4d06dcabbd84398168c81df8b46292d071967e3792cd8fa",
+    "research_solomon_confidence.py": "bc90462500cdc0c3f6f257731db61f806882c7e08a3fcba49b05fa499fb32775",
+    "research_solomon_study.py": "c2e12db142dcee7ae03a9965e629a1305e026c0bb7c6489bcf0bf8c6d86d4e36",
+    "research_solomon_suffix_probabilities.py": "9faeccbad5b0a63fded01c501bf23c98f2ecf2baa5c71b818d2e9826ec4f843e"
+  },
+  "local_linux_worker_logs_identical": true,
+  "native_forward_calls": 32,
+  "opened_reference_scores_equal": true,
+  "passes": 2,
+  "performance_evidence": false,
+  "previous_smoke_sha256": "084cb57df11bbf94e90b81aef4278a3d1214ef470e7bb90b1166185f1dd0c48a",
+  "probability_rows": 160,
+  "processes": 10,
+  "promotion_evidence": false,
+  "schema": "ilxyr.solomon_controller_opened_smoke.v1",
+  "scope": "sixteen_previously_opened_windows",
+  "scores": {
+    "native": {
+      "mistakes": 4,
+      "normalized_brier_mean": "1420335975978148766363188142973448605069246555099550495025021098739217652436015141422087318517574363782467663067327107/2022529072966686760923120238703827496436699864270007965445030720176869235839317452946132765458333406147099805430230400",
+      "zeros": 2
+    },
+    "point_mass": {
+      "mistakes": 4,
+      "normalized_brier_mean": "1/2",
+      "zeros": 4
+    },
+    "smoothed_point_mass": {
+      "mistakes": 4,
+      "normalized_brier_mean": "493727109/1073676289",
+      "zeros": 0
+    },
+    "suffix_empirical": {
+      "mistakes": 4,
+      "normalized_brier_mean": "2681/6144",
+      "zeros": 4
+    },
+    "suffix_unit_prior": {
+      "mistakes": 4,
+      "normalized_brier_mean": "1898464909/3835330560",
+      "zeros": 0
+    }
+  },
+  "worker_log_sha256": {
+    "study/jobs/0000/process/stderr.log": "8b4c2a7618f9951efe6122c6da2d28460eaab8116db2f2306c35d33e4ab5c16b",
+    "study/jobs/0000/process/stdout.log": "f96870b1dbd967004a969675044eb35de4db5cf520bf0802712a4d2673978778",
+    "study/jobs/0001/process/stderr.log": "9ec06d4a71fc9ed532417c510babfe4e7a3dc96f3d30b5887534d3da0e37f10a",
+    "study/jobs/0001/process/stdout.log": "2c1e406be19261cb1c3381dd9346c0ce59e8c817afb93343d1d15731dacfa8e0",
+    "study/jobs/0002/process/stderr.log": "47332b2757c584a89cf3eb9976cae1b3ed8f9420bd5ea920dd0fb5b22e6df6f0",
+    "study/jobs/0002/process/stdout.log": "1c65e0b32cff146f3e6386c7b03e53a2fde3dc44b3fb5ff0198178de00f6458a",
+    "study/jobs/0003/process/stderr.log": "b82114f8213ccb390bbb5b3eee400ae5e8b8e57409d7ead2643d8f66df5ef3b5",
+    "study/jobs/0003/process/stdout.log": "35d8f0d8c134f610a33bbe25e342b6b6f1d2b53b943ebce980e3234346f1db5e",
+    "study/jobs/0004/process/stderr.log": "7889ff01b93a3b762818eda92d78b85e3e17167d91aab168ce549ee9f92c9a4f",
+    "study/jobs/0004/process/stdout.log": "b9fe42d625d820d3b898732114adbb06ea7176af8335afdca85fb8e464a99006",
+    "study/jobs/0005/process/stderr.log": "9ec06d4a71fc9ed532417c510babfe4e7a3dc96f3d30b5887534d3da0e37f10a",
+    "study/jobs/0005/process/stdout.log": "2c1e406be19261cb1c3381dd9346c0ce59e8c817afb93343d1d15731dacfa8e0",
+    "study/jobs/0006/process/stderr.log": "47332b2757c584a89cf3eb9976cae1b3ed8f9420bd5ea920dd0fb5b22e6df6f0",
+    "study/jobs/0006/process/stdout.log": "1c65e0b32cff146f3e6386c7b03e53a2fde3dc44b3fb5ff0198178de00f6458a",
+    "study/jobs/0007/process/stderr.log": "b82114f8213ccb390bbb5b3eee400ae5e8b8e57409d7ead2643d8f66df5ef3b5",
+    "study/jobs/0007/process/stdout.log": "35d8f0d8c134f610a33bbe25e342b6b6f1d2b53b943ebce980e3234346f1db5e",
+    "study/jobs/0008/process/stderr.log": "7889ff01b93a3b762818eda92d78b85e3e17167d91aab168ce549ee9f92c9a4f",
+    "study/jobs/0008/process/stdout.log": "b9fe42d625d820d3b898732114adbb06ea7176af8335afdca85fb8e464a99006",
+    "study/jobs/0009/process/stderr.log": "8b4c2a7618f9951efe6122c6da2d28460eaab8116db2f2306c35d33e4ab5c16b",
+    "study/jobs/0009/process/stdout.log": "f96870b1dbd967004a969675044eb35de4db5cf520bf0802712a4d2673978778"
+  }
+}

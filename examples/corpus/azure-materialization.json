@@ -1,0 +1,30 @@
+{
+  "schema": "ilxyr.corpus_materialization.v1",
+  "id": "materialization://azure/example/braid-corpus-five-v030",
+  "corpus_ref": "artifact://sha256/0000000000000000000000000000000000000000000000000000000000000000",
+  "location": {
+    "kind": "azure_blob",
+    "uri": "https://example.blob.core.windows.net/corpora/braid/corpus-five/v0.3.0"
+  },
+  "objects": [
+    {
+      "path": "train/statebridge.jsonl",
+      "uri": "https://example.blob.core.windows.net/corpora/braid/corpus-five/v0.3.0/train/statebridge.jsonl",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "size_bytes": 100,
+      "provider_version": "replace-with-blob-version-id"
+    },
+    {
+      "path": "validation/statebridge.jsonl",
+      "uri": "https://example.blob.core.windows.net/corpora/braid/corpus-five/v0.3.0/validation/statebridge.jsonl",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "size_bytes": 25,
+      "provider_version": "replace-with-blob-version-id"
+    }
+  ],
+  "verified_by": {
+    "id": "service://example/azure-materializer-v1",
+    "kind": "service"
+  },
+  "verified_at_ms": 1
+}

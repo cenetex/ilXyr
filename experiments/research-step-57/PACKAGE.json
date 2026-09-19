@@ -1,0 +1,21 @@
+{
+  "bytes": 54886400,
+  "changed_archive_members": [
+    "HOST.json",
+    "scripts/zero4_cloud_runtime.py"
+  ],
+  "controller_sha256": "b00e96da55ce4f0711bdd28d4ef5f10fafc7ed5eb24dfd82da36b72883fab884",
+  "destination_bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1",
+  "destination_key": "packages/zero4-52/8ba320df1dc2a7015ac01eafb904585e499fa01f2b99672cdaace226eec123a8.tar",
+  "maximum_before_tax_usd": "12.00",
+  "maximum_instance_seconds": 48600,
+  "paid_launch": "pending_replacement_approval",
+  "plan_sha256": "9a8e016502e693e37c6333a852854d1896a37807cf4ea7477b7374b784c4393b",
+  "prepared_sha256": "7df0fb342d3b9baf52583510a0e5c731a8a11fc90b419faa54770250f42f3032",
+  "replaces_package_sha256": "b9cd62c7577536bc284e53cc066d789eb0e65890ccff7668529bb6a33262aa02",
+  "schema": "ilxyr.zero4_adapter_repair_package.v1",
+  "sha256": "8ba320df1dc2a7015ac01eafb904585e499fa01f2b99672cdaace226eec123a8",
+  "source_commit": "21a66780fee398a02257e7439f48ef8b05735f15",
+  "staging": "pending_replacement_approval",
+  "status": "local_and_source_ci_verified_replacement"
+}

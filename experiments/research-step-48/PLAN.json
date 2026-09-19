@@ -1,0 +1,30 @@
+{
+  "arms": [
+    "calculator_v1",
+    "calculator_v2",
+    "v2_operand_only"
+  ],
+  "cloud_cases": 228,
+  "cloud_jobs": 36,
+  "cloud_passes": 12,
+  "fresh_prepare_sha256": "e62e9344e7d5113487b0ae13467cae61e7fb78885a1f034733e6b9138fbd2e2f",
+  "input_order": "Opaque case IDs in ascending order; each pass rotates the three arms by pass modulo three.",
+  "limits": {
+    "grace_seconds": 2,
+    "job_seconds": 15,
+    "max_log_bytes": 4194304,
+    "max_output_bytes": 67108864,
+    "total_seconds": 300
+  },
+  "measurement": "One separate process per arm and pass, including loading, all predictions and output. One outer process includes source preparation, checking and all waited workers. Collection checking has its own receipt.",
+  "opened_cases": 58,
+  "opened_jobs": 9,
+  "opened_passes": 3,
+  "opened_scope": "Two invented table families cover all forms for controller checks. Fresh predictor calls remain zero during preparation.",
+  "repeat_policy": "All 12 copies of each arm/case must have identical predictions, source selections, reasons and work counts. Quality metrics count each distinct case once.",
+  "schema": "ilxyr.feral_coverage_controller_plan.v1",
+  "score_policy": "Use step 47 targets and benefit rule unchanged. Check source spans and reported arithmetic independently of the predictors. Malformed or incomplete collections retain a failed verification record.",
+  "source_plan": "experiments/research-step-47/PLAN.json",
+  "source_plan_sha256": "e504594e547a6aee894e16b290d958df58cf2d595ffe787db41a9abd8995e91c",
+  "source_preparation": "Full cloud execution rebuilds all cases from the fixed report bytes, then checks every target with the published independent JavaScript arithmetic checker."
+}

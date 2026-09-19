@@ -1,0 +1,94 @@
+{
+  "schema": "ilxyr.weight_multiplicity_phase1_tail_calibration_plan.v1",
+  "status": "authorized",
+  "authorization": {
+    "date": "2026-09-01",
+    "scope": "telemetry_only_replay_of_the_frozen_phase1_yield_pilot",
+    "conditions": [
+      "same AMI instance type worker counts manifest generator seed candidate order and oracle builds as the stopped corpus run",
+      "write no corpus records",
+      "record query identity latency returned multiplicity and multiplicity bit length for every pilot query",
+      "maintain and checkpoint the top 50 latency records throughout the run",
+      "derive the proposed generation p99 limit by the frozen rule before any later corpus authority is requested"
+    ],
+    "not_authorized": [
+      "corpus_generation",
+      "model_training",
+      "model_evaluation",
+      "oracle_source_modification",
+      "oracle_promotion"
+    ]
+  },
+  "source_bindings": {
+    "phase1_corpus_plan_sha256": "9311b0f28de0f3f42614fd17fa808d812ae7a0ad354fa723f55222b0b4116e18",
+    "reduced_manifest_sha256": "1d097675fbff83e704cfd0128ea98caa116d6bcb3573fa7ef314b9d1f357a733",
+    "root_systems_sha256": "b8b175011909e6734bc6d6a6d55b3d09a67c34a5106a5908a5029206bf4f0271",
+    "lie_source_sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e",
+    "zero_source_archive_sha256": "9af79279246cbad8254a53289a3a83fe3a3a2a30bd87860112dd88bce408e783",
+    "zero_source_commit": "7be2367458acc8b004bfb3646322048a233d1b09"
+  },
+  "replay": {
+    "generator_seed": 1378397233,
+    "expected_pilot_queries": 26624,
+    "candidate_order": "frozen_phase1_full_pilot_roster",
+    "lie_workers": 8,
+    "zero_workers": 2,
+    "oracle_processes": "persistent"
+  },
+  "trace": {
+    "format": "newline_delimited_json",
+    "checkpoint_after_each_pilot_batch": true,
+    "continuous_top_count": 50,
+    "fields": [
+      "sequence",
+      "pilot_slice_id",
+      "slice_sequence",
+      "worker_id",
+      "canonical_type",
+      "canonical_representation_id",
+      "representation_dimension",
+      "highest_weight",
+      "target_weight",
+      "target_status",
+      "target_depth",
+      "desired_stratum",
+      "query_key",
+      "status",
+      "elapsed_ms",
+      "multiplicity",
+      "multiplicity_bit_length",
+      "multiplicity_stratum"
+    ],
+    "tail_breakdowns": [
+      "canonical_type",
+      "canonical_representation_id",
+      "target_depth_band",
+      "multiplicity_bit_length_band",
+      "inside_or_outside_corpus_label_range"
+    ]
+  },
+  "threshold_policy": {
+    "estimator": "exact_nearest_rank_p99_over_complete_pilot_trace",
+    "multiplier": 1.25,
+    "rounding": "ceil_to_next_whole_millisecond",
+    "discretionary_floor_or_adjustment": false,
+    "hard_abort_ms": 30000,
+    "effect": "proposes_numeric_clause_but_does_not_authorize_corpus_generation"
+  },
+  "cloud": {
+    "provider": "aws",
+    "region": "us-east-1",
+    "ami": "ami-0d7f022123f8ff19d",
+    "instance_type": "c6i.4xlarge",
+    "maximum_instance_seconds": 600,
+    "workload_timeout_seconds": 480,
+    "hourly_price_usd": 0.68,
+    "maximum_ec2_usd": 0.12
+  },
+  "closures": {
+    "corpus_generation_authorized": false,
+    "model_training_authorized": false,
+    "model_evaluation_authorized": false,
+    "oracle_promotion_authorized": false
+  }
+}

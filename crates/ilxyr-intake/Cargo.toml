@@ -1,0 +1,15 @@
+[package]
+name = "ilxyr-intake"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+ilxyr-intake-boundary = { path = "../ilxyr-intake-boundary" }
+serde.workspace = true
+serde_json.workspace = true
+tiny_http.workspace = true
+
+[lints]
+workspace = true

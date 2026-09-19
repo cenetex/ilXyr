@@ -1,0 +1,32 @@
+{
+  "failures": [
+    {
+      "cause": "The sandbox blocked the shell log pipe with /dev/fd/62: Operation not permitted before metadata or model work.",
+      "evidence": "host-tests-01",
+      "phase": "local_host_tests",
+      "repair": "Use host permission for the fake-host tests. Ten initial and fourteen expanded tests passed. All provider and container commands in these tests are stubs.",
+      "status": "reproduced_environment_failure"
+    },
+    {
+      "cause": "Error when retrieving token from sso: Token has expired and refresh failed",
+      "evidence_sha256": "7c36f83186a6870a817fba3e2e4bbb4dad5f5206e05fb2d74ff9ec25a2bf2ae0",
+      "instances_created": 0,
+      "next_action": "Finish the pending AWS sign-in, then stage the exact archive and run free preflight.",
+      "phase": "free_provider_preflight",
+      "status": "waiting_for_sign_in"
+    },
+    {
+      "cause": "The launcher checked the package and preflight age but accepted a preflight for a different run ID. That reused a different output-prefix check.",
+      "phase": "preflight_binding_probe",
+      "repair": "Bind run_id in the preflight receipt and require its exact match at launch. The changed-run regression stops before any provider command.",
+      "reproduction": {
+        "aws_called": true,
+        "evidence_scope": "Controlled fake-provider commands only; actual instances created: zero.",
+        "returncode": 1,
+        "stderr": "Traceback (most recent call last):\n  File \"/private/tmp/ilxyr-research-step-45/scripts/zero4_cloud_launch.py\", line 120, in <module>\n    main()\n    ~~~~^^\n  File \"/private/tmp/ilxyr-research-step-45/scripts/zero4_cloud_launch.py\", line 105, in main\n    if result.returncode != 0: raise RuntimeError(result.stderr)\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Injected response timeout\n\n"
+      },
+      "status": "reproduced_and_repaired"
+    }
+  ],
+  "schema": "ilxyr.zero4_cloud_preparation_failures.v1"
+}

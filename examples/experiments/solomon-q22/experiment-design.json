@@ -1,0 +1,22 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "solomon.q22.experiment_design.v1",
+  "stage": "experiment_design",
+  "actor": {
+    "id": "model://solomon/q22/experiment-designer",
+    "kind": "model",
+    "model_ref": "model://solomon/q22/frozen-design/v1"
+  },
+  "title": "Prospective three-seed shared-task run",
+  "body": "Materialize the hash-checked Zero training and promotion files, encode training through the Solomon byte adapter, train seeds 1, 2, and 3 for exactly four epochs, freeze all model hashes, create blinded promotion inputs, predict once per frozen model, and verify every seed. The shared-task result resolves go only if every seed reaches 950000 operation_exact_rate_ppm. The source result separately records an all-seed agreement gate for the broader Solomon family conclusion.",
+  "input_refs": [
+    "solomon.q22.hypothesis.v1",
+    "solomon.q22.foundation.v1",
+    "solomon.q22.engineering_review.v1"
+  ],
+  "claims": [
+    "The promotion outcomes were not observed before this design, its forecasts, and its funding records merged.",
+    "Training-only liveness calibration is excluded from the outcome evidence."
+  ],
+  "confidence": 0.99
+}

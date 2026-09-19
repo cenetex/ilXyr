@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-42/FAILURES.json",
+  "evidence_ref": "artifact://sha256/90b3170439d18101a7a319d4a2c101f8008220b78234534ec827190d174b75f5",
+  "experiment_id": "research.step42.mean-retention-mask.v1",
+  "family": "zero",
+  "id": "verdict:research.step42.mean-retention-mask.v1",
+  "lineage_note": "Apply a fixed loss limit to every source beside the aggregate measure. Keep this counterexample scoped to the synthetic fixture.",
+  "mechanism": "mean retention mask",
+  "mechanism_tags": [
+    "replay-guard",
+    "source-retention",
+    "language-retention"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "zero4",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "In a small synthetic model with artificial windows, mean endpoint loss improved by 21.51 percent while dialogue loss rose by 4.22 percent.",
+  "taxonomy": "interference"
+}

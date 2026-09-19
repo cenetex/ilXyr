@@ -1,0 +1,19 @@
+{
+  "actual_billed_usd": null,
+  "approved_cap_usd": "3.00",
+  "conservative_seconds_through_terminal_observation": 981,
+  "estimate_includes_full_infrastructure_reserve_usd": "0.75",
+  "estimated_upper_before_tax_usd": "1.3609668",
+  "host_elapsed_instance_seconds": 601.9651856422424,
+  "instance_id": "i-0c979a0b88567f77d",
+  "provider_state": "terminated",
+  "root_volume_deleted": true,
+  "root_volume_id": "vol-06f2ceeac00e67914",
+  "schema": "ilxyr.feral_termination_review.v1",
+  "terminal_receipt_saved_at": "2026-09-08T06:30:18.557425+00:00",
+  "terminal_receipt_sha256": "f8430ac340755615255683877859ddb8849072f99964865889713e0f669563c2",
+  "termination_initiator": "host_exit_trap",
+  "termination_verified": true,
+  "volume_deletion_response": "InvalidVolume.NotFound",
+  "volume_deletion_response_sha256": "87ee3240dd7d59ab38bb1aca7e2d3fe067a8e4eff3f68b3530bad767ee255e61"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "solomon.q22-compositional.engineering-review.v1",
+  "stage": "engineering_review",
+  "actor": {
+    "id": "service://ilxyr/solomon-q22-compositional-source-review",
+    "kind": "service"
+  },
+  "title": "Independent source, surface, and firewall review",
+  "body": "Zero merge 8deeb138e4c01ba5b64bb22e5125d5c823c37f78 freezes the 10000-row training set, 1000-row promotion set, shared prefix, balanced distractors, and disjoint template families. NSRL merge fa60312f93ec859e42a57f383f5972b8df4cf807 freezes the inherited model, adapter, trainer, hashes, compute cap, and conjunctive outcome rule. All three models are written and hashed before evaluation bytes are first opened; prediction receives only ID and input columns, while the independent verifier retains the labels.",
+  "input_refs": [
+    "solomon.q22-compositional.hypothesis.v1",
+    "solomon.q22-compositional.foundation.v1"
+  ],
+  "claims": [
+    "No paid compute, adaptive repair, retraining, hyperparameter change, threshold change, or model selection is allowed.",
+    "All three seeds run even if an earlier seed would miss a gate.",
+    "The held-out promotion labels were not opened during source review or training-only liveness checks."
+  ],
+  "confidence": 0.99
+}

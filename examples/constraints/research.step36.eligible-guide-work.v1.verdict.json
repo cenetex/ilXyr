@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-36/FAILURES.json",
+  "evidence_ref": "artifact://sha256/d0f683fa9767fd70a90cd584768bda28a50cc1c98a09126be2fb415ffbc8f031",
+  "experiment_id": "research.step36.eligible-guide-work.v1",
+  "family": "zero",
+  "id": "verdict:research.step36.eligible-guide-work.v1",
+  "lineage_note": "Keep both simple references in the fresh comparison and count scoring plus verifier work. A further full-study failure directs work toward a different guidance mechanism.",
+  "mechanism": "eligible guide work",
+  "mechanism_tags": [
+    "learned-search",
+    "stage-cost",
+    "frequency-control"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "reasoner",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "On sixteen opened measured visits, the full task guide used 243 verifier checks, semantic frequency 211, lexical guidance 176, and the prior-feature ablation 233.",
+  "taxonomy": "measurement"
+}

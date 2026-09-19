@@ -1,0 +1,25 @@
+{
+  "schema": "ilxyr.experiment_proposal.v1",
+  "id": "zero.orbit_quotient.proposal.v1",
+  "revision": 1,
+  "experiment_id": "zero.orbit_quotient.v1",
+  "proposer": {
+    "id": "model://ilxyr/zero-research-director",
+    "kind": "model",
+    "model_ref": "model://ilxyr/zero-research-director/v1"
+  },
+  "title": "Orbit-quotient curriculum for compositional generalization",
+  "summary": "Train on one canonical representative per known transformation orbit, then measure generalization to held-out representatives and unseen orbit compositions.",
+  "hypothesis": "An orbit-aware curriculum will improve held-out composition accuracy by at least 4 percentage points over a data-volume-matched random curriculum.",
+  "novelty": "The experiment tests the useful lesson from classification theory: factor regular symmetry families out of the data before spending capacity on genuine exceptions.",
+  "family": "zero",
+  "baseline": "baseline://ilxyr/random-curriculum-v1",
+  "datasets": ["dataset://ilxyr/orbit-composition-frozen-v1"],
+  "primary_metric": "heldout_composition_accuracy_delta",
+  "success_operator": "gte",
+  "success_threshold": 0.04,
+  "seeds": [17, 29, 43],
+  "compute_credits": 120,
+  "evidence_level": "deterministic_replay",
+  "export_policy": "artifacts"
+}

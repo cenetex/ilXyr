@@ -1,0 +1,149 @@
+{
+  "ci_head": "4eafdd9ad5e9eb84959624b7a41e0c1461c108cb",
+  "ci_run": 34716907398,
+  "fresh_predictor_calls": 0,
+  "full_run_status": "pending_free_provider_preflight_and_exact_launch_approval",
+  "host_tests": 16,
+  "local_schema_suite": {
+    "exit_code": 0,
+    "receipt_sha256": "300191052cbbb826df5646c2ecd0f35015fccad214b5e68e84254d1052826e17",
+    "status": "complete",
+    "wall_seconds": 171.403695542
+  },
+  "moved_result_check": {
+    "distinct_results": 174,
+    "sha256": "8ab2f55bf08a9f1bb158e287c10b2f65676823252c047c9c97a813eee61cfa08",
+    "stable_rows_sha256": "6da367284c7b7a0b23391b4e76aaa51a413736b782511e773f50332f0a28e792",
+    "status": "verified_complete"
+  },
+  "opened_cases": 58,
+  "opened_distinct_results": 174,
+  "opened_predictor_calls": 522,
+  "opened_stable_rows_match_step48": true,
+  "opened_workers": 9,
+  "package_parity": {
+    "ci_package": {
+      "bytes": 41840640,
+      "plan_sha256": "7ddfbf97455e972c53f924088dd195396d82f47bb4ffcc5ab4af0b38eecb4413",
+      "sha256": "c1d7015adf41930d492ed0e017b997cf8caf46b5c30c753e90287c7671bec85e",
+      "source_commit": "770c66bc55a3dbb26c15d3d2a7fb550fb46cfb86"
+    },
+    "ci_run": 34716907398,
+    "equal_scope": "Every package member matches; HOST.json source_commit records the CI merge commit.",
+    "local_package": {
+      "bytes": 41840640,
+      "plan_sha256": "7ddfbf97455e972c53f924088dd195396d82f47bb4ffcc5ab4af0b38eecb4413",
+      "sha256": "c392e3a51d333e2a48b04bf91f9b6cab3959953b9afbd585f8aab59dd381872c",
+      "source_commit": "4eafdd9ad5e9eb84959624b7a41e0c1461c108cb"
+    },
+    "status": "verified"
+  },
+  "paid_instances_created": 0,
+  "performance_claim": "opened_engineering_only",
+  "runtime": {
+    "check_sha256": "8ab2f55bf08a9f1bb158e287c10b2f65676823252c047c9c97a813eee61cfa08",
+    "checker_command": [
+      "/usr/bin/python3",
+      "/work/package/controller/scripts/check_feral_coverage.py",
+      "--prepared",
+      "/work/package/prepared",
+      "--collected",
+      "/work/output/runtime/study",
+      "--supervisor-sha256",
+      "e3feb1e39c019412bf7ae2ad63791541c8a13e553856bac8bf83935b6b4a8aeb",
+      "--out",
+      "/work/output/runtime/verified"
+    ],
+    "checker_receipt_sha256": "b3033878ee6f446b3496d387f071c11852e6f94d13ad5d7553000dd862f1aced",
+    "controller_command": [
+      "/usr/bin/python3",
+      "/work/package/controller/scripts/research_feral_coverage.py",
+      "opened",
+      "--prepared",
+      "/work/package/prepared",
+      "--out",
+      "/work/output/runtime/study",
+      "--work",
+      "/work/output/runtime/build"
+    ],
+    "controller_exit_code": 0,
+    "decision": "opened_engineering",
+    "distinct_results": 174,
+    "environment": {
+      "LANG": "C",
+      "LC_ALL": "C",
+      "MKL_NUM_THREADS": "1",
+      "NODE_OPTIONS": "--max-old-space-size=1536",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PATH": "/work/package/runtime/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONHASHSEED": "0",
+      "TZ": "UTC",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "fresh_predictor_calls": 0,
+    "memory_after": {
+      "cpu": {
+        "burst_usec": 0,
+        "core_sched.force_idle_usec": 0,
+        "nice_usec": 0,
+        "nr_bursts": 0,
+        "nr_periods": 10,
+        "nr_throttled": 0,
+        "system_usec": 174865,
+        "throttled_usec": 0,
+        "usage_usec": 909300,
+        "user_usec": 734434
+      },
+      "events": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "limit_bytes": 3221225472,
+      "peak_bytes": 134246400,
+      "scope": "whole_container_cgroup_v2"
+    },
+    "memory_before": {
+      "cpu": {
+        "burst_usec": 0,
+        "core_sched.force_idle_usec": 0,
+        "nice_usec": 0,
+        "nr_bursts": 0,
+        "nr_periods": 2,
+        "nr_throttled": 0,
+        "system_usec": 47884,
+        "throttled_usec": 0,
+        "usage_usec": 192534,
+        "user_usec": 144650
+      },
+      "events": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "limit_bytes": 3221225472,
+      "peak_bytes": 134246400,
+      "scope": "whole_container_cgroup_v2"
+    },
+    "mode": "opened",
+    "node_identity": "v22.22.0",
+    "phase": "complete",
+    "python_identity": "3.11.2",
+    "schema": "ilxyr.feral_coverage_runtime.v1",
+    "stable_rows_sha256": "6da367284c7b7a0b23391b4e76aaa51a413736b782511e773f50332f0a28e792",
+    "status": "complete",
+    "stop_signal": null,
+    "supervisor_sha256": "e3feb1e39c019412bf7ae2ad63791541c8a13e553856bac8bf83935b6b4a8aeb"
+  },
+  "runtime_record_sha256": "edda3a357174d2b12a8b65de06c11e4cad7a831d73dee2351a3648fb3ae54ad2",
+  "schema": "ilxyr.feral_coverage_cloud_preparation.v1",
+  "status": "local_and_fixed_image_checks_passed"
+}

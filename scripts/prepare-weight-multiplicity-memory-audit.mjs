@@ -32,6 +32,11 @@ const runsFor = (measurement) => [
 
 const runMemoStats = (run) => ({
   rss_bytes: run.memory_bytes?.incremental_from_ready ?? null,
+  rss_known: !run.hard_timeout && !run.oracle_error &&
+    (!run.memory_bytes?.observation ||
+      run.memory_bytes.observation === "exact_process_high_water") &&
+    Number.isFinite(run.memory_bytes?.incremental_from_ready) &&
+    run.memory_bytes.incremental_from_ready >= 0,
   memo_entries: run.memory_bytes?.maximum_memo_entries ?? 0,
   live_entry_bytes: run.memory_bytes?.maximum_live_entry_bytes ?? null,
   capacity_bytes: run.memory_bytes?.maximum_memo_capacity ?? 0,
@@ -60,14 +65,16 @@ const measurementMemoStats = (measurement) => {
     .map((run, index) => runsFor(measurement)[index]?.memo_configuration?.entry_bytes)
     .find((value) => Number.isFinite(value)) ?? null;
   const liveEntryBytes = entryBytes === null ? null : memoEntries * entryBytes;
-  const rssBytes = numericMaximum("rss_bytes");
+  const rssKnown = runs.length > 0 && runs.every((run) => run.rss_known);
+  const rssBytes = rssKnown ? numericMaximum("rss_bytes") : null;
   return {
     rss_bytes: rssBytes,
+    rss_known: rssKnown,
     memo_entries: memoEntries,
     memo_entry_bytes: entryBytes,
     live_entry_bytes: liveEntryBytes,
     rss_to_live_entry_ratio:
-      liveEntryBytes ? rssBytes / liveEntryBytes : null,
+      liveEntryBytes && rssKnown ? rssBytes / liveEntryBytes : null,
     capacity_bytes: numericMaximum("capacity_bytes"),
     peak_allocated_bytes: numericMaximum("peak_allocated_bytes"),
     hard_timeout_progress: progress,
@@ -133,6 +140,17 @@ const selectAudit = (frontier, manifest) => {
 };
 
 const compareFrontiers = (defaultFrontier, presizedFrontier) => {
+  for (const field of ["oracle_executable_sha256", "plan_sha256"]) {
+    if (!/^[0-9a-f]{64}$/u.test(defaultFrontier[field] ?? "") ||
+        defaultFrontier[field] !== presizedFrontier[field])
+      throw new Error(`comparison requires matching ${field}`);
+  }
+  const expectedIds = selectMeasurements(defaultFrontier)
+    .map((measurement) => measurement.representation.id).sort();
+  const actualIds = presizedFrontier.measurements
+    .map((measurement) => measurement.representation.id).sort();
+  if (JSON.stringify(expectedIds) !== JSON.stringify(actualIds))
+    throw new Error("presized results must cover the complete frozen memory-audit selection");
   const defaults = new Map(
     defaultFrontier.measurements.map((measurement) => [measurement.representation.id, measurement]),
   );
@@ -148,9 +166,12 @@ const compareFrontiers = (defaultFrontier, presizedFrontier) => {
       default: defaultStats,
       presized: presizedStats,
       memory_boundary_moved:
-        defaultStats.rss_bytes > MEMORY_LIMIT_BYTES &&
-        presizedStats.rss_bytes <= MEMORY_LIMIT_BYTES,
-      remains_over_memory_limit: presizedStats.rss_bytes > MEMORY_LIMIT_BYTES,
+        defaultStats.rss_known && presizedStats.rss_known
+          ? defaultStats.rss_bytes > MEMORY_LIMIT_BYTES &&
+            presizedStats.rss_bytes <= MEMORY_LIMIT_BYTES
+          : null,
+      remains_over_memory_limit: presizedStats.rss_known
+        ? presizedStats.rss_bytes > MEMORY_LIMIT_BYTES : null,
     };
   });
   return {
@@ -167,11 +188,14 @@ const compareFrontiers = (defaultFrontier, presizedFrontier) => {
       cells: cells.length,
       boundaries_moved: cells.filter((cell) => cell.memory_boundary_moved).length,
       remain_over_limit: cells.filter((cell) => cell.remains_over_memory_limit).length,
+      unknown_memory_comparisons: cells.filter((cell) => cell.memory_boundary_moved === null).length,
     },
     conclusion:
       cells.some((cell) => cell.memory_boundary_moved)
         ? "memory frontier is allocation-policy-dependent"
-        : "no tested memory boundary moved under the presized policy",
+        : cells.some((cell) => cell.memory_boundary_moved === null)
+          ? "memory comparison remains incomplete for unknown observations"
+          : "no tested memory boundary moved under the presized policy",
   };
 };
 
@@ -220,6 +244,8 @@ const main = async () => {
       throw new Error("select requires --frontier, --manifest, and --out");
     const frontier = await readJsonWithDigest(options.frontier);
     const manifest = await readJsonWithDigest(options.manifest);
+    if (frontier.value.manifest_sha256 !== manifest.digest)
+      throw new Error("frontier must bind the exact source manifest bytes");
     const audit = selectAudit(frontier.value, manifest.value);
     audit.audit_derivation = {
       frontier_sha256: frontier.digest,

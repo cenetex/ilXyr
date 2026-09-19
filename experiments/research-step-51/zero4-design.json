@@ -1,0 +1,167 @@
+{
+  "schema": "ilxyr.constraint_diff_report.v1",
+  "report_id": "constraint-diff:research.step51.zero4",
+  "experiment_id": "research.step51.zero4",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "ledger_ref": "artifact://sha256/23934f7d4e72aed4330f14a63d84784a94fb28ed74fc7bc39c850cc08b74a931",
+  "generated_at_ms": 1789248868722,
+  "proposed_mechanism_tags": [
+    "replay-guard",
+    "source-retention",
+    "language-retention",
+    "content-overlap"
+  ],
+  "matches": [
+    {
+      "verdict_id": "verdict:zero.q23.seed2.local-guard.v1",
+      "experiment_id": "zero.q23.seed2.local-guard.no-go.v1",
+      "family": "zero",
+      "outcome": "no_go",
+      "taxonomy": "transfer",
+      "matched_tags": [
+        "replay-guard"
+      ],
+      "verdict_summary": "Q2.3 seed 2 completed under its frozen local functional replay guard: quantity reached the declared threshold, the guard rejected no attempts, cumulative public replay regression reached 2.685%, and the diagnostic was a no-go without promotion or replication-seed access.",
+      "same_mechanism_tags": false,
+      "seed": 2
+    },
+    {
+      "verdict_id": "verdict:zero.q24.seed2.cumulative-guard.v1",
+      "experiment_id": "zero.q24.seed2.cumulative-guard.v1",
+      "family": "zero",
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "matched_tags": [
+        "replay-guard"
+      ],
+      "verdict_summary": "Q2.4 seed 2 committed 66 candidates under the frozen 1.5% cumulative replay authority. Attempts 67-74 each exceeded the ceiling and rolled back, ending the run via the eight-rejection fallback before any public checkpoint or promotion evaluation.",
+      "same_mechanism_tags": false,
+      "seed": 2
+    },
+    {
+      "verdict_id": "verdict:zero.q25.seed2.deterministic-backtracking.v1",
+      "experiment_id": "zero.q25.seed2.deterministic-backtracking.v1",
+      "family": "zero",
+      "outcome": "complete_no_go",
+      "taxonomy": "interference",
+      "matched_tags": [
+        "replay-guard"
+      ],
+      "verdict_summary": "Q2.5 seed 2 committed 71 updates (66 full-scale, 5 backtracked), then exhausted all eight scales on attempts 72-79. The terminal minimum-scale candidates missed the 1.5% authority by only 0.000151-0.000238 percentage points. Promotion and replication stayed sealed.",
+      "same_mechanism_tags": false,
+      "seed": 2
+    },
+    {
+      "verdict_id": "verdict:zero.q29.language-retention.v1",
+      "experiment_id": "zero.q29.language-retention.v1",
+      "family": "zero",
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "matched_tags": [
+        "replay-guard",
+        "language-retention"
+      ],
+      "verdict_summary": "A small replay training loss change coexisted with a failed independent language preservation gate for the selected Q2.9 candidate.",
+      "same_mechanism_tags": false,
+      "seed": 2,
+      "project": "zero4",
+      "evidence_kind": "existing_public_result",
+      "source_outcome": "Q2.9 first-hit candidate failed the later fixed language preservation gate",
+      "lineage_note": "Preserve the earlier candidate-frozen training result and the later language no-go. Freeze per-source retention limits and a separate fresh language screen for the next comparison.",
+      "verdict_ref": "artifact://sha256/d8a02985533c57089b48437ca091c5f61f41aae49f9aa65444c7d6f299e7c059",
+      "evidence_ref": "artifact://sha256/dd0da36394f922314fbcfce2cca3f19545b771f09ae7e310d3cabe50931b61b4",
+      "evidence_path": "experiments/research-step-17/RESULT.json"
+    },
+    {
+      "verdict_id": "verdict:research.step41.canonical-task-overlap.v1",
+      "experiment_id": "research.step41.canonical-task-overlap.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "content-overlap"
+      ],
+      "verdict_summary": "The Q2.6 audit found 120 canonical problem keys shared across splits, including 57 shared between training and promotion.",
+      "same_mechanism_tags": false,
+      "project": "zero4",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Exclude equivalent task keys before creating the new split roster and verify actual problem content.",
+      "verdict_ref": "artifact://sha256/ea6f09d3ced35d0d6faf2e589e1193bc9dbe8794ea86f169fed5f478f89a0a6b",
+      "evidence_ref": "artifact://sha256/bc9b376975f9f36f8992835ca6624684777bccf6b52f4a1c80dd239b71b268ea",
+      "evidence_path": "experiments/research-step-41/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step41.retention-window-exposure.v1",
+      "experiment_id": "research.step41.retention-window-exposure.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "content-overlap"
+      ],
+      "verdict_summary": "The only eligible foundation validation start was already used. All eligible Blake windows overlapped tokens sampled by the audited historical validation schedules.",
+      "same_mechanism_tags": false,
+      "project": "zero4",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Use explicit windows disjoint from the audited token exposure, or declare a new source and protocol before evaluation.",
+      "verdict_ref": "artifact://sha256/e1ed3aa56e5e0f815901f240c28f61f1c2eb44181a6b17a9d35928e29436b256",
+      "evidence_ref": "artifact://sha256/bc9b376975f9f36f8992835ca6624684777bccf6b52f4a1c80dd239b71b268ea",
+      "evidence_path": "experiments/research-step-41/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step42.mean-retention-mask.v1",
+      "experiment_id": "research.step42.mean-retention-mask.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "interference",
+      "matched_tags": [
+        "replay-guard",
+        "source-retention",
+        "language-retention"
+      ],
+      "verdict_summary": "In a small synthetic model with artificial windows, mean endpoint loss improved by 21.51 percent while dialogue loss rose by 4.22 percent.",
+      "same_mechanism_tags": false,
+      "project": "zero4",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Apply a fixed loss limit to every source beside the aggregate measure. Keep this counterexample scoped to the synthetic fixture.",
+      "verdict_ref": "artifact://sha256/12eea2ee815941e1700e587845a25e3f3a83e564b2d7ca7cccd43c4de651d93b",
+      "evidence_ref": "artifact://sha256/90b3170439d18101a7a319d4a2c101f8008220b78234534ec827190d174b75f5",
+      "evidence_path": "experiments/research-step-42/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step43.language-endpoint-damage.v1",
+      "experiment_id": "research.step43.language-endpoint-damage.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "interference",
+      "matched_tags": [
+        "replay-guard",
+        "source-retention",
+        "language-retention"
+      ],
+      "verdict_summary": "On the tiny synthetic model and opened cases, every guard update was accepted. Dialogue loss rose 4.218516 percent, story bits per byte rose 17.184475 percent, and task exact artifacts stayed at zero of five.",
+      "same_mechanism_tags": false,
+      "project": "zero4",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Keep separate source and language gates and preserve the failed candidate decision alongside its accepted updates.",
+      "verdict_ref": "artifact://sha256/d4db06923cdbb4610d2a5c75d42f7d08c9eac6ce217f89c46b26965907a70c77",
+      "evidence_ref": "artifact://sha256/68fde0cbda3d7a04cad1cbbc60d38f0811deca0cdfb4de72d1c05ad1c395def6",
+      "evidence_path": "experiments/research-step-43/FAILURES.json"
+    }
+  ],
+  "taxonomy_counts": {
+    "transfer": 1,
+    "interference": 5,
+    "measurement": 2,
+    "venue": 0,
+    "implementation": 0
+  },
+  "superseded_entries": 0,
+  "proposed_change": "Size the root disk for the observed image footprint plus the frozen output and archive reserve, then test and publish a replacement package.",
+  "summary": "8 prior results share these mechanism tags. Review their evidence and the required design changes.",
+  "recommendation": "review"
+}

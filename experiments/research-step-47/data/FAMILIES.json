@@ -1,0 +1,1160 @@
+[
+  {
+    "company": "Microsoft",
+    "facts": [
+      {
+        "id": "msft-income-2025-a-2025",
+        "label": "Operating income",
+        "role": "a",
+        "source_cell": "128,528",
+        "table_column": 1,
+        "table_row": 14,
+        "unit": "usd_million",
+        "value": "128528",
+        "year": 2025
+      },
+      {
+        "id": "msft-income-2025-a-2024",
+        "label": "Operating income",
+        "role": "a",
+        "source_cell": "109,433",
+        "table_column": 3,
+        "table_row": 14,
+        "unit": "usd_million",
+        "value": "109433",
+        "year": 2024
+      },
+      {
+        "id": "msft-income-2025-a-2023",
+        "label": "Operating income",
+        "role": "a",
+        "source_cell": "88,523",
+        "table_column": 5,
+        "table_row": 14,
+        "unit": "usd_million",
+        "value": "88523",
+        "year": 2023
+      },
+      {
+        "id": "msft-income-2025-b-2025",
+        "label": "Net income",
+        "role": "b",
+        "source_cell": "$ 101,832",
+        "table_column": 1,
+        "table_row": 18,
+        "unit": "usd_million",
+        "value": "101832",
+        "year": 2025
+      },
+      {
+        "id": "msft-income-2025-b-2024",
+        "label": "Net income",
+        "role": "b",
+        "source_cell": "$ 88,136",
+        "table_column": 3,
+        "table_row": 18,
+        "unit": "usd_million",
+        "value": "88136",
+        "year": 2024
+      },
+      {
+        "id": "msft-income-2025-b-2023",
+        "label": "Net income",
+        "role": "b",
+        "source_cell": "$ 72,361",
+        "table_column": 5,
+        "table_row": 18,
+        "unit": "usd_million",
+        "value": "72361",
+        "year": 2023
+      },
+      {
+        "id": "msft-income-2025-c-2025",
+        "label": "Income before income taxes",
+        "role": "c",
+        "source_cell": "123,627",
+        "table_column": 1,
+        "table_row": 16,
+        "unit": "usd_million",
+        "value": "123627",
+        "year": 2025
+      },
+      {
+        "id": "msft-income-2025-c-2024",
+        "label": "Income before income taxes",
+        "role": "c",
+        "source_cell": "107,787",
+        "table_column": 3,
+        "table_row": 16,
+        "unit": "usd_million",
+        "value": "107787",
+        "year": 2024
+      },
+      {
+        "id": "msft-income-2025-c-2023",
+        "label": "Income before income taxes",
+        "role": "c",
+        "source_cell": "89,311",
+        "table_column": 5,
+        "table_row": 16,
+        "unit": "usd_million",
+        "value": "89311",
+        "year": 2023
+      }
+    ],
+    "header_cells": [
+      "Year Ended June 30,",
+      "2025",
+      "",
+      "2024",
+      "",
+      "2023"
+    ],
+    "id": "msft-income-2025",
+    "kind": "income",
+    "report_key": "MSFT/2025",
+    "source_id": "msft",
+    "source_sha256": "564154a15ac28c0f7f72f304ae26b74c29cfca9f3eafe8d59595776769d621ca",
+    "table_html_sha256": "b8ed628e25c768ece983a8d181b8f869239777c62adc917be18a0cb58935ec5e",
+    "table_index": 15,
+    "table_source_span": [
+      189357,
+      200343
+    ],
+    "unit": "usd_million",
+    "unit_source": {
+      "interpretation": "USD millions for selected monetary rows",
+      "raw": "In millions",
+      "span": [
+        189515,
+        189526
+      ]
+    }
+  },
+  {
+    "company": "Microsoft",
+    "facts": [
+      {
+        "id": "msft-balance-2025-a-2025",
+        "label": "Total current assets",
+        "role": "a",
+        "source_cell": "191,131",
+        "table_column": 1,
+        "table_row": 10,
+        "unit": "usd_million",
+        "value": "191131",
+        "year": 2025
+      },
+      {
+        "id": "msft-balance-2025-a-2024",
+        "label": "Total current assets",
+        "role": "a",
+        "source_cell": "159,734",
+        "table_column": 3,
+        "table_row": 10,
+        "unit": "usd_million",
+        "value": "159734",
+        "year": 2024
+      },
+      {
+        "id": "msft-balance-2025-b-2025",
+        "label": "Total current liabilities",
+        "role": "b",
+        "source_cell": "141,218",
+        "table_column": 1,
+        "table_row": 27,
+        "unit": "usd_million",
+        "value": "141218",
+        "year": 2025
+      },
+      {
+        "id": "msft-balance-2025-b-2024",
+        "label": "Total current liabilities",
+        "role": "b",
+        "source_cell": "125,286",
+        "table_column": 3,
+        "table_row": 27,
+        "unit": "usd_million",
+        "value": "125286",
+        "year": 2024
+      },
+      {
+        "id": "msft-balance-2025-c-2025",
+        "label": "Total assets",
+        "role": "c",
+        "source_cell": "$ 619,003",
+        "table_column": 1,
+        "table_row": 17,
+        "unit": "usd_million",
+        "value": "619003",
+        "year": 2025
+      },
+      {
+        "id": "msft-balance-2025-c-2024",
+        "label": "Total assets",
+        "role": "c",
+        "source_cell": "$ 512,163",
+        "table_column": 3,
+        "table_row": 17,
+        "unit": "usd_million",
+        "value": "512163",
+        "year": 2024
+      }
+    ],
+    "header_cells": [
+      "June 30,",
+      "2025",
+      "",
+      "2024"
+    ],
+    "id": "msft-balance-2025",
+    "kind": "balance",
+    "report_key": "MSFT/2025",
+    "source_id": "msft",
+    "source_sha256": "564154a15ac28c0f7f72f304ae26b74c29cfca9f3eafe8d59595776769d621ca",
+    "table_html_sha256": "6b25595eb7c4ccb838bdf6d0c481238064c5a1303c1f02f6c0d96a4e37db591a",
+    "table_index": 17,
+    "table_source_span": [
+      204751,
+      218473
+    ],
+    "unit": "usd_million",
+    "unit_source": {
+      "interpretation": "USD millions for selected monetary rows",
+      "raw": "In millions",
+      "span": [
+        204909,
+        204920
+      ]
+    }
+  },
+  {
+    "company": "Microsoft",
+    "facts": [
+      {
+        "id": "msft-shareholder-2025-a-2020",
+        "label": "Microsoft Corporation",
+        "role": "a",
+        "source_cell": "100.00",
+        "table_column": 1,
+        "table_row": 1,
+        "unit": "usd",
+        "value": "100",
+        "year": 2020
+      },
+      {
+        "id": "msft-shareholder-2025-a-2021",
+        "label": "Microsoft Corporation",
+        "role": "a",
+        "source_cell": "134.41",
+        "table_column": 3,
+        "table_row": 1,
+        "unit": "usd",
+        "value": "13441/100",
+        "year": 2021
+      },
+      {
+        "id": "msft-shareholder-2025-a-2022",
+        "label": "Microsoft Corporation",
+        "role": "a",
+        "source_cell": "128.48",
+        "table_column": 5,
+        "table_row": 1,
+        "unit": "usd",
+        "value": "3212/25",
+        "year": 2022
+      },
+      {
+        "id": "msft-shareholder-2025-a-2023",
+        "label": "Microsoft Corporation",
+        "role": "a",
+        "source_cell": "172.01",
+        "table_column": 7,
+        "table_row": 1,
+        "unit": "usd",
+        "value": "17201/100",
+        "year": 2023
+      },
+      {
+        "id": "msft-shareholder-2025-a-2024",
+        "label": "Microsoft Corporation",
+        "role": "a",
+        "source_cell": "227.51",
+        "table_column": 9,
+        "table_row": 1,
+        "unit": "usd",
+        "value": "22751/100",
+        "year": 2024
+      },
+      {
+        "id": "msft-shareholder-2025-a-2025",
+        "label": "Microsoft Corporation",
+        "role": "a",
+        "source_cell": "255.13",
+        "table_column": 11,
+        "table_row": 1,
+        "unit": "usd",
+        "value": "25513/100",
+        "year": 2025
+      },
+      {
+        "id": "msft-shareholder-2025-b-2020",
+        "label": "S&P 500",
+        "role": "b",
+        "source_cell": "100.00",
+        "table_column": 1,
+        "table_row": 2,
+        "unit": "usd",
+        "value": "100",
+        "year": 2020
+      },
+      {
+        "id": "msft-shareholder-2025-b-2021",
+        "label": "S&P 500",
+        "role": "b",
+        "source_cell": "140.79",
+        "table_column": 3,
+        "table_row": 2,
+        "unit": "usd",
+        "value": "14079/100",
+        "year": 2021
+      },
+      {
+        "id": "msft-shareholder-2025-b-2022",
+        "label": "S&P 500",
+        "role": "b",
+        "source_cell": "125.85",
+        "table_column": 5,
+        "table_row": 2,
+        "unit": "usd",
+        "value": "2517/20",
+        "year": 2022
+      },
+      {
+        "id": "msft-shareholder-2025-b-2023",
+        "label": "S&P 500",
+        "role": "b",
+        "source_cell": "150.51",
+        "table_column": 7,
+        "table_row": 2,
+        "unit": "usd",
+        "value": "15051/100",
+        "year": 2023
+      },
+      {
+        "id": "msft-shareholder-2025-b-2024",
+        "label": "S&P 500",
+        "role": "b",
+        "source_cell": "187.47",
+        "table_column": 9,
+        "table_row": 2,
+        "unit": "usd",
+        "value": "18747/100",
+        "year": 2024
+      },
+      {
+        "id": "msft-shareholder-2025-b-2025",
+        "label": "S&P 500",
+        "role": "b",
+        "source_cell": "215.89",
+        "table_column": 11,
+        "table_row": 2,
+        "unit": "usd",
+        "value": "21589/100",
+        "year": 2025
+      },
+      {
+        "id": "msft-shareholder-2025-c-2020",
+        "label": "NASDAQ Computer",
+        "role": "c",
+        "source_cell": "100.00",
+        "table_column": 1,
+        "table_row": 3,
+        "unit": "usd",
+        "value": "100",
+        "year": 2020
+      },
+      {
+        "id": "msft-shareholder-2025-c-2021",
+        "label": "NASDAQ Computer",
+        "role": "c",
+        "source_cell": "150.44",
+        "table_column": 3,
+        "table_row": 3,
+        "unit": "usd",
+        "value": "3761/25",
+        "year": 2021
+      },
+      {
+        "id": "msft-shareholder-2025-c-2022",
+        "label": "NASDAQ Computer",
+        "role": "c",
+        "source_cell": "117.59",
+        "table_column": 5,
+        "table_row": 3,
+        "unit": "usd",
+        "value": "11759/100",
+        "year": 2022
+      },
+      {
+        "id": "msft-shareholder-2025-c-2023",
+        "label": "NASDAQ Computer",
+        "role": "c",
+        "source_cell": "154.73",
+        "table_column": 7,
+        "table_row": 3,
+        "unit": "usd",
+        "value": "15473/100",
+        "year": 2023
+      },
+      {
+        "id": "msft-shareholder-2025-c-2024",
+        "label": "NASDAQ Computer",
+        "role": "c",
+        "source_cell": "223.97",
+        "table_column": 9,
+        "table_row": 3,
+        "unit": "usd",
+        "value": "22397/100",
+        "year": 2024
+      },
+      {
+        "id": "msft-shareholder-2025-c-2025",
+        "label": "NASDAQ Computer",
+        "role": "c",
+        "source_cell": "254.97",
+        "table_column": 11,
+        "table_row": 3,
+        "unit": "usd",
+        "value": "25497/100",
+        "year": 2025
+      }
+    ],
+    "header_cells": [
+      "",
+      "6/20",
+      "",
+      "6/21",
+      "",
+      "6/22",
+      "",
+      "6/23",
+      "",
+      "6/24",
+      "",
+      "6/25"
+    ],
+    "id": "msft-shareholder-2025",
+    "kind": "shareholder",
+    "report_key": "MSFT/2025",
+    "source_id": "msft",
+    "source_sha256": "564154a15ac28c0f7f72f304ae26b74c29cfca9f3eafe8d59595776769d621ca",
+    "table_html_sha256": "09d47075d3dc4628b690f276f149cf98c19d935298c7567ccd27c68c0a9a537f",
+    "table_index": 2,
+    "table_source_span": [
+      52291,
+      55665
+    ],
+    "unit": "usd",
+    "unit_source": {
+      "interpretation": "USD wealth from a shared 100-dollar dividend-reinvested investment",
+      "raw": "$100 invested on 6/30/20",
+      "span": [
+        55744,
+        55768
+      ]
+    }
+  },
+  {
+    "company": "Apple",
+    "facts": [
+      {
+        "id": "aapl-income-2025-a-2025",
+        "label": "Operating income",
+        "role": "a",
+        "source_cell": "133,050",
+        "table_column": 1,
+        "table_row": 19,
+        "unit": "usd_million",
+        "value": "133050",
+        "year": 2025
+      },
+      {
+        "id": "aapl-income-2025-a-2024",
+        "label": "Operating income",
+        "role": "a",
+        "source_cell": "123,216",
+        "table_column": 4,
+        "table_row": 19,
+        "unit": "usd_million",
+        "value": "123216",
+        "year": 2024
+      },
+      {
+        "id": "aapl-income-2025-a-2023",
+        "label": "Operating income",
+        "role": "a",
+        "source_cell": "114,301",
+        "table_column": 7,
+        "table_row": 19,
+        "unit": "usd_million",
+        "value": "114301",
+        "year": 2023
+      },
+      {
+        "id": "aapl-income-2025-b-2025",
+        "label": "Net income",
+        "role": "b",
+        "source_cell": "112,010",
+        "table_column": 2,
+        "table_row": 23,
+        "unit": "usd_million",
+        "value": "112010",
+        "year": 2025
+      },
+      {
+        "id": "aapl-income-2025-b-2024",
+        "label": "Net income",
+        "role": "b",
+        "source_cell": "93,736",
+        "table_column": 6,
+        "table_row": 23,
+        "unit": "usd_million",
+        "value": "93736",
+        "year": 2024
+      },
+      {
+        "id": "aapl-income-2025-b-2023",
+        "label": "Net income",
+        "role": "b",
+        "source_cell": "96,995",
+        "table_column": 10,
+        "table_row": 23,
+        "unit": "usd_million",
+        "value": "96995",
+        "year": 2023
+      },
+      {
+        "id": "aapl-income-2025-c-2025",
+        "label": "Income before provision for income taxes",
+        "role": "c",
+        "source_cell": "132,729",
+        "table_column": 1,
+        "table_row": 21,
+        "unit": "usd_million",
+        "value": "132729",
+        "year": 2025
+      },
+      {
+        "id": "aapl-income-2025-c-2024",
+        "label": "Income before provision for income taxes",
+        "role": "c",
+        "source_cell": "123,485",
+        "table_column": 4,
+        "table_row": 21,
+        "unit": "usd_million",
+        "value": "123485",
+        "year": 2024
+      },
+      {
+        "id": "aapl-income-2025-c-2023",
+        "label": "Income before provision for income taxes",
+        "role": "c",
+        "source_cell": "113,736",
+        "table_column": 7,
+        "table_row": 21,
+        "unit": "usd_million",
+        "value": "113736",
+        "year": 2023
+      }
+    ],
+    "header_cells": [
+      "",
+      "September 27, 2025",
+      "",
+      "September 28, 2024",
+      "",
+      "September 30, 2023"
+    ],
+    "id": "aapl-income-2025",
+    "kind": "income",
+    "report_key": "AAPL/2025",
+    "source_id": "aapl",
+    "source_sha256": "eb08113db1fa3b847936c68ddf7bd9c31b5d708c14794c94355fd38ac3846850",
+    "table_html_sha256": "4a63c76acf0844cca9ebfab244810804ba97c6fb6b44fb52f3067188903d901b",
+    "table_index": 22,
+    "table_source_span": [
+      414321,
+      452665
+    ],
+    "unit": "usd_million",
+    "unit_source": {
+      "interpretation": "USD millions for selected monetary rows",
+      "raw": "In millions",
+      "span": [
+        414129,
+        414140
+      ]
+    }
+  },
+  {
+    "company": "Apple",
+    "facts": [
+      {
+        "id": "aapl-balance-2025-a-2025",
+        "label": "Total current assets",
+        "role": "a",
+        "source_cell": "147,957",
+        "table_column": 1,
+        "table_row": 10,
+        "unit": "usd_million",
+        "value": "147957",
+        "year": 2025
+      },
+      {
+        "id": "aapl-balance-2025-a-2024",
+        "label": "Total current assets",
+        "role": "a",
+        "source_cell": "152,987",
+        "table_column": 4,
+        "table_row": 10,
+        "unit": "usd_million",
+        "value": "152987",
+        "year": 2024
+      },
+      {
+        "id": "aapl-balance-2025-b-2025",
+        "label": "Total current liabilities",
+        "role": "b",
+        "source_cell": "165,631",
+        "table_column": 1,
+        "table_row": 26,
+        "unit": "usd_million",
+        "value": "165631",
+        "year": 2025
+      },
+      {
+        "id": "aapl-balance-2025-b-2024",
+        "label": "Total current liabilities",
+        "role": "b",
+        "source_cell": "176,392",
+        "table_column": 4,
+        "table_row": 26,
+        "unit": "usd_million",
+        "value": "176392",
+        "year": 2024
+      },
+      {
+        "id": "aapl-balance-2025-c-2025",
+        "label": "Total assets",
+        "role": "c",
+        "source_cell": "359,241",
+        "table_column": 2,
+        "table_row": 17,
+        "unit": "usd_million",
+        "value": "359241",
+        "year": 2025
+      },
+      {
+        "id": "aapl-balance-2025-c-2024",
+        "label": "Total assets",
+        "role": "c",
+        "source_cell": "364,980",
+        "table_column": 6,
+        "table_row": 17,
+        "unit": "usd_million",
+        "value": "364980",
+        "year": 2024
+      }
+    ],
+    "header_cells": [
+      "",
+      "September 27, 2025",
+      "",
+      "September 28, 2024"
+    ],
+    "id": "aapl-balance-2025",
+    "kind": "balance",
+    "report_key": "AAPL/2025",
+    "source_id": "aapl",
+    "source_sha256": "eb08113db1fa3b847936c68ddf7bd9c31b5d708c14794c94355fd38ac3846850",
+    "table_html_sha256": "518ed132d4247c8a2d484900967806133b1da826d6f3cdeb91e283254742ff0b",
+    "table_index": 24,
+    "table_source_span": [
+      477904,
+      515140
+    ],
+    "unit": "usd_million",
+    "unit_source": {
+      "interpretation": "USD millions for selected monetary rows",
+      "raw": "In millions",
+      "span": [
+        477746,
+        477757
+      ]
+    }
+  },
+  {
+    "company": "Apple",
+    "facts": [
+      {
+        "id": "aapl-shareholder-2025-a-2020",
+        "label": "Apple Inc.",
+        "role": "a",
+        "source_cell": "100",
+        "table_column": 3,
+        "table_row": 2,
+        "unit": "usd",
+        "value": "100",
+        "year": 2020
+      },
+      {
+        "id": "aapl-shareholder-2025-a-2021",
+        "label": "Apple Inc.",
+        "role": "a",
+        "source_cell": "132",
+        "table_column": 7,
+        "table_row": 2,
+        "unit": "usd",
+        "value": "132",
+        "year": 2021
+      },
+      {
+        "id": "aapl-shareholder-2025-a-2022",
+        "label": "Apple Inc.",
+        "role": "a",
+        "source_cell": "136",
+        "table_column": 11,
+        "table_row": 2,
+        "unit": "usd",
+        "value": "136",
+        "year": 2022
+      },
+      {
+        "id": "aapl-shareholder-2025-a-2023",
+        "label": "Apple Inc.",
+        "role": "a",
+        "source_cell": "155",
+        "table_column": 15,
+        "table_row": 2,
+        "unit": "usd",
+        "value": "155",
+        "year": 2023
+      },
+      {
+        "id": "aapl-shareholder-2025-a-2024",
+        "label": "Apple Inc.",
+        "role": "a",
+        "source_cell": "208",
+        "table_column": 19,
+        "table_row": 2,
+        "unit": "usd",
+        "value": "208",
+        "year": 2024
+      },
+      {
+        "id": "aapl-shareholder-2025-a-2025",
+        "label": "Apple Inc.",
+        "role": "a",
+        "source_cell": "234",
+        "table_column": 23,
+        "table_row": 2,
+        "unit": "usd",
+        "value": "234",
+        "year": 2025
+      },
+      {
+        "id": "aapl-shareholder-2025-b-2020",
+        "label": "S&P 500 Index",
+        "role": "b",
+        "source_cell": "100",
+        "table_column": 3,
+        "table_row": 3,
+        "unit": "usd",
+        "value": "100",
+        "year": 2020
+      },
+      {
+        "id": "aapl-shareholder-2025-b-2021",
+        "label": "S&P 500 Index",
+        "role": "b",
+        "source_cell": "137",
+        "table_column": 7,
+        "table_row": 3,
+        "unit": "usd",
+        "value": "137",
+        "year": 2021
+      },
+      {
+        "id": "aapl-shareholder-2025-b-2022",
+        "label": "S&P 500 Index",
+        "role": "b",
+        "source_cell": "115",
+        "table_column": 11,
+        "table_row": 3,
+        "unit": "usd",
+        "value": "115",
+        "year": 2022
+      },
+      {
+        "id": "aapl-shareholder-2025-b-2023",
+        "label": "S&P 500 Index",
+        "role": "b",
+        "source_cell": "136",
+        "table_column": 15,
+        "table_row": 3,
+        "unit": "usd",
+        "value": "136",
+        "year": 2023
+      },
+      {
+        "id": "aapl-shareholder-2025-b-2024",
+        "label": "S&P 500 Index",
+        "role": "b",
+        "source_cell": "185",
+        "table_column": 19,
+        "table_row": 3,
+        "unit": "usd",
+        "value": "185",
+        "year": 2024
+      },
+      {
+        "id": "aapl-shareholder-2025-b-2025",
+        "label": "S&P 500 Index",
+        "role": "b",
+        "source_cell": "217",
+        "table_column": 23,
+        "table_row": 3,
+        "unit": "usd",
+        "value": "217",
+        "year": 2025
+      },
+      {
+        "id": "aapl-shareholder-2025-c-2020",
+        "label": "Dow Jones U.S. Technology Total Stock Market Index",
+        "role": "c",
+        "source_cell": "100",
+        "table_column": 3,
+        "table_row": 4,
+        "unit": "usd",
+        "value": "100",
+        "year": 2020
+      },
+      {
+        "id": "aapl-shareholder-2025-c-2021",
+        "label": "Dow Jones U.S. Technology Total Stock Market Index",
+        "role": "c",
+        "source_cell": "147",
+        "table_column": 7,
+        "table_row": 4,
+        "unit": "usd",
+        "value": "147",
+        "year": 2021
+      },
+      {
+        "id": "aapl-shareholder-2025-c-2022",
+        "label": "Dow Jones U.S. Technology Total Stock Market Index",
+        "role": "c",
+        "source_cell": "107",
+        "table_column": 11,
+        "table_row": 4,
+        "unit": "usd",
+        "value": "107",
+        "year": 2022
+      },
+      {
+        "id": "aapl-shareholder-2025-c-2023",
+        "label": "Dow Jones U.S. Technology Total Stock Market Index",
+        "role": "c",
+        "source_cell": "147",
+        "table_column": 15,
+        "table_row": 4,
+        "unit": "usd",
+        "value": "147",
+        "year": 2023
+      },
+      {
+        "id": "aapl-shareholder-2025-c-2024",
+        "label": "Dow Jones U.S. Technology Total Stock Market Index",
+        "role": "c",
+        "source_cell": "220",
+        "table_column": 19,
+        "table_row": 4,
+        "unit": "usd",
+        "value": "220",
+        "year": 2024
+      },
+      {
+        "id": "aapl-shareholder-2025-c-2025",
+        "label": "Dow Jones U.S. Technology Total Stock Market Index",
+        "role": "c",
+        "source_cell": "287",
+        "table_column": 23,
+        "table_row": 4,
+        "unit": "usd",
+        "value": "287",
+        "year": 2025
+      }
+    ],
+    "header_cells": [
+      "",
+      "",
+      "September 2020",
+      "",
+      "September 2021",
+      "",
+      "September 2022",
+      "",
+      "September 2023",
+      "",
+      "September 2024",
+      "",
+      "September 2025"
+    ],
+    "id": "aapl-shareholder-2025",
+    "kind": "shareholder",
+    "report_key": "AAPL/2025",
+    "source_id": "aapl",
+    "source_sha256": "eb08113db1fa3b847936c68ddf7bd9c31b5d708c14794c94355fd38ac3846850",
+    "table_html_sha256": "53348843c6b9b1c05f56ead1aa634521c50cecdc8e46cf0c93336ff041f32273",
+    "table_index": 13,
+    "table_source_span": [
+      255705,
+      270356
+    ],
+    "unit": "usd",
+    "unit_source": {
+      "interpretation": "USD wealth from a shared 100-dollar dividend-reinvested investment",
+      "raw": "$100 was invested in each",
+      "span": [
+        255075,
+        255100
+      ]
+    }
+  },
+  {
+    "company": "Costco",
+    "facts": [
+      {
+        "id": "cost-income-2025-a-2025",
+        "label": "Operating income",
+        "role": "a",
+        "source_cell": "10,383",
+        "table_column": 1,
+        "table_row": 7,
+        "unit": "usd_million",
+        "value": "10383",
+        "year": 2025
+      },
+      {
+        "id": "cost-income-2025-a-2024",
+        "label": "Operating income",
+        "role": "a",
+        "source_cell": "9,285",
+        "table_column": 2,
+        "table_row": 7,
+        "unit": "usd_million",
+        "value": "9285",
+        "year": 2024
+      },
+      {
+        "id": "cost-income-2025-a-2023",
+        "label": "Operating income",
+        "role": "a",
+        "source_cell": "8,114",
+        "table_column": 3,
+        "table_row": 7,
+        "unit": "usd_million",
+        "value": "8114",
+        "year": 2023
+      },
+      {
+        "id": "cost-income-2025-b-2025",
+        "label": "NET INCOME",
+        "role": "b",
+        "source_cell": "$ 8,099",
+        "table_column": 1,
+        "table_row": 13,
+        "unit": "usd_million",
+        "value": "8099",
+        "year": 2025
+      },
+      {
+        "id": "cost-income-2025-b-2024",
+        "label": "NET INCOME",
+        "role": "b",
+        "source_cell": "$ 7,367",
+        "table_column": 2,
+        "table_row": 13,
+        "unit": "usd_million",
+        "value": "7367",
+        "year": 2024
+      },
+      {
+        "id": "cost-income-2025-b-2023",
+        "label": "NET INCOME",
+        "role": "b",
+        "source_cell": "$ 6,292",
+        "table_column": 3,
+        "table_row": 13,
+        "unit": "usd_million",
+        "value": "6292",
+        "year": 2023
+      },
+      {
+        "id": "cost-income-2025-c-2025",
+        "label": "INCOME BEFORE INCOME TAXES",
+        "role": "c",
+        "source_cell": "10,818",
+        "table_column": 1,
+        "table_row": 11,
+        "unit": "usd_million",
+        "value": "10818",
+        "year": 2025
+      },
+      {
+        "id": "cost-income-2025-c-2024",
+        "label": "INCOME BEFORE INCOME TAXES",
+        "role": "c",
+        "source_cell": "9,740",
+        "table_column": 2,
+        "table_row": 11,
+        "unit": "usd_million",
+        "value": "9740",
+        "year": 2024
+      },
+      {
+        "id": "cost-income-2025-c-2023",
+        "label": "INCOME BEFORE INCOME TAXES",
+        "role": "c",
+        "source_cell": "8,487",
+        "table_column": 3,
+        "table_row": 11,
+        "unit": "usd_million",
+        "value": "8487",
+        "year": 2023
+      }
+    ],
+    "header_cells": [
+      "Aug. 31, 2025",
+      "Sep. 01, 2024",
+      "Sep. 03, 2023"
+    ],
+    "id": "cost-income-2025",
+    "kind": "income",
+    "report_key": "COST/2025",
+    "source_id": "cost",
+    "source_sha256": "0a19166022388dcfc985da106690874b662377feefed78bb0f285a4a423edbce",
+    "table_html_sha256": "45ed7372d66a1f73bd8ef27908b7c3033bada2eed48085be719fdf201f8c0304",
+    "table_index": 84,
+    "table_source_span": [
+      84269,
+      93540
+    ],
+    "unit": "usd_million",
+    "unit_source": {
+      "interpretation": "USD millions for selected monetary rows",
+      "raw": "$ in Millions",
+      "span": [
+        84476,
+        84489
+      ]
+    }
+  },
+  {
+    "company": "Costco",
+    "facts": [
+      {
+        "id": "cost-balance-2025-a-2025",
+        "label": "Total current assets",
+        "role": "a",
+        "source_cell": "38,380",
+        "table_column": 1,
+        "table_row": 7,
+        "unit": "usd_million",
+        "value": "38380",
+        "year": 2025
+      },
+      {
+        "id": "cost-balance-2025-a-2024",
+        "label": "Total current assets",
+        "role": "a",
+        "source_cell": "34,246",
+        "table_column": 2,
+        "table_row": 7,
+        "unit": "usd_million",
+        "value": "34246",
+        "year": 2024
+      },
+      {
+        "id": "cost-balance-2025-b-2025",
+        "label": "Total current liabilities",
+        "role": "b",
+        "source_cell": "37,108",
+        "table_column": 1,
+        "table_row": 19,
+        "unit": "usd_million",
+        "value": "37108",
+        "year": 2025
+      },
+      {
+        "id": "cost-balance-2025-b-2024",
+        "label": "Total current liabilities",
+        "role": "b",
+        "source_cell": "35,464",
+        "table_column": 2,
+        "table_row": 19,
+        "unit": "usd_million",
+        "value": "35464",
+        "year": 2024
+      },
+      {
+        "id": "cost-balance-2025-c-2025",
+        "label": "Total assets",
+        "role": "c",
+        "source_cell": "77,099",
+        "table_column": 1,
+        "table_row": 12,
+        "unit": "usd_million",
+        "value": "77099",
+        "year": 2025
+      },
+      {
+        "id": "cost-balance-2025-c-2024",
+        "label": "Total assets",
+        "role": "c",
+        "source_cell": "69,831",
+        "table_column": 2,
+        "table_row": 12,
+        "unit": "usd_million",
+        "value": "69831",
+        "year": 2024
+      }
+    ],
+    "header_cells": [
+      "Consolidated Balance Sheets - USD ($) $ in Millions",
+      "Aug. 31, 2025",
+      "Sep. 01, 2024"
+    ],
+    "id": "cost-balance-2025",
+    "kind": "balance",
+    "report_key": "COST/2025",
+    "source_id": "cost",
+    "source_sha256": "0a19166022388dcfc985da106690874b662377feefed78bb0f285a4a423edbce",
+    "table_html_sha256": "3777bcaa4a90e70381ae51eac18dae1a10995104e2cda3350f4a11867f903e06",
+    "table_index": 136,
+    "table_source_span": [
+      189252,
+      200020
+    ],
+    "unit": "usd_million",
+    "unit_source": {
+      "interpretation": "USD millions for selected monetary rows",
+      "raw": "$ in Millions",
+      "span": [
+        189432,
+        189445
+      ]
+    }
+  }
+]

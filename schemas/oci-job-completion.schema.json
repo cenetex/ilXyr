@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/oci-job-completion.v1.json",
+  "title": "ilxyr OCI job completion v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "dispatch_ref",
+    "executor",
+    "exit_code",
+    "timed_out",
+    "metrics",
+    "artifacts",
+    "completed_at_ms"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.oci_job_completion.v1" },
+    "id": { "type": "string", "minLength": 1 },
+    "dispatch_ref": { "$ref": "#/$defs/artifact_ref" },
+    "executor": { "$ref": "#/$defs/service_actor" },
+    "exit_code": { "type": "integer" },
+    "timed_out": { "type": "boolean" },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/artifact" }
+    },
+    "completed_at_ms": { "type": "integer", "minimum": 1 }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+    },
+    "handle": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9+.-]*://\\S+$",
+      "not": { "pattern": "^file://" }
+    },
+    "service_actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^service://\\S+$" },
+        "kind": { "const": "service" }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "uri",
+        "sha256",
+        "size_bytes",
+        "media_type",
+        "provider_version"
+      ],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "uri": { "$ref": "#/$defs/handle" },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "media_type": { "type": "string", "pattern": "^[^\\s/]+/[^\\s/]+$" },
+        "provider_version": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

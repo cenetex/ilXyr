@@ -1,0 +1,14 @@
+{
+  "archive": "package-02.tar",
+  "bytes": 46868480,
+  "node_binary_sha256": "1bec56ef7cfa9a76f3e0b7c0a87f220eb73f23102b9c0b4c7529a3f7c3ce7c31",
+  "paid_launch_status": "awaiting_exact_package_and_budget_approval",
+  "plan_sha256": "018f4002c85a3fca99da12557e1915fa1703ea68defda807cf426aabd8bb87a0",
+  "prepared_sha256": "fba839b5e6ef87522623b3c33e38e5be71bb2d4b1332062c291b950e327f264c",
+  "schema": "ilxyr.reasoner_cloud_package.v1",
+  "sha256": "080ed8f974acccd187abef55a81fbf46462da2851cfc0feaa9df8a574ab332d5",
+  "source_commit": "a35f8c3d6a76b2595a2b82e1bd8387c81a3ee77a",
+  "source_kit_sha256": "370cc2b4d39ea23af5dea9283cffd70aa056f5c7c22c4aad021b690be47eb8cc",
+  "staging_status": "waiting_for_sign_in",
+  "storage_path": "outputs/reasoner-cloud-step46-20260912"
+}

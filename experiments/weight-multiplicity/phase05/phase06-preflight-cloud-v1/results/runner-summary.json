@@ -1,0 +1,40 @@
+{
+  "status": "complete",
+  "decision": "preflight_pass",
+  "technical_resource_outcome": "preflight_surface_cleared",
+  "primary_resource_gate": {
+    "requests": 8436,
+    "total_query_ms": 3378.843317999803,
+    "mean_query_ms": 0.4005267091038173,
+    "p50_query_ms": 0.21694099999876926,
+    "p95_query_ms": 1.3405889999994542,
+    "maximum_query_ms": 12.643004000005021,
+    "peak_incremental_worker_rss_bytes": 274432,
+    "all_queries_within_limit": true,
+    "global_p95_within_limit": true,
+    "memory_within_limit": true,
+    "per_representation_p95_within_limit": true,
+    "passed": true,
+    "wall_ms": 4395.060837999998,
+    "accepted_record_cost_ms": 0.18459589805505916
+  },
+  "differential": {
+    "coverage_fraction": "4218/4218",
+    "agreements": 4218,
+    "disagreements": 0,
+    "lie_unavailable": 0
+  },
+  "replay": {
+    "compared": 4218,
+    "agreements": 4218,
+    "incomplete_or_non_deterministic": []
+  },
+  "safe_persistent_worker_count": 8,
+  "identity": {
+    "phase06_plan_sha256": "9fb8a240908269051b6ec053ca76cf27b78c939941105f9116c3cca80a7ff889",
+    "manifest_sha256": "1d0bbd1cbdb7edb25b83711bbfff738ac5a032a0a6cb6dcdcdab2ac8735e4410",
+    "manifest_uncompressed_sha256": "9ede84a47f5c730500295f623d53dfc190ef7b2159c80d1d2c60300b74546fd3",
+    "lie_source_sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e",
+    "lie_executable_sha256": "bc1099ccfa0f890868e2261c106ede4fd0e52dcd86a4d03b16318ba39674e974"
+  }
+}

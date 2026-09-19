@@ -1,0 +1,231 @@
+{
+  "schema": "ilxyr.constraint_diff_report.v1",
+  "report_id": "constraint-diff:research.step51.weight_multiplicity",
+  "experiment_id": "research.step51.weight_multiplicity",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "ledger_ref": "artifact://sha256/23934f7d4e72aed4330f14a63d84784a94fb28ed74fc7bc39c850cc08b74a931",
+  "generated_at_ms": 1789248868721,
+  "proposed_mechanism_tags": [
+    "oracle-frontier",
+    "resource-policy",
+    "bounded-cost"
+  ],
+  "matches": [
+    {
+      "verdict_id": "verdict:weight-multiplicity.phase0.oracle-frontier.v1",
+      "experiment_id": "weight-multiplicity-transfer-r3",
+      "family": "zero",
+      "outcome": "complete_no_go",
+      "taxonomy": "venue",
+      "matched_tags": [
+        "oracle-frontier"
+      ],
+      "verdict_summary": "Phase 0 measured all 248 type-and-height cells with 1,594,852 uncached oracle attempts. 135 cells filled every quota, 78 had incomplete yield, and 35 exceeded the one-second limit. E8 exceeded budget at height 1. The failure is cost, not symbolic disagreement.",
+      "same_mechanism_tags": false
+    },
+    {
+      "verdict_id": "verdict:weight-multiplicity.phase1-pilot-resource.v1",
+      "experiment_id": "weight-multiplicity.phase1-pilot-resource.v1",
+      "family": "zero",
+      "outcome": "execution_failure",
+      "taxonomy": "venue",
+      "matched_tags": [
+        "oracle-frontier"
+      ],
+      "verdict_summary": "The corpus pilot stopped at its resource gate. The recorded E7 query took about 1,019 ms and returned a multiplicity above the corpus label range. Its cost remains part of oracle work.",
+      "same_mechanism_tags": false,
+      "project": "weight_multiplicity",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "resource Hold",
+      "lineage_note": "Count every attempt and apply the proposed final p99 clause with its separate hard timeout and frozen total limits.",
+      "verdict_ref": "artifact://sha256/5a9612f68b72334d772becf0dcb8c85b29294bef12947c654141b6bd7f2b0743",
+      "evidence_ref": "artifact://sha256/d2fd08845eab2e179dfac6e2f8627a13727530bbf4e98b5f15685841ba942a58",
+      "evidence_path": "experiments/weight-multiplicity/phase1/phase1-corpus-run-20260901012539-closeout-v1.json"
+    },
+    {
+      "verdict_id": "verdict:weight-multiplicity.completed-call-accounting.v1",
+      "experiment_id": "weight-multiplicity.completed-call-accounting.v1",
+      "family": "ilxyr",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "oracle-frontier"
+      ],
+      "verdict_summary": "Completed calls after the first failed batch result could be omitted from the old budget counters.",
+      "same_mechanism_tags": false,
+      "project": "weight_multiplicity",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "implementation failure found in source review",
+      "lineage_note": "Observe each completion, preserve the triggering query, and drain active workers after a Hold.",
+      "verdict_ref": "artifact://sha256/d7a14e834556e11f564094c29c8389a16b76f8a1d2735b53ac20c2f33a6d3b8a",
+      "evidence_ref": "artifact://sha256/ecab8627247dccc614ca4ce28367074bd0988b9d503909bc8109159a91c8bbe3",
+      "evidence_path": "experiments/research-step-6/REPORT.md"
+    },
+    {
+      "verdict_id": "verdict:weight-multiplicity.transformed-target-depth.v1",
+      "experiment_id": "weight-multiplicity.transformed-target-depth.v1",
+      "family": "ilxyr",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "oracle-frontier"
+      ],
+      "verdict_summary": "ACR-2 transformed targets inherited the base target depth, so depth cost groups could describe the wrong target.",
+      "same_mechanism_tags": false,
+      "project": "weight_multiplicity",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "implementation failure found in source review",
+      "lineage_note": "Carry target depth through every reflection and keep unavailable depths explicit.",
+      "verdict_ref": "artifact://sha256/358b43370e1456905e8e4c0063ff1dd46c616a4a9182ab2e3bc3c6e5d7390ad5",
+      "evidence_ref": "artifact://sha256/ecab8627247dccc614ca4ce28367074bd0988b9d503909bc8109159a91c8bbe3",
+      "evidence_path": "experiments/research-step-6/REPORT.md"
+    },
+    {
+      "verdict_id": "verdict:research.step33.policy-package.v1",
+      "experiment_id": "research.step33.policy-package.v1",
+      "family": "ilxyr",
+      "outcome": "execution_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "oracle-frontier",
+        "resource-policy"
+      ],
+      "verdict_summary": "The historical corpus packager included three oracle libraries and omitted the fixed resource-policy module and its bindings. Its launcher selected the earlier per-query rule.",
+      "same_mechanism_tags": false,
+      "project": "weight_multiplicity",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Include all fourteen bound source files and select the unchanged resource policy explicitly.",
+      "verdict_ref": "artifact://sha256/de2914610007a37387a10747eba79181a82f1f32f343886dcde4d2df7ed5bb1c",
+      "evidence_ref": "artifact://sha256/f10e3e826d537e20e4364b49a100980bff16e1d66d46c82af98d36b41f969cf2",
+      "evidence_path": "experiments/research-step-33/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step35.storage-retention.v1",
+      "experiment_id": "research.step35.storage-retention.v1",
+      "family": "ilxyr",
+      "outcome": "execution_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "bounded-cost"
+      ],
+      "verdict_summary": "The first live check found that the study bucket had no lifecycle configuration. The scoped repair added expiry for the new study prefixes.",
+      "same_mechanism_tags": false,
+      "project": "weight_multiplicity",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Verify current and old object expiry before staging, and preserve earlier rules when adding a study.",
+      "verdict_ref": "artifact://sha256/6f4500eba0a4c23ea9f170d058b84291c8183c779fa9361db35dd0b03056f4a6",
+      "evidence_ref": "artifact://sha256/cb357f2342c1e9695447ca889f269deb45e14a83a3e194c1c5e833e853e5c551",
+      "evidence_path": "experiments/research-step-35/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step42.source-quota.v1",
+      "experiment_id": "research.step42.source-quota.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "resource-policy"
+      ],
+      "verdict_summary": "The first uniform Blake quota required 73872 tokens from a source with 65811 tokens. The preparation retained the failed attempt before revising its counts.",
+      "same_mechanism_tags": false,
+      "project": "zero4",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Check source capacity before selection and freeze the per-source replay and retention counts.",
+      "verdict_ref": "artifact://sha256/7b66b55815a6547a15ae3187faba92f4b7f6db868585034c05f7bd9b3fbc1329",
+      "evidence_ref": "artifact://sha256/90b3170439d18101a7a319d4a2c101f8008220b78234534ec827190d174b75f5",
+      "evidence_path": "experiments/research-step-42/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step45.run-preflight-binding.v1",
+      "experiment_id": "research.step45.run-preflight-binding.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "bounded-cost"
+      ],
+      "verdict_summary": "The old ZERO.4 launcher accepted a preflight for another run ID and reused that other output-prefix check in a controlled probe.",
+      "same_mechanism_tags": false,
+      "project": "zero4",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Record the run ID in each preflight and require its exact match at dispatch. Verify rejection before any provider call.",
+      "verdict_ref": "artifact://sha256/a49f5cbd683dddfa42b996c86555e12c5d189aa34973415a08c8026790626880",
+      "evidence_ref": "artifact://sha256/72fb79edf55682efa3c09a6d6c026a8a6104dde28e5bbbdcb70ffe3ad5a29099",
+      "evidence_path": "experiments/research-step-45/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step50.shared-run-preflight.v1",
+      "experiment_id": "research.step50.shared-run-preflight.v1",
+      "family": "ilxyr",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "bounded-cost"
+      ],
+      "verdict_summary": "The older Solomon and weight launchers each accepted a preflight for another run ID. Each controlled reproduction reached one fake EC2 request; actual instances created were zero.",
+      "same_mechanism_tags": false,
+      "project": "program",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Apply the exact run-ID check across all five launchers and retain the shared fifty-case test.",
+      "verdict_ref": "artifact://sha256/e7266c4e0aa5d291c761eacbc3ec8e12fefc4a112148cdd074ec7c8f4dee4930",
+      "evidence_ref": "artifact://sha256/546495231305b47e0a4a3a689ecd16c75e0e835c6041ce842ad89e8bd07f46a2",
+      "evidence_path": "experiments/research-step-50/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step51.weight-outcome.v1",
+      "experiment_id": "research.step51.weight-outcome.v1",
+      "family": "ilxyr",
+      "outcome": "measurement_floor",
+      "taxonomy": "venue",
+      "matched_tags": [
+        "oracle-frontier",
+        "resource-policy",
+        "bounded-cost"
+      ],
+      "verdict_summary": "The full corpus attempt reached its 2430387 workload-call limit and preserved 79452 training rows. The independent checker confirmed a resource Hold. Final p99 acceptance remained pending corpus completion.",
+      "same_mechanism_tags": true,
+      "project": "weight_multiplicity",
+      "evidence_kind": "existing_public_result",
+      "source_outcome": "verified_hold",
+      "lineage_note": "Trace observed yield and duplicate or rejected draws by stratum against the pilot projection. Keep the original budget and incomplete corpus status visible.",
+      "verdict_ref": "artifact://sha256/a2de886633b14d0495fc06a31a9092d10408f36c416951ccb2cb40f0d59d3c9a",
+      "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+      "evidence_path": "experiments/research-step-51/FINDINGS.json"
+    },
+    {
+      "verdict_id": "verdict:research.step51.zero4-outcome.v1",
+      "experiment_id": "research.step51.zero4-outcome.v1",
+      "family": "zero",
+      "outcome": "execution_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "bounded-cost"
+      ],
+      "verdict_summary": "The host stopped before scientific work when available disk space was 27919421440 bytes and the frozen reserve required 39795556352 bytes. Its failure archive and provider cleanup verified.",
+      "same_mechanism_tags": false,
+      "project": "zero4",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "execution_failure",
+      "lineage_note": "Size the root disk for the observed image footprint plus the frozen output and archive reserve, then test and publish a replacement package.",
+      "verdict_ref": "artifact://sha256/4e8c6dd08c87dcdd8385734e6a53fd505576bf837be8431af4433324ffc30bcc",
+      "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+      "evidence_path": "experiments/research-step-51/FINDINGS.json"
+    }
+  ],
+  "taxonomy_counts": {
+    "transfer": 0,
+    "interference": 0,
+    "measurement": 1,
+    "venue": 3,
+    "implementation": 7
+  },
+  "superseded_entries": 0,
+  "proposed_change": "Trace observed yield and duplicate or rejected draws by stratum against the pilot projection. Keep the original budget and incomplete corpus status visible.",
+  "summary": "11 prior results share these mechanism tags. Review their evidence and the required design changes.",
+  "recommendation": "review"
+}

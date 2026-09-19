@@ -1,0 +1,31 @@
+{
+  "altered_evidence_rejected": 4,
+  "arms": 4,
+  "common_policy": "public_example_eligibility_then_at_most_64_ranked_proposals_with_canonical_fallback",
+  "fresh_family_evaluations": 0,
+  "guide_prior_call_reduction_fraction": 0.99017333984375,
+  "guide_prior_calls_after": 644,
+  "guide_prior_calls_before": 65536,
+  "guide_ranking_failure": "Full guide uses more verifier checks than both cost controls on the opened cases.",
+  "independent_replays_per_platform": 76,
+  "measured_views_per_arm": 16,
+  "model_sha256": "db0afc1e460df5192917fac1f8129a2ec1e753ddb67939a975076fae5579bb7a",
+  "native_visits_per_platform": 280,
+  "new_paid_instances": 0,
+  "next": "Prepare fresh family exclusions and a fixed comparison under the shared implementation; retain lexical guidance and semantic frequency as cost references.",
+  "opened_families": 4,
+  "planners": 2,
+  "previous_primary_no_go": "preserved_in_research_step_26",
+  "schema": "ilxyr.reasoner_eligible_result.v1",
+  "scored_groups_per_arm_after": 432,
+  "scored_groups_per_arm_before": 47644,
+  "source_commit": "0c5253604593acb3b9294fcc00c90f59b7dbbd3c",
+  "status": "opened_engineering_check_passed",
+  "timing_evidence": false,
+  "verifier_checks": {
+    "raw_lexical_task_guide": 176,
+    "semantic_frequency": 211,
+    "task_guide": 243,
+    "task_without_prior_feature": 233
+  }
+}

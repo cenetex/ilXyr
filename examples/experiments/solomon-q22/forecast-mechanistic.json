@@ -1,0 +1,13 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "solomon.q22.forecast.mechanistic.v1",
+  "experiment_id": "solomon.q22-operation.three-seed.v1",
+  "forecaster": {
+    "id": "model://solomon/q22/forecaster-mechanistic",
+    "kind": "model",
+    "model_ref": "model://solomon/q22/prefix-separability-forecast/v1"
+  },
+  "probabilities": {"go": 0.98, "no_go": 0.015, "execution_failure": 0.005},
+  "stake": 10,
+  "rationale": "Each operation has a distinct command prefix and training-only calibration separated all five classes after one epoch. Residual risk is mainly a promotion-format or strict agreement failure, not class capacity."
+}

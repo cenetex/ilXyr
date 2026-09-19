@@ -54,6 +54,20 @@ required by their fundamental-representation dimensions, not inferred from a
 single multiplicity query. Zero F4 maps to LiE F4 with the four coordinates
 reversed. Zero and LiE G2 use the same effective coordinate order.
 
+## Post-run B/C public-name erratum
+
+The completed witness established that the B/C mapping above is not merely an
+internal display convention. Historical Zero public B and C names are
+transposed relative to standard literature and LiE names. Historical Zero B8
+at first fundamental weight has dimension 16, while historical Zero C8 has
+dimension 17; canonical B8 and C8 have dimensions 17 and 16 respectively.
+
+The sealed witness remains valid because it applied the correct mapping and
+all 496 cases agreed. Historical evidence and hashes remain unchanged. Before
+any corpus, Zero's public family names must be repaired and derived historical
+records must carry both legacy and canonical type fields. The append-only
+record is `experiments/weight-multiplicity/phase05/BC-FAMILY-LABEL-ERRATUM-V1.md`.
+
 LiE also numbers the E-type diagrams differently. The frozen manifest maps
 Zero coordinates into LiE coordinates as follows:
 

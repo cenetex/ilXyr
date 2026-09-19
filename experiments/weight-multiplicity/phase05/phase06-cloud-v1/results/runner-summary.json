@@ -1,0 +1,52 @@
+{
+  "status": "complete",
+  "decision": "hold",
+  "technical_resource_outcome": "reduced_surface_only",
+  "primary_resource_gate": {
+    "requests": 5402,
+    "total_query_ms": 471571.80070199963,
+    "mean_query_ms": 87.29577947093662,
+    "p50_query_ms": 1.1918939999886788,
+    "p95_query_ms": 100.80789900000673,
+    "maximum_query_ms": 10000.908563000034,
+    "peak_incremental_worker_rss_bytes": 24768512,
+    "all_queries_within_limit": false,
+    "global_p95_within_limit": true,
+    "memory_within_limit": true,
+    "per_representation_p95_within_limit": false,
+    "passed": false,
+    "wall_ms": 472290.07819599996,
+    "accepted_record_cost_ms": 57.564917077880814
+  },
+  "differential": {
+    "coverage_fraction": "1572/2701",
+    "agreements": 1572,
+    "disagreements": 0,
+    "lie_unavailable": 0
+  },
+  "replay": {
+    "compared": 2701,
+    "agreements": 2689,
+    "incomplete_or_non_deterministic": [
+      "r02690",
+      "r02691",
+      "r02692",
+      "r02693",
+      "r02694",
+      "r02695",
+      "r02696",
+      "r02697",
+      "r02698",
+      "r02699",
+      "r02700",
+      "r02701"
+    ]
+  },
+  "safe_persistent_worker_count": null,
+  "identity": {
+    "phase06_plan_sha256": "9bdcc7c965d88dd2041cdd56f0a47be03d813f623e818d7a35dc1aba0c43a405",
+    "manifest_sha256": "59aafe3a3e06c685861fd73875cfc322faaa3a8e317111728ad5d3fb5bc15925",
+    "lie_source_sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e",
+    "lie_executable_sha256": "d2478e3cf9abed5cc0105da52fb6580a8c85b66ec74b7cfd3192d3eb6953f391"
+  }
+}

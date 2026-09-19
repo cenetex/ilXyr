@@ -1,0 +1,42 @@
+{
+  "failures": [
+    {
+      "evidence": "VERIFICATION.json",
+      "id": "zero4-storage-reserve",
+      "kind": "observed_cloud_execution_failure",
+      "next": "Repair disk sizing in a new package. Preserve the model, data and scoring rules.",
+      "observation": "The 80 GiB root filesystem had 27919421440 free bytes after image preparation; the fixed reserve required 39795556352 bytes. The host stopped before the scientific controller."
+    },
+    {
+      "evidence_sha256": "8b6a58a493bc73113f48a73dba1aac3fd01198ff55a5172ad802be45e3c5ef0f",
+      "id": "console-output-decoding",
+      "kind": "operator_observation_failure",
+      "observation": "The first observer tried to decode already decoded AWS CLI console text as base64. It stopped on a Unicode character.",
+      "resolution": "Read the CLI Output field as text. Observation changed zero instance settings."
+    },
+    {
+      "evidence": [
+        {
+          "log_sha256": "41d36fbe13a5096d7b486ee01b0760ed10bff59f49245b97b4fe429bad54c473",
+          "project": "feral"
+        },
+        {
+          "log_sha256": "fa596107dbb59d3aae014d822cab592f87389480fe1c6d27e58d366696362299",
+          "project": "solomon"
+        }
+      ],
+      "id": "offline-check-before-extraction",
+      "kind": "operator_ordering_failure",
+      "observation": "The first FERAL and Solomon offline checks began while package extraction was still running and failed on missing input files.",
+      "resolution": "Wait for extraction to finish, then rerun the same checks in new output paths. Both passed."
+    },
+    {
+      "evidence": "VERIFICATION.json",
+      "id": "cpu-sum-roundoff",
+      "kind": "measurement_representation_difference",
+      "observation": "The offline checks reproduce every scientific value and decision. Six aggregate CPU sums differ by at most one quadrillionth of a second due to floating-point addition order.",
+      "resolution": "Preserve cloud and offline values and their exact differences. Compare all other summary fields exactly."
+    }
+  ],
+  "schema": "ilxyr.research_step51_failures.v1"
+}

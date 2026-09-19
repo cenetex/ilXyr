@@ -9,15 +9,15 @@ use serde::de::DeserializeOwned;
 use serde_json::Value;
 
 use crate::{
-    ActorKind, ActorRef, AllocationDecision, AllocationKind, AllocationRecord, AllocationReport,
-    AuthorityLevel, BaselineRule, CalibrationRecord, Certificate, CertificatePredicate, CodePolicy,
-    ComparisonOperator, CompiledExperiment, CompletedExperiment, CompletedSandbox, EpochBudget,
-    Error, Evidence, EvidenceLane, ExecutionSpec, ExperimentSpec, ExportPolicy, Forecast,
-    ForecastSettlement, FundingCommitment, FundingPolicy, GroundingAuthority, NetworkPolicy,
-    OutcomeContract, PromotionEligibility, ReplicationContract, ResearchLineage, Result,
-    RunAuthorization, RunRecord, SandboxRun, SandboxSpec, SecurityPolicy, TrustedPolicyKey,
-    WeightClass, Workspace, commit_funding, decide_admission, executor, run_experiment,
-    store::canonical_bytes, store::now_ms, validation,
+    ActorKind, ActorRef, AdmissionDecision, AllocationDecision, AllocationKind, AllocationRecord,
+    AllocationReport, AuthorityLevel, BaselineRule, CalibrationRecord, Certificate,
+    CertificatePredicate, CodePolicy, ComparisonOperator, CompiledExperiment, CompletedExperiment,
+    CompletedSandbox, EpochBudget, Error, Evidence, EvidenceLane, ExecutionSpec, ExperimentSpec,
+    ExportPolicy, Forecast, ForecastSettlement, FundingCommitment, FundingPolicy,
+    GroundingAuthority, NetworkPolicy, OutcomeContract, PromotionEligibility, ReplicationContract,
+    ResearchLineage, Result, RunAuthorization, RunRecord, SandboxRun, SandboxSpec, SecurityPolicy,
+    TrustedPolicyKey, WeightClass, Workspace, commit_funding, decide_admission, executor,
+    run_experiment, store::canonical_bytes, store::now_ms, validation,
 };
 
 const POLICY_KEY_TRUSTED: &str = "PolicyKeyTrusted";
@@ -25,6 +25,7 @@ const EPOCH_BUDGET_REGISTERED: &str = "EpochBudgetRegistered";
 const EXPERIMENT_COMPILED: &str = "ExperimentCompiled";
 const FORECAST_SUBMITTED: &str = "ForecastSubmitted";
 const FUNDING_COMMITTED: &str = "FundingCommitted";
+const ADMISSION_DECIDED: &str = "AdmissionDecided";
 const EXECUTION_STARTED: &str = "ExecutionStarted";
 const EXPERIMENT_COMPLETED: &str = "ExperimentCompleted";
 const ALLOCATION_COMMITTED: &str = "AllocationCommitted";
@@ -101,6 +102,17 @@ pub fn register_epoch_budget(workspace: &Workspace, budget: EpochBudget) -> Resu
         )));
     }
     verify_budget_signature(&budget, &key)?;
+    if let Some(latest) = registered_budgets(workspace)?
+        .into_iter()
+        .max_by_key(|registered| registered.epoch)
+    {
+        if budget.epoch <= latest.epoch {
+            return Err(Error::Conflict(format!(
+                "epoch {} must follow registered epoch {}",
+                budget.epoch, latest.epoch
+            )));
+        }
+    }
     let artifact_ref = workspace.put(&budget)?;
     workspace.append_event(
         EPOCH_BUDGET_REGISTERED,
@@ -120,7 +132,7 @@ pub fn allocate_epoch(
     budget_id: &str,
     experiment_ids: &[String],
 ) -> Result<AllocationReport> {
-    let budget = epoch_budget(workspace, budget_id)?;
+    let budget = active_epoch_budget_at(workspace, budget_id, now_ms()?)?;
     let mut candidates = Vec::new();
     let mut decisions = Vec::new();
     let mut seen = BTreeSet::new();
@@ -159,10 +171,12 @@ pub fn allocate_epoch(
             AllocationKind::Promoted,
             &candidate.experiment_id,
         );
-        if latest_typed::<AllocationRecord>(workspace, ALLOCATION_COMMITTED, &allocation_id)?
-            .is_some()
-        {
-            decisions.push(candidate.decision(true, "allocation already recorded"));
+        let allocation_exists =
+            latest_typed::<AllocationRecord>(workspace, ALLOCATION_COMMITTED, &allocation_id)?
+                .is_some();
+        if allocation_exists {
+            ensure_admitted(workspace, &candidate.experiment_id, "allocator")?;
+            decisions.push(candidate.decision(true, "allocation already recorded and admitted"));
             continue;
         }
         if let Err(error) = check_capacity(
@@ -196,6 +210,7 @@ pub fn allocate_epoch(
                 },
             )?;
         }
+        ensure_admitted(workspace, &candidate.experiment_id, "allocator")?;
         reserve_allocation(
             workspace,
             &budget,
@@ -204,13 +219,6 @@ pub fn allocate_epoch(
             candidate.compute_credits,
             AllocationKind::Promoted,
         )?;
-        let admission = decide_admission(workspace, &candidate.experiment_id)?;
-        if !admission.accepted {
-            return Err(Error::Conflict(format!(
-                "allocator funded {}, but admission rejected it",
-                candidate.experiment_id
-            )));
-        }
         decisions.push(candidate.decision(true, "allocated and admitted"));
     }
 
@@ -245,16 +253,25 @@ pub fn allocate_replication(
         )));
     }
     let contract: ReplicationContract = workspace.get(contract_ref)?;
-    let budget = epoch_budget(workspace, budget_id)?;
+    let budget = active_epoch_budget_at(workspace, budget_id, now_ms()?)?;
     let candidate = allocation_candidate(workspace, &budget, &contract.replication_experiment_id)?;
-    let allocation = reserve_allocation(
-        workspace,
-        &budget,
-        &candidate.experiment_id,
-        &candidate.executable,
-        candidate.compute_credits,
+    let allocation_id = allocation_id(
+        budget_id,
         AllocationKind::Replication,
-    )?;
+        &candidate.experiment_id,
+    );
+    let allocation_exists =
+        latest_typed::<AllocationRecord>(workspace, ALLOCATION_COMMITTED, &allocation_id)?
+            .is_some();
+    if !allocation_exists {
+        check_capacity(
+            workspace,
+            &budget,
+            &candidate.executable,
+            candidate.compute_credits,
+            AllocationKind::Replication,
+        )?;
+    }
     let funding_id = format!(
         "funding:{budget_id}:replication:{}",
         contract.replication_experiment_id
@@ -278,14 +295,35 @@ pub fn allocate_replication(
             },
         )?;
     }
-    let admission = decide_admission(workspace, &contract.replication_experiment_id)?;
-    if !admission.accepted {
-        return Err(Error::Conflict(format!(
-            "replication allocator funded {}, but admission rejected it",
-            contract.replication_experiment_id
-        )));
+    ensure_admitted(
+        workspace,
+        &contract.replication_experiment_id,
+        "replication allocator",
+    )?;
+    reserve_allocation(
+        workspace,
+        &budget,
+        &candidate.experiment_id,
+        &candidate.executable,
+        candidate.compute_credits,
+        AllocationKind::Replication,
+    )
+}
+
+fn ensure_admitted(workspace: &Workspace, experiment_id: &str, allocator: &str) -> Result<()> {
+    if latest_typed::<AdmissionDecision>(workspace, ADMISSION_DECIDED, experiment_id)?
+        .is_some_and(|decision| decision.accepted)
+    {
+        return Ok(());
     }
-    Ok(allocation)
+    let admission = decide_admission(workspace, experiment_id)?;
+    if admission.accepted {
+        Ok(())
+    } else {
+        Err(Error::Conflict(format!(
+            "{allocator} funded {experiment_id}, but admission rejected it"
+        )))
+    }
 }
 
 pub fn authorize_unattended_run(
@@ -293,7 +331,7 @@ pub fn authorize_unattended_run(
     budget_id: &str,
     experiment_id: &str,
 ) -> Result<RunAuthorization> {
-    let budget = epoch_budget(workspace, budget_id)?;
+    let budget = active_epoch_budget_at(workspace, budget_id, now_ms()?)?;
     let compiled = load_compiled(workspace, experiment_id)?;
     let promoted_id = allocation_id(budget_id, AllocationKind::Promoted, experiment_id);
     let replication_id = allocation_id(budget_id, AllocationKind::Replication, experiment_id);
@@ -365,6 +403,8 @@ pub fn run_sandbox(
 ) -> Result<CompletedSandbox> {
     validation::sandbox(&spec)?;
     let (budget_ref, budget) = registered_budget_with_ref(workspace, budget_id)?;
+    ensure_budget_active(workspace, &budget, now_ms()?)?;
+    crate::lifecycle::ensure_test_access_allowed(workspace, &spec.experiment_id)?;
     ensure_authority_artifacts_exist(workspace, &spec.authority)?;
     let spec_ref = freeze_sandbox_spec(workspace, &spec)?;
     if let Some((run_ref, run)) =
@@ -597,14 +637,17 @@ fn allocation_candidate(
     }
     let compiled = load_compiled(workspace, experiment_id)?;
     let spec = &compiled.spec;
-    if spec.execution.executor != "local-command"
-        || spec.security.weight_class != WeightClass::Public
-        || spec.security.code_policy != CodePolicy::Arbitrary
-        || spec.security.export_policy != ExportPolicy::Artifacts
-        || spec.execution.network != NetworkPolicy::Open
-    {
+    let local_profile = spec.execution.executor == "local-command"
+        && spec.security.code_policy == CodePolicy::Arbitrary
+        && spec.security.export_policy == ExportPolicy::Artifacts
+        && spec.execution.network == NetworkPolicy::Open;
+    let remote_profile = spec.execution.executor == "remote-v1"
+        && spec.security.code_policy == CodePolicy::ApprovedImageOnly
+        && spec.security.export_policy == ExportPolicy::MetricsOnly
+        && spec.execution.network == NetworkPolicy::Denied;
+    if spec.security.weight_class != WeightClass::Public || (!local_profile && !remote_profile) {
         return Err(Error::Security(
-            "candidate does not fit the local executor capability set".to_owned(),
+            "candidate does not fit an installed executor capability set".to_owned(),
         ));
     }
     let cap = budget
@@ -965,6 +1008,7 @@ fn sandbox_execution_spec(spec: &SandboxSpec) -> ExperimentSpec {
         },
         baseline: "baseline://sandbox/not-applicable".to_owned(),
         datasets: Vec::new(),
+        dataset_bindings: BTreeMap::new(),
         models: Vec::new(),
         metrics: spec.metrics.clone(),
         seeds: spec.authority.scope.seeds.clone(),
@@ -1386,6 +1430,69 @@ fn registered_budget_with_ref(
 ) -> Result<(String, EpochBudget)> {
     latest_typed_with_ref(workspace, EPOCH_BUDGET_REGISTERED, budget_id)?
         .ok_or_else(|| Error::NotFound(format!("epoch budget {budget_id}")))
+}
+
+pub(crate) fn active_epoch_budget_at(
+    workspace: &Workspace,
+    budget_id: &str,
+    at_ms: u128,
+) -> Result<EpochBudget> {
+    let budget = epoch_budget(workspace, budget_id)?;
+    ensure_budget_active(workspace, &budget, at_ms)?;
+    Ok(budget)
+}
+
+fn ensure_budget_active(workspace: &Workspace, budget: &EpochBudget, at_ms: u128) -> Result<()> {
+    if budget.schema != "ilxyr.epoch_budget.v2" {
+        return Err(Error::Security(format!(
+            "epoch budget {} uses legacy schema {} without an enforceable lifetime",
+            budget.id, budget.schema
+        )));
+    }
+    let valid_from_ms = budget.valid_from_ms.ok_or_else(|| {
+        Error::Security(format!(
+            "epoch budget {} has no enforceable start time",
+            budget.id
+        ))
+    })?;
+    let expires_at_ms = budget.expires_at_ms.ok_or_else(|| {
+        Error::Security(format!(
+            "epoch budget {} has no enforceable expiry",
+            budget.id
+        ))
+    })?;
+    if at_ms < valid_from_ms {
+        return Err(Error::Security(format!(
+            "epoch budget {} is not active until {}",
+            budget.id, valid_from_ms
+        )));
+    }
+    if let Some(successor) = registered_budgets(workspace)?
+        .into_iter()
+        .filter(|candidate| {
+            candidate.epoch > budget.epoch
+                && candidate
+                    .valid_from_ms
+                    .is_some_and(|successor_start| successor_start <= at_ms)
+        })
+        .max_by_key(|candidate| candidate.epoch)
+    {
+        return Err(Error::Security(format!(
+            "epoch budget {} was superseded by {}",
+            budget.id, successor.id
+        )));
+    }
+    if at_ms >= expires_at_ms {
+        return Err(Error::Security(format!(
+            "epoch budget {} expired at {}",
+            budget.id, expires_at_ms
+        )));
+    }
+    Ok(())
+}
+
+fn registered_budgets(workspace: &Workspace) -> Result<Vec<EpochBudget>> {
+    artifacts_for(workspace, EPOCH_BUDGET_REGISTERED)
 }
 
 fn forecasts_for(workspace: &Workspace, experiment_id: &str) -> Result<Vec<Forecast>> {

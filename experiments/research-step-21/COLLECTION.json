@@ -1,0 +1,32 @@
+{
+  "bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1",
+  "comparison_controller_started": false,
+  "model_prediction_rows": 0,
+  "object_count": 3,
+  "objects": [
+    {
+      "bytes": 703,
+      "key": "runs/feral-finqa-20260905T212657Z/bootstrap.log",
+      "receipt_sha256": "a4e9dd954573411f1ece316dd4dc9d6cd7fa80a799949bf7b14e5ee9b599bed9",
+      "sha256": "eaea3d64433704e36a14d6afe2e8bf060302a582061c50c8bd90da571b3fc6a0",
+      "version_id": "62_VSTv_iI6CGhwrWh98d1.QDTcPW1YC"
+    },
+    {
+      "bytes": 648,
+      "key": "runs/feral-finqa-20260905T212657Z/host-terminal.json",
+      "receipt_sha256": "3b735677ddad2108198d775876172ea22298d238bf4d779738487afbb9262832",
+      "sha256": "e137ad14540408c51ae931018c1a0c8810cd481636ed7ab6ff1408c79ef4fc52",
+      "version_id": "gm3oJIvcL7mJbMdpLUbCgCZiW3vt1ksH"
+    },
+    {
+      "bytes": 841,
+      "key": "runs/feral-finqa-20260905T212657Z/results/launch-input.json",
+      "receipt_sha256": "7b76aac50afefe68e7a9ab8cbefcf65690dcc5c0da642ddb21e083f568c0afc0",
+      "sha256": "b8c6aa768d05dc7f20628f2cb1f1944bd9ace37bb73ae2ffeb0c56dd1394ee71",
+      "version_id": "aZRPit38o7FV_mYkFpAZys6onXFKeojB"
+    }
+  ],
+  "run_id": "feral-finqa-20260905T212657Z",
+  "schema": "ilxyr.feral_collection_review.v1",
+  "sha256_checks_passed": true
+}

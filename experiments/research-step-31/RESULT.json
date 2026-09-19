@@ -1,0 +1,31 @@
+{
+  "artifacts": {
+    "ANALYSIS.json": "b41d39418f2b09f63e6fba0933b933133f85948d65956620427cac043a3ec4e2",
+    "ATTEMPT.json": "e7e2c42429dd4476997914e0761db6c7f11cb032cba9dbbe611fdf4f21121077",
+    "INPUTS.json": "9820da894b7e49ac6222e3000449e96e49ec3155eed439c0f33c5a0f7cac93e8",
+    "NEXT-DESIGN.json": "58a2c018fb2a1cfdc99df0124f8aaa991d0cd070e0212ea3255dd9337c301eb3",
+    "SOURCE-AUDIT.json": "b0551bb129c564bc46df6ce7708b81b74921bf159f76c8016c2affc15fc0498c"
+  },
+  "family_count": 128,
+  "focused_tests_passed": 7,
+  "implementation_commit": "c43b5e5757d65fdda84cb9c09f326226dd31ba4b",
+  "implementation_sources": {
+    "scripts/research_reasoner_costs.py": "d4b66316a72829ab94f1af7c68424c70dce952068f10460102f76f3965f53079",
+    "scripts/test_research_reasoner_costs.py": "6412ce1a0c97e3d594b44c8141acd6447403a115ebf642adb0d23745137f2d1a"
+  },
+  "input_files_verified": 146,
+  "measured_visits_per_arm": 6144,
+  "native_episode_visits": 73728,
+  "native_processes_verified": 72,
+  "new_cloud_runs": 0,
+  "original_primary_no_go_preserved": true,
+  "original_process_totals_and_paired_point_ratios_reproduced": true,
+  "prior_added_measured_wall_ns": 354055889,
+  "prior_added_score_wall_ns": 445975522,
+  "prior_saved_sort_wall_ns": 92806197,
+  "schema": "ilxyr.reasoner_step31_cost_review.v1",
+  "source_files_verified": 26,
+  "status": "opened_data_diagnostic",
+  "without_prior_cpu_ratio_to_frequency": 1.1431136204283654,
+  "without_prior_zero_search_wall_ratio_to_frequency": 1.1052576225848592
+}

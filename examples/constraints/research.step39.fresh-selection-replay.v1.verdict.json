@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-39/FAILURES.json",
+  "evidence_ref": "artifact://sha256/44f7e2d33c2593161dbceec8b0135d8befafb56c4db05377026deff519d3084f",
+  "experiment_id": "research.step39.fresh-selection-replay.v1",
+  "family": "zero",
+  "id": "verdict:research.step39.fresh-selection-replay.v1",
+  "lineage_note": "Replay every candidate nonce and its first failed predicate in both independent implementations.",
+  "mechanism": "fresh selection replay",
+  "mechanism_tags": [
+    "fresh-data",
+    "independent-checker",
+    "selection-replay"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "reasoner",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The legacy checker accepted an altered nonce of three and invented rejection counts even though nonce zero was eligible. This was a controlled checker probe.",
+  "taxonomy": "implementation"
+}

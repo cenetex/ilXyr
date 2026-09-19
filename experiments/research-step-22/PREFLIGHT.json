@@ -1,0 +1,44 @@
+{
+  "aws_account": "022118847419",
+  "capacity_fallback_observations": {
+    "alternate-acl.json": "8a7daf993662a89639f46df0b58ae68cace30a01c4e74f08353f678d59481d21",
+    "alternate-explicit-routes.json": "bcb15fedf8656eddd247aed1eeb46a13450b526d5045de6031ae53f96aac1c09",
+    "alternate-offering.json": "fe2bf7e9d11678338f170b8c1fd12dc43749a637d427f68f0fdd0037abeba68b",
+    "alternate-subnets.json": "06a3ee7f7fcc919f844a4d8850765dc7ccea6235a334d35fb7e140e69932eb5d"
+  },
+  "capacity_fallback_verified": true,
+  "checked_at": "2026-09-08T06:11:00.102800+00:00",
+  "dry_run": {
+    "instances_created": 0,
+    "status": "dry_run_passed"
+  },
+  "machine_and_shape_verified": true,
+  "maximum_estimated_before_tax_usd": "2.9920800000",
+  "network_and_role_permissions_verified": true,
+  "package_version_and_checksum_verified": true,
+  "price_document_matches_frozen_plan": true,
+  "raw_observations": {
+    "bucket-encryption.json": "9dcbf5a9219555f282511d108aea0d88f078e8824b9fdd397160394bd3c2a213",
+    "bucket-location.json": "c91914411f90553792f3dfb1803f7c51ada8a48fadfb74f817af5f86a8b061ff",
+    "bucket-policy.json": "cd7b9d4c240e8e432b3445c8b9b0231902df652e4190a7d0b4241cc580f8fa30",
+    "bucket-public-access.json": "31f1f0a092cfdc6587c931923da09fc537545478aca3c5dcc2c060b73a91e4d9",
+    "bucket-versioning.json": "e0d7fcfe6b2ca7b3376e1af42cfbf309d2ee91d4cd664565f9b73c4816079f22",
+    "image.json": "aca65e07c819ed010f4fdb17edf9b9d8c5f2372a8dde9b99431a01bfd9826c15",
+    "instance-profile.json": "143cfc1e12be6f7dad0652a31aa9ac343321d9ea1c6867032d7bfa550df261cc",
+    "instance-type.json": "8118fde12d5f3f259eb3c0b69f6feb6808e85677bf010072b4e915ad889e2d01",
+    "network-acl.json": "8a7daf993662a89639f46df0b58ae68cace30a01c4e74f08353f678d59481d21",
+    "offerings.json": "aaadb6267f03b0542104de045edfbeebf24e87134ef7bf6e7664f290b45b740c",
+    "package.json": "762cab8e0a045786f12cc3eb681d210e23de20a84d608b8069407ae02b59eab6",
+    "price-wire": "18cbef6aa13a3a811a9c556ec7268ec9713e2d55c79a6367a3fc8edd85eeeafe",
+    "price.json": "e250897c0fa060229e60ef1c9e4dd26c6489d0fcd9330a4b876af3f33ccb9a7c",
+    "role-inline-policies.json": "81f545399c2caf6b1c74caa19646ccdebb88ad6fb480f51cc1e54970d9a5281b",
+    "role-managed-policies.json": "fda4e473cd2ddb6f77a60f399b39861dfcd1009be2542aadfd0739a6a8ed4c49",
+    "role-policy.json": "f906165c67b930d45de7ff079c8b9e6a22d1767c610d51937efeeed7698d2560",
+    "routes.json": "2c0ecafd83e1fed3fbfe1cf04b4a7357d64db4280eceb9b0d504f4e7b4094eca",
+    "s3-endpoint.json": "39b7b39b44accdd9d9296212bd2f67f1921bc4a75a292bc747458fff30b5e90d",
+    "security-groups.json": "d3e4a8f3126f3b1cdd76bca9332d5242d5bbb9ad8af53e96c3cc986b5ed87875",
+    "subnets.json": "9828e41f9ed31e70e3baa081b5d46f64e33602daf01b2c5fe238d2549a359cb1"
+  },
+  "schema": "ilxyr.feral_preflight_refresh.v1",
+  "storage_settings_verified": true
+}

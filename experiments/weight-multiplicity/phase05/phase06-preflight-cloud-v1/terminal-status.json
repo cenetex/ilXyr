@@ -1,0 +1,14 @@
+{
+  "schema": "ilxyr.weight_multiplicity_phase06_lie_preflight_cloud_status.v1",
+  "status": "complete",
+  "phase": "complete",
+  "run_id": "20260831212800",
+  "instance_id": "i-09e3671071947defa",
+  "package_sha256": "a1a47699ab39e25c024a97dc41c2bf069060b09edf3e096867d0047899587d08",
+  "ilxyr_commit": "82be7a6868d14aede03e1f3dffae592a408ad9fb",
+  "plan_sha256": "9fb8a240908269051b6ec053ca76cf27b78c939941105f9116c3cca80a7ff889",
+  "manifest_sha256": "1d0bbd1cbdb7edb25b83711bbfff738ac5a032a0a6cb6dcdcdab2ac8735e4410",
+  "exit_code": 0,
+  "elapsed_instance_seconds": 83,
+  "estimated_ec2_usd": 0.015677777778
+}

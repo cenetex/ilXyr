@@ -1,0 +1,87 @@
+{
+  "schema": "ilxyr.research_run_set_verification.v1",
+  "scientific_checks": [
+    {
+      "cloud_check_sha256": "bc242adbb7b90f42c78b7a643e09c163ddb9517bfa89292d7a3c3be9d0285d12",
+      "cost_sum_roundoff": [
+        {
+          "absolute_difference": 4.440892098500626e-16,
+          "cloud": 3.1523030000000003,
+          "field": "/arms/raw_lexical_task_guide/whole_worker_cpu_seconds",
+          "offline": 3.152303
+        },
+        {
+          "absolute_difference": 4.440892098500626e-16,
+          "cloud": 3.16495,
+          "field": "/arms/semantic_frequency/whole_worker_cpu_seconds",
+          "offline": 3.1649499999999997
+        },
+        {
+          "absolute_difference": 4.440892098500626e-16,
+          "cloud": 3.1547459999999994,
+          "field": "/arms/task_guide/whole_worker_cpu_seconds",
+          "offline": 3.154746
+        },
+        {
+          "absolute_difference": 4.440892098500626e-16,
+          "cloud": 3.1619800000000002,
+          "field": "/arms/task_without_prior_feature/whole_worker_cpu_seconds",
+          "offline": 3.16198
+        }
+      ],
+      "offline_check_sha256": "cec98a7143cf31ece09015b1a14253bbcc29d977c3a1d8cbf9469b066f982597",
+      "project": "reasoner",
+      "science_and_decisions_equal": true,
+      "status": "verified"
+    },
+    {
+      "cloud_check_sha256": "74d9af7bbb541dfbe5f73b9ca9266473c131f8e3c2447b9509d095919414b3b2",
+      "cost_sum_roundoff": [
+        {
+          "absolute_difference": 1.1102230246251565e-16,
+          "cloud": 0.7949849999999998,
+          "field": "/arms/calculator_v2/whole_worker_cpu_seconds",
+          "offline": 0.7949849999999999
+        },
+        {
+          "absolute_difference": 1.1102230246251565e-16,
+          "cloud": 0.7913060000000001,
+          "field": "/arms/v2_operand_only/whole_worker_cpu_seconds",
+          "offline": 0.791306
+        }
+      ],
+      "offline_check_sha256": "1479089bd85ac62a0321a1a41e68a23fefe5633ae4df0166cdc49156481944f9",
+      "project": "feral",
+      "science_and_decisions_equal": true,
+      "status": "verified"
+    },
+    {
+      "cloud_check_sha256": "f6bd6e82c6fbbab7053f21206c83b85f187f689b89c6d0211d9b111df4a5b987",
+      "cost_sum_roundoff": [],
+      "offline_check_sha256": "4deaea1300cfac2459b928091767e855785ea584a6d8816bcecad3b672a13ba1",
+      "project": "solomon",
+      "science_and_decisions_equal": true,
+      "status": "verified"
+    },
+    {
+      "cloud_check_sha256": "477a7a22f56eff1464b591c69bbce49fceefe81b6b213cc295c25db2eac96748",
+      "cost_sum_roundoff": [],
+      "offline_check_sha256": "477a7a22f56eff1464b591c69bbce49fceefe81b6b213cc295c25db2eac96748",
+      "project": "weight",
+      "science_and_decisions_equal": true,
+      "status": "verified"
+    }
+  ],
+  "status": "four_results_verified_and_zero4_precontroller_failure_verified",
+  "zero4": {
+    "disk": {
+      "free_bytes": 27919421440,
+      "passes": false,
+      "required_bytes": 39795556352
+    },
+    "disk_receipt_sha256": "645ffb863c9d2a8484f622d621509a45786b7d726b3bd6a9839bbeaf2e4f7961",
+    "filesystem_receipt_sha256": "a3c56945ab74c9ed42cd45341051f2f627ee9abc0aa4d2350a2fcbe116f980e1",
+    "scientific_calls": 0,
+    "status": "storage_guard_stopped_before_controller"
+  }
+}

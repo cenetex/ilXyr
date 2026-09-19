@@ -1,0 +1,33 @@
+{
+  "audit_sources": {
+    "scripts/test_weight_yield_audit.py": {
+      "bytes": 6789,
+      "sha256": "8b1bb2aa6fdd88052ac29be4827499b13e560c17bc8f04137a68bdbdd899e597"
+    },
+    "scripts/weight_yield_audit.py": {
+      "bytes": 9479,
+      "sha256": "77548acb570991b21936c7e6809961a4ea3aae1ea23c0311c88c90f084c9f0c0"
+    }
+  },
+  "completed_run": "weight35-20260912T204834Z",
+  "corpus_sha256": "227d87ec524af92db6cd75265e50f4a595d9e1a9cbdb3245b4ef48aa4629cd93",
+  "frozen_sources_equal_current": {
+    "examples/weight-multiplicity/phase1-corpus-plan-v1.json": {
+      "bytes": 6668,
+      "sha256": "9311b0f28de0f3f42614fd17fa808d812ae7a0ad354fa723f55222b0b4116e18"
+    },
+    "scripts/lib/oracle-attempt-trace.mjs": {
+      "bytes": 5620,
+      "sha256": "9f57403234ee6d5d32aa1134a7048b81f57077589bd973d553b06dd70b3875cb"
+    },
+    "scripts/run-weight-multiplicity-phase1-corpus.mjs": {
+      "bytes": 101237,
+      "sha256": "af676e6f8043a82e277926f0e5b08e506bb48fef4b8ba376a44d459c452f42cf"
+    }
+  },
+  "oracle_calls_for_this_audit": 0,
+  "package_sha256": "baca1320cc10071513a47bfd3d853ecf67a48f0aaf3c16429f2398cb7feaa29e",
+  "prior_verified_result": "experiments/research-step-51/RESULT.json",
+  "schema": "ilxyr.weight_yield_sources.v1",
+  "trace_sha256": "39c24773e4b8cdf73402573afe729ea3c9b2bafaf47831168e9b9e420ff79169"
+}

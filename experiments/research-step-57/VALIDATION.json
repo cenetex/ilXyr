@@ -1,0 +1,42 @@
+{
+  "host_tests": {
+    "passed": 19,
+    "process_receipt_sha256": "d6ac7f8c0c89c84cff259b076767e10d70cf1c295eacf041ea657f8f963bd8d6",
+    "stderr_sha256": "9e23f2d33f911221a1791bf00054cbf2fb7eae0cc779415e1f8d922d76682297"
+  },
+  "local_schema_suite": {
+    "process_receipt_sha256": "53b16d24594f8c6849ab53d1b0746e1b7f8d67a08a2f2797252fc796c147f42c",
+    "status": "passed",
+    "wall_seconds": 121.565500708
+  },
+  "package_changed_members": [
+    "HOST.json",
+    "scripts/zero4_cloud_runtime.py"
+  ],
+  "regression_before": {
+    "returncode": 1,
+    "runtime_sha256": "38aba46ddb3c81c6d29e23ae20f29400c611e421e05fe5b711da61f223769ab4",
+    "scientific_calls": 0,
+    "status": "cloud_failure_reproduced",
+    "stderr": "E\n======================================================================\nERROR: test_cloud_cli_reaches_native_boundary_and_direct_study_keeps_guard (__main__.RuntimeTests.test_cloud_cli_reaches_native_boundary_and_direct_study_keeps_guard)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/private/tmp/ilxyr-zero4-execution-20260913/scripts/test_zero4_cloud.py\", line 366, in test_cloud_cli_reaches_native_boundary_and_direct_study_keeps_guard\n    runpy.run_path(str(ROOT / 'scripts/zero4_cloud_runtime.py'), run_name='__main__')\n    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen runpy>\", line 294, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/private/tmp/ilxyr-zero4-execution-20260913/scripts/zero4_cloud_runtime.py\", line 91, in <module>\n    result = run_study(a.package.resolve() / 'prepared', a.output.resolve())\n  File \"/private/tmp/ilxyr-zero4-execution-20260913/scripts/zero4_study.py\", line 429, in run_study\n    require(manifest['mode'] == 'opened' or cloud_adapter, 'full execution requires the frozen cloud adapter')\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/private/tmp/ilxyr-zero4-execution-20260913/scripts/zero4_study_scores.py\", line 17, in require\n    raise ValueError(message)\nValueError: full execution requires the frozen cloud adapter\n\n----------------------------------------------------------------------\nRan 1 test in 0.021s\n\nFAILED (errors=1)\n",
+    "stdout": ""
+  },
+  "schema": "ilxyr.zero4_adapter_repair_validation.v1",
+  "scientific_archive_bytes_preserved": true,
+  "scientific_calls_in_regression": 0,
+  "source_ci": {
+    "conclusion": "success",
+    "fixed_runtime": "opened_fixture",
+    "headSha": "21a66780fee398a02257e7439f48ef8b05735f15",
+    "host_tests": 19,
+    "runtime_receipt_sha256": "727260a6198b8c3f437febfd7dbd304d290102078cfa2a4e9ecef1a0838abed5",
+    "scope": "Small native opened-mode study plus the full-mode adapter entry-point regression with a controlled native boundary.",
+    "status": "completed",
+    "url": "https://github.com/cenetex/ilXyr/actions/runs/34731384386"
+  },
+  "source_files": {
+    "scripts/test_zero4_cloud.py": "fcb1d9153ccf4a387c6b1efed40a0482947389c9802d02cb07788578dd063b5b",
+    "scripts/zero4_cloud_runtime.py": "d8d9ee16d75c62ed055d8bc5037c274de8d4bb0ee6acbde2f0d26838ed0af27c"
+  },
+  "status": "local_and_source_ci_checks_passed"
+}

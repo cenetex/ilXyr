@@ -1,0 +1,210 @@
+{
+  "binding_limits": {
+    "binding_call_limit": 2430387,
+    "binding_query_ms_limit": 8474852,
+    "binding_wall_seconds": 2119,
+    "resource_policy_id": "weight-multiplicity.phase1-final-p99.v1",
+    "schema": "ilxyr.weight_multiplicity_phase1_frozen_oracle_budget.v1",
+    "status": "frozen_before_first_workload_query",
+    "workers": 8
+  },
+  "frozen_budget_sha256": "7947527e06014cce39e5c7a1b0f122108d695bb42b301b083bbcf3d3ab1a8983",
+  "pilot_projection": {
+    "binding_call_limit": 2430387,
+    "binding_query_ms_limit": 8280870,
+    "binding_wall_seconds": 2071,
+    "expected_query_ms": 2077113.269947055,
+    "expected_total_calls": 1861415,
+    "fixed_direct_calls": 72250,
+    "latency_basis": {
+      "mean_ms": 0.4005267091038173,
+      "p95_ms": 1.3405889999994542
+    },
+    "operational_margin_per_mille": 150,
+    "pilot_oracle_calls": 26624,
+    "schema": "ilxyr.weight_multiplicity_phase1_frozen_oracle_budget.v1",
+    "status": "frozen_before_first_corpus_record",
+    "upper_95_query_ms": 7200756.257670151,
+    "upper_95_total_calls": 2113380,
+    "workers": 8
+  },
+  "schema": "ilxyr.weight_yield_pilot.v1",
+  "training_slices": [
+    {
+      "attempts": 1024,
+      "candidate_draws": 1024,
+      "desired_stratum": "0",
+      "expected_generation_calls": 67500,
+      "hits": 1024,
+      "id": "training|0|dominant",
+      "observed_strata": {
+        "0": 1024,
+        "1": 0,
+        "2-7": 0,
+        "8-31": 0,
+        ">31": 0
+      },
+      "observed_yield": 1,
+      "one_sided_wilson_95_lower": 0.9973648301878322,
+      "required": 67500,
+      "sampling": "bounded_with_replacement",
+      "target_status": "dominant",
+      "unique_query_keys": 1022,
+      "upper_95_generation_calls": 67679
+    },
+    {
+      "attempts": 1024,
+      "candidate_draws": 1024,
+      "desired_stratum": "0",
+      "expected_generation_calls": 22500,
+      "hits": 1024,
+      "id": "training|0|non_dominant",
+      "observed_strata": {
+        "0": 1024,
+        "1": 0,
+        "2-7": 0,
+        "8-31": 0,
+        ">31": 0
+      },
+      "observed_yield": 1,
+      "one_sided_wilson_95_lower": 0.9973648301878322,
+      "required": 22500,
+      "sampling": "bounded_with_replacement",
+      "target_status": "non_dominant",
+      "unique_query_keys": 1016,
+      "upper_95_generation_calls": 22560
+    },
+    {
+      "attempts": 1024,
+      "candidate_draws": 1024,
+      "desired_stratum": "1",
+      "expected_generation_calls": 143106,
+      "hits": 483,
+      "id": "training|1|dominant",
+      "observed_strata": {
+        "0": 276,
+        "1": 483,
+        "2-7": 118,
+        "8-31": 61,
+        ">31": 86
+      },
+      "observed_yield": 0.4716796875,
+      "one_sided_wilson_95_lower": 0.4461284600416169,
+      "required": 67500,
+      "sampling": "bounded_with_replacement",
+      "target_status": "dominant",
+      "unique_query_keys": 721,
+      "upper_95_generation_calls": 151302
+    },
+    {
+      "attempts": 1024,
+      "candidate_draws": 1035,
+      "desired_stratum": "1",
+      "expected_generation_calls": 53958,
+      "hits": 427,
+      "id": "training|1|non_dominant",
+      "observed_strata": {
+        "0": 273,
+        "1": 427,
+        "2-7": 145,
+        "8-31": 62,
+        ">31": 117
+      },
+      "observed_yield": 0.4169921875,
+      "one_sided_wilson_95_lower": 0.39189920662364913,
+      "required": 22500,
+      "sampling": "bounded_with_replacement",
+      "target_status": "non_dominant",
+      "unique_query_keys": 882,
+      "upper_95_generation_calls": 57413
+    },
+    {
+      "attempts": 1024,
+      "candidate_draws": 1024,
+      "desired_stratum": "2-7",
+      "expected_generation_calls": 401861,
+      "hits": 172,
+      "id": "training|2-7|dominant",
+      "observed_strata": {
+        "0": 347,
+        "1": 226,
+        "2-7": 172,
+        "8-31": 83,
+        ">31": 196
+      },
+      "observed_yield": 0.16796875,
+      "one_sided_wilson_95_lower": 0.1496331812458602,
+      "required": 67500,
+      "sampling": "bounded_with_replacement",
+      "target_status": "dominant",
+      "unique_query_keys": 787,
+      "upper_95_generation_calls": 451104
+    },
+    {
+      "attempts": 1024,
+      "candidate_draws": 1047,
+      "desired_stratum": "2-7",
+      "expected_generation_calls": 133954,
+      "hits": 172,
+      "id": "training|2-7|non_dominant",
+      "observed_strata": {
+        "0": 355,
+        "1": 209,
+        "2-7": 172,
+        "8-31": 96,
+        ">31": 192
+      },
+      "observed_yield": 0.16796875,
+      "one_sided_wilson_95_lower": 0.1496331812458602,
+      "required": 22500,
+      "sampling": "bounded_with_replacement",
+      "target_status": "non_dominant",
+      "unique_query_keys": 911,
+      "upper_95_generation_calls": 150368
+    },
+    {
+      "attempts": 1024,
+      "candidate_draws": 1024,
+      "desired_stratum": "8-31",
+      "expected_generation_calls": 440255,
+      "hits": 157,
+      "id": "training|8-31|dominant",
+      "observed_strata": {
+        "0": 216,
+        "1": 85,
+        "2-7": 282,
+        "8-31": 157,
+        ">31": 284
+      },
+      "observed_yield": 0.1533203125,
+      "one_sided_wilson_95_lower": 0.13571592423257275,
+      "required": 67500,
+      "sampling": "bounded_with_replacement",
+      "target_status": "dominant",
+      "unique_query_keys": 767,
+      "upper_95_generation_calls": 497363
+    },
+    {
+      "attempts": 1024,
+      "candidate_draws": 1033,
+      "desired_stratum": "8-31",
+      "expected_generation_calls": 150589,
+      "hits": 153,
+      "id": "training|8-31|non_dominant",
+      "observed_strata": {
+        "0": 230,
+        "1": 109,
+        "2-7": 259,
+        "8-31": 153,
+        ">31": 273
+      },
+      "observed_yield": 0.1494140625,
+      "one_sided_wilson_95_lower": 0.13201427223061976,
+      "required": 22500,
+      "sampling": "bounded_with_replacement",
+      "target_status": "non_dominant",
+      "unique_query_keys": 938,
+      "upper_95_generation_calls": 170437
+    }
+  ]
+}

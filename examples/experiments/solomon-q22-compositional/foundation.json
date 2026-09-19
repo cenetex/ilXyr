@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "solomon.q22-compositional.foundation.v1",
+  "stage": "mathematical_foundation",
+  "actor": {
+    "id": "model://solomon/q22-compositional/integer-learning-analysis",
+    "kind": "model",
+    "model_ref": "model://solomon/q22/sparse-perceptron-analysis/v1"
+  },
+  "title": "Sparse integer routing without a prefix shortcut",
+  "body": "The inherited model has 8192 deterministic hashed features spanning first-token, token, positioned-token, and byte n-gram counts. In this task the first-token feature is constant across five exactly balanced classes, so it carries no class information. Balanced distractor classes also prevent a wrong-operation cue from winning by frequency alone. Success therefore requires later lexical or compositional evidence that transfers across 30 training and 20 surface-disjoint promotion template families.",
+  "input_refs": ["solomon.q22-compositional.hypothesis.v1"],
+  "claims": [
+    "The feature map, class order, all-zero initialization, update rule, and four-epoch budget are unchanged from the prior Solomon Q22 class-head lineage.",
+    "The prefix-only baseline is exactly 200000 ppm and cannot satisfy any preregistered performance gate."
+  ],
+  "confidence": 0.91
+}

@@ -1,0 +1,93 @@
+{
+  "actual_instances_created": 0,
+  "launch_approval_status": "pending_exact_package_destination_and_budget_approval",
+  "local_host_tests": {
+    "count": 18,
+    "receipt_sha256": "92a2689dd92a48460c1cd5e7ff1274a9a7be079515ba819542cd03085ed39862",
+    "status": "passed"
+  },
+  "local_schema_suite": {
+    "full_uninterrupted_source_ci_run": 34723123162,
+    "full_uninterrupted_source_ci_status": "passed",
+    "prefix_receipt_sha256": "dff3d06d13dbb323ae12c56e175a94f63d7ab4162f877fe9ecc00f9a75da409b",
+    "prefix_stop": "Existing receipt directory in the ZERO.4 host group; all earlier groups passed.",
+    "remaining_groups": [
+      {
+        "group": "zero4-cloud",
+        "receipt_sha256": "951e26b08b49332e3d93aee6b417cd3cce710bb06cf825bab529c0adedca56e4",
+        "status": "passed",
+        "wall_seconds": 51.149576375
+      },
+      {
+        "group": "reasoner-study-cloud",
+        "receipt_sha256": "3546100b3ccf4c8106164d2a455ec8154e5854901ac19e6080ec18c732c0f7f8",
+        "status": "passed",
+        "wall_seconds": 40.026861291
+      },
+      {
+        "group": "feral-fresh",
+        "receipt_sha256": "d4544054e32c6841faf8bb3e02e9aed03d781568179e9dc57ea1714593771f5d",
+        "status": "passed",
+        "wall_seconds": 0.885302
+      },
+      {
+        "group": "feral-coverage",
+        "receipt_sha256": "71078ae58915fed2f687f0e50ba16a6c7ad89be78c97c745b29c09867ab0f71b",
+        "status": "passed",
+        "wall_seconds": 5.245719917
+      },
+      {
+        "group": "feral-coverage-cloud",
+        "receipt_sha256": "d3af411f6438b292c0d975f09507943fbd945ec68e63b6308cc51ebe862857ab",
+        "status": "passed",
+        "wall_seconds": 43.138312125
+      },
+      {
+        "group": "research-launch-bindings",
+        "receipt_sha256": "aa69c8c195a934f957f8028dfc9ce93ed5df0b3de3429da19d994abef09ab43a",
+        "status": "passed",
+        "wall_seconds": 0.76218175
+      }
+    ],
+    "status": "complete_with_preserved_failed_attempt_and_fresh_tail"
+  },
+  "package_bytes": 54886400,
+  "package_sha256": "b9cd62c7577536bc284e53cc066d789eb0e65890ccff7668529bb6a33262aa02",
+  "plan_sha256": "9a8e016502e693e37c6333a852854d1896a37807cf4ea7477b7374b784c4393b",
+  "production_scientific_calls": 0,
+  "records": {
+    "DESIGN.json": "995a0010aae02c8c1e535ac5d79c691b48cd81dadefe0f59537a7f34b3dac4de",
+    "FAILURES.json": "ed98ea92e38795e5f8468c456b484642f8773aa1a339c96e5766ad2ae3d19cfe",
+    "OBSERVED-DISK.json": "82c1c65e4cfa42c576c50d92e3eafd6a23b994d195ff6d295ab6bb0b4da2768e",
+    "PACKAGE.json": "6b844aff1230cf2ca6f293c3c7964a626d8e93cea3f8b1c92d9d837c858edca1",
+    "PREFLIGHT.json": "9783a8217fd3aa51c3d53c09c22b09213062b0c42ae4dadfcfb61efdd8e0e490",
+    "RUNTIME-CHECK.json": "82063969535696e075d3bad8a62188c9bda2327ea9d95ccf5dc5b8d08511eeb9",
+    "SCIENTIFIC-PARITY.json": "b53eb99a73939f3da81f7171ac3a41c54e2a2cb5c0e1970f2cdf2aedd7f98309",
+    "SNAPSHOT.json": "833b6f4bc664e5522fc336d5c4a28db2b17b26737926ff00ca56141aff9c814e"
+  },
+  "schema": "ilxyr.zero4_storage_repair_result.v1",
+  "shared_launch_tests": {
+    "controlled_cases": 50,
+    "methods": 7,
+    "status": "passed"
+  },
+  "source_ci": {
+    "head": "4569cd01c82a58b9c32bba117623d86b79f82d0e",
+    "runs": [
+      34723123153,
+      34723123147,
+      34723123172,
+      34723123144,
+      34723123162
+    ],
+    "status": "all_11_checks_passed"
+  },
+  "source_commit": "4569cd01c82a58b9c32bba117623d86b79f82d0e",
+  "status": "tested_package_staging_requires_explicit_approval",
+  "storage_sizing": {
+    "minimum_root_bytes": 138579804160,
+    "planned_headroom_bytes": 33218887680,
+    "planned_root_bytes": 171798691840,
+    "required_free_bytes": 39795556352
+  }
+}

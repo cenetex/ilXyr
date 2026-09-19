@@ -1,0 +1,10 @@
+{
+  "archive_bytes": 1617920,
+  "archive_sha256": "1d0239b993353a4e67b1ed56718fdd433ea0b7e10646e2280295b25a2918516c",
+  "execution_authorized": false,
+  "execution_manifest_sha256": "6e7fd7a3e19dbce229c10f43520c6cb3ca74c8398406491673ae69f9a91a2a17",
+  "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+  "files": 8,
+  "schema": "ilxyr.feral_execution_archive.v1",
+  "source_commit": "4f514de73638c57b401c2aec1a4aaf61c961aa1a"
+}

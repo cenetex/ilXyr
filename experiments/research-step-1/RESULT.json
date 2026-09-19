@@ -1,0 +1,792 @@
+{
+  "date": "2026-09-05",
+  "plan_sha256": "17dfce9cbeecb751664fd447f05bf6b8067a9153b6669bfefd505ee13e261694",
+  "projects": {
+    "feral": {
+      "confidence_and_citation_support": "additional prediction fields required",
+      "counts": {
+        "boolean_error": 14,
+        "correct_with_gold": 168,
+        "empty_gold": 14,
+        "frozen_score_correct": 168,
+        "numeric_disagreement": 877,
+        "numeric_gold_with_non_numeric_output": 63,
+        "other_answer_error": 11
+      },
+      "evidence_kind": "posthoc_public_error_diagnostic",
+      "examples": 1147,
+      "frozen_score_accuracy": 0.14646904969485613,
+      "grouped_comparison_unit": "issuer; retain all questions within each sampled issuer",
+      "issuer_groups": 100,
+      "largest_issuer_group": 65,
+      "next_step": "Review empty gold labels, freeze answer-format and retrieval-plus-calculator controls, and require citation and confidence fields for the next development comparison.",
+      "valid_gold_accuracy_diagnostic": 0.14827890556045895,
+      "valid_gold_examples": 1133
+    },
+    "reasoner": {
+      "evidence_kind": "external_public_arithmetic_audit",
+      "fast_search": {
+        "comparisons": [
+          {
+            "condition": "original_task",
+            "recalculated_ratios": {
+              "checks": 1.0,
+              "cpu": 1.0,
+              "wall": 1.0
+            },
+            "reference": "original_task"
+          },
+          {
+            "condition": "hash_task",
+            "recalculated_ratios": {
+              "checks": 1.0,
+              "cpu": 0.5105599485269657,
+              "wall": 0.513271107002571
+            },
+            "reference": "original_task"
+          },
+          {
+            "condition": "sort_task",
+            "recalculated_ratios": {
+              "checks": 1.0,
+              "cpu": 0.955596259939154,
+              "wall": 0.9559150952943087
+            },
+            "reference": "original_task"
+          },
+          {
+            "condition": "fast_task",
+            "recalculated_ratios": {
+              "checks": 1.0,
+              "cpu": 0.48971624141772613,
+              "wall": 0.49183517094394597
+            },
+            "reference": "original_task"
+          },
+          {
+            "condition": "original_target",
+            "recalculated_ratios": {
+              "checks": 1.0640936707551873,
+              "cpu": 0.6821455476320379,
+              "wall": 0.6789435506308057
+            },
+            "reference": "original_task"
+          },
+          {
+            "condition": "fast_target",
+            "recalculated_ratios": {
+              "checks": 1.0640936707551873,
+              "cpu": 0.6070017504379545,
+              "wall": 0.605868472685076
+            },
+            "reference": "original_task"
+          },
+          {
+            "condition": "original_jit",
+            "recalculated_ratios": {
+              "checks": 1.2117938096368897,
+              "cpu": 0.7924200015576986,
+              "wall": 0.7903144032672373
+            },
+            "reference": "original_task"
+          },
+          {
+            "condition": "fast_jit",
+            "recalculated_ratios": {
+              "checks": 1.2117938096368897,
+              "cpu": 0.6567026788041264,
+              "wall": 0.6545016714940053
+            },
+            "reference": "original_task"
+          },
+          {
+            "condition": "fast_task",
+            "recalculated_ratios": {
+              "checks": 0.9397668903437439,
+              "cpu": 0.7179057946176359,
+              "wall": 0.7244124647578611
+            },
+            "reference": "original_target"
+          },
+          {
+            "condition": "fast_task",
+            "recalculated_ratios": {
+              "checks": 0.825222898522362,
+              "cpu": 0.6180008587050497,
+              "wall": 0.6223284921933193
+            },
+            "reference": "original_jit"
+          },
+          {
+            "condition": "fast_task",
+            "recalculated_ratios": {
+              "checks": 0.9397668903437439,
+              "cpu": 0.8067789607927927,
+              "wall": 0.8117853843165868
+            },
+            "reference": "fast_target"
+          },
+          {
+            "condition": "fast_task",
+            "recalculated_ratios": {
+              "checks": 0.825222898522362,
+              "cpu": 0.7457198778441302,
+              "wall": 0.7514651105799495
+            },
+            "reference": "fast_jit"
+          }
+        ],
+        "engineering_check": "met",
+        "evidence": {
+          "conditions": 8,
+          "exact_measured_rows": 65536,
+          "families": 128,
+          "model_bytes": 1863,
+          "passes": 16,
+          "rows_per_condition": 512
+        }
+      },
+      "first_five": [
+        {
+          "decision": "no-go",
+          "episodes": 24,
+          "id": "reasoner50-residual-transfer-v1",
+          "individual_wins": 10,
+          "primary_full_expansions": 229,
+          "primary_target_only_expansions": 248,
+          "provenance": "../reasoner50-residual-transfer-v1/PROVENANCE.json",
+          "result": "../reasoner50-residual-transfer-v1/RESULT.json",
+          "version": "5.0"
+        },
+        {
+          "decision": "pass",
+          "episodes": 24,
+          "id": "reasoner51-unseen-primitive-v1",
+          "individual_wins": 17,
+          "primary_full_expansions": 45,
+          "primary_target_only_expansions": 105,
+          "provenance": "../reasoner51-unseen-primitive-v1/PROVENANCE.json",
+          "result": "../reasoner51-unseen-primitive-v1/RESULT.json",
+          "version": "5.1"
+        },
+        {
+          "decision": "no-go",
+          "episodes": 24,
+          "id": "reasoner52-nonlinear-depth-transfer-v1",
+          "individual_wins": 8,
+          "primary_full_expansions": 30,
+          "primary_target_only_expansions": 44,
+          "provenance": "../reasoner52-nonlinear-depth-transfer-v1/PROVENANCE.json",
+          "result": "../reasoner52-nonlinear-depth-transfer-v1/RESULT.json",
+          "version": "5.2"
+        },
+        {
+          "decision": "pass",
+          "episodes": 72,
+          "id": "reasoner53-evidence-transfer-v1",
+          "individual_wins": 12,
+          "primary_condition": 2,
+          "primary_episodes": 24,
+          "primary_full_expansions": 48,
+          "primary_target_only_expansions": 66,
+          "provenance": "../reasoner53-evidence-transfer-v1/PROVENANCE.json",
+          "result": "../reasoner53-evidence-transfer-v1/RESULT.json",
+          "version": "5.3"
+        },
+        {
+          "decision": "no-go",
+          "decoded_exact": 288,
+          "decoded_values": 288,
+          "episodes": 48,
+          "id": "reasoner54-pixel-transfer-v1",
+          "individual_wins": 0,
+          "primary_condition": 1,
+          "primary_episodes": 24,
+          "primary_full_expansions": 24,
+          "primary_target_only_expansions": 24,
+          "provenance": "../reasoner54-pixel-transfer-v1/PROVENANCE.json",
+          "result": "../reasoner54-pixel-transfer-v1/RESULT.json",
+          "version": "5.4"
+        }
+      ],
+      "next_step": "Freeze a fresh-family test of the improved guide against equally optimized target-only search and lexical-role controls.",
+      "passive_noise_development": {
+        "channel_failures": [
+          "candidate_set_size_ratio_at_matched_coverage",
+          "development_and_sealed_interface_and_proxy_audits_clean"
+        ],
+        "scientific_decision": null,
+        "search_decision": "no-go",
+        "search_failures": [
+          "primary_ratio",
+          "primary_upper_limit",
+          "family_win_rate",
+          "family_win_lower_limit",
+          "marginal_win_gates",
+          "primary_strata",
+          "mechanism_effects"
+        ],
+        "status": "development-only"
+      }
+    },
+    "solomon": {
+      "evidence_kind": "posthoc_public_baseline_diagnostic",
+      "inspection_finding": "The pinned trainer fits byte counts and installs constant embeddings with zero attention and feed-forward weights.",
+      "metric_boundary": "The new baseline uses floating-point log loss; recorded systems retain their original integer objective.",
+      "next_step": "Evaluate a context-sensitive learner, the smoothed unigram, and a smoothed bigram through the same objective; include matched-context swaps.",
+      "recorded_systems": [
+        {
+          "accuracy": 0.15315468113975578,
+          "canonical_integer_nll_millibits": 25347655,
+          "mistakes": 4993,
+          "system": "transformer-only",
+          "targets": 5896
+        },
+        {
+          "accuracy": 0.0,
+          "canonical_integer_nll_millibits": 47168000,
+          "mistakes": 5896,
+          "system": "uniform",
+          "targets": 5896
+        },
+        {
+          "accuracy": 0.5742876526458616,
+          "canonical_integer_nll_millibits": 38271425,
+          "mistakes": 2510,
+          "system": "retrieval",
+          "targets": 5896
+        },
+        {
+          "accuracy": 0.5673337856173677,
+          "canonical_integer_nll_millibits": 38025720,
+          "mistakes": 2551,
+          "system": "byte-ngram",
+          "targets": 5896
+        },
+        {
+          "accuracy": 0.15315468113975578,
+          "canonical_integer_nll_millibits": 40847697,
+          "mistakes": 4993,
+          "system": "float-transformer",
+          "targets": 5896
+        }
+      ],
+      "smoothed_unigram": {
+        "accuracy": 0.15315468113975578,
+        "alpha": 1,
+        "context_dependence": "constant distribution at every position",
+        "correct": 903,
+        "evaluation_targets": 5896,
+        "float_bits_per_target": 4.320968710899265,
+        "predicted_byte": 32,
+        "probability_sum": 1.0,
+        "training_targets": 9324
+      }
+    },
+    "weight_multiplicity": {
+      "above_label_range_fraction": 0.2019981971153846,
+      "budget": {
+        "binding_call_limit": 2430387,
+        "binding_query_ms_limit": 8474852,
+        "binding_wall_seconds": 2119,
+        "workers": 8
+      },
+      "calls": 26624,
+      "closures": {
+        "corpus_generation_authorized": false,
+        "model_evaluation_authorized": false,
+        "model_training_authorized": false,
+        "oracle_promotion_authorized": false,
+        "retry_authorized": false
+      },
+      "derived_generation_p99_limit_ms": 50,
+      "evidence_kind": "recorded_calibration_arithmetic_audit",
+      "generation_to_calibration_ratios": {
+        "binding": 91.2855694110577,
+        "expected": 69.91492638221153,
+        "upper_95": 79.37875600961539
+      },
+      "next_step": "Review the measured 50 ms resource clause and prepare a fresh package for the unchanged corpus distribution.",
+      "operational_status": "post_measurement_wrapper_failed",
+      "p99_ms": 39.60266599999886,
+      "plan_status_at_original_authorization": "authorized",
+      "status": "calibration_complete",
+      "top_50_all_outside_corpus_label_range": true
+    },
+    "zero4": {
+      "evidence_kind": "external_public_artifact_verification",
+      "next_step": "Freeze a matched comparison of replay, projection, direct functional checks, and joint optimizer rollback on fresh task families.",
+      "seeds": [
+        {
+          "attempts": 600,
+          "committed": 600,
+          "decision": "go",
+          "guard_budget": 0.015,
+          "guard_diagnostics": {
+            "backtrackedAccepted": 0,
+            "exhausted": 0,
+            "fullScaleAccepted": 600,
+            "hardTrialExceedances": 0,
+            "maxAbsoluteProjectionPostDot": 6.094828235827525e-07,
+            "maxCommittedRelativeIncrease": 0.0005057062180562855,
+            "maxProjectionPreDot": 0.0013163977586623994,
+            "maxProjectionRemovedFraction": 0.13849050770151,
+            "maxTrialRelativeIncrease": 0.0005057062180562855,
+            "maxTrialsUsed": 1,
+            "meanProjectionRemovedFraction": 0.032257099272542715,
+            "minAcceptedScale": 1,
+            "projectedAccepted": 335,
+            "projectedTrials": 335,
+            "transactionSeconds": 4250.36,
+            "trialEvaluations": 600,
+            "unprojectedTrials": 265,
+            "warningTrialExceedances": 0
+          },
+          "promotion": {
+            "evaluatedOnceAtEnd": true,
+            "gates": {
+              "arguments": true,
+              "closed": true,
+              "committed": true,
+              "exact_artifact": true,
+              "exact_request": true,
+              "operation": true,
+              "oracle_arithmetic": true,
+              "rejected_state_mutations": true,
+              "syntax": true
+            },
+            "quantityPass": true,
+            "rates": {
+              "arguments": 1,
+              "closed": 1,
+              "committed": 0.984,
+              "exact_artifact": 0.984,
+              "exact_request": 0.984,
+              "operation": 0.984,
+              "oracle_arithmetic": 1,
+              "syntax": 1
+            }
+          },
+          "seed": 1,
+          "selected": {
+            "checkpoint": "/tmp/zero-results/zero4-q26r-v1/seed1/recovery/u000400.ckpt",
+            "committed": 400,
+            "feasible": true,
+            "gates": {
+              "arguments": true,
+              "closed": true,
+              "committed": true,
+              "exact_artifact": true,
+              "exact_request": true,
+              "operation": true,
+              "oracle_arithmetic": true,
+              "rejected_state_mutations": true,
+              "syntax": true
+            },
+            "minimumFacultyMargin": 0.010000000000000009,
+            "phase": "acquisition",
+            "quantityPass": true,
+            "rates": {
+              "arguments": 1,
+              "closed": 1,
+              "committed": 0.98,
+              "exact_artifact": 0.98,
+              "exact_request": 0.98,
+              "operation": 0.98,
+              "oracle_arithmetic": 1,
+              "syntax": 1
+            },
+            "replayLoss": 1.648,
+            "replayRegression": 0.010423053341508219,
+            "totalAttempts": 400
+          }
+        },
+        {
+          "attempts": 700,
+          "committed": 700,
+          "decision": "go",
+          "guard_budget": 0.015,
+          "guard_diagnostics": {
+            "backtrackedAccepted": 0,
+            "exhausted": 0,
+            "fullScaleAccepted": 700,
+            "hardTrialExceedances": 0,
+            "maxAbsoluteProjectionPostDot": 6.218345195680731e-07,
+            "maxCommittedRelativeIncrease": 0.0005089199641196096,
+            "maxProjectionPreDot": 0.0017079639087356257,
+            "maxProjectionRemovedFraction": 0.14337323665418025,
+            "maxTrialRelativeIncrease": 0.0005089199641196096,
+            "maxTrialsUsed": 1,
+            "meanProjectionRemovedFraction": 0.036731164347065866,
+            "minAcceptedScale": 1,
+            "projectedAccepted": 423,
+            "projectedTrials": 423,
+            "transactionSeconds": 934.698,
+            "trialEvaluations": 700,
+            "unprojectedTrials": 277,
+            "warningTrialExceedances": 0
+          },
+          "promotion": {
+            "evaluatedOnceAtEnd": true,
+            "gates": {
+              "arguments": true,
+              "closed": true,
+              "committed": true,
+              "exact_artifact": true,
+              "exact_request": true,
+              "operation": true,
+              "oracle_arithmetic": true,
+              "rejected_state_mutations": true,
+              "syntax": true
+            },
+            "quantityPass": true,
+            "rates": {
+              "arguments": 1,
+              "closed": 1,
+              "committed": 0.996,
+              "exact_artifact": 0.996,
+              "exact_request": 0.996,
+              "operation": 0.996,
+              "oracle_arithmetic": 1,
+              "syntax": 1
+            }
+          },
+          "seed": 2,
+          "selected": {
+            "checkpoint": "benchmarks/zero4-q26-v1/seed2/recovery/u000500.ckpt",
+            "committed": 500,
+            "feasible": true,
+            "gates": {
+              "arguments": true,
+              "closed": true,
+              "committed": true,
+              "exact_artifact": true,
+              "exact_request": true,
+              "operation": true,
+              "oracle_arithmetic": true,
+              "rejected_state_mutations": true,
+              "syntax": true
+            },
+            "minimumFacultyMargin": 0.010000000000000009,
+            "phase": "consolidation",
+            "quantityPass": true,
+            "rates": {
+              "arguments": 1,
+              "closed": 1,
+              "committed": 0.998,
+              "exact_artifact": 0.998,
+              "exact_request": 0.998,
+              "operation": 0.998,
+              "oracle_arithmetic": 1,
+              "syntax": 1
+            },
+            "replayLoss": 1.6503,
+            "replayRegression": 0.011833231146535925,
+            "totalAttempts": 500
+          }
+        },
+        {
+          "attempts": 600,
+          "committed": 600,
+          "decision": "go",
+          "guard_budget": 0.015,
+          "guard_diagnostics": {
+            "backtrackedAccepted": 0,
+            "exhausted": 0,
+            "fullScaleAccepted": 600,
+            "hardTrialExceedances": 0,
+            "maxAbsoluteProjectionPostDot": 6.446011744855797e-07,
+            "maxCommittedRelativeIncrease": 0.0004657003864890863,
+            "maxProjectionPreDot": 0.0013968943404974875,
+            "maxProjectionRemovedFraction": 0.11665485061393745,
+            "maxTrialRelativeIncrease": 0.0004657003864890863,
+            "maxTrialsUsed": 1,
+            "meanProjectionRemovedFraction": 0.03234558836254309,
+            "minAcceptedScale": 1,
+            "projectedAccepted": 326,
+            "projectedTrials": 326,
+            "transactionSeconds": 4284.145,
+            "trialEvaluations": 600,
+            "unprojectedTrials": 274,
+            "warningTrialExceedances": 0
+          },
+          "promotion": {
+            "evaluatedOnceAtEnd": true,
+            "gates": {
+              "arguments": true,
+              "closed": true,
+              "committed": true,
+              "exact_artifact": true,
+              "exact_request": true,
+              "operation": true,
+              "oracle_arithmetic": true,
+              "rejected_state_mutations": true,
+              "syntax": true
+            },
+            "quantityPass": true,
+            "rates": {
+              "arguments": 1,
+              "closed": 1,
+              "committed": 0.964,
+              "exact_artifact": 0.964,
+              "exact_request": 0.964,
+              "operation": 0.964,
+              "oracle_arithmetic": 1,
+              "syntax": 1
+            }
+          },
+          "seed": 3,
+          "selected": {
+            "checkpoint": "/tmp/zero-results/zero4-q26r-v1/seed3/recovery/u000500.ckpt",
+            "committed": 500,
+            "feasible": true,
+            "gates": {
+              "arguments": true,
+              "closed": true,
+              "committed": true,
+              "exact_artifact": true,
+              "exact_request": true,
+              "operation": true,
+              "oracle_arithmetic": true,
+              "rejected_state_mutations": true,
+              "syntax": true
+            },
+            "minimumFacultyMargin": 0.010000000000000009,
+            "phase": "consolidation",
+            "quantityPass": true,
+            "rates": {
+              "arguments": 1,
+              "closed": 1,
+              "committed": 0.96,
+              "exact_artifact": 0.96,
+              "exact_request": 0.96,
+              "operation": 0.96,
+              "oracle_arithmetic": 1,
+              "syntax": 1
+            },
+            "replayLoss": 1.6518,
+            "replayRegression": 0.012752912323727732,
+            "totalAttempts": 500
+          }
+        }
+      ]
+    }
+  },
+  "runner_sha256": "03bdce6315fded2ceb272e9c427c869893fc2b156f8fa6ab00f466b9c461ea72",
+  "schema": "ilxyr.research_baseline_audit.v1",
+  "scope": "arithmetic and diagnostics on existing public records",
+  "sources": [
+    {
+      "bytes": 5960,
+      "path": "benchmarks/integer-transformer-proof-v1/eval.txt",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "11237cca31d90410ec3389bc8e1bf52be3e68b51c3da62c9ce73d424c482328a"
+    },
+    {
+      "bytes": 2083,
+      "path": "benchmarks/integer-transformer-proof-v1/successor-v2-evidence.json",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "29546fca1eab45e592489ce6e6b0b6f352c7a2a740558c7de4e016e23c2f1428"
+    },
+    {
+      "bytes": 721,
+      "path": "benchmarks/integer-transformer-proof-v1/successor-v2-manifest.tsv",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "b15d81ef527befd9699634eba6ec1451428e2c1eb7c8e0bb43dcd3009a373281"
+    },
+    {
+      "bytes": 9388,
+      "path": "benchmarks/integer-transformer-proof-v1/train.txt",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "82f29e7c36e4b93409e3db50a636783690f1e95bced88d9eb7afcfa47dde9d0a"
+    },
+    {
+      "bytes": 13444,
+      "path": "crates/nsrl-train/src/bin/nsrl-successor-train.rs",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "6ecbfe0981e83365b9be3ed3117a2fcf4275f829ff38fa422912484a486febce"
+    },
+    {
+      "bytes": 17577,
+      "path": "scripts/run-integer-transformer-successor-v2.mjs",
+      "repository": "atimics/nsrl",
+      "revision": "90ba65361efed6ba39019de2302a9e5b0c46f108",
+      "sha256": "187134c570f1807292d8ad3e0eee5f1d4934118a3afcdcefa820a5905cb5a157"
+    },
+    {
+      "bytes": 84205,
+      "path": "artifacts/feral-7b-sec-v2/evaluation/baseline-finqa-retrieved.jsonl",
+      "repository": "atimics/runner-watch",
+      "revision": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+      "sha256": "4ade8a32e3b6d1c42dc49bf28826d65cf33f748dc1deec8eccc7399f2ad9f5c1"
+    },
+    {
+      "bytes": 1213,
+      "path": "artifacts/feral-7b-sec-v2/evaluation/finqa-baseline.json",
+      "repository": "atimics/runner-watch",
+      "revision": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+      "sha256": "a9c2b7f456bc4101eb7b288761bea923298eb690d90fd10be89d32cba44beb8f"
+    },
+    {
+      "bytes": 1209813,
+      "path": "artifacts/feral-7b-sec-v2/evaluation/finqa-retrieved.jsonl",
+      "repository": "atimics/runner-watch",
+      "revision": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+      "sha256": "b295064693c44f81685018f79d59570e81382fc447c188b2cb3438b9f19f45d4"
+    },
+    {
+      "bytes": 3519,
+      "path": "ml/sec-qwen/src/sec_qwen/benchmarks.py",
+      "repository": "atimics/runner-watch",
+      "revision": "c78d953ab64ba5e295b44bc0e13c9015223a32d2",
+      "sha256": "d7868b264c67ff58a26a60a485ea5583b3bb5dcb0f179d269eb91fad5684c1b7"
+    },
+    {
+      "bytes": 7548,
+      "path": "benchmarks/zero4-q26-v1/contract.json",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "94c7e1d0f45f49d6893922d32d985761d502e79b",
+      "sha256": "2fa40ace634c9fc737d6212f902b074685a7769628becf720cefe5f936e4ac80"
+    },
+    {
+      "bytes": 746,
+      "path": "benchmarks/zero4-q26-v1/seed2/RESULTS.md",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "94c7e1d0f45f49d6893922d32d985761d502e79b",
+      "sha256": "b3bbc85d9d2de5ca9bd49d9940cd2e78e89599e69cbaaa5dd7a907bab34749db"
+    },
+    {
+      "bytes": 15678,
+      "path": "benchmarks/zero4-q26-v1/seed2/events.jsonl",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "94c7e1d0f45f49d6893922d32d985761d502e79b",
+      "sha256": "b45268d32ba97db47cca074276a27d55738f8c70319dd373647052ca40f24e75"
+    },
+    {
+      "bytes": 7058926,
+      "path": "benchmarks/zero4-q26-v1/seed2/optimizer-attempts.jsonl",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "94c7e1d0f45f49d6893922d32d985761d502e79b",
+      "sha256": "c7f7c3a9a20f02c59d0354c7f947195cd5da7b7aa256662064aaa2b4edd931ba"
+    },
+    {
+      "bytes": 4604,
+      "path": "benchmarks/zero4-q26-v1/seed2/result.json",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "94c7e1d0f45f49d6893922d32d985761d502e79b",
+      "sha256": "6fba7b46a00c881ab129ea706125fee0924d897836784274275ae9517805eb5f"
+    },
+    {
+      "bytes": 4920400,
+      "path": "benchmarks/zero4-q26-v1/seed2/selected.litq8",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "94c7e1d0f45f49d6893922d32d985761d502e79b",
+      "sha256": "44b32f2262be2754fd2eeaf16ed206bae32b4ce30d7f5541a1059cd21257ae50"
+    },
+    {
+      "bytes": 17260,
+      "path": "scripts/check_zero4_q26.mjs",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "94c7e1d0f45f49d6893922d32d985761d502e79b",
+      "sha256": "85681beb4eed9f1ae632d7a258629727015baea62ed0415b7bdbab40a17ef269"
+    },
+    {
+      "bytes": 23464,
+      "path": "scripts/train_zero4_q26.mjs",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "94c7e1d0f45f49d6893922d32d985761d502e79b",
+      "sha256": "15112a37bc951290b99e63bea9e64dc85a143a12cabaa6223c42628d99714f88"
+    },
+    {
+      "bytes": 2776,
+      "path": "benchmarks/reasoner5-first-five-v1/series.json",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "9e147326c9cd1e6dcc26591ff5d73e16bff9e17e",
+      "sha256": "8375990916edc6a83441309e2ae58bbdfacf1a81735aba81a0899240cdc6d5ab"
+    },
+    {
+      "bytes": 307420,
+      "path": "benchmarks/reasoner55-fast-search-v1/ANALYSIS.json",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "9e147326c9cd1e6dcc26591ff5d73e16bff9e17e",
+      "sha256": "464281f1ecbadf6587a70f9f70f61b5eb2fc9944ef2a483edbf8ea683f0d4fdb"
+    },
+    {
+      "bytes": 5102,
+      "path": "benchmarks/reasoner55-fast-search-v1/RESULTS.json",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "9e147326c9cd1e6dcc26591ff5d73e16bff9e17e",
+      "sha256": "9fc0abb6ccb41679eb9571a0b72f89ba28383275daa7244e594d503b6545651e"
+    },
+    {
+      "bytes": 11655342,
+      "path": "benchmarks/reasoner55-fast-search-v1/TIMING.json",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "9e147326c9cd1e6dcc26591ff5d73e16bff9e17e",
+      "sha256": "c989e266c046082c5a8ece5a7f2303428b7bc034f5cc7354afa9cc82c007aa11"
+    },
+    {
+      "bytes": 6754,
+      "path": "benchmarks/reasoner56-passive-noise-development-v1/development/assessment.json",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "9e147326c9cd1e6dcc26591ff5d73e16bff9e17e",
+      "sha256": "52e1eb8abe6c10b118196f81d8e41a1dce1408add79e33458443397beab07d21"
+    },
+    {
+      "bytes": 1856,
+      "path": "benchmarks/zero4-q26r-v1/aggregate.json",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "bde7875bdc3947bb4203fe3b8eccc8fb6488bda6",
+      "sha256": "246274e15bcdcea7e337a01bdf415b72251f010fb411b8a1c0ac879d0ddc5d71"
+    },
+    {
+      "bytes": 4728,
+      "path": "benchmarks/zero4-q26r-v1/seed1/result.json",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "bde7875bdc3947bb4203fe3b8eccc8fb6488bda6",
+      "sha256": "9e80942f0e9c541fcd92fb63fd7a6b1fe82b5148b05239a34937c17926ff274f"
+    },
+    {
+      "bytes": 4728,
+      "path": "benchmarks/zero4-q26r-v1/seed3/result.json",
+      "repository": "atimics/zero-grounded-literary-lm",
+      "revision": "bde7875bdc3947bb4203fe3b8eccc8fb6488bda6",
+      "sha256": "38bda6500ddb1012cb0c37fe691b4803447e9f03e62d0a9c34f0b4c3f39f4537"
+    },
+    {
+      "bytes": 3847,
+      "path": "docs/experiments/exp-004-evidence.json",
+      "repository": "ilxyr",
+      "sha256": "5671854e30435b5b22555ea3a4298cb6c71d304f19572908710f2a8bbb20aa1c"
+    },
+    {
+      "bytes": 5192,
+      "path": "docs/experiments/exp-005-evidence.json",
+      "repository": "ilxyr",
+      "sha256": "684a389827e57b9650b7d32ddda3c6383813027ac38cc71757c64bac50222602"
+    },
+    {
+      "bytes": 2559,
+      "path": "docs/experiments/solomon-successor-v2-public-evidence.json",
+      "repository": "ilxyr",
+      "sha256": "e3a96ceb4d70e4aa6cf84d94d3a0e6445130cf971e7eb01135232c9dfd48312b"
+    },
+    {
+      "bytes": 6668,
+      "path": "examples/weight-multiplicity/phase1-corpus-plan-v1.json",
+      "repository": "ilxyr",
+      "sha256": "9311b0f28de0f3f42614fd17fa808d812ae7a0ad354fa723f55222b0b4116e18"
+    },
+    {
+      "bytes": 6640,
+      "path": "experiments/weight-multiplicity/phase1/phase1-tail-calibration-run-20260901015649-closeout-v1.json",
+      "repository": "ilxyr",
+      "sha256": "4ddedd80e464ffa901fa24304b59139a5cc449871a8f7dcb8c525db69e93a398"
+    }
+  ]
+}

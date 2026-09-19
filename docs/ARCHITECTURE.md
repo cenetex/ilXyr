@@ -132,6 +132,15 @@ resolved run, retrying resumes missing evidence and settlements without re-execu
 If execution started but no terminal run exists, `run-auto` fails closed; the explicit manual path
 is required to decide whether rerunning is safe.
 
+### Attested OCI jobs
+
+The `oci-job` profile is asynchronous and provider-neutral. Compilation freezes exact corpus
+release refs and a digest-pinned OCI image. A dispatch binds those releases to verified S3 or Azure
+materializations and records the provider job ref. Reconciliation records exact metrics and
+versioned artifacts, but does not create evidence. Promotion happens only after a trusted executor
+key signs the run digest. This makes submission, completion, attestation, and settlement safe to
+resume independently.
+
 ### Research ledger
 
 Objects are canonicalized JSON addressed as `artifact://sha256/<digest>`. Events form a SHA-256
@@ -167,6 +176,21 @@ predicate has equivalent run/identity bindings. Accepted envelopes are additive 
 in native and RO-Crate evidence exports. This verifies an external assertion; it does not infer a
 SLSA level, prove platform isolation, or establish hardware remote attestation.
 
+### Remote execution reports
+
+The remote reporting boundary is implemented as pure verification before a ledger write. An
+environment manifest identifies one reproducible runtime by digest. A job package binds the
+compiled experiment, all executable and data bytes, provider shape and image, budget, ordered
+targets, allocation policy, network/export policy, and expected executor. A signed report then
+binds that package and environment to one authorization, one launch, one canonical run, and SLSA
+provenance from the expected executor.
+
+The execution node is responsible for submitting its signed report, but it is not allowed to
+publish the report as verified. ADR 0007 separates the future authenticated intake, independent
+verifier, single-writer ledger, public projection, and read-only site. The Cenetex public-v1
+environment is currently a source-visible reference candidate; no accepted environment manifest
+or verified remote result exists yet.
+
 ### External preregistration
 
 An experiment may freeze an OSF `public` or `embargoed` registration requirement. The registration
@@ -180,6 +204,21 @@ provider or visibility differs from the frozen requirement, the package contains
 compiled object, or the external registration identifier is already bound to another experiment.
 Admission remains closed until this check passes. V1 does not authenticate to OSF or verify remote
 page contents; the receipt actor is accountable for that external assertion.
+
+### Corpus service boundary
+
+The `ilxyr-corpus-service` binary is an authenticated, single-writer HTTP boundary for immutable
+corpus releases. A release freezes its source revision, rights, file paths, sizes, media types, and
+SHA-256 digests into one content-addressed artifact. Re-registering identical content is
+idempotent; changing content under the same corpus ID is rejected.
+
+External materializers copy corpus files to S3 or Azure Blob, read them back, and submit a receipt.
+The service accepts a receipt only when its complete file inventory exactly matches the registered
+release and every provider object has a version identifier. It then emits provider-specific,
+digest-tagged input fragments plus the complete verification inventory for SageMaker or Azure ML.
+The executor must hash mounted or downloaded files before training. Uploading bytes, storing cloud
+credentials, creating provider resources, and submitting training jobs remain authenticated
+adapter work. See `docs/CORPUS-SERVICE.md`.
 
 ## Portable core and infrastructure adapters
 

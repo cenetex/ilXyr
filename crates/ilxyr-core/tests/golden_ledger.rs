@@ -86,6 +86,7 @@ fn golden_ledger_opens_and_verifies() {
     let workspace = Workspace::open(&dir).expect("v0.1 ledger must open under current code");
     let report = workspace.verify().expect("verify must succeed");
     assert!(report.valid, "chain verification must pass: {report:?}");
+    assert!(report.configuration_checked);
     assert_eq!(report.events_checked, EXPECTED_EVENTS);
     assert_eq!(report.objects_checked, EXPECTED_OBJECTS);
     fs::remove_dir_all(dir).ok();

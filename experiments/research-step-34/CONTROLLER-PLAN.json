@@ -1,0 +1,24 @@
+{
+  "build_seconds": 260,
+  "collection_reserve_seconds": 300,
+  "corpus_plan_path": "examples/weight-multiplicity/phase1-corpus-plan-v1.json",
+  "expected_lie_sha256": "bf34052d0fd655ba975bd03c892454b0ef1298994bc72aceaf6706b6cc65d83c",
+  "expected_zero_sha256": "8e273da671bb0a883bc5668e3e76e409a98b59c54b2cc94977bc052b3b7ee9bf",
+  "maximum_launch_seconds": 5400,
+  "maximum_log_bytes": 16777216,
+  "maximum_workload_process_seconds": 4800,
+  "pending_launch_package": [
+    "Exact machine and boot image",
+    "Encrypted storage and result storage versions",
+    "Early shutdown watchdog and collection",
+    "Current price, total cost ceiling and launch approval"
+  ],
+  "reduced_manifest_path": "examples/weight-multiplicity/phase06-reduced-corpus-manifest-v1.json",
+  "resource_policy_path": "experiments/research-step-12/RESOURCE-POLICY.json",
+  "resource_policy_sha256": "1ebc76e8692fa3d440386532ac562981e9965b430fd9af19d45f2415c7f64623",
+  "root_systems_path": "examples/weight-multiplicity/phase1-root-systems-v1.json",
+  "schema": "ilxyr.weight_corpus_controller_plan.v1",
+  "source_kit_bytes": 16465920,
+  "source_kit_sha256": "30e2926603988c29c5ff0d24138fd59d16c05eb21f01cc5bcfce00009d6433dd",
+  "verification_reserve_seconds": 300
+}

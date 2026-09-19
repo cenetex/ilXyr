@@ -1,0 +1,28 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:feral.cli-transport-and-early-termination.v1",
+  "experiment_id": "feral.cli-transport-and-early-termination.v1",
+  "family": "feral",
+  "project": "feral",
+  "taxonomy": "measurement",
+  "outcome": "execution_failure",
+  "evidence_kind": "operational_failure",
+  "source_outcome": "operator terminated the first paid comparison during Docker setup",
+  "evidence_path": "experiments/research-step-21/FAILURE.json",
+  "evidence_ref": "artifact://sha256/b58030fe233092282b3aece298a943aad8c6a8f6a9379493acfbcc168e58b0e3",
+  "mechanism": "RunInstances encoded an already encoded script. The operator treated the read-back mismatch as proof of startup failure. The later host log showed a running bootstrap, an armed deadline timer, and a verified package. Termination interrupted Docker setup.",
+  "mechanism_tags": [
+    "aws-bootstrap",
+    "cli-transport",
+    "observer-evidence",
+    "premature-termination"
+  ],
+  "summary": "The first FERAL comparison ended after the operator mistook extra user-data encoding for proof that startup had failed; the host had already verified the package and armed its timer.",
+  "lineage_note": "Pass plain script text to the AWS CLI. Test the real request bytes. Read the host log before drawing a startup conclusion from a transport mismatch, and preserve the original deadline.",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788847270748
+}

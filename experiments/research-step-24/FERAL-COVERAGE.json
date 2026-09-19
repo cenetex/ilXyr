@@ -1,0 +1,47 @@
+{
+  "arms": {
+    "calculator": {
+      "explicit_abstentions": 1056,
+      "prediction_sha256": "387c8f5def51f5ddd2bbcd703374744a4f6d27c9d52dca04d00cd71e6372f17d",
+      "reason_counts": {
+        "ambiguous_series": 5,
+        "answered": 91,
+        "conflicting_values": 7,
+        "missing_matching_series": 121,
+        "missing_requested_year": 10,
+        "question_needs_distinct_years": 708,
+        "unsupported_adjustment": 2,
+        "unsupported_question_shape": 203
+      },
+      "rows": 1147
+    },
+    "operand_only": {
+      "explicit_abstentions": 1056,
+      "prediction_sha256": "79027107dca9bf5315c1831a23ce1f9e7d85685aa594f7be4c4d63849d1529e7",
+      "reason_counts": {
+        "ambiguous_series": 5,
+        "answered": 91,
+        "conflicting_values": 7,
+        "missing_matching_series": 121,
+        "missing_requested_year": 10,
+        "question_needs_distinct_years": 708,
+        "unsupported_adjustment": 2,
+        "unsupported_question_shape": 203
+      },
+      "rows": 1147
+    }
+  },
+  "full_roster_share": 0.7942458587619878,
+  "new_input_claim": false,
+  "new_model_inference": false,
+  "next_design": "Classify question and evidence forms before changing arithmetic rules. Freeze any expanded calculator before grading fresh cases, and retain this original full-roster result.",
+  "question_filter_abstentions": 911,
+  "question_filter_share_of_abstentions": 0.8626893939393939,
+  "question_filters": [
+    "question_needs_distinct_years",
+    "unsupported_question_shape"
+  ],
+  "run_id": "feral-finqa-20260908T061358Z",
+  "schema": "ilxyr.feral_abstention_coverage_audit.v1",
+  "scope": "posthoc audit of existing frozen control outputs"
+}

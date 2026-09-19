@@ -1,0 +1,25 @@
+{
+  "schema": "ilxyr.experiment_proposal.v1",
+  "id": "solomon.e8_codebook.proposal.v1",
+  "revision": 1,
+  "experiment_id": "solomon.e8_codebook.v1",
+  "proposer": {
+    "id": "model://ilxyr/solomon-research-director",
+    "kind": "model",
+    "model_ref": "model://ilxyr/solomon-research-director/v1"
+  },
+  "title": "E8 product codebooks for latent quantization",
+  "summary": "Compare product quantization built from scaled E8 lattice cells with learned and cubic codebooks at equal rate, parameter count, and decoder compute.",
+  "hypothesis": "The E8 product codebook will reduce validation reconstruction error by at least 3 percent relative to the strongest rate-matched control without lowering downstream task accuracy.",
+  "novelty": "E8 is used only where its proven eight-dimensional packing geometry supplies a concrete inductive bias; the experiment tests that bias against learned and ordinary lattice controls.",
+  "family": "solomon",
+  "baseline": "baseline://ilxyr/rate-matched-latent-quantizers-v1",
+  "datasets": ["dataset://ilxyr/frozen-latent-benchmark-v1"],
+  "primary_metric": "relative_reconstruction_error_delta",
+  "success_operator": "lte",
+  "success_threshold": -0.03,
+  "seeds": [11, 23, 47],
+  "compute_credits": 240,
+  "evidence_level": "deterministic_replay",
+  "export_policy": "artifacts"
+}

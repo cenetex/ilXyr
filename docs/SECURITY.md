@@ -37,6 +37,14 @@ policy, or a crossed cumulative spend line requires explicit human acknowledgeme
 objects, directional baseline rules, allowlists, thresholds, and the credit mint remain
 human-signed.
 
+Each signed v2 epoch budget has an inclusive start and an exclusive expiry. Future budgets may be
+registered ahead of time. At most one epoch is active: once a higher registered epoch starts, it
+permanently supersedes every lower epoch. Allocations and cumulative spend remain scoped to the
+budget ID, so a new epoch starts a new spend ledger. Local allocation, local execution, and remote
+authorization all check the active epoch. Remote authorization expiry cannot extend beyond the
+budget expiry. V1 budget records remain readable for ledger replay and require replacement before
+they can authorize new work.
+
 The local trust root is explicit: `trust-key` records an immutable Ed25519 public key and its human
 owner in the hash-linked ledger. Budget registration verifies the signature over canonical JSON
 with the signature field omitted and rejects signer/key-owner mismatch. The private key remains
@@ -49,6 +57,33 @@ the exact decoded in-toto payload, rejects untrusted signatures, and requires th
 run-reference parameter, and builder/executor identity to match the ledger and verified key.
 Private keys remain with executors. This establishes signature and binding integrity, not hardware
 isolation, exclusive key custody, a SLSA level, or a public PKI identity.
+
+Remote report verification is available before ledger ingestion. An executor environment manifest
+binds its source, build recipe, runner, kernel, root filesystem, SBOM, provenance, isolation
+controls, capabilities, and conformance suite. A signed execution report must bind the immutable
+job package, environment, authorization, launch, machine image, canonical run, and executor
+identity in both the report and its SLSA provenance. A trusted signature from a different executor
+does not satisfy that identity. Exact retries are idempotent; a second report for one launch is a
+conflict.
+
+The pure report verifier does not establish that an authorization reference exists or that a key
+file supplied by its caller is trusted. The single-writer ingestion service therefore loads trust
+roots, the compiled experiment, authorization, and launch state from its own verified ledger and
+validates returned metrics and outcomes before recording evidence. Its network boundary stores
+only credential hashes and limits authenticated failures. The intake package depends on a narrow
+API crate that exposes report authentication, validation, workspace storage, credential issuance,
+and shared report types. A Cargo metadata allowlist guards this dependency boundary in CI.
+
+Every event read verifies the complete event chain, including event hashes, predecessor links, and
+referenced artifacts. A caller that needs several queries can load one `VerifiedEventSnapshot` and
+reuse that validated view for the full operation.
+
+The first public remote baseline keeps cloud metadata, cloud credentials, report credentials, and
+signing keys outside the guest; denies host mounts and interactive access; uses one job per
+read-only microVM; and assembles the signed report outside the guest. The public website is a
+read-only projection with no report intake, ledger write, or compute-launch authority. The separate
+intake is implemented but not deployed. The independent verifier defined by ADR 0007 is not yet
+operated.
 
 `run-auto` requires a budget allocation and proceeds only when the signed executable, exact
 argument vector, network, per-run, per-epoch, total-credit, and cumulative-spend policies pass.

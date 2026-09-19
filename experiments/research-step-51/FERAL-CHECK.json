@@ -1,0 +1,1639 @@
+{
+  "cases": 228,
+  "distinct_results": 684,
+  "fresh_predictor_calls": 8208,
+  "job_costs": [
+    {
+      "arm": "calculator_v1",
+      "cost": {
+        "cpu_seconds": 0.048639,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 61595591
+      },
+      "index": 0,
+      "pass": 0
+    },
+    {
+      "arm": "calculator_v2",
+      "cost": {
+        "cpu_seconds": 0.06598699999999999,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 72660166
+      },
+      "index": 1,
+      "pass": 0
+    },
+    {
+      "arm": "v2_operand_only",
+      "cost": {
+        "cpu_seconds": 0.065271,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 72468354
+      },
+      "index": 2,
+      "pass": 0
+    },
+    {
+      "arm": "calculator_v2",
+      "cost": {
+        "cpu_seconds": 0.06604399999999999,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 76483159
+      },
+      "index": 3,
+      "pass": 1
+    },
+    {
+      "arm": "v2_operand_only",
+      "cost": {
+        "cpu_seconds": 0.066117,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 71009128
+      },
+      "index": 4,
+      "pass": 1
+    },
+    {
+      "arm": "calculator_v1",
+      "cost": {
+        "cpu_seconds": 0.04928,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 52771886
+      },
+      "index": 5,
+      "pass": 1
+    },
+    {
+      "arm": "v2_operand_only",
+      "cost": {
+        "cpu_seconds": 0.066008,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 76557387
+      },
+      "index": 6,
+      "pass": 2
+    },
+    {
+      "arm": "calculator_v1",
+      "cost": {
+        "cpu_seconds": 0.048952999999999997,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 55875780
+      },
+      "index": 7,
+      "pass": 2
+    },
+    {
+      "arm": "calculator_v2",
+      "cost": {
+        "cpu_seconds": 0.066195,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 74708028
+      },
+      "index": 8,
+      "pass": 2
+    },
+    {
+      "arm": "calculator_v1",
+      "cost": {
+        "cpu_seconds": 0.048919,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 56731430
+      },
+      "index": 9,
+      "pass": 3
+    },
+    {
+      "arm": "calculator_v2",
+      "cost": {
+        "cpu_seconds": 0.066258,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 75531760
+      },
+      "index": 10,
+      "pass": 3
+    },
+    {
+      "arm": "v2_operand_only",
+      "cost": {
+        "cpu_seconds": 0.065733,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 75163758
+      },
+      "index": 11,
+      "pass": 3
+    },
+    {
+      "arm": "calculator_v2",
+      "cost": {
+        "cpu_seconds": 0.066299,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 74859814
+      },
+      "index": 12,
+      "pass": 4
+    },
+    {
+      "arm": "v2_operand_only",
+      "cost": {
+        "cpu_seconds": 0.065626,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 74627737
+      },
+      "index": 13,
+      "pass": 4
+    },
+    {
+      "arm": "calculator_v1",
+      "cost": {
+        "cpu_seconds": 0.04849199999999999,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 54250743
+      },
+      "index": 14,
+      "pass": 4
+    },
+    {
+      "arm": "v2_operand_only",
+      "cost": {
+        "cpu_seconds": 0.066763,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 74353649
+      },
+      "index": 15,
+      "pass": 5
+    },
+    {
+      "arm": "calculator_v1",
+      "cost": {
+        "cpu_seconds": 0.04887,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 53761214
+      },
+      "index": 16,
+      "pass": 5
+    },
+    {
+      "arm": "calculator_v2",
+      "cost": {
+        "cpu_seconds": 0.066205,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 73720842
+      },
+      "index": 17,
+      "pass": 5
+    },
+    {
+      "arm": "calculator_v1",
+      "cost": {
+        "cpu_seconds": 0.048291999999999995,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 53256378
+      },
+      "index": 18,
+      "pass": 6
+    },
+    {
+      "arm": "calculator_v2",
+      "cost": {
+        "cpu_seconds": 0.06616799999999999,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 73385071
+      },
+      "index": 19,
+      "pass": 6
+    },
+    {
+      "arm": "v2_operand_only",
+      "cost": {
+        "cpu_seconds": 0.065852,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 72844576
+      },
+      "index": 20,
+      "pass": 6
+    },
+    {
+      "arm": "calculator_v2",
+      "cost": {
+        "cpu_seconds": 0.066236,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 72626554
+      },
+      "index": 21,
+      "pass": 7
+    },
+    {
+      "arm": "v2_operand_only",
+      "cost": {
+        "cpu_seconds": 0.066046,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 72455539
+      },
+      "index": 22,
+      "pass": 7
+    },
+    {
+      "arm": "calculator_v1",
+      "cost": {
+        "cpu_seconds": 0.048648,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 62092134
+      },
+      "index": 23,
+      "pass": 7
+    },
+    {
+      "arm": "v2_operand_only",
+      "cost": {
+        "cpu_seconds": 0.066261,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 72050962
+      },
+      "index": 24,
+      "pass": 8
+    },
+    {
+      "arm": "calculator_v1",
+      "cost": {
+        "cpu_seconds": 0.04896,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 61700057
+      },
+      "index": 25,
+      "pass": 8
+    },
+    {
+      "arm": "calculator_v2",
+      "cost": {
+        "cpu_seconds": 0.066561,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 70991500
+      },
+      "index": 26,
+      "pass": 8
+    },
+    {
+      "arm": "calculator_v1",
+      "cost": {
+        "cpu_seconds": 0.048607,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 61737646
+      },
+      "index": 27,
+      "pass": 9
+    },
+    {
+      "arm": "calculator_v2",
+      "cost": {
+        "cpu_seconds": 0.066398,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 71764346
+      },
+      "index": 28,
+      "pass": 9
+    },
+    {
+      "arm": "v2_operand_only",
+      "cost": {
+        "cpu_seconds": 0.066033,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 79824243
+      },
+      "index": 29,
+      "pass": 9
+    },
+    {
+      "arm": "calculator_v2",
+      "cost": {
+        "cpu_seconds": 0.065939,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 70313169
+      },
+      "index": 30,
+      "pass": 10
+    },
+    {
+      "arm": "v2_operand_only",
+      "cost": {
+        "cpu_seconds": 0.06563,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 71094912
+      },
+      "index": 31,
+      "pass": 10
+    },
+    {
+      "arm": "calculator_v1",
+      "cost": {
+        "cpu_seconds": 0.048408,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 59072274
+      },
+      "index": 32,
+      "pass": 10
+    },
+    {
+      "arm": "v2_operand_only",
+      "cost": {
+        "cpu_seconds": 0.065966,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 79678640
+      },
+      "index": 33,
+      "pass": 11
+    },
+    {
+      "arm": "calculator_v1",
+      "cost": {
+        "cpu_seconds": 0.04888,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 59312175
+      },
+      "index": 34,
+      "pass": 11
+    },
+    {
+      "arm": "calculator_v2",
+      "cost": {
+        "cpu_seconds": 0.06669499999999999,
+        "peak_rss_bytes": 22446080,
+        "wall_ns": 79424363
+      },
+      "index": 35,
+      "pass": 11
+    }
+  ],
+  "jobs": 36,
+  "mode": "cloud",
+  "phase": "complete",
+  "predictor_calls": 8208,
+  "setup_costs": {
+    "arithmetic": {
+      "cpu_seconds": 0.06096,
+      "peak_rss_bytes": 87785472,
+      "wall_ns": 71096519
+    },
+    "node": {
+      "cpu_seconds": 0.002192,
+      "peak_rss_bytes": 46292992,
+      "wall_ns": 2393374
+    },
+    "python": {
+      "cpu_seconds": 0.000655,
+      "peak_rss_bytes": 22446080,
+      "wall_ns": 984895
+    },
+    "source": {
+      "cpu_seconds": 1.186901,
+      "peak_rss_bytes": 32768000,
+      "wall_ns": 1205325454
+    }
+  },
+  "stable_rows_sha256": "dab0598fe0e40dacd388b56868d95785c48b0324d759c5709ee88c90dbbd7a01",
+  "status": "verified_complete",
+  "summary": {
+    "all_required_abstentions_correct": false,
+    "arms": {
+      "calculator_v1": {
+        "breakdowns": {
+          "company": {
+            "Apple": {
+              "answerable_cases": 62,
+              "cases": 86,
+              "correct_abstention": 24,
+              "correct_numeric": 15,
+              "correct_numeric_coverage": "15/62",
+              "incorrect_abstention": 47,
+              "numeric_answer_coverage": "15/86",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "Costco": {
+              "answerable_cases": 40,
+              "cases": 56,
+              "correct_abstention": 16,
+              "correct_numeric": 10,
+              "correct_numeric_coverage": "1/4",
+              "incorrect_abstention": 30,
+              "numeric_answer_coverage": "5/28",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "Microsoft": {
+              "answerable_cases": 62,
+              "cases": 86,
+              "correct_abstention": 24,
+              "correct_numeric": 15,
+              "correct_numeric_coverage": "15/62",
+              "incorrect_abstention": 47,
+              "numeric_answer_coverage": "15/86",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            }
+          },
+          "family": {
+            "aapl-balance-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 5,
+              "correct_numeric_coverage": "1/4",
+              "incorrect_abstention": 15,
+              "numeric_answer_coverage": "5/28",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "aapl-income-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 5,
+              "correct_numeric_coverage": "1/4",
+              "incorrect_abstention": 15,
+              "numeric_answer_coverage": "5/28",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "aapl-shareholder-2025": {
+              "answerable_cases": 22,
+              "cases": 30,
+              "correct_abstention": 8,
+              "correct_numeric": 5,
+              "correct_numeric_coverage": "5/22",
+              "incorrect_abstention": 17,
+              "numeric_answer_coverage": "1/6",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "cost-balance-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 5,
+              "correct_numeric_coverage": "1/4",
+              "incorrect_abstention": 15,
+              "numeric_answer_coverage": "5/28",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "cost-income-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 5,
+              "correct_numeric_coverage": "1/4",
+              "incorrect_abstention": 15,
+              "numeric_answer_coverage": "5/28",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "msft-balance-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 5,
+              "correct_numeric_coverage": "1/4",
+              "incorrect_abstention": 15,
+              "numeric_answer_coverage": "5/28",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "msft-income-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 5,
+              "correct_numeric_coverage": "1/4",
+              "incorrect_abstention": 15,
+              "numeric_answer_coverage": "5/28",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "msft-shareholder-2025": {
+              "answerable_cases": 22,
+              "cases": 30,
+              "correct_abstention": 8,
+              "correct_numeric": 5,
+              "correct_numeric_coverage": "5/22",
+              "incorrect_abstention": 17,
+              "numeric_answer_coverage": "1/6",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            }
+          },
+          "form": {
+            "ambiguous_label": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "conflicting_year": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "cumulative_return_difference": {
+              "answerable_cases": 4,
+              "cases": 4,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 4,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "excess": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 16,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "lookup": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 16,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "missing_series": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "missing_year": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "percent_of": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 16,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "single_year_ratio": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 16,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "single_year_sum": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 16,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "year_average": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "year_change": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "year_percent_change": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "year_ratio": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "year_sum": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            }
+          },
+          "mutation": {
+            "ambiguous_label": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "conflicting_year": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "intact": {
+              "answerable_cases": 164,
+              "cases": 164,
+              "correct_abstention": 0,
+              "correct_numeric": 40,
+              "correct_numeric_coverage": "10/41",
+              "incorrect_abstention": 124,
+              "numeric_answer_coverage": "10/41",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "missing_series": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "missing_year": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            }
+          },
+          "style": {
+            "canonical": {
+              "answerable_cases": 82,
+              "cases": 114,
+              "correct_abstention": 32,
+              "correct_numeric": 40,
+              "correct_numeric_coverage": "20/41",
+              "incorrect_abstention": 42,
+              "numeric_answer_coverage": "20/57",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "paraphrase": {
+              "answerable_cases": 82,
+              "cases": 114,
+              "correct_abstention": 32,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 82,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            }
+          }
+        },
+        "counts": {
+          "answerable_cases": 164,
+          "cases": 228,
+          "correct_abstention": 64,
+          "correct_numeric": 40,
+          "correct_numeric_coverage": "10/41",
+          "incorrect_abstention": 124,
+          "numeric_answer_coverage": "10/57",
+          "numeric_precision": "1",
+          "wrong_numeric": 0
+        },
+        "maximum_worker_peak_rss_bytes": 22446080,
+        "processes": 12,
+        "whole_worker_cpu_seconds": 0.584948,
+        "whole_worker_wall_ns": 692157308
+      },
+      "calculator_v2": {
+        "breakdowns": {
+          "company": {
+            "Apple": {
+              "answerable_cases": 62,
+              "cases": 86,
+              "correct_abstention": 23,
+              "correct_numeric": 31,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 31,
+              "numeric_answer_coverage": "16/43",
+              "numeric_precision": "31/32",
+              "wrong_numeric": 1
+            },
+            "Costco": {
+              "answerable_cases": 40,
+              "cases": 56,
+              "correct_abstention": 16,
+              "correct_numeric": 20,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 20,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "Microsoft": {
+              "answerable_cases": 62,
+              "cases": 86,
+              "correct_abstention": 24,
+              "correct_numeric": 26,
+              "correct_numeric_coverage": "13/31",
+              "incorrect_abstention": 36,
+              "numeric_answer_coverage": "13/43",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            }
+          },
+          "family": {
+            "aapl-balance-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 10,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 10,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "aapl-income-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 10,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 10,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "aapl-shareholder-2025": {
+              "answerable_cases": 22,
+              "cases": 30,
+              "correct_abstention": 7,
+              "correct_numeric": 11,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 11,
+              "numeric_answer_coverage": "2/5",
+              "numeric_precision": "11/12",
+              "wrong_numeric": 1
+            },
+            "cost-balance-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 10,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 10,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "cost-income-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 10,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 10,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "msft-balance-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 10,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 10,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "msft-income-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 10,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 10,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "msft-shareholder-2025": {
+              "answerable_cases": 22,
+              "cases": 30,
+              "correct_abstention": 8,
+              "correct_numeric": 6,
+              "correct_numeric_coverage": "3/11",
+              "incorrect_abstention": 16,
+              "numeric_answer_coverage": "1/5",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            }
+          },
+          "form": {
+            "ambiguous_label": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "conflicting_year": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "cumulative_return_difference": {
+              "answerable_cases": 4,
+              "cases": 4,
+              "correct_abstention": 0,
+              "correct_numeric": 1,
+              "correct_numeric_coverage": "1/4",
+              "incorrect_abstention": 3,
+              "numeric_answer_coverage": "1/4",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "excess": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 7,
+              "correct_numeric_coverage": "7/16",
+              "incorrect_abstention": 9,
+              "numeric_answer_coverage": "7/16",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "lookup": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "missing_series": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 15,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "1/16",
+              "numeric_precision": "0",
+              "wrong_numeric": 1
+            },
+            "missing_year": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "percent_of": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 7,
+              "correct_numeric_coverage": "7/16",
+              "incorrect_abstention": 9,
+              "numeric_answer_coverage": "7/16",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "single_year_ratio": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 7,
+              "correct_numeric_coverage": "7/16",
+              "incorrect_abstention": 9,
+              "numeric_answer_coverage": "7/16",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "single_year_sum": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 7,
+              "correct_numeric_coverage": "7/16",
+              "incorrect_abstention": 9,
+              "numeric_answer_coverage": "7/16",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "year_average": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "year_change": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "year_percent_change": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "year_ratio": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "year_sum": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            }
+          },
+          "mutation": {
+            "ambiguous_label": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "conflicting_year": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "intact": {
+              "answerable_cases": 164,
+              "cases": 164,
+              "correct_abstention": 0,
+              "correct_numeric": 77,
+              "correct_numeric_coverage": "77/164",
+              "incorrect_abstention": 87,
+              "numeric_answer_coverage": "77/164",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "missing_series": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 15,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "1/16",
+              "numeric_precision": "0",
+              "wrong_numeric": 1
+            },
+            "missing_year": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            }
+          },
+          "style": {
+            "canonical": {
+              "answerable_cases": 82,
+              "cases": 114,
+              "correct_abstention": 31,
+              "correct_numeric": 77,
+              "correct_numeric_coverage": "77/82",
+              "incorrect_abstention": 5,
+              "numeric_answer_coverage": "13/19",
+              "numeric_precision": "77/78",
+              "wrong_numeric": 1
+            },
+            "paraphrase": {
+              "answerable_cases": 82,
+              "cases": 114,
+              "correct_abstention": 32,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 82,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            }
+          }
+        },
+        "counts": {
+          "answerable_cases": 164,
+          "cases": 228,
+          "correct_abstention": 63,
+          "correct_numeric": 77,
+          "correct_numeric_coverage": "77/164",
+          "incorrect_abstention": 87,
+          "numeric_answer_coverage": "13/38",
+          "numeric_precision": "77/78",
+          "wrong_numeric": 1
+        },
+        "maximum_worker_peak_rss_bytes": 22446080,
+        "processes": 12,
+        "whole_worker_cpu_seconds": 0.7949849999999998,
+        "whole_worker_wall_ns": 886468772
+      },
+      "v2_operand_only": {
+        "breakdowns": {
+          "company": {
+            "Apple": {
+              "answerable_cases": 62,
+              "cases": 86,
+              "correct_abstention": 23,
+              "correct_numeric": 3,
+              "correct_numeric_coverage": "3/62",
+              "incorrect_abstention": 31,
+              "numeric_answer_coverage": "16/43",
+              "numeric_precision": "3/32",
+              "wrong_numeric": 29
+            },
+            "Costco": {
+              "answerable_cases": 40,
+              "cases": 56,
+              "correct_abstention": 16,
+              "correct_numeric": 2,
+              "correct_numeric_coverage": "1/20",
+              "incorrect_abstention": 20,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1/10",
+              "wrong_numeric": 18
+            },
+            "Microsoft": {
+              "answerable_cases": 62,
+              "cases": 86,
+              "correct_abstention": 24,
+              "correct_numeric": 3,
+              "correct_numeric_coverage": "3/62",
+              "incorrect_abstention": 36,
+              "numeric_answer_coverage": "13/43",
+              "numeric_precision": "3/26",
+              "wrong_numeric": 23
+            }
+          },
+          "family": {
+            "aapl-balance-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 1,
+              "correct_numeric_coverage": "1/20",
+              "incorrect_abstention": 10,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1/10",
+              "wrong_numeric": 9
+            },
+            "aapl-income-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 1,
+              "correct_numeric_coverage": "1/20",
+              "incorrect_abstention": 10,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1/10",
+              "wrong_numeric": 9
+            },
+            "aapl-shareholder-2025": {
+              "answerable_cases": 22,
+              "cases": 30,
+              "correct_abstention": 7,
+              "correct_numeric": 1,
+              "correct_numeric_coverage": "1/22",
+              "incorrect_abstention": 11,
+              "numeric_answer_coverage": "2/5",
+              "numeric_precision": "1/12",
+              "wrong_numeric": 11
+            },
+            "cost-balance-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 1,
+              "correct_numeric_coverage": "1/20",
+              "incorrect_abstention": 10,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1/10",
+              "wrong_numeric": 9
+            },
+            "cost-income-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 1,
+              "correct_numeric_coverage": "1/20",
+              "incorrect_abstention": 10,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1/10",
+              "wrong_numeric": 9
+            },
+            "msft-balance-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 1,
+              "correct_numeric_coverage": "1/20",
+              "incorrect_abstention": 10,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1/10",
+              "wrong_numeric": 9
+            },
+            "msft-income-2025": {
+              "answerable_cases": 20,
+              "cases": 28,
+              "correct_abstention": 8,
+              "correct_numeric": 1,
+              "correct_numeric_coverage": "1/20",
+              "incorrect_abstention": 10,
+              "numeric_answer_coverage": "5/14",
+              "numeric_precision": "1/10",
+              "wrong_numeric": 9
+            },
+            "msft-shareholder-2025": {
+              "answerable_cases": 22,
+              "cases": 30,
+              "correct_abstention": 8,
+              "correct_numeric": 1,
+              "correct_numeric_coverage": "1/22",
+              "incorrect_abstention": 16,
+              "numeric_answer_coverage": "1/5",
+              "numeric_precision": "1/6",
+              "wrong_numeric": 5
+            }
+          },
+          "form": {
+            "ambiguous_label": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "conflicting_year": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "cumulative_return_difference": {
+              "answerable_cases": 4,
+              "cases": 4,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 3,
+              "numeric_answer_coverage": "1/4",
+              "numeric_precision": "0",
+              "wrong_numeric": 1
+            },
+            "excess": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 9,
+              "numeric_answer_coverage": "7/16",
+              "numeric_precision": "0",
+              "wrong_numeric": 7
+            },
+            "lookup": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "1/2",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "1",
+              "wrong_numeric": 0
+            },
+            "missing_series": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 15,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "1/16",
+              "numeric_precision": "0",
+              "wrong_numeric": 1
+            },
+            "missing_year": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "percent_of": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 9,
+              "numeric_answer_coverage": "7/16",
+              "numeric_precision": "0",
+              "wrong_numeric": 7
+            },
+            "single_year_ratio": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 9,
+              "numeric_answer_coverage": "7/16",
+              "numeric_precision": "0",
+              "wrong_numeric": 7
+            },
+            "single_year_sum": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 9,
+              "numeric_answer_coverage": "7/16",
+              "numeric_precision": "0",
+              "wrong_numeric": 7
+            },
+            "year_average": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "0",
+              "wrong_numeric": 8
+            },
+            "year_change": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "0",
+              "wrong_numeric": 8
+            },
+            "year_percent_change": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "0",
+              "wrong_numeric": 8
+            },
+            "year_ratio": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "0",
+              "wrong_numeric": 8
+            },
+            "year_sum": {
+              "answerable_cases": 16,
+              "cases": 16,
+              "correct_abstention": 0,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 8,
+              "numeric_answer_coverage": "1/2",
+              "numeric_precision": "0",
+              "wrong_numeric": 8
+            }
+          },
+          "mutation": {
+            "ambiguous_label": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "conflicting_year": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            },
+            "intact": {
+              "answerable_cases": 164,
+              "cases": 164,
+              "correct_abstention": 0,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "2/41",
+              "incorrect_abstention": 87,
+              "numeric_answer_coverage": "77/164",
+              "numeric_precision": "8/77",
+              "wrong_numeric": 69
+            },
+            "missing_series": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 15,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "1/16",
+              "numeric_precision": "0",
+              "wrong_numeric": 1
+            },
+            "missing_year": {
+              "answerable_cases": 0,
+              "cases": 16,
+              "correct_abstention": 16,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": null,
+              "incorrect_abstention": 0,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            }
+          },
+          "style": {
+            "canonical": {
+              "answerable_cases": 82,
+              "cases": 114,
+              "correct_abstention": 31,
+              "correct_numeric": 8,
+              "correct_numeric_coverage": "4/41",
+              "incorrect_abstention": 5,
+              "numeric_answer_coverage": "13/19",
+              "numeric_precision": "4/39",
+              "wrong_numeric": 70
+            },
+            "paraphrase": {
+              "answerable_cases": 82,
+              "cases": 114,
+              "correct_abstention": 32,
+              "correct_numeric": 0,
+              "correct_numeric_coverage": "0",
+              "incorrect_abstention": 82,
+              "numeric_answer_coverage": "0",
+              "numeric_precision": null,
+              "wrong_numeric": 0
+            }
+          }
+        },
+        "counts": {
+          "answerable_cases": 164,
+          "cases": 228,
+          "correct_abstention": 63,
+          "correct_numeric": 8,
+          "correct_numeric_coverage": "2/41",
+          "incorrect_abstention": 87,
+          "numeric_answer_coverage": "13/38",
+          "numeric_precision": "4/39",
+          "wrong_numeric": 70
+        },
+        "maximum_worker_peak_rss_bytes": 22446080,
+        "processes": 12,
+        "whole_worker_cpu_seconds": 0.7913060000000001,
+        "whole_worker_wall_ns": 892128885
+      }
+    },
+    "comparisons": {
+      "canonical/calculator_v1": {
+        "candidate_company_macro_coverage": "88/93",
+        "coverage_delta": "85/186",
+        "coverage_rule": true,
+        "paired_correctness": {
+          "correct/correct": 71,
+          "correct/wrong": 37,
+          "wrong/correct": 1,
+          "wrong/wrong": 5
+        },
+        "reference_company_macro_coverage": "91/186",
+        "wrong_numeric_count_rule": false
+      },
+      "canonical/v2_operand_only": {
+        "candidate_company_macro_coverage": "88/93",
+        "coverage_delta": "263/310",
+        "coverage_rule": true,
+        "paired_correctness": {
+          "correct/correct": 39,
+          "correct/wrong": 69,
+          "wrong/wrong": 6
+        },
+        "reference_company_macro_coverage": "91/930",
+        "wrong_numeric_count_rule": true
+      },
+      "paraphrase/calculator_v1": {
+        "candidate_company_macro_coverage": "0",
+        "coverage_delta": "0",
+        "coverage_rule": false,
+        "paired_correctness": {
+          "correct/correct": 32,
+          "wrong/wrong": 82
+        },
+        "reference_company_macro_coverage": "0",
+        "wrong_numeric_count_rule": true
+      },
+      "paraphrase/v2_operand_only": {
+        "candidate_company_macro_coverage": "0",
+        "coverage_delta": "0",
+        "coverage_rule": false,
+        "paired_correctness": {
+          "correct/correct": 32,
+          "wrong/wrong": 82
+        },
+        "reference_company_macro_coverage": "0",
+        "wrong_numeric_count_rule": true
+      }
+    },
+    "primary_decision": "no_go",
+    "required_abstentions": 64,
+    "scope": "fixed 228-case source-grounded coverage roster",
+    "v2_canonical_paraphrase_pairs": {
+      "correct/correct": 31,
+      "correct/wrong": 77,
+      "wrong/correct": 1,
+      "wrong/wrong": 5
+    }
+  },
+  "whole_controller_cost": {
+    "cpu_seconds": 3.7765880000000003,
+    "peak_rss_bytes": 87785472,
+    "wall_ns": 4086072456
+  }
+}

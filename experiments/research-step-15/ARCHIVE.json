@@ -1,0 +1,10 @@
+{
+  "archive_bytes": 1638400,
+  "archive_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+  "bootstrap_body_sha256": "ba5dd1cee323d636c3770951dc09d5e970b4faa7521c48795670ec8efc0ffb43",
+  "execution_archive_sha256": "1d0239b993353a4e67b1ed56718fdd433ea0b7e10646e2280295b25a2918516c",
+  "execution_authorized": false,
+  "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+  "schema": "ilxyr.feral_host_archive.v1",
+  "source_commit": "b36e0ae4d13f44859260f9dfe043dee14ce18cb2"
+}

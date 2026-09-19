@@ -1,0 +1,8 @@
+{
+  "allocated_peak_bytes": 15232861184,
+  "reserved_peak_bytes": 15233712128,
+  "schema": "ilxyr.feral_device_memory.v1",
+  "scope": "pytorch_cuda_allocator",
+  "status": "observed",
+  "whole_device_peak_bytes": null
+}

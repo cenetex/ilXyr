@@ -1,0 +1,12 @@
+{
+  "automation_id": "collect-the-approved-feral-comparison",
+  "capacity_attempts_per_check": 1,
+  "capacity_retry_until_utc": "2026-09-08T17:05:00Z",
+  "interval_minutes": 5,
+  "maximum_successful_paid_instances": 1,
+  "raw_operational_receipts_custody": "local",
+  "research_publication": "compact report and scientific source, predictions, responses, traces, scores, runtime metrics, and scientific failures",
+  "schema": "ilxyr.research_followup_record.v1",
+  "scope": "Continue the approved first launch after fresh checks, then observe that exact run, enforce its fixed deadline, verify cleanup, and publish scientific results. Pause with a capacity blocker if the first launch remains pending at the retry cutoff.",
+  "status": "ACTIVE"
+}

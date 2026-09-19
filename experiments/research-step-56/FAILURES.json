@@ -1,0 +1,32 @@
+{
+  "failures": [
+    {
+      "id": "occupancy-decision-missing",
+      "initial_evidence": "INITIAL-CHECK.json",
+      "kind": "measurement",
+      "observed": "The counter includes that label match, while the event stream omits the row-limit decision. Independent replay raises checkpoint cost counters differ.",
+      "regression": "test_missing_occupancy_decision_reproduces_initial_failure in scripts/test_weight_pilot_check.py",
+      "repair": "Emit occupancy_limit before the hold and release the uncommitted row. The repaired replay verifies all twelve fixtures.",
+      "trigger": "A completed batch reaches the row limit before its next matching answer can be committed."
+    },
+    {
+      "ci_run": 34728819542,
+      "id": "native-check-output-permission",
+      "kind": "implementation",
+      "log_sha256": "9635451ceff7888972cd625d30cec25e6dcee7a439495d996fbde80fc21367eb",
+      "observed": "The native job completes. The checker raises PermissionError while creating CHECK.json.",
+      "repair": "Run both record verification and generator replay in the same fixed container. CI 34729046110 passes and the downloaded records verify again.",
+      "source_commit": "dda3d9aa",
+      "trigger": "The fixed container creates the native output directory. A host-side checker tries to write its result there."
+    },
+    {
+      "id": "manifest-role-field",
+      "kind": "implementation",
+      "observed": "The roster check finds zero representations and rejects the required total of 245 before a worker starts.",
+      "repair": "Use the manifest field revision3_role. Package preparation and native smoke retain the exact opened training-source roster.",
+      "trigger": "The first job setup reads role instead of revision3_role from the existing manifest."
+    }
+  ],
+  "schema": "ilxyr.weight_native_pilot_failures.v1",
+  "status": "failures_preserved"
+}

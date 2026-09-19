@@ -1,0 +1,51 @@
+{
+  "schema": "ilxyr.cloud_launcher_diagnostic_closeout.v1",
+  "experiment_id": "cloud.launcher.diagnostic.v1",
+  "status": "success",
+  "resolved_outcome": "success",
+  "score": 0.82,
+  "budget": {
+    "approved_usd": 1.0,
+    "frozen_bound_usd": 0.2085,
+    "hourly_compute_usd": 0.085,
+    "fixed_allowance_usd": 0.2,
+    "max_instance_seconds": 360,
+    "result_latency_seconds": 115,
+    "estimated_compute_to_result_usd": 0.002715
+  },
+  "provider": {
+    "name": "aws",
+    "region": "us-east-1",
+    "instance_id": "i-063967e75c99d82c8",
+    "instance_type": "c6i.large",
+    "image_id": "ami-0ab0461f645928576",
+    "image_snapshot_id": "snap-0505c60d709f4628d",
+    "instance_state": "terminated"
+  },
+  "evidence": {
+    "authorization_ref": "artifact://sha256/75bc961f20c44246cc68cc586654161708fc09b99d10330c00dc9f3204a62174",
+    "job_package_ref": "artifact://sha256/4f143224e5ec93b77c151da258f026a419089d0640897b77464e38b03a48b726",
+    "environment_ref": "artifact://sha256/16806f15da532858ecf2244026458330dfde08b34f838e46556bc0558224118e",
+    "launch_ref": "artifact://sha256/89ace66700e3b656fcb496e188b560ce9a05e382fe0e4ca3ad0fcbfd6915b276",
+    "run_ref": "artifact://sha256/abe1695664909c31187ed2a15c4ad52d555da00b3ea6f2d9fa3ddfd0f5fe587e",
+    "report_ref": "artifact://sha256/6f6c3e0de79629d982fc7c223d65b9f7799fb5d390ef984ece0a08e11b499d3d",
+    "verified_key_id": "key://cenetex/cloud-launcher-diagnostic/v1",
+    "ledger_valid": true
+  },
+  "report_field_repair": {
+    "field": "attestation.payloadType",
+    "original_object_version": "f89K8VedH1dR7jjDMX.U.7_lLBPkYkF5",
+    "original_object_sha256": "2577d15e4db44c3a99934f8643f8830a69b9ed9a09cfc5146b324d2f0d85929c",
+    "accepted_object_version": "d.uL4tkk093JzRtuOINDJ.VZYwac.KCP",
+    "accepted_object_sha256": "0c242707b98ead62bb46382084afb39495a701ac2b7c013592cf54f5b63139b9",
+    "signed_payload_unchanged": true
+  },
+  "cleanup": {
+    "instance_terminated": true,
+    "trial_image_deregistered": true,
+    "trial_snapshot_deleted": true,
+    "s3_evidence_retained": true,
+    "s3_gateway_endpoint_retained": true,
+    "confirmed_at": "2026-09-03T20:12:49Z"
+  }
+}

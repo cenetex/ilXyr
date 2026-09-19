@@ -1,0 +1,152 @@
+{
+  "schema": "ilxyr.weight_multiplicity_phase1_tail_calibration_closeout.v1",
+  "status": "calibration_complete",
+  "operational_status": "post_measurement_wrapper_failed",
+  "run": {
+    "run_id": "20260901015649",
+    "instance_id": "i-0938053e4015cf657",
+    "instance_type": "c6i.4xlarge",
+    "region": "us-east-1",
+    "launch_time": "2026-09-01T02:01:51Z",
+    "instance_terminated": true,
+    "instance_shutdown_reason": "Client.InstanceInitiatedShutdown",
+    "elapsed_instance_seconds": 76,
+    "estimated_ec2_usd": 0.014355555556
+  },
+  "source_bindings": {
+    "package_sha256": "e92e880f1aecbd9a2cbf84d42170e55809920538209e1bf58fa171a35ca4a883",
+    "package_s3_version_id": "nyIwf5zaTW0xv6Pw0CbVV0TsSxNpF_qD",
+    "ilxyr_commit": "7326b176f53120cb5425433253e618052839d8cf",
+    "calibration_plan_sha256": "53eeb0c2025ca9e77cb827126b6508ac7bf0b9eb48b6bc7d8e8b9d59592eb863",
+    "phase1_corpus_plan_sha256": "9311b0f28de0f3f42614fd17fa808d812ae7a0ad354fa723f55222b0b4116e18",
+    "manifest_sha256": "1d097675fbff83e704cfd0128ea98caa116d6bcb3573fa7ef314b9d1f357a733",
+    "root_systems_sha256": "b8b175011909e6734bc6d6a6d55b3d09a67c34a5106a5908a5029206bf4f0271",
+    "lie_source_sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e",
+    "lie_executable_sha256": "bc1099ccfa0f890868e2261c106ede4fd0e52dcd86a4d03b16318ba39674e974",
+    "zero_source_sha256": "9af79279246cbad8254a53289a3a83fe3a3a2a30bd87860112dd88bce408e783",
+    "zero_source_commit": "7be2367458acc8b004bfb3646322048a233d1b09",
+    "zero_executable_sha256": "ebe34bf41f9deb1728628ebcb0d8046386ed0dc1cacccdd64ef643f616b505a1"
+  },
+  "measurement": {
+    "calls": 26624,
+    "mean_ms": 2.4775983792442897,
+    "p50_ms": 0.16454700000031153,
+    "p95_ms": 3.0808299999989686,
+    "p99_ms": 39.60266599999886,
+    "p999_ms": 442.4040810000006,
+    "maximum_ms": 884.6037080000024,
+    "hard_abort_ms": 30000,
+    "hard_abort_triggered": false,
+    "proposed_generation_p99_limit_ms": 50,
+    "threshold_derivation": "ceil(exact_nearest_rank_p99_ms * 1.25)",
+    "discretionary_adjustment": false
+  },
+  "scale": {
+    "stopped_pilot_calls": 19105,
+    "calibration_calls": 26624,
+    "calibration_increase_over_stopped_pilot_calls": 7519,
+    "calibration_increase_percent": 39.35618947919393,
+    "projected_expected_generation_calls": 1861415,
+    "projected_upper_95_generation_calls": 2113380,
+    "projected_binding_call_limit": 2430387,
+    "expected_to_calibration_ratio": 69.91492638221153,
+    "upper_95_to_calibration_ratio": 79.37875600961539,
+    "binding_to_calibration_ratio": 91.2855694110577,
+    "heavy_tail_warning": "the frozen 50 ms p99 limit may be tight at generation scale without an oracle regression"
+  },
+  "tail": {
+    "top_50_all_outside_corpus_label_range": true,
+    "top_50_by_type": {
+      "E7": 29,
+      "B8": 14,
+      "E8": 4,
+      "D8": 3
+    },
+    "top_50_by_depth_band": {
+      "32-63": 1,
+      "64+": 49
+    },
+    "top_50_by_multiplicity_bit_length_band": {
+      "16-31": 1,
+      "32-63": 45,
+      "64+": 4
+    },
+    "inside_0_31": {
+      "calls": 21246,
+      "p99_ms": 6.481214999999793,
+      "p999_ms": 53.79938700000639,
+      "maximum_ms": 87.48301999999967
+    },
+    "outside_above_31": {
+      "calls": 5378,
+      "p99_ms": 178.7371439999988,
+      "p999_ms": 763.0292790000021,
+      "maximum_ms": 884.6037080000024
+    }
+  },
+  "stopped_pilot_query_replay": {
+    "sequence": 19105,
+    "canonical_type": "E7",
+    "canonical_representation_id": "E7:1,1,5,1,0,0,0",
+    "target_weight": [0, -1, 2, 0, 1, 0, -1],
+    "target_depth": 263,
+    "multiplicity": "2633282666151119789",
+    "multiplicity_bit_length": 62,
+    "stopped_pilot_latency_ms": 1019.3888110000044,
+    "calibration_latency_ms": 754.7761159999936,
+    "inside_corpus_label_range": false
+  },
+  "memory": {
+    "peak_incremental_lie_worker_rss_bytes": 4050944,
+    "peak_aggregate_oracle_rss_bytes": 64389120,
+    "operational_divergence_limit_bytes_per_lie_worker": 8388608,
+    "formal_limit_bytes_per_lie_worker": 2147483648,
+    "failure": null
+  },
+  "budget": {
+    "binding_call_limit": 2430387,
+    "binding_query_ms_limit": 8474852,
+    "binding_wall_seconds": 2119,
+    "workers": 8
+  },
+  "artifacts": {
+    "prefix": "s3://zero-training-022118847419/experiments/weight-multiplicity-phase1-tail-calibration-v1/runs/20260901015649/",
+    "trace_sha256": "191c82bb4ec80d5eb9779b6c9dd46ec2e9b582df87adb9e1d449a7317ddc219a",
+    "trace_s3_version_id": "rCLHHZLTQfaz_2dKrGtfj6fx75bKTG51",
+    "tail_report_sha256": "9d48cc8fc8adba793b1173b7ed8de43b35cffb1f3b0279d375cf4c7d93254949",
+    "tail_report_s3_version_id": "moWy6V6wQW_c8q64uLUdwdp7AL.vjLAT",
+    "calibration_evidence_sha256": "f5bcc77ff82e03f9d7141bd46c6db073c1ac8061311bc071d073793ddbaefbc7",
+    "calibration_evidence_s3_version_id": "6.LT7WUhGJ21.iIMIsAKz37Ptx38ie2K",
+    "runner_summary_sha256": "9bb38a681d31d7440f6e0f7999627431816eb8dda03134e9991433a62dca567f",
+    "runner_summary_s3_version_id": "L25_EGUalDAL0FE5XHsxdHrowlb5IV64",
+    "frozen_budget_sha256": "caa9cf138a12cb38367d2879f0e342ce218a7048b8ff3248aa87ec2aa86a8805",
+    "frozen_budget_s3_version_id": "gBQgH7v0KrDekdDvYGV.pVXHggQ2jNAW",
+    "generation_progress_sha256": "db4ffae88fd67bc86f493a5058d3880aaac89aca89f3668f06e94d040fbf3bf0",
+    "generation_progress_s3_version_id": "aaIhHWbhzsW3fzUAWASOyMc8VdjFHlf2",
+    "oracle_builds_sha256": "cf376672f77aa6e326ed050f93d8c1b796496dc912b7a49258add07b396184ac",
+    "oracle_builds_s3_version_id": "qhvRjLIwoytfpiza_BedCiPLA1Uy0HeN",
+    "terminal_status_sha256": "dc650bdd59a166d886a2b09ede59cc2e1b7a75562e6c69624a13355431b6bced",
+    "terminal_status_s3_version_id": "LSXOq3B4Vjfgn4crosD1W6wLFF26dfMr",
+    "bootstrap_log_sha256": "2a4dc1d4c7625edc89917235fa8993135f3026f8d9186de861992170793a7571",
+    "bootstrap_log_s3_version_id": "EyRN1SAXseoBNukPctfmejm3YjHspXNN",
+    "authoritative_copy": "state"
+  },
+  "post_measurement_erratum": {
+    "terminal_status": "failed",
+    "terminal_exit_code": 1,
+    "scientific_runner_status": "calibration_complete",
+    "cause": "unquoted jq filter in the cloud wrapper caused the shell to execute length as a command after all measurements and evidence were written",
+    "results_prefix_created": false,
+    "state_prefix_complete": true,
+    "all_internal_checksums_verified": true,
+    "measurement_retried": false,
+    "classification_effect": "none"
+  },
+  "closures": {
+    "corpus_generation_authorized": false,
+    "retry_authorized": false,
+    "model_training_authorized": false,
+    "model_evaluation_authorized": false,
+    "oracle_promotion_authorized": false
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "checked_epoch": 1789252375.0419369,
+  "image_id": "ami-0d3378afe7683c867",
+  "schema": "ilxyr.zero4_source_snapshot.v1",
+  "snapshot_id": "snap-00fc8bf70edbceb6c",
+  "source_receipt_sha256": "e91b42309bc7c679c0b9ad4b8090d2b04fedfe0ef9525b9d6ab2ccd63c843a3b",
+  "volume_size_gib": 75
+}

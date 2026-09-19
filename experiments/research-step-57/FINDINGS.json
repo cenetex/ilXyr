@@ -1,0 +1,30 @@
+{
+  "actual_billed_usd": null,
+  "cause": "The cloud adapter calls run_study without cloud_adapter=True. The controller requires that flag for full prepared inputs.",
+  "evidence_error": "full execution requires the frozen cloud adapter",
+  "free_bytes": 113088483328,
+  "host_collection_complete": true,
+  "host_terminal_elapsed_seconds": 94.92471551895142,
+  "maximum_before_tax_usd": "12.00",
+  "native_process_count": 0,
+  "next": "Pass the cloud flag at the adapter entry point and exercise that entry point with a controlled native boundary before preparing another package.",
+  "phase": "controller",
+  "provider_cleanup_verified": true,
+  "records": {
+    "COLLECTION.json": "65034660c0040ec4c493262523f2465147ff7ecc618b1fbcfa1deb229bbb1780",
+    "DISK.json": "f7de7fb86a30fce609c95e7dd4a3e32c4eb62392a6aad2967374475813c3a335",
+    "HOST-TERMINAL.json": "831bc8634ba6461f8e660d621030afa5788fa64f5686f9c2e7667d2835e3cb3c",
+    "LAUNCH.json": "64220b88ebb8e2ac926d1327c447197bcf661473b0dc8e99340c350bbe3d8896",
+    "PREFLIGHT.json": "eaeb9cc4194f6faa2f387ddafe9a0a9f2de1f5bad54acd453e70163376875199",
+    "RUNTIME.json": "b50faa290aa3fbbf115c583d9e75edb600aebfff41529db9f72c908eb99bd249",
+    "STAGING.json": "0c3b8339cf3837b61aa6b18845b2e8a7c27c96f88a7d545c90ae767807171fe6",
+    "STUDY-RESULT.json": "59794d89a5b41010c85079c420a5514bae436550867ea5b2455b52d1ba5e60c4"
+  },
+  "required_free_bytes": 39795556352,
+  "run_id": "zero4-52-20260913T013725Z",
+  "schema": "ilxyr.zero4_cloud_adapter_failure.v1",
+  "scientific_calls": 0,
+  "source_outcome": "execution_failure",
+  "status": "execution_failure",
+  "storage_check_passed": true
+}

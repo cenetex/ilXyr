@@ -1,0 +1,87 @@
+{
+  "schema": "ilxyr.constraint_diff_report.v1",
+  "report_id": "constraint-diff:reasoner.next-comparison.v1",
+  "experiment_id": "reasoner.next-comparison.v1",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "ledger_ref": "artifact://sha256/8be79f853a182e39a9a7fe2be8b2b67438680c03e0b4804591f63880a3e7dc67",
+  "generated_at_ms": 1788600742008,
+  "proposed_mechanism_tags": [
+    "semantic-transfer",
+    "learned-search",
+    "lexical-control"
+  ],
+  "matches": [
+    {
+      "verdict_id": "verdict:zero.reasoner55-semantic-control-audit.v1",
+      "experiment_id": "zero.reasoner55-semantic-control-audit.v1",
+      "family": "zero",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "semantic-transfer",
+        "learned-search",
+        "lexical-control"
+      ],
+      "verdict_summary": "On the opened 128-family cohort, the task/lexical verifier-cost ratio is 1.00624 and its CPU ratio is 1.00459. The semantic contribution remains unresolved by these point estimates.",
+      "same_mechanism_tags": true,
+      "project": "reasoner",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "semantic contribution unresolved",
+      "lineage_note": "Apply equal search optimizations to all arms, keep the model fixed, and compare semantic and lexical guidance on fresh families.",
+      "verdict_ref": "artifact://sha256/cd98b580e008f268e45c37d4835c0232a6819e382d6e43bee423ad48d449b70d",
+      "evidence_ref": "artifact://sha256/37eec05228f6ff213cfb63a4dc5e8c0cdb716d0d0c1fb144d36f7df22df0ebae",
+      "evidence_path": "experiments/research-step-4/RESULT.json"
+    },
+    {
+      "verdict_id": "verdict:zero.reasoner58-development-current.v1",
+      "experiment_id": "zero.reasoner58-development-current.v1",
+      "family": "zero",
+      "outcome": "measurement_floor",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "semantic-transfer",
+        "learned-search"
+      ],
+      "verdict_summary": "The current machine record has sixteen families, a full/source-free point ratio of 1.1040, and a measurement-floor decision.",
+      "same_mechanism_tags": false,
+      "project": "reasoner",
+      "evidence_kind": "existing_public_result",
+      "source_outcome": "measurement-floor",
+      "lineage_note": "Establish adequate source-free search work in development before a new sealed comparison.",
+      "verdict_ref": "artifact://sha256/ad79e97e2d42c4fe999f28fe90faf48aa4ce889798d712edde4bf90b753cbe77",
+      "evidence_ref": "artifact://sha256/37eec05228f6ff213cfb63a4dc5e8c0cdb716d0d0c1fb144d36f7df22df0ebae",
+      "evidence_path": "experiments/research-step-4/RESULT.json"
+    },
+    {
+      "verdict_id": "verdict:zero.reasoner59a-development-current.v1",
+      "experiment_id": "zero.reasoner59a-development-current.v1",
+      "family": "zero",
+      "outcome": "no_go",
+      "taxonomy": "transfer",
+      "matched_tags": [
+        "semantic-transfer",
+        "learned-search"
+      ],
+      "verdict_summary": "The sixteen-family development result has a point ratio of 0.6312 and an upper ratio of 1.0232. It fails the confidence, family-win, stratum, mechanism, and derangement gates. The derangement p-value is 0.375.",
+      "same_mechanism_tags": false,
+      "project": "reasoner",
+      "evidence_kind": "existing_public_result",
+      "source_outcome": "no-go",
+      "lineage_note": "Redesign the source prior and test its mechanism controls in development before opening a fresh sealed family set.",
+      "verdict_ref": "artifact://sha256/79c168a2d6cf8bb8c37cd8b02a64bf2385a2d870d60fc77532fcc6b5b3609add",
+      "evidence_ref": "artifact://sha256/37eec05228f6ff213cfb63a4dc5e8c0cdb716d0d0c1fb144d36f7df22df0ebae",
+      "evidence_path": "experiments/research-step-4/RESULT.json"
+    }
+  ],
+  "taxonomy_counts": {
+    "transfer": 1,
+    "interference": 0,
+    "measurement": 2,
+    "venue": 0,
+    "implementation": 0
+  },
+  "superseded_entries": 0,
+  "proposed_change": "Use equal hashing and sorting in all six arms, keep the model fixed, and test fresh families.",
+  "summary": "3 prior results share these mechanism tags. Review their evidence and the required design changes.",
+  "recommendation": "review"
+}

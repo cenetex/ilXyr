@@ -1,0 +1,75 @@
+{
+  "all_plan_changes": [
+    {
+      "after": "11.5591",
+      "before": "11.4391",
+      "path": "/budget/calculated_ceiling_usd"
+    },
+    {
+      "after": "0.24",
+      "before": "0.12",
+      "path": "/budget/disk_ceiling_usd"
+    },
+    {
+      "after": "0.4409",
+      "before": "0.5609",
+      "path": "/budget/margin_usd"
+    },
+    {
+      "after": 160,
+      "before": 80,
+      "path": "/provider/disk_gib"
+    },
+    {
+      "after": "packages/zero4-52/",
+      "before": "packages/zero4-45/",
+      "path": "/storage/package_prefix"
+    },
+    {
+      "after": "runs/zero4-52-",
+      "before": "runs/zero4-45-",
+      "path": "/storage/result_prefix"
+    },
+    {
+      "after": {
+        "basis": "Reserve the complete source snapshot capacity, setup space, filesystem space, and the fixed study output and collection reserve.",
+        "filesystem_reserve_gib": 1,
+        "root_snapshot_gib": 75,
+        "setup_reserve_gib": 16
+      },
+      "before": null,
+      "path": "/storage_sizing"
+    }
+  ],
+  "equal_fields": [
+    "controller_sha256",
+    "controller_bytes",
+    "controller_source_commit",
+    "prepared",
+    "implementation",
+    "study_plan_sha256",
+    "study_limits",
+    "limits",
+    "runtime_image",
+    "runtime_image_id",
+    "compiler_identity",
+    "python_identity",
+    "environment",
+    "price_products"
+  ],
+  "previous_plan_sha256": "79aa4932de1fe8f4da66ad57d17d989bb57de45e1843afe01f969443dbc66ee2",
+  "replacement_plan_sha256": "9a8e016502e693e37c6333a852854d1896a37807cf4ea7477b7374b784c4393b",
+  "reused_archives": {
+    "controller.tar": {
+      "bytes": 6717440,
+      "sha256": "b00e96da55ce4f0711bdd28d4ef5f10fafc7ed5eb24dfd82da36b72883fab884"
+    },
+    "prepared.tar": {
+      "bytes": 48056320,
+      "sha256": "7df0fb342d3b9baf52583510a0e5c731a8a11fc90b419faa54770250f42f3032"
+    }
+  },
+  "schema": "ilxyr.zero4_host_repair_parity.v1",
+  "scientific_calls": 0,
+  "status": "scientific_inputs_rules_and_runtime_identical"
+}

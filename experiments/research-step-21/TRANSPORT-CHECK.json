@@ -1,0 +1,52 @@
+{
+  "aws_cli_version": "aws-cli/2.33.6 Python/3.13.11 Darwin/25.3.0 source/arm64",
+  "bootstrap_test_groups": 11,
+  "bootstrap_tests_passed": true,
+  "dry_run_submitted_request_sha256": "44c1200f794462589819fbe8cbe71f408e3b94f2715cc673edf67de17d6962e6",
+  "live_permission_dry_run": {
+    "instances_created": 0,
+    "status": "dry_run_passed"
+  },
+  "matrix": [
+    {
+      "cli_binary_format": "base64",
+      "exit_code": 254,
+      "input": "base64",
+      "received": true,
+      "wire_script_exact": false
+    },
+    {
+      "cli_binary_format": "base64",
+      "exit_code": 254,
+      "input": "raw",
+      "received": true,
+      "wire_script_exact": true
+    },
+    {
+      "cli_binary_format": "raw-in-base64-out",
+      "exit_code": 254,
+      "input": "base64",
+      "received": true,
+      "wire_script_exact": false
+    },
+    {
+      "cli_binary_format": "raw-in-base64-out",
+      "exit_code": 254,
+      "input": "raw",
+      "received": true,
+      "wire_script_exact": true
+    }
+  ],
+  "original_launcher_regression": {
+    "log_sha256": "a0d35cb8c0789ef9e032b55430bc3db370cb1ebb98ba2b8c25c9c00374ca2e14",
+    "result": "failed_in_both_binary_modes"
+  },
+  "repaired_launcher_regression": {
+    "result": "passed_in_both_binary_modes",
+    "test_path": "scripts/test_feral_cli_transport.py",
+    "test_sha256": "cdce5c9398b587dde01133a28e1ae99eb0ed43a394067ba54587f1b1825966ce"
+  },
+  "sandbox_fixture_failure": "The first bootstrap fixture run hit a sandbox restriction on /dev/fd process substitution. The native rerun passed all eleven test groups.",
+  "schema": "ilxyr.feral_cli_transport_check.v1",
+  "venue": "unsigned_loopback_http_fixture"
+}

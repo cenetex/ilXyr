@@ -1,0 +1,51 @@
+{
+  "schema": "ilxyr.aws_result_objects.v1",
+  "bucket": "zero-training-022118847419",
+  "prefix": "experiments/cloud-launcher-diagnostic-v1/runs/v1/i-063967e75c99d82c8/",
+  "versions": [
+    {
+      "key": "execution-report.json",
+      "version_id": "d.uL4tkk093JzRtuOINDJ.VZYwac.KCP",
+      "latest": true,
+      "size_bytes": 3458,
+      "last_modified": "2026-09-03T20:06:32Z",
+      "sha256": "0c242707b98ead62bb46382084afb39495a701ac2b7c013592cf54f5b63139b9"
+    },
+    {
+      "key": "execution-report.json",
+      "version_id": "f89K8VedH1dR7jjDMX.U.7_lLBPkYkF5",
+      "latest": false,
+      "size_bytes": 3458,
+      "last_modified": "2026-09-03T20:04:50Z",
+      "sha256": "2577d15e4db44c3a99934f8643f8830a69b9ed9a09cfc5146b324d2f0d85929c"
+    },
+    {
+      "key": "launch-receipt.json",
+      "version_id": "b9kSlfhGh6h8s8TEkkCTy9eT42miHxgs",
+      "latest": true,
+      "size_bytes": 939,
+      "last_modified": "2026-09-03T20:02:56Z"
+    },
+    {
+      "key": "metrics.json",
+      "version_id": "IsIWph93hJcfn8h23IzFMMQww20a6Q4G",
+      "latest": true,
+      "size_bytes": 14,
+      "last_modified": "2026-09-03T20:04:50Z"
+    },
+    {
+      "key": "status.json",
+      "version_id": "3mKYFFmLMYu95Z69G5vn69zMitQVWNRb",
+      "latest": true,
+      "size_bytes": 345,
+      "last_modified": "2026-09-03T20:04:50Z"
+    },
+    {
+      "key": "status.json",
+      "version_id": "vCXN.P1nB_36br3t485r6EvTGGTE0DeM",
+      "latest": false,
+      "size_bytes": 343,
+      "last_modified": "2026-09-03T20:04:49Z"
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "acquisition_plan_sha256": "fa62515db2d1a1ac42727b23db3485aba7cafb94bcb1352da25dd9f994ce3b56",
+  "arms": [
+    "native",
+    "point_mass",
+    "smoothed_point_mass",
+    "suffix_empirical",
+    "suffix_unit_prior"
+  ],
+  "candidate_model_sha256": "37acae6a4f763182730c76f762c351eda5bb37d6d197358c252733b1f08dca10",
+  "candidate_source_commit": "96321943e1da7b67bf6c9b4954ff14e6057ac433",
+  "documents": [
+    {
+      "author": "Jane Austen",
+      "catalog_url": "https://www.gutenberg.org/ebooks/1342",
+      "gutenberg_id": 1342,
+      "id": "pg-1342",
+      "rights": "Public domain in the USA; catalog and full source license retained.",
+      "stratum": "fiction",
+      "text_url": "https://www.gutenberg.org/ebooks/1342.txt.utf-8",
+      "title": "Pride and Prejudice"
+    },
+    {
+      "author": "Arthur Conan Doyle",
+      "catalog_url": "https://www.gutenberg.org/ebooks/1661",
+      "gutenberg_id": 1661,
+      "id": "pg-1661",
+      "rights": "Public domain in the USA; catalog and full source license retained.",
+      "stratum": "fiction",
+      "text_url": "https://www.gutenberg.org/ebooks/1661.txt.utf-8",
+      "title": "The Adventures of Sherlock Holmes"
+    },
+    {
+      "author": "H. G. Wells",
+      "catalog_url": "https://www.gutenberg.org/ebooks/35",
+      "gutenberg_id": 35,
+      "id": "pg-35",
+      "rights": "Public domain in the USA; catalog and full source license retained.",
+      "stratum": "fiction",
+      "text_url": "https://www.gutenberg.org/ebooks/35.txt.utf-8",
+      "title": "The Time Machine"
+    },
+    {
+      "author": "Charles Dickens",
+      "catalog_url": "https://www.gutenberg.org/ebooks/98",
+      "gutenberg_id": 98,
+      "id": "pg-98",
+      "rights": "Public domain in the USA; catalog and full source license retained.",
+      "stratum": "fiction",
+      "text_url": "https://www.gutenberg.org/ebooks/98.txt.utf-8",
+      "title": "A Tale of Two Cities"
+    },
+    {
+      "author": "Mary Wollstonecraft Shelley",
+      "catalog_url": "https://www.gutenberg.org/ebooks/84",
+      "gutenberg_id": 84,
+      "id": "pg-84",
+      "rights": "Public domain in the USA; catalog and full source license retained.",
+      "stratum": "fiction",
+      "text_url": "https://www.gutenberg.org/ebooks/84.txt.utf-8",
+      "title": "Frankenstein"
+    },
+    {
+      "author": "Mark Twain",
+      "catalog_url": "https://www.gutenberg.org/ebooks/74",
+      "gutenberg_id": 74,
+      "id": "pg-74",
+      "rights": "Public domain in the USA; catalog and full source license retained.",
+      "stratum": "fiction",
+      "text_url": "https://www.gutenberg.org/ebooks/74.txt.utf-8",
+      "title": "The Adventures of Tom Sawyer"
+    },
+    {
+      "author": "Henry David Thoreau",
+      "catalog_url": "https://www.gutenberg.org/ebooks/205",
+      "gutenberg_id": 205,
+      "id": "pg-205",
+      "rights": "Public domain in the USA; catalog and full source license retained.",
+      "stratum": "nonfiction",
+      "text_url": "https://www.gutenberg.org/ebooks/205.txt.utf-8",
+      "title": "Walden, and On the Duty of Civil Disobedience"
+    },
+    {
+      "author": "Charles Darwin",
+      "catalog_url": "https://www.gutenberg.org/ebooks/1228",
+      "gutenberg_id": 1228,
+      "id": "pg-1228",
+      "rights": "Public domain in the USA; catalog and full source license retained.",
+      "stratum": "nonfiction",
+      "text_url": "https://www.gutenberg.org/ebooks/1228.txt.utf-8",
+      "title": "On the Origin of Species"
+    },
+    {
+      "author": "Adam Smith",
+      "catalog_url": "https://www.gutenberg.org/ebooks/3300",
+      "gutenberg_id": 3300,
+      "id": "pg-3300",
+      "rights": "Public domain in the USA; catalog and full source license retained.",
+      "stratum": "nonfiction",
+      "text_url": "https://www.gutenberg.org/ebooks/3300.txt.utf-8",
+      "title": "The Wealth of Nations"
+    },
+    {
+      "author": "Sunzi; translated by Lionel Giles",
+      "catalog_url": "https://www.gutenberg.org/ebooks/132",
+      "gutenberg_id": 132,
+      "id": "pg-132",
+      "rights": "Public domain in the USA; catalog and full source license retained.",
+      "stratum": "nonfiction",
+      "text_url": "https://www.gutenberg.org/ebooks/132.txt.utf-8",
+      "title": "The Art of War"
+    },
+    {
+      "author": "John Stuart Mill",
+      "catalog_url": "https://www.gutenberg.org/ebooks/34901",
+      "gutenberg_id": 34901,
+      "id": "pg-34901",
+      "rights": "Public domain in the USA; catalog and full source license retained.",
+      "stratum": "nonfiction",
+      "text_url": "https://www.gutenberg.org/ebooks/34901.txt.utf-8",
+      "title": "On Liberty"
+    },
+    {
+      "author": "Benjamin Franklin",
+      "catalog_url": "https://www.gutenberg.org/ebooks/20203",
+      "gutenberg_id": 20203,
+      "id": "pg-20203",
+      "rights": "Public domain in the USA; catalog and full source license retained.",
+      "stratum": "nonfiction",
+      "text_url": "https://www.gutenberg.org/ebooks/20203.txt.utf-8",
+      "title": "Autobiography of Benjamin Franklin"
+    }
+  ],
+  "full_run": {
+    "cost_aggregation": "For each arm and document use median whole-process user plus system CPU over five passes; report equal-document geometric ratios, process wall time and peak RSS, plus all setup and controller costs separately.",
+    "execution_authorized": false,
+    "interpretation": "Frozen diagnostic comparison. Any later promotion claim needs its own prospective gates and fresh data.",
+    "passes": 5,
+    "processes": 300,
+    "quality_aggregation": "Average exact normalized Brier across windows within each document, then weight documents equally; retain fiction and nonfiction separately. Count mistakes and zero-target probabilities. Compare native against each of the four controls, with document-level paired differences.",
+    "total_probability_rows": 9600,
+    "unit": "one arm and one document per fresh process",
+    "venue": "cloud",
+    "windows_per_process": 32
+  },
+  "overlap": {
+    "normalization": "Unicode NFKC, casefold, collapse Unicode whitespace to one ASCII space, strip; encode UTF-8. Used for overlap checks only.",
+    "normalized_context_span_bytes": 32,
+    "raw_context_target_length": 65,
+    "reference_scope": "The complete frozen candidate train.txt and previously opened eval.txt, plus the extracted stored training memory.",
+    "sampling_diagnostic": "For each document, sample 256 equally spaced normalized 32-byte spans; reject when at least half occur in another fresh document.",
+    "scope_limit": "Literal overlap checks under these rules; semantic similarity and unrecorded training exposure remain unknown.",
+    "selected_context_rule": "Every normalized 32-byte span from each selected context must be absent from each reference and every other fresh document.",
+    "shorter_shared_spans": "Report selected-context 16-byte reference overlap as a diagnostic.",
+    "utf8_window_edges": "The raw 64-byte contexts stay exact. For the normalized overlap view only, discard incomplete UTF-8 code points at the two context edges.",
+    "whole_document_rule": "Reject raw or normalized duplicate documents and normalized containment."
+  },
+  "schema": "ilxyr.solomon_fresh_roster_plan.v2",
+  "selection_scope": "A fixed twelve-document English domain-shift panel, six fiction and six nonfiction, one primary author per document. Inference is bounded to these documents and this frozen candidate.",
+  "source_rule": {
+    "body": "Exact bytes between the unique Project Gutenberg START and END marker lines; retain all editorial material inside those markers.",
+    "encoding": "strict UTF-8",
+    "maximum_raw_bytes_per_document": 8000000
+  },
+  "status": "revised_after_unscored_layout_failure_before_any_model_scoring",
+  "supersedes": "ROSTER-PLAN.json",
+  "windows": {
+    "context_bytes": 64,
+    "max_forward_shift": 1024,
+    "order": "Document order in this plan; increasing window index.",
+    "per_document": 32,
+    "replacement_policy": "The twelve documents remain fixed. Shift only for the stated text-length rule. Any other failed intake rule blocks readiness.",
+    "selection": "Start at the v1 anchor; choose the smallest nonnegative shift at most 1024 bytes for which the 64-byte context has at least 32 normalized bytes and the 65-byte example fits. Preserve all other documents and windows; reject overlap or exhausted shifts.",
+    "target_bytes": 1
+  }
+}

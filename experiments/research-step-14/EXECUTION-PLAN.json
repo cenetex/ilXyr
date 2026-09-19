@@ -1,0 +1,106 @@
+{
+  "arms": [
+    "base",
+    "calculator",
+    "operand_only"
+  ],
+  "budget": {
+    "hourly_compute_usd": "2.2420800000",
+    "max_infrastructure_usd": "3.00",
+    "other_infrastructure_reserve_usd": "0.75",
+    "price_evidence": {
+      "fetched_at": "2026-09-05T17:56:43.630741+00:00",
+      "record": {
+        "Instance Family": "GPU instance",
+        "Instance Type": "g6e.2xlarge",
+        "License Model": "No License required",
+        "Location": "US East (N. Virginia)",
+        "Memory": "64 GiB",
+        "Network Performance": "Up to 20 Gigabit",
+        "Operating System": "Linux",
+        "Pre Installed S/W": "NA",
+        "Storage": "1 x 450 GB NVMe SSD",
+        "plc:InstanceFamily": "Accelerated Computing",
+        "plc:OperatingSystem": "Linux",
+        "price": "2.2420800000",
+        "rateCode": "HK3A8PU2TSC6EKP6.JRTCKXETXF.6YS6EN2CT7",
+        "vCPU": "8"
+      },
+      "schema": "ilxyr.feral_ec2_price.v1",
+      "source_bytes": 693471,
+      "source_sha256": "e250897c0fa060229e60ef1c9e4dd26c6489d0fcd9330a4b876af3f33ccb9a7c",
+      "source_url": "https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/ec2/USD/current/ec2-ondemand-without-sec-sel/US%20East%20%28N.%20Virginia%29/Linux/index.json",
+      "status": "verified"
+    },
+    "tax_scope": "before_tax"
+  },
+  "controller_files": {
+    "feral_execution_stage.py": {
+      "bytes": 9959,
+      "sha256": "2c7a433e1845cf0deebc09e9072805cfbff91083d445db2b581a3e026d501b7e"
+    },
+    "feral_process.py": {
+      "bytes": 5673,
+      "sha256": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526"
+    },
+    "run_feral_comparison.py": {
+      "bytes": 15048,
+      "sha256": "d526133aeee763e5c6de9e50a0ce1cce5c3ad05a567c1c7f6bf181a1b054eecb"
+    }
+  },
+  "controller_source_commit": "4f514de73638c57b401c2aec1a4aaf61c961aa1a",
+  "execution_authorized": false,
+  "failure_policy": "retain_and_continue_remaining_arms_within_original_deadline",
+  "id": "feral.finqa-base-calculator.v1",
+  "limits": {
+    "collection_reserve_seconds": 300,
+    "max_instance_seconds": 3600,
+    "stage_seconds": {
+      "base": 2400,
+      "calculator": 120,
+      "grade": 120,
+      "model": 600,
+      "operand_only": 120,
+      "runtime": 120
+    },
+    "termination_grace_seconds": 30
+  },
+  "outer_requirements": [
+    "launch-relative instance shutdown watchdog armed before setup",
+    "verified image digest and runtime resource limits",
+    "new execution identity and immutable output location",
+    "launch receipt matching this plan and the authorized budget",
+    "collect failed and complete output before shutdown",
+    "verify instance termination and import the full cost receipt"
+  ],
+  "preflight_state": "pending_live_verification",
+  "provider": {
+    "ami_id": "ami-0d3378afe7683c867",
+    "architecture": "x86_64",
+    "instance_type": "g6e.2xlarge",
+    "name": "aws_ec2",
+    "region": "us-east-1",
+    "root_volume_encrypted": true,
+    "root_volume_gib": 150,
+    "root_volume_type": "gp3"
+  },
+  "runtime": {
+    "cuda_version": "13.0",
+    "gpu_name": "NVIDIA L40S",
+    "image": "ghcr.io/atimics/feral-7b-sec-qwen@sha256:c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b",
+    "image_source_revision": "974bb2d39d07c05cfe7fdf03e8d0b2e1552ae7c8",
+    "minimum_device_bytes": 42949672960,
+    "pyproject.toml_sha256": "e82482b5967c2f5dc7e371d593e3f456b2ce129ca824b1754683c0ca4c57c94b",
+    "uv.lock_sha256": "d58786f40bf2dcf85ffb807eff96da698e291892cd4d2a388c6d6f5534c0fa9a"
+  },
+  "schema": "ilxyr.feral_execution_plan.v1",
+  "source": {
+    "archive_bytes": 1566720,
+    "archive_sha256": "27a64e6f0b60691d3f9d4c40fdaec19cc9ae6934d8293df23b3886379aaa5202",
+    "files": 15,
+    "package_manifest_sha256": "486afd3e27d8d6856283c27f695d513be72edb0f3fd780a5c3844bba73554b0b",
+    "rows": 1147,
+    "scope": "full_finqa_1147",
+    "source_commit": "2740590921ac1124b3a407116bb57ffdd76ed043"
+  }
+}

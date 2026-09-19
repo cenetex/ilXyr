@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/oci-job-dispatch.v1.json",
+  "title": "ilxyr OCI job dispatch v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "experiment_id",
+    "compiled_ref",
+    "executor",
+    "provider_job_ref",
+    "idempotency_key",
+    "materializations",
+    "dispatched_at_ms"
+  ],
+  "properties": {
+    "schema": { "const": "ilxyr.oci_job_dispatch.v1" },
+    "id": { "type": "string", "minLength": 1 },
+    "experiment_id": { "type": "string", "minLength": 1 },
+    "compiled_ref": { "$ref": "#/$defs/artifact_ref" },
+    "executor": { "$ref": "#/$defs/service_actor" },
+    "provider_job_ref": { "$ref": "#/$defs/handle" },
+    "idempotency_key": { "type": "string", "pattern": "^\\S+$" },
+    "materializations": {
+      "type": "object",
+      "propertyNames": { "pattern": "^dataset://\\S+$" },
+      "additionalProperties": { "$ref": "#/$defs/artifact_ref" }
+    },
+    "dispatched_at_ms": { "type": "integer", "minimum": 1 }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+    },
+    "handle": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9+.-]*://\\S+$",
+      "not": { "pattern": "^file://" }
+    },
+    "service_actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^service://\\S+$" },
+        "kind": { "const": "service" }
+      }
+    }
+  }
+}

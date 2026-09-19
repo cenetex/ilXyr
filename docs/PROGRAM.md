@@ -2,6 +2,232 @@
 
 What the lab studies. The rest of `docs/` is the machinery that holds it accountable.
 
+The [current five-project result](../experiments/research-step-51/REPORT.md)
+closes the approved $14.70 run set. All five instances terminated and their
+volumes and network interfaces were cleared. Reasoner missed both benefit
+gates. FERAL v2 improved canonical coverage and failed wording and abstention
+rules. Solomon's fresh panel favored smoothed suffix-count confidence. The
+weight corpus reached its call limit with 79,452 training rows preserved.
+ZERO.4 stopped at its disk-reserve check before scientific work. Four result
+checks pass after download, and ZERO.4's failure records verify. The shared
+failure ledger now has 76 entries, with a linked next design for each project.
+
+The [ZERO.4 replacement run](../experiments/research-step-57/REPORT.md) passed
+the larger disk check, then stopped before model work because its cloud adapter
+omitted the full-mode flag. Its complete failure archive and provider cleanup
+verify. The repaired adapter passes all 19 host tests, including a regression
+through the real command entry point. A new exact package preserves the
+scientific inputs and rules. Its next paid comparison follows replacement
+package approval.
+
+The [native weight pilot package](../experiments/research-step-56/REPORT.md)
+now binds all four controls, sixteen ordered jobs, exact native call records
+and independent result checks. Its A1 smoke verifies 805 decision events and
+preserves the one-of-two-row quota hold. Independent replay also exposed a
+missing row-limit decision; that failure and the later verification-write
+failure are recorded. Source packaging and preparation pass. Fixed host,
+price and free preflight are the next weight steps.
+
+The [weight selection pilot](../experiments/research-step-55/REPORT.md) now caches
+exact query results in fixed buffers and measures accepted rows after query and
+orbit selection. Its tests expose a fixed-start scheduling failure and a finite
+roster that cannot fill its quotas despite perfect raw label matches. Rotation
+repairs the reachable range; quota holds and unknown support remain explicit.
+The native package now binds these controls and result checks. Its full
+comparison remains the next empirical capacity test.
+
+The [weight yield audit](../experiments/research-step-54/REPORT.md) finds that
+81.63% of generation calls repeat earlier queries. Almost all those repeats miss
+the requested stratum. Nonzero yield falls from 3,012 to 53 accepted rows per full
+250,000-call block. The next design caches exact results and measures unique
+accepted yield under the final query and orbit rules as the selected set grows.
+
+The [FERAL request control](../experiments/research-step-53/REPORT.md) fixes the
+opened wrong-index answer and solves 22 invented wording cases. It also loses
+all three older numeric development answers. That coverage failure is preserved
+in the shared ledger. The next selector needs source context for label and
+baseline mappings, plus an independent wording roster.
+
+The [ZERO.4 storage repair](../experiments/research-step-52/REPORT.md) uses
+a 160 GiB disk and the observed 75 GiB source snapshot. Its approved replacement
+passed the live disk reserve check. The later adapter failure and repair are
+recorded in step 57. The full study keeps the same inputs, methods, rules,
+$12 ceiling and 13.5-hour limit.
+
+The [completed Reasoner comparison](../experiments/research-step-26/REPORT.md)
+missed both primary benefit gates against matched lexical guidance on 128
+fresh families. All answers and 3,072 independent replays verified. Collection,
+provider termination, and root-volume deletion are confirmed. The next design
+uses lexical guidance and semantic frequency as cost references. The
+[opened cost diagnostic](../experiments/research-step-31/REPORT.md) locates
+the prior feature's overhead in scoring. Even zero search time leaves the
+feature-removed guide above the frequency control in aggregate wall cost.
+The [eligible scoring check](../experiments/research-step-36/REPORT.md) now
+applies one public-evidence filter and bounded proposal selection to all four
+comparison arms. Linux and macOS agree on the opened results. Prior-score
+calls fall by 99.02%, while the full guide still uses more verifier checks
+than lexical guidance and semantic frequency on those cases. The
+[fresh roster audit](../experiments/research-step-39/REPORT.md) now fixes 128
+families, excludes all 396 earlier families and replays every candidate
+decision. A controlled test showed that the older checker accepted an
+invented rejection tally. The new C and JavaScript checks compare all 234
+decisions. The [isolated four-method controller](../experiments/research-step-40/REPORT.md)
+now passes the opened comparison on Mac and Linux. Its checker reconstructs
+work counts as well as answers, after a controlled probe exposed an accepted
+altered heap count. The [bounded cloud package](../experiments/research-step-46/REPORT.md)
+now passes fifteen host tests and the fixed Clang image check. All 64 opened
+measured results retain their earlier answers and work counts. Downloaded
+records also pass replay from their new paths. The report preserves a GCC
+build failure and a missing Python runtime from earlier images. The full
+comparison has a 90-minute, $0.30 ceiling before tax. The shared readiness
+check verified staging and provider state. The [completed revised run](../experiments/research-step-51/REPORT.md) missed both benefit gates. Its next step changes the guidance mechanism.
+
+The [Solomon count-probability step](../experiments/research-step-19/REPORT.md)
+adds two train-only confidence controls. Its known-window smoke preserves
+both lower Brier error from empirical counts and higher error after smoothing.
+The [fresh-document preparation](../experiments/research-step-32/REPORT.md)
+freezes 384 windows from twelve public documents and checks each confidence
+method in a separate process. Its opened native parity check passes. Two
+intake failures remain recorded: layout spacing and shared phrases between
+books. The [full confidence controller](../experiments/research-step-37/REPORT.md)
+now keeps all 300 planned processes, whole-process costs and partial failures.
+Local and Linux opened checks reproduce every earlier score. A failed check
+exposed a wrong fixed-mass assumption; scoring now uses the observed integer
+mass, as the earlier reports did. The [cloud package](../experiments/research-step-38/REPORT.md)
+now fixes the Rust image, installed compiler, offline dependencies, host limits
+and collection path. Its opened-window Linux check passes. The first attempt
+exposed an automatic toolchain update in the read-only image; the repair and
+original failure are retained. The one-hour comparison has a $0.25 ceiling
+before tax. The [completed panel](../experiments/research-step-51/REPORT.md) favors smoothed suffix counts for confidence.
+
+The [live preflight and trace recovery](../experiments/research-step-20/REPORT.md)
+stages the fixed FERAL package, passes the free EC2 dry run, and verifies all
+26,624 original weight-multiplicity calibration queries. The [weight cloud package](../experiments/research-step-35/REPORT.md) now passes
+exact version readback and the free launch preflight. Its full corpus run
+reached its original call limit in the [approved run](../experiments/research-step-51/REPORT.md), with 79,452 training rows preserved.
+
+The [first FERAL comparison attempt](../experiments/research-step-21/REPORT.md)
+ended during setup after the agent mistook extra encoding for proof of startup
+failure. The host had armed its timer and verified its package. The report
+preserves this operator error, provider cleanup, and zero model answers. The
+repaired launcher passes a real-CLI transport check. The [replacement result](../experiments/research-step-22/REPORT.md) preserves
+24/1,147 calculator successes, 3/1,147 operand-control successes, and the model
+worker's CUDA startup failure. Both controls abstained on 1,056 cases. Collection
+and provider cleanup are verified. The worker repair passes its local regression
+check. The [startup-checked package](../experiments/research-step-25/REPORT.md)
+passed versioned read-back and the free launch dry run. The [completed attempt](../experiments/research-step-28/REPORT.md)
+loaded the model onto the GPU, then failed at a read-only Triton cache during
+synthetic generation. Both full-roster control results repeated. Cleanup is
+verified. The cache repair passes real native compilation and loading in the
+fixed image. The [approved replacement](../experiments/research-step-29/REPORT.md)
+reached a [closed capacity window](../experiments/research-step-30/REPORT.md):
+twelve launch attempts across four zones, each with zero instances verified.
+The follow-up is paused after its cutoff. Instance compute spend is $0, and
+the earlier one-hour, $3 authorization belongs to that closed window. The full selected
+GPU price entry stayed unchanged after a provider-document change stopped
+one preflight check. Separate calculator v2 work scores 5/5 on the
+five opened development cases. The [fresh coverage preparation](../experiments/research-step-47/REPORT.md)
+now fixes 228 questions from 81 figures in eight table families across three
+2025 company reports: 164 numeric targets and 64 required abstentions. Every
+question has a paired plain-English form. Source reconstruction and independent
+exact arithmetic checks pass. The [bounded comparison runner](../experiments/research-step-48/REPORT.md)
+now passes 19 checks and reproduces 174 distinct invented results on Linux,
+Mac, and from its source archive. V2 answers 21/21 canonical numeric questions
+and 0/21 paired paraphrases in that engineering fixture. The checker repair
+preserves an earlier accepted change to a selected-series label. Fresh predictor
+calls are zero. The [fixed cloud host package](../experiments/research-step-49/REPORT.md)
+now passes 16 host tests and the exact-image check. The 174 invented results
+match step 48 and pass another check after download. The package uses the
+same Python image as Reasoner, with a 30-minute, $0.15 ceiling before tax.
+The [completed coverage run](../experiments/research-step-51/REPORT.md) records 77/82 canonical numeric answers, 0/82 paraphrase answers and 63/64 correct required abstentions. This source-linked baseline also supports the
+[FERAL v3 tagging proposal](FERAL-7B-V3-XBRL-REGULATORY-PROPOSAL.md).
+
+Current work and measured constraints: [research step 1](../experiments/research-step-1/REPORT.md).
+The [second diagnostic](../experiments/research-step-2/REPORT.md) establishes a
+stronger integer context baseline for Solomon and audits FERAL's missing labels.
+The [mechanism audit](../experiments/research-step-4/REPORT.md) compares
+Reasoner's semantic controls and checks all three ZERO.4 projection traces.
+The [shared failure ledger](../experiments/research-step-5/REPORT.md) links these
+findings to the next design for each research line.
+The [runner repair](../experiments/research-step-6/REPORT.md) preserves query
+costs and the first Hold during weight multiplicity generation.
+The [FERAL target revision](../experiments/research-step-7/REPORT.md) adds
+units and answerability labels for fourteen empty targets while preserving
+the full input roster and historical score.
+The [FERAL calculator control](../experiments/research-step-8/REPORT.md) chooses
+dated operands from supplied evidence and compares arithmetic with returning
+one selected operand. Its five-case smoke retains a cross-series failure.
+The [matched Reasoner runner](../experiments/research-step-9/REPORT.md) puts
+all six arms on one optimized executable and preserves complete process costs.
+Its report links the next concrete comparison for each research line.
+The [Solomon confidence controls](../experiments/research-step-10/REPORT.md)
+show how the probability error changes at fixed answers and add an exact Brier
+score. The shared ledger preserves the measurement failure.
+The [ZERO.4 retention controls](../experiments/research-step-11/REPORT.md)
+separate replay, acceptance checks, and projection in five arms. Their toy smoke
+preserves a perfect oracle subscore alongside zero correct final artifacts.
+Every scored training checkpoint and completed process stays in the run record.
+The [weight-multiplicity resource policy](../experiments/research-step-12/REPORT.md)
+fixes the proposed caps before workload queries begin and checks final p99 before
+the corpus manifest is written. Setup and workload costs remain separate in the
+complete trace.
+The [FERAL comparison package](../experiments/research-step-13/REPORT.md)
+freezes the model and both arithmetic controls against the full revised target
+set. It preserves raw responses, partial runs, and parser failures.
+The [FERAL execution controller](../experiments/research-step-14/REPORT.md)
+adds shared deadlines, process cleanup, complete-row grading after failures,
+and a bounded cloud budget draft.
+The [FERAL host package](../experiments/research-step-15/REPORT.md) adds the
+instance shutdown path, verified collection, and retained unknown launch
+outcomes. Its later provider checks are recorded in the shared readiness report.
+The [Solomon answer-ownership audit](../experiments/research-step-16/REPORT.md)
+shows that suffix memory selects the frozen combined candidate's answers while
+the transformer supplies confidence. It updates the next comparison and brings
+the prepared work for all five lines into one report.
+The [retention-by-source step](../experiments/research-step-17/REPORT.md)
+records each ZERO.4 source's loss and coverage. It also imports Q2.9's later
+language failure, which narrows what the replay training proxy can support.
+The [fresh ZERO.4 data audit](../experiments/research-step-41/REPORT.md) now
+prepares 5,500 unique quantity cases, 1,005 grammar cases and 1,000 story windows.
+Every quantity answer passes the native kernel. The audit preserves 120 repeated
+problem keys across the older Q2.6 splits. Foundation has one exposed validation
+window, while every eligible Blake window shares tokens with the old default
+evaluation. Fresh retention sources or a revised window rule are the next step.
+The [explicit-window step](../experiments/research-step-42/REPORT.md) now
+supplies 81 separate final retention windows and 577 replay windows at the
+existing model context. All 658 input identities and target counts verify.
+The five-method opened check preserves old-path checkpoint bytes. It also
+shows an improving mean alongside a 4.22% dialogue loss increase, which makes
+fixed source-specific limits part of the next controller design. The failed
+Blake capacity assumption and every selection rejection remain recorded.
+The shared question is when learned state reduces the work needed for a correct
+answer on unfamiliar inputs. Reasoner tests search guidance; Solomon tests
+integer learning; ZERO.4 tests retained capability; FERAL tests applied evidence
+use; weight multiplicity tests structural transfer from an exact oracle.
+
+The [sealed ZERO.4 controller](../experiments/research-step-43/REPORT.md) now
+chooses all checkpoints before final task, retention and language tests.
+It keeps a separate limit for every source and records all work, including
+failed processes and chunks that finish over the training allowance. Its small
+native check preserves an accepted-guard failure: dialogue loss rises 4.22%
+and story bits per byte rise 17.18%. The exact parser checks all five opened
+tasks while the learned methods produce zero exact artifacts. Checkpoint
+parity, altered-record checks, budget handling and memory-safety checks pass.
+The [parallel runtime check](../experiments/research-step-44/REPORT.md) now
+fixes sixteen task and language workers for the full run. All fifteen small
+one-worker and two-worker comparisons agree on every case in the fixed Linux
+image, ordinary Linux CI and Mac CI. Worker cancellation keeps partial
+records, parent CPU includes waited workers, and collected records replay
+after their folders move. The deadline-status and CI upload failures are kept
+with their repairs. The full inputs and checked source kit are bound; cloud
+host packaging now has a [sealed package](../experiments/research-step-45/REPORT.md).
+It fixes a 13½-hour instance limit and a $12 ceiling before tax, with bounded
+result parts, disk reserve and provider cleanup checks. Fourteen controlled
+host tests and the small fixed-image runtime check pass. A probe exposed a
+preflight receipt reused across different run IDs; the repaired check keeps
+the launch tied to its own output-prefix check. Staging and the shared free
+provider check passed. The [approved attempt](../experiments/research-step-51/REPORT.md) stopped at its disk-reserve check. The [tested replacement](../experiments/research-step-52/REPORT.md) sizes storage from the observed source snapshot and keeps 30.9375 GiB of planned headroom. Its corrected package awaits staging approval.
+
 ## Mission
 
 Produce a family of certified micromodels: small enough to audit fully, trained
@@ -15,9 +241,9 @@ them — never scale.
 Consolidation happens at the evidence layer: each family keeps its own codebase and emits
 ilxyr protocol objects.
 
-- **Zero — science substrate.** Float micro LM in dependency-free C11; one person can verify
-  the whole system by inspection. Validators live outside the model; fluency is never
-  validity. Role: fast falsification of architecture, curriculum, and faculty routing. Its
+- **Zero — science substrate.** Dependency-free C11 model and reasoning runtimes that one person
+  can verify by inspection. Validators live outside the learned policy; fluency is never
+  validity. Role: verified Reasoner research plus preserved model-training evidence. Its
   go/no-go registry is replaced by this ledger.
 - **Solomon — deployment substrate.** Integer-only Rust training stack for deterministic
   CPU/WASM artifacts: native-integer updates, exact replay, checked numeric health. Role:
@@ -33,13 +259,17 @@ ilxyr protocol objects.
 
 ## Active model lines
 
-ZERO.4 and ZERO.5 are separate states, not one checkpoint chain.
+Reasoner is the active scientific line. ZERO.4 and ZERO.5 remain separate
+historical model states, not one checkpoint chain.
 
 - **ZERO.4 is promoted.** Q2.6 passed all three declared seeds and remains the deployed quantity
   model.
-- **ZERO.5 is active research.** It is the dependency-free C11 training line at a fixed
-  4,852,992-parameter base. Its C experiments start from the selected C2 checkpoint, not from
-  ZERO.4. The line is not promoted.
+- **Reasoner is active research.** Its external public lineage now includes the complete
+  5.0–5.4 series, 5.5 fresh-family search and engineering results, and a 5.6 development
+  no-go. The current source and next decision are in the shared research-step report.
+- **ZERO.5 is frozen.** It is the dependency-free C11 training line at a fixed 4,852,992-parameter
+  base. Its completed and already-started work keeps its real chronology, but it receives no new
+  training authorization.
 - **C5 is a private terminal lineage.** C5.1 tested a 25% Braid structured-text mixture and
   resolved no-go outside the ilXyr ledger. C5.2 keeps that stream fixed and adds a 193,264-
   parameter verified state-target head, for 5,046,256 total parameters. Its authorized run
@@ -54,6 +284,23 @@ The cross-lineage decision map is [`docs/RESEARCH-PATHWAYS.md`](RESEARCH-PATHWAY
 the validated [`docs/research-pathways.json`](research-pathways.json). It separates scientific
 outcome, execution, disclosure, lifecycle, and evidence maturity so a completed no-go cannot be
 confused with a blocked or withheld experiment.
+
+## Primary line: Reasoner
+
+Reasoner 5 studies learned search guidance with exact answer checking. Its first
+five experiments produced two passes and three no-go results. Reasoner 5.5
+then tested generated families and measured the full search cost. An equally
+optimized task guide used 19.3% less paired CPU time than target-only search
+on the recorded 128-family public cohort. The later [matched comparison](../experiments/research-step-26/REPORT.md)
+on 128 fresh families missed both benefit gates against lexical guidance.
+Its CPU ratio was 1.000405 and verifier-work ratio was 1.036041. The fixed
+primary claim resolved no-go; the next mechanism must earn its added cost
+against that stronger reference.
+
+Reasoner 5.6 retains its development search and channel-readiness failures.
+Historical 3.x and 4.x results keep their original scope. The current evidence
+remains external public; the shared baseline audit checks source bindings and
+arithmetic. See [REASONER-LINE.md](REASONER-LINE.md).
 
 ## Parallel substrates, shared surface, directed flow
 
@@ -96,7 +343,15 @@ promotion evaluation passed. EXP-005 then executed seeds 1 and 3 as separate run
 unchanged design. Both resolved go after 600 full-scale commits, so the all-three-seeds
 conjunction passed and ZERO.4 is current upstream. The Zero family gate is now clear. The bridge
 now freezes the training and evaluation bytes plus source-pinned Zero and Solomon encodings and
-verifiers in `zero-solomon.q22-operation.v1`. No Solomon training or replication result exists yet.
+verifiers in `zero-solomon.q22-operation.v1`. EXP-007 then froze an 8,192-feature integer class
+head, four epochs, seeds 1–3, a 950,000 ppm per-seed gate, and exact cross-seed agreement before
+evaluation. Every seed scored 500/500 and all predictions agreed, so the narrow operation-routing
+bridge resolved go. This does not establish arithmetic generation or broad language quality; a
+successor must remove command-prefix shortcuts and freeze a harder transfer claim. EXP-008 ran
+that successor unchanged after registration: all inputs shared one prefix, distractors were
+balanced, and promotion template families were held out. Seed rates fell to 42.5%, 43.0%, and
+53.3%, with 53.1% agreement, so the fixed sparse class-head transfer claim resolved no-go. Any
+new successor must change representation or objective and use fresh evaluation templates.
 The verified Braid StateBridge symbolic view is not admitted as a shared task while the C5
 decision remains private. It stays an input artifact and does not replace q22r by declaration.
 
@@ -126,18 +381,35 @@ contract and evidence. Zero supplies the symbolic oracle. Three float models tes
 restricted-input model measures the height/depth shortcut, and NSRL provides only a later integer
 feasibility note.
 
-The program is prospective and has not started its oracle frontier. Its source-pinned contract is
+The original Phase 0 frontier resolved Stop. Later LiE work established a reduced
+825-representation surface. A corpus pilot then hit its resource gate, and the
+26,624-query tail calibration produced a proposed 50 ms final p99 clause. The
+[controller now enforces the fixed resource policy](../experiments/research-step-12/REPORT.md).
+The [versioned calibration trace now verifies](../experiments/research-step-20/REPORT.md),
+including every slowest-50 query and the final-p99 decision. The
+[full-corpus source kit](../experiments/research-step-33/REPORT.md) now binds all
+14 policy files, the saved trace, and both oracle sources. Two fixed Linux LiE
+builds match, and both oracles pass three known-answer checks. The
+[full-run controller and result checker](../experiments/research-step-34/REPORT.md)
+now select the fixed policy, retain failed attempts, verify corpus files, and
+check process cleanup. Their 19 Linux tests pass. The
+[cloud launch package](../experiments/research-step-35/REPORT.md) adds the early
+shutdown timer, bounded immutable collection, and verified storage expiry.
+Its ten Linux host tests and live AWS preflight pass. The full corpus run
+reached its original call limit in the [approved run](../experiments/research-step-51/REPORT.md), with 79,452 training rows preserved. The
+[resource accounting component](../experiments/research-step-3/REPORT.md)
+now passes its exact percentile and failure-retention tests. The source-pinned contract is
 [`weight-multiplicity-transfer-r3`](../examples/weight-multiplicity/rev3-contract.json), and the
 plain-language execution record is
-[`WEIGHT-MULTIPLICITY-TRANSFER.md`](experiments/WEIGHT-MULTIPLICITY-TRANSFER.md). It may not be
-described as an active or successful model line until the corresponding stages run and settle.
+[`WEIGHT-MULTIPLICITY-TRANSFER.md`](experiments/WEIGHT-MULTIPLICITY-TRANSFER.md). The [current report](../experiments/research-step-1/REPORT.md) preserves those
+results and the separate post-measurement wrapper failure.
 
 ## Bootstrap
 
 1. V1 control plane: authority records, certificates, signed budgets, sandbox/promoted lanes,
    allocation, thresholds, and calibration — implemented in this repository.
-2. Retro-registration and family replay adapters — implemented; Solomon replay passes from a
-   fresh remote checkout for authorized NSRL access, Zero q22r seed 2 is grounded from a public,
+2. Retro-registration and family replay adapters — implemented; Solomon replay passes from an
+   unauthenticated fresh checkout of public NSRL, Zero q22r seed 2 is grounded from a public,
    hash-pinned selected model, and the completed three-seed no-go decision is separately grounded.
 3. Shared-task contracts and the continuous loop-cycle driver — implemented; the executable q22
    bridge now binds both family implementations and exact data hashes.
@@ -146,15 +418,15 @@ described as an active or successful model line until the corresponding stages r
    Q2.6's prospective seed-2 replay-tangent go while preserving full gates for spine claims.
    EXP-005 records independent seed-1 and seed-3 go results and the verified family go. Its
    upstream evidence still needs to be imported into the local ilXyr ledger.
-5. Preregister one Solomon training experiment against the frozen q22 bridge, then execute it
-   without changing the task bytes, seeds, verifier, or evaluation boundary.
+5. The Solomon Q22 experiment was preregistered and completed unchanged as EXP-007. EXP-008 then
+   tested a new shortcut-resistant task prospectively and resolved no-go. Preserve both results;
+   do not tune the fixed class head against the opened EXP-008 promotion set.
 6. Implement the native NSRL checkpoint registration and source-pinned adapter, then execute the
    p10m intake and baseline defined by ADR 0005 without changing its experimental status.
-7. Reconcile the active ZERO.5 C0–C5 decision lineage and Braid inputs into the ilXyr registry.
-   This public registry now identifies the evidence debt. Completed upstream runs must be
-   imported honestly; no new run may bypass ilXyr registration.
-8. Freeze and validate the verified-oracle weight-multiplicity contract, then measure its oracle
-   frontier before generating a corpus or training a model.
+7. Keep Reasoner as the active scientific line and import current external evidence with
+   its real chronology. ZERO.5 remains frozen.
+8. Complete the measured weight-multiplicity resource clause and prepare the next corpus
+   package with the original candidate distribution and recorded limits.
 
 ## Operating model
 

@@ -1,0 +1,70 @@
+{
+  "actual_instances_created": 0,
+  "approval": "pending_explicit_approval_for_this_run_set",
+  "execution_order": [
+    "reasoner",
+    "feral",
+    "solomon",
+    "weight",
+    "zero4"
+  ],
+  "local_launch_tool_source_commit": "02ee8e679c8ddf7fffea3dcad89c5f22a178203b",
+  "maximum_before_tax_usd": "14.70",
+  "package_audit_sha256": "b13d5313b982e048c6f3a97a38ec399b73239b3d33834f1c7842421b872cab6d",
+  "projects": [
+    {
+      "maximum_before_tax_usd": "0.30",
+      "maximum_instance_seconds": 5400,
+      "package_bytes": 46868480,
+      "package_sha256": "080ed8f974acccd187abef55a81fbf46462da2851cfc0feaa9df8a574ab332d5",
+      "plan_sha256": "018f4002c85a3fca99da12557e1915fa1703ea68defda807cf426aabd8bb87a0",
+      "project": "reasoner",
+      "run_id": "reasoner-46-20260912T204829Z",
+      "source_step": 46
+    },
+    {
+      "maximum_before_tax_usd": "0.15",
+      "maximum_instance_seconds": 1800,
+      "package_bytes": 41840640,
+      "package_sha256": "c392e3a51d333e2a48b04bf91f9b6cab3959953b9afbd585f8aab59dd381872c",
+      "plan_sha256": "7ddfbf97455e972c53f924088dd195396d82f47bb4ffcc5ab4af0b38eecb4413",
+      "project": "feral",
+      "run_id": "feral-49-20260912T204831Z",
+      "source_step": 49
+    },
+    {
+      "maximum_before_tax_usd": "0.25",
+      "maximum_instance_seconds": 3600,
+      "package_bytes": 14428160,
+      "package_sha256": "52dfcf2f63668d02765a6b591f5b39a0b445a1b475c32ce4e2ba27fdc37e9f86",
+      "plan_sha256": "58ff514dae66d51c80ec727d7cf27250eccb74a713af127764f897948aa0db6a",
+      "project": "solomon",
+      "run_id": "solomon38-20260912T204834Z",
+      "source_step": 38
+    },
+    {
+      "maximum_before_tax_usd": "2.00",
+      "maximum_instance_seconds": 5400,
+      "package_bytes": 16568320,
+      "package_sha256": "baca1320cc10071513a47bfd3d853ecf67a48f0aaf3c16429f2398cb7feaa29e",
+      "plan_sha256": "62e5d421dbb2b61a9e4e25816d059a1a569b819061ac1c70a940961864c16ecc",
+      "project": "weight",
+      "run_id": "weight35-20260912T204834Z",
+      "source_step": 35
+    },
+    {
+      "maximum_before_tax_usd": "12.00",
+      "maximum_instance_seconds": 48600,
+      "package_bytes": 54886400,
+      "package_sha256": "0ed0d960d8cfbe7e4e86d600c490867c732c4ac2d3cd462f8ccbb1b9f7e35ac3",
+      "plan_sha256": "79aa4932de1fe8f4da66ad57d17d989bb57de45e1843afe01f969443dbc66ee2",
+      "project": "zero4",
+      "run_id": "zero4-45-20260912T204834Z",
+      "source_step": 45
+    }
+  ],
+  "schema": "ilxyr.research_run_set.v1",
+  "scope": "One bounded run per listed package. Each keeps its own runtime and cost ceiling. Collect and verify each result before the next scientific change.",
+  "status": "prepared_for_budget_approval",
+  "sum_of_instance_limits_seconds": 64800
+}

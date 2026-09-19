@@ -1,0 +1,52 @@
+{
+  "artifact_bindings": {
+    "ATTEMPT.json": "dbb1867b5b500ff6d13466f0ec019425fc7dc49fa5cc9c9c17d46fb9934e731f",
+    "FAILURES.json": "32056ec4d4f359be55cdd0236e92ee1a495e3a48420382d64bd410ab6c613305",
+    "KIT.json": "068033fd6336eac6536a2c184381754d98e6c386e54693c1020e99a8cf585faf",
+    "OVERLAP-SUMMARY.json": "56c78150f685fb9e759eec33d6f7e3dbc8971489aecff0828a77874bf633001e",
+    "OVERLAP.json": "56aea9634884937ee319fc3a1b30ab8d3f8e1eb00d06ec2aa6b678e6052eda74",
+    "PREPARED-BINDINGS.json": "e0017b9f6953e116bdcff989c0e15af43a190f08692ba53f8148a12351ddb7b9",
+    "ROSTER-PLAN.json": "fa62515db2d1a1ac42727b23db3485aba7cafb94bcb1352da25dd9f994ce3b56",
+    "ROSTER-PLAN.v2.json": "93ce3f58ed97260e48618c89ca3d9d8242faae99231a396c44e7fc7a191ed5b1",
+    "ROSTER-PLAN.v3.json": "b5795071922a214e6b7319dfd3bafee82acefb8df60195625cc2de4d130854f3",
+    "ROSTER.json": "c7bd5d15e7c9a6b5266a18cff57857ac4e273b634439b2005868fbb66721df95",
+    "RUN-DESIGN.json": "bb0ef18069dcf8c0b59ee4e087685fa67ecbe03571744d772b84e5df2a4b1e39",
+    "SCHEDULE.json": "e19464f4e4a640cebb70ceb72da0426640021e4c031f0f51af298992e1262504",
+    "SELECTION-V1-ATTEMPT.json": "9368b311fef79ba6656dba8d954431c4b4d3b9f7cc1f86182bf2d2233a2da506",
+    "SELECTION-V1-SHORT-CONTEXTS.json": "42b41f4e224dc519f0efb27e5af03188eed03a1c30e2b9ee18df444952f95cae",
+    "SELECTION-V2-ATTEMPT.json": "40ce2100ebceb01f8fab4267b7a15c090a4234a47e6bf115d19ed2f13de6b49b",
+    "SELECTION-V2-MATCHES.json": "189f61d52a9924b13fac919ec2c656471330e98e57bb07c916064a81679c9c6c",
+    "SMOKE-ATTEMPT.json": "83c2c6ba28eb3d5dadc54a03bf49bceb8f82af05aa301e6367f28837f6cf5f53",
+    "SMOKE.json": "084cb57df11bbf94e90b81aef4278a3d1214ef470e7bb90b1166185f1dd0c48a",
+    "SOURCE-IDENTITY.json": "b7ddb4ffc6a96afedf6dc50acc87d272c574e29d17b4e0034e234d02a36be094",
+    "SOURCE-RIGHTS.json": "a5be3bb467c58d6bb68a52f29afb397e02a5df6156095b95b0ff996cfcae5134"
+  },
+  "documents": 12,
+  "execution_authorized": false,
+  "fresh_comparison_status": "unexecuted",
+  "fresh_model_calls": 0,
+  "implementation_bindings": {
+    "scripts/research_solomon_confidence.py": "bc90462500cdc0c3f6f257731db61f806882c7e08a3fcba49b05fa499fb32775",
+    "scripts/research_solomon_roster.py": "4853294c4cb72808aede94ec22c30cc88a62fe4b84f10578322c137347b207e1",
+    "scripts/solomon_confidence_arm.rs": "b6b4c09f6132c30f357b32b68fa8908f74df87bf20b265d4080c70b29988a1bd",
+    "scripts/test_solomon_fresh_confidence.py": "56fd1e06f5a7271d7d5413299819c1e6e3421030a97a291640ee3838cd9e6580"
+  },
+  "next_step": "Build and test the full cloud controller and result checker, then freeze machine, compiler, limits, watchdog, staging and price before requesting a bounded paid run.",
+  "overlap_groups": 10,
+  "schema": "ilxyr.solomon_fresh_preparation.v1",
+  "selection_failures_retained": 2,
+  "source_commit": "96321943e1da7b67bf6c9b4954ff14e6057ac433",
+  "source_implementation_commit": "6241f871585c315ad5c2841d46e94bfe60e56837",
+  "status": "source_and_roster_prepared",
+  "validation": {
+    "all_prior_scores_reproduced_exactly": true,
+    "full_local_research_suite": "passed_with_shell_process_substitution_available",
+    "isolated_arms": 5,
+    "linux_native_parity": "pending_PR_check",
+    "opened_windows_per_arm": 16,
+    "pages_validation": "passed",
+    "python_tests": 11,
+    "rust_tests": 2
+  },
+  "windows": 384
+}

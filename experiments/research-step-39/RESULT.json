@@ -1,0 +1,26 @@
+{
+  "candidates": 234,
+  "decision_trace_sha256": "f28ee575dc435264e915f4f80f91706375d6bf4efd437a637a7ecd05101fa380",
+  "families": 128,
+  "fresh_method_evaluations": 0,
+  "legacy_rejection_checker_gap": "reproduced_with_controlled_later_candidate",
+  "native_replay_sha256": "b35a09a71f783a8e7f1b202e050800009bb5cd6a380cf0a16d46019d81c069ae",
+  "new_model_calls": 0,
+  "new_paid_instances": 0,
+  "next": "Build the isolated four-method comparison controller with full costs and independent replay.",
+  "performance_evidence": false,
+  "platform_parity": true,
+  "prior_families_excluded": 396,
+  "prior_primitive_multisets_excluded": 396,
+  "rejected": 106,
+  "rejections": {
+    "mixing_role": 95,
+    "primitive_multiset": 0,
+    "source_or_development_syntax": 11,
+    "target_behavior": 0
+  },
+  "roster_sha256": "037caefb37b9656e5681dc3dd145a2cf20d4517582c5faf373b42265782da42e",
+  "schema": "ilxyr.reasoner_fresh_roster_result.v1",
+  "source_syntax_excluded": 259,
+  "status": "fresh_roster_verified"
+}

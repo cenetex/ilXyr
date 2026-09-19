@@ -1,0 +1,17 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "solomon.q22.hypothesis.v1",
+  "stage": "hypothesis",
+  "actor": {
+    "id": "model://solomon/q22/research-director",
+    "kind": "model",
+    "model_ref": "model://openai/codex/gpt-5.6-sol/2026-08-30"
+  },
+  "title": "Solomon Q22 operation-routing hypothesis",
+  "body": "A Solomon sparse integer class head trained on the frozen shared Q22 encoding can route all five operation types on the disjoint promotion set. Every declared seed should reach at least 950000 exact-rate ppm. Identical predictions across the three seeds are a preregistered secondary robustness check.",
+  "claims": [
+    "The test concerns learned operation routing, not arithmetic answer generation.",
+    "A valid no-go remains useful evidence about the limits of the Solomon class-head lineage."
+  ],
+  "confidence": 0.97
+}

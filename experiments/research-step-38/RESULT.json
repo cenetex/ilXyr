@@ -1,0 +1,23 @@
+{
+  "approval_received": false,
+  "distinct_opened_windows": 16,
+  "fresh_model_calls": 0,
+  "independent_opened_check": "verified_complete",
+  "instances_created": 0,
+  "linux_runtime_smoke": "passed",
+  "local_host_and_dependency_tests": 12,
+  "maximum_before_tax_usd": "0.25",
+  "maximum_instance_seconds": 3600,
+  "next": "Approve this package for one bounded cloud comparison and a follow-up through collection, cleanup and publication.",
+  "opened_native_forward_calls": 32,
+  "opened_probability_rows": 160,
+  "package_sha256": "52dfcf2f63668d02765a6b591f5b39a0b445a1b475c32ce4e2ba27fdc37e9f86",
+  "performance_evidence": false,
+  "plan_sha256": "58ff514dae66d51c80ec727d7cf27250eccb74a713af127764f897948aa0db6a",
+  "preflight": "passed",
+  "promotion_evidence": false,
+  "recurring_followup_approved": false,
+  "schema": "ilxyr.solomon_cloud_preparation_result.v1",
+  "staged_version_readback": "verified",
+  "status": "ready_for_exact_paid_run_approval"
+}

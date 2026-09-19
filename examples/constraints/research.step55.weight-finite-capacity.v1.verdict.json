@@ -1,0 +1,28 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-55/RESULT.json",
+  "evidence_ref": "artifact://sha256/d2c89e7db382dd94ff5291e5815b0fb215e0f25bf9cfc113efcbf2db88830e83",
+  "experiment_id": "research.step55.weight-finite-capacity.v1",
+  "family": "ilxyr",
+  "id": "verdict:research.step55.weight-finite-capacity.v1",
+  "lineage_note": "Measure accepted unique rows at increasing occupancy and carry finite support evidence or an explicit unknown state into each quota decision.",
+  "mechanism": "Raw exact labels versus query and orbit capacity",
+  "mechanism_tags": [
+    "query-cache",
+    "sampling-yield",
+    "selection-capacity",
+    "batch-scheduling"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "weight_multiplicity",
+  "recorded_at_ms": 1789257825608,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "development_quota_hold",
+  "summary": "A finite two-query roster has perfect raw label matches yet can fill only one of two required rows because both queries share one allowed orbit. The source-bound A1 smoke also fills one of two requested rows. Cache reuse retains the quota hold.",
+  "taxonomy": "measurement"
+}

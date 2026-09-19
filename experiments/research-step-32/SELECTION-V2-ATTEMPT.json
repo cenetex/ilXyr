@@ -1,0 +1,7 @@
+{
+  "error": "selected roster failed overlap checks; retain the fixed selection",
+  "model_calls": 0,
+  "phase": "overlap",
+  "plan_sha256": "93ce3f58ed97260e48618c89ca3d9d8242faae99231a396c44e7fc7a191ed5b1",
+  "status": "failed"
+}

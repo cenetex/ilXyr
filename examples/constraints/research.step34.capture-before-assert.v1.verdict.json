@@ -1,0 +1,26 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-34/FAILURES.json",
+  "evidence_ref": "artifact://sha256/2a8bb397b47a7b5d2dd96e614ed8576c2e0226a4153e4f5b19032579f9ca55a8",
+  "experiment_id": "research.step34.capture-before-assert.v1",
+  "family": "ilxyr",
+  "id": "verdict:research.step34.capture-before-assert.v1",
+  "lineage_note": "Save terminal state, process logs and mount flags before checking assertions.",
+  "mechanism": "capture before assert",
+  "mechanism_tags": [
+    "failure-capture",
+    "process-lifecycle"
+  ],
+  "outcome": "execution_failure",
+  "project": "weight_multiplicity",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The first Linux fixture failure reached an assertion before diagnostic artifacts were saved. The later capture showed an executable test fixture blocked by its mount.",
+  "taxonomy": "implementation"
+}

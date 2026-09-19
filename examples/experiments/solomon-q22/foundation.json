@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "solomon.q22.foundation.v1",
+  "stage": "mathematical_foundation",
+  "actor": {
+    "id": "model://solomon/q22/integer-learning-analysis",
+    "kind": "model",
+    "model_ref": "model://solomon/q22/sparse-perceptron-analysis/v1"
+  },
+  "title": "Integer separability of the Q22 routing surface",
+  "body": "The five Q22 classes have distinct command prefixes. A signed multiclass perceptron over hashed first-token, token, positioned-token, and byte n-gram counts can separate those prefixes without floating-point operations. Seed changes affect training order only; the feature map, class order, initialization, update rule, and epoch count remain fixed.",
+  "input_refs": ["solomon.q22.hypothesis.v1"],
+  "claims": [
+    "The model has 8192 deterministic hashed features and five signed integer output rows.",
+    "The outcome is evaluated only by the independent exact shared-task verifier."
+  ],
+  "confidence": 0.99
+}

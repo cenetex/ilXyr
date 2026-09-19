@@ -1,0 +1,42 @@
+{
+  "failures": [
+    {
+      "coverage_gap": "The earlier fixed-runtime check used opened mode; host tests replaced Docker execution with a fixture.",
+      "id": "cloud-adapter-mode-omitted",
+      "kind": "implementation",
+      "observed": "full execution requires the frozen cloud adapter",
+      "repair": "Pass cloud_adapter=True from the adapter. The regression reaches a controlled native boundary while direct calls retain their guard.",
+      "source": "FINDINGS.json",
+      "trigger": "Full prepared inputs reach the cloud adapter command."
+    },
+    {
+      "id": "staging-approval-review",
+      "kind": "operation",
+      "observed": "Automatic approval review rejected the archive upload before command execution.",
+      "receipt_sha256": "5349638adc231e2d77d8f11aec5191dc8b43e892a299821daae741367c0e51fd",
+      "resolution": "The user approved the exact payload, destination, bounded run and automatic follow-up. Staging and preflight then passed."
+    },
+    {
+      "id": "heartbeat-destination-argument",
+      "kind": "operation",
+      "observed": "The first scheduling call required targetThreadId or destination=thread.",
+      "resolution": "The corrected call set destination=thread and created the approved follow-up."
+    },
+    {
+      "id": "startup-inspection-after-shutdown",
+      "kind": "observation",
+      "observed": "SSM returned InvalidInstanceId. The next provider read showed that the instance had already shut itself down.",
+      "receipt_sha256": "bb348a1301498c9ff0eafe68f8d507c2af9456c7c74f7decde626ec0d21331ed",
+      "resolution": "Collected the immutable terminal records after verifying provider cleanup."
+    },
+    {
+      "id": "local-shell-file-descriptor",
+      "kind": "environment",
+      "observed": "The sandbox rejected the shell process-substitution file descriptor.",
+      "receipt_sha256": "870f0bb46c1faa0e4972438f57e7919f93a8345999281283e25263ed5c36addf",
+      "resolution": "The controlled host tests passed outside that restriction, with fake cloud services."
+    }
+  ],
+  "schema": "ilxyr.zero4_execution_failures.v1",
+  "status": "failures_preserved"
+}

@@ -1,0 +1,8 @@
+{
+  "schema": "ilxyr.feral_verification_attempts.v1",
+  "initial_check": "whole prediction file bytes compared across runs",
+  "initial_outcome": "assertion failed because prediction_wall_ns is a per-run measurement",
+  "correction": "Verify every file against its own hash; compare answers and traces across runs after excluding only prediction_wall_ns.",
+  "corrected_outcome": "passed",
+  "recorded_at": "2026-09-08T09:01:33.793243+00:00"
+}

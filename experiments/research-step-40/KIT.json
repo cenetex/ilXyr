@@ -1,0 +1,19 @@
+{
+  "archive_bytes": 8007680,
+  "archive_sha256": "370cc2b4d39ea23af5dea9283cffd70aa056f5c7c22c4aad021b690be47eb8cc",
+  "bound_files": 47,
+  "implementation": {
+    "check_reasoner_study.py": "5cd7fdae2e9a9d44d39871307bb04d700fb84293b042c23f378c8773ff57c84d",
+    "feral_process.py": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526",
+    "reasoner_study_worker.c": "c582dca8f4fa85a289f55762304da040fed7c7e65dc7fcbd232cd2520542b950",
+    "replay_reasoner_study.mjs": "a054d5e9e97f587af53bbf2f05e188faf6b668272b59fb72214bc9bd1752a953",
+    "research_reasoner_study.py": "7b87bfd0d3533a45f949248275eba6c149dad19df8e216961641f0ca4012af41"
+  },
+  "implementation_commit": "2d6bc9dccf3797a917f898a322d4edf6d0b161e5",
+  "manifest_sha256": "2e94851f4914d8ef8bf9ef7a7c410490756710d55b3633f2a4398f168c1c41b8",
+  "opened_kit_check": "passed",
+  "opened_stable_rows_sha256": "fdfc86fe9f096955099bdf622cf6d69aadd9ab2570071ddc6f7774c512dfde36",
+  "schema": "ilxyr.reasoner_study_source_kit.v1",
+  "scope": "Frozen native source, controller, independent replay, opened fixture, fresh roster, fixed plan and compact report. Cloud host image and launch budget are the next package.",
+  "source_commit": "0c5253604593acb3b9294fcc00c90f59b7dbbd3c"
+}

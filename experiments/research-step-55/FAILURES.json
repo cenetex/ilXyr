@@ -1,0 +1,27 @@
+{
+  "failures": [
+    {
+      "id": "fixed-start-starvation",
+      "initial_test_failure": "The initial cross-range reuse test attempted to read an absent accepted row and raised TypeError. The fixed-start control now reproduces the underlying failure explicitly.",
+      "kind": "implementation_and_sampling",
+      "observed": "Original ordering accepts zero rows in two batches; rotation accepts one in the reachable range with the same one new call and one cache hit. Both retain the unfilled range.",
+      "repair": "Rotate the first unfinished range each batch; retain original ordering as a control.",
+      "trigger": "Two unfinished ranges propose the same query. The first range rejects its exact label. Each batch restarts from that range and reserves the key before the second range can propose it."
+    },
+    {
+      "id": "perfect-label-yield-finite-capacity",
+      "kind": "selection_capacity",
+      "next": "Require explicit finite-support evidence or unknown status. Record each quota and orbit limit.",
+      "observed": "Raw label matches are 2/2; maximum valid assignment is 1/2. Cache reuse preserves this limit. The real A1 highest-1 candidate smoke also reaches one row against a quota of two.",
+      "trigger": "A declared finite roster has two exact label-1 queries in one shared orbit and requires one dominant plus one non-dominant row."
+    },
+    {
+      "id": "cache-capacity-stop",
+      "kind": "expected_guard",
+      "next": "Size persistent buffers in the frozen package and keep the separate host process-memory limit.",
+      "observed": "A one-entry cache preserves the first rejected answer and stops before the second new oracle call."
+    }
+  ],
+  "schema": "ilxyr.weight_selection_failures.v1",
+  "status": "development_failures_preserved"
+}

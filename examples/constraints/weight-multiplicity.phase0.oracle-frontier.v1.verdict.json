@@ -1,0 +1,22 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:weight-multiplicity.phase0.oracle-frontier.v1",
+  "experiment_id": "weight-multiplicity-transfer-r3",
+  "family": "zero",
+  "outcome": "complete_no_go",
+  "taxonomy": "venue",
+  "mechanism": "Oracle frontier measurement for weight-multiplicity transfer across 248 type-and-height cells. 35 of 248 cells contained queries exceeding the frozen one-second oracle limit. The signed rank-7/rank-8 and E7/E8 surfaces do not fit the budget.",
+  "mechanism_tags": [
+    "oracle-frontier",
+    "weight-multiplicity",
+    "resource-bound"
+  ],
+  "summary": "Phase 0 measured all 248 type-and-height cells with 1,594,852 uncached oracle attempts. 135 cells filled every quota, 78 had incomplete yield, and 35 exceeded the one-second limit. E8 exceeded budget at height 1. The failure is cost, not symbolic disagreement.",
+  "lineage_note": "No positive common height exists if rank 8 and every included type must be covered. Phase 1 is not authorized under Revision 3.",
+  "evidence_ref": "artifact://sha256/e77a6341155242a7e08e8a0675100fd347fbf1d637c58092561ea2c052dc6b3c",
+  "recorded_by": {
+    "id": "human://cenetex",
+    "kind": "human"
+  },
+  "recorded_at_ms": 1788300400000
+}

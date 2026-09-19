@@ -1,0 +1,29 @@
+{
+  "ci": {
+    "head_commit": "9c67aeb8515151363a3ab301f901648df826398e",
+    "platforms": [
+      "ubuntu-latest",
+      "macos-latest"
+    ],
+    "run": "https://github.com/cenetex/ilXyr/actions/runs/34702456606",
+    "scope": "Opened native comparison and the seven data checks present at that commit; the final pull-request checks include the added independent-checker case.",
+    "status": "success"
+  },
+  "local": {
+    "data_tests": 8,
+    "fresh_input_windows_checked": 658,
+    "full_schema_receipt_sha256": "aaf03d24c3791cb86ae39ccab93788e8c11d84604cbf320c570594341113ee49",
+    "full_schema_suite": "passed",
+    "malformed_or_misused_packs_rejected": 13,
+    "native_methods": 5,
+    "original_checkpoint_matches": 4,
+    "original_window_loss_matches": 12,
+    "sanitizers": [
+      "address",
+      "undefined"
+    ],
+    "source_kit_reproduction": "passed with relative source, output and fresh-input paths",
+    "source_origins_checked": 658
+  },
+  "schema": "ilxyr.zero4_window_platform_checks.v1"
+}

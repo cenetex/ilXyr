@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/research-registry.v1.json",
+  "title": "ilXyr unified research registry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "indexed_at_ms", "stale_after_ms", "heads", "projects"],
+  "properties": {
+    "schema": { "const": "ilxyr.research_registry.v1" },
+    "indexed_at_ms": { "type": "integer", "minimum": 0 },
+    "stale_after_ms": { "type": "integer", "minimum": 1 },
+    "heads": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/head" }
+    },
+    "projects": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/project" }
+    }
+  },
+  "$defs": {
+    "lifecycle": {
+      "enum": ["planned", "implemented", "registered", "admitted", "running", "completed", "blocked", "failed"]
+    },
+    "evidence": {
+      "enum": ["missing", "recorded", "verified", "sealed", "externally_referenced"]
+    },
+    "visibility": {
+      "enum": ["public", "private_metadata", "sealed_hash_only"]
+    },
+    "nullableString": { "type": ["string", "null"] },
+    "nullableNumber": { "type": ["number", "null"] },
+    "nullableInteger": { "type": ["integer", "null"], "minimum": 0 },
+    "revision": { "type": "string", "pattern": "^(?:[a-f0-9]{40}|[a-f0-9]{64})$" },
+    "digest": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+    "head": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "kind", "head", "indexed_at_ms"],
+      "properties": {
+        "source": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["ledger", "publication_index"] },
+        "head": { "type": "string", "minLength": 1 },
+        "indexed_at_ms": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "revision", "role", "evidence"],
+      "properties": {
+        "repository": { "type": "string", "minLength": 1 },
+        "revision": { "$ref": "#/$defs/revision" },
+        "role": { "type": "string", "minLength": 1 },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model_id", "weight_revision", "registration_ref", "evidence", "visibility"],
+      "properties": {
+        "model_id": { "type": "string", "minLength": 1 },
+        "weight_revision": { "$ref": "#/$defs/revision" },
+        "registration_ref": { "$ref": "#/$defs/nullableString" },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "visibility": { "$ref": "#/$defs/visibility" }
+      }
+    },
+    "corpus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["corpus_id", "title", "example_count", "release_ref", "materialization_ref", "state", "evidence", "visibility"],
+      "properties": {
+        "corpus_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "example_count": { "$ref": "#/$defs/nullableInteger" },
+        "release_ref": { "$ref": "#/$defs/nullableString" },
+        "materialization_ref": { "$ref": "#/$defs/nullableString" },
+        "state": { "$ref": "#/$defs/lifecycle" },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "visibility": { "$ref": "#/$defs/visibility" }
+      }
+    },
+    "experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["experiment_id", "title", "compiled_ref", "source_ref", "state", "evidence"],
+      "properties": {
+        "experiment_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "compiled_ref": { "$ref": "#/$defs/nullableString" },
+        "source_ref": { "$ref": "#/$defs/nullableString" },
+        "state": { "$ref": "#/$defs/lifecycle" },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "dispatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dispatch_id", "experiment_id", "dispatch_ref", "executor", "image", "budget", "cost", "cost_unit", "state", "evidence"],
+      "properties": {
+        "dispatch_id": { "type": "string", "minLength": 1 },
+        "experiment_id": { "type": "string", "minLength": 1 },
+        "dispatch_ref": { "$ref": "#/$defs/nullableString" },
+        "executor": { "type": "string", "minLength": 1 },
+        "image": { "type": "string", "minLength": 1 },
+        "budget": { "$ref": "#/$defs/nullableNumber" },
+        "cost": { "$ref": "#/$defs/nullableNumber" },
+        "cost_unit": { "type": "string", "minLength": 1 },
+        "state": { "$ref": "#/$defs/lifecycle" },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evaluation_id", "experiment_id", "role", "state", "model_revision", "dataset_ref", "evaluator_revision", "predictions_ref", "metrics", "evidence", "visibility"],
+      "properties": {
+        "evaluation_id": { "type": "string", "minLength": 1 },
+        "experiment_id": { "type": "string", "minLength": 1 },
+        "role": { "enum": ["baseline", "candidate"] },
+        "state": { "$ref": "#/$defs/lifecycle" },
+        "model_revision": { "$ref": "#/$defs/nullableString" },
+        "dataset_ref": { "$ref": "#/$defs/nullableString" },
+        "evaluator_revision": { "$ref": "#/$defs/nullableString" },
+        "predictions_ref": { "$ref": "#/$defs/nullableString" },
+        "metrics": { "type": "object", "additionalProperties": { "type": "number" } },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "visibility": { "$ref": "#/$defs/visibility" }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "experiment_id", "kind", "digest", "uri", "source_revision", "evidence", "visibility"],
+      "properties": {
+        "artifact_id": { "type": "string", "minLength": 1 },
+        "experiment_id": { "$ref": "#/$defs/nullableString" },
+        "kind": { "type": "string", "minLength": 1 },
+        "digest": { "$ref": "#/$defs/digest" },
+        "uri": { "$ref": "#/$defs/nullableString" },
+        "source_revision": { "$ref": "#/$defs/nullableString" },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "visibility": { "$ref": "#/$defs/visibility" }
+      }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage_id", "title", "state", "evidence", "refs", "detail"],
+      "properties": {
+        "stage_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "state": { "$ref": "#/$defs/lifecycle" },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "detail": { "type": "string", "minLength": 1 }
+      }
+    },
+    "missing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requirement_id", "title", "blocks_stage", "detail"],
+      "properties": {
+        "requirement_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "blocks_stage": { "type": "string", "minLength": 1 },
+        "detail": { "type": "string", "minLength": 1 }
+      }
+    },
+    "costs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unit", "spent", "approved_limit", "evidence"],
+      "properties": {
+        "unit": { "type": "string", "minLength": 1 },
+        "spent": { "type": "number", "minimum": 0 },
+        "approved_limit": { "$ref": "#/$defs/nullableNumber" },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "project_id", "canonical_name", "aliases", "repositories", "model", "corpora", "experiments", "dispatches", "evaluations", "artifacts", "lifecycle_state", "stages", "missing_requirements", "costs", "visibility", "evidence"],
+      "properties": {
+        "schema": { "const": "ilxyr.project_record.v1" },
+        "project_id": { "type": "string", "pattern": "^project://\\S+$" },
+        "canonical_name": { "type": "string", "minLength": 1 },
+        "aliases": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "repositories": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/repository" } },
+        "model": { "$ref": "#/$defs/model" },
+        "corpora": { "type": "array", "items": { "$ref": "#/$defs/corpus" } },
+        "experiments": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/experiment" } },
+        "dispatches": { "type": "array", "items": { "$ref": "#/$defs/dispatch" } },
+        "evaluations": { "type": "array", "items": { "$ref": "#/$defs/evaluation" } },
+        "artifacts": { "type": "array", "items": { "$ref": "#/$defs/artifact" } },
+        "lifecycle_state": { "$ref": "#/$defs/lifecycle" },
+        "stages": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/stage" } },
+        "missing_requirements": { "type": "array", "items": { "$ref": "#/$defs/missing" } },
+        "costs": { "$ref": "#/$defs/costs" },
+        "visibility": { "$ref": "#/$defs/visibility" },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    }
+  }
+}

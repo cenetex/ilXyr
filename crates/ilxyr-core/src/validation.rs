@@ -2,11 +2,102 @@ use std::collections::BTreeSet;
 
 use crate::{
     ActorKind, ActorRef, AuthorityLevel, Certificate, CertificateDomain, CertificatePredicate,
-    CodePolicy, ComparisonOperator, EpochBudget, Error, ExperimentSpec, ExportPolicy,
-    ExternalRegistrationReceipt, Forecast, FundingCommitment, GroundingAuthority, NetworkPolicy,
-    OutcomePredicate, RegistrationVisibility, ResearchContribution, Result, RetroRegistrationSpec,
-    SandboxSpec, SharedTaskContract, TrustedPolicyKey, WeightClass,
+    CodePolicy, ComparisonOperator, EpochBudget, Error, ExperimentProposal, ExperimentSpec,
+    ExportPolicy, ExternalRegistrationReceipt, Forecast, FundingCommitment, GroundingAuthority,
+    NetworkPolicy, OutcomePredicate, ProposalReview, RegistrationVisibility, ResearchContribution,
+    Result, RetroRegistrationSpec, SandboxSpec, SharedTaskContract, TrustedPolicyKey, WeightClass,
 };
+
+pub fn proposal(proposal: &ExperimentProposal) -> Result<()> {
+    let mut errors = Vec::new();
+    schema(
+        &proposal.schema,
+        "ilxyr.experiment_proposal.v1",
+        &mut errors,
+    );
+    identifier(&proposal.id, "proposal.id", &mut errors);
+    identifier(
+        &proposal.experiment_id,
+        "proposal.experiment_id",
+        &mut errors,
+    );
+    actor(&proposal.proposer, &mut errors);
+    if proposal.revision == 0 {
+        errors.push("proposal.revision must be positive".to_owned());
+    }
+    match (&proposal.predecessor_ref, proposal.revision) {
+        (None, 1) => {}
+        (Some(predecessor_ref), revision) if revision > 1 => {
+            artifact_ref(predecessor_ref, "proposal.predecessor_ref", &mut errors);
+        }
+        (None, _) => errors.push("proposal revisions after 1 require predecessor_ref".to_owned()),
+        (Some(_), 1) => {
+            errors.push("proposal revision 1 must not declare predecessor_ref".to_owned());
+        }
+        (Some(_), _) => {}
+    }
+    nonempty(&proposal.title, "proposal.title", &mut errors);
+    nonempty(&proposal.summary, "proposal.summary", &mut errors);
+    nonempty(&proposal.hypothesis, "proposal.hypothesis", &mut errors);
+    nonempty(&proposal.novelty, "proposal.novelty", &mut errors);
+    handle(&proposal.baseline, "proposal.baseline", None, &mut errors);
+    if proposal.datasets.is_empty() {
+        errors.push("proposal.datasets must not be empty".to_owned());
+    }
+    unique_strings(&proposal.datasets, "proposal.datasets", &mut errors);
+    for dataset in &proposal.datasets {
+        handle(
+            dataset,
+            "proposal.datasets[]",
+            Some("dataset://"),
+            &mut errors,
+        );
+    }
+    nonempty(
+        &proposal.primary_metric,
+        "proposal.primary_metric",
+        &mut errors,
+    );
+    if !proposal.success_threshold.is_finite() {
+        errors.push("proposal.success_threshold must be finite".to_owned());
+    }
+    if matches!(proposal.success_operator, ComparisonOperator::Eq) {
+        errors.push("proposal.success_operator must not use exact equality".to_owned());
+    }
+    if proposal.seeds.is_empty() {
+        errors.push("proposal.seeds must not be empty".to_owned());
+    }
+    if proposal.seeds.iter().collect::<BTreeSet<_>>().len() != proposal.seeds.len() {
+        errors.push("proposal.seeds contains duplicates".to_owned());
+    }
+    if proposal.compute_credits == 0 {
+        errors.push("proposal.compute_credits must be positive".to_owned());
+    }
+    finish(errors)
+}
+
+pub fn proposal_review(review: &ProposalReview) -> Result<()> {
+    let mut errors = Vec::new();
+    schema(&review.schema, "ilxyr.proposal_review.v1", &mut errors);
+    identifier(&review.id, "proposal_review.id", &mut errors);
+    identifier(
+        &review.proposal_id,
+        "proposal_review.proposal_id",
+        &mut errors,
+    );
+    artifact_ref(
+        &review.proposal_ref,
+        "proposal_review.proposal_ref",
+        &mut errors,
+    );
+    actor(&review.reviewer, &mut errors);
+    nonempty(&review.category, "proposal_review.category", &mut errors);
+    nonempty(&review.comment, "proposal_review.comment", &mut errors);
+    if !review.confidence.is_finite() || !(0.0..=1.0).contains(&review.confidence) {
+        errors.push("proposal_review.confidence must be finite and between 0 and 1".to_owned());
+    }
+    finish(errors)
+}
 
 pub fn contribution(contribution: &ResearchContribution) -> Result<()> {
     let mut errors = Vec::new();
@@ -24,6 +115,12 @@ pub fn contribution(contribution: &ResearchContribution) -> Result<()> {
     if !(0.0..=1.0).contains(&contribution.confidence) {
         errors.push("contribution.confidence must be between 0 and 1".to_owned());
     }
+    finish(errors)
+}
+
+pub(crate) fn actor_ref(actor_ref: &ActorRef) -> Result<()> {
+    let mut errors = Vec::new();
+    actor(actor_ref, &mut errors);
     finish(errors)
 }
 
@@ -51,6 +148,33 @@ pub fn experiment(spec: &ExperimentSpec) -> Result<()> {
             Some("dataset://"),
             &mut errors,
         );
+    }
+    if !spec.dataset_bindings.is_empty() {
+        let datasets = spec
+            .datasets
+            .iter()
+            .map(String::as_str)
+            .collect::<BTreeSet<_>>();
+        let bindings = spec
+            .dataset_bindings
+            .keys()
+            .map(String::as_str)
+            .collect::<BTreeSet<_>>();
+        if datasets != bindings {
+            errors.push(
+                "experiment.dataset_bindings must bind every declared dataset exactly once"
+                    .to_owned(),
+            );
+        }
+        for (dataset, corpus_ref) in &spec.dataset_bindings {
+            handle(
+                dataset,
+                "experiment.dataset_bindings key",
+                Some("dataset://"),
+                &mut errors,
+            );
+            artifact_ref(corpus_ref, "experiment.dataset_bindings value", &mut errors);
+        }
     }
     unique_strings(&spec.models, "experiment.models", &mut errors);
     for model in &spec.models {
@@ -147,6 +271,12 @@ pub fn experiment(spec: &ExperimentSpec) -> Result<()> {
     if spec.execution.program.contains('\0') {
         errors.push("execution.program must not contain a NUL byte".to_owned());
     }
+    if spec.execution.executor == "oci-job" && !valid_oci_image(&spec.execution.program) {
+        errors.push(
+            "oci-job execution.program must be an oci:// image pinned by a lowercase sha256 digest"
+                .to_owned(),
+        );
+    }
     if spec.execution.args.iter().any(|arg| arg.contains('\0')) {
         errors.push("execution.args must not contain NUL bytes".to_owned());
     }
@@ -214,6 +344,21 @@ pub fn experiment(spec: &ExperimentSpec) -> Result<()> {
     }
 
     finish(errors)
+}
+
+fn valid_oci_image(value: &str) -> bool {
+    let Some((repository, digest)) = value
+        .strip_prefix("oci://")
+        .and_then(|value| value.rsplit_once("@sha256:"))
+    else {
+        return false;
+    };
+    !repository.is_empty()
+        && !repository.chars().any(char::is_whitespace)
+        && digest.len() == 64
+        && digest
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
 }
 
 pub fn external_registration_receipt(receipt: &ExternalRegistrationReceipt) -> Result<()> {
@@ -556,7 +701,7 @@ pub fn trusted_policy_key(key: &TrustedPolicyKey) -> Result<()> {
 
 pub fn epoch_budget(budget: &EpochBudget) -> Result<()> {
     let mut errors = Vec::new();
-    schema(&budget.schema, "ilxyr.epoch_budget.v1", &mut errors);
+    schema(&budget.schema, "ilxyr.epoch_budget.v2", &mut errors);
     identifier(&budget.id, "epoch_budget.id", &mut errors);
     if budget.epoch == 0 {
         errors.push("epoch_budget.epoch must be positive".to_owned());
@@ -682,6 +827,23 @@ pub fn epoch_budget(budget: &EpochBudget) -> Result<()> {
         Some("human://"),
         &mut errors,
     );
+    if budget.signed_at_ms == 0 {
+        errors.push("epoch_budget.signed_at_ms must be positive".to_owned());
+    }
+    match (budget.valid_from_ms, budget.expires_at_ms) {
+        (Some(valid_from_ms), Some(expires_at_ms)) => {
+            if valid_from_ms == 0 {
+                errors.push("epoch_budget.valid_from_ms must be positive".to_owned());
+            }
+            if expires_at_ms <= valid_from_ms {
+                errors.push("epoch_budget.expires_at_ms must follow valid_from_ms".to_owned());
+            }
+            if budget.signed_at_ms >= expires_at_ms {
+                errors.push("epoch_budget must be signed before it expires".to_owned());
+            }
+        }
+        _ => errors.push("epoch_budget.v2 requires valid_from_ms and expires_at_ms".to_owned()),
+    }
     if budget.signature.algorithm != "ed25519" {
         errors.push("epoch_budget.signature.algorithm must be ed25519".to_owned());
     }

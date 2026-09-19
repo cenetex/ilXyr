@@ -1,0 +1,10 @@
+{
+  "controller_plan_sha256": "cd0eef617b1b78ee4156a3833d770d750f852748ee11b859b1f5cd88e7ffb9e1",
+  "corpus_accepted": false,
+  "mode": "prepare",
+  "oracle_processes_started": 0,
+  "phase": "complete",
+  "schema": "ilxyr.weight_corpus_controller_terminal.v1",
+  "source_kit_sha256": "30e2926603988c29c5ff0d24138fd59d16c05eb21f01cc5bcfce00009d6433dd",
+  "status": "prepared"
+}

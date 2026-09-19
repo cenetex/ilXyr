@@ -1,0 +1,28 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-56/FAILURES.json",
+  "evidence_ref": "artifact://sha256/cc0950eac03dc6f5bb311116eb839c4f4612e6a641fcd00026ae8f1e3c7c756c",
+  "experiment_id": "research.step56.weight-native-output-permission.v1",
+  "family": "ilxyr",
+  "id": "verdict:research.step56.weight-native-output-permission.v1",
+  "lineage_note": "Use a consistent writer for native results and verification records. Preserve a failed verification write separately from completed oracle work.",
+  "mechanism": "Native result custody across container users",
+  "mechanism_tags": [
+    "native-oracle",
+    "result-replay",
+    "cost-accounting",
+    "failure-custody"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "weight_multiplicity",
+  "recorded_at_ms": 1789261104808,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "validation_failure",
+  "summary": "The native smoke finishes, then the host-side checker cannot create CHECK.json in the container-owned directory. Verification and generator replay now run in the fixed container. The saved records verify after download.",
+  "taxonomy": "implementation"
+}

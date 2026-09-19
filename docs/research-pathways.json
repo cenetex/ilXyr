@@ -1,10 +1,50 @@
 {
-  "schema": "ilxyr.research_pathways.v1",
-  "as_of": "2026-08-30",
-  "scope": "Decision-bearing Zero, Solomon and NSRL model-research pathways, the cross-family bridge, and the independent Holo verification recorded by ilXyr. Protocol-only engineering tests are excluded.",
+  "schema": "ilxyr.research_pathways.v2",
+  "as_of": "2026-09-01",
+  "scope": "Decision-bearing Reasoner, Zero, Solomon and NSRL model-research pathways, the cross-family bridge, and the independent Holo verification recorded by ilXyr. Protocol-only engineering tests are excluded.",
+  "factor_spaces": [
+    {
+      "lineage": "zero/zero4-quantity",
+      "track": "Q",
+      "axes": ["data", "representation", "objective", "optimizer", "evaluation", "replication"]
+    },
+    {
+      "lineage": "zero/zero5-c",
+      "track": "C",
+      "axes": ["checkpoint", "tokenizer", "data", "schedule", "representation", "objective", "evaluation"]
+    },
+    {
+      "lineage": "zero/reasoner",
+      "track": "R",
+      "axes": ["representation", "law_language", "query_policy", "verifier", "language_boundary", "evaluation"]
+    },
+    {
+      "lineage": "solomon/successor-v2",
+      "track": "S",
+      "axes": ["model", "data", "representation", "objective", "evaluation", "replication"]
+    },
+    {
+      "lineage": "solomon/nsrl-p10m",
+      "track": "N",
+      "axes": ["checkpoint", "data", "representation", "objective", "optimizer", "evaluation"]
+    },
+    {
+      "lineage": "external/holo-hrr",
+      "track": "H",
+      "axes": ["model", "data", "representation", "objective", "evaluation", "replication"]
+    },
+    {
+      "lineage": "cross-family/zero-solomon",
+      "track": "B",
+      "axes": ["zero_model", "solomon_model", "task", "encoding", "verifier", "evaluation"]
+    }
+  ],
   "nodes": [
     {
       "id": "zero-q22r-family-v1",
+      "coordinate": { "track": "Q", "parts": [2, 2, 1], "slug": "q2_2_1" },
+      "record_revision": 1,
+      "factor_state": { "data": 1, "representation": 1, "objective": 1, "optimizer": 1, "evaluation": 1, "replication": 1 },
       "display_name": "ZERO.4 Q2.2-R family",
       "family": "zero",
       "lineage": "zero/zero4-quantity",
@@ -26,6 +66,9 @@
     },
     {
       "id": "zero-q23-local-replay-guard-v1",
+      "coordinate": { "track": "Q", "parts": [2, 3], "slug": "q2_3" },
+      "record_revision": 1,
+      "factor_state": { "data": 1, "representation": 1, "objective": 1, "optimizer": 2, "evaluation": 1, "replication": 0 },
       "display_name": "ZERO.4 Q2.3 local replay guard",
       "family": "zero",
       "lineage": "zero/zero4-quantity",
@@ -47,6 +90,9 @@
     },
     {
       "id": "zero-q24-cumulative-replay-guard-v1",
+      "coordinate": { "track": "Q", "parts": [2, 4], "slug": "q2_4" },
+      "record_revision": 1,
+      "factor_state": { "data": 1, "representation": 1, "objective": 1, "optimizer": 3, "evaluation": 1, "replication": 0 },
       "display_name": "ZERO.4 Q2.4 cumulative replay guard",
       "family": "zero",
       "lineage": "zero/zero4-quantity",
@@ -67,6 +113,9 @@
     },
     {
       "id": "zero-q25-deterministic-backtracking-v1",
+      "coordinate": { "track": "Q", "parts": [2, 5], "slug": "q2_5" },
+      "record_revision": 1,
+      "factor_state": { "data": 1, "representation": 1, "objective": 1, "optimizer": 4, "evaluation": 1, "replication": 0 },
       "display_name": "ZERO.4 Q2.5 deterministic backtracking",
       "family": "zero",
       "lineage": "zero/zero4-quantity",
@@ -87,6 +136,9 @@
     },
     {
       "id": "zero-q26-replay-tangent-seed2-v1",
+      "coordinate": { "track": "Q", "parts": [2, 6, 1], "slug": "q2_6_1" },
+      "record_revision": 1,
+      "factor_state": { "data": 1, "representation": 1, "objective": 1, "optimizer": 5, "evaluation": 1, "replication": 0 },
       "display_name": "ZERO.4 Q2.6 replay-tangent projection seed 2",
       "family": "zero",
       "lineage": "zero/zero4-quantity",
@@ -107,6 +159,9 @@
     },
     {
       "id": "zero-q26-family-replication-v1",
+      "coordinate": { "track": "Q", "parts": [2, 6, 2], "slug": "q2_6_2" },
+      "record_revision": 1,
+      "factor_state": { "data": 1, "representation": 1, "objective": 1, "optimizer": 5, "evaluation": 1, "replication": 2 },
       "display_name": "ZERO.4 Q2.6 three-seed replication",
       "family": "zero",
       "lineage": "zero/zero4-quantity",
@@ -127,6 +182,9 @@
     },
     {
       "id": "zero5-c0-v1",
+      "coordinate": { "track": "C", "parts": [0], "slug": "c0" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 0, "tokenizer": 1, "data": 1, "schedule": 0, "representation": 0, "objective": 0, "evaluation": 1 },
       "display_name": "ZERO5-C0 corpus and tokenizer",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -147,6 +205,9 @@
     },
     {
       "id": "zero5-c1-v1",
+      "coordinate": { "track": "C", "parts": [1], "slug": "c1" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 1, "tokenizer": 1, "data": 1, "schedule": 1, "representation": 1, "objective": 1, "evaluation": 1 },
       "display_name": "ZERO5-C1 native C training",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -167,6 +228,9 @@
     },
     {
       "id": "zero5-c2-v1",
+      "coordinate": { "track": "C", "parts": [2], "slug": "c2" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 2, "schedule": 1, "representation": 1, "objective": 1, "evaluation": 1 },
       "display_name": "ZERO5-C2 Atlas continuation",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -187,6 +251,9 @@
     },
     {
       "id": "zero5-c3-v1",
+      "coordinate": { "track": "C", "parts": [3], "slug": "c3" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 3, "schedule": 2, "representation": 1, "objective": 2, "evaluation": 2 },
       "display_name": "ZERO5-C3 evidence curriculum",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -207,6 +274,9 @@
     },
     {
       "id": "zero5-c31-v1",
+      "coordinate": { "track": "C", "parts": [3, 1], "slug": "c3_1" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 3, "schedule": 3, "representation": 1, "objective": 3, "evaluation": 2 },
       "display_name": "ZERO5-C3.1 record-safe interleaving",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -227,6 +297,9 @@
     },
     {
       "id": "zero5-c32-v1",
+      "coordinate": { "track": "C", "parts": [3, 2], "slug": "c3_2" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 4, "schedule": 3, "representation": 1, "objective": 4, "evaluation": 3 },
       "display_name": "ZERO5-C3.2 paired invariance",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -247,6 +320,9 @@
     },
     {
       "id": "zero5-c33-v1",
+      "coordinate": { "track": "C", "parts": [3, 3], "slug": "c3_3" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 4, "schedule": 4, "representation": 1, "objective": 4, "evaluation": 3 },
       "display_name": "ZERO5-C3.3 pair-atomic updates",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -267,6 +343,9 @@
     },
     {
       "id": "zero5-c42-v1",
+      "coordinate": { "track": "C", "parts": [4, 2], "slug": "c4_2" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 5, "schedule": 5, "representation": 1, "objective": 4, "evaluation": 3 },
       "display_name": "ZERO5-C4.2 grouped training",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -287,6 +366,9 @@
     },
     {
       "id": "zero5-c43-v1",
+      "coordinate": { "track": "C", "parts": [4, 3], "slug": "c4_3" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 6, "schedule": 5, "representation": 1, "objective": 4, "evaluation": 3 },
       "display_name": "ZERO5-C4.3 data repair",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -307,6 +389,9 @@
     },
     {
       "id": "zero5-c51-statebridge-v1",
+      "coordinate": { "track": "C", "parts": [5, 1], "slug": "c5_1" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 7, "schedule": 5, "representation": 2, "objective": 4, "evaluation": 3 },
       "display_name": "ZERO5-C5.1 StateBridge text",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -327,6 +412,9 @@
     },
     {
       "id": "zero5-c52-targetbridge-v1",
+      "coordinate": { "track": "C", "parts": [5, 2], "slug": "c5_2" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 7, "schedule": 5, "representation": 2, "objective": 5, "evaluation": 4 },
       "display_name": "ZERO5-C5.2 TargetBridge auxiliary loss",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -351,6 +439,9 @@
     },
     {
       "id": "zero5-c61-shared-state-v1",
+      "coordinate": { "track": "C", "parts": [6, 1], "slug": "c6_1" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 2, "tokenizer": 1, "data": 7, "schedule": 5, "representation": 3, "objective": 6, "evaluation": 5 },
       "display_name": "ZERO5-C6.1 shared-state bottleneck",
       "family": "zero",
       "lineage": "zero/zero5-c",
@@ -374,6 +465,9 @@
     },
     {
       "id": "solomon-successor-v2",
+      "coordinate": { "track": "S", "parts": [2], "slug": "s2" },
+      "record_revision": 1,
+      "factor_state": { "model": 2, "data": 1, "representation": 1, "objective": 1, "evaluation": 1, "replication": 1 },
       "display_name": "Solomon integer-transformer successor-v2",
       "family": "solomon",
       "lineage": "solomon/successor-v2",
@@ -394,6 +488,9 @@
     },
     {
       "id": "nsrl-p10m-v10-intake",
+      "coordinate": { "track": "N", "parts": [10, 0], "slug": "n10_0" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 10, "data": 1, "representation": 1, "objective": 0, "optimizer": 0, "evaluation": 1 },
       "display_name": "NSRL p10m v10 managed intake",
       "family": "solomon",
       "lineage": "solomon/nsrl-p10m",
@@ -424,6 +521,9 @@
     },
     {
       "id": "nsrl-p10m-target-margin-v1",
+      "coordinate": { "track": "N", "parts": [10, 1], "slug": "n10_1" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 10, "data": 2, "representation": 1, "objective": 1, "optimizer": 1, "evaluation": 2 },
       "display_name": "NSRL p10m hard-negative target margin",
       "family": "solomon",
       "lineage": "solomon/nsrl-p10m",
@@ -444,6 +544,9 @@
     },
     {
       "id": "nsrl-p10m-target-margin-trust-region-v1",
+      "coordinate": { "track": "N", "parts": [10, 2], "slug": "n10_2" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 10, "data": 3, "representation": 1, "objective": 1, "optimizer": 2, "evaluation": 3 },
       "display_name": "NSRL p10m target-margin trust region",
       "family": "solomon",
       "lineage": "solomon/nsrl-p10m",
@@ -464,6 +567,9 @@
     },
     {
       "id": "nsrl-p10m-direct-head-nll-guard-v1",
+      "coordinate": { "track": "N", "parts": [10, 3], "slug": "n10_3" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 10, "data": 3, "representation": 1, "objective": 2, "optimizer": 3, "evaluation": 4 },
       "display_name": "NSRL p10m direct-head NLL guard",
       "family": "solomon",
       "lineage": "solomon/nsrl-p10m",
@@ -484,6 +590,9 @@
     },
     {
       "id": "nsrl-p10m-direct-head-nll-safe-set-v1",
+      "coordinate": { "track": "N", "parts": [10, 4], "slug": "n10_4" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 10, "data": 3, "representation": 1, "objective": 2, "optimizer": 4, "evaluation": 4 },
       "display_name": "NSRL p10m direct-head exact safe set",
       "family": "solomon",
       "lineage": "solomon/nsrl-p10m",
@@ -504,6 +613,9 @@
     },
     {
       "id": "nsrl-p10m-direct-head-cross-document-stability-v1",
+      "coordinate": { "track": "N", "parts": [10, 5], "slug": "n10_5" },
+      "record_revision": 1,
+      "factor_state": { "checkpoint": 10, "data": 4, "representation": 1, "objective": 3, "optimizer": 4, "evaluation": 5 },
       "display_name": "NSRL p10m cross-document direction stability",
       "family": "solomon",
       "lineage": "solomon/nsrl-p10m",
@@ -524,6 +636,9 @@
     },
     {
       "id": "holo-hrr-t512-public-corpus-v1",
+      "coordinate": { "track": "H", "parts": [512, 1], "slug": "h512_1" },
+      "record_revision": 1,
+      "factor_state": { "model": 1, "data": 1, "representation": 1, "objective": 1, "evaluation": 1, "replication": 0 },
       "display_name": "Holo HRR attention T=512 public-corpus verification",
       "family": "external",
       "lineage": "external/holo-hrr",
@@ -550,23 +665,97 @@
     },
     {
       "id": "zero-solomon-shared-task-bridge-v1",
+      "coordinate": { "track": "B", "parts": [1], "slug": "b1" },
+      "record_revision": 2,
+      "factor_state": { "zero_model": 1, "solomon_model": 1, "task": 1, "encoding": 1, "verifier": 1, "evaluation": 1 },
       "display_name": "ZERO.4 to Solomon shared-task replication bridge",
       "family": "cross_family",
       "lineage": "cross-family/zero-solomon",
       "kind": "replication_bridge",
+      "execution_status": "completed",
+      "scientific_outcome": "positive",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "ZERO.4 Q22 operation routing survives Solomon integer class-head training under the frozen shared task", "outcome": "positive" }
+      ],
+      "summary": "The prospectively frozen Solomon run scored 500/500 on seeds 1, 2, and 3, with identical predictions across all 500 promotion cases. The narrow operation-routing bridge passed without retraining after evaluation opened.",
+      "next_boundary": "Do not infer language-model or arithmetic-generation quality. Any successor must freeze a harder task that breaks prefix-only routing and tests compositional transfer.",
+      "sources": [
+        { "kind": "program_record", "path": "docs/PROGRAM.md", "record_id": "zero-solomon-replication-bridge" },
+        { "kind": "program_record", "path": "examples/shared-tasks/zero-solomon-q22-operation-v1.json", "record_id": "zero-solomon.q22-operation.v1" },
+        { "kind": "experiment_record", "path": "docs/experiments/EXP-007.md", "record_id": "EXP-007" }
+      ]
+    },
+    {
+      "id": "zero-solomon-compositional-routing-v1",
+      "coordinate": { "track": "B", "parts": [2], "slug": "b2" },
+      "record_revision": 1,
+      "factor_state": { "zero_model": 1, "solomon_model": 1, "task": 2, "encoding": 2, "verifier": 2, "evaluation": 2 },
+      "display_name": "ZERO.4 to Solomon shortcut-resistant routing",
+      "family": "cross_family",
+      "lineage": "cross-family/zero-solomon",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "negative",
+      "disclosure_status": "public",
+      "lifecycle_status": "closed",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "The unchanged Solomon sparse integer class head transfers Q22 routing across held-out template families after prefix shortcuts are removed and balanced distractors are added", "outcome": "negative" }
+      ],
+      "summary": "Training routing reached 100% on all seeds, but promotion rates were 42.5%, 43.0%, and 53.3%; the worst class was 0% and all-seed agreement was 53.1%. The fixed sparse class-head contract did not generalize.",
+      "next_boundary": "Do not tune against the opened promotion set. A successor needs a new frozen surface and a representation- or objective-level change with a representation-sufficiency diagnostic.",
+      "sources": [
+        { "kind": "program_record", "path": "examples/shared-tasks/zero-solomon-q22-compositional-routing-v1.json", "record_id": "zero-solomon.q22-compositional-routing.v1" },
+        { "kind": "experiment_record", "path": "docs/experiments/EXP-008.md", "record_id": "EXP-008" }
+      ]
+    },
+    {
+      "id": "reasoner-r3_9-active-law-v1",
+      "coordinate": { "track": "R", "parts": [3, 9], "slug": "r3_9" },
+      "record_revision": 1,
+      "factor_state": { "representation": 1, "law_language": 1, "query_policy": 1, "verifier": 1, "language_boundary": 1, "evaluation": 1 },
+      "display_name": "Reasoner (3,9) active compositional law induction",
+      "family": "zero",
+      "lineage": "zero/reasoner",
+      "kind": "scientific_experiment",
+      "execution_status": "completed",
+      "scientific_outcome": "positive",
+      "disclosure_status": "public",
+      "lifecycle_status": "experimental",
+      "evidence_status": "external_public",
+      "claim_results": [
+        { "claim": "Active evidence queries identify unseen compositions inside the registered typed integer program language without task labels or premature commits", "outcome": "positive" }
+      ],
+      "summary": "All 744 fresh sealed episodes, 2,844 active queries, 2,232 APPLY calls, 744 COMMIT calls, and 744 REPORT calls were exact; all registered controls failed as required.",
+      "next_boundary": "Freeze the (3,9) core and test whether a structured input adapter can be inferred from examples.",
+      "sources": [
+        { "kind": "program_record", "path": "docs/REASONER-LINE.md", "record_id": "reasoner-r3_9-active-law-v1" }
+      ]
+    },
+    {
+      "id": "reasoner-r4_0-representation-transfer",
+      "coordinate": { "track": "R", "parts": [4, 0], "slug": "r4_0" },
+      "record_revision": 1,
+      "factor_state": { "representation": 2, "law_language": 1, "query_policy": 1, "verifier": 1, "language_boundary": 1, "evaluation": 2 },
+      "display_name": "Reasoner 4.0 representation transfer",
+      "family": "zero",
+      "lineage": "zero/reasoner",
+      "kind": "scientific_experiment",
       "execution_status": "not_run",
       "scientific_outcome": "unknown",
       "disclosure_status": "public",
       "lifecycle_status": "open",
       "evidence_status": "documented",
       "claim_results": [
-        { "claim": "A ZERO.4 capability survives Solomon integer training under one shared task and agreement contract", "outcome": "unknown" }
+        { "claim": "A frozen (3,9) core can infer a structured adapter from examples and solve a fresh sealed representation without a task label, hand-coded switch, or core change", "outcome": "unknown" }
       ],
-      "summary": "The training and evaluation bytes plus both family encodings and verifiers are source-pinned. The bridge is technically ready, but no Solomon run or scientific outcome exists.",
-      "next_boundary": "Preregister exactly one Solomon experiment with a fixed model, compute budget, evaluation firewall, and agreement rule.",
+      "summary": "This is the next research question, not a compiled experiment. No source contract, compute, training, or sealed evaluation is authorized.",
+      "next_boundary": "Write and review a prospective contract that separates adapter transfer from unseen law composition and includes exact shortcut controls.",
       "sources": [
-        { "kind": "program_record", "path": "docs/PROGRAM.md", "record_id": "zero-solomon-replication-bridge" },
-        { "kind": "program_record", "path": "examples/shared-tasks/zero-solomon-q22-operation-v1.json", "record_id": "zero-solomon.q22-operation.v1" }
+        { "kind": "program_record", "path": "docs/REASONER-LINE.md", "record_id": "reasoner-r4_0-representation-transfer" }
       ]
     }
   ],
@@ -578,6 +767,7 @@
     { "from": "zero-q26-replay-tangent-seed2-v1", "to": "zero-q26-family-replication-v1", "relation": "replicated_by", "summary": "The diagnostic seed go prospectively opened seeds 1 and 3." },
     { "from": "zero-q26-family-replication-v1", "to": "zero-solomon-shared-task-bridge-v1", "relation": "enables", "summary": "The all-three-seed go clears the Zero family gate for a cross-family bridge." },
     { "from": "solomon-successor-v2", "to": "zero-solomon-shared-task-bridge-v1", "relation": "enables", "summary": "The replayed integer-transformer stack supplies the Solomon deployment substrate." },
+    { "from": "zero-solomon-shared-task-bridge-v1", "to": "zero-solomon-compositional-routing-v1", "relation": "opened", "summary": "The prefix-separable go opened a harder transfer test with a common prefix, balanced distractors, and held-out template families." },
     { "from": "zero5-c0-v1", "to": "zero5-c1-v1", "relation": "opened", "summary": "Tokenizer selection opened the native training proof." },
     { "from": "zero5-c1-v1", "to": "zero5-c2-v1", "relation": "opened", "summary": "Stable native training opened Atlas continuation." },
     { "from": "zero5-c2-v1", "to": "zero5-c3-v1", "relation": "opened", "summary": "The selected C2 checkpoint became the fixed base for evidence-task research." },
@@ -593,7 +783,8 @@
     { "from": "nsrl-p10m-target-margin-v1", "to": "nsrl-p10m-target-margin-trust-region-v1", "relation": "superseded_by", "summary": "A disjoint canonical-NLL guard addressed the preflight-to-development generalization failure." },
     { "from": "nsrl-p10m-target-margin-trust-region-v1", "to": "nsrl-p10m-direct-head-nll-guard-v1", "relation": "superseded_by", "summary": "The candidate objective changed from hard-negative margin to canonical NLL." },
     { "from": "nsrl-p10m-direct-head-nll-guard-v1", "to": "nsrl-p10m-direct-head-nll-safe-set-v1", "relation": "superseded_by", "summary": "The full ranked safe set replaced single-winner selection." },
-    { "from": "nsrl-p10m-direct-head-nll-safe-set-v1", "to": "nsrl-p10m-direct-head-cross-document-stability-v1", "relation": "opened", "summary": "An empty two-surface safe set opened a read-only stability diagnosis on new documents." }
+    { "from": "nsrl-p10m-direct-head-nll-safe-set-v1", "to": "nsrl-p10m-direct-head-cross-document-stability-v1", "relation": "opened", "summary": "An empty two-surface safe set opened a read-only stability diagnosis on new documents." },
+    { "from": "reasoner-r3_9-active-law-v1", "to": "reasoner-r4_0-representation-transfer", "relation": "opened", "summary": "Passing active law induction inside a fixed grammar exposes the hand-built input adapter as the next boundary." }
   ],
   "method_assessment": {
     "verdict": "The program is strong at truth preservation and experimental discipline, but weaker at maximizing information gain and controlling serial local-repair lineages.",
@@ -601,7 +792,8 @@
       "Prospective contracts, immutable hashes, exact replay, and fail-closed gates prevent attractive partial results from becoming promotion claims.",
       "Negative results remain first-class evidence and can close intervention families without opening hidden or downstream evaluation.",
       "The ZERO.4 Q2.3 through Q2.6 sequence shows successful causal refinement: local budget, cumulative authority, scalar continuation, then update direction.",
-      "Surprising positive results are replicated across frozen seeds before family promotion."
+      "Surprising positive results are replicated across frozen seeds before family promotion.",
+      "The EXP-007 to EXP-008 transition shows an efficient abstraction change: a perfect prefix-separable result was challenged once on a shortcut-resistant surface and the fixed class-head boundary closed cleanly."
     ],
     "failure_modes": [
       "Some lineages perform serial nearest-neighbor repairs to schedules, data mixtures, or candidate selection before testing the underlying representation or direction.",
@@ -620,9 +812,9 @@
       "Require major branches to declare rules_out, supports, supersedes, and next_allowed intervention edges."
     ],
     "priority_order": [
-      "Preregister one bounded Solomon run against the frozen ZERO.4 q22 shared task.",
+      "Run a read-only representation-sufficiency diagnosis of the failed shortcut-resistant bridge before choosing a new representation- or objective-level successor on fresh evaluation templates.",
       "Run a read-only NSRL frozen-representation sufficiency audit before another training method.",
-      "Decide whether ZERO5-C6.1 earns its separately authorized representation-level run.",
+      "Write the Reasoner 4.0 representation-transfer contract without authorizing execution.",
       "Import outstanding external evidence and settle verified upstream family evidence locally.",
       "Do not reopen closed local-coordinate, scalar-backtracking, ordinary paired-next-token, or public-proxy HRR-advantage branches without a new causal hypothesis."
     ]

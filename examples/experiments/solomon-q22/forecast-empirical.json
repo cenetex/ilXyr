@@ -1,0 +1,13 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "solomon.q22.forecast.empirical.v1",
+  "experiment_id": "solomon.q22-operation.three-seed.v1",
+  "forecaster": {
+    "id": "model://solomon/q22/forecaster-empirical",
+    "kind": "model",
+    "model_ref": "model://solomon/q22/training-liveness-forecast/v1"
+  },
+  "probabilities": {"go": 0.95, "no_go": 0.04, "execution_failure": 0.01},
+  "stake": 10,
+  "rationale": "All three training-only calibrations reached exact training routing with the same mistake curve. The forecast stays below certainty because the disjoint promotion rows remain unopened; seed agreement remains a separate robustness check."
+}

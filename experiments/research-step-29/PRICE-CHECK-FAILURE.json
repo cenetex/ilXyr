@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-09-08T16:00:51.871160+00:00",
+  "exact_instance_price_entry_equal": true,
+  "explanation": "The provider pricing document changed. The full selected Linux instance rate entry remains byte-equivalent after JSON parsing. Fresh checks compare that exact entry and retain the new document checksum.",
+  "failure": "whole_price_document_sha_changed",
+  "hourly_usd": "2.24208",
+  "launch_attempted": false,
+  "maximum_estimated_before_tax_usd": "2.99208",
+  "new_document_sha256": "e86533bf04e7e05512ae324dcbf40f376ce9561a2388855f600d574e732d12e0",
+  "previous_document_sha256": "e250897c0fa060229e60ef1c9e4dd26c6489d0fcd9330a4b876af3f33ccb9a7c"
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "ilxyr.execution_report.v1",
+  "job_package_ref": "artifact://sha256/1111111111111111111111111111111111111111111111111111111111111111",
+  "authorization_ref": "artifact://sha256/2222222222222222222222222222222222222222222222222222222222222222",
+  "launch_ref": "artifact://sha256/3333333333333333333333333333333333333333333333333333333333333333",
+  "environment_ref": "artifact://sha256/4444444444444444444444444444444444444444444444444444444444444444",
+  "executor": { "id": "service://toy/executor-v1", "kind": "service" },
+  "provider_instance_id": "i-example",
+  "machine_image_id": "ami-immutable",
+  "machine_image_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+  "run": {
+    "schema": "ilxyr.run.v1",
+    "id": "run.toy.remote.v1",
+    "experiment_id": "toy.remote.v1",
+    "started_at_ms": 1000,
+    "completed_at_ms": 2000,
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout": "",
+    "stderr": "",
+    "output_truncated": false,
+    "metrics": { "score": 0.75 }
+  },
+  "run_ref": "artifact://sha256/5555555555555555555555555555555555555555555555555555555555555555",
+  "outputs": [
+    {
+      "name": "metrics",
+      "uri": "https://artifacts.example/metrics.json",
+      "sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+      "size_bytes": 100
+    }
+  ],
+  "attestation": {
+    "payloadType": "application/vnd.in-toto.provenance+json",
+    "payload": "schema-fixture-only",
+    "signatures": [{ "keyid": "key://toy/executor/test", "sig": "schema-fixture-only" }]
+  },
+  "reported_at_ms": 3000
+}

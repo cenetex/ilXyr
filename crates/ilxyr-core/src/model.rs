@@ -293,6 +293,10 @@ pub struct ExperimentSpec {
     pub baseline: String,
     #[serde(default)]
     pub datasets: Vec<String>,
+    /// Optional immutable corpus release refs keyed by the dataset handles above.
+    /// When present, compilation resolves every handle and rejects registry drift.
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub dataset_bindings: BTreeMap<String, String>,
     #[serde(default)]
     pub models: Vec<String>,
     pub metrics: Vec<MetricSpec>,
@@ -305,6 +309,118 @@ pub struct ExperimentSpec {
     pub expected_outputs: Vec<String>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct ExperimentProposal {
+    pub schema: String,
+    pub id: String,
+    pub revision: u64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub predecessor_ref: Option<String>,
+    pub experiment_id: String,
+    pub proposer: ActorRef,
+    pub title: String,
+    pub summary: String,
+    pub hypothesis: String,
+    pub novelty: String,
+    pub family: ModelFamily,
+    pub baseline: String,
+    pub datasets: Vec<String>,
+    pub primary_metric: String,
+    pub success_operator: ComparisonOperator,
+    pub success_threshold: f64,
+    pub seeds: Vec<u64>,
+    pub compute_credits: u64,
+    pub evidence_level: AuthorityLevel,
+    pub export_policy: ExportPolicy,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum ProposalReviewSeverity {
+    Advisory,
+    Blocking,
+    Endorsement,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct ProposalReview {
+    pub schema: String,
+    pub id: String,
+    pub proposal_id: String,
+    pub proposal_ref: String,
+    pub reviewer: ActorRef,
+    pub category: String,
+    pub severity: ProposalReviewSeverity,
+    pub comment: String,
+    pub confidence: f64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct FrozenProposalCandidate {
+    pub schema: String,
+    pub id: String,
+    pub proposal_id: String,
+    pub proposal_ref: String,
+    pub revision: u64,
+    pub proposer: ActorRef,
+    pub review_refs: Vec<String>,
+    pub frozen_at_ms: u128,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ProposalContributionPackage {
+    pub schema: String,
+    pub id: String,
+    pub proposal_id: String,
+    pub proposal_ref: String,
+    pub candidate_ref: String,
+    pub review_refs: Vec<String>,
+    pub contributions: Vec<ResearchContribution>,
+    pub experiment: ExperimentSpec,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ProposalCompilation {
+    pub schema: String,
+    pub id: String,
+    pub proposal_id: String,
+    pub package_ref: String,
+    pub contribution_refs: BTreeMap<String, String>,
+    pub compiled_ref: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ProposalReadinessCheck {
+    pub check: String,
+    pub passed: bool,
+    pub detail: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ProposalStatus {
+    pub proposal_id: String,
+    pub current_ref: String,
+    pub revision: u64,
+    pub frozen: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub candidate_ref: Option<String>,
+    pub current_review_refs: Vec<String>,
+    pub packaged: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub package_ref: Option<String>,
+    pub compiled: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub compiled_ref: Option<String>,
+    pub readiness: Vec<ProposalReadinessCheck>,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct CompiledExperiment {
@@ -312,6 +428,8 @@ pub struct CompiledExperiment {
     pub spec: ExperimentSpec,
     pub source_digest: String,
     pub resolved_lineage: BTreeMap<String, String>,
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub resolved_datasets: BTreeMap<String, String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub shared_task_ref: Option<String>,
     pub evidence_authority: GroundingAuthority,
@@ -635,8 +753,50 @@ pub struct RunRecord {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub output_error: Option<String>,
     pub metrics: BTreeMap<String, f64>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub artifacts: Vec<RunOutputArtifact>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub source_attestation: Option<SourceSnapshot>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct RunOutputArtifact {
+    pub name: String,
+    pub uri: String,
+    pub sha256: String,
+    pub size_bytes: u64,
+    pub media_type: String,
+    pub provider_version: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct OciJobDispatch {
+    pub schema: String,
+    pub id: String,
+    pub experiment_id: String,
+    pub compiled_ref: String,
+    pub executor: ActorRef,
+    pub provider_job_ref: String,
+    pub idempotency_key: String,
+    pub materializations: BTreeMap<String, String>,
+    pub dispatched_at_ms: u128,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct OciJobCompletion {
+    pub schema: String,
+    pub id: String,
+    pub dispatch_ref: String,
+    pub executor: ActorRef,
+    pub exit_code: i32,
+    pub timed_out: bool,
+    pub metrics: BTreeMap<String, f64>,
+    #[serde(default)]
+    pub artifacts: Vec<RunOutputArtifact>,
+    pub completed_at_ms: u128,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -791,6 +951,10 @@ pub struct EpochBudget {
     pub acknowledgement_thresholds: AcknowledgementThresholds,
     pub signed_by: String,
     pub signed_at_ms: u128,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub valid_from_ms: Option<u128>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub expires_at_ms: Option<u128>,
     pub signature: PolicySignature,
 }
 
@@ -924,6 +1088,8 @@ pub struct ResearchEvent {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct VerificationReport {
+    #[serde(default)]
+    pub configuration_checked: bool,
     pub objects_checked: usize,
     #[serde(default)]
     pub blobs_checked: usize,

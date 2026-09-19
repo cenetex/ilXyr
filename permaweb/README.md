@@ -36,7 +36,7 @@ configured trusted publisher addresses; the canonical index remains the authorit
 ## Build and verify
 
 ```bash
-npm install
+npm ci
 npm test
 npm run bundle:verify -- jguWIRC2oP5gNWNmGNNeLIGD9t155X6orv9FREZmHBk
 ```

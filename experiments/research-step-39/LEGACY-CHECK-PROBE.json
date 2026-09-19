@@ -1,0 +1,226 @@
+{
+  "altered_nonce": 3,
+  "altered_row": {
+    "cell": 0,
+    "example_input": [
+      4,
+      1,
+      4
+    ],
+    "example_output": [
+      1,
+      4,
+      4
+    ],
+    "family_seed": "e5802de9fb5e647e",
+    "minimum_length": 4,
+    "nonce": 3,
+    "ordinal": 0,
+    "primitive_by_role": [
+      {
+        "bias": [
+          0,
+          2,
+          0
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "bias": [
+          1,
+          2,
+          2
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "bias": [
+          0,
+          0,
+          0
+        ],
+        "matrix": [
+          4,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "bias": [
+          0,
+          0,
+          0
+        ],
+        "matrix": [
+          4,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2
+        ]
+      },
+      {
+        "bias": [
+          0,
+          0,
+          0
+        ],
+        "matrix": [
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "bias": [
+          0,
+          0,
+          0
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          2,
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "bias": [
+          0,
+          0,
+          0
+        ],
+        "matrix": [
+          0,
+          0,
+          2,
+          0,
+          3,
+          4,
+          3,
+          0,
+          0
+        ]
+      },
+      {
+        "bias": [
+          4,
+          4,
+          4
+        ],
+        "matrix": [
+          0,
+          4,
+          0,
+          3,
+          0,
+          1,
+          0,
+          0,
+          4
+        ]
+      }
+    ],
+    "rejections": [
+      3,
+      0,
+      0,
+      0
+    ],
+    "surface_ids": [
+      450697716,
+      34247148,
+      776688497,
+      1780040376,
+      4022723724,
+      1221385082,
+      928270049,
+      1040001412
+    ],
+    "surface_to_role": [
+      6,
+      2,
+      1,
+      5,
+      0,
+      7,
+      4,
+      3
+    ],
+    "target": {
+      "bias": [
+        0,
+        2,
+        2
+      ],
+      "matrix": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1,
+        3,
+        0,
+        0
+      ]
+    },
+    "target_roles": [
+      4,
+      7,
+      1,
+      3
+    ]
+  },
+  "fresh_family_method_evaluations": 0,
+  "legacy_checker_accepted_invented_rejection_counts": true,
+  "legacy_checker_accepted_later_candidate": true,
+  "legacy_checker_sha256": "e317ecd42cf20500445fd132ea29abb08d71653b931119fcf5ffcfad55bb0698",
+  "original_first_candidate_was_eligible": true,
+  "original_nonce": 0,
+  "original_roster_sha256": "037caefb37b9656e5681dc3dd145a2cf20d4517582c5faf373b42265782da42e",
+  "schema": "ilxyr.reasoner_legacy_roster_probe.v1",
+  "scope": "Controlled validator alteration; historical cohorts remain unchanged",
+  "status": "coverage_gap_reproduced"
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:zero.q26.seed2.global-tangent-projection.v1",
+  "experiment_id": "zero.q26.seed2.global-tangent-projection.v1",
+  "family": "zero",
+  "seed": 2,
+  "outcome": "go",
+  "taxonomy": "measurement",
+  "mechanism": "Global all-six-slice replay-tangent projection over all trainable weights, applied at each committed pre-attempt state. A non-positive dot product leaves the candidate unchanged. Changed weights only; AdamW moments committed with them.",
+  "mechanism_tags": [
+    "gradient-projection",
+    "replay-guard",
+    "cumulative",
+    "quantity-gate"
+  ],
+  "summary": "Q2.6 seed 2 committed 700/700 full-scale attempts, produced six jointly feasible public checkpoints, selected update 500 at 1.1833% replay regression, and passed the disjoint promotion split. This earned the family replication step.",
+  "evidence_ref": "artifact://sha256/673c25881cee7431a1bc77e0eee63305165f8d9bece03383d63c082411fdc926",
+  "recorded_by": {
+    "id": "human://cenetex",
+    "kind": "human"
+  },
+  "recorded_at_ms": 1788301000000
+}
