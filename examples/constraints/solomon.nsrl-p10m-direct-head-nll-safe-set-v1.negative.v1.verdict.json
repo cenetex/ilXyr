@@ -1,0 +1,24 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:solomon.nsrl-p10m-direct-head-nll-safe-set-v1.negative.v1",
+  "experiment_id": "solomon.nsrl-p10m-direct-head-nll-safe-set-v1.negative.v1",
+  "family": "solomon",
+  "seed": 0,
+  "outcome": "no_go",
+  "taxonomy": "interference",
+  "mechanism": "Exact two-surface output-head search evaluating both unit directions for all eight ranked coordinates. Every proposal-descent direction worsened the document-disjoint guard, so the safe set was empty.",
+  "mechanism_tags": [
+    "output-head-search",
+    "nll-guard",
+    "document-disjoint",
+    "safe-set"
+  ],
+  "summary": "A prospectively frozen exact two-surface output-head search evaluated both unit directions for all eight ranked coordinates. Every proposal-descent direction worsened the document-disjoint guard, so the safe set was empty, exact rerun replay passed, the source model was retained, and public development plus all later gates stayed closed.",
+  "evidence_ref": "artifact://sha256/fcac9263a4c5366a0ed05034f87a4c0f5c15e40469e18b31ee275e91da5be404",
+  "retro_registration_ref": "solomon.nsrl-p10m-direct-head-nll-safe-set-v1.negative.v1",
+  "recorded_by": {
+    "id": "human://cenetex",
+    "kind": "human"
+  },
+  "recorded_at_ms": 1788300700000
+}

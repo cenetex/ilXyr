@@ -1,0 +1,23 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:solomon.nsrl-p10m-direct-head-cross-document-stability-v1.negative.v1",
+  "experiment_id": "solomon.nsrl-p10m-direct-head-cross-document-stability-v1.negative.v1",
+  "family": "solomon",
+  "seed": 0,
+  "outcome": "no_go",
+  "taxonomy": "interference",
+  "mechanism": "Read-only audit replaying eight proposal-descent output-weight directions across eight previously unused training documents. No direction strictly improved at least six documents with positive aggregate NLL improvement.",
+  "mechanism_tags": [
+    "output-head-search",
+    "cross-document",
+    "nll-guard"
+  ],
+  "summary": "A prospectively frozen read-only audit replayed eight proposal-descent output-weight directions across eight previously unused training documents. No direction strictly improved at least six documents with positive aggregate NLL improvement, every aggregate was negative, exact trace replay passed, and the same-coordinate-family follow-up gate plus all public and hidden stages stayed closed.",
+  "evidence_ref": "artifact://sha256/13dedcd040940e761c526d558be446076b10b157ebfe359a40d331a0242277c3",
+  "retro_registration_ref": "solomon.nsrl-p10m-direct-head-cross-document-stability-v1.negative.v1",
+  "recorded_by": {
+    "id": "human://cenetex",
+    "kind": "human"
+  },
+  "recorded_at_ms": 1788300800000
+}

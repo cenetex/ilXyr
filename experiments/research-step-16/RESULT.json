@@ -1,0 +1,86 @@
+{
+  "audit_source_bindings": {
+    "experiments/research-step-16/PLAN.md": {
+      "bytes": 1617,
+      "sha256": "30b421ba8e0dad42b1035abd44a9c74cf18eaf1de75b2cd7bcfe5ec5f2b75ae0"
+    },
+    "scripts/feral_process.py": {
+      "bytes": 5673,
+      "sha256": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526"
+    },
+    "scripts/research_solomon_answer_ownership.py": {
+      "bytes": 12059,
+      "sha256": "eb817c68076acdcec4d06dcabbd84398168c81df8b46292d071967e3792cd8fa"
+    },
+    "scripts/test_solomon_answer_ownership.py": {
+      "bytes": 6461,
+      "sha256": "168cfa35c9417536570164b4466815e6b500b47d15e3478204e27b3ae2030920"
+    }
+  },
+  "audit_source_commit": "3a65450a064270a6d2e542e732cca741412da4a7",
+  "checks": {
+    "combined_schema_suite": "passed",
+    "native_smoke": "passed",
+    "unit_tests": 10
+  },
+  "development_failures": [
+    {
+      "attempt": {
+        "error": "model byte roster differs",
+        "performance_evidence": false,
+        "phase": "source",
+        "schema": "ilxyr.solomon_answer_ownership_attempt.v1",
+        "source_commit": "96321943e1da7b67bf6c9b4954ff14e6057ac433",
+        "status": "failed"
+      },
+      "attempt_sha256": "12880731489049f9c929f621dff54591e37890244e665ae195c275cd1d420eae",
+      "cause": "The first independent reader omitted the candidate RMS normalization tail.",
+      "resolution": "Count the optional layer-dependent tail and test both accepted lengths plus a malformed tail.",
+      "tail_bytes": 1024
+    }
+  ],
+  "mechanism": {
+    "chosen_byte": "suffix-memory prediction",
+    "conditions": [
+      "mini-calibrated feature",
+      "NOPE positions",
+      "valid nonempty NSRLSM1 memory",
+      "successful native forward"
+    ],
+    "head_logit_range": [
+      -32768,
+      32767
+    ],
+    "rerank_logit_maximum": 32768,
+    "scope": "frozen candidate standard evaluation path"
+  },
+  "native_result": {
+    "all_suffix_orders": [
+      16,
+      8,
+      4,
+      3,
+      2,
+      1,
+      0
+    ],
+    "bytes": 21381,
+    "known_windows": 16,
+    "native_prediction_agreements": 30,
+    "paired_target_changes": 7,
+    "path": "experiments/research-step-16/NATIVE.json",
+    "sha256": "1e7d889df7d8bf91d04f6c7918057ee9ad4e8957451b2e8c95e957c458cb4e3b",
+    "source_bindings": 75,
+    "synthetic_windows": 14
+  },
+  "next_design": {
+    "accuracy_candidate": "Give the learned component a way to change the chosen answer; freeze the rule and fresh corpus before evaluation.",
+    "cost": "Compare all controls on the same frozen runtime and include complete setup and inference work.",
+    "current_candidate": "Measure fixed-answer confidence quality on fresh documents against fixed smoothing and train-only suffix count probabilities."
+  },
+  "nsrl_source_commit": "96321943e1da7b67bf6c9b4954ff14e6057ac433",
+  "performance_evidence": false,
+  "promotion_evidence": false,
+  "schema": "ilxyr.solomon_answer_ownership_review.v1",
+  "scope": "source_mechanism_audit_and_small_native_engineering_smoke"
+}

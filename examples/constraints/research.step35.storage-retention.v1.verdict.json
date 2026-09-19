@@ -1,0 +1,26 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-35/FAILURES.json",
+  "evidence_ref": "artifact://sha256/cb357f2342c1e9695447ca889f269deb45e14a83a3e194c1c5e833e853e5c551",
+  "experiment_id": "research.step35.storage-retention.v1",
+  "family": "ilxyr",
+  "id": "verdict:research.step35.storage-retention.v1",
+  "lineage_note": "Verify current and old object expiry before staging, and preserve earlier rules when adding a study.",
+  "mechanism": "storage retention",
+  "mechanism_tags": [
+    "bounded-cost",
+    "storage-retention"
+  ],
+  "outcome": "execution_failure",
+  "project": "weight_multiplicity",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The first live check found that the study bucket had no lifecycle configuration. The scoped repair added expiry for the new study prefixes.",
+  "taxonomy": "implementation"
+}

@@ -1,0 +1,14 @@
+{
+  "archive": "package-01.tar",
+  "bytes": 41840640,
+  "node_binary_sha256": "1bec56ef7cfa9a76f3e0b7c0a87f220eb73f23102b9c0b4c7529a3f7c3ce7c31",
+  "paid_launch_status": "awaiting_exact_package_and_budget_approval",
+  "plan_sha256": "7ddfbf97455e972c53f924088dd195396d82f47bb4ffcc5ab4af0b38eecb4413",
+  "prepared_sha256": "a24d3be934ff4d1575f3f468a4543638e180456015c18850be9aa84b90cdc09b",
+  "schema": "ilxyr.feral_coverage_cloud_package.v1",
+  "sha256": "c392e3a51d333e2a48b04bf91f9b6cab3959953b9afbd585f8aab59dd381872c",
+  "source_commit": "4eafdd9ad5e9eb84959624b7a41e0c1461c108cb",
+  "source_kit_sha256": "4da00d713fbc901a862de94493e21ffa1d00e6d1d13f775c32282b6a68ff1c13",
+  "staging_status": "waiting_for_sign_in",
+  "storage_path": "outputs/feral-cloud-step49-20260912"
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:zero.reasoner58-prose-mismatch-audit.v1",
+  "experiment_id": "zero.reasoner58-prose-mismatch-audit.v1",
+  "family": "zero",
+  "project": "reasoner",
+  "taxonomy": "implementation",
+  "outcome": "diagnostic_failure",
+  "evidence_kind": "posthoc_diagnostic",
+  "source_outcome": "prose and machine record differ",
+  "evidence_path": "experiments/research-step-4/REPORT.md",
+  "mechanism": "Agreement between the 5.8 public prose and machine result.",
+  "mechanism_tags": [
+    "report-generation",
+    "source-binding",
+    "evidence-preservation"
+  ],
+  "summary": "The prose describes twelve families and an older ratio. The current machine result has sixteen families and a measurement-floor decision. The shared audit records the correction.",
+  "lineage_note": "Generate the current prose from its bound machine record and preserve earlier summaries with their source identities.",
+  "evidence_ref": "artifact://sha256/2693f86c2b5e1c0d1755b0eb32374388d32c2bb821340a8f9a9eef6c4c8470bb",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788600443639
+}

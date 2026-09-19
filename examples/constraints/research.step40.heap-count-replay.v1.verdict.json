@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-40/FAILURES.json",
+  "evidence_ref": "artifact://sha256/8d5227c9c02af1995beaf7345435ac1c36cc760a7176b4844dc6b6e32a625fa5",
+  "experiment_id": "research.step40.heap-count-replay.v1",
+  "family": "zero",
+  "id": "verdict:research.step40.heap-count-replay.v1",
+  "lineage_note": "Independently reconstruct heap comparisons, batches, selected counts and maximum batch size.",
+  "mechanism": "heap count replay",
+  "mechanism_tags": [
+    "independent-checker",
+    "stage-cost",
+    "work-counters"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "reasoner",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The first checker accepted heap-comparison counts increased by one in all 256 rows while repeated rows stayed consistent.",
+  "taxonomy": "implementation"
+}

@@ -21,7 +21,7 @@ async function request(path = "/", init = {}) {
   );
 }
 
-test("server-renders the public ilXyr protocol index", async () => {
+test("server-renders the interactive public ilXyr protocol index", async () => {
   const response = await request("/", { headers: { accept: "text/html" } });
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -36,21 +36,34 @@ test("server-renders the public ilXyr protocol index", async () => {
   assert.match(response.headers.get("cache-control") ?? "", /s-maxage=300/);
 
   const html = await response.text();
-  assert.match(html, /<title>ilXyr — protocol index<\/title>/i);
-  assert.match(html, /This public website is a read-only/);
-  assert.match(html, /href="\/api\/status"/);
-  assert.match(html, /href="\/api\/protocols"/);
-  assert.match(html, /href="\/api\/experiments"/);
-  assert.match(html, /href="\/api\/environments"/);
-  assert.match(html, /href="\/api\/results"/);
-  assert.match(html, /href="\/.well-known\/ilxyr.json"/);
-  assert.match(html, /Known does not mean compatible/);
-  assert.match(html, /No remote result has passed independent ilXyr verification/);
-  assert.match(html, /There are no write or cloud-launch routes/);
-  assert.match(html, /provider-neutral adapter boundary/);
-  assert.match(html, /Separate report intake API — implemented, not deployed/);
-  assert.match(html, /There is no public intake address yet/);
+  assert.match(html, /<title>ilXyr — Evidence before execution<\/title>/i);
+  assert.match(html, /Evidence before/);
+  assert.match(html, /each research claim has a test with rules set in advance/i);
+  assert.match(html, /Every result/);
+  assert.match(html, /The evidence shapes the next question/);
+  assert.doesNotMatch(html, /keeps research work clear/i);
+  assert.match(html, /Explore the system/);
+  assert.match(html, /Read the/);
+  assert.match(html, /public data/);
+  assert.match(html, /EXP-008/);
+  assert.match(html, /REASONER-3.9/);
+  assert.match(html, /This site shows public project data/);
+  assert.match(html, /<code>\/api\/status<\/code>/);
+  assert.match(html, /<code>\/api\/protocols<\/code>/);
+  assert.match(html, /<code>\/api\/experiments<\/code>/);
+  assert.match(html, /<code>\/api\/environments<\/code>/);
+  assert.match(html, /<code>\/api\/results<\/code>/);
+  assert.match(html, /<code>\/\.well-known\/ilxyr.json<\/code>/);
+  assert.match(html, /Clear stages/);
+  assert.match(html, /cloud.launcher.diagnostic.v1/);
+  assert.match(html, /success · score 0.82/);
+  assert.match(html, /Live trial passed/);
+  assert.match(html, /Compute approval happens inside ilXyr/);
+  assert.match(html, /The reporting API is complete in the source code/);
+  assert.match(html, /Public rollout will add TLS/);
   assert.match(html, /remote-package-verify/);
+  assert.match(html, /remote-aws-preflight/);
+  assert.match(html, /remote-aws-launch/);
   assert.match(html, /remote-report-accept/);
   assert.doesNotMatch(html, /\/api\/proposals|proposal database/i);
 });
@@ -100,6 +113,12 @@ test("public API returns only static protocol data", async () => {
   assert.ok(status.status.some((item) =>
     item.key === "authenticated_network_report_intake" && item.value === "implemented_not_deployed"
   ));
+  assert.ok(status.status.some((item) =>
+    item.key === "general_cloud_launcher" && item.value === "implemented"
+  ));
+  assert.ok(status.status.some((item) =>
+    item.key === "paid_cloud_experiment_work" && item.value === "live_diagnostic_passed"
+  ));
 
   const environmentResponse = await request("/api/environments");
   const environmentIndex = await environmentResponse.json();
@@ -109,25 +128,31 @@ test("public API returns only static protocol data", async () => {
 
   const resultsResponse = await request("/api/results");
   const results = await resultsResponse.json();
-  assert.deepEqual(results.results, []);
+  assert.equal(results.results.length, 1);
+  assert.equal(results.results[0].experiment_id, "cloud.launcher.diagnostic.v1");
+  assert.equal(results.results[0].outcome, "success");
+  assert.equal(results.results[0].score, 0.82);
 
   const imageOptimizerResponse = await request("/_vinext/image?url=%2Fog.png&w=640&q=75");
   assert.equal(imageOptimizerResponse.status, 404);
 });
 
-test("public deployment has no database or private proposal code", async () => {
-  const [page, layout, styles, hosting, packageJson] = await Promise.all([
+test("public deployment is interactive without adding private state", async () => {
+  const [page, portal, layout, styles, hosting, packageJson] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/ProtocolPortal.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../.openai/hosting.json", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
 
-  assert.match(page, /Public HTTP API/);
-  assert.match(layout, /const title = "ilXyr — protocol index"/);
-  assert.doesNotMatch(page, /className=/);
-  assert.doesNotMatch(styles, /gradient|animation|box-shadow|border-radius/);
+  assert.match(page, /publicRoutes/);
+  assert.match(portal, /useState/);
+  assert.match(portal, /fetch\(activeRoute/);
+  assert.match(portal, /Use these endpoints to read public JSON/);
+  assert.match(layout, /const title = "ilXyr — Evidence before execution"/);
+  assert.match(styles, /\.api-console/);
   assert.match(hosting, /"d1": null/);
   assert.doesNotMatch(packageJson, /drizzle|database|ilxyr-lab-portal/);
 

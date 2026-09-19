@@ -1,0 +1,12 @@
+{
+  "schema": "ilxyr.aws_instance_closeout.v1",
+  "instance_id": "i-063967e75c99d82c8",
+  "image_id": "ami-0ab0461f645928576",
+  "instance_type": "c6i.large",
+  "state": "terminated",
+  "launch_time": "2026-09-03T20:02:55Z",
+  "state_transition_reason": "User initiated",
+  "public_ip_assigned": false,
+  "max_runtime_seconds": 300,
+  "watchdog_grace_seconds": 60
+}

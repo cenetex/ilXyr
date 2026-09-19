@@ -1,0 +1,28 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-54/RESULT.json",
+  "evidence_ref": "artifact://sha256/7918937c639897101c1a4e6f8a0d465cbd949d7a475bb5851e78bd117fb2c5d4",
+  "experiment_id": "research.step54.weight-yield.v1",
+  "family": "ilxyr",
+  "id": "verdict:research.step54.weight-yield.v1",
+  "lineage_note": "Cache known exact query results. Estimate new accepted rows under the final query and orbit rules at increasing occupancy before freezing a new budget.",
+  "mechanism": "Replacement-sampled pilot yield and released rejection keys",
+  "mechanism_tags": [
+    "oracle-budget",
+    "sampling-yield",
+    "query-cache",
+    "selection-capacity"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "weight_multiplicity",
+  "recorded_at_ms": 1789256104320,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "saved_trace_yield_failure",
+  "summary": "A verified read-only audit finds 1,962,195 repeated queries in 2,403,763 generation calls. Of those repeats, 1,960,732 miss their requested stratum. Nonzero row yield falls from 3,012 to 53 per full 250,000-call block. Pilot raw hits count repeated matches and differ from final selection yield.",
+  "taxonomy": "measurement"
+}

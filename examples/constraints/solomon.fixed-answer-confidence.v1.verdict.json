@@ -1,0 +1,28 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:solomon.fixed-answer-confidence.v1",
+  "experiment_id": "solomon.fixed-answer-confidence.v1",
+  "family": "solomon",
+  "project": "solomon",
+  "taxonomy": "measurement",
+  "outcome": "diagnostic_failure",
+  "evidence_kind": "posthoc_diagnostic",
+  "source_outcome": "analytic confidence control on the existing promoted candidate and component records",
+  "evidence_path": "experiments/research-step-10/RESULT.json",
+  "evidence_ref": "artifact://sha256/2791ceff8223c576123eba84cadc3092412e8d0ad70dda85535550daa4902e53",
+  "mechanism": "Forcing full confidence on each existing chosen byte gives Q15 error 2 * 32767 * mistakes. The combined candidate changes from 260536589 to 162655388 error at the same 2482 mistakes on 5896 targets.",
+  "mechanism_tags": [
+    "integer-transformer",
+    "probability-error",
+    "suffix-memory",
+    "confidence-control"
+  ],
+  "summary": "The recorded combined candidate gains 37.5691 percent under its probability error through confidence alone, with every chosen byte unchanged.",
+  "lineage_note": "Keep the promoted result and the earlier constant-context successor audit. Compare fixed-answer probability controls with exact normalized Brier scores, zero-probability events, answer counts, and full inference cost on fresh inputs.",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788611113630
+}

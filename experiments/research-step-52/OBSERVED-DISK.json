@@ -1,0 +1,13 @@
+{
+  "disk": {
+    "free_bytes": 27919421440,
+    "passes": false,
+    "required_bytes": 39795556352
+  },
+  "disk_sha256": "645ffb863c9d2a8484f622d621509a45786b7d726b3bd6a9839bbeaf2e4f7961",
+  "filesystem_sha256": "a3c56945ab74c9ed42cd45341051f2f627ee9abc0aa4d2350a2fcbe116f980e1",
+  "filesystem_text": "Filesystem     1024-blocks     Used Available Capacity Mounted on\n/dev/nvme0n1p1    83808236 56543176  27265060      68% /\n",
+  "schema": "ilxyr.zero4_observed_disk.v1",
+  "source_run": "zero4-45-20260912T204834Z",
+  "source_step51_verification_sha256": "b26bffd0ec6a8153aff0420671ec85171007df752c1f708c01e76cb9abb7a797"
+}

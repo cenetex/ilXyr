@@ -1,0 +1,176 @@
+{
+  "arms": [
+    "frozen",
+    "task_only",
+    "replay",
+    "replay_guard",
+    "replay_projection"
+  ],
+  "endpoint_worker_rule": "For task, BLiMP and TinyStories, worker i scores exactly the original case ordinals whose ordinal modulo worker count equals i. Each worker loads the same selected quantized model in its own process. Keep each worker output and receipt, restore original ordinal order, and require complete exact coverage. A parent process owns worker cancellation and joining. Its wait4 CPU includes its waited workers; count that parent once in study totals and report child costs as a breakdown.",
+  "endpoint_workers": 16,
+  "execution": "Local work builds and checks a tiny synthetic model. The full comparison requires a later frozen cloud host, image, toolchain, memory limit, package, preflight and exact budget approval.",
+  "final_cases": {
+    "blimp": 1005,
+    "retention_counts": [
+      1,
+      16,
+      16,
+      16,
+      16,
+      16
+    ],
+    "retention_windows": 81,
+    "task": 500,
+    "tinystories": 1000
+  },
+  "initial_teacher_sha256": "c865769461ef12374cadf3c5851016efb4bac06cf760e7599f610aa4cd35f137",
+  "input_manifests": {
+    "fresh": "48a43865bdfb61622e69c6fbb9e8863d702baf03a8b5c8032ea9e0896e30655f",
+    "windows": "f772e27fd95793394e7f2b34032bc8f38118fa108aa261a3128ed9158d3af8ee"
+  },
+  "limits": {
+    "child_seconds": 1800,
+    "grace_seconds": 2,
+    "max_log_bytes": 4194304,
+    "max_output_bytes": 17179869184,
+    "total_seconds": 43200
+  },
+  "local_checks": {
+    "attempts": 4,
+    "child_seconds": 60,
+    "chunk_attempts": 2,
+    "context": 16,
+    "dimensions": 8,
+    "endpoint_workers": 2,
+    "ff": 16,
+    "heads": 2,
+    "layers": 1,
+    "max_output_bytes": 67108864,
+    "production_teacher_forward_calls": 0,
+    "seeds": [
+      71
+    ],
+    "total_seconds": 240,
+    "training_cpu_us": 20000000
+  },
+  "measurements": "Keep every native process receipt, command, stdout, stderr, CPU, wall time and peak child RSS. Record setup and owner controller CPU, training CPU, final evaluation CPU, verification CPU and aggregate actual cost. Keep all attempts, samples, checkpoints, per-window retention losses, per-case task counts and per-case language scores. Keep failures and incomplete coverage in the final record.",
+  "order": "Rotate the five arms left by seed index. Train in rounds of one chunk per active arm. After all training and the selection seal, evaluate each arm in its fixed seed order: export, retention, task promotion, BLiMP, TinyStories. Case workers run together inside the current endpoint family and restore the original case order. Run the exact parser control once after the seal.",
+  "primary": {
+    "blimp_accuracy_drop_limit": 0.015,
+    "candidate_arms": [
+      "replay_guard",
+      "replay_projection"
+    ],
+    "references": [
+      "frozen",
+      "replay"
+    ],
+    "rule": "A candidate passes this fixed-roster engineering gate only if, in each of the three seeds, its exact-artifact count gains at least 25 of 500 cases against both frozen and plain replay; all six source mean losses grow by at most 1.5 percent against the same-seed frozen model; BLiMP raw-choice accuracy drops by at most 1.5 percentage points; TinyStories pooled bits per byte grow by at most 1.5 percent; and rejected state mutations are zero in all arms. Every planned arm and endpoint must complete. Report both candidates even when neither passes.",
+    "scope": "The task grammar makes a deterministic parser and exact kernel a complete reference. Learned results test retained operation routing, with all training and final evaluation costs. Broader reasoning or language generalization needs separate data.",
+    "source_relative_loss_limits": [
+      0.015,
+      0.015,
+      0.015,
+      0.015,
+      0.015,
+      0.015
+    ],
+    "task_gain_fraction": 0.05,
+    "tinystories_relative_bits_per_byte_limit": 0.015,
+    "uncertainty": "These are exact gates on fixed rosters and three seeds. Report each seed and source, paired per-case changes, and descriptive paired standard errors for language and retained windows. One foundation window has no estimated sampling error. These errors describe observed case variation and are not confidence claims about other books, tasks, seeds or machines."
+  },
+  "prior_failures": [
+    "Q2.9 improved task training loss and passed its replay guard while TinyStories failed the old language gate.",
+    "Step41 found duplicate canonical task keys across old splits.",
+    "Step42 found the first Blake window quota impossible before selection.",
+    "Step42 synthetic guarded replay improved the equal-source mean by 21.51 percent while dialogue endpoint loss grew by 4.22 percent."
+  ],
+  "prior_plan_sha256": "dd24ba5662dde39de82ffbc53d3dfb6a8de438f0907998e28576df7780575127",
+  "question": "At one fixed training CPU allowance, does guarded replay improve exact operation routing over plain replay while every retained source and both language tests stay within their fixed limits?",
+  "revision_reason": "The historical Q2.9 language gate used sixteen workers. Bind sixteen independent task and language workers per selected model for the full comparison. Keep the exact cases, model selection, training allowance and outcome rules. First prove per-case equality to one-worker scoring and complete accounting of waited descendants on small synthetic cases.",
+  "schema": "ilxyr.zero4_study_plan.v3",
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "selection": {
+    "rule": "For each arm and seed, select the latest complete checkpoint whose cumulative training child CPU plus charged controller CPU is within 600 seconds. Preserve each checkpoint, including a completed chunk that crosses the allowance. The frozen teacher is the fallback at zero attempts. Failed arms keep partial records and make the comparison incomplete. Selection uses only cost, attempt count and native guard stop state.",
+    "scope": "The allowance covers training child processes, their native guard probes, checkpoint copies, sample checks and owner controller work. Automatic training validation is skipped because selection uses CPU and progress. Initial manifest verification and final evaluation costs are reported separately. A chunk may finish over the allowance; charge all of it to actual cost and exclude that checkpoint from selection.",
+    "seal": "Finish selection for all fifteen arm-seed pairs and write a bound selection file before any task promotion, retention endpoint or language worker starts. Each selected model receives each final case once. Retain identical baseline evaluations for all three seeds in fresh processes; use no result cache.",
+    "training_cpu_us": 600000000
+  },
+  "series": "zero4-step44",
+  "source_commit": "9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d",
+  "source_order": [
+    "zero-foundation",
+    "shakespeare",
+    "blake",
+    "crowley",
+    "bible-kjv",
+    "literary-dialogue"
+  ],
+  "teachers": {
+    "zero1": "3c74025734b0408fbf54aaa9e1481d72590cdc6d1853486a965a698e10790816",
+    "zero2": "347b94f21917e1d1ee4d5fb0512c9d29e2724ae401545cec7495aa4ae9515afc",
+    "zero3": "c865769461ef12374cadf3c5851016efb4bac06cf760e7599f610aa4cd35f137"
+  },
+  "training": {
+    "attempts": 100,
+    "automatic_validation": false,
+    "batch": 2,
+    "chunk_attempts": 10,
+    "distill": [
+      [
+        0.25,
+        0.05,
+        0.1
+      ],
+      [
+        0,
+        0.2,
+        0.15
+      ],
+      [
+        0,
+        0.2,
+        0.15
+      ],
+      [
+        0,
+        0.2,
+        0.15
+      ],
+      [
+        0,
+        0.2,
+        0.15
+      ],
+      [
+        0,
+        0.1,
+        0.2
+      ]
+    ],
+    "dropout": 0,
+    "guard_budget": 0.015,
+    "learning_rate": 2e-05,
+    "max_rejections": 8,
+    "replay_weights": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "task_weight": 4,
+    "teacher_weights": [
+      0.2,
+      0.2
+    ],
+    "validation_batches": 7,
+    "warmup": 0,
+    "zero1_weight": 0.25
+  }
+}

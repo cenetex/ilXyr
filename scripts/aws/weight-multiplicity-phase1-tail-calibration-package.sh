@@ -42,12 +42,15 @@ trap 'rm -rf "$package_dir"' EXIT
 mkdir -p "$package_dir/examples/weight-multiplicity" \
   "$package_dir/experiments/weight-multiplicity/phase05" \
   "$package_dir/experiments/weight-multiplicity/phase1" \
-  "$package_dir/scripts"
+  "$package_dir/scripts/lib"
 cp "$calibration" "$plan" "$manifest" "$systems" "$contract" "$governance" \
   "$package_dir/examples/weight-multiplicity/"
 cp "$preflight" "$package_dir/experiments/weight-multiplicity/phase05/"
 cp "$authorization" "$package_dir/experiments/weight-multiplicity/phase1/"
 cp "$runner" "$package_dir/scripts/"
+cp scripts/lib/oracle-resource-accounting.mjs scripts/lib/oracle-query-batch.mjs \
+  scripts/lib/oracle-attempt-trace.mjs "$package_dir/scripts/lib/"
+node "$package_dir/scripts/run-weight-multiplicity-phase1-corpus.mjs" --self-test
 cp "$lie_source" "$package_dir/lie-2.2.2.tar.gz"
 cp "$zero_source" "$package_dir/zero-source.tar.gz"
 

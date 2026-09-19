@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-57/FINDINGS.json",
+  "evidence_ref": "artifact://sha256/07bbbc5429f6d1dacc703a8e33e1b73011013f3a1cf268f22fbce18cd4bb212c",
+  "experiment_id": "research.step57.zero4-cloud-adapter.v1",
+  "family": "zero",
+  "id": "verdict:research.step57.zero4-cloud-adapter.v1",
+  "lineage_note": "Test the real cloud adapter command through a controlled native boundary, then bind the repaired adapter to a new exact package and approval.",
+  "mechanism": "Cloud adapter handoff to the full study controller",
+  "mechanism_tags": [
+    "fixed-runtime",
+    "bounded-cost",
+    "controller-handoff"
+  ],
+  "outcome": "execution_failure",
+  "project": "zero4",
+  "recorded_at_ms": 1789264089528,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "execution_failure",
+  "summary": "The 160 GiB disk passed its reserve check. The cloud adapter omitted its full-mode flag, so the study stopped with zero native processes. Failure collection and provider cleanup verified.",
+  "taxonomy": "implementation"
+}

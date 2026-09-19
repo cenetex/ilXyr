@@ -1,0 +1,177 @@
+{
+  "failures": [
+    {
+      "actual_instances_created": 0,
+      "affected_projects": [
+        "solomon",
+        "weight"
+      ],
+      "after": {
+        "feral_coverage": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        },
+        "reasoner_study": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        },
+        "solomon": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        },
+        "weight": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        },
+        "zero4": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        }
+      },
+      "after_sha256": "c1aca4dfa29232a4ecc3d8eae5d1ee03f3bf761345dd367735139bcac3671d1d",
+      "before": {
+        "feral_coverage": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        },
+        "reasoner_study": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        },
+        "solomon": {
+          "actual_instances_created": 0,
+          "error": null,
+          "provider_calls": 2,
+          "provider_operations": [
+            [
+              "sts",
+              "get-caller-identity"
+            ],
+            [
+              "ec2",
+              "run-instances"
+            ]
+          ],
+          "receipt": {
+            "instance_id": "i-0123456789abcdef0",
+            "launch_epoch_seconds": 1789245428,
+            "package_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "package_version": "fixture-version",
+            "plan_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "request_sha256": "eb3e7ec045d99d33d06b455437c82bbaa92e679ceb8e083b070f873c86df4329",
+            "run_id": "solomon38-20260912T000000Z",
+            "status": "launched",
+            "user_data_sha256": "516b03596d13e9b326d4aad03059d5742faf2bf09183aed37abf2040c46e0329"
+          },
+          "submitted_paid_request": true
+        },
+        "weight": {
+          "actual_instances_created": 0,
+          "error": null,
+          "provider_calls": 2,
+          "provider_operations": [
+            [
+              "sts",
+              "get-caller-identity"
+            ],
+            [
+              "ec2",
+              "run-instances"
+            ]
+          ],
+          "receipt": {
+            "instance_id": "i-0123456789abcdef0",
+            "launch_epoch_seconds": 1789245428,
+            "package_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "package_version": "fixture-version",
+            "plan_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "request_sha256": "eb3e7ec045d99d33d06b455437c82bbaa92e679ceb8e083b070f873c86df4329",
+            "run_id": "weight35-20260912T000000Z",
+            "status": "launched",
+            "user_data_sha256": "516b03596d13e9b326d4aad03059d5742faf2bf09183aed37abf2040c46e0329"
+          },
+          "submitted_paid_request": true
+        },
+        "zero4": {
+          "actual_instances_created": 0,
+          "error": "fresh successful preflight required",
+          "provider_calls": 0,
+          "provider_operations": [],
+          "receipt": null,
+          "submitted_paid_request": false
+        }
+      },
+      "before_sha256": "70d49c93ac59a0c5ae734e10ffcb4d63538fd0b57d34b12a84111bc39ff758e7",
+      "before_test_log_sha256": "e3970322a0c9c9cd57d29f7c36e31bbc546514d223f1897d42b71b63e58f2df6",
+      "id": "preflight-for-other-run",
+      "impact": "The launch could use an output-prefix check made for another run.",
+      "observed": "Both older launchers accepted a fresh preflight for a different run ID. The controlled test reached one fake EC2 request in each.",
+      "repair": "The preflight records its run ID and the launcher requires an exact match. The shared tests cover all five projects."
+    },
+    {
+      "actual_instances_created": 0,
+      "date": "2026-09-12",
+      "exit_code": 255,
+      "id": "aws-session-expired",
+      "observed": "Error when retrieving token from sso: Token has expired and refresh failed",
+      "profile": "default",
+      "resolution": "The configured SSO login completed, the expected account verified, and all five free provider checks passed.",
+      "status": "resolved_by_fresh_sso_login"
+    },
+    {
+      "actual_instances_created": 0,
+      "id": "provider-metadata-comparison",
+      "observed": "The whole-response equality check included TransitionDefaultMinimumObjectSize, which is provider response metadata outside the submitted Rules object.",
+      "proof_sha256": "8915ade9f7ae80a925ffdef88485d7566f1c3aff777be4d5c98235284d5aa87c",
+      "provider_write_count": 1,
+      "resolution": "Compare the submitted Rules with returned Rules, then verify every prior rule and provider metadata field separately. All eight earlier rules and the metadata remain identical; twelve rules cover the three new packages and result prefixes.",
+      "status": "verified_after_comparison_repair"
+    },
+    {
+      "actual_instances_created": 0,
+      "ci_attempt": 1,
+      "ci_run": 34718366356,
+      "head": "c4ee4042b504a283c4e90e9d6ae6e8d7d4e949f1",
+      "id": "ci-public-build-input-timeout",
+      "log_sha256": "907952d9f5b096ee5777be0fb15a39ac195a725cb6054d23503042e1639a6a28",
+      "observed": "The weight source-kit job timed out after 60 seconds while opening a fixed public build-input URL. The job stopped before compilation.",
+      "resolution": "The same job passed on its second attempt with the same code and fixed input hashes.",
+      "retry_attempt": 2,
+      "retry_receipt_sha256": "e812f5ea90dccb58983a9fd598aa7a6e29d618e86d063a72bf23f9627d735340",
+      "status": "unchanged_retry_passed"
+    }
+  ],
+  "preserved_source_reproduction": {
+    "sha256": "07f7b51d9c969f9a0ebd191fb5996a133f98008761a005125fe6dfe8f40c51d0",
+    "status": "reproduced_from_preserved_sources"
+  },
+  "schema": "ilxyr.research_launch_readiness_failures.v1"
+}

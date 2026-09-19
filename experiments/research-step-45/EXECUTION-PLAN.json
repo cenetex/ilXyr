@@ -1,0 +1,150 @@
+{
+  "budget": {
+    "billable_storage_and_download_gb_ceiling": "18",
+    "calculated_ceiling_usd": "11.4391",
+    "compute_ceiling_usd": "9.18",
+    "compute_usd_per_hour": "0.68",
+    "disk_ceiling_usd": "0.12",
+    "disk_usd_per_gb_month": "0.08",
+    "download_ceiling_usd": "1.62",
+    "download_usd_per_gb": "0.09",
+    "free_tier_assumed": false,
+    "get_usd_per_request": "0.0000004",
+    "ipv4_ceiling_usd": "0.0675",
+    "ipv4_usd_per_hour": "0.005",
+    "margin_usd": "0.5609",
+    "maximum_before_tax_usd": "12.00",
+    "put_usd_per_request": "0.000005",
+    "request_allowance_usd": "0.01",
+    "s3_usd_per_gb_month": "0.023",
+    "storage_ceiling_usd": "0.4416",
+    "tax_included": false
+  },
+  "compiler_identity": "cc (Debian 12.2.0-14+deb12u1) 12.2.0\nCopyright (C) 2022 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "controller_bytes": 6717440,
+  "controller_sha256": "b00e96da55ce4f0711bdd28d4ef5f10fafc7ed5eb24dfd82da36b72883fab884",
+  "controller_source_commit": "8355feec434cc9be4a25bad7eaced0aaf8fa2f12",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "TZ": "UTC",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "implementation": {
+    "build_zero4_study_source.py": "14ccb5d8f711b15b98da199bd0c78a82c4c62f1d2a48beafd5e1b0438eaf02d6",
+    "build_zero4_window_source.py": "c4aed406ef7817044499a7349c227e2eea4102a827cdc19a6ada891e4bc36664",
+    "check_zero4_study.py": "59c5d58ffcc6bafd68c737aafae8b949c356a7b3fd03e623ad62bc1cc81abc24",
+    "feral_process.py": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526",
+    "zero4_endpoint.py": "7e28404bdbe54b94974a46d8bf74eb807877476c862efacb1788c86aa79c8978",
+    "zero4_fresh_data.py": "111f7293f51d55eb018c6c86a48ae42d53d76b213d86e0cae281af0fba10f734",
+    "zero4_native_gold.c": "e79c48d971a8934a5937bd908e7a14701657b09195feb52b7e87210dadc24567",
+    "zero4_study.py": "afbf5d916b798a5d50a2386be60f45ca5ffa431f70a99ed5e10d6fa1c33f61cd",
+    "zero4_study_scores.py": "537cad43bb0f8c21e2c9755bc84e347779aa9b442c281dc8f3a62ff037e2c380",
+    "zero4_task_cases.c": "0181648846c075a0ff3493a8c0f99a92e3e9686eeb906aadf101ac34604cb048",
+    "zero4_window_data.py": "1cdc3266c8ab713f5170442175a0d829d42f698ab73b4898da31a08ed98e95bb",
+    "zero4_window_io.h": "b43a6e8ace022b941479dd113cf1057834739dfa35af0c5e2189c2a1eff03af9"
+  },
+  "limits": {
+    "collection_deadline_seconds": 48540,
+    "container_memory_gib": 24,
+    "container_pids": 1024,
+    "controller_deadline_seconds": 44400,
+    "cpuset": "0-15",
+    "max_instance_seconds": 48600,
+    "setup_deadline_seconds": 1200,
+    "shutdown_at_seconds": 48570,
+    "tmpfs_mib": 512
+  },
+  "prepared": {
+    "bytes": 48056320,
+    "manifest_sha256": "ed1caf4772d0100108251b9a5270b07330452a393ebdfea853dcdaf492c83e3a",
+    "sha256": "7df0fb342d3b9baf52583510a0e5c731a8a11fc90b419faa54770250f42f3032"
+  },
+  "price_products": {
+    "disk_usd_per_gb_month": [
+      "AmazonEC2",
+      "JG3KUJMBRGHV3N8G",
+      "GB-Mo"
+    ],
+    "download_usd_per_gb": [
+      "AWSDataTransfer",
+      "HQEH3ZWJVT46JHRG",
+      "GB"
+    ],
+    "get_usd_per_request": [
+      "AmazonS3",
+      "ZWQ6Q48CRJXX4FXE",
+      "Requests"
+    ],
+    "ipv4_usd_per_hour": [
+      "AmazonVPC",
+      "4GQUNXTFWVSGPUZK",
+      "Hrs"
+    ],
+    "put_usd_per_request": [
+      "AmazonS3",
+      "E9YHNFENF4XQBZR6",
+      "Requests"
+    ],
+    "s3_usd_per_gb_month": [
+      "AmazonS3",
+      "WP9ANXZGBYYSGJEA",
+      "GB-Mo"
+    ]
+  },
+  "price_scope": "These rates are frozen ceilings. Free preflight must verify current provider rates at or below each ceiling before launch.",
+  "provider": {
+    "account": "022118847419",
+    "ami_id": "ami-0d3378afe7683c867",
+    "architecture": "x86_64",
+    "delete_on_termination": true,
+    "disk_gib": 80,
+    "disk_iops": 3000,
+    "disk_throughput": 125,
+    "disk_type": "gp3",
+    "encrypted": true,
+    "instance_profile": "ilxyr-feral-7b-calibration-ec2",
+    "instance_type": "c6i.4xlarge",
+    "memory_mib": 32768,
+    "public_ipv4": true,
+    "region": "us-east-1",
+    "root_device": "/dev/xvda",
+    "root_snapshot_id": "snap-00fc8bf70edbceb6c",
+    "security_group_id": "sg-02b40b678ab46e5f4",
+    "subnet_id": "subnet-6d16a437",
+    "vcpus": 16
+  },
+  "python_identity": "Python 3.11.2",
+  "result_collection": "Archive up to 16 GiB plus 64 MiB overhead. Stream at most five 4 GiB objects, each with its own immutable version and SHA-256; bind ordered parts and the whole archive in collection.json. Keep partial parts and errors if collection fails.",
+  "runtime_image": "docker.io/library/rust@sha256:4e4a7e7939c17991ab35f2b8c2e67593980f771d28f6b1254b1850f860fd0c7f",
+  "runtime_image_id": "sha256:a3535ab419a167bf1c5acc0ea5d536c358152a9fb8dd8504068ef24bb0f4a1f1",
+  "schema": "ilxyr.zero4_cloud_plan.v1",
+  "storage": {
+    "archive_chunk_bytes": 4294967296,
+    "bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1",
+    "budget_storage_days": 32,
+    "current_expiry_days": 30,
+    "max_archive_bytes": 17246978048,
+    "max_archive_chunks": 5,
+    "max_archive_members": 8192,
+    "max_cloud_objects_per_run": 8,
+    "max_host_log_bytes": 16777216,
+    "maximum_downloads": 1,
+    "noncurrent_expiry_days": 1,
+    "package_prefix": "packages/zero4-45/",
+    "result_prefix": "runs/zero4-45-"
+  },
+  "study_limits": {
+    "child_seconds": 1800,
+    "grace_seconds": 2,
+    "max_log_bytes": 4194304,
+    "max_output_bytes": 17179869184,
+    "total_seconds": 43200
+  },
+  "study_plan_sha256": "b538f826b010daedec222da11b3bb1881fcf16091f95c6fa2c44cd0ef38581a0"
+}

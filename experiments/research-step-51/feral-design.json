@@ -1,0 +1,127 @@
+{
+  "schema": "ilxyr.constraint_diff_report.v1",
+  "report_id": "constraint-diff:research.step51.feral",
+  "experiment_id": "research.step51.feral",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "ledger_ref": "artifact://sha256/23934f7d4e72aed4330f14a63d84784a94fb28ed74fc7bc39c850cc08b74a931",
+  "generated_at_ms": 1789248868719,
+  "proposed_mechanism_tags": [
+    "fact-selection",
+    "wording-transfer",
+    "calculator-control",
+    "source-provenance"
+  ],
+  "matches": [
+    {
+      "verdict_id": "verdict:research.step47.filing-source-fetch.v1",
+      "experiment_id": "research.step47.filing-source-fetch.v1",
+      "family": "feral",
+      "outcome": "execution_failure",
+      "taxonomy": "venue",
+      "matched_tags": [
+        "source-provenance"
+      ],
+      "verdict_summary": "The SEC filing endpoints returned HTTP 403 for the Apple and Costco source intake. The fixed company-hosted copies were recovered and hashed.",
+      "same_mechanism_tags": false,
+      "project": "feral",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Preserve failed intake receipts and use exact company-hosted source bytes for preparation and CI reconstruction.",
+      "verdict_ref": "artifact://sha256/ee675de343c07a9c5403a00877c7b63a807c543b04c60413cc26d3091242fd1b",
+      "evidence_ref": "artifact://sha256/acae1f25543d6a5518a1a3086f54d1f61cb21769d4f0b9f4302e4a82011d05e8",
+      "evidence_path": "experiments/research-step-47/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step48.selected-series-check.v1",
+      "experiment_id": "research.step48.selected-series-check.v1",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "fact-selection",
+        "source-provenance"
+      ],
+      "verdict_summary": "The first checker accepted a selected-series label changed from operating income to net income while the operands still named Operating income. All three passes and output inventories were altered together.",
+      "same_mechanism_tags": false,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Require selected-series order and completion to agree with source operand labels, including partial abstentions.",
+      "verdict_ref": "artifact://sha256/74112394b9426700ad65cf73780aaa56b8b97656e8eb336cc2bc5f5daea7bdf3",
+      "evidence_ref": "artifact://sha256/15fc33c81a87cd7ad1f04baa2b3910c2608caffb4b90f35c63f82f4c95d13128",
+      "evidence_path": "experiments/research-step-48/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step48.wording-coverage.v1",
+      "experiment_id": "research.step48.wording-coverage.v1",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "fact-selection",
+        "wording-transfer",
+        "calculator-control"
+      ],
+      "verdict_summary": "In the invented fixture, calculator v2 answered all 21 canonical numeric questions and zero of their 21 paraphrases. It correctly abstained on all sixteen required cases.",
+      "same_mechanism_tags": false,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "opened_engineering; invented fixture; zero fresh predictor calls",
+      "lineage_note": "Measure canonical and varied wording separately in the fixed fresh control comparison. Use the measured gap to set the next fact and operation selection target.",
+      "verdict_ref": "artifact://sha256/3e3401b4dbddb997f90002de739b9abe2884c0d55c3f2ad94795f03a6ceef841",
+      "evidence_ref": "artifact://sha256/b28d4928ad413a7280bc584d41ad3f4651fc7d907b5860df35faff3e0f427781",
+      "evidence_path": "experiments/research-step-48/SMOKE.json"
+    },
+    {
+      "verdict_id": "verdict:research.step50.provider-response-fields.v1",
+      "experiment_id": "research.step50.provider-response-fields.v1",
+      "family": "ilxyr",
+      "outcome": "execution_failure",
+      "taxonomy": "implementation",
+      "matched_tags": [
+        "source-provenance"
+      ],
+      "verdict_summary": "The lifecycle check compared the whole provider response with the submitted rules and failed on extra provider metadata. The submitted rules and retained metadata later verified separately.",
+      "same_mechanism_tags": false,
+      "project": "program",
+      "evidence_kind": "operational_failure",
+      "source_outcome": "Published preparation diagnostic; original scope retained.",
+      "lineage_note": "Compare submitted rules with returned rules, then verify every prior rule and provider metadata field separately.",
+      "verdict_ref": "artifact://sha256/2b8180aca1202887ea66c259e61ba9b0567f08a20f92e7aeaf3d0336b43caf78",
+      "evidence_ref": "artifact://sha256/546495231305b47e0a4a3a689ecd16c75e0e835c6041ce842ad89e8bd07f46a2",
+      "evidence_path": "experiments/research-step-50/FAILURES.json"
+    },
+    {
+      "verdict_id": "verdict:research.step51.feral-outcome.v1",
+      "experiment_id": "research.step51.feral-outcome.v1",
+      "family": "feral",
+      "outcome": "complete_no_go",
+      "taxonomy": "transfer",
+      "matched_tags": [
+        "fact-selection",
+        "wording-transfer",
+        "calculator-control"
+      ],
+      "verdict_summary": "On the fixed fresh roster, v2 answered 77 of 82 canonical numeric questions and zero of 82 paraphrases. It gave one numeric answer on a required-abstention case and correctly abstained on 63 of 64 such cases.",
+      "same_mechanism_tags": false,
+      "project": "feral",
+      "evidence_kind": "existing_public_result",
+      "source_outcome": "complete_no_go",
+      "lineage_note": "Diagnose the wording failures and the erroneous answer on a required-abstention case. Freeze a fact and operation selector with explicit ambiguity handling.",
+      "verdict_ref": "artifact://sha256/a3e95cf2182840f8cbada42e00731f4b1fb04d7d8e4ea0a03c2ed96b47fcc3a2",
+      "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+      "evidence_path": "experiments/research-step-51/FINDINGS.json"
+    }
+  ],
+  "taxonomy_counts": {
+    "transfer": 1,
+    "interference": 0,
+    "measurement": 1,
+    "venue": 1,
+    "implementation": 2
+  },
+  "superseded_entries": 0,
+  "proposed_change": "Require selected facts to match the requested entity, test an unrelated present series when the requested series is absent, and broaden operation parsing with explicit year roles. Preserve the failed fresh result and register a new evaluation roster.",
+  "summary": "5 prior results share these mechanism tags. Review their evidence and the required design changes.",
+  "recommendation": "review"
+}

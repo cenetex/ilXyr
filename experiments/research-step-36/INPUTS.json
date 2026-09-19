@@ -1,0 +1,306 @@
+{
+  "ci_run": "https://github.com/atimics/zero-grounded-literary-lm/actions/runs/34283379346",
+  "files": {
+    "eligible-macos-15/SMOKE.json": {
+      "bytes": 6056,
+      "sha256": "7f6c774919213a6e352311301869bab809c891f83c5311c281250865a96e06f4"
+    },
+    "eligible-macos-15/TERMINAL.json": {
+      "bytes": 104,
+      "sha256": "5dacf2be62bc8acfae79e68c08607a283dece7d8cb44530d06ce49d45986202a"
+    },
+    "eligible-macos-15/cohort.jsonl": {
+      "bytes": 3059,
+      "sha256": "5fb9c0f241d06df59b98ff3a8ecd4631f2ec496577aa8df44cb2382900277bfc"
+    },
+    "eligible-macos-15/cohort.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-macos-15/cohort.terminal.json": {
+      "bytes": 304,
+      "sha256": "e9c5988f804a9fe821163ed4c4f7539994fd4989c46306d3b19db5d9ecd4908a"
+    },
+    "eligible-macos-15/heap.json": {
+      "bytes": 34,
+      "sha256": "a581d2b6bfd4084ea1c09a2f15e7f800dd1ad9978910a9ee80a39917796f4b60"
+    },
+    "eligible-macos-15/missing-model.jsonl": {
+      "bytes": 321,
+      "sha256": "4f1bd9fa8dc4b102077245c7ebff097601680630ab3b6d5dad4c15ab58ff2c1a"
+    },
+    "eligible-macos-15/missing-model.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-macos-15/missing-model.terminal.json": {
+      "bytes": 349,
+      "sha256": "344742933322439c40f6a114d0bfa0f7cf8bf9443ec9e5babf4eccc4e799a0e9"
+    },
+    "eligible-macos-15/raw_lexical_task_guide-eligible.jsonl": {
+      "bytes": 48594,
+      "sha256": "cb4f5de918407b7ab5067e93e3ec8a5facd4ca4b6cf578c65b440230ffd5ef6d"
+    },
+    "eligible-macos-15/raw_lexical_task_guide-eligible.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-macos-15/raw_lexical_task_guide-eligible.terminal.json": {
+      "bytes": 361,
+      "sha256": "2efaada0277ab9f4f55eae02d4a50a2929832cbecfdc7957978e237812b3d562"
+    },
+    "eligible-macos-15/raw_lexical_task_guide-reference.jsonl": {
+      "bytes": 48955,
+      "sha256": "c0bca7bdf8ff01ca02bb6c8171bf3ce17849d2bdb15d0b5717db61cdc18614ad"
+    },
+    "eligible-macos-15/raw_lexical_task_guide-reference.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-macos-15/raw_lexical_task_guide-reference.terminal.json": {
+      "bytes": 362,
+      "sha256": "8fde040a9b6b65f0efe0ee16a1e9d407801aae60c6f60ae84810379529422566"
+    },
+    "eligible-macos-15/semantic_frequency-eligible.jsonl": {
+      "bytes": 48460,
+      "sha256": "0b3529e1c3838ed7fccbed21d104a3e7437915281c51946c84e96b3d39fef8ea"
+    },
+    "eligible-macos-15/semantic_frequency-eligible.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-macos-15/semantic_frequency-eligible.terminal.json": {
+      "bytes": 357,
+      "sha256": "fa6e80f483f17fbae6621b4ed95fc1fee2570198d7dccdd4c627ac69e3647903"
+    },
+    "eligible-macos-15/semantic_frequency-reference.jsonl": {
+      "bytes": 48683,
+      "sha256": "e7eca9468d13a4030777730c89b887a0770ad591a6a19f052c828fdef08fc226"
+    },
+    "eligible-macos-15/semantic_frequency-reference.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-macos-15/semantic_frequency-reference.terminal.json": {
+      "bytes": 358,
+      "sha256": "772704a379d9fa00be29c57ae03d5d84ee8897e20e5bbccdb0315524c07fcbb1"
+    },
+    "eligible-macos-15/task_guide-eligible.jsonl": {
+      "bytes": 48612,
+      "sha256": "d92b7eb9b0196805414e43fe8dd1ce5a3fd8676af8262321d3ff84b8f50987da"
+    },
+    "eligible-macos-15/task_guide-eligible.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-macos-15/task_guide-eligible.terminal.json": {
+      "bytes": 349,
+      "sha256": "b2d4d9c384a34397ae9b4fca8eba556d4751af400f4a34694f7f8a369200f259"
+    },
+    "eligible-macos-15/task_guide-reference.jsonl": {
+      "bytes": 48974,
+      "sha256": "9089fb71133367c680885bc17a835c59df3c912d80eeea037c8f3476dc82ca41"
+    },
+    "eligible-macos-15/task_guide-reference.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-macos-15/task_guide-reference.terminal.json": {
+      "bytes": 350,
+      "sha256": "fd1569dba1c7ef0d56455c5738392a5bb0171aaf129095c7b328c30630498e27"
+    },
+    "eligible-macos-15/task_without_prior_feature-eligible.jsonl": {
+      "bytes": 48556,
+      "sha256": "5f97d2bb80dae641f4879c71998bde5d328b8bb67e320e74cbc53df265ec9378"
+    },
+    "eligible-macos-15/task_without_prior_feature-eligible.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-macos-15/task_without_prior_feature-eligible.terminal.json": {
+      "bytes": 365,
+      "sha256": "2e9498e660f8c10362270b85f6cf85b81c13cad082874ba9b3d3b3766cf0809c"
+    },
+    "eligible-macos-15/task_without_prior_feature-reference.jsonl": {
+      "bytes": 48845,
+      "sha256": "54b2e51e173d294946347ab87a64bccba420709efefe0aaa2c623c1988e2ddae"
+    },
+    "eligible-macos-15/task_without_prior_feature-reference.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-macos-15/task_without_prior_feature-reference.terminal.json": {
+      "bytes": 366,
+      "sha256": "b2ac14aebbf93910b0d544665024aea458fdcefeb95881240ffd5f26764f508a"
+    },
+    "eligible-ubuntu-24.04/SMOKE.json": {
+      "bytes": 6056,
+      "sha256": "7f6c774919213a6e352311301869bab809c891f83c5311c281250865a96e06f4"
+    },
+    "eligible-ubuntu-24.04/TERMINAL.json": {
+      "bytes": 104,
+      "sha256": "e5308de35d15782f204a7bc6f345827f94d9ae616bf255058f60c26150554317"
+    },
+    "eligible-ubuntu-24.04/cohort.jsonl": {
+      "bytes": 3059,
+      "sha256": "5fb9c0f241d06df59b98ff3a8ecd4631f2ec496577aa8df44cb2382900277bfc"
+    },
+    "eligible-ubuntu-24.04/cohort.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-ubuntu-24.04/cohort.terminal.json": {
+      "bytes": 308,
+      "sha256": "387cd1da4bbf3078ffab4ce76122d70c351a3708cc428f9256439d5a165d5e33"
+    },
+    "eligible-ubuntu-24.04/heap.json": {
+      "bytes": 34,
+      "sha256": "a581d2b6bfd4084ea1c09a2f15e7f800dd1ad9978910a9ee80a39917796f4b60"
+    },
+    "eligible-ubuntu-24.04/missing-model.jsonl": {
+      "bytes": 322,
+      "sha256": "de1900915ade5df502d695846fbab934a91bbc30f0c0b47cfac3a06d04e17a5a"
+    },
+    "eligible-ubuntu-24.04/missing-model.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-ubuntu-24.04/missing-model.terminal.json": {
+      "bytes": 349,
+      "sha256": "bb21e1cab88f005aa11f37b3bf7a3fd7bad339ecd557e9d547645bb0e8a573b2"
+    },
+    "eligible-ubuntu-24.04/raw_lexical_task_guide-eligible.jsonl": {
+      "bytes": 48651,
+      "sha256": "262d6cecdbd2cb83e612719afdba676f00c38aa3b0ab63ead00d4bd75c9b51db"
+    },
+    "eligible-ubuntu-24.04/raw_lexical_task_guide-eligible.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-ubuntu-24.04/raw_lexical_task_guide-eligible.terminal.json": {
+      "bytes": 361,
+      "sha256": "7c0ecf1d221dcb25f251e554c45c342a8fc54a93273e44136ab97b7d25011a6f"
+    },
+    "eligible-ubuntu-24.04/raw_lexical_task_guide-reference.jsonl": {
+      "bytes": 49052,
+      "sha256": "3472a1fb6c35691b34dc7463c7b3a9766b069003eda8ad32193b6081383c6f97"
+    },
+    "eligible-ubuntu-24.04/raw_lexical_task_guide-reference.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-ubuntu-24.04/raw_lexical_task_guide-reference.terminal.json": {
+      "bytes": 362,
+      "sha256": "d497cbb47ef349b13b292fa46f253b1bc4b127dba47f733858b687fe3676d630"
+    },
+    "eligible-ubuntu-24.04/semantic_frequency-eligible.jsonl": {
+      "bytes": 48505,
+      "sha256": "11cd61c32951951607f382d388c4ae80d1ed561b78d2513fd68059a076d8464e"
+    },
+    "eligible-ubuntu-24.04/semantic_frequency-eligible.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-ubuntu-24.04/semantic_frequency-eligible.terminal.json": {
+      "bytes": 357,
+      "sha256": "83b30e68b8a51fd56f98f18cd8174df273cef43014b829e66815098e8c189d01"
+    },
+    "eligible-ubuntu-24.04/semantic_frequency-reference.jsonl": {
+      "bytes": 48746,
+      "sha256": "09bf249293eada976083aeebd23eb1045a7d2631b71ad7dc2ec97ca1fef3955d"
+    },
+    "eligible-ubuntu-24.04/semantic_frequency-reference.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-ubuntu-24.04/semantic_frequency-reference.terminal.json": {
+      "bytes": 358,
+      "sha256": "da68be220ac35c40499e6b818e2fba074b0d5b494563bee782cf364495ade90a"
+    },
+    "eligible-ubuntu-24.04/task_guide-eligible.jsonl": {
+      "bytes": 48662,
+      "sha256": "1544a3f1c40ad6acf29f01e53a788ca18ac69f2e76bf353a37e4950e83a09dd7"
+    },
+    "eligible-ubuntu-24.04/task_guide-eligible.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-ubuntu-24.04/task_guide-eligible.terminal.json": {
+      "bytes": 348,
+      "sha256": "962582ad6e487ce9776899436ad2907204000fe68a505753f0a1f2d5b55589fc"
+    },
+    "eligible-ubuntu-24.04/task_guide-reference.jsonl": {
+      "bytes": 49060,
+      "sha256": "b1e90c9eb7dcb3537f590d59a9fd89c00a2f3978b8db0874906e36035537eb22"
+    },
+    "eligible-ubuntu-24.04/task_guide-reference.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-ubuntu-24.04/task_guide-reference.terminal.json": {
+      "bytes": 349,
+      "sha256": "3cb8087d6bcf076d40759344e14df248e5e9f6344672ccc919ed6882953b7114"
+    },
+    "eligible-ubuntu-24.04/task_without_prior_feature-eligible.jsonl": {
+      "bytes": 48614,
+      "sha256": "bcb584319597b0a89bce6e4aa461037e6f9d00ffa7648a0fa20a0b9a09640a06"
+    },
+    "eligible-ubuntu-24.04/task_without_prior_feature-eligible.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-ubuntu-24.04/task_without_prior_feature-eligible.terminal.json": {
+      "bytes": 364,
+      "sha256": "d22fb6bb6c1213a6c9e40ecc00d63bd0752cc98b2a636bddf2bfcee4d7b31d59"
+    },
+    "eligible-ubuntu-24.04/task_without_prior_feature-reference.jsonl": {
+      "bytes": 48938,
+      "sha256": "ae3bd1a04f1569a0f8aa50b4d79069f77950226dc8108763cb0c9a9b1c0b1f8b"
+    },
+    "eligible-ubuntu-24.04/task_without_prior_feature-reference.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible-ubuntu-24.04/task_without_prior_feature-reference.terminal.json": {
+      "bytes": 365,
+      "sha256": "9167269b5fab610c133d7cad5f8f1b2729992a96f0cc19d4ef97e8b29285f11a"
+    }
+  },
+  "schema": "ilxyr.reasoner_eligible_inputs.v1",
+  "source_bindings": {
+    "Makefile": "224a1439c9b322783c694cc2519bb8f5b4711e59b06e2a3b99eeefa34cfda067",
+    "Makefile.reasoner55": "1eb9045f70b3efd0d09756750f9091c2992dbe1e832864598229d06d51311892",
+    "Makefile.reasoner55-eligible": "9ad8f142daff9cd8cd70b339bd2ca756cfd0250eea6de3a4e43240a51877b7e9",
+    "Makefile.reasoner55-matched": "95d5e70e81b01b70490474d44d14d591b7b26bd539ac8c581df2b48eccaac1f3",
+    "benchmarks/reasoner55-eligible-scoring-v1/PLAN.md": "782f87303085b0199c69a281dde4d1f3fa631f2ef33f814192489f4743926b28",
+    "benchmarks/reasoner55-fixed-transfer-v1/RESULTS.json": "377e96366957d7d5435670eb218e7cc3ed96c7dc8b57b5e5d82ec75d393c2655",
+    "benchmarks/reasoner55-generated-primitive-transfer-v1/DEVELOPMENT-TRACE.jsonl": "60f0886ec2291374c5a46c7ee69d104b2486f9962cc8833718178543c9f30287",
+    "benchmarks/reasoner55-matched-controls-v1/PLAN.md": "56fa7548cc1851a8811c19649813ed7dc277c5b38f8ca16777157341f49e185c",
+    "benchmarks/reasoner55-semantic-guide-v1/MODEL.hex": "2ea0b8246fcf2d817538055bece6b59c24f05320a349614fdc30316e6e1d3c73",
+    "benchmarks/reasoner55-transfer-diagnostics-v1/DIAGNOSTICS.json": "823e83db92d244e9c6843b9976d478046ee5f50344295eebf3039e9d3570f410",
+    "reasoner55.c": "8a946ce9f04b7d3ecbc530d4c893ea59ab78121e34e52e263457589a1cf2875c",
+    "reasoner55.h": "3b0ec10cf07786c05236ff5b063c0848d19d63ef863afef040679909d255e218",
+    "reasoner55_diagnostics.c": "9917bccc16080fabee14d435d7a28c922d04b9698038a61fea99a3a53fd61412",
+    "reasoner55_eligible.c": "e5a1d980e737833c38d7ea427494e5701029455f181e3715e2b66dbcb5d2a9b5",
+    "reasoner55_fast_hash.h": "f1fd1b6190cebc9ad1731eb1ec3d47e13fecee34a83ca9537d4bfd6b20b592b0",
+    "reasoner55_fast_search.c": "00e36a7733701b8aa6889ffe53f0af07713e0a5bfff88f7dc26fcf502c32b8e9",
+    "reasoner55_fast_sort.h": "3140b56f66603694b050b3b3d3da96d781b028c27f15724bfc183e6ce50b8c85",
+    "reasoner55_fixed_transfer.c": "3a20a1b06b49842b16009652b8f101b6bfe3f09a9d07c05949f03a35599be670",
+    "reasoner55_matched_transfer.c": "d374de2b4089a8d1c7bdcbd3ae8da8002f8e8612b1cc4dc8c2205c5a26ce862c",
+    "reasoner55_semantic_guide.c": "86ec97d6f0c4c85a3b94e998810fdedae83f04bd0e95e13feed9fe1ed7cd24bc",
+    "scripts/check_reasoner55_eligible.mjs": "39909e07a64504f4d3c79375f64ec35f8f41e2a57b63115b61a57e81125a0598",
+    "scripts/check_reasoner55_matched.mjs": "121630883d6cfc00c40aef0e253d24bb45191ea21f613c6477a2898c3fbaf797",
+    "scripts/embed_reasoner55_eligible.mjs": "53d0b33943428120a62a17a727a853fd6b382bc61bd835d0d3eb9e03ae403d03",
+    "scripts/embed_reasoner55_fast.mjs": "127dc7adcf148003100bbd5cb1556aef6030abdef07cccdd3d3a9d66aff22880",
+    "scripts/lib/reasoner55_fixed_transfer.mjs": "20a5547af86366e6ae44c0884fdb2c7d2ae7ad19109780a6cd8c94301ef10ecb",
+    "scripts/lib/reasoner55_matched.mjs": "e317ecd42cf20500445fd132ea29abb08d71653b931119fcf5ffcfad55bb0698",
+    "scripts/lib/reasoner55_replay.mjs": "dcca6e4f3e802315ae5c5611cd1baa7977982866cbd6937102eb003cce4d651d",
+    "scripts/lib/reasoner55_semantic_guide.mjs": "97e1beecf13bafb0a1f107a46720781831eab85beea6b33852195e3564b7f2ac",
+    "scripts/lib/reasoner5_harness.mjs": "6abdde4d810b26d94ee6340aa6a97e9a9717523278b9533325ba2f2c3189a883",
+    "scripts/run_reasoner55_matched.mjs": "27b0595ad3e880243210458d9653112d52ca15b8d672fc5eacc406da065446fc",
+    "scripts/zero_data_lib.mjs": "ef1d98938d950410a731d6f235f8596c01f47ba6f2234a53a515480b7c914e90"
+  },
+  "source_commit": "0c5253604593acb3b9294fcc00c90f59b7dbbd3c",
+  "source_pr": "https://github.com/atimics/zero-grounded-literary-lm/pull/239",
+  "source_repository": "https://github.com/atimics/zero-grounded-literary-lm"
+}

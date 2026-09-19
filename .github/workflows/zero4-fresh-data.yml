@@ -1,0 +1,37 @@
+name: ZERO.4 fresh data checks
+on:
+  pull_request:
+    paths:
+      - 'scripts/zero4_*'
+      - 'scripts/test_zero4_fresh_data.py'
+      - 'experiments/research-step-41/**'
+      - '.github/workflows/zero4-fresh-data.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/zero4_*'
+      - 'scripts/test_zero4_fresh_data.py'
+      - 'experiments/research-step-41/**'
+      - '.github/workflows/zero4-fresh-data.yml'
+permissions:
+  contents: read
+jobs:
+  opened-native:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: atimics/zero-grounded-literary-lm
+          ref: 9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d
+          path: upstream-zero
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Opened arithmetic and exposure checks
+        env:
+          ZERO4_SOURCE: ${{ github.workspace }}/upstream-zero
+        run: python3 scripts/test_zero4_fresh_data.py

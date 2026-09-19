@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-51/FINDINGS.json",
+  "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+  "experiment_id": "research.step51.zero4-outcome.v1",
+  "family": "zero",
+  "id": "verdict:research.step51.zero4-outcome.v1",
+  "lineage_note": "Size the root disk for the observed image footprint plus the frozen output and archive reserve, then test and publish a replacement package.",
+  "mechanism": "Fixed host storage reserve",
+  "mechanism_tags": [
+    "fixed-runtime",
+    "bounded-cost",
+    "storage-capacity"
+  ],
+  "outcome": "execution_failure",
+  "project": "zero4",
+  "recorded_at_ms": 1789248868556,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "execution_failure",
+  "summary": "The host stopped before scientific work when available disk space was 27919421440 bytes and the frozen reserve required 39795556352 bytes. Its failure archive and provider cleanup verified.",
+  "taxonomy": "implementation"
+}

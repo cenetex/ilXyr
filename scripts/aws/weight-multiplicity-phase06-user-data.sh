@@ -4,7 +4,6 @@ set -Eeuo pipefail
 
 BOOT_LOG=/var/log/weight-multiplicity-phase06.log
 exec > >(tee -a "$BOOT_LOG" >/dev/console) 2>&1
-set -x
 
 # This conservative watchdog is armed before metadata is read. It prevents an
 # idle host if bootstrap fails before the exact launch-epoch timer is ready.
@@ -47,6 +46,9 @@ MAX_COMPUTE_USD=$(tag MaxComputeUsd)
 HOURLY_PRICE=$(tag HourlyPrice)
 INSTANCE_ID=$(metadata instance-id)
 INSTANCE_TYPE=$(metadata instance-type)
+# Keep the IMDSv2 token out of captured bootstrap and console logs.
+unset TOKEN
+set -x
 PREFIX="experiments/weight-multiplicity-phase06-persistent-lie-v1/runs/${RUN_ID}"
 STATUS=/tmp/weight-multiplicity-phase06-status.json
 OUT=/opt/ilxyr/out

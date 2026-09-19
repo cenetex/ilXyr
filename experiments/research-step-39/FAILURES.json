@@ -1,0 +1,65 @@
+{
+  "failures": [
+    {
+      "accepted_altered_nonce": 3,
+      "first_eligible_nonce": 0,
+      "historical_result_scope": "This is a validator coverage test. The original cohort bytes and primary no-go remain their own evidence.",
+      "id": "legacy-checker-accepts-skipped-eligible-candidate",
+      "invented_rejection_counts": [
+        3,
+        0,
+        0,
+        0
+      ],
+      "kind": "controlled_validator_failure",
+      "new_check": "Replay every nonce and its first failing predicate in both implementations.",
+      "probe": "LEGACY-CHECK-PROBE.json"
+    },
+    {
+      "controlled_case": "Swap two primitive slots and their role references. The unordered primitive set stays the same.",
+      "current_prior_inventory_unique_multisets": 396,
+      "id": "role-ordered-primitive-key",
+      "kind": "controlled_freshness_gap",
+      "native_guard_cases": 6,
+      "new_key": "Sort all eight affine maps while retaining multiplicity.",
+      "old_key": "Concatenate primitives in role order."
+    },
+    {
+      "cause": "The altered exclusion file was rejected. The test expected differs where the checker said differ.",
+      "first_ci_run": 34293620152,
+      "id": "test-expected-error-wording",
+      "kind": "engineering_test_failure",
+      "method_evaluations": 0,
+      "repair": "Correct the test expectation and repeat the full replay.",
+      "source_commit": "7708d0d3b6187b5fe51a4185ec2d717c04d4f52b"
+    },
+    {
+      "cause": "A main renaming macro conflicted with a nested frozen-source header.",
+      "id": "native-prototype-main-macro-collision",
+      "kind": "local_build_failure",
+      "method_evaluations": 0,
+      "repair": "Include the existing header whose entry point already has a distinct name."
+    },
+    {
+      "cause": "GCC stopped under warnings-as-errors for an uninitialized guard fixture and the unused frozen training gradient function.",
+      "ci_run": 34293908001,
+      "fresh_method_evaluations": 0,
+      "id": "gcc-maybe-uninitialized-build-failure",
+      "kind": "linux_build_failure",
+      "repair": "Initialize the guard fixture and use Clang for both platform audits. Keep the frozen upstream source unchanged.",
+      "source_commit": "121053f89d03583b2715f94c6566fca5df24798e",
+      "stderr_sha256": "72489b73fce592b9da93abd7638d1eb0f2c9e8197c13cabc5a175a78d29727f8"
+    }
+  ],
+  "fresh_method_evaluations": 0,
+  "retained_research_failure": {
+    "opened_verifier_checks": {
+      "raw_lexical_task_guide": 176,
+      "semantic_frequency": 211,
+      "task_guide": 243,
+      "task_without_prior_feature": 233
+    },
+    "source": "../research-step-36/RESULT.json"
+  },
+  "schema": "ilxyr.reasoner_fresh_roster_failures.v1"
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "ilxyr.constraint_diff_report.v1",
+  "report_id": "constraint-diff:feral.next-comparison.v1",
+  "experiment_id": "feral.next-comparison.v1",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "ledger_ref": "artifact://sha256/8be79f853a182e39a9a7fe2be8b2b67438680c03e0b4804591f63880a3e7dc67",
+  "generated_at_ms": 1788600742008,
+  "proposed_mechanism_tags": [
+    "answer-labels",
+    "numeric-units",
+    "retrieval-calculator"
+  ],
+  "matches": [
+    {
+      "verdict_id": "verdict:feral.finqa-empty-label-audit.v1",
+      "experiment_id": "feral.finqa-empty-label-audit.v1",
+      "family": "feral",
+      "outcome": "diagnostic_failure",
+      "taxonomy": "measurement",
+      "matched_tags": [
+        "answer-labels",
+        "numeric-units",
+        "retrieval-calculator"
+      ],
+      "verdict_summary": "Fourteen of 1,147 textual gold answers are empty. All fourteen source arithmetic programs reproduce the source execution values within its five-decimal precision. The historical score remains 168/1,147.",
+      "same_mechanism_tags": true,
+      "project": "feral",
+      "evidence_kind": "posthoc_diagnostic",
+      "source_outcome": "fourteen empty textual targets",
+      "lineage_note": "Create a new benchmark version with an explicit execution-value and percent-conversion rule. Keep gold programs confined to label auditing.",
+      "verdict_ref": "artifact://sha256/879b57a132de186856a50e8c2cf20b2035197be8231b54a0b7839298db1dab61",
+      "evidence_ref": "artifact://sha256/4feae1ce7a23f9774adf7ec6eb42d738d0beef9beaa5a088d2fb34100ca964d2",
+      "evidence_path": "experiments/research-step-2/RESULT.json"
+    }
+  ],
+  "taxonomy_counts": {
+    "transfer": 0,
+    "interference": 0,
+    "measurement": 1,
+    "venue": 0,
+    "implementation": 0
+  },
+  "superseded_entries": 0,
+  "proposed_change": "Version the repaired labels with explicit units, then compare evidence-only retrieval and inferred arithmetic programs by issuer.",
+  "summary": "1 prior results share these mechanism tags. Review their evidence and the required design changes.",
+  "recommendation": "review"
+}

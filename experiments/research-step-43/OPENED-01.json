@@ -1,0 +1,467 @@
+{
+  "checks": {
+    "check": {
+      "actual_cpu_us_before_replay": 1899543,
+      "actual_cpu_us_with_replay": 1935286,
+      "child_wall_ns": 2941367375,
+      "controller_cpu_us": 222136,
+      "controller_wall_ns": 3095192334,
+      "decisions": [
+        {
+          "arm": "replay_guard",
+          "passes": false,
+          "seeds": [
+            {
+              "changes": {
+                "blimp_change": {
+                  "count": 2,
+                  "mean": 0,
+                  "standard_error": 0.0
+                },
+                "blimp_passes": true,
+                "retention_passes": false,
+                "sources": [
+                  {
+                    "index": 0,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 1,
+                      "mean": -1.4999213199999994,
+                      "standard_error": null
+                    },
+                    "passes": true,
+                    "relative_change": -0.30849807605674906
+                  },
+                  {
+                    "index": 1,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 2,
+                      "mean": -1.545055265,
+                      "standard_error": 0.03744900499999981
+                    },
+                    "passes": true,
+                    "relative_change": -0.31829581447982214
+                  },
+                  {
+                    "index": 2,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 3,
+                      "mean": -1.2901772666666667,
+                      "standard_error": 0.1680052807258953
+                    },
+                    "passes": true,
+                    "relative_change": -0.26564513885716345
+                  },
+                  {
+                    "index": 3,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 1,
+                      "mean": -1.2874920400000005,
+                      "standard_error": null
+                    },
+                    "passes": true,
+                    "relative_change": -0.2651284462288058
+                  },
+                  {
+                    "index": 4,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 2,
+                      "mean": -0.85096383,
+                      "standard_error": 0.14957165999999988
+                    },
+                    "passes": true,
+                    "relative_change": -0.1752969392176894
+                  },
+                  {
+                    "index": 5,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 3,
+                      "mean": 0.20492505999999988,
+                      "standard_error": 0.0
+                    },
+                    "passes": false,
+                    "relative_change": 0.04218516023476471
+                  }
+                ],
+                "task_change": {
+                  "count": 5,
+                  "mean": 0,
+                  "standard_error": 0.0
+                },
+                "tinystories_case_change": {
+                  "count": 2,
+                  "mean": 1.27388881251423,
+                  "standard_error": 0.8763673538448294
+                },
+                "tinystories_passes": false,
+                "tinystories_relative_change": 0.17184474689135598
+              },
+              "passes": false,
+              "seed": 71,
+              "task_gains": {
+                "frozen": 0.0,
+                "replay": 0.0
+              }
+            }
+          ]
+        },
+        {
+          "arm": "replay_projection",
+          "passes": false,
+          "seeds": [
+            {
+              "changes": {
+                "blimp_change": {
+                  "count": 2,
+                  "mean": 0,
+                  "standard_error": 0.0
+                },
+                "blimp_passes": true,
+                "retention_passes": false,
+                "sources": [
+                  {
+                    "index": 0,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 1,
+                      "mean": -1.5003728899999995,
+                      "standard_error": null
+                    },
+                    "passes": true,
+                    "relative_change": -0.3085909532459371
+                  },
+                  {
+                    "index": 1,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 2,
+                      "mean": -1.545343155,
+                      "standard_error": 0.03739190499999956
+                    },
+                    "passes": true,
+                    "relative_change": -0.31835512250854214
+                  },
+                  {
+                    "index": 2,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 3,
+                      "mean": -1.29042244,
+                      "standard_error": 0.16799871802912494
+                    },
+                    "passes": true,
+                    "relative_change": -0.26569561959795773
+                  },
+                  {
+                    "index": 3,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 1,
+                      "mean": -1.2877433300000005,
+                      "standard_error": null
+                    },
+                    "passes": true,
+                    "relative_change": -0.26518019344368793
+                  },
+                  {
+                    "index": 4,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 2,
+                      "mean": -0.8512169150000002,
+                      "standard_error": 0.14957201499999948
+                    },
+                    "passes": true,
+                    "relative_change": -0.1753490742489302
+                  },
+                  {
+                    "index": 5,
+                    "maximum": 0.015,
+                    "paired_loss_change": {
+                      "count": 3,
+                      "mean": 0.20798158999999927,
+                      "standard_error": 0.0
+                    },
+                    "passes": false,
+                    "relative_change": 0.04281436687163165
+                  }
+                ],
+                "task_change": {
+                  "count": 5,
+                  "mean": 0,
+                  "standard_error": 0.0
+                },
+                "tinystories_case_change": {
+                  "count": 2,
+                  "mean": 1.2730817386887718,
+                  "standard_error": 0.8760714776205214
+                },
+                "tinystories_passes": false,
+                "tinystories_relative_change": 0.17173287021369887
+              },
+              "passes": false,
+              "seed": 71,
+              "task_gains": {
+                "frozen": 0.0,
+                "replay": 0.0
+              }
+            }
+          ]
+        }
+      ],
+      "endpoint_models": 5,
+      "exact_parser_cases": 5,
+      "manifest_sha256": "9f85bfd4c64b08b76f27b6720fbe4f203f7f2c7f942737db950349e69ccbefd5",
+      "memory_scope": "maximum wait4 peak of one child and waited descendants; controller peak and whole process-tree peak are separate cloud-host measurements",
+      "owners": {
+        "seed-71-frozen": {
+          "endpoint_controller_cpu_us": 39846,
+          "endpoint_cpu_us": 35312,
+          "peak_child_rss_bytes": 1589248,
+          "selected_attempts": 0,
+          "selected_training_cpu_us": 0,
+          "training_controller_cpu_us": 0,
+          "training_cpu_us": 0
+        },
+        "seed-71-replay": {
+          "endpoint_controller_cpu_us": 20791,
+          "endpoint_cpu_us": 18481,
+          "peak_child_rss_bytes": 1769472,
+          "selected_attempts": 4,
+          "selected_training_cpu_us": 16009,
+          "training_controller_cpu_us": 8734,
+          "training_cpu_us": 7275
+        },
+        "seed-71-replay_guard": {
+          "endpoint_controller_cpu_us": 23275,
+          "endpoint_cpu_us": 17803,
+          "peak_child_rss_bytes": 1818624,
+          "selected_attempts": 4,
+          "selected_training_cpu_us": 16530,
+          "training_controller_cpu_us": 8291,
+          "training_cpu_us": 8239
+        },
+        "seed-71-replay_projection": {
+          "endpoint_controller_cpu_us": 25115,
+          "endpoint_cpu_us": 18138,
+          "peak_child_rss_bytes": 1818624,
+          "selected_attempts": 4,
+          "selected_training_cpu_us": 17648,
+          "training_controller_cpu_us": 8416,
+          "training_cpu_us": 9232
+        },
+        "seed-71-task_only": {
+          "endpoint_controller_cpu_us": 26093,
+          "endpoint_cpu_us": 20984,
+          "peak_child_rss_bytes": 1638400,
+          "selected_attempts": 4,
+          "selected_training_cpu_us": 15366,
+          "training_controller_cpu_us": 8302,
+          "training_cpu_us": 7064
+        }
+      },
+      "peak_child_rss_bytes": 95780864,
+      "plan_sha256": "a38954dfbb4065de5cdb52f803e23f8d7305e57f1dc4387a00436ff08eb44696",
+      "schema": "ilxyr.zero4_study_check.v1",
+      "selection_sha256": "380132d68b63ff087011dc01faefd83e17785b44087f88997c865542a4cdeff1",
+      "status": "complete",
+      "summaries": [
+        {
+          "arm": "frozen",
+          "blimp": {
+            "bits_per_byte": 6.9955905193872185,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            4.86201191,
+            4.8541488600000005,
+            4.85676972,
+            4.85610676,
+            4.8544135100000005,
+            4.85775232
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.0081359614112
+          },
+          "tinystories": {
+            "bits_per_byte": 6.999527316367621,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "task_only",
+          "blimp": {
+            "bits_per_byte": 8.295099085428825,
+            "cases": 2,
+            "correct": 0
+          },
+          "retention": [
+            4.75979471,
+            4.764820335,
+            4.754684763333334,
+            4.75009155,
+            4.753850935,
+            9.9040966
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 5,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 8.9950196321816
+          },
+          "tinystories": {
+            "bits_per_byte": 7.770281878650594,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "replay",
+          "blimp": {
+            "bits_per_byte": 8.84265983203887,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            3.36209059,
+            3.309093595,
+            3.566592453333333,
+            3.56861472,
+            4.00344968,
+            5.06267738
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.3613912671998
+          },
+          "tinystories": {
+            "bits_per_byte": 8.202359316407946,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "replay_guard",
+          "blimp": {
+            "bits_per_byte": 8.84265983203887,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            3.36209059,
+            3.309093595,
+            3.566592453333333,
+            3.56861472,
+            4.00344968,
+            5.06267738
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.3613912671998
+          },
+          "tinystories": {
+            "bits_per_byte": 8.202359316407946,
+            "cases": 2,
+            "correct": 2
+          }
+        },
+        {
+          "arm": "replay_projection",
+          "blimp": {
+            "bits_per_byte": 8.84161630183387,
+            "cases": 2,
+            "correct": 1
+          },
+          "retention": [
+            3.36163902,
+            3.308805705,
+            3.56634728,
+            3.56836343,
+            4.003196595,
+            5.06573391
+          ],
+          "seed": 71,
+          "task": {
+            "arguments": 5,
+            "cases": 5,
+            "closed": 0,
+            "committed": 0,
+            "exact_artifact": 0,
+            "exact_request": 0,
+            "operation": 0,
+            "oracle_arithmetic": 5,
+            "rejected": 0,
+            "rejected_state_mutations": 0,
+            "syntax": 0,
+            "target_bits": 7.360718452067
+          },
+          "tinystories": {
+            "bits_per_byte": 8.201576232546621,
+            "cases": 2,
+            "correct": 2
+          }
+        }
+      ],
+      "total_child_cpu_us": 1677407,
+      "verification_cpu_us": 35743
+    },
+    "historical_task_parity_models": 5,
+    "production_teacher_forward_calls": 0,
+    "sanitized": false,
+    "schema": "ilxyr.zero4_opened_study.v1",
+    "status": "complete"
+  },
+  "discovery": "Static inspection after the opened run showed that every training report scores all 577 replay windows despite validation_batches=7. Selection uses CPU and progress. Add an explicit controller option that skips automatic training validation and retains the native guard probes. Keep default behavior, endpoint scoring and model updates intact. Prove checkpoint and sample parity for all four training methods before full execution.",
+  "plan_sha256": "a38954dfbb4065de5cdb52f803e23f8d7305e57f1dc4387a00436ff08eb44696",
+  "status": "complete_engineering_check"
+}

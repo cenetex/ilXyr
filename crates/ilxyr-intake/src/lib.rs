@@ -5,7 +5,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-use ilxyr_core::{
+use ilxyr_intake_boundary::{
     AuthenticatedReportAcceptance, Error, ExecutionReport, Workspace,
     accept_authenticated_remote_report, authenticate_report_intake_credential,
     record_authenticated_report_rejection,
@@ -322,15 +322,47 @@ mod tests {
     }
 
     #[test]
-    fn service_source_has_no_launch_capability() {
-        let source = concat!(include_str!("lib.rs"), include_str!("main.rs"));
-        let forbidden = [
-            ["launch", "_remote_"].concat(),
-            ["RemoteExecutor", "Adapter"].concat(),
-            ["ProviderLaunch", "Receipt"].concat(),
-        ];
-        for symbol in forbidden {
-            assert!(!source.contains(&symbol), "intake source contains {symbol}");
-        }
+    fn direct_dependencies_enforce_the_intake_capability_boundary() {
+        let metadata = std::process::Command::new(env!("CARGO"))
+            .args(["metadata", "--format-version", "1", "--no-deps"])
+            .current_dir(env!("CARGO_MANIFEST_DIR"))
+            .output()
+            .expect("cargo metadata must run");
+        assert!(metadata.status.success(), "cargo metadata must succeed");
+        let metadata: serde_json::Value =
+            serde_json::from_slice(&metadata.stdout).expect("cargo metadata must be JSON");
+        let packages = metadata["packages"]
+            .as_array()
+            .expect("cargo metadata must contain packages");
+        assert_dependencies(
+            packages,
+            "ilxyr-intake",
+            &["ilxyr-intake-boundary", "serde", "serde_json", "tiny_http"],
+        );
+        assert_dependencies(packages, "ilxyr-intake-boundary", &["ilxyr-core"]);
+    }
+
+    fn assert_dependencies(packages: &[serde_json::Value], package_name: &str, expected: &[&str]) {
+        let package = packages
+            .iter()
+            .find(|package| package["name"] == package_name)
+            .unwrap_or_else(|| panic!("cargo metadata must contain {package_name}"));
+        let mut actual = package["dependencies"]
+            .as_array()
+            .expect("package dependencies must be an array")
+            .iter()
+            .map(|dependency| {
+                dependency["name"]
+                    .as_str()
+                    .expect("dependency name must be a string")
+            })
+            .collect::<Vec<_>>();
+        actual.sort_unstable();
+        let mut expected = expected.to_vec();
+        expected.sort_unstable();
+        assert_eq!(
+            actual, expected,
+            "{package_name} dependency boundary changed"
+        );
     }
 }

@@ -1,0 +1,63 @@
+{
+  "fixtures": {
+    "fixtures": [
+      {
+        "expected": "1",
+        "highest": [
+          1
+        ],
+        "lie": "1",
+        "target": [
+          1
+        ],
+        "type": "A1",
+        "zero": "1"
+      },
+      {
+        "expected": "1",
+        "highest": [
+          2
+        ],
+        "lie": "1",
+        "target": [
+          0
+        ],
+        "type": "A1",
+        "zero": "1"
+      },
+      {
+        "expected": "2",
+        "highest": [
+          1,
+          1
+        ],
+        "lie": "2",
+        "target": [
+          0,
+          0
+        ],
+        "type": "A2",
+        "zero": "2"
+      }
+    ],
+    "fresh_corpus_rows": 0,
+    "schema": "ilxyr.weight_oracle_correctness_smoke.v1",
+    "scope": "small_known_query_correctness",
+    "status": "pass"
+  },
+  "fresh_corpus_rows": 0,
+  "lie_executable_sha256": [
+    "bf34052d0fd655ba975bd03c892454b0ef1298994bc72aceaf6706b6cc65d83c",
+    "bf34052d0fd655ba975bd03c892454b0ef1298994bc72aceaf6706b6cc65d83c"
+  ],
+  "runtime": {
+    "bison": "bison (GNU Bison) 3.8.2",
+    "gcc": "12.2.0",
+    "node": "22.22.0",
+    "python": "Python 3.11.2"
+  },
+  "schema": "ilxyr.weight_oracle_build_smoke.v1",
+  "scope": "build_reproducibility_and_small_correctness",
+  "status": "pass",
+  "zero_executable_sha256": "8e273da671bb0a883bc5668e3e76e409a98b59c54b2cc94977bc052b3b7ee9bf"
+}

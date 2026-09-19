@@ -1,0 +1,1444 @@
+{
+  "checker_own_cpu_ns": 2916568378,
+  "checker_wall_ns": 20801150182,
+  "collection_sha256": "5a4a6e64728021f20391eb8862930370ce74c549df82bb930570cc3a4a3e6fdf",
+  "complete_controller_cost": {
+    "cpu_seconds": 32.409117,
+    "peak_rss_bytes": 752922624,
+    "wall_ns": 33147686469
+  },
+  "controller_replay_cost": {
+    "cpu_seconds": 17.599926,
+    "peak_rss_bytes": 752922624,
+    "wall_ns": 17775426451
+  },
+  "fresh_episode_visits": 49152,
+  "independent_measured_replays": 2048,
+  "jobs": [
+    {
+      "arm": "semantic_frequency",
+      "cost": {
+        "cpu_seconds": 0.262773,
+        "peak_rss_bytes": 21225472,
+        "wall_ns": 273250173
+      },
+      "index": 0,
+      "native": {
+        "model_load_ns": 3407,
+        "preparation_cpu_ns": 2590,
+        "preparation_ns": 3435,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16851044,
+          "cpu_ns": 257257191,
+          "enumerate_ns": 145445703,
+          "group_ns": 50203187,
+          "receipt_ns": 9290140,
+          "score_ns": 14187735,
+          "search_ns": 18011321,
+          "sort_ns": 4313827,
+          "wall_ns": 258609349
+        }
+      },
+      "pass": 0
+    },
+    {
+      "arm": "task_guide",
+      "cost": {
+        "cpu_seconds": 0.262368,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 264718326
+      },
+      "index": 1,
+      "native": {
+        "model_load_ns": 62795,
+        "preparation_cpu_ns": 62388,
+        "preparation_ns": 62835,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16926300,
+          "cpu_ns": 256754387,
+          "enumerate_ns": 145846944,
+          "group_ns": 50149160,
+          "receipt_ns": 9337042,
+          "score_ns": 15064603,
+          "search_ns": 16974818,
+          "sort_ns": 3898142,
+          "wall_ns": 258512064
+        }
+      },
+      "pass": 0
+    },
+    {
+      "arm": "raw_lexical_task_guide",
+      "cost": {
+        "cpu_seconds": 0.262731,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273654385
+      },
+      "index": 2,
+      "native": {
+        "model_load_ns": 61149,
+        "preparation_cpu_ns": 60850,
+        "preparation_ns": 61195,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16913007,
+          "cpu_ns": 257142882,
+          "enumerate_ns": 145579208,
+          "group_ns": 50385383,
+          "receipt_ns": 9392741,
+          "score_ns": 15122091,
+          "search_ns": 17210803,
+          "sort_ns": 3944492,
+          "wall_ns": 258852990
+        }
+      },
+      "pass": 0
+    },
+    {
+      "arm": "task_without_prior_feature",
+      "cost": {
+        "cpu_seconds": 0.262803,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273638275
+      },
+      "index": 3,
+      "native": {
+        "model_load_ns": 60297,
+        "preparation_cpu_ns": 59944,
+        "preparation_ns": 60337,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16969184,
+          "cpu_ns": 257155216,
+          "enumerate_ns": 145752701,
+          "group_ns": 50247588,
+          "receipt_ns": 9317938,
+          "score_ns": 14695920,
+          "search_ns": 17364748,
+          "sort_ns": 4168098,
+          "wall_ns": 258803327
+        }
+      },
+      "pass": 0
+    },
+    {
+      "arm": "task_guide",
+      "cost": {
+        "cpu_seconds": 0.263982,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273745786
+      },
+      "index": 4,
+      "native": {
+        "model_load_ns": 62043,
+        "preparation_cpu_ns": 61644,
+        "preparation_ns": 62080,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17095844,
+          "cpu_ns": 258244326,
+          "enumerate_ns": 146414639,
+          "group_ns": 50296723,
+          "receipt_ns": 9410780,
+          "score_ns": 15174478,
+          "search_ns": 17238643,
+          "sort_ns": 3903685,
+          "wall_ns": 259836719
+        }
+      },
+      "pass": 1
+    },
+    {
+      "arm": "raw_lexical_task_guide",
+      "cost": {
+        "cpu_seconds": 0.26281899999999997,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273522093
+      },
+      "index": 5,
+      "native": {
+        "model_load_ns": 61400,
+        "preparation_cpu_ns": 61092,
+        "preparation_ns": 61447,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17035750,
+          "cpu_ns": 257189044,
+          "enumerate_ns": 145608331,
+          "group_ns": 50258937,
+          "receipt_ns": 9294066,
+          "score_ns": 15215032,
+          "search_ns": 17110674,
+          "sort_ns": 3897468,
+          "wall_ns": 258725905
+        }
+      },
+      "pass": 1
+    },
+    {
+      "arm": "task_without_prior_feature",
+      "cost": {
+        "cpu_seconds": 0.262559,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273438748
+      },
+      "index": 6,
+      "native": {
+        "model_load_ns": 58431,
+        "preparation_cpu_ns": 58071,
+        "preparation_ns": 58454,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16935266,
+          "cpu_ns": 256969363,
+          "enumerate_ns": 145758412,
+          "group_ns": 50040081,
+          "receipt_ns": 9245306,
+          "score_ns": 14633199,
+          "search_ns": 17400168,
+          "sort_ns": 4155619,
+          "wall_ns": 258454016
+        }
+      },
+      "pass": 1
+    },
+    {
+      "arm": "semantic_frequency",
+      "cost": {
+        "cpu_seconds": 0.262826,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273591250
+      },
+      "index": 7,
+      "native": {
+        "model_load_ns": 2990,
+        "preparation_cpu_ns": 2598,
+        "preparation_ns": 3024,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16966047,
+          "cpu_ns": 257266869,
+          "enumerate_ns": 145608542,
+          "group_ns": 50292073,
+          "receipt_ns": 9325523,
+          "score_ns": 14232708,
+          "search_ns": 17867068,
+          "sort_ns": 4190524,
+          "wall_ns": 258833401
+        }
+      },
+      "pass": 1
+    },
+    {
+      "arm": "raw_lexical_task_guide",
+      "cost": {
+        "cpu_seconds": 0.262667,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273751248
+      },
+      "index": 8,
+      "native": {
+        "model_load_ns": 63329,
+        "preparation_cpu_ns": 62921,
+        "preparation_ns": 63351,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16933404,
+          "cpu_ns": 257010408,
+          "enumerate_ns": 145896037,
+          "group_ns": 49941607,
+          "receipt_ns": 9496581,
+          "score_ns": 15080394,
+          "search_ns": 17065928,
+          "sort_ns": 3919355,
+          "wall_ns": 258623104
+        }
+      },
+      "pass": 2
+    },
+    {
+      "arm": "task_without_prior_feature",
+      "cost": {
+        "cpu_seconds": 0.262585,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273325912
+      },
+      "index": 9,
+      "native": {
+        "model_load_ns": 61366,
+        "preparation_cpu_ns": 61010,
+        "preparation_ns": 61396,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17058519,
+          "cpu_ns": 256934707,
+          "enumerate_ns": 145581959,
+          "group_ns": 49903389,
+          "receipt_ns": 9417880,
+          "score_ns": 14609375,
+          "search_ns": 17409612,
+          "sort_ns": 4108778,
+          "wall_ns": 258396916
+        }
+      },
+      "pass": 2
+    },
+    {
+      "arm": "semantic_frequency",
+      "cost": {
+        "cpu_seconds": 0.263022,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273570075
+      },
+      "index": 10,
+      "native": {
+        "model_load_ns": 1571,
+        "preparation_cpu_ns": 1148,
+        "preparation_ns": 1598,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17046215,
+          "cpu_ns": 257449789,
+          "enumerate_ns": 145874657,
+          "group_ns": 49938656,
+          "receipt_ns": 9329953,
+          "score_ns": 14297815,
+          "search_ns": 17906663,
+          "sort_ns": 4230258,
+          "wall_ns": 258941130
+        }
+      },
+      "pass": 2
+    },
+    {
+      "arm": "task_guide",
+      "cost": {
+        "cpu_seconds": 0.264609,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273537861
+      },
+      "index": 11,
+      "native": {
+        "model_load_ns": 60681,
+        "preparation_cpu_ns": 60377,
+        "preparation_ns": 60727,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16941479,
+          "cpu_ns": 258809550,
+          "enumerate_ns": 146883345,
+          "group_ns": 50282304,
+          "receipt_ns": 9436212,
+          "score_ns": 15279807,
+          "search_ns": 17327781,
+          "sort_ns": 4017876,
+          "wall_ns": 260491467
+        }
+      },
+      "pass": 2
+    },
+    {
+      "arm": "task_without_prior_feature",
+      "cost": {
+        "cpu_seconds": 0.262278,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273303580
+      },
+      "index": 12,
+      "native": {
+        "model_load_ns": 60613,
+        "preparation_cpu_ns": 60353,
+        "preparation_ns": 60645,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17161738,
+          "cpu_ns": 256726723,
+          "enumerate_ns": 145426052,
+          "group_ns": 49969741,
+          "receipt_ns": 9346846,
+          "score_ns": 14659474,
+          "search_ns": 17404552,
+          "sort_ns": 4150069,
+          "wall_ns": 258436414
+        }
+      },
+      "pass": 3
+    },
+    {
+      "arm": "semantic_frequency",
+      "cost": {
+        "cpu_seconds": 0.262899,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273447679
+      },
+      "index": 13,
+      "native": {
+        "model_load_ns": 1587,
+        "preparation_cpu_ns": 1150,
+        "preparation_ns": 1613,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17046119,
+          "cpu_ns": 257295526,
+          "enumerate_ns": 145678238,
+          "group_ns": 50130493,
+          "receipt_ns": 9303721,
+          "score_ns": 14191883,
+          "search_ns": 17908934,
+          "sort_ns": 4203810,
+          "wall_ns": 258777561
+        }
+      },
+      "pass": 3
+    },
+    {
+      "arm": "task_guide",
+      "cost": {
+        "cpu_seconds": 0.262758,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273584586
+      },
+      "index": 14,
+      "native": {
+        "model_load_ns": 61908,
+        "preparation_cpu_ns": 61576,
+        "preparation_ns": 61932,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16990068,
+          "cpu_ns": 257088288,
+          "enumerate_ns": 145713646,
+          "group_ns": 50241814,
+          "receipt_ns": 9316201,
+          "score_ns": 15154883,
+          "search_ns": 17061456,
+          "sort_ns": 3937574,
+          "wall_ns": 258732977
+        }
+      },
+      "pass": 3
+    },
+    {
+      "arm": "raw_lexical_task_guide",
+      "cost": {
+        "cpu_seconds": 0.262532,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273867691
+      },
+      "index": 15,
+      "native": {
+        "model_load_ns": 59659,
+        "preparation_cpu_ns": 59352,
+        "preparation_ns": 59699,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17074187,
+          "cpu_ns": 256896274,
+          "enumerate_ns": 145472246,
+          "group_ns": 50255290,
+          "receipt_ns": 9241333,
+          "score_ns": 15036739,
+          "search_ns": 17062861,
+          "sort_ns": 3907305,
+          "wall_ns": 258353492
+        }
+      },
+      "pass": 3
+    },
+    {
+      "arm": "semantic_frequency",
+      "cost": {
+        "cpu_seconds": 0.26253499999999996,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273983901
+      },
+      "index": 16,
+      "native": {
+        "model_load_ns": 1556,
+        "preparation_cpu_ns": 1143,
+        "preparation_ns": 1583,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17072152,
+          "cpu_ns": 256934013,
+          "enumerate_ns": 145541329,
+          "group_ns": 49895106,
+          "receipt_ns": 9306378,
+          "score_ns": 14157457,
+          "search_ns": 17942766,
+          "sort_ns": 4179416,
+          "wall_ns": 258431530
+        }
+      },
+      "pass": 4
+    },
+    {
+      "arm": "task_guide",
+      "cost": {
+        "cpu_seconds": 0.262549,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273517973
+      },
+      "index": 17,
+      "native": {
+        "model_load_ns": 59843,
+        "preparation_cpu_ns": 59510,
+        "preparation_ns": 59876,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16994446,
+          "cpu_ns": 256915593,
+          "enumerate_ns": 145579007,
+          "group_ns": 50198122,
+          "receipt_ns": 9278440,
+          "score_ns": 15124262,
+          "search_ns": 17146546,
+          "sort_ns": 3917981,
+          "wall_ns": 258526340
+        }
+      },
+      "pass": 4
+    },
+    {
+      "arm": "raw_lexical_task_guide",
+      "cost": {
+        "cpu_seconds": 0.262656,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273475764
+      },
+      "index": 18,
+      "native": {
+        "model_load_ns": 59717,
+        "preparation_cpu_ns": 59337,
+        "preparation_ns": 59748,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17000285,
+          "cpu_ns": 257001837,
+          "enumerate_ns": 145569904,
+          "group_ns": 49917259,
+          "receipt_ns": 9374993,
+          "score_ns": 15259833,
+          "search_ns": 17119997,
+          "sort_ns": 3900036,
+          "wall_ns": 258427942
+        }
+      },
+      "pass": 4
+    },
+    {
+      "arm": "task_without_prior_feature",
+      "cost": {
+        "cpu_seconds": 0.262114,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 264937352
+      },
+      "index": 19,
+      "native": {
+        "model_load_ns": 71599,
+        "preparation_cpu_ns": 71360,
+        "preparation_ns": 71638,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16897176,
+          "cpu_ns": 256525429,
+          "enumerate_ns": 145261980,
+          "group_ns": 49984570,
+          "receipt_ns": 9282198,
+          "score_ns": 14595067,
+          "search_ns": 17391845,
+          "sort_ns": 4207507,
+          "wall_ns": 257918799
+        }
+      },
+      "pass": 4
+    },
+    {
+      "arm": "task_guide",
+      "cost": {
+        "cpu_seconds": 0.26281,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273734557
+      },
+      "index": 20,
+      "native": {
+        "model_load_ns": 62995,
+        "preparation_cpu_ns": 62649,
+        "preparation_ns": 63027,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17164782,
+          "cpu_ns": 257146749,
+          "enumerate_ns": 145605328,
+          "group_ns": 50158219,
+          "receipt_ns": 9322750,
+          "score_ns": 15178544,
+          "search_ns": 17141270,
+          "sort_ns": 3894249,
+          "wall_ns": 258759056
+        }
+      },
+      "pass": 5
+    },
+    {
+      "arm": "raw_lexical_task_guide",
+      "cost": {
+        "cpu_seconds": 0.262742,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273492065
+      },
+      "index": 21,
+      "native": {
+        "model_load_ns": 58554,
+        "preparation_cpu_ns": 58186,
+        "preparation_ns": 58587,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16968525,
+          "cpu_ns": 256970865,
+          "enumerate_ns": 145565728,
+          "group_ns": 50088781,
+          "receipt_ns": 9391492,
+          "score_ns": 15192034,
+          "search_ns": 17194132,
+          "sort_ns": 3882733,
+          "wall_ns": 258589229
+        }
+      },
+      "pass": 5
+    },
+    {
+      "arm": "task_without_prior_feature",
+      "cost": {
+        "cpu_seconds": 0.26256999999999997,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273716529
+      },
+      "index": 22,
+      "native": {
+        "model_load_ns": 61696,
+        "preparation_cpu_ns": 61367,
+        "preparation_ns": 61735,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17006103,
+          "cpu_ns": 256987501,
+          "enumerate_ns": 145663150,
+          "group_ns": 50017729,
+          "receipt_ns": 9393886,
+          "score_ns": 14492734,
+          "search_ns": 17447985,
+          "sort_ns": 4115547,
+          "wall_ns": 258459943
+        }
+      },
+      "pass": 5
+    },
+    {
+      "arm": "semantic_frequency",
+      "cost": {
+        "cpu_seconds": 0.26273599999999997,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273233132
+      },
+      "index": 23,
+      "native": {
+        "model_load_ns": 1544,
+        "preparation_cpu_ns": 1172,
+        "preparation_ns": 1604,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17094328,
+          "cpu_ns": 257217241,
+          "enumerate_ns": 145600624,
+          "group_ns": 50095143,
+          "receipt_ns": 9437072,
+          "score_ns": 14194432,
+          "search_ns": 17872584,
+          "sort_ns": 4214303,
+          "wall_ns": 258806228
+        }
+      },
+      "pass": 5
+    },
+    {
+      "arm": "raw_lexical_task_guide",
+      "cost": {
+        "cpu_seconds": 0.263051,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273420281
+      },
+      "index": 24,
+      "native": {
+        "model_load_ns": 62345,
+        "preparation_cpu_ns": 62001,
+        "preparation_ns": 62367,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17071104,
+          "cpu_ns": 257384924,
+          "enumerate_ns": 145547694,
+          "group_ns": 50402580,
+          "receipt_ns": 9273232,
+          "score_ns": 15193439,
+          "search_ns": 17120283,
+          "sort_ns": 3931439,
+          "wall_ns": 258840362
+        }
+      },
+      "pass": 6
+    },
+    {
+      "arm": "task_without_prior_feature",
+      "cost": {
+        "cpu_seconds": 0.26249,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273428763
+      },
+      "index": 25,
+      "native": {
+        "model_load_ns": 57496,
+        "preparation_cpu_ns": 57125,
+        "preparation_ns": 57518,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16863899,
+          "cpu_ns": 256861803,
+          "enumerate_ns": 145677066,
+          "group_ns": 50276689,
+          "receipt_ns": 9314873,
+          "score_ns": 14502851,
+          "search_ns": 17281437,
+          "sort_ns": 4135641,
+          "wall_ns": 258365268
+        }
+      },
+      "pass": 6
+    },
+    {
+      "arm": "semantic_frequency",
+      "cost": {
+        "cpu_seconds": 0.26265099999999997,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273481215
+      },
+      "index": 26,
+      "native": {
+        "model_load_ns": 1490,
+        "preparation_cpu_ns": 1066,
+        "preparation_ns": 1516,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16995367,
+          "cpu_ns": 257170005,
+          "enumerate_ns": 145640815,
+          "group_ns": 50074030,
+          "receipt_ns": 9275074,
+          "score_ns": 14118238,
+          "search_ns": 17843746,
+          "sort_ns": 4234207,
+          "wall_ns": 258466756
+        }
+      },
+      "pass": 6
+    },
+    {
+      "arm": "task_guide",
+      "cost": {
+        "cpu_seconds": 0.26264,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273458177
+      },
+      "index": 27,
+      "native": {
+        "model_load_ns": 60153,
+        "preparation_cpu_ns": 59878,
+        "preparation_ns": 60184,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16908569,
+          "cpu_ns": 257048559,
+          "enumerate_ns": 146030052,
+          "group_ns": 49936650,
+          "receipt_ns": 9326225,
+          "score_ns": 15145405,
+          "search_ns": 17154530,
+          "sort_ns": 3891146,
+          "wall_ns": 258672529
+        }
+      },
+      "pass": 6
+    },
+    {
+      "arm": "task_without_prior_feature",
+      "cost": {
+        "cpu_seconds": 0.262222,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273600210
+      },
+      "index": 28,
+      "native": {
+        "model_load_ns": 58647,
+        "preparation_cpu_ns": 58314,
+        "preparation_ns": 58670,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16882531,
+          "cpu_ns": 256637527,
+          "enumerate_ns": 145438572,
+          "group_ns": 50033119,
+          "receipt_ns": 9304568,
+          "score_ns": 14571619,
+          "search_ns": 17373821,
+          "sort_ns": 4124433,
+          "wall_ns": 258026396
+        }
+      },
+      "pass": 7
+    },
+    {
+      "arm": "semantic_frequency",
+      "cost": {
+        "cpu_seconds": 0.262588,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273616098
+      },
+      "index": 29,
+      "native": {
+        "model_load_ns": 1582,
+        "preparation_cpu_ns": 1132,
+        "preparation_ns": 1628,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16973557,
+          "cpu_ns": 257058075,
+          "enumerate_ns": 145502809,
+          "group_ns": 50048335,
+          "receipt_ns": 9379457,
+          "score_ns": 14205665,
+          "search_ns": 17982222,
+          "sort_ns": 4174020,
+          "wall_ns": 258552644
+        }
+      },
+      "pass": 7
+    },
+    {
+      "arm": "task_guide",
+      "cost": {
+        "cpu_seconds": 0.26250599999999996,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273679186
+      },
+      "index": 30,
+      "native": {
+        "model_load_ns": 59388,
+        "preparation_cpu_ns": 59061,
+        "preparation_ns": 59412,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16905879,
+          "cpu_ns": 256923785,
+          "enumerate_ns": 145884500,
+          "group_ns": 49827359,
+          "receipt_ns": 9351978,
+          "score_ns": 15188010,
+          "search_ns": 16997542,
+          "sort_ns": 3938142,
+          "wall_ns": 258419869
+        }
+      },
+      "pass": 7
+    },
+    {
+      "arm": "raw_lexical_task_guide",
+      "cost": {
+        "cpu_seconds": 0.262669,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273361995
+      },
+      "index": 31,
+      "native": {
+        "model_load_ns": 59667,
+        "preparation_cpu_ns": 59327,
+        "preparation_ns": 59702,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16979183,
+          "cpu_ns": 257028922,
+          "enumerate_ns": 145509421,
+          "group_ns": 49827019,
+          "receipt_ns": 9380773,
+          "score_ns": 15434053,
+          "search_ns": 17125461,
+          "sort_ns": 3906849,
+          "wall_ns": 258491148
+        }
+      },
+      "pass": 7
+    },
+    {
+      "arm": "semantic_frequency",
+      "cost": {
+        "cpu_seconds": 0.262889,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273317359
+      },
+      "index": 32,
+      "native": {
+        "model_load_ns": 1585,
+        "preparation_cpu_ns": 1214,
+        "preparation_ns": 1617,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17050137,
+          "cpu_ns": 257367220,
+          "enumerate_ns": 145635319,
+          "group_ns": 50299114,
+          "receipt_ns": 9304985,
+          "score_ns": 14184069,
+          "search_ns": 17881517,
+          "sort_ns": 4170910,
+          "wall_ns": 258825417
+        }
+      },
+      "pass": 8
+    },
+    {
+      "arm": "task_guide",
+      "cost": {
+        "cpu_seconds": 0.262695,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273682964
+      },
+      "index": 33,
+      "native": {
+        "model_load_ns": 59852,
+        "preparation_cpu_ns": 59479,
+        "preparation_ns": 59876,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16938511,
+          "cpu_ns": 257082172,
+          "enumerate_ns": 145408054,
+          "group_ns": 50347661,
+          "receipt_ns": 9352747,
+          "score_ns": 15241448,
+          "search_ns": 17133268,
+          "sort_ns": 3950824,
+          "wall_ns": 258674064
+        }
+      },
+      "pass": 8
+    },
+    {
+      "arm": "raw_lexical_task_guide",
+      "cost": {
+        "cpu_seconds": 0.262636,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273937255
+      },
+      "index": 34,
+      "native": {
+        "model_load_ns": 62394,
+        "preparation_cpu_ns": 62022,
+        "preparation_ns": 62435,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16963705,
+          "cpu_ns": 257023053,
+          "enumerate_ns": 145489523,
+          "group_ns": 50064831,
+          "receipt_ns": 9414498,
+          "score_ns": 15326120,
+          "search_ns": 17067972,
+          "sort_ns": 4007521,
+          "wall_ns": 258642982
+        }
+      },
+      "pass": 8
+    },
+    {
+      "arm": "task_without_prior_feature",
+      "cost": {
+        "cpu_seconds": 0.2625,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273378844
+      },
+      "index": 35,
+      "native": {
+        "model_load_ns": 60515,
+        "preparation_cpu_ns": 60195,
+        "preparation_ns": 60549,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16903718,
+          "cpu_ns": 256845080,
+          "enumerate_ns": 145667063,
+          "group_ns": 50019807,
+          "receipt_ns": 9295705,
+          "score_ns": 14593375,
+          "search_ns": 17403841,
+          "sort_ns": 4109778,
+          "wall_ns": 258302338
+        }
+      },
+      "pass": 8
+    },
+    {
+      "arm": "task_guide",
+      "cost": {
+        "cpu_seconds": 0.262612,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273500235
+      },
+      "index": 36,
+      "native": {
+        "model_load_ns": 57614,
+        "preparation_cpu_ns": 57263,
+        "preparation_ns": 57636,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17042026,
+          "cpu_ns": 257034518,
+          "enumerate_ns": 145570763,
+          "group_ns": 50035240,
+          "receipt_ns": 9241050,
+          "score_ns": 15170270,
+          "search_ns": 17135550,
+          "sort_ns": 3894226,
+          "wall_ns": 258401430
+        }
+      },
+      "pass": 9
+    },
+    {
+      "arm": "raw_lexical_task_guide",
+      "cost": {
+        "cpu_seconds": 0.26258899999999996,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273400253
+      },
+      "index": 37,
+      "native": {
+        "model_load_ns": 57858,
+        "preparation_cpu_ns": 57543,
+        "preparation_ns": 57889,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16950461,
+          "cpu_ns": 257057754,
+          "enumerate_ns": 145572599,
+          "group_ns": 50028701,
+          "receipt_ns": 9473821,
+          "score_ns": 15069990,
+          "search_ns": 17335408,
+          "sort_ns": 3899274,
+          "wall_ns": 258656753
+        }
+      },
+      "pass": 9
+    },
+    {
+      "arm": "task_without_prior_feature",
+      "cost": {
+        "cpu_seconds": 0.26244999999999996,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273865584
+      },
+      "index": 38,
+      "native": {
+        "model_load_ns": 56934,
+        "preparation_cpu_ns": 56603,
+        "preparation_ns": 56980,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16973784,
+          "cpu_ns": 256847483,
+          "enumerate_ns": 145734543,
+          "group_ns": 49927203,
+          "receipt_ns": 9317805,
+          "score_ns": 14707846,
+          "search_ns": 17302630,
+          "sort_ns": 4144407,
+          "wall_ns": 258417619
+        }
+      },
+      "pass": 9
+    },
+    {
+      "arm": "semantic_frequency",
+      "cost": {
+        "cpu_seconds": 0.263185,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273392147
+      },
+      "index": 39,
+      "native": {
+        "model_load_ns": 1779,
+        "preparation_cpu_ns": 1269,
+        "preparation_ns": 1824,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17031710,
+          "cpu_ns": 257582793,
+          "enumerate_ns": 145588404,
+          "group_ns": 50410175,
+          "receipt_ns": 9318396,
+          "score_ns": 14249211,
+          "search_ns": 17903678,
+          "sort_ns": 4278870,
+          "wall_ns": 259070746
+        }
+      },
+      "pass": 9
+    },
+    {
+      "arm": "raw_lexical_task_guide",
+      "cost": {
+        "cpu_seconds": 0.262585,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273781519
+      },
+      "index": 40,
+      "native": {
+        "model_load_ns": 60613,
+        "preparation_cpu_ns": 60282,
+        "preparation_ns": 60666,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16899910,
+          "cpu_ns": 256953334,
+          "enumerate_ns": 145756637,
+          "group_ns": 49990724,
+          "receipt_ns": 9390219,
+          "score_ns": 15119425,
+          "search_ns": 17070198,
+          "sort_ns": 3954110,
+          "wall_ns": 258493756
+        }
+      },
+      "pass": 10
+    },
+    {
+      "arm": "task_without_prior_feature",
+      "cost": {
+        "cpu_seconds": 0.27497,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 284813564
+      },
+      "index": 41,
+      "native": {
+        "model_load_ns": 62533,
+        "preparation_cpu_ns": 62205,
+        "preparation_ns": 62573,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17721193,
+          "cpu_ns": 268881487,
+          "enumerate_ns": 153622804,
+          "group_ns": 51373926,
+          "receipt_ns": 9835984,
+          "score_ns": 15462026,
+          "search_ns": 18075871,
+          "sort_ns": 4388786,
+          "wall_ns": 270810715
+        }
+      },
+      "pass": 10
+    },
+    {
+      "arm": "semantic_frequency",
+      "cost": {
+        "cpu_seconds": 0.273854,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 283867686
+      },
+      "index": 42,
+      "native": {
+        "model_load_ns": 3703,
+        "preparation_cpu_ns": 3252,
+        "preparation_ns": 3742,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17787660,
+          "cpu_ns": 267656956,
+          "enumerate_ns": 152284925,
+          "group_ns": 51491501,
+          "receipt_ns": 9791052,
+          "score_ns": 14617576,
+          "search_ns": 18565843,
+          "sort_ns": 4325280,
+          "wall_ns": 269198213
+        }
+      },
+      "pass": 10
+    },
+    {
+      "arm": "task_guide",
+      "cost": {
+        "cpu_seconds": 0.262418,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273417912
+      },
+      "index": 43,
+      "native": {
+        "model_load_ns": 59702,
+        "preparation_cpu_ns": 59400,
+        "preparation_ns": 59734,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16908751,
+          "cpu_ns": 256756867,
+          "enumerate_ns": 145580405,
+          "group_ns": 49963814,
+          "receipt_ns": 9368718,
+          "score_ns": 15115860,
+          "search_ns": 17144068,
+          "sort_ns": 3931987,
+          "wall_ns": 258301210
+        }
+      },
+      "pass": 10
+    },
+    {
+      "arm": "task_without_prior_feature",
+      "cost": {
+        "cpu_seconds": 0.262439,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273592588
+      },
+      "index": 44,
+      "native": {
+        "model_load_ns": 61365,
+        "preparation_cpu_ns": 61021,
+        "preparation_ns": 61411,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17167987,
+          "cpu_ns": 256781900,
+          "enumerate_ns": 145408784,
+          "group_ns": 50037345,
+          "receipt_ns": 9332150,
+          "score_ns": 14581328,
+          "search_ns": 17459919,
+          "sort_ns": 4120667,
+          "wall_ns": 258422206
+        }
+      },
+      "pass": 11
+    },
+    {
+      "arm": "semantic_frequency",
+      "cost": {
+        "cpu_seconds": 0.262992,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273920931
+      },
+      "index": 45,
+      "native": {
+        "model_load_ns": 1591,
+        "preparation_cpu_ns": 1108,
+        "preparation_ns": 1623,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16928861,
+          "cpu_ns": 257399436,
+          "enumerate_ns": 145586131,
+          "group_ns": 50365755,
+          "receipt_ns": 9384294,
+          "score_ns": 14279821,
+          "search_ns": 17967905,
+          "sort_ns": 4177034,
+          "wall_ns": 259005234
+        }
+      },
+      "pass": 11
+    },
+    {
+      "arm": "task_guide",
+      "cost": {
+        "cpu_seconds": 0.262799,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273508077
+      },
+      "index": 46,
+      "native": {
+        "model_load_ns": 60472,
+        "preparation_cpu_ns": 60168,
+        "preparation_ns": 60503,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 17005854,
+          "cpu_ns": 257099357,
+          "enumerate_ns": 145379204,
+          "group_ns": 50360454,
+          "receipt_ns": 9422061,
+          "score_ns": 15142651,
+          "search_ns": 17034244,
+          "sort_ns": 3961331,
+          "wall_ns": 258611106
+        }
+      },
+      "pass": 11
+    },
+    {
+      "arm": "raw_lexical_task_guide",
+      "cost": {
+        "cpu_seconds": 0.26262599999999997,
+        "peak_rss_bytes": 21749760,
+        "wall_ns": 273504070
+      },
+      "index": 47,
+      "native": {
+        "model_load_ns": 60274,
+        "preparation_cpu_ns": 59950,
+        "preparation_ns": 60315,
+        "warmup_and_measured_stage_ns": {
+          "adapter_ns": 16885959,
+          "cpu_ns": 257012266,
+          "enumerate_ns": 145829098,
+          "group_ns": 49995082,
+          "receipt_ns": 9396255,
+          "score_ns": 15051064,
+          "search_ns": 17106207,
+          "sort_ns": 3915664,
+          "wall_ns": 258483282
+        }
+      },
+      "pass": 11
+    }
+  ],
+  "mode": "cloud",
+  "phase": "complete",
+  "setup": {
+    "build": {
+      "cpu_seconds": 1.697767,
+      "peak_rss_bytes": 113881088,
+      "wall_ns": 1719697152
+    },
+    "compiler": {
+      "cpu_seconds": 0.015829,
+      "peak_rss_bytes": 73572352,
+      "wall_ns": 24693418
+    },
+    "embed": {
+      "cpu_seconds": 0.06790299999999999,
+      "peak_rss_bytes": 73687040,
+      "wall_ns": 77004281
+    },
+    "node": {
+      "cpu_seconds": 0.00217,
+      "peak_rss_bytes": 46338048,
+      "wall_ns": 2437260
+    }
+  },
+  "stable_rows_sha256": "978e74aea3edeffc215a760ccd9ef5c6c1e3af37910bc8024f498b8b049b26bf",
+  "status": "verified_complete",
+  "summary": {
+    "arms": {
+      "raw_lexical_task_guide": {
+        "cells": {
+          "0": {
+            "fallback_checks": 0,
+            "verifier_checks": 1323,
+            "views": 128
+          },
+          "1": {
+            "fallback_checks": 0,
+            "verifier_checks": 2359,
+            "views": 128
+          },
+          "2": {
+            "fallback_checks": 0,
+            "verifier_checks": 1294,
+            "views": 128
+          },
+          "3": {
+            "fallback_checks": 0,
+            "verifier_checks": 2230,
+            "views": 128
+          }
+        },
+        "fallback_checks": 0,
+        "maximum_peak_rss_bytes": 21749760,
+        "processes": 12,
+        "verifier_checks": 7206,
+        "whole_worker_cpu_seconds": 3.1523030000000003,
+        "whole_worker_wall_ns": 3283168619
+      },
+      "semantic_frequency": {
+        "cells": {
+          "0": {
+            "fallback_checks": 0,
+            "verifier_checks": 1741,
+            "views": 128
+          },
+          "1": {
+            "fallback_checks": 0,
+            "verifier_checks": 2222,
+            "views": 128
+          },
+          "2": {
+            "fallback_checks": 0,
+            "verifier_checks": 1691,
+            "views": 128
+          },
+          "3": {
+            "fallback_checks": 0,
+            "verifier_checks": 1917,
+            "views": 128
+          }
+        },
+        "fallback_checks": 0,
+        "maximum_peak_rss_bytes": 21749760,
+        "processes": 12,
+        "verifier_checks": 7571,
+        "whole_worker_cpu_seconds": 3.16495,
+        "whole_worker_wall_ns": 3292671646
+      },
+      "task_guide": {
+        "cells": {
+          "0": {
+            "fallback_checks": 0,
+            "verifier_checks": 1306,
+            "views": 128
+          },
+          "1": {
+            "fallback_checks": 0,
+            "verifier_checks": 2359,
+            "views": 128
+          },
+          "2": {
+            "fallback_checks": 0,
+            "verifier_checks": 1332,
+            "views": 128
+          },
+          "3": {
+            "fallback_checks": 0,
+            "verifier_checks": 2180,
+            "views": 128
+          }
+        },
+        "fallback_checks": 0,
+        "maximum_peak_rss_bytes": 21749760,
+        "processes": 12,
+        "verifier_checks": 7177,
+        "whole_worker_cpu_seconds": 3.1547459999999994,
+        "whole_worker_wall_ns": 3274085640
+      },
+      "task_without_prior_feature": {
+        "cells": {
+          "0": {
+            "fallback_checks": 0,
+            "verifier_checks": 1254,
+            "views": 128
+          },
+          "1": {
+            "fallback_checks": 0,
+            "verifier_checks": 2499,
+            "views": 128
+          },
+          "2": {
+            "fallback_checks": 0,
+            "verifier_checks": 1256,
+            "views": 128
+          },
+          "3": {
+            "fallback_checks": 0,
+            "verifier_checks": 2298,
+            "views": 128
+          }
+        },
+        "fallback_checks": 0,
+        "maximum_peak_rss_bytes": 21749760,
+        "processes": 12,
+        "verifier_checks": 7307,
+        "whole_worker_cpu_seconds": 3.1619800000000002,
+        "whole_worker_wall_ns": 3285039949
+      }
+    },
+    "comparisons": {
+      "raw_lexical_task_guide": {
+        "checks": {
+          "ratio": 0.9940697989344296,
+          "upper_one_sided_9875": 1.04004584786538
+        },
+        "cpu": {
+          "ratio": 1.0007720360922716,
+          "upper_one_sided_9875": 1.0025493330275426
+        },
+        "gate_passed": false
+      },
+      "semantic_frequency": {
+        "checks": {
+          "ratio": 0.9518106305857933,
+          "upper_one_sided_9875": 1.0249601266887312
+        },
+        "cpu": {
+          "ratio": 0.9968381534360458,
+          "upper_one_sided_9875": 1.0017550665242891
+        },
+        "gate_passed": false
+      }
+    },
+    "performance_evidence": true,
+    "primary_decision": "no_go"
+  },
+  "supervisor_sha256": "807a4524f3b928a9730265ec014934a76812689a3b37c6164f58a610548d4239"
+}

@@ -1,0 +1,11 @@
+{
+  "instance_id": "i-0b1ac37bc23724f38",
+  "launch_epoch_seconds": 1789263574,
+  "package_sha256": "b9cd62c7577536bc284e53cc066d789eb0e65890ccff7668529bb6a33262aa02",
+  "package_version": "uzHPhD4e.jjpziCh9RE2rOb3cW10D60R",
+  "plan_sha256": "9a8e016502e693e37c6333a852854d1896a37807cf4ea7477b7374b784c4393b",
+  "request_sha256": "1bb5adeb09b4c2c299a79bbff509de9b2129d10addb62000db716473ded049f2",
+  "run_id": "zero4-52-20260913T013725Z",
+  "status": "launched",
+  "user_data_sha256": "0968c1977830826bbd5002b0b47fff396861b7bd92b184e6a56d019ebd334ecd"
+}

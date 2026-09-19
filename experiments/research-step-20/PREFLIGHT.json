@@ -1,0 +1,92 @@
+{
+  "aws_account": "022118847419",
+  "checked_at": "2026-09-05T20:29:24.774220+00:00",
+  "dry_run": {
+    "instances_created": 0,
+    "preview_run_id": "feral-finqa-20260905T202522Z",
+    "receipt_sha256": "d977104ec4015ad2329d0ee9f579876a719828e110f4792df96092b868b7173a",
+    "status": "passed",
+    "submitted_request_sha256": "c29d9444491b12b14d21d180d3083bf53d12e924175d44c79e5d1ea418cb93d6",
+    "user_data_sha256": "57093826a6d2e5c8521728e864fe57ff798bef2296e7eb3cdfe69e4c30eccd12"
+  },
+  "machine": {
+    "ami_id": "ami-0d3378afe7683c867",
+    "ami_name": "Deep Learning Base OSS Nvidia Driver GPU AMI (Amazon Linux 2023) 20260825",
+    "architecture": "x86_64",
+    "gpu": "L40S",
+    "gpu_count": 1,
+    "gpu_memory_mib": 45776,
+    "instance_type": "g6e.2xlarge",
+    "memory_mib": 65536,
+    "root_device": "/dev/xvda",
+    "vcpus": 8
+  },
+  "network": {
+    "availability_zone": "us-east-1a",
+    "binding_sha256": "d4eccccfaa4f1263925bfa5195e6951aec950ece47ca0b76258ffe60157b2544",
+    "egress": [
+      "HTTPS",
+      "DNS over TCP",
+      "DNS over UDP"
+    ],
+    "existing_default_network_acl": "allows IPv4 traffic",
+    "existing_s3_endpoint_policy": "allows the package and result operations",
+    "ingress_rule_count": 0,
+    "route": "active internet gateway and S3 endpoint"
+  },
+  "observed_record_sha256": {
+    "bucket-encryption": "9dcbf5a9219555f282511d108aea0d88f078e8824b9fdd397160394bd3c2a213",
+    "bucket-location": "c91914411f90553792f3dfb1803f7c51ada8a48fadfb74f817af5f86a8b061ff",
+    "bucket-policy": "cd7b9d4c240e8e432b3445c8b9b0231902df652e4190a7d0b4241cc580f8fa30",
+    "bucket-public-access": "31f1f0a092cfdc6587c931923da09fc537545478aca3c5dcc2c060b73a91e4d9",
+    "bucket-versioning": "e0d7fcfe6b2ca7b3376e1af42cfbf309d2ee91d4cd664565f9b73c4816079f22",
+    "image": "aca65e07c819ed010f4fdb17edf9b9d8c5f2372a8dde9b99431a01bfd9826c15",
+    "instance-profile": "143cfc1e12be6f7dad0652a31aa9ac343321d9ea1c6867032d7bfa550df261cc",
+    "instance-type": "6f60f76981cef73cbab589464866a73afc2b24a4554b91d9b819ac755f3bb8b1",
+    "network-acl": "013a35be94d9d161446be048963043f0cf14a2315a3d3e8bc93de59328345b50",
+    "offerings": "56b1e54923409481a7355ce4b1db16d1c4cadeac99c700d4da42ef5e9dc05f64",
+    "role-inline-policies": "81f545399c2caf6b1c74caa19646ccdebb88ad6fb480f51cc1e54970d9a5281b",
+    "role-managed-policies": "fda4e473cd2ddb6f77a60f399b39861dfcd1009be2542aadfd0739a6a8ed4c49",
+    "role-policy": "f906165c67b930d45de7ff079c8b9e6a22d1767c610d51937efeeed7698d2560",
+    "routes": "2c0ecafd83e1fed3fbfe1cf04b4a7357d64db4280eceb9b0d504f4e7b4094eca",
+    "s3-endpoint": "9c829f1a5f78544b7bee9175d4cfec46a428ade56b6c2f3774c37c92148c300c",
+    "security-groups": "d3e4a8f3126f3b1cdd76bca9332d5242d5bbb9ad8af53e96c3cc986b5ed87875",
+    "subnets": "bd167be7b73b7bc2fc12c135947dc79cc2adc62d0bd0785b1b790b26982e6bf4"
+  },
+  "package": {
+    "bytes": 1638400,
+    "checksum_verified": true,
+    "conditional_new_object_write": true,
+    "readback_verified": true,
+    "s3_key": "packages/feral-comparison/4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355.tar",
+    "s3_version_id": "LnSWe132MAfKJg_oTtMzaGXkwHgUMCHg",
+    "sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355"
+  },
+  "paid_instances_created": 0,
+  "price": {
+    "decoded_bytes": 693471,
+    "decoded_sha256": "e250897c0fa060229e60ef1c9e4dd26c6489d0fcd9330a4b876af3f33ccb9a7c",
+    "download_completed_at": "2026-09-05T20:18:21.510838+00:00",
+    "estimated_total_with_reserve_usd": "2.9920800000",
+    "hourly_compute_usd": "2.2420800000",
+    "instance_type": "g6e.2xlarge",
+    "maximum_instance_seconds": 3600,
+    "other_infrastructure_reserve_usd": "0.75",
+    "requested_ceiling_usd": "3.00",
+    "source_url": "https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/ec2/USD/current/ec2-ondemand-without-sec-sel/US%20East%20%28N.%20Virginia%29/Linux/index.json",
+    "tax_scope": "before_tax",
+    "wire_encoding": "gzip",
+    "wire_sha256": "18cbef6aa13a3a811a9c556ec7268ec9713e2d55c79a6367a3fc8edd85eeeafe"
+  },
+  "region": "us-east-1",
+  "schema": "ilxyr.feral_live_preflight.v1",
+  "status": "ready_for_bounded_launch_approval",
+  "storage": {
+    "bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1",
+    "encryption": "AES256",
+    "public_access_block_flags": 4,
+    "role_package_read_and_result_write": "existing policies match paths",
+    "transport": "TLS required",
+    "versioning": "Enabled"
+  }
+}

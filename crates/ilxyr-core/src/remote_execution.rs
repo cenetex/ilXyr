@@ -6,8 +6,9 @@ use crate::{
     ActorRef, CodePolicy, CompiledExperiment, Error, ExecutionNetworkMode, ExecutionReport,
     ExecutorEnvironmentManifest, ExecutorJobPackage, ExportPolicy, ProviderBinding, Result,
     VerifiedExecutionReport, WeightClass, Workspace, attestation::trusted_attestation_keys,
-    authorize_unattended_run, store::now_ms, verify_environment_manifest, verify_execution_report,
-    verify_job_package, workflow::resolve_outcome,
+    authorize_unattended_run, autonomy::active_epoch_budget_at, store::now_ms,
+    verify_environment_manifest, verify_execution_report, verify_job_package,
+    workflow::resolve_outcome,
 };
 
 const EXPERIMENT_COMPILED: &str = "ExperimentCompiled";
@@ -48,6 +49,10 @@ pub struct RemoteExecutionAuthorization {
 pub struct RemoteLaunchReservation {
     pub schema: String,
     pub id: String,
+    #[serde(default)]
+    pub adapter: String,
+    #[serde(default)]
+    pub adapter_configuration_ref: String,
     pub authorization_ref: String,
     pub environment_ref: String,
     pub job_package_ref: String,
@@ -64,6 +69,7 @@ pub struct RemoteLaunchRequest {
     pub environment_ref: String,
     pub job_package_ref: String,
     pub idempotency_key: String,
+    pub reserved_at_ms: u128,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -127,6 +133,7 @@ pub struct AcceptedRemoteReport {
 pub trait RemoteExecutorAdapter {
     fn adapter_id(&self) -> &str;
     fn executor(&self) -> &ActorRef;
+    fn configuration_ref(&self) -> Result<String>;
 
     fn preflight(
         &mut self,
@@ -143,7 +150,12 @@ pub trait RemoteExecutorAdapter {
 
     fn observe(&mut self, receipt: &RemoteLaunchReceipt) -> Result<RemoteExecutionObservation>;
 
-    fn collect(&mut self, receipt: &RemoteLaunchReceipt) -> Result<ExecutionReport>;
+    fn collect(
+        &mut self,
+        receipt: &RemoteLaunchReceipt,
+        environment: &ExecutorEnvironmentManifest,
+        package: &ExecutorJobPackage,
+    ) -> Result<ExecutionReport>;
 }
 
 pub fn preflight_remote_execution<A: RemoteExecutorAdapter>(
@@ -195,12 +207,26 @@ pub fn authorize_remote_execution(
         return validation("remote authorization ID must not be empty");
     }
     let (compiled, package_ref) = compiled_for_package(workspace, environment, package)?;
+    crate::lifecycle::ensure_test_access_allowed(workspace, &package.experiment_id)?;
     let environment_ref = verify_environment_manifest(environment)?;
     let now = now_ms()?;
     if expires_at_ms <= now {
         return Err(Error::Security(
             "remote authorization expiry must be in the future".to_owned(),
         ));
+    }
+    let budget = active_epoch_budget_at(workspace, budget_id, now)?;
+    let budget_expires_at_ms = budget.expires_at_ms.ok_or_else(|| {
+        Error::Security(format!(
+            "epoch budget {} has no enforceable expiry",
+            budget.id
+        ))
+    })?;
+    if expires_at_ms > budget_expires_at_ms {
+        return Err(Error::Security(format!(
+            "remote authorization expiry must not exceed epoch budget expiry {}",
+            budget_expires_at_ms
+        )));
     }
 
     if let Some(existing) = latest_typed::<RemoteExecutionAuthorization>(
@@ -287,6 +313,15 @@ pub fn launch_remote_execution<A: RemoteExecutorAdapter>(
     if let Some(receipt) =
         latest_typed::<RemoteLaunchReceipt>(workspace, REMOTE_LAUNCH_RECORDED, authorization_id)?
     {
+        ensure_adapter_matches_receipt(adapter, &receipt)?;
+        let reservation: RemoteLaunchReservation = workspace.get(&receipt.reservation_ref)?;
+        if reservation.adapter != adapter.adapter_id()
+            || reservation.adapter_configuration_ref != adapter.configuration_ref()?
+        {
+            return Err(Error::Conflict(
+                "remote launch retry requires the reserved adapter configuration".to_owned(),
+            ));
+        }
         return Ok(receipt);
     }
     let (authorization_ref, authorization) = latest_typed_with_ref::<RemoteExecutionAuthorization>(
@@ -309,7 +344,9 @@ pub fn launch_remote_execution<A: RemoteExecutorAdapter>(
         &environment,
         &package,
     )?;
+    crate::lifecycle::ensure_test_access_allowed(workspace, &authorization.experiment_id)?;
     preflight_remote_execution(adapter, &environment, &package)?;
+    let adapter_configuration_ref = adapter.configuration_ref()?;
 
     let (reservation_ref, reservation) = match latest_typed_with_ref::<RemoteLaunchReservation>(
         workspace,
@@ -321,6 +358,8 @@ pub fn launch_remote_execution<A: RemoteExecutorAdapter>(
             let reservation = RemoteLaunchReservation {
                 schema: "ilxyr.remote_launch_reservation.v1".to_owned(),
                 id: format!("remote-launch-reservation:{authorization_id}"),
+                adapter: adapter.adapter_id().to_owned(),
+                adapter_configuration_ref: adapter_configuration_ref.clone(),
                 authorization_ref: authorization_ref.clone(),
                 environment_ref: authorization.environment_ref.clone(),
                 job_package_ref: authorization.job_package_ref.clone(),
@@ -342,6 +381,13 @@ pub fn launch_remote_execution<A: RemoteExecutorAdapter>(
             (reservation_ref, reservation)
         }
     };
+    if reservation.adapter != adapter.adapter_id()
+        || reservation.adapter_configuration_ref != adapter_configuration_ref
+    {
+        return Err(Error::Conflict(
+            "remote launch retry requires the reserved adapter configuration".to_owned(),
+        ));
+    }
     if reservation.authorization_ref != authorization_ref
         || reservation.environment_ref != authorization.environment_ref
         || reservation.job_package_ref != authorization.job_package_ref
@@ -357,6 +403,7 @@ pub fn launch_remote_execution<A: RemoteExecutorAdapter>(
         environment_ref: authorization.environment_ref.clone(),
         job_package_ref: authorization.job_package_ref.clone(),
         idempotency_key: reservation.idempotency_key.clone(),
+        reserved_at_ms: reservation.reserved_at_ms,
     };
     let provider_receipt = adapter.launch(&request, &environment, &package)?;
     if provider_receipt.schema != "ilxyr.provider_launch_receipt.v1"
@@ -430,7 +477,9 @@ pub fn collect_remote_execution_report<A: RemoteExecutorAdapter>(
     )?
     .ok_or_else(|| Error::NotFound(format!("remote launch {authorization_id}")))?;
     ensure_adapter_matches_receipt(adapter, &receipt)?;
-    let report = adapter.collect(&receipt)?;
+    let environment: ExecutorEnvironmentManifest = workspace.get(&receipt.environment_ref)?;
+    let package: ExecutorJobPackage = workspace.get(&receipt.job_package_ref)?;
+    let report = adapter.collect(&receipt, &environment, &package)?;
     if report.authorization_ref != receipt.authorization_ref
         || report.launch_ref != launch_ref
         || report.environment_ref != receipt.environment_ref

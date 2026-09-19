@@ -1,0 +1,545 @@
+{
+  "base_inputs_sha256": "b295064693c44f81685018f79d59570e81382fc447c188b2cb3438b9f19f45d4",
+  "counts": {
+    "abstention": 3,
+    "legacy_exact": 1133,
+    "numeric": 11
+  },
+  "dependency_sha256": "03bdce6315fded2ceb272e9c427c869893fc2b156f8fa6ab00f466b9c461ea72",
+  "evidence_kind": "posthoc_target_revision_and_old_output_audit",
+  "execution_authorized": false,
+  "historical_output_audit": {
+    "by_issuer": {
+      "AAL": {
+        "correct": 2,
+        "rows": 22
+      },
+      "AAPL": {
+        "correct": 3,
+        "rows": 10
+      },
+      "ABC": {
+        "correct": 0,
+        "rows": 2
+      },
+      "ABMD": {
+        "correct": 3,
+        "rows": 23
+      },
+      "ADBE": {
+        "correct": 2,
+        "rows": 11
+      },
+      "ADI": {
+        "correct": 0,
+        "rows": 9
+      },
+      "AES": {
+        "correct": 1,
+        "rows": 16
+      },
+      "ALLE": {
+        "correct": 0,
+        "rows": 2
+      },
+      "ALXN": {
+        "correct": 0,
+        "rows": 4
+      },
+      "AMAT": {
+        "correct": 0,
+        "rows": 4
+      },
+      "AMT": {
+        "correct": 1,
+        "rows": 56
+      },
+      "ANET": {
+        "correct": 0,
+        "rows": 2
+      },
+      "ANSS": {
+        "correct": 1,
+        "rows": 6
+      },
+      "AON": {
+        "correct": 5,
+        "rows": 20
+      },
+      "AOS": {
+        "correct": 2,
+        "rows": 2
+      },
+      "APD": {
+        "correct": 1,
+        "rows": 4
+      },
+      "AWK": {
+        "correct": 1,
+        "rows": 20
+      },
+      "BDX": {
+        "correct": 0,
+        "rows": 3
+      },
+      "BKNG": {
+        "correct": 0,
+        "rows": 4
+      },
+      "BKR": {
+        "correct": 0,
+        "rows": 4
+      },
+      "BLK": {
+        "correct": 1,
+        "rows": 18
+      },
+      "BLL": {
+        "correct": 1,
+        "rows": 20
+      },
+      "C": {
+        "correct": 4,
+        "rows": 26
+      },
+      "CB": {
+        "correct": 1,
+        "rows": 8
+      },
+      "CDNS": {
+        "correct": 3,
+        "rows": 8
+      },
+      "CDW": {
+        "correct": 3,
+        "rows": 8
+      },
+      "CE": {
+        "correct": 2,
+        "rows": 7
+      },
+      "CMCSA": {
+        "correct": 3,
+        "rows": 10
+      },
+      "CME": {
+        "correct": 3,
+        "rows": 20
+      },
+      "D": {
+        "correct": 1,
+        "rows": 4
+      },
+      "DG": {
+        "correct": 2,
+        "rows": 8
+      },
+      "DISCA": {
+        "correct": 0,
+        "rows": 7
+      },
+      "DISH": {
+        "correct": 0,
+        "rows": 6
+      },
+      "DRE": {
+        "correct": 2,
+        "rows": 14
+      },
+      "DVN": {
+        "correct": 0,
+        "rows": 13
+      },
+      "DXC": {
+        "correct": 0,
+        "rows": 3
+      },
+      "ECL": {
+        "correct": 1,
+        "rows": 10
+      },
+      "EL": {
+        "correct": 0,
+        "rows": 2
+      },
+      "EMR": {
+        "correct": 0,
+        "rows": 2
+      },
+      "EOG": {
+        "correct": 0,
+        "rows": 2
+      },
+      "ETFC": {
+        "correct": 1,
+        "rows": 10
+      },
+      "ETR": {
+        "correct": 9,
+        "rows": 50
+      },
+      "FBHS": {
+        "correct": 0,
+        "rows": 4
+      },
+      "FIS": {
+        "correct": 2,
+        "rows": 23
+      },
+      "GIS": {
+        "correct": 2,
+        "rows": 10
+      },
+      "GPN": {
+        "correct": 1,
+        "rows": 22
+      },
+      "GRMN": {
+        "correct": 0,
+        "rows": 5
+      },
+      "GS": {
+        "correct": 24,
+        "rows": 65
+      },
+      "HIG": {
+        "correct": 1,
+        "rows": 7
+      },
+      "HII": {
+        "correct": 0,
+        "rows": 5
+      },
+      "HOLX": {
+        "correct": 2,
+        "rows": 17
+      },
+      "HST": {
+        "correct": 1,
+        "rows": 1
+      },
+      "HUM": {
+        "correct": 1,
+        "rows": 7
+      },
+      "HWM": {
+        "correct": 0,
+        "rows": 5
+      },
+      "ILMN": {
+        "correct": 0,
+        "rows": 9
+      },
+      "INTC": {
+        "correct": 1,
+        "rows": 8
+      },
+      "IP": {
+        "correct": 3,
+        "rows": 27
+      },
+      "IPG": {
+        "correct": 0,
+        "rows": 12
+      },
+      "JKHY": {
+        "correct": 0,
+        "rows": 6
+      },
+      "JPM": {
+        "correct": 5,
+        "rows": 40
+      },
+      "K": {
+        "correct": 0,
+        "rows": 5
+      },
+      "KHC": {
+        "correct": 1,
+        "rows": 3
+      },
+      "L": {
+        "correct": 1,
+        "rows": 4
+      },
+      "LKQ": {
+        "correct": 2,
+        "rows": 4
+      },
+      "LMT": {
+        "correct": 4,
+        "rows": 23
+      },
+      "MAR": {
+        "correct": 1,
+        "rows": 4
+      },
+      "MAS": {
+        "correct": 1,
+        "rows": 7
+      },
+      "MKTX": {
+        "correct": 3,
+        "rows": 7
+      },
+      "MMM": {
+        "correct": 1,
+        "rows": 7
+      },
+      "MO": {
+        "correct": 1,
+        "rows": 12
+      },
+      "MRK": {
+        "correct": 0,
+        "rows": 6
+      },
+      "MRO": {
+        "correct": 11,
+        "rows": 36
+      },
+      "MS": {
+        "correct": 1,
+        "rows": 6
+      },
+      "MSI": {
+        "correct": 2,
+        "rows": 13
+      },
+      "NCLH": {
+        "correct": 2,
+        "rows": 7
+      },
+      "NKE": {
+        "correct": 1,
+        "rows": 2
+      },
+      "NWS": {
+        "correct": 2,
+        "rows": 4
+      },
+      "PKG": {
+        "correct": 2,
+        "rows": 8
+      },
+      "PM": {
+        "correct": 0,
+        "rows": 2
+      },
+      "PNC": {
+        "correct": 7,
+        "rows": 30
+      },
+      "PPG": {
+        "correct": 5,
+        "rows": 16
+      },
+      "RCL": {
+        "correct": 1,
+        "rows": 5
+      },
+      "RL": {
+        "correct": 0,
+        "rows": 2
+      },
+      "RSG": {
+        "correct": 3,
+        "rows": 20
+      },
+      "SLB": {
+        "correct": 1,
+        "rows": 3
+      },
+      "SLG": {
+        "correct": 1,
+        "rows": 9
+      },
+      "SNA": {
+        "correct": 3,
+        "rows": 25
+      },
+      "STT": {
+        "correct": 2,
+        "rows": 19
+      },
+      "SYY": {
+        "correct": 0,
+        "rows": 3
+      },
+      "TFX": {
+        "correct": 0,
+        "rows": 6
+      },
+      "TMUS": {
+        "correct": 0,
+        "rows": 4
+      },
+      "UA": {
+        "correct": 0,
+        "rows": 4
+      },
+      "UAA": {
+        "correct": 1,
+        "rows": 4
+      },
+      "UNP": {
+        "correct": 3,
+        "rows": 38
+      },
+      "UPS": {
+        "correct": 3,
+        "rows": 16
+      },
+      "V": {
+        "correct": 2,
+        "rows": 6
+      },
+      "VNO": {
+        "correct": 0,
+        "rows": 2
+      },
+      "VRTX": {
+        "correct": 0,
+        "rows": 4
+      },
+      "WRK": {
+        "correct": 0,
+        "rows": 5
+      },
+      "ZBH": {
+        "correct": 2,
+        "rows": 13
+      }
+    },
+    "by_target_kind": {
+      "abstention": {
+        "correct": 1,
+        "rows": 3
+      },
+      "legacy_exact": {
+        "correct": 168,
+        "rows": 1133
+      },
+      "numeric": {
+        "correct": 3,
+        "rows": 11
+      }
+    },
+    "explicit_abstentions": 5,
+    "non_abstained_fraction": 0.995640802092415,
+    "original_accuracy": 0.14646904969485613,
+    "original_correct": 168,
+    "reviewed_cases": [
+      {
+        "correct": false,
+        "id": "MAS/2017/page_27.pdf-2",
+        "kind": "numeric",
+        "prediction": "218.46%"
+      },
+      {
+        "correct": false,
+        "id": "AES/2002/page_128.pdf-2",
+        "kind": "abstention",
+        "prediction": "2003"
+      },
+      {
+        "correct": false,
+        "id": "AAL/2010/page_72.pdf-1",
+        "kind": "numeric",
+        "prediction": "-2020"
+      },
+      {
+        "correct": false,
+        "id": "AWK/2018/page_146.pdf-4",
+        "kind": "numeric",
+        "prediction": 0.6
+      },
+      {
+        "correct": false,
+        "id": "RSG/2015/page_98.pdf-2",
+        "kind": "numeric",
+        "prediction": "2.63"
+      },
+      {
+        "correct": true,
+        "id": "PNC/2012/page_100.pdf-3",
+        "kind": "numeric",
+        "prediction": 184
+      },
+      {
+        "correct": false,
+        "id": "JPM/2010/page_120.pdf-2",
+        "kind": "numeric",
+        "prediction": "11.2%"
+      },
+      {
+        "correct": false,
+        "id": "CE/2016/page_19.pdf-4",
+        "kind": "numeric",
+        "prediction": "51.3%"
+      },
+      {
+        "correct": true,
+        "id": "HIG/2011/page_53.pdf-4",
+        "kind": "abstention",
+        "prediction": "Unable to determine"
+      },
+      {
+        "correct": true,
+        "id": "DG/2007/page_67.pdf-2",
+        "kind": "numeric",
+        "prediction": "10.2"
+      },
+      {
+        "correct": false,
+        "id": "ETR/2016/page_23.pdf-4",
+        "kind": "abstention",
+        "prediction": 5829
+      },
+      {
+        "correct": true,
+        "id": "RSG/2018/page_135.pdf-2",
+        "kind": "numeric",
+        "prediction": "-43.33%"
+      },
+      {
+        "correct": false,
+        "id": "DRE/2007/page_56.pdf-2",
+        "kind": "numeric",
+        "prediction": "139255"
+      },
+      {
+        "correct": false,
+        "id": "AWK/2017/page_148.pdf-4",
+        "kind": "numeric",
+        "prediction": "65.32"
+      }
+    ],
+    "rows": 1147,
+    "v2_accuracy": 0.14995640802092414,
+    "v2_correct": 172
+  },
+  "historical_predictions_sha256": "4ade8a32e3b6d1c42dc49bf28826d65cf33f748dc1deec8eccc7399f2ad9f5c1",
+  "model_inputs_sha256": "308a7b50bf9d2e018e36dab68f5238d26246f79c2f7672a176be7017f750eb8a",
+  "ordered_ids_sha256": "a3bdd8b5f0732a7e4a71b83c5f27ea3ca4b0d3379bdc64fcd0b7cfdef0ec3128",
+  "patch_sha256": "d03eb56a5572bdcdd1798bf3cc7e547988640ce2bb70f5617e5d362e2cf30000",
+  "plan_sha256": "3f35d6c149575e143516a4142cf6f3de33f815d1889a5c4032941441ceb1a9d2",
+  "reviewed_numeric_targets": {
+    "AAL/2010/page_72.pdf-1": "4959/989",
+    "AWK/2017/page_148.pdf-4": "2300/39",
+    "AWK/2018/page_146.pdf-4": "13/10",
+    "CE/2016/page_19.pdf-4": "1650/43",
+    "DG/2007/page_67.pdf-2": "51/5",
+    "DRE/2007/page_56.pdf-2": "217692/139255",
+    "JPM/2010/page_120.pdf-2": "2243300/200077",
+    "MAS/2017/page_27.pdf-2": "11197/100",
+    "PNC/2012/page_100.pdf-3": "184",
+    "RSG/2015/page_98.pdf-2": "1003/467",
+    "RSG/2018/page_135.pdf-2": "-130/3"
+  },
+  "runner_sha256": "a5e8413b66ccf20963ccbdaefec00346bca4e7235c43743d8a2ad32d57d5fc73",
+  "schema": "ilxyr.feral_target_version.v2",
+  "source_sha256": "831dbfb2e785dbc227f895ce3f24046433467aec67b09db2bd6ac7692a8a30dc",
+  "targets_sha256": "1d82193487f5800856fcba45b6eba13134796d1f92033b25b552fb37602dc8b1",
+  "version": "feral-finqa-targets-v2"
+}

@@ -1,0 +1,23 @@
+{
+  "files": {
+    "controller.tar": {
+      "bytes": 16537600,
+      "sha256": "13ac113cff5db7a22b66fdd9f1176746fb7d9a79e0a1ef0b1c8af6adde218712"
+    },
+    "experiments/research-step-35/EXECUTION-PLAN.json": {
+      "bytes": 3653,
+      "sha256": "62e5d421dbb2b61a9e4e25816d059a1a569b819061ac1c70a940961864c16ecc"
+    },
+    "scripts/aws/weight35-user-data.sh": {
+      "bytes": 7806,
+      "sha256": "12aaf9368357a479e83d652051d836ca6b7047499638be3218ff12029e8612e1"
+    },
+    "scripts/weight_cloud_collect.py": {
+      "bytes": 12157,
+      "sha256": "208345411e01c8a411c3de62ec96cabd790ab809b0cce8e7d0c19a1bf33e6757"
+    }
+  },
+  "plan_sha256": "62e5d421dbb2b61a9e4e25816d059a1a569b819061ac1c70a940961864c16ecc",
+  "schema": "ilxyr.weight_host_package.v1",
+  "source_commit": "f5d29f66151c5f5b27cfc2c3067f7e0260c30bad"
+}

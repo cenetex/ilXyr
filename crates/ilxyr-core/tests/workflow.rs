@@ -2,6 +2,7 @@ use std::{fs, path::PathBuf, process, time::SystemTime};
 
 use base64::{Engine as _, engine::general_purpose::STANDARD};
 use ed25519_dalek::{Signer, SigningKey};
+use ilxyr_core::lifecycle::{release_test_digest, seal_test_digest};
 use ilxyr_core::{
     ActorRef, CodePolicy, CompiledExperiment, CorpusFile, CorpusLocation, CorpusMaterialization,
     CorpusRelease, CorpusRights, CorpusSource, DsseEnvelope, DsseSignature, ExperimentSpec,
@@ -232,6 +233,20 @@ fn oci_job_binds_corpus_reconciles_and_requires_attestation() {
             .to_string()
             .contains("match every frozen dataset")
     );
+    seal_test_digest(&workspace, &spec.id, &"d".repeat(64))
+        .expect("test digest seals before OCI dispatch");
+    assert!(
+        record_oci_job_dispatch(&workspace, dispatch.clone())
+            .expect_err("sealed test access must block OCI dispatch")
+            .to_string()
+            .contains("test split")
+    );
+    release_test_digest(
+        &workspace,
+        &spec.id,
+        &ActorRef::service("service://ilxyr/test-release-authorizer"),
+    )
+    .expect("authorized release opens test access");
     let dispatch_ref = record_oci_job_dispatch(&workspace, dispatch.clone()).expect("dispatch");
     assert_eq!(
         record_oci_job_dispatch(&workspace, dispatch).expect("dispatch retry"),
@@ -661,6 +676,25 @@ fn append_refuses_to_extend_a_corrupt_ledger() {
         tampered,
         "failed append must leave the corrupt log unchanged"
     );
+}
+
+#[test]
+fn status_projection_rejects_a_corrupt_ledger() {
+    let directory = TestDirectory::create("corrupt-status");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    submit_lineage(&workspace);
+    let experiment = experiment();
+    compile_experiment(&workspace, experiment.clone()).expect("experiment must compile");
+
+    let event_path = directory.0.join(".ilxyr/events.jsonl");
+    let tampered = fs::read_to_string(&event_path)
+        .expect("event log must be readable")
+        .replace("toy.hypothesis.v1", "toy.hypothesis.tampered.v1");
+    fs::write(event_path, tampered).expect("test must tamper with the ledger");
+
+    let error = experiment_status(&workspace, &experiment.id)
+        .expect_err("status must reject a corrupt ledger");
+    assert!(error.to_string().contains("event digest mismatch"));
 }
 
 #[test]

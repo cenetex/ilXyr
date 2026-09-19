@@ -1,0 +1,331 @@
+[
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "11/8",
+        "zero_target_probability": 1
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "1587/1280",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "105": 1,
+      "114": 1,
+      "97": 2
+    },
+    "predicted": 97,
+    "start": 0,
+    "suffix_order": 8,
+    "target": 99,
+    "training_matches": 4
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "0",
+        "zero_target_probability": 0
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "255/1024",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "111": 1
+    },
+    "predicted": 111,
+    "start": 393,
+    "suffix_order": 4,
+    "target": 111,
+    "training_matches": 1
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "35/128",
+        "zero_target_probability": 0
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "21759/73984",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "101": 9,
+      "105": 1,
+      "111": 2,
+      "97": 4
+    },
+    "predicted": 101,
+    "start": 786,
+    "suffix_order": 4,
+    "target": 101,
+    "training_matches": 16
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "0",
+        "zero_target_probability": 0
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "255/4096",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "110": 3
+    },
+    "predicted": 110,
+    "start": 1179,
+    "suffix_order": 8,
+    "target": 110,
+    "training_matches": 3
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "0",
+        "zero_target_probability": 0
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "255/1024",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "103": 1
+    },
+    "predicted": 103,
+    "start": 1572,
+    "suffix_order": 8,
+    "target": 103,
+    "training_matches": 1
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "3/2",
+        "zero_target_probability": 1
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "2815/2304",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "103": 1,
+      "105": 1
+    },
+    "predicted": 103,
+    "start": 1965,
+    "suffix_order": 3,
+    "target": 32,
+    "training_matches": 2
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "0",
+        "zero_target_probability": 0
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "255/1024",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "111": 1
+    },
+    "predicted": 111,
+    "start": 2358,
+    "suffix_order": 8,
+    "target": 111,
+    "training_matches": 1
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "0",
+        "zero_target_probability": 0
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "85/768",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "114": 2
+    },
+    "predicted": 114,
+    "start": 2751,
+    "suffix_order": 4,
+    "target": 114,
+    "training_matches": 2
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "2",
+        "zero_target_probability": 1
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "1109/768",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "105": 2
+    },
+    "predicted": 105,
+    "start": 3144,
+    "suffix_order": 4,
+    "target": 111,
+    "training_matches": 2
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "4/3",
+        "zero_target_probability": 1
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "4863/4096",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "109": 1,
+      "110": 1,
+      "46": 1
+    },
+    "predicted": 46,
+    "start": 3537,
+    "suffix_order": 4,
+    "target": 100,
+    "training_matches": 3
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "0",
+        "zero_target_probability": 0
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "85/768",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "114": 2
+    },
+    "predicted": 114,
+    "start": 3930,
+    "suffix_order": 8,
+    "target": 114,
+    "training_matches": 2
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "0",
+        "zero_target_probability": 0
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "255/1024",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "114": 1
+    },
+    "predicted": 114,
+    "start": 4323,
+    "suffix_order": 16,
+    "target": 114,
+    "training_matches": 1
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "0",
+        "zero_target_probability": 0
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "255/1024",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "110": 1
+    },
+    "predicted": 110,
+    "start": 4716,
+    "suffix_order": 4,
+    "target": 110,
+    "training_matches": 1
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "0",
+        "zero_target_probability": 0
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "255/1024",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "46": 1
+    },
+    "predicted": 46,
+    "start": 5109,
+    "suffix_order": 8,
+    "target": 46,
+    "training_matches": 1
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "0",
+        "zero_target_probability": 0
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "255/1024",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "100": 1
+    },
+    "predicted": 100,
+    "start": 5502,
+    "suffix_order": 4,
+    "target": 100,
+    "training_matches": 1
+  },
+  {
+    "arms": {
+      "suffix_empirical": {
+        "normalized_brier": "1/2",
+        "zero_target_probability": 0
+      },
+      "suffix_unit_prior": {
+        "normalized_brier": "10495/20736",
+        "zero_target_probability": 0
+      }
+    },
+    "nonzero_training_counts": {
+      "10": 4,
+      "32": 4
+    },
+    "predicted": 10,
+    "start": 5895,
+    "suffix_order": 2,
+    "target": 10,
+    "training_matches": 8
+  }
+]

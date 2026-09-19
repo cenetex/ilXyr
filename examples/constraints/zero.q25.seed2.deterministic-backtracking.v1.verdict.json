@@ -1,0 +1,24 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:zero.q25.seed2.deterministic-backtracking.v1",
+  "experiment_id": "zero.q25.seed2.deterministic-backtracking.v1",
+  "family": "zero",
+  "seed": 2,
+  "outcome": "complete_no_go",
+  "taxonomy": "interference",
+  "mechanism": "Deterministic learning-rate backtracking over eight descending scales (1 through 1/128), preserving Q2.4's frozen 1.5% cumulative replay authority. All eight scales exhausted on attempts 72-79 without reaching a public checkpoint.",
+  "mechanism_tags": [
+    "replay-guard",
+    "cumulative",
+    "backtracking",
+    "quantity-gate"
+  ],
+  "summary": "Q2.5 seed 2 committed 71 updates (66 full-scale, 5 backtracked), then exhausted all eight scales on attempts 72-79. The terminal minimum-scale candidates missed the 1.5% authority by only 0.000151-0.000238 percentage points. Promotion and replication stayed sealed.",
+  "lineage_note": "Scalar step length is insufficient. A follow-up must change candidate direction, objective, or optimization geometry without weakening the replay or quantity gates.",
+  "evidence_ref": "artifact://sha256/3d1cd0547bb1db51188caeb1b948069193a5fb5729efa3f6844c4d533de06ddd",
+  "recorded_by": {
+    "id": "human://cenetex",
+    "kind": "human"
+  },
+  "recorded_at_ms": 1788300200000
+}

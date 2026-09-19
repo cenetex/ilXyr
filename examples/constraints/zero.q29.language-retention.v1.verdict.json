@@ -1,0 +1,29 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:zero.q29.language-retention.v1",
+  "experiment_id": "zero.q29.language-retention.v1",
+  "family": "zero",
+  "project": "zero4",
+  "seed": 2,
+  "taxonomy": "interference",
+  "outcome": "no_go",
+  "evidence_kind": "existing_public_result",
+  "source_outcome": "Q2.9 first-hit candidate failed the later fixed language preservation gate",
+  "evidence_path": "experiments/research-step-17/RESULT.json",
+  "evidence_ref": "artifact://sha256/dd0da36394f922314fbcfce2cca3f19545b771f09ae7e310d3cabe50931b61b4",
+  "mechanism": "Q2.9 stopped at update 50 with 81.0518 percent quantity loss recovery and 0.12325 percent replay training loss regression. Its frozen quantized candidate then scored 2.579735 TinyStories bits per byte against a 2.553140 ceiling, while BLiMP passed.",
+  "mechanism_tags": [
+    "replay-guard",
+    "language-retention",
+    "proxy-measurement",
+    "early-stopping"
+  ],
+  "summary": "A small replay training loss change coexisted with a failed independent language preservation gate for the selected Q2.9 candidate.",
+  "lineage_note": "Preserve the earlier candidate-frozen training result and the later language no-go. Freeze per-source retention limits and a separate fresh language screen for the next comparison.",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788636887089
+}

@@ -1,0 +1,29 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-53/RESULT.json",
+  "evidence_ref": "artifact://sha256/2fa95d97add754d9a343ca576b4a15eeedf95daeb1fa2e151616ac78aabd0ffb",
+  "experiment_id": "research.step53.feral-entity-coverage.v1",
+  "family": "feral",
+  "id": "verdict:research.step53.feral-entity-coverage.v1",
+  "lineage_note": "Use the strict control to expose context-dependent question-to-fact mapping. Require source context, fact spans and independent fresh wording before a replacement claim.",
+  "mechanism": "Explicit question requests and complete entity labels",
+  "mechanism_tags": [
+    "fact-selection",
+    "wording-transfer",
+    "calculator-control",
+    "abstention",
+    "exact-labels"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "feral",
+  "recorded_at_ms": 1789254425838,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "development_coverage_hold",
+  "summary": "The strict request control fixes the opened wrong-index failure and answers 22 invented questions. It answers zero of three older numeric development questions, versus three for v2, while preserving both required abstentions.",
+  "taxonomy": "transfer"
+}

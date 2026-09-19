@@ -1,0 +1,20 @@
+{
+  "local_sanitizer_processes": 9,
+  "local_sanitizer_result_sha256": "608c10f17bc8388b53351680e2ff7af067dd46796c4de6851462ce2132b93441",
+  "local_stable_result_identical": true,
+  "platforms": {
+    "eligible-macos-15": {
+      "independent_replays": 76,
+      "raw_files": 33,
+      "stable_rows_sha256": "195eb68a6b39a3f92cf7647402ad8b4d1fdd79367566545f08463986c967c4e6",
+      "status": "passed"
+    },
+    "eligible-ubuntu-24.04": {
+      "independent_replays": 76,
+      "raw_files": 33,
+      "stable_rows_sha256": "195eb68a6b39a3f92cf7647402ad8b4d1fdd79367566545f08463986c967c4e6",
+      "status": "passed"
+    }
+  },
+  "schema": "ilxyr.reasoner_eligible_platform_checks.v1"
+}

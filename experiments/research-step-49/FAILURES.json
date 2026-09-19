@@ -1,0 +1,25 @@
+{
+  "failures": [
+    {
+      "id": "local-process-pipe-access",
+      "log_sha256": "50ae83ec367beab3316f36488667f5e55b3aa1b5bc61bb435ea000c0f9077ae2",
+      "observed": "The sandbox denied /dev/fd/62 during bootstrap process substitution. The first captured run had two failures and seven errors.",
+      "paid_instances_created": 0,
+      "predictor_calls": 0,
+      "resolution": "The same 15 checks passed with local process-pipe access.",
+      "scope": "test_environment"
+    },
+    {
+      "ci_log_sha256": "78b18b2c130837a3f5e5e3b7d9a33c571c94353996c38f102574f6b16506def3",
+      "ci_run": 34716884782,
+      "id": "tamper-test-archive-path",
+      "log_sha256": "142ba6096d8fd1f1b01f13eb796dce1db32e6b9315438c9785fb10eb1a6de041",
+      "observed": "The new tamper test reused an existing archive path with a create-only tar writer. It stopped at FileExistsError before testing package integrity.",
+      "paid_instances_created": 0,
+      "predictor_calls": 0,
+      "resolution": "Write the changed archive to its own path. The focused check and all 16 fixed-image CI host tests pass.",
+      "scope": "test_fixture"
+    }
+  ],
+  "schema": "ilxyr.feral_coverage_cloud_failures.v1"
+}

@@ -9,7 +9,7 @@
 //! gate passed — a no-go experiment can still resolve a mechanism forecast.
 
 use crate::conditions::{ConditionFacts, ConditionSet, evaluate};
-use crate::model::{ActorRef, ComparisonOperator};
+use crate::model::{ActorRef, AdmissionDecision, ComparisonOperator, Forecast, ResearchEvent};
 use crate::{Error, Result, Workspace, workflow};
 
 /// Settlement record for a mechanism forecast.
@@ -43,14 +43,14 @@ pub fn attach_mechanism_condition(
             condition_set.schema
         )]));
     }
-    // The forecast must exist and its inputs must still be open.
     let events = workspace.events()?;
-    let submitted = events.iter().any(|event| {
-        event.event_type == workflow::FORECAST_SUBMITTED_EVENT && event.aggregate_id == forecast_id
-    });
-    if !submitted {
-        return Err(Error::NotFound(format!(
-            "forecast {forecast_id} was never submitted"
+    let (forecast, _) = submitted_forecast(workspace, &events, forecast_id)?;
+    workflow::ensure_inputs_open(workspace, &forecast.experiment_id)?;
+    if events.iter().any(|event| {
+        event.event_type == MECHANISM_CONDITION_ATTACHED && event.aggregate_id == forecast_id
+    }) {
+        return Err(Error::Conflict(format!(
+            "mechanism condition for forecast {forecast_id} is already frozen"
         )));
     }
     let reference = workspace.put(&condition_set)?;
@@ -71,6 +71,50 @@ pub fn settle_mechanism_forecast(
 ) -> Result<MechanismSettlement> {
     let events = workspace.events()?;
 
+    let (forecast, forecast_index) = submitted_forecast(workspace, &events, forecast_id)?;
+    let attachments = events
+        .iter()
+        .enumerate()
+        .filter(|(_, event)| {
+            event.event_type == MECHANISM_CONDITION_ATTACHED && event.aggregate_id == forecast_id
+        })
+        .collect::<Vec<_>>();
+    if attachments.len() != 1 {
+        return Err(Error::Conflict(format!(
+            "forecast {forecast_id} must have exactly one mechanism condition attachment"
+        )));
+    }
+    let (attachment_index, attachment) = attachments[0];
+    if attachment_index <= forecast_index {
+        return Err(Error::Conflict(format!(
+            "mechanism condition for forecast {forecast_id} predates the forecast"
+        )));
+    }
+    let admitted_index = first_accepted_admission(workspace, &events, &forecast.experiment_id)?
+        .ok_or_else(|| {
+            Error::Conflict(format!(
+                "experiment {} has no accepted admission decision",
+                forecast.experiment_id
+            ))
+        })?;
+    let completed_index = events
+        .iter()
+        .position(|event| {
+            event.event_type == "ExperimentCompleted"
+                && event.aggregate_id == forecast.experiment_id
+        })
+        .ok_or_else(|| {
+            Error::Conflict(format!(
+                "experiment {} has no completed run",
+                forecast.experiment_id
+            ))
+        })?;
+    if attachment_index >= admitted_index || attachment_index >= completed_index {
+        return Err(Error::Conflict(format!(
+            "mechanism condition for forecast {forecast_id} was attached after admission or results"
+        )));
+    }
+
     // Idempotency: find an existing settlement for this forecast.
     for event in &events {
         if event.event_type != MECHANISM_SETTLED || event.aggregate_id != forecast_id {
@@ -81,25 +125,11 @@ pub fn settle_mechanism_forecast(
         }
     }
 
-    // Find the attached condition set.
-    let mut condition_ref = None;
-    let mut forecaster = None;
-    for event in &events {
-        if event.aggregate_id != forecast_id {
-            continue;
-        }
-        match event.event_type.as_str() {
-            workflow::FORECAST_SUBMITTED_EVENT => forecaster = Some(event.actor.clone()),
-            MECHANISM_CONDITION_ATTACHED => condition_ref = event.artifact_ref.clone(),
-            _ => {}
-        }
-    }
-    let Some(condition_ref) = condition_ref else {
-        return Err(Error::NotFound(format!(
-            "forecast {forecast_id} has no attached mechanism condition"
-        )));
-    };
-    let _ = forecaster;
+    let condition_ref = attachment.artifact_ref.clone().ok_or_else(|| {
+        Error::Conflict(format!(
+            "mechanism condition for forecast {forecast_id} has no artifact reference"
+        ))
+    })?;
 
     let condition_set: ConditionSet = workspace.get(&condition_ref)?;
     let facts = ConditionFacts::from_workspace(workspace)?;
@@ -131,6 +161,54 @@ pub fn settle_mechanism_forecast(
         Some(reference),
     )?;
     Ok(settlement)
+}
+
+fn submitted_forecast(
+    workspace: &Workspace,
+    events: &[ResearchEvent],
+    forecast_id: &str,
+) -> Result<(Forecast, usize)> {
+    let (index, event) = events
+        .iter()
+        .enumerate()
+        .find(|(_, event)| {
+            event.event_type == workflow::FORECAST_SUBMITTED_EVENT
+                && event.aggregate_id == forecast_id
+        })
+        .ok_or_else(|| Error::NotFound(format!("forecast {forecast_id} was never submitted")))?;
+    let reference = event.artifact_ref.as_deref().ok_or_else(|| {
+        Error::Conflict(format!("forecast {forecast_id} has no artifact reference"))
+    })?;
+    let forecast: Forecast = workspace.get(reference)?;
+    if forecast.id != forecast_id {
+        return Err(Error::Conflict(format!(
+            "forecast event {forecast_id} points to {}",
+            forecast.id
+        )));
+    }
+    Ok((forecast, index))
+}
+
+fn first_accepted_admission(
+    workspace: &Workspace,
+    events: &[ResearchEvent],
+    experiment_id: &str,
+) -> Result<Option<usize>> {
+    for (index, event) in events.iter().enumerate() {
+        if event.event_type != "AdmissionDecided" || event.aggregate_id != experiment_id {
+            continue;
+        }
+        let reference = event.artifact_ref.as_deref().ok_or_else(|| {
+            Error::Conflict(format!(
+                "admission decision for {experiment_id} has no artifact reference"
+            ))
+        })?;
+        let decision: AdmissionDecision = workspace.get(reference)?;
+        if decision.accepted {
+            return Ok(Some(index));
+        }
+    }
+    Ok(None)
 }
 
 /// Convenience constructor for metric-style mechanism conditions used in tests.

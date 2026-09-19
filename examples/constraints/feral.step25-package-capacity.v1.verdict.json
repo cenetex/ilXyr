@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-27/CAPACITY-FAILURES.json",
+  "evidence_ref": "artifact://sha256/9a7471bac4960ee6975ffeb22162d784fb8ffad410f6598812f3fb4019fda1d7",
+  "experiment_id": "feral.step25-package-capacity.v1",
+  "family": "feral",
+  "id": "verdict:feral.step25-package-capacity.v1",
+  "lineage_note": "Retain every provider error and reconcile its client token before another attempt. Keep the package, machine shape, image, and budget fixed across zone checks.",
+  "mechanism": "Availability of the fixed g6e.2xlarge machine in the approved region.",
+  "mechanism_tags": [
+    "cloud-capacity",
+    "bounded-launch",
+    "provider-observation"
+  ],
+  "outcome": "execution_failure",
+  "project": "feral",
+  "recorded_at_ms": 1788855181680,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "three capacity failures created zero instances; the fourth zone launched one approved instance",
+  "summary": "AWS rejected the fixed FERAL instance in three zones for insufficient capacity. A query after each error confirmed zero instances before a fourth zone supplied the single approved instance.",
+  "taxonomy": "venue"
+}

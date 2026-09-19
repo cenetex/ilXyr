@@ -1,0 +1,41 @@
+{
+  "files": {
+    "scripts/lib/weight-candidates-v2.mjs": {
+      "bytes": 11328,
+      "sha256": "6afa056e52c64a4c9ee5f5a8d275a1dd67884e03630487888aecabfad8bdcf54"
+    },
+    "scripts/lib/weight-finite-support.mjs": {
+      "bytes": 3258,
+      "sha256": "1466f5230b75bbe4456ba79b78130ae0d94047d35838c50cb8120c68a56ce146"
+    },
+    "scripts/lib/weight-query-cache.mjs": {
+      "bytes": 4926,
+      "sha256": "31628e30ac7cc01e71cecb0d5788c7ad4381e55390694e89fd19b62ac0305da9"
+    },
+    "scripts/lib/weight-selection-pilot.mjs": {
+      "bytes": 11640,
+      "sha256": "ad31e394691897affca52ca9da0125b5e3cc2e2d97527824028ed7bf3a21f29b"
+    },
+    "scripts/research_weight_selection.mjs": {
+      "bytes": 5197,
+      "sha256": "f065b75e9bd73a19a41c6e8211b6e626177ba6b1b2524e08d7b481dab5e262d1"
+    },
+    "scripts/test-weight-selection-pilot.mjs": {
+      "bytes": 14729,
+      "sha256": "72be71fa017f7026426d00d151406d217476579e113b5f3275604fa512882f3b"
+    },
+    "scripts/weight_selection_smoke.mjs": {
+      "bytes": 4874,
+      "sha256": "7f63958dea0f4cbafabd5497d6ae43596976fb2d69af179544d8bed11f769060"
+    }
+  },
+  "historical_inputs": {
+    "examples/weight-multiplicity/phase06-reduced-corpus-manifest-v1.json": "1d097675fbff83e704cfd0128ea98caa116d6bcb3573fa7ef314b9d1f357a733",
+    "examples/weight-multiplicity/phase1-root-systems-v1.json": "b8b175011909e6734bc6d6a6d55b3d09a67c34a5106a5908a5029206bf4f0271",
+    "experiments/research-step-54/RESULT.json": "7918937c639897101c1a4e6f8a0d465cbd949d7a475bb5851e78bd117fb2c5d4",
+    "scripts/run-weight-multiplicity-phase1-corpus.mjs": "af676e6f8043a82e277926f0e5b08e506bb48fef4b8ba376a44d459c452f42cf"
+  },
+  "oracle_identity_rule": "The cache identity must bind the oracle executable and its canonical coordinate mapping, query format and version. Development uses the declared fixture contract; the native smoke binds both built executables and A1 identity mapping.",
+  "schema": "ilxyr.weight_selection_sources.v1",
+  "source_commit": "8b6ebb32920fcca25d1eb733457fe8d3765726c7"
+}

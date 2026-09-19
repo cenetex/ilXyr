@@ -1,0 +1,71 @@
+{
+  "arm_order": "five-position Latin rotation within each document",
+  "contexts": {
+    "pg-1228": {
+      "bytes": 2048,
+      "sha256": "c47be5e3cf6f428f85484a8424c5de7c751949e4f3328f6e6d7149d424b9aa1b"
+    },
+    "pg-132": {
+      "bytes": 2048,
+      "sha256": "75ff12191d247a9003054e1644861591eb5506cedd9c3e3478e7b97671af0870"
+    },
+    "pg-1342": {
+      "bytes": 2048,
+      "sha256": "9418933be226e68c85021fc2d132a539e1288d5ec568d255c93520f021195369"
+    },
+    "pg-1661": {
+      "bytes": 2048,
+      "sha256": "8672ebfb5279116fecd421e164c489898176eeae1b18895cc448336efdc211a3"
+    },
+    "pg-20203": {
+      "bytes": 2048,
+      "sha256": "ec9f6183ffbe558460d81d04648b450ab7ac76a61f0896da6c9d19d4a9c8660c"
+    },
+    "pg-205": {
+      "bytes": 2048,
+      "sha256": "2a2c3849700e3be0fe777a4f4b0b10efaf10a1a49dc97444e93a2df01dea8d1f"
+    },
+    "pg-3300": {
+      "bytes": 2048,
+      "sha256": "105065f8c39532ecec8a99a31b0d5b9462eae7057aeada63b148d4a1710efaa5"
+    },
+    "pg-34901": {
+      "bytes": 2048,
+      "sha256": "45778c62f7b137b5ae308617cb815d2a4265bb93a5b480fab0da10e8df2c0d77"
+    },
+    "pg-35": {
+      "bytes": 2048,
+      "sha256": "419e2e4d036df41706702430cd0a0d02027d57e6eda12f73f5a1e3451549c016"
+    },
+    "pg-74": {
+      "bytes": 2048,
+      "sha256": "2ffce7b097b5cc3adba15708d2c945fd03c218fcfd528a6f2611bd52c2d1aaa3"
+    },
+    "pg-84": {
+      "bytes": 2048,
+      "sha256": "2e9486203e5fb317190c0ccfa82ae57726e7db96bb17ee0f86fed674f56a7cdc"
+    },
+    "pg-98": {
+      "bytes": 2048,
+      "sha256": "7d22d0405d172ff8d11f3094626bb56d9eb71610417703add8cc58e95444c222"
+    }
+  },
+  "control_artifact": "inputs/memory.bin",
+  "control_forward_calls": 0,
+  "execution_authorized": false,
+  "jobs": 300,
+  "measurement_mode": "separate cold process per arm and document; operating-system caches may persist across processes",
+  "native_artifact": "source/data/experiments/integer-transformer-proof-v1/candidate-default/candidate.nsrlmt",
+  "native_forward_calls": 1920,
+  "probability_rows": 9600,
+  "process_cost_scope": "All child-process loading, inference, probability construction, and output formatting; user plus system CPU, wall time, and peak RSS. Controller and build costs are separate.",
+  "remaining_cloud_bindings": [
+    "compiler and machine image",
+    "resource caps and watchdog",
+    "immutable staged package",
+    "price and user-approved budget"
+  ],
+  "scope": "twelve_document_confidence_diagnostic",
+  "status": "source_prepared_cloud_binding_pending",
+  "window_order": "fixed increasing index within each document and all five passes"
+}

@@ -1,0 +1,85 @@
+{
+  "artifacts": {
+    "ANALYSIS.json": "684c89928bfd2c79a72771c9deb76e9adeda3be9fe40a69fa0d67345362b3884",
+    "COLLECTION.json": "72368096102597a2f493f30baaf38a87507a7d7a419a27fbf45043ce0a62ea91",
+    "CONTROLLER-TERMINAL.json": "9bd0691cf4bfd84c25bd94f3b2ea6ee7fd2b22fe60b4b3e33ae74b87249096da",
+    "FERAL-PUBLICATION.json": "a0cf6cee7683f475c7548eb31974c2776f50452af6b3dbdd5a974bd89a00a4a8",
+    "HOST-TERMINAL.json": "f023ac5ceaff75fc82ffb7f26fa74a3fcc1a6b21a839f873853c0d59e1008336",
+    "IDENTITY.json": "7f6b3490c803f16251297025a65d7b2a8e7122c24d8f5387d09b5a14e540ec90",
+    "RELEASE-ARCHIVE.json": "1f7c5b3ce93a57021505e206671262696da4f290efa011caa1a589c9407405da",
+    "RUNTIME.json": "02ea23892a879b906ee100bcdf95563c4d6016f9f03df342d9f5b75209f0db5a",
+    "STUDY-TERMINAL.json": "56a3592843956cdad7ad2a6f05e64585776ec67ac80aa009a09fd297457ec904",
+    "TERMINATION.json": "d38746519d7e9f6db1f1582b4cb0e914f3bb2c64c39bd1112a834a55b81af63f",
+    "VERIFICATION.json": "00f6b102f9cf2ca9bd17ff53f0b4c70cfc7478bcc73ea293025ab8bae1108848"
+  },
+  "bootstrap_draws": 5000,
+  "exact": true,
+  "execution_status": "complete",
+  "families": 128,
+  "freshness_scope": "New target behaviors and primitive sets within the existing four-stratum composition design.",
+  "independent_cloud_replays": 3072,
+  "native_episodes": 73728,
+  "next_decision": "Use matched lexical guidance as the reference. Trace prior-feature cost and stratum effects in the opened outputs, then freeze one changed mechanism and fresh-family comparison before another run.",
+  "package_sha256": "e7da18889a91796c2c42f49832b2e89dcb565dd4eefeec9b8b9307e72b26ec4d",
+  "passes": 12,
+  "plan_sha256": "70eee53ef3ada5353d48fcb5323a45db7d4e3536241937e0a492516d38f93f6a",
+  "primary_comparison": {
+    "family_outcomes": {
+      "checks": {
+        "losses": 59,
+        "ties": 14,
+        "wins": 55
+      },
+      "cpu": {
+        "losses": 67,
+        "ties": 0,
+        "wins": 61
+      }
+    },
+    "paired": {
+      "checks": {
+        "ratio": 1.0360413333950111,
+        "upper_one_sided_95": 1.0770571958560866
+      },
+      "cpu": {
+        "ratio": 1.0004048854579077,
+        "upper_one_sided_95": 1.0015464001891072
+      }
+    },
+    "reference": "raw_lexical_task_guide",
+    "strata": [
+      {
+        "cell": 0,
+        "checks": 1.1088423815515405,
+        "cpu": 1.0018997657403568
+      },
+      {
+        "cell": 1,
+        "checks": 1.0955023595206221,
+        "cpu": 1.0025861928494242
+      },
+      {
+        "cell": 2,
+        "checks": 0.9684094996301477,
+        "cpu": 0.9996009343139961
+      },
+      {
+        "cell": 3,
+        "checks": 0.9794136520749187,
+        "cpu": 0.9975405708783442
+      }
+    ]
+  },
+  "primary_effect": false,
+  "primary_reference": "raw_lexical_task_guide",
+  "primary_rule": "Both one-sided 95 percent upper bounds below one, with exact verification of every answer.",
+  "processes": 72,
+  "provider_termination_verified": true,
+  "root_volume_deletion_verified": true,
+  "run_id": "reasoner55-20260908T071213Z",
+  "schema": "ilxyr.reasoner55_matched_cloud_result.v1",
+  "scientific_outcome": "primary_benefit_gates_failed",
+  "source_commit": "24fae8ea8aa42212c7058b084b66dfa725672dfd",
+  "status": "complete_no_go",
+  "views_per_family": 4
+}

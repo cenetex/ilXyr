@@ -1,0 +1,24 @@
+{
+  "actual_instances_created": 0,
+  "affected_host_tests": {
+    "solomon": 12,
+    "weight": 10
+  },
+  "code_commit": "02ee8e679c8ddf7fffea3dcad89c5f22a178203b",
+  "fresh_scientific_calls": 0,
+  "local_schema_suite": {
+    "exit_code": 0,
+    "receipt_sha256": "c701c8a09205653d34a679cb96eb7d993fe89c6a967e2799645f40d807bc7907",
+    "status": "complete",
+    "wall_seconds": 145.967939459
+  },
+  "provider_preflights_passed": 5,
+  "run_set_sha256": "44a1efda512873f2170c9a38d094e4ca2d317cc40eec6a3efbd17796fd0881f1",
+  "schema": "ilxyr.research_readiness_result.v1",
+  "shared_controlled_cases": 50,
+  "shared_test_methods": 7,
+  "source_ci_run": 34717845093,
+  "source_ci_status": "passed",
+  "status": "local_checks_and_five_free_preflights_passed",
+  "verified_local_packages": 5
+}

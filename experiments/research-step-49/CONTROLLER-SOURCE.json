@@ -1,0 +1,29 @@
+{
+  "fresh_predictor_calls": 0,
+  "repository_files": [
+    "experiments/research-step-47/OPENED-AUDIT.json",
+    "experiments/research-step-47/PLAN.json",
+    "experiments/research-step-47/SOURCES.json",
+    "experiments/research-step-47/data/FAMILIES.json",
+    "experiments/research-step-47/data/PREPARE.json",
+    "experiments/research-step-47/data/ROSTER.json",
+    "experiments/research-step-47/data/grader/TARGETS.jsonl",
+    "experiments/research-step-47/data/predictor/INPUTS.jsonl",
+    "experiments/research-step-48/FIXTURES.json",
+    "experiments/research-step-48/PLAN.json",
+    "scripts/check_feral_coverage.py",
+    "scripts/check_feral_fresh.mjs",
+    "scripts/feral_coverage_worker.py",
+    "scripts/feral_evidence_calculator.py",
+    "scripts/feral_evidence_calculator_v2.py",
+    "scripts/feral_fresh_sources.py",
+    "scripts/feral_process.py",
+    "scripts/fetch_feral_fresh_sources.py",
+    "scripts/prepare_feral_fresh.py",
+    "scripts/research_feral_coverage.py",
+    "scripts/test_feral_coverage.py",
+    "scripts/test_feral_evidence_calculator_v2.py"
+  ],
+  "schema": "ilxyr.feral_coverage_source_kit.v1",
+  "source_commit": "075d4894979a7fcf6b886f09cf0e8fe453664370"
+}

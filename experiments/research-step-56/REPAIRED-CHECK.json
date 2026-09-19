@@ -1,0 +1,134 @@
+[
+  {
+    "accepted_rows": 0,
+    "cache_hits": 0,
+    "events": 6,
+    "fixture": "batch_limit",
+    "hold": "batch_limit",
+    "native_identity_and_labels": "requires_native_call_layer",
+    "oracle_calls": 1,
+    "status": "verified_selection_and_accounting",
+    "trace_sha256": "9c45041ebff0de22a520f97c955e0d531155cabde2b1ba6580f166dd236f2410"
+  },
+  {
+    "accepted_rows": 0,
+    "cache_hits": 0,
+    "events": 8,
+    "fixture": "capacity",
+    "hold": "cache_capacity",
+    "native_identity_and_labels": "requires_native_call_layer",
+    "oracle_calls": 1,
+    "status": "verified_selection_and_accounting",
+    "trace_sha256": "46a18b19b9485f7a849c3ed0cd40cef6579747acb912274a1bd1394266d7bcb2"
+  },
+  {
+    "accepted_rows": 0,
+    "cache_hits": 0,
+    "events": 4,
+    "fixture": "draw_limit",
+    "hold": "candidate_draw_limit",
+    "native_identity_and_labels": "requires_native_call_layer",
+    "oracle_calls": 0,
+    "status": "verified_selection_and_accounting",
+    "trace_sha256": "efa908bc2698efb0f86f789d5de5095f448860866d3e279bc9610395c784062a"
+  },
+  {
+    "accepted_rows": 0,
+    "cache_hits": 0,
+    "events": 8,
+    "fixture": "evaluation_limit",
+    "hold": "evaluation_limit",
+    "native_identity_and_labels": "requires_native_call_layer",
+    "oracle_calls": 1,
+    "status": "verified_selection_and_accounting",
+    "trace_sha256": "e0add044b6ca805f84be61731e4929d0a308fe7566e8027a4316572a08aa9c22"
+  },
+  {
+    "accepted_rows": 0,
+    "cache_hits": 0,
+    "events": 5,
+    "fixture": "invalid_result",
+    "hold": "invalid_oracle_result",
+    "native_identity_and_labels": "requires_native_call_layer",
+    "oracle_calls": 1,
+    "status": "verified_selection_and_accounting",
+    "trace_sha256": "7da5100a460ed0c3623c815088440c4ce31f4d9a2519f9ae6beaf809100916e0"
+  },
+  {
+    "accepted_rows": 1,
+    "cache_hits": 0,
+    "events": 9,
+    "fixture": "occupancy",
+    "hold": "pilot_occupancy_limit",
+    "native_identity_and_labels": "requires_native_call_layer",
+    "oracle_calls": 2,
+    "status": "verified_selection_and_accounting",
+    "trace_sha256": "616b6c43a36954f1e5636cbc66950e2c53bcfb4be1bae371c27f02599ef8042a"
+  },
+  {
+    "accepted_rows": 0,
+    "cache_hits": 0,
+    "events": 8,
+    "fixture": "oracle_limit",
+    "hold": "oracle_call_limit",
+    "native_identity_and_labels": "requires_native_call_layer",
+    "oracle_calls": 1,
+    "status": "verified_selection_and_accounting",
+    "trace_sha256": "698f1b74c4184d1024c6fe6b7a40ac595854ec13d1c64ce2409e2c72170aa85f"
+  },
+  {
+    "accepted_rows": 1,
+    "cache_hits": 0,
+    "events": 106,
+    "fixture": "query_capacity",
+    "hold": "candidate_generation_exhausted",
+    "native_identity_and_labels": "requires_native_call_layer",
+    "oracle_calls": 1,
+    "status": "verified_selection_and_accounting",
+    "trace_sha256": "99a087a6f3568c1eeab648bf477d169e6a18ae6159ec46f7475c2ce5c7c5d0c3"
+  },
+  {
+    "accepted_rows": 1,
+    "cache_hits": 0,
+    "events": 7,
+    "fixture": "quota_overflow",
+    "hold": null,
+    "native_identity_and_labels": "requires_native_call_layer",
+    "oracle_calls": 2,
+    "status": "verified_selection_and_accounting",
+    "trace_sha256": "457f33684ab2f979eb5bf366f2fe16ee50753f3c5105c619d5d02614003a0d97"
+  },
+  {
+    "accepted_rows": 2,
+    "cache_hits": 1,
+    "events": 16,
+    "fixture": "reuse",
+    "hold": null,
+    "native_identity_and_labels": "requires_native_call_layer",
+    "oracle_calls": 3,
+    "status": "verified_selection_and_accounting",
+    "trace_sha256": "91eb015eb19b46fb24250b60066df0b02a4178dd7a3bd5a2ad41728a948da5a6"
+  },
+  {
+    "accepted_rows": 2,
+    "cache_hits": 0,
+    "events": 16,
+    "fixture": "uncached",
+    "hold": null,
+    "native_identity_and_labels": "requires_native_call_layer",
+    "oracle_calls": 4,
+    "status": "verified_selection_and_accounting",
+    "trace_sha256": "4e30b3726b6f92b6b702190911dca63291aa0b73f479dba889fab78c09d1518b"
+  },
+  {
+    "accepted_rows": 0,
+    "cache_hits": 0,
+    "events": 8,
+    "fixture": "worker_failure",
+    "hold": "oracle_failure",
+    "native_identity_and_labels": "requires_native_call_layer",
+    "oracle_calls": 2,
+    "status": "verified_selection_and_accounting",
+    "trace_sha256": "7d0e96a0397830d1105d9e85c357efad59b1872075316f3ad4ca8816b5556457"
+  }
+]

@@ -35,7 +35,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:schemas
-      - run: npm run test:governance
+      - run: npm run test:aws-bootstrap-secret-hygiene
 
   permaweb:
     runs-on: ubuntu-latest
@@ -51,7 +51,7 @@ jobs:
           cache-dependency-path: permaweb/package-lock.json
       - run: npm ci
       - run: npm test
-      - run: npm audit --audit-level=high
+      - run: npx --yes npm@11.11.1 audit --audit-level=high
 
   portal:
     runs-on: ubuntu-latest
@@ -68,7 +68,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run lint
-      - run: npm audit --audit-level=high
+      - run: npx --yes npm@11.11.1 audit --audit-level=high
 
   msrv:
     runs-on: ubuntu-latest

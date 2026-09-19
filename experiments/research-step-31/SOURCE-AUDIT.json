@@ -1,0 +1,30 @@
+{
+  "candidate_count_per_visit": 4096,
+  "canonical_source_guide_bytes": 905,
+  "counter_scope": "The source_artifact_reads field is assigned declared byte counts in the frozen source.",
+  "cpu_clock": "CLOCK_PROCESS_CPUTIME_ID",
+  "cpu_timer_function": "r55d_cpu",
+  "declared_bytes_per_visit": {
+    "raw_lexical_task_guide": 921,
+    "task_guide": 921,
+    "task_without_prior_feature": 16
+  },
+  "isolated_prior_function_time_ns": null,
+  "model_file_bytes_loaded_per_guided_process": 1863,
+  "per_source_weight_bytes": 16,
+  "prior_calls_per_full_guide_measured_phase": 25165824,
+  "prior_calls_scope": "derived from frozen source loop and measured visit count",
+  "prior_feature_function": "r55sg_features",
+  "schema": "ilxyr.reasoner_cost_source_audit.v1",
+  "score_stage_contains": [
+    "prior mass construction",
+    "other rich feature construction",
+    "feature transforms",
+    "linear group score",
+    "tie-key assignment"
+  ],
+  "source_binding_record": "INPUTS.json",
+  "stage_clock": "CLOCK_MONOTONIC",
+  "stage_timer_function": "r55d_now",
+  "upstream_commit": "24fae8ea8aa42212c7058b084b66dfa725672dfd"
+}

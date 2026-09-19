@@ -1,0 +1,23 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "ilxyr-cloud-launcher-diagnostic-v1",
+  "documentNamespace": "https://ilxyr.cenetex.com/spdx/cloud-launcher-diagnostic-v1",
+  "creationInfo": {
+    "created": "2026-09-03T19:56:26Z",
+    "creators": ["Tool: ilxyr"]
+  },
+  "packages": [
+    {
+      "name": "cloud-launcher-diagnostic-program",
+      "SPDXID": "SPDXRef-DiagnosticProgram",
+      "versionInfo": "v1",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    }
+  ]
+}

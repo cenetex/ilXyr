@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "existing_public_result",
+  "evidence_path": "experiments/research-step-51/FINDINGS.json",
+  "evidence_ref": "artifact://sha256/d05a67dab3ebe319b3abd557aa197d60c32348565b60f3c81ef6b459799b8ce3",
+  "experiment_id": "research.step51.solomon-outcome.v1",
+  "family": "solomon",
+  "id": "verdict:research.step51.solomon-outcome.v1",
+  "lineage_note": "Use smoothed suffix counts as the confidence reference, inspect document differences, and register a fresh comparison before fitting another confidence method.",
+  "mechanism": "Confidence at fixed chosen bytes",
+  "mechanism_tags": [
+    "confidence",
+    "frequency-control",
+    "document-groups"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "solomon",
+  "recorded_at_ms": 1789248868556,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "fixed_panel_confidence_diagnostic",
+  "summary": "On 384 windows from twelve documents, native confidence had equal-document Brier error 1.071032. Empirical suffix counts scored 1.017686 and smoothed suffix counts 0.883474. Each method chose the same bytes and made 261 mistakes. This is a fixed-panel confidence diagnostic.",
+  "taxonomy": "measurement"
+}

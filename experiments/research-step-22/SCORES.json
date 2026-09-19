@@ -1,0 +1,62 @@
+{
+  "all_completed_grades_reproduced": true,
+  "arms": {
+    "calculator": {
+      "by_target_kind": {
+        "abstention": {
+          "correct": 3,
+          "rows": 3
+        },
+        "legacy_exact": {
+          "correct": 19,
+          "rows": 1133
+        },
+        "numeric": {
+          "correct": 2,
+          "rows": 11
+        }
+      },
+      "explicit_abstentions": 1056,
+      "non_abstained_fraction": 0.07933740191804708,
+      "original_accuracy": 0.016564952048823016,
+      "original_correct": 19,
+      "rows": 1147,
+      "v2_accuracy": 0.020924149956408022,
+      "v2_correct": 24
+    },
+    "operand_only": {
+      "by_target_kind": {
+        "abstention": {
+          "correct": 3,
+          "rows": 3
+        },
+        "legacy_exact": {
+          "correct": 0,
+          "rows": 1133
+        },
+        "numeric": {
+          "correct": 0,
+          "rows": 11
+        }
+      },
+      "explicit_abstentions": 1056,
+      "non_abstained_fraction": 0.07933740191804708,
+      "original_accuracy": 0.0,
+      "original_correct": 0,
+      "rows": 1147,
+      "v2_accuracy": 0.0026155187445510027,
+      "v2_correct": 3
+    }
+  },
+  "base": {
+    "error": "Invalid device argument ",
+    "primary_metrics": null,
+    "rows": 0
+  },
+  "comparison_status": "incomplete",
+  "local_regrading_sha256": "42fe909e28e06cfa4450426fcff276a516e654679f08f68d855847682a736daa",
+  "performance_evidence": false,
+  "saved_comparison_sha256": "394913a881f017547ffd1e3dbcbdf2e662699e6d6d7469b6a00e9e7ffba881db",
+  "schema": "ilxyr.feral_control_results.v1",
+  "scope": "full_finqa_1147"
+}

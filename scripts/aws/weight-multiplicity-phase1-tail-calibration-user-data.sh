@@ -4,7 +4,6 @@ set -Eeuo pipefail
 
 BOOT_LOG=/var/log/weight-multiplicity-phase1-tail-calibration.log
 exec > >(tee -a "$BOOT_LOG" >/dev/console) 2>&1
-set -x
 
 systemd-run --unit=phase1-tail-calibration-emergency-shutdown --on-active=560 \
   /usr/sbin/shutdown -h now
@@ -45,6 +44,9 @@ MAX_COMPUTE_USD=$(tag MaxComputeUsd)
 HOURLY_PRICE=$(tag HourlyPrice)
 INSTANCE_ID=$(metadata instance-id)
 INSTANCE_TYPE=$(metadata instance-type)
+# Keep the IMDSv2 token out of captured bootstrap and console logs.
+unset TOKEN
+set -x
 PREFIX="experiments/weight-multiplicity-phase1-tail-calibration-v1/runs/${RUN_ID}"
 STATUS=/tmp/weight-multiplicity-phase1-tail-calibration-status.json
 OUT=/opt/ilxyr/out

@@ -1,0 +1,27 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:feral.finqa-source-formula-review.v2",
+  "experiment_id": "feral.finqa-source-formula-review.v2",
+  "family": "feral",
+  "project": "feral",
+  "taxonomy": "measurement",
+  "outcome": "diagnostic_failure",
+  "evidence_kind": "posthoc_diagnostic",
+  "source_outcome": "source and context review found a label failure",
+  "evidence_path": "experiments/research-step-7/MANIFEST.json",
+  "evidence_ref": "artifact://sha256/e63fbfee0b2b67cb4327205347338939000a5163786228fc32b06d3efb81fccb",
+  "mechanism": "The CE 2016 question asks for growth from 86 to 119. Its source program returns 59.5; the evidence-based percentage change is about 38.37%.",
+  "mechanism_tags": [
+    "answer-labels",
+    "numeric-units",
+    "source-grounding"
+  ],
+  "summary": "The CE 2016 question asks for growth from 86 to 119. Its source program returns 59.5; the evidence-based percentage change is about 38.37%.",
+  "lineage_note": "Review the question and supplied evidence as well as arithmetic agreement before accepting a numeric label.",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788605258904
+}

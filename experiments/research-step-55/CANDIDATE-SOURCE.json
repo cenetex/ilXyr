@@ -1,0 +1,29 @@
+{
+  "schema": "ilxyr.weight_candidate_source.v1",
+  "source": "scripts/run-weight-multiplicity-phase1-corpus.mjs",
+  "source_sha256": "af676e6f8043a82e277926f0e5b08e506bb48fef4b8ba376a44d459c452f42cf",
+  "blocks": [
+    {
+      "start": "const fnv1a =",
+      "end_before": "const percentile =",
+      "sha256": "934cda4ad78284e017f64841c7846d01447f98e7d4d73c7f5576593d563f2da8"
+    },
+    {
+      "start": "const stratumFor =",
+      "end_before": "const mapWeight =",
+      "sha256": "f059dc33df8357d6aa8f032d32365f7c8cbb261015e165715e7a958ae0d9b072"
+    },
+    {
+      "start": "const prepareRepresentations =",
+      "end_before": "export const queryLieBatch =",
+      "sha256": "cd10c4b7f2781860e73fce44600c6cf1acba5877a6f6be21541e7f63cbd965aa"
+    },
+    {
+      "start": "const createCandidateBatch =",
+      "end_before": "class ExceptionalPicker",
+      "sha256": "3cbb059452315efa811a2de75608282faac3531bfbd4b468b234aeae4178302d"
+    }
+  ],
+  "copy": "scripts/lib/weight-candidates-v2.mjs",
+  "purpose": "Preserve candidate construction and batch reservation rules for the new pilot while retaining the completed run source."
+}

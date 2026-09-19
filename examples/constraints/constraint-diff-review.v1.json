@@ -1,0 +1,65 @@
+{
+  "schema": "ilxyr.constraint_diff_report.v1",
+  "report_id": "constraint-diff:zero.q27.seed2.permutation-guard.v1",
+  "experiment_id": "zero.q27.seed2.permutation-guard.v1",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "generated_at_ms": 1788504106324,
+  "proposed_mechanism_tags": [
+    "replay-guard",
+    "cumulative",
+    "permutation",
+    "quantity-gate"
+  ],
+  "matches": [
+    {
+      "verdict_id": "verdict:zero.q23.seed2.local-guard.v1",
+      "experiment_id": "zero.q23.seed2.local-guard.no-go.v1",
+      "family": "zero",
+      "seed": 2,
+      "outcome": "no_go",
+      "taxonomy": "transfer",
+      "matched_tags": [
+        "replay-guard",
+        "quantity-gate"
+      ],
+      "verdict_summary": "Q2.3 seed 2 completed under its frozen local functional replay guard: quantity reached the declared threshold, the guard rejected no attempts, cumulative public replay regression reached 2.685%, and the diagnostic was a no-go without promotion or replication-seed access."
+    },
+    {
+      "verdict_id": "verdict:zero.q24.seed2.cumulative-guard.v1",
+      "experiment_id": "zero.q24.seed2.cumulative-guard.v1",
+      "family": "zero",
+      "seed": 2,
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "matched_tags": [
+        "replay-guard",
+        "cumulative",
+        "quantity-gate"
+      ],
+      "verdict_summary": "Q2.4 seed 2 committed 66 candidates under the frozen 1.5% cumulative replay authority. Attempts 67-74 each exceeded the ceiling and rolled back, ending the run via the eight-rejection fallback before any public checkpoint or promotion evaluation."
+    },
+    {
+      "verdict_id": "verdict:zero.q25.seed2.deterministic-backtracking.v1",
+      "experiment_id": "zero.q25.seed2.deterministic-backtracking.v1",
+      "family": "zero",
+      "seed": 2,
+      "outcome": "complete_no_go",
+      "taxonomy": "interference",
+      "matched_tags": [
+        "replay-guard",
+        "cumulative",
+        "quantity-gate"
+      ],
+      "verdict_summary": "Q2.5 seed 2 committed 71 updates (66 full-scale, 5 backtracked), then exhausted all eight scales on attempts 72-79. The terminal minimum-scale candidates missed the 1.5% authority by only 0.000151-0.000238 percentage points. Promotion and replication stayed sealed."
+    }
+  ],
+  "taxonomy_counts": {
+    "transfer": 1,
+    "interference": 2,
+    "measurement": 0,
+    "venue": 0,
+    "implementation": 0
+  },
+  "summary": "1 prior transfer result 2 prior interference results match the proposed mechanism tags.",
+  "recommendation": "review"
+}

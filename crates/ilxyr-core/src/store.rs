@@ -6,7 +6,7 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
-use serde::{Serialize, de::DeserializeOwned};
+use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 
@@ -15,11 +15,59 @@ use crate::{ActorRef, Error, ResearchEvent, Result, VerificationReport};
 const ARTIFACT_PREFIX: &str = "artifact://sha256/";
 const BLOB_PREFIX: &str = "blob://sha256/";
 const EVENT_SCHEMA: &str = "ilxyr.event.v1";
+const WORKSPACE_SCHEMA: &str = "ilxyr.workspace.v1";
+const LEDGER_MODE: &str = "single_writer";
+const OBJECT_HASH: &str = "sha256";
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct WorkspaceConfig {
+    schema: String,
+    ledger_mode: String,
+    object_hash: String,
+}
+
+impl Default for WorkspaceConfig {
+    fn default() -> Self {
+        Self {
+            schema: WORKSPACE_SCHEMA.to_owned(),
+            ledger_mode: LEDGER_MODE.to_owned(),
+            object_hash: OBJECT_HASH.to_owned(),
+        }
+    }
+}
 
 #[derive(Debug, Clone)]
 pub struct Workspace {
     root: PathBuf,
     state: PathBuf,
+}
+
+/// A complete event-log view whose envelopes, predecessor links, hashes, and
+/// artifact references were verified together.
+#[derive(Debug, Clone)]
+pub struct VerifiedEventSnapshot {
+    events: Vec<ResearchEvent>,
+}
+
+impl VerifiedEventSnapshot {
+    #[must_use]
+    pub fn events(&self) -> &[ResearchEvent] {
+        &self.events
+    }
+
+    #[must_use]
+    pub fn latest_event(&self, event_type: &str, aggregate_id: &str) -> Option<&ResearchEvent> {
+        self.events
+            .iter()
+            .rev()
+            .find(|event| event.event_type == event_type && event.aggregate_id == aggregate_id)
+    }
+
+    #[must_use]
+    pub fn into_events(self) -> Vec<ResearchEvent> {
+        self.events
+    }
 }
 
 impl Workspace {
@@ -30,13 +78,10 @@ impl Workspace {
         fs::create_dir_all(state.join("blobs/sha256"))?;
         let config = state.join("config.json");
         if !config.exists() {
-            let contents = serde_json::to_vec_pretty(&json!({
-                "schema": "ilxyr.workspace.v1",
-                "ledger_mode": "single_writer",
-                "object_hash": "sha256"
-            }))?;
+            let contents = serde_json::to_vec_pretty(&WorkspaceConfig::default())?;
             fs::write(config, contents)?;
         }
+        read_workspace_config(&state)?;
         let events = state.join("events.jsonl");
         if !events.exists() {
             OpenOptions::new()
@@ -50,12 +95,7 @@ impl Workspace {
     pub fn open(root: impl AsRef<Path>) -> Result<Self> {
         let root = root.as_ref().to_path_buf();
         let state = root.join(".ilxyr");
-        if !state.join("config.json").is_file() {
-            return Err(Error::NotFound(format!(
-                "{} is not an ilxyr workspace; run `ilxyr init` first",
-                root.display()
-            )));
-        }
+        read_workspace_config(&state)?;
         Ok(Self { root, state })
     }
 
@@ -165,16 +205,18 @@ impl Workspace {
     }
 
     pub fn events(&self) -> Result<Vec<ResearchEvent>> {
+        Ok(self.event_snapshot()?.into_events())
+    }
+
+    pub fn event_snapshot(&self) -> Result<VerifiedEventSnapshot> {
         let contents = fs::read_to_string(self.state.join("events.jsonl"))?;
-        contents
+        let events = contents
             .lines()
             .filter(|line| !line.trim().is_empty())
-            .map(|line| {
-                let event: ResearchEvent = serde_json::from_str(line)?;
-                validate_event_envelope(&event)?;
-                Ok(event)
-            })
-            .collect()
+            .map(serde_json::from_str)
+            .collect::<std::result::Result<Vec<ResearchEvent>, _>>()?;
+        self.verify_event_chain(&events)?;
+        Ok(VerifiedEventSnapshot { events })
     }
 
     pub(crate) fn append_event(
@@ -185,8 +227,7 @@ impl Workspace {
         artifact_ref: Option<String>,
     ) -> Result<ResearchEvent> {
         validate_event_type(event_type)?;
-        let events = self.events()?;
-        self.verify_event_chain(&events)?;
+        let events = self.event_snapshot()?.into_events();
         if let Some(artifact_ref) = artifact_ref.as_deref() {
             let _: Value = self.get(artifact_ref)?;
         }
@@ -227,13 +268,13 @@ impl Workspace {
         aggregate_id: &str,
     ) -> Result<Option<ResearchEvent>> {
         Ok(self
-            .events()?
-            .into_iter()
-            .rev()
-            .find(|event| event.event_type == event_type && event.aggregate_id == aggregate_id))
+            .event_snapshot()?
+            .latest_event(event_type, aggregate_id)
+            .cloned())
     }
 
     pub fn verify(&self) -> Result<VerificationReport> {
+        read_workspace_config(&self.state)?;
         let object_dir = self.state.join("objects/sha256");
         let mut objects_checked = 0;
         for entry in fs::read_dir(object_dir)? {
@@ -254,8 +295,7 @@ impl Workspace {
             objects_checked += 1;
         }
 
-        let events = self.events()?;
-        self.verify_event_chain(&events)?;
+        let events = self.event_snapshot()?;
 
         let blob_dir = self.state.join("blobs/sha256");
         let mut blobs_checked = 0;
@@ -273,9 +313,10 @@ impl Workspace {
         }
 
         Ok(VerificationReport {
+            configuration_checked: true,
             objects_checked,
             blobs_checked,
-            events_checked: events.len(),
+            events_checked: events.events().len(),
             valid: true,
         })
     }
@@ -321,6 +362,48 @@ impl Workspace {
         }
         Ok(self.state.join("objects/sha256").join(digest))
     }
+}
+
+fn read_workspace_config(state: &Path) -> Result<WorkspaceConfig> {
+    let path = state.join("config.json");
+    if !path.is_file() {
+        let root = state.parent().unwrap_or(state);
+        return Err(Error::NotFound(format!(
+            "{} is not an ilxyr workspace; run `ilxyr init` first",
+            root.display()
+        )));
+    }
+    let bytes = fs::read(&path)?;
+    let config: WorkspaceConfig = serde_json::from_slice(&bytes).map_err(|error| {
+        Error::Conflict(format!(
+            "invalid workspace configuration at {}: {error}",
+            path.display()
+        ))
+    })?;
+    validate_workspace_config(&config)?;
+    Ok(config)
+}
+
+fn validate_workspace_config(config: &WorkspaceConfig) -> Result<()> {
+    if config.schema != WORKSPACE_SCHEMA {
+        return Err(Error::Conflict(format!(
+            "unsupported workspace schema {}; expected {WORKSPACE_SCHEMA}",
+            config.schema
+        )));
+    }
+    if config.ledger_mode != LEDGER_MODE {
+        return Err(Error::Conflict(format!(
+            "unsupported ledger mode {}; expected {LEDGER_MODE}",
+            config.ledger_mode
+        )));
+    }
+    if config.object_hash != OBJECT_HASH {
+        return Err(Error::Conflict(format!(
+            "unsupported object hash {}; expected {OBJECT_HASH}",
+            config.object_hash
+        )));
+    }
+    Ok(())
 }
 
 pub fn now_ms() -> Result<u128> {
@@ -534,6 +617,64 @@ mod tests {
     use super::*;
 
     #[test]
+    fn workspace_open_rejects_invalid_configuration() {
+        for (label, contents, expected) in [
+            ("malformed-config", "{".to_owned(), "invalid workspace configuration"),
+            (
+                "missing-config-field",
+                r#"{"schema":"ilxyr.workspace.v1","ledger_mode":"single_writer"}"#.to_owned(),
+                "invalid workspace configuration",
+            ),
+            (
+                "unknown-config-field",
+                r#"{"schema":"ilxyr.workspace.v1","ledger_mode":"single_writer","object_hash":"sha256","future":true}"#.to_owned(),
+                "invalid workspace configuration",
+            ),
+            (
+                "future-config-version",
+                r#"{"schema":"ilxyr.workspace.v2","ledger_mode":"single_writer","object_hash":"sha256"}"#.to_owned(),
+                "unsupported workspace schema",
+            ),
+            (
+                "unsupported-ledger-mode",
+                r#"{"schema":"ilxyr.workspace.v1","ledger_mode":"multi_writer","object_hash":"sha256"}"#.to_owned(),
+                "unsupported ledger mode",
+            ),
+            (
+                "unsupported-object-hash",
+                r#"{"schema":"ilxyr.workspace.v1","ledger_mode":"single_writer","object_hash":"sha512"}"#.to_owned(),
+                "unsupported object hash",
+            ),
+        ] {
+            let root = test_root(label);
+            fs::create_dir(root.join(".ilxyr")).expect("state directory");
+            fs::write(root.join(".ilxyr/config.json"), contents).expect("configuration");
+            let error = Workspace::open(&root).expect_err("invalid configuration must fail closed");
+            assert!(error.to_string().contains(expected), "{error}");
+            fs::remove_dir_all(root).expect("cleanup");
+        }
+    }
+
+    #[test]
+    fn workspace_verification_rechecks_configuration() {
+        let root = test_root("verify-config");
+        let workspace = Workspace::init(&root).expect("workspace");
+        let report = workspace.verify().expect("workspace verifies");
+        assert!(report.configuration_checked);
+
+        fs::write(
+            root.join(".ilxyr/config.json"),
+            r#"{"schema":"ilxyr.workspace.v1","ledger_mode":"multi_writer","object_hash":"sha256"}"#,
+        )
+        .expect("configuration changes");
+        let error = workspace
+            .verify()
+            .expect_err("verification must recheck configuration");
+        assert!(error.to_string().contains("unsupported ledger mode"));
+        fs::remove_dir_all(root).expect("cleanup");
+    }
+
+    #[test]
     fn blob_import_is_content_addressed_and_verified() {
         let nonce = SystemTime::now()
             .duration_since(UNIX_EPOCH)
@@ -584,6 +725,107 @@ mod tests {
             .verify()
             .expect_err("unknown schema must fail closed");
         assert!(error.to_string().contains("unsupported event schema"));
+        assert!(workspace.events().is_err());
+        assert!(
+            workspace
+                .latest_event("ExecutionStarted", "experiment://test")
+                .is_err()
+        );
+        fs::remove_dir_all(root).expect("cleanup");
+    }
+
+    #[test]
+    fn event_hash_tampering_is_rejected_by_every_event_read() {
+        let root = test_root("event-hash");
+        let workspace = Workspace::init(&root).expect("workspace");
+        workspace
+            .append_event(
+                "ExecutionStarted",
+                "experiment://test",
+                ActorRef::service("service://test/runner"),
+                None,
+            )
+            .expect("event");
+
+        let events_path = root.join(".ilxyr/events.jsonl");
+        let mut events = read_event_values(&events_path);
+        events[0]["event_hash"] = Value::String("0".repeat(64));
+        write_event_values(&events_path, &events);
+
+        let snapshot_error = workspace
+            .event_snapshot()
+            .expect_err("verified snapshot must reject a changed event hash");
+        assert!(snapshot_error.to_string().contains("event digest mismatch"));
+        assert!(workspace.events().is_err());
+        assert!(
+            workspace
+                .latest_event("ExecutionStarted", "experiment://test")
+                .is_err()
+        );
+        fs::remove_dir_all(root).expect("cleanup");
+    }
+
+    #[test]
+    fn predecessor_tampering_is_rejected_by_every_event_read() {
+        let root = test_root("event-predecessor");
+        let workspace = Workspace::init(&root).expect("workspace");
+        for aggregate_id in ["experiment://one", "experiment://two"] {
+            workspace
+                .append_event(
+                    "ExecutionStarted",
+                    aggregate_id,
+                    ActorRef::service("service://test/runner"),
+                    None,
+                )
+                .expect("event");
+        }
+
+        let events_path = root.join(".ilxyr/events.jsonl");
+        let mut events = read_event_values(&events_path);
+        events[1]["previous_event"] = Value::String("0".repeat(64));
+        write_event_values(&events_path, &events);
+
+        let snapshot_error = workspace
+            .event_snapshot()
+            .expect_err("verified snapshot must reject a changed predecessor");
+        assert!(snapshot_error.to_string().contains("event chain break"));
+        assert!(workspace.events().is_err());
+        assert!(
+            workspace
+                .latest_event("ExecutionStarted", "experiment://two")
+                .is_err()
+        );
+        fs::remove_dir_all(root).expect("cleanup");
+    }
+
+    #[test]
+    fn verified_snapshot_serves_multiple_queries() {
+        let root = test_root("event-snapshot");
+        let workspace = Workspace::init(&root).expect("workspace");
+        for aggregate_id in ["experiment://one", "experiment://two"] {
+            workspace
+                .append_event(
+                    "ExecutionStarted",
+                    aggregate_id,
+                    ActorRef::service("service://test/runner"),
+                    None,
+                )
+                .expect("event");
+        }
+
+        let snapshot = workspace.event_snapshot().expect("verified snapshot");
+        assert_eq!(snapshot.events().len(), 2);
+        assert_eq!(
+            snapshot
+                .latest_event("ExecutionStarted", "experiment://two")
+                .map(|event| event.aggregate_id.as_str()),
+            Some("experiment://two")
+        );
+        assert!(
+            snapshot
+                .latest_event("ExperimentCompleted", "experiment://two")
+                .is_none()
+        );
         fs::remove_dir_all(root).expect("cleanup");
     }
 
@@ -633,5 +875,23 @@ mod tests {
             std::env::temp_dir().join(format!("ilxyr-store-{label}-{}-{nonce}", process::id()));
         fs::create_dir(&root).expect("root");
         root
+    }
+
+    fn read_event_values(path: &Path) -> Vec<Value> {
+        fs::read_to_string(path)
+            .expect("event log")
+            .lines()
+            .map(|line| serde_json::from_str(line).expect("event JSON"))
+            .collect()
+    }
+
+    fn write_event_values(path: &Path, events: &[Value]) {
+        let mut contents = events
+            .iter()
+            .map(|event| serde_json::to_string(event).expect("serialize event"))
+            .collect::<Vec<_>>()
+            .join("\n");
+        contents.push('\n');
+        fs::write(path, contents).expect("write event log");
     }
 }

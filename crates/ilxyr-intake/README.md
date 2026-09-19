@@ -46,3 +46,10 @@ DNS, or website-deployment credentials. Keep the public catalog and projector in
 
 The public discovery document must keep the report endpoint null until this service has real TLS,
 an authoritative ledger, trusted executor keys, monitoring, backups, and a tested recovery path.
+
+## Rust capability boundary
+
+The intake service depends on `ilxyr-intake-boundary`. This small API exposes report
+authentication, validation, workspace storage, credential issuance, and the shared report types
+used by this service. A Cargo metadata allowlist checks the intake package and boundary crate in CI.
+Adding another direct dependency requires an explicit boundary review.

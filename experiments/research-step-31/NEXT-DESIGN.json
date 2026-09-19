@@ -1,0 +1,26 @@
+{
+  "candidate_direction": "Use public evidence to form an eligible proposal set, then score and rank that set in bounded batches. Preserve exact verification and the canonical fallback.",
+  "causal_question": "Can the guide earn its cost when feature computation and ranking cover only proposals that remain useful after public evidence?",
+  "common_implementation_rule": "Apply each shared evidence filter and ranking optimization to every control.",
+  "controls": [
+    "semantic_frequency",
+    "raw_lexical_task_guide",
+    "task_guide",
+    "task_without_prior_feature"
+  ],
+  "decision_rule": "Evaluate added learned work against semantic frequency and matched lexical guidance under common limits. Preserve the existing matched primary no-go.",
+  "diagnostic_scope": "opened 128-family cohort",
+  "execution_authorized": false,
+  "freshness_rule": "Exclude all behaviors and primitive sets in the source, development, earlier fixed-transfer, and matched cohorts before another scientific run.",
+  "next_deliverable": "A small opened-family behavior check with explicit proposal and fallback receipts, followed by a frozen fresh-family package.",
+  "reporting": [
+    "complete process CPU and wall cost",
+    "feature and ranking work",
+    "exact final answers",
+    "verifier work",
+    "per-family and stratum results",
+    "all failures and fallbacks"
+  ],
+  "schema": "ilxyr.reasoner_next_design.v1",
+  "status": "engineering_design_to_test"
+}

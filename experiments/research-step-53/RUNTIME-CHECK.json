@@ -1,0 +1,30 @@
+{
+  "ci_run": 34724865645,
+  "ci_url": "https://github.com/cenetex/ilXyr/actions/runs/34724865645",
+  "fresh_evaluation_calls": 0,
+  "local_result_sha256": "2fa95d97add754d9a343ca576b4a15eeedf95daeb1fa2e151616ac78aabd0ffb",
+  "platforms": [
+    {
+      "all_source_hashes_match": true,
+      "platform": "ubuntu-latest",
+      "platform_identity": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "python": "3.12.3 (main, Jul 15 2026, 23:46:41) [GCC 13.3.0]",
+      "result_sha256": "2fa95d97add754d9a343ca576b4a15eeedf95daeb1fa2e151616ac78aabd0ffb",
+      "runtime_sha256": "dcbe731e978a856b4de1b06339890653badeec08fa92b4759106116d9cabafbd",
+      "traces_sha256": "75e4ae22a378e5722f83dd460cc1e0994517dd6166a17fe38ca0bf36c022e270"
+    },
+    {
+      "all_source_hashes_match": true,
+      "platform": "macos-latest",
+      "platform_identity": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+      "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+      "result_sha256": "2fa95d97add754d9a343ca576b4a15eeedf95daeb1fa2e151616ac78aabd0ffb",
+      "runtime_sha256": "d8da46bf9a363bf90c31571d85209f15b462ccebbf8a5b6f3aab7996da56e6b3",
+      "traces_sha256": "75e4ae22a378e5722f83dd460cc1e0994517dd6166a17fe38ca0bf36c022e270"
+    }
+  ],
+  "schema": "ilxyr.feral_entity_control_runtime_parity.v1",
+  "scope": "Same small development diagnostic on local Mac, Mac CI and Linux CI.",
+  "source_commit": "40662371339120917e4f2072803bb3c3ecf66a8a",
+  "status": "all_results_and_traces_equal"
+}

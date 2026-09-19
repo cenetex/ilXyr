@@ -1,0 +1,28 @@
+{
+  "claim": "Invented coverage and process integrity are checked. Fresh report-derived control outcomes await the fixed cloud comparison.",
+  "earlier_checker_probe": "altered_series_trace_accepted_and_replayed",
+  "fixtures_sha256": "a2996ae61f418f32dbada9051622ea461d44a3c10ad931d1cadb4bec12c111c9",
+  "fresh_predictor_calls": 0,
+  "fresh_prepare_sha256": "e62e9344e7d5113487b0ae13467cae61e7fb78885a1f034733e6b9138fbd2e2f",
+  "full_comparison": {
+    "cases": 228,
+    "distinct_results": 684,
+    "jobs": 36,
+    "predictor_calls": 8208,
+    "status": "awaiting_cloud_host_package_and_budget"
+  },
+  "local_schema_suite": {
+    "receipt_sha256": "f082a5c61093f7d6327d8ebb29baf24e393c36c04a24b30c7325dca4ae78fe12",
+    "status": "passed"
+  },
+  "opened_distinct_results": 174,
+  "opened_jobs": 9,
+  "opened_predictor_calls": 522,
+  "opened_stable_rows_sha256": "6da367284c7b7a0b23391b4e76aaa51a413736b782511e773f50332f0a28e792",
+  "paid_instances_created": 0,
+  "plan_sha256": "ca5ed7840a2e79db6e057cc75974b453ff90c3c030960f11b53862ef98475103",
+  "repaired_regression": "passes",
+  "schema": "ilxyr.feral_coverage_controller_result.v1",
+  "status": "local_linux_mac_and_source_archive_checks_passed",
+  "unit_tests": 19
+}

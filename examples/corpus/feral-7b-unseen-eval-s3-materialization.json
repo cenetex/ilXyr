@@ -1,0 +1,73 @@
+{
+  "schema": "ilxyr.corpus_materialization.v1",
+  "id": "materialization://aws/ilxyr/feral-7b/unseen-eval-v1/cea478e253a9",
+  "corpus_ref": "artifact://sha256/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748",
+  "location": {
+    "kind": "amazon_s3",
+    "region": "us-east-1",
+    "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748"
+  },
+  "objects": [
+    {
+      "path": "README.md",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748/README.md",
+      "sha256": "a00b2146c3fdc02d1572ab4bf2d3b25325eaf476b82066902c403e6456ed4584",
+      "size_bytes": 1495,
+      "provider_version": "2MX9XA2xYouab3OuMyE70WPBpUTLNewb"
+    },
+    {
+      "path": "audit/decisions.jsonl",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748/audit/decisions.jsonl",
+      "sha256": "2c97a4bcc3bce3f0fd33295bfe2f9eb70d8aded2a0ef05151fc29c6dd1a662e9",
+      "size_bytes": 161717226,
+      "provider_version": "urF_2820sxexZvd59WI.kyCZoKjR14nQ"
+    },
+    {
+      "path": "audit/membership.jsonl",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748/audit/membership.jsonl",
+      "sha256": "632c0cbed132918e1a853d0512899acbcc70490974d17b49164d2204bd767643",
+      "size_bytes": 4926442,
+      "provider_version": "m56tnpmtwFOUtFCfz3__GC0962Ec7gs0"
+    },
+    {
+      "path": "braid.yaml",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748/braid.yaml",
+      "sha256": "881dcdf5758e383ea7c3f863825db1cf4363ee9cfd40ffbb19e72c1d16811dea",
+      "size_bytes": 2431,
+      "provider_version": "sBCGMXgSaBNrFNAuwqEPeBkH6HID56Hk"
+    },
+    {
+      "path": "checksums.sha256",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748/checksums.sha256",
+      "sha256": "1465b86c21bc09fef23f9388c8f0a445572d83408e5fc8161d4ca56f3f93fdb0",
+      "size_bytes": 494,
+      "provider_version": "gHlBxYIWyrrlTw7oBNkOLeFwcY4t9JAO"
+    },
+    {
+      "path": "data/test.jsonl",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748/data/test.jsonl",
+      "sha256": "7c5e408d3df5e851c2bd46aa4a37165203a9601af7c22cf369fbf69295dfb076",
+      "size_bytes": 302871791,
+      "provider_version": "rpfjFYYqELQx3n5HrmQFJAA6y4QQGqAA"
+    },
+    {
+      "path": "evaluation.json",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748/evaluation.json",
+      "sha256": "584718b9db75229ce4dc0a48814207b084bb04e86b099c53f6330e7e5de67498",
+      "size_bytes": 1395,
+      "provider_version": "4W6sc4iheA6zqUn.OB_HDyNkJ4rVFu3D"
+    },
+    {
+      "path": "release.json",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/cea478e253a9d81f82e83f43309fec4289428673eec260adfa77896a33854748/release.json",
+      "sha256": "f64d147d2259b073dd327e1e10b73de9d5d92d40e6a38bbe403dc63e849f604b",
+      "size_bytes": 4303,
+      "provider_version": "zcVbZM2bjeGiFUJ_rhqkw0QgOzCpzd6x"
+    }
+  ],
+  "verified_by": {
+    "id": "service://ilxyr/s3-readback-materializer-v1",
+    "kind": "service"
+  },
+  "verified_at_ms": 1788322184000
+}

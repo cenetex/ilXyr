@@ -1,0 +1,8 @@
+{
+  "schema": "ilxyr.aws_execution_status.v1",
+  "provider_instance_id": "i-0123456789abcdef0",
+  "authorization_ref": "artifact://sha256/1010101010101010101010101010101010101010101010101010101010101010",
+  "job_package_ref": "artifact://sha256/2020202020202020202020202020202020202020202020202020202020202020",
+  "state": "running",
+  "updated_at_ms": 1788300000000
+}

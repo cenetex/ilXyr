@@ -1,0 +1,15 @@
+{
+  "availability_zone": "us-east-1d",
+  "checked_at": "2026-09-08T09:05:07.128804+00:00",
+  "full_receipt_sha256": "76e3e4d657787f3f06bdc19dea2c23d653ee0a6572cd220dc401fe2c805e6e4d",
+  "hourly_compute_usd": "2.2420800000",
+  "instance_type": "g6e.2xlarge",
+  "maximum_before_tax_usd": "3.00",
+  "maximum_estimated_before_tax_usd": "2.99208",
+  "price_source_url": "https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/ec2/USD/current/ec2-ondemand-without-sec-sel/US%20East%20%28N.%20Virginia%29/Linux/index.json",
+  "private_package_readback_verified": true,
+  "region": "us-east-1",
+  "schema": "ilxyr.feral_replacement_preflight.v1",
+  "staging_record_sha256": "90b965369e9b00af79ce51c5d96c5976d3795f270ac2c0cdbd85d42aa8e1550e",
+  "status": "provider_checks_passed"
+}

@@ -10,6 +10,11 @@ The service records metadata and verified delivery receipts. It does not upload 
 credentials, submit training jobs, or authorize training. A materializer copies the files, reads
 them back, checks their sizes and SHA-256 digests, and submits the resulting receipt.
 
+For Amazon S3, `scripts/aws/corpus-materialization-s3.yaml` creates a private, encrypted,
+versioned, access-logged storage boundary. `scripts/aws/corpus-materialize-s3.sh` uploads one
+registered release, captures every S3 version ID, streams each exact version back through SHA-256,
+and writes the receipt that this service validates. The scripts do not start a training job.
+
 ```text
 Braid release manifest
         |
@@ -43,26 +48,60 @@ the provider's version identifier and the service identity that verified the cop
 
 The JSON Schemas are:
 
+- `schemas/braid-corpus-import.schema.json`
+- `schemas/corpus-rights-review.schema.json`
 - `schemas/corpus-release.schema.json`
 - `schemas/corpus-materialization.schema.json`
 - `schemas/sagemaker-corpus-handoff.schema.json`
 - `schemas/azure-ml-corpus-handoff.schema.json`
 
+## Import a Braid release
+
+ilXyr can register a verified Braid `braid.release/v2` directory without rebuilding or copying the
+corpus. The checked-in FERAL contracts bind the Season 00 release IDs, raw `release.json` SHA-256
+values, exact Braid source revision, and the conditionally approved SEC public-filing reuse policy.
+The policy permits private United States project materialization and use while prohibiting raw
+redistribution and requiring provenance and output controls. See
+[`FERAL-7B-RIGHTS-REVIEW.md`](FERAL-7B-RIGHTS-REVIEW.md). Then run:
+
+```bash
+ilxyr braid-corpus-register \
+  /path/to/ilxyr-workspace \
+  /path/to/braid-release/release.json \
+  /path/to/feral-7b-braid-import.json
+```
+
+The importer requires `RELEASED` status, verifies the out-of-band release ID and manifest hash,
+checks that the release ID is bound to its release digest, rejects unsafe or duplicate artifact
+paths, and requires every named training file. It records the raw `release.json` as part of the
+ilXyr corpus file inventory. The resulting `artifact://sha256/...` is the exact value used in the
+experiment's `dataset_bindings` map.
+
+FERAL-7B uses the same importer for three separate Braid releases. The training contract requires
+`data/train.jsonl` and `data/validation.jsonl`; the future and unseen-issuer contracts each require
+their own `data/test.jsonl`. Keeping two evaluation releases prevents their preregistered scores
+from being silently combined.
+
+Registration does not authorize training and does not upload data. The later materialization
+receipt must cover the imported Braid artifacts and `release.json` exactly.
+
 ## Start the service
 
-Create or select an ilxyr workspace, provide a bearer token of at least 32 bytes, and start the
-service:
+Create or select an ilxyr workspace. Provide separate access and materializer bearer tokens of at
+least 32 bytes. Bind the materializer token to one service identity:
 
 ```bash
 cargo run -p ilxyr-cli -- init /path/to/corpus-workspace
 export ILXYR_CORPUS_TOKEN='replace-with-a-random-secret-of-at-least-32-bytes'
+export ILXYR_CORPUS_MATERIALIZER_TOKEN='replace-with-a-different-random-secret-of-at-least-32-bytes'
+export ILXYR_CORPUS_MATERIALIZER_ID='service://ilxyr/s3-readback-materializer-v1'
 cargo run -p ilxyr-corpus-service -- /path/to/corpus-workspace
 ```
 
 The default address is `127.0.0.1:8787`. A non-loopback address is rejected unless
 `ILXYR_CORPUS_ALLOW_REMOTE=true` is set. Remote use must put TLS, identity-aware access, request
-limits, and audit controls in front of the service. The bearer token is read from the environment
-and is never written to an ilxyr object or event.
+limits, and audit controls in front of the service. The tokens are read from the environment and
+are never written to an ilxyr object or event.
 
 The health endpoint is public:
 
@@ -70,7 +109,9 @@ The health endpoint is public:
 curl http://127.0.0.1:8787/healthz
 ```
 
-All `/v1` routes require `Authorization: Bearer $ILXYR_CORPUS_TOKEN`.
+Corpus registration, reads, and handoffs require
+`Authorization: Bearer $ILXYR_CORPUS_TOKEN`. `POST /v1/materializations` requires
+`Authorization: Bearer $ILXYR_CORPUS_MATERIALIZER_TOKEN`.
 
 ## Register and inspect a corpus
 
@@ -97,14 +138,19 @@ materializer's read-back verification.
 
 ```bash
 curl -sS http://127.0.0.1:8787/v1/materializations \
-  -H "Authorization: Bearer $ILXYR_CORPUS_TOKEN" \
+  -H "Authorization: Bearer $ILXYR_CORPUS_MATERIALIZER_TOKEN" \
   -H 'Content-Type: application/json' \
   --data-binary @path/to/completed-s3-materialization.json
 ```
 
-The service rejects missing files, extra files, duplicate paths, digest or size drift, a provider
-URI outside the declared base prefix, empty provider versions, and non-service verifiers. The
-materialization can be inspected through:
+The materializer bearer token is the authentication proof for the single configured
+`ILXYR_CORPUS_MATERIALIZER_ID`. The service requires the receipt's `verified_by` actor to match
+that identity before it writes the receipt. This proves possession of the configured shared
+secret at submission time. The current proof level is shared-secret possession.
+
+The service rejects a different verifier identity, missing files, extra files, duplicate paths,
+digest or size drift, a provider URI outside the declared base prefix, empty provider versions,
+and non-service verifiers. The materialization can be inspected through:
 
 ```text
 GET /v1/materializations/{materialization-digest}
@@ -154,6 +200,8 @@ command job, and hashes the mounted or downloaded files before training.
 ## Security boundary
 
 This first service slice remains single-writer. An in-process lock prevents concurrent requests
-from interleaving workspace writes, but it is not a multi-tenant authorization system. Do not put
-sensitive corpus paths, provider credentials, or private access tokens in release or receipt
-objects. Production multi-tenant use still requires the controls listed in `docs/SECURITY.md`.
+from interleaving workspace writes. The access token scope covers registration, reads, and
+handoffs. The materializer token scope covers receipt submission. Direct calls to the core
+recording function are trusted local-writer operations. Store sensitive corpus paths, provider
+credentials, and private access tokens in dedicated secret systems. Production multi-tenant use
+still requires the controls listed in `docs/SECURITY.md`.

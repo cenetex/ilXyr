@@ -9,6 +9,18 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const schemaDirectory = join(root, "schemas");
 
 const fixtures = {
+  "aws-execution-status.schema.json": [
+    "examples/schema/aws-execution-status.json",
+  ],
+  "aws-launcher-config.schema.json": [
+    "examples/schema/aws-launcher-config.json",
+  ],
+  "aws-price-evidence.schema.json": [
+    "examples/schema/aws-price-evidence.json",
+  ],
+  "braid-corpus-import.schema.json": [
+    "examples/corpus/feral-7b-braid-import.json",
+  ],
   "azure-ml-corpus-handoff.schema.json": [
     "examples/corpus/azure-ml-handoff.json",
   ],
@@ -21,6 +33,51 @@ const fixtures = {
   "claim-status.schema.json": ["examples/schema/claim-status.json"],
   "claim.schema.json": ["examples/schema/claim.json"],
   "claim-support.schema.json": [],
+  "constraint-diff-report.schema.json": [
+    "examples/constraints/constraint-diff-review.v1.json",
+    "examples/constraints/constraint-diff-proceed.v1.json",
+    "examples/constraints/research-step-5/reasoner.json",
+    "examples/constraints/research-step-5/solomon.json",
+    "examples/constraints/research-step-5/zero4.json",
+    "examples/constraints/research-step-5/feral.json",
+    "examples/constraints/research-step-5/weight-multiplicity.json",
+  ],
+  "negative-knowledge-ledger.schema.json": [
+    "examples/constraints/negative-knowledge-ledger.v1.json",
+  ],
+  "verdict.schema.json": [
+    "examples/constraints/feral.triton-read-only-cache.v1.verdict.json",
+    "examples/constraints/feral.step25-package-capacity.v1.verdict.json",
+    "examples/constraints/zero.reasoner55-matched-fresh-family.v1.verdict.json",
+    "examples/constraints/feral.cuda-worker-startup.v1.verdict.json",
+    "examples/constraints/feral.calculator-full-roster-coverage.v1.verdict.json",
+    "examples/constraints/feral.cli-transport-and-early-termination.v1.verdict.json",
+    "examples/constraints/feral.finqa-source-formula-review.v2.verdict.json",
+    "examples/constraints/feral.evidence-calculator-cross-series.v1.verdict.json",
+    "examples/constraints/feral.finqa-retrieved-evidence-gap.v2.verdict.json",
+    "examples/constraints/feral.finqa-question-and-basis-gaps.v2.verdict.json",
+    "examples/constraints/weight-multiplicity.completed-call-accounting.v1.verdict.json",
+    "examples/constraints/weight-multiplicity.transformed-target-depth.v1.verdict.json",
+    "examples/constraints/zero.q23.seed2.local-guard.v1.verdict.json",
+    "examples/constraints/zero.q24.seed2.cumulative-guard.v1.verdict.json",
+    "examples/constraints/zero.q25.seed2.deterministic-backtracking.v1.verdict.json",
+    "examples/constraints/solomon.q22-compositional-routing.three-seed.v1.verdict.json",
+    "examples/constraints/weight-multiplicity.phase0.oracle-frontier.v1.verdict.json",
+    "examples/constraints/solomon.nsrl-p10m-target-margin-head-v1.negative.v1.verdict.json",
+    "examples/constraints/solomon.nsrl-p10m-direct-head-nll-guard-v1.negative.v1.verdict.json",
+    "examples/constraints/solomon.nsrl-p10m-direct-head-nll-safe-set-v1.negative.v1.verdict.json",
+    "examples/constraints/solomon.nsrl-p10m-direct-head-cross-document-stability-v1.negative.v1.verdict.json",
+    "examples/constraints/solomon.nsrl-p10m-target-margin-trust-region-v1.negative.v1.verdict.json",
+    "examples/constraints/zero.q26.seed2.global-tangent-projection.v1.verdict.json",
+    "examples/constraints/solomon.context-use-audit.v1.verdict.json",
+    "examples/constraints/feral.finqa-empty-label-audit.v1.verdict.json",
+    "examples/constraints/zero.reasoner55-semantic-control-audit.v1.verdict.json",
+    "examples/constraints/zero.reasoner58-development-current.v1.verdict.json",
+    "examples/constraints/zero.reasoner59a-development-current.v1.verdict.json",
+    "examples/constraints/weight-multiplicity.phase1-pilot-resource.v1.verdict.json",
+    "examples/constraints/weight-multiplicity.tail-wrapper-failure.v1.verdict.json",
+    "examples/constraints/zero.reasoner58-prose-mismatch-audit.v1.verdict.json",
+  ],
   "contribution.schema.json": [
     "examples/toy/hypothesis.json",
     "examples/toy/foundation.json",
@@ -38,9 +95,16 @@ const fixtures = {
   "corpus-materialization.schema.json": [
     "examples/corpus/s3-materialization.json",
     "examples/corpus/azure-materialization.json",
+    "examples/corpus/feral-7b-s3-materialization.json",
+    "examples/corpus/feral-7b-future-eval-s3-materialization.json",
+    "examples/corpus/feral-7b-unseen-eval-s3-materialization.json",
+  ],
+  "corpus-rights-review.schema.json": [
+    "examples/corpus/feral-7b-rights-review.json",
   ],
   "corpus-release.schema.json": ["examples/corpus/braid-corpus-five.json"],
-  "epoch-budget.schema.json": ["examples/schema/epoch-budget.json"],
+  "epoch-budget.schema.json": ["examples/schema/epoch-budget-v1.json"],
+  "epoch-budget-v2.schema.json": ["examples/schema/epoch-budget.json"],
   "evidence-bundle.schema.json": ["examples/schema/evidence-bundle.json"],
   "evidence-graph-edge.schema.json": [
     "examples/schema/evidence-graph-edge.json",
@@ -84,6 +148,9 @@ const fixtures = {
   ],
   "family-manifest.schema.json": [
     "examples/experiments/zero-q26r/family.json",
+  ],
+  "feral-calibration-plan.schema.json": [
+    "examples/feral-7b/feral-7b-calibration-plan.json",
   ],
   "forecast.schema.json": [
     "examples/toy/forecast-model.json",
@@ -151,6 +218,11 @@ const fixtures = {
     "examples/schema/registration-package.json",
   ],
   "research-registry.schema.json": ["registry/research-registry.json"],
+  "representation-audit.schema.json": [
+    "examples/diagnostics/exp-008-representation-audit.json",
+    "examples/diagnostics/nsrl-p10m-representation-audit.json",
+    "examples/diagnostics/reasoner-4-representation-audit.json",
+  ],
   "retro-registration.schema.json": [
     "examples/schema/retro-registration.json",
     "examples/families/nsrl-target-margin-v1.retro.json",
@@ -175,6 +247,10 @@ const fixtures = {
   ],
   "trusted-attestation-key.schema.json": [
     "examples/schema/trusted-attestation-key.json",
+  ],
+  "transformers-execution-profile.schema.json": [
+    "examples/feral-7b/transformers-base-profile.json",
+    "examples/feral-7b/transformers-calibration-profile.json",
   ],
   "upstream-benchmark.schema.json": [
     "examples/schema/upstream-benchmark.json",
@@ -372,6 +448,34 @@ const executorAttestation = await readJson(
   "examples/schema/executor-attestation.json",
 );
 
+const launcherWithMutablePackageKey = await readJson(
+  "examples/schema/aws-launcher-config.json",
+);
+launcherWithMutablePackageKey.package_key = "packages/toy.remote.v1/latest.json";
+expectInvalid(
+  "aws-launcher-config.schema.json",
+  "AWS launcher config with a mutable package key",
+  launcherWithMutablePackageKey,
+);
+
+const statusWithLooseAuthorization = await readJson(
+  "examples/schema/aws-execution-status.json",
+);
+statusWithLooseAuthorization.authorization_ref = "remote-authorization:latest";
+expectInvalid(
+  "aws-execution-status.schema.json",
+  "AWS status without an artifact authorization reference",
+  statusWithLooseAuthorization,
+);
+
+const priceWithShortBilling = await readJson("examples/schema/aws-price-evidence.json");
+priceWithShortBilling.minimum_billed_seconds = 1;
+expectInvalid(
+  "aws-price-evidence.schema.json",
+  "AWS price evidence with a short billing period",
+  priceWithShortBilling,
+);
+
 const unsafeEnvironment = await readJson(
   "examples/schema/executor-environment.json",
 );
@@ -490,14 +594,22 @@ expectInvalid(
 
 const budget = await readJson("examples/schema/epoch-budget.json");
 delete budget.per_executable_caps["/bin/echo"].network;
-expectInvalid("epoch-budget.schema.json", "executable cap without network policy", budget);
+expectInvalid("epoch-budget-v2.schema.json", "executable cap without network policy", budget);
 
 const budgetWithoutArguments = await readJson("examples/schema/epoch-budget.json");
 delete budgetWithoutArguments.per_executable_caps["/bin/echo"].allowed_argument_sets;
 expectInvalid(
-  "epoch-budget.schema.json",
+  "epoch-budget-v2.schema.json",
   "executable cap without an argument allowlist",
   budgetWithoutArguments,
+);
+
+const budgetWithoutExpiry = await readJson("examples/schema/epoch-budget.json");
+delete budgetWithoutExpiry.expires_at_ms;
+expectInvalid(
+  "epoch-budget-v2.schema.json",
+  "epoch budget without a signed expiry",
+  budgetWithoutExpiry,
 );
 
 const sandboxSpec = await readJson("examples/schema/sandbox-spec.json");
@@ -588,6 +700,73 @@ expectInvalid(
   "upstream benchmark without an explicit outcome",
   upstreamBenchmark,
 );
+
+const transformersProfile = await readJson(
+  "examples/feral-7b/transformers-calibration-profile.json",
+);
+transformersProfile.state = "frozen";
+expectInvalid(
+  "transformers-execution-profile.schema.json",
+  "frozen Transformers profile with unresolved execution factors",
+  transformersProfile,
+);
+
+const transformersProfileWithoutInitialEvaluation = await readJson(
+  "examples/feral-7b/transformers-calibration-profile.json",
+);
+transformersProfileWithoutInitialEvaluation.trainer.eval_on_start = false;
+expectInvalid(
+  "transformers-execution-profile.schema.json",
+  "Transformers profile without an initial evaluation",
+  transformersProfileWithoutInitialEvaluation,
+);
+
+const transformersProfileWithoutSampling = await readJson(
+  "examples/feral-7b/transformers-calibration-profile.json",
+);
+delete transformersProfileWithoutSampling.sample;
+expectInvalid(
+  "transformers-execution-profile.schema.json",
+  "Transformers profile without a sampling contract",
+  transformersProfileWithoutSampling,
+);
+
+const representationAudit = await readJson(
+  "examples/diagnostics/exp-008-representation-audit.json",
+);
+representationAudit.invariants.source_model_updates = true;
+expectInvalid(
+  "representation-audit.schema.json",
+  "representation audit that updates the source model",
+  representationAudit,
+);
+
+const prematurelyFrozenRepresentationAudit = await readJson(
+  "examples/diagnostics/nsrl-p10m-representation-audit.json",
+);
+prematurelyFrozenRepresentationAudit.state = "frozen";
+expectInvalid(
+  "representation-audit.schema.json",
+  "frozen representation audit with unresolved inputs",
+  prematurelyFrozenRepresentationAudit,
+);
+
+const feralProfileRegistry = (await readJson("registry/research-registry.json"))
+  .projects.find((project) => project.project_id === "project://ilxyr/feral-7b");
+for (const profilePath of fixtures["transformers-execution-profile.schema.json"]) {
+  const profileDigest = createHash("sha256")
+    .update(await readFile(join(root, profilePath)))
+    .digest("hex");
+  const entries = feralProfileRegistry.artifacts.filter(
+    (artifact) => artifact.uri?.endsWith(`/${profilePath}`),
+  );
+  if (
+    entries.length !== 1 || entries[0].digest !== profileDigest ||
+    entries[0].artifact_id !== `artifact://sha256/${profileDigest}`
+  ) {
+    throw new Error(`FERAL registry must bind ${profilePath} to ${profileDigest}`);
+  }
+}
 
 const nsrlRegistration = await readJson(
   "examples/nsrl/p10m-v10-registration.json",
@@ -771,6 +950,109 @@ expectInvalid(
   "weight-multiplicity-frontier-plan.schema.json",
   "frontier generator v1 with a retroactive predecessor",
   frontierV1WithPredecessor,
+);
+
+
+// --- Verdict schema rejection tests ---
+
+const verdictWithGoAndTransfer = await readJson(
+  "examples/constraints/zero.q26.seed2.global-tangent-projection.v1.verdict.json",
+);
+verdictWithGoAndTransfer.taxonomy = "transfer";
+expectInvalid(
+  "verdict.schema.json",
+  "go verdict with transfer taxonomy",
+  verdictWithGoAndTransfer,
+);
+
+const verdictWithGoOutcome = await readJson(
+  "examples/constraints/zero.q23.seed2.local-guard.v1.verdict.json",
+);
+verdictWithGoOutcome.outcome = "go";
+verdictWithGoOutcome.taxonomy = "transfer";
+expectInvalid(
+  "verdict.schema.json",
+  "go verdict with transfer taxonomy from negative",
+  verdictWithGoOutcome,
+);
+
+const verdictMissingMechanismTags = await readJson(
+  "examples/constraints/zero.q24.seed2.cumulative-guard.v1.verdict.json",
+);
+delete verdictMissingMechanismTags.mechanism_tags;
+expectInvalid(
+  "verdict.schema.json",
+  "verdict without mechanism_tags",
+  verdictMissingMechanismTags,
+);
+
+const verdictWithBadMechanismTag = await readJson(
+  "examples/constraints/zero.q25.seed2.deterministic-backtracking.v1.verdict.json",
+);
+verdictWithBadMechanismTag.mechanism_tags = ["UPPERCASE-Tag"];
+expectInvalid(
+  "verdict.schema.json",
+  "verdict with non-lowercase mechanism_tag",
+  verdictWithBadMechanismTag,
+);
+
+const verdictModelWithoutModelRef = await readJson(
+  "examples/constraints/solomon.q22-compositional-routing.three-seed.v1.verdict.json",
+);
+verdictModelWithoutModelRef.recorded_by = {
+  id: "model://toy/research-director",
+  kind: "model",
+};
+expectInvalid(
+  "verdict.schema.json",
+  "model actor without model_ref",
+  verdictModelWithoutModelRef,
+);
+
+// --- Negative-knowledge ledger rejection tests ---
+
+const ledgerWithGoEntry = await readJson(
+  "examples/constraints/negative-knowledge-ledger.v1.json",
+);
+ledgerWithGoEntry.entries[0].outcome = "go";
+expectInvalid(
+  "negative-knowledge-ledger.schema.json",
+  "negative-knowledge ledger with a go outcome entry",
+  ledgerWithGoEntry,
+);
+
+// --- Constraint-diff report rejection tests ---
+
+const diffReportWithProceedAndMatches = await readJson(
+  "examples/constraints/constraint-diff-proceed.v1.json",
+);
+diffReportWithProceedAndMatches.matches = [
+  {
+    verdict_id: "verdict:zero.q23.seed2.local-guard.v1",
+    experiment_id: "zero.q23.seed2.local-guard.no-go.v1",
+    family: "zero",
+    seed: 2,
+    outcome: "no_go",
+    taxonomy: "transfer",
+    matched_tags: ["newton-root-search"],
+    verdict_summary: "Should not be here with proceed recommendation.",
+  },
+];
+expectInvalid(
+  "constraint-diff-report.schema.json",
+  "constraint-diff report with proceed recommendation but non-empty matches",
+  diffReportWithProceedAndMatches,
+);
+
+const diffReportBlockedWithoutMatches = await readJson(
+  "examples/constraints/constraint-diff-review.v1.json",
+);
+diffReportBlockedWithoutMatches.matches = [];
+diffReportBlockedWithoutMatches.recommendation = "blocked";
+expectInvalid(
+  "constraint-diff-report.schema.json",
+  "constraint-diff report with blocked recommendation but empty matches",
+  diffReportBlockedWithoutMatches,
 );
 
 console.log(

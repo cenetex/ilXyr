@@ -1,0 +1,65 @@
+{
+  "failures": [
+    {
+      "evidence": "OPENED-01.json",
+      "finding": "A training report evaluates every packed replay window. The full roster would score 577 replay windows plus task validation after each chunk, even though selection uses only CPU and progress.",
+      "id": "extra-training-validation",
+      "kind": "controller_design",
+      "repair": "PLAN-v2 fixes an explicit option to skip report-time validation. All four methods retain exact checkpoints and samples against the old trainer and the new default."
+    },
+    {
+      "evidence": "opened-02/OPENED.json",
+      "finding": "The source transformation matched both an outer and a nested evaluation condition and stopped before compilation.",
+      "id": "source-anchor",
+      "kind": "local_check",
+      "repair": "Anchor the full line start."
+    },
+    {
+      "evidence": "opened-05/OPENED.json",
+      "finding": "The early-endpoint test changed a compile row. The new setup-roster check rejected it before the intended selection check.",
+      "id": "attack-target",
+      "kind": "local_check",
+      "repair": "Alter a training row and require the intended rejection reason."
+    },
+    {
+      "finding": "The pinned quantity evaluator calls kill, whose declaration is hidden under strict C11 on Linux.",
+      "id": "linux-posix-declaration",
+      "kind": "build",
+      "repair": "Declare POSIX 2008 interfaces in the compiler flags.",
+      "run": "https://github.com/cenetex/ilXyr/actions/runs/34704980886"
+    },
+    {
+      "evidence": "sanitized-01/study/processes/0001-setup-compile-export/stderr.log",
+      "finding": "The Mac sanitizer build promoted the pinned exporter sprintf deprecation warning to an error. The allocation already includes room for the suffix.",
+      "id": "mac-export-deprecation",
+      "kind": "build",
+      "repair": "Keep the pinned source and exempt deprecation warnings in the legacy native build."
+    },
+    {
+      "evidence": "sanitized-02/study/processes/0002-setup-compile-task/stderr.log",
+      "finding": "The POSIX setting hid the Mac processor-count extension in the historical evaluator.",
+      "id": "mac-processor-query",
+      "kind": "build",
+      "repair": "Declare Darwin interfaces too.",
+      "run": "https://github.com/cenetex/ilXyr/actions/runs/34705179465"
+    },
+    {
+      "finding": "Every guard update was accepted. Dialogue loss rose 4.218516 percent and TinyStories bits per byte rose 17.184475 percent. Task exact artifacts remained zero of five.",
+      "id": "guard-mean-hides-endpoint-damage",
+      "kind": "opened_research_control",
+      "repair": "The fixed final rules keep separate source and language gates and retain the failed candidate decision.",
+      "scope": "Tiny synthetic model and opened cases."
+    },
+    {
+      "finding": "One native channel record fails the native minimum of twenty. All four training methods fail, retain their process records, and evaluate the frozen fallback. The full decision remains incomplete.",
+      "id": "native-training-input-rejection",
+      "kind": "controlled_failure"
+    },
+    {
+      "finding": "Each first training chunk exceeds a one-microsecond opened allowance. All four methods keep that checkpoint, charge its actual work, and select the frozen fallback.",
+      "id": "training-budget-crossed",
+      "kind": "controlled_limit"
+    }
+  ],
+  "schema": "ilxyr.zero4_study_failures.v1"
+}

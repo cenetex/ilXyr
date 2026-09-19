@@ -11,7 +11,11 @@ use serde::{Deserialize, Serialize};
 
 use crate::conditions::{ConditionFacts, ConditionSet, evaluate};
 use crate::model::{ActorRef, GateCheck};
-use crate::{Error, Result, Workspace, workflow};
+use crate::{Error, Result, Workspace, validation, workflow};
+
+const ADMISSION_DECIDED: &str = "AdmissionDecided";
+const EXECUTION_STARTED: &str = "ExecutionStarted";
+const EXPERIMENT_COMPLETED: &str = "ExperimentCompleted";
 
 // ---------------------------------------------------------------------------
 // #20 — exploratory vs confirmatory intent
@@ -30,8 +34,9 @@ impl RunIntent {
         experiment_id: &str,
         intent: RunIntent,
     ) -> Result<String> {
-        // The experiment must exist.
         workflow::experiment_status(workspace, experiment_id)?;
+        let events = workspace.events()?;
+        ensure_prospective_declaration(&events, experiment_id, INTENT_DECLARED, "run intent")?;
         let record = IntentDeclaration {
             schema: "ilxyr.intent_declaration.v1".to_owned(),
             experiment_id: experiment_id.to_owned(),
@@ -52,15 +57,29 @@ impl RunIntent {
     /// may back confirming claims (fail-closed for claim support).
     pub fn resolve(workspace: &Workspace, experiment_id: &str) -> Result<RunIntent> {
         let events = workspace.events()?;
-        let mut latest = None;
-        for event in &events {
+        let mut declaration = None;
+        let boundary = first_experiment_boundary(&events, experiment_id);
+        for (index, event) in events.iter().enumerate() {
             if event.event_type == INTENT_DECLARED && event.aggregate_id == experiment_id {
-                if let Some(reference) = event.artifact_ref.as_deref() {
-                    latest = Some(workspace.get::<IntentDeclaration>(reference)?);
+                if declaration.is_some() {
+                    return Err(Error::Conflict(format!(
+                        "experiment {experiment_id} has more than one run intent declaration"
+                    )));
                 }
+                if boundary.is_some_and(|boundary| index >= boundary) {
+                    return Err(Error::Conflict(format!(
+                        "run intent for {experiment_id} was declared after admission or execution"
+                    )));
+                }
+                let reference = event.artifact_ref.as_deref().ok_or_else(|| {
+                    Error::Conflict(format!(
+                        "run intent for {experiment_id} has no artifact reference"
+                    ))
+                })?;
+                declaration = Some(workspace.get::<IntentDeclaration>(reference)?);
             }
         }
-        Ok(latest
+        Ok(declaration
             .map(|declaration| declaration.intent)
             .unwrap_or(RunIntent::Exploratory))
     }
@@ -87,7 +106,28 @@ pub fn seal_test_digest(
     experiment_id: &str,
     digest: &str,
 ) -> Result<String> {
+    workflow::experiment_status(workspace, experiment_id)?;
     let digest = normalize_digest(digest)?;
+    let events = workspace.events()?;
+    if events.iter().any(|event| {
+        event.aggregate_id == experiment_id
+            && matches!(
+                event.event_type.as_str(),
+                EXECUTION_STARTED | EXPERIMENT_COMPLETED
+            )
+    }) {
+        return Err(Error::Conflict(format!(
+            "test digest for {experiment_id} must be sealed before execution"
+        )));
+    }
+    if events
+        .iter()
+        .any(|event| event.event_type == TEST_DIGEST_SEALED && event.aggregate_id == experiment_id)
+    {
+        return Err(Error::Conflict(format!(
+            "test digest for {experiment_id} is already sealed and cannot be replaced"
+        )));
+    }
     let record = SealedDigest {
         schema: "ilxyr.sealed_digest.v1".to_owned(),
         experiment_id: experiment_id.to_owned(),
@@ -110,59 +150,48 @@ pub fn release_test_digest(
     experiment_id: &str,
     authorizer: &ActorRef,
 ) -> Result<String> {
-    let _ = authorizer;
+    validation::actor_ref(authorizer)?;
     let events = workspace.events()?;
-    let already_released = events.iter().any(|event| {
-        event.event_type == TEST_DIGEST_RELEASED && event.aggregate_id == experiment_id
-    });
-    if already_released {
-        return Err(Error::Validation(vec![format!(
-            "test digest for {experiment_id} is already released"
-        )]));
+    if events.iter().any(|event| {
+        event.aggregate_id == experiment_id
+            && matches!(
+                event.event_type.as_str(),
+                EXECUTION_STARTED | EXPERIMENT_COMPLETED
+            )
+    }) {
+        return Err(Error::Conflict(format!(
+            "test digest for {experiment_id} must be released before execution"
+        )));
     }
-    for event in events.iter().rev() {
-        if event.event_type == TEST_DIGEST_SEALED && event.aggregate_id == experiment_id {
-            let reference = event.artifact_ref.clone().ok_or_else(|| {
-                Error::Validation(vec![format!(
-                    "sealed-digest event for {experiment_id} has no artifact"
-                )])
-            })?;
+    match test_access_state(&events, experiment_id)? {
+        TestAccessState::Sealed(reference) => {
             workspace.append_event(
                 TEST_DIGEST_RELEASED,
                 experiment_id,
-                ActorRef::service("service://ilxyr/sealing-v1"),
+                authorizer.clone(),
                 Some(reference),
             )?;
-            return Ok(format!("released:{experiment_id}"));
+            Ok(format!("released:{experiment_id}"))
         }
+        TestAccessState::Released => Err(Error::Conflict(format!(
+            "test digest for {experiment_id} is already released"
+        ))),
+        TestAccessState::Unsealed => Err(Error::NotFound(format!(
+            "no sealed digest registered for {experiment_id}"
+        ))),
     }
-    Err(Error::NotFound(format!(
-        "no sealed digest registered for {experiment_id}"
-    )))
 }
 
 /// Guard used by run admission/execution: refuses to run while a sealed
 /// digest is unreleased. Fails closed on any ambiguity.
 pub fn ensure_test_access_allowed(workspace: &Workspace, experiment_id: &str) -> Result<()> {
     let events = workspace.events()?;
-    let mut sealed = false;
-    let mut released = false;
-    for event in &events {
-        if event.aggregate_id != experiment_id {
-            continue;
-        }
-        match event.event_type.as_str() {
-            TEST_DIGEST_SEALED => sealed = true,
-            TEST_DIGEST_RELEASED => released = true,
-            _ => {}
-        }
-    }
-    if sealed && !released {
-        return Err(Error::Security(format!(
+    match test_access_state(&events, experiment_id)? {
+        TestAccessState::Sealed(_) => Err(Error::Security(format!(
             "test split for {experiment_id} is sealed; release it at settlement before evaluating"
-        )));
+        ))),
+        TestAccessState::Unsealed | TestAccessState::Released => Ok(()),
     }
-    Ok(())
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -176,6 +205,89 @@ pub struct SealedDigest {
 
 pub const TEST_DIGEST_SEALED: &str = "TestDigestSealed";
 pub const TEST_DIGEST_RELEASED: &str = "TestDigestReleased";
+
+enum TestAccessState {
+    Unsealed,
+    Sealed(String),
+    Released,
+}
+
+fn test_access_state(
+    events: &[crate::model::ResearchEvent],
+    experiment_id: &str,
+) -> Result<TestAccessState> {
+    let mut state = TestAccessState::Unsealed;
+    for event in events
+        .iter()
+        .filter(|event| event.aggregate_id == experiment_id)
+    {
+        match event.event_type.as_str() {
+            TEST_DIGEST_SEALED => {
+                if !matches!(state, TestAccessState::Unsealed) {
+                    return Err(Error::Conflict(format!(
+                        "test digest history for {experiment_id} contains more than one seal"
+                    )));
+                }
+                let reference = event.artifact_ref.clone().ok_or_else(|| {
+                    Error::Conflict(format!(
+                        "sealed digest for {experiment_id} has no artifact reference"
+                    ))
+                })?;
+                state = TestAccessState::Sealed(reference);
+            }
+            TEST_DIGEST_RELEASED => {
+                let TestAccessState::Sealed(seal_ref) = &state else {
+                    return Err(Error::Conflict(format!(
+                        "test digest history for {experiment_id} contains an unmatched release"
+                    )));
+                };
+                if event.artifact_ref.as_deref() != Some(seal_ref.as_str()) {
+                    return Err(Error::Conflict(format!(
+                        "test digest release for {experiment_id} does not match its seal"
+                    )));
+                }
+                state = TestAccessState::Released;
+            }
+            _ => {}
+        }
+    }
+    Ok(state)
+}
+
+fn ensure_prospective_declaration(
+    events: &[crate::model::ResearchEvent],
+    experiment_id: &str,
+    event_type: &str,
+    label: &str,
+) -> Result<()> {
+    if events
+        .iter()
+        .any(|event| event.event_type == event_type && event.aggregate_id == experiment_id)
+    {
+        return Err(Error::Conflict(format!(
+            "{label} for {experiment_id} is already frozen"
+        )));
+    }
+    if first_experiment_boundary(events, experiment_id).is_some() {
+        return Err(Error::Conflict(format!(
+            "{label} for {experiment_id} must be frozen before admission or execution"
+        )));
+    }
+    Ok(())
+}
+
+fn first_experiment_boundary(
+    events: &[crate::model::ResearchEvent],
+    experiment_id: &str,
+) -> Option<usize> {
+    events.iter().position(|event| {
+        event.aggregate_id == experiment_id
+            && matches!(
+                event.event_type.as_str(),
+                ADMISSION_DECIDED | EXECUTION_STARTED | EXPERIMENT_COMPLETED
+            )
+    })
+}
 
 fn normalize_digest(digest: &str) -> Result<String> {
     let lowered = digest.trim().to_ascii_lowercase();

@@ -1,0 +1,115 @@
+{
+  "fixed_image_check": {
+    "altered_records_rejected": 18,
+    "ci_url": "https://github.com/cenetex/ilXyr/actions/runs/34709518771",
+    "compiler_identity": "cc (Debian 12.2.0-14+deb12u1) 12.2.0\nCopyright (C) 2022 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+    "decisions": [
+      {
+        "arm": "replay_guard",
+        "passes": false
+      },
+      {
+        "arm": "replay_projection",
+        "passes": false
+      }
+    ],
+    "full_input_manifest_metadata_checked": true,
+    "memory_after": {
+      "cpu": {
+        "burst_usec": 0,
+        "core_sched.force_idle_usec": 0,
+        "nice_usec": 0,
+        "nr_bursts": 0,
+        "nr_periods": 186,
+        "nr_throttled": 0,
+        "system_usec": 2216629,
+        "throttled_usec": 0,
+        "usage_usec": 17342222,
+        "user_usec": 15125592
+      },
+      "events": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "limit_bytes": 2147483648,
+      "peak_bytes": 119836672,
+      "scope": "whole_container_cgroup_v2"
+    },
+    "memory_before": {
+      "cpu": {
+        "burst_usec": 0,
+        "core_sched.force_idle_usec": 0,
+        "nice_usec": 0,
+        "nr_bursts": 0,
+        "nr_periods": 1,
+        "nr_throttled": 0,
+        "system_usec": 20672,
+        "throttled_usec": 0,
+        "usage_usec": 76489,
+        "user_usec": 55816
+      },
+      "events": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "limit_bytes": 2147483648,
+      "peak_bytes": 10293248,
+      "scope": "whole_container_cgroup_v2"
+    },
+    "opened_sha256": "dd852da9653e5a5f8dbb5ec4474d21ca8437f3a3e90dcab11f51be2e8be6f1d6",
+    "parallel_case_comparisons": 15,
+    "production_input_bytes_loaded": 0,
+    "python_identity": "Python 3.11.2",
+    "relocated_check_status": "complete",
+    "runtime_sha256": "bb61d19862125ae626706903db73c583a6b8e4089c3f79b012ae9c15f37477ee",
+    "source_commit": "6c859ca354bce30a3c3c8b1d53ba33e5fa504544",
+    "status": "complete"
+  },
+  "host_tests": {
+    "scope": "Fake AWS, metadata, container and shutdown services; real package, archive and controller-boundary code.",
+    "status": "passed",
+    "tests": 14
+  },
+  "launch_approval_status": "pending_exact_package_and_budget_approval",
+  "local_full_input_check": {
+    "bound_input_files": 63,
+    "dry_run_default": true,
+    "input_bytes": 47987778,
+    "instance_count": [
+      1,
+      1
+    ],
+    "instance_type": "c6i.4xlarge",
+    "package": {
+      "bytes": 54886400,
+      "plan_sha256": "79aa4932de1fe8f4da66ad57d17d989bb57de45e1843afe01f969443dbc66ee2",
+      "sha256": "0ed0d960d8cfbe7e4e86d600c490867c732c4ac2d3cd462f8ccbb1b9f7e35ac3",
+      "source_commit": "6c859ca354bce30a3c3c8b1d53ba33e5fa504544"
+    },
+    "prepared_manifest_sha256": "ed1caf4772d0100108251b9a5270b07330452a393ebdfea853dcdaf492c83e3a",
+    "production_teacher_forward_calls": 0,
+    "rendered_request_sha256": "ce2e9db776e77f3a2cc8ec0ce120f4e7e4b0138d1a7844f04fc865ea885b1a96",
+    "rendered_user_data_bytes": 9686,
+    "status": "complete"
+  },
+  "local_schema_check": {
+    "receipt_sha256": "09220cccecaf4d59007ca138f12d8d4fbb8df97c077f30fdafc5571853477712",
+    "status": "complete"
+  },
+  "package_bytes": 54886400,
+  "package_sha256": "0ed0d960d8cfbe7e4e86d600c490867c732c4ac2d3cd462f8ccbb1b9f7e35ac3",
+  "plan_sha256": "79aa4932de1fe8f4da66ad57d17d989bb57de45e1843afe01f969443dbc66ee2",
+  "production_teacher_forward_calls": 0,
+  "provider_preflight_status": "waiting_for_aws_sign_in",
+  "schema": "ilxyr.zero4_cloud_preparation.v1",
+  "source_commit": "6c859ca354bce30a3c3c8b1d53ba33e5fa504544",
+  "status": "local_and_fixed_runtime_checks_complete"
+}

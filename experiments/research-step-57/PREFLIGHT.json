@@ -1,0 +1,22 @@
+{
+  "checked_epoch": 1789263552.95203,
+  "checks": [
+    "identity",
+    "machine",
+    "image_snapshot",
+    "volume_floor",
+    "network",
+    "role",
+    "bucket_privacy_encryption",
+    "versioned_package",
+    "bounded_retention",
+    "price",
+    "ec2_dry_run"
+  ],
+  "instances_created": 0,
+  "package_sha256": "b9cd62c7577536bc284e53cc066d789eb0e65890ccff7668529bb6a33262aa02",
+  "package_version": "uzHPhD4e.jjpziCh9RE2rOb3cW10D60R",
+  "plan_sha256": "9a8e016502e693e37c6333a852854d1896a37807cf4ea7477b7374b784c4393b",
+  "run_id": "zero4-52-20260913T013725Z",
+  "status": "passed"
+}

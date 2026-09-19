@@ -21,12 +21,9 @@ true:
 - it is a full frontier, benchmark, profile, calibration, or replay; or
 - its timing or memory result will be entered as evidence.
 
-Do not wait for the workstation to run out of disk or memory before making
-this choice. Do not run the full job locally merely because the general ilXyr
-cloud adapter is not finished. Use or adapt the existing experiment-specific
-AWS pattern. If that path is missing or broken, stop after the smoke test and
-repair it through a pull request. Never silently fall back to a full local
-run.
+Choose the venue before the full run begins. Use the general AWS launcher or
+the existing experiment-specific AWS pattern. A launcher repair belongs in a
+pull request before the full run.
 
 The thresholds above select a venue. They do not authorize spending. A paid
 launch still needs an explicit approval tied to a frozen package and budget.
@@ -74,8 +71,26 @@ the old evidence sealed and name the new comparison as a separate series.
 
 ## Current implementation map
 
-ilXyr does not yet have one general provider-neutral launch command. It does
-have a working experiment-specific AWS pattern:
+ilXyr now has a general AWS launcher. The command flow is:
+
+```text
+remote-aws-stage
+remote-aws-preflight
+remote-authorize
+remote-aws-launch
+remote-aws-observe
+remote-aws-collect
+remote-report-accept
+```
+
+The launcher checks the exact AMI ID and digest tag. It also checks the
+instance architecture, subnet, security groups, IAM profile, package object,
+result bucket, frozen price evidence, and cost ceiling. EC2 `DryRun` proves
+launch permission during preflight. Launch creates one private instance with
+encrypted storage, IMDSv2, termination-on-shutdown, and a stable client token.
+The frozen bootstrap script arms the watchdog.
+
+The existing experiment-specific AWS pattern remains useful:
 
 - `scripts/aws/weight-multiplicity-phase06-package.sh` builds a digest-bound
   package and runs its local checks;
@@ -91,9 +106,8 @@ New heavy weight-multiplicity runs should reuse this structure with a new
 experiment identity, package, budget, storage prefix, runner, and result
 schema. They must not reuse Phase 0.6 approval or object keys.
 
-`docs/decisions/0006-digest-bound-cloud-executor.md` describes the future
-general adapter. Its proposed status means the common adapter is unfinished;
-it does not mean that approved heavy work should run locally.
+`docs/decisions/0006-digest-bound-cloud-executor.md` defines the common adapter
+and its operating rules.
 
 `docs/CLOUD-TRAINING.md` covers the provider-neutral OCI training record. It
 does not replace this execution-venue policy.
@@ -109,4 +123,3 @@ does not replace this execution-venue policy.
   operational incident before doing more scientific work.
 - If exact peak memory cannot be observed, report it as unknown. Do not turn a
   placeholder or lower bound into a measurement.
-

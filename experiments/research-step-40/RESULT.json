@@ -1,0 +1,26 @@
+{
+  "failure_cases_per_platform": 17,
+  "fresh_episode_visits": 0,
+  "full_planned_episode_visits": 49152,
+  "full_planned_processes": 48,
+  "implementation_commit": "2d6bc9dccf3797a917f898a322d4edf6d0b161e5",
+  "new_paid_instances": 0,
+  "next": "Freeze the immutable cloud host package, runtime, machine, memory limit, deadline and price, then complete free preflight and obtain exact paid-run approval.",
+  "opened_platforms": [
+    "local",
+    "linux",
+    "macos"
+  ],
+  "opened_verifier_checks": {
+    "raw_lexical_task_guide": 176,
+    "semantic_frequency": 211,
+    "task_guide": 243,
+    "task_without_prior_feature": 233
+  },
+  "performance_evidence": false,
+  "plan_sha256": "177e6053242b03db6767c6ce2bcd73436013153633605d46425c8c157ee93c95",
+  "roster_sha256": "037caefb37b9656e5681dc3dd145a2cf20d4517582c5faf373b42265782da42e",
+  "schema": "ilxyr.research_step40_result.v1",
+  "source_commit": "0c5253604593acb3b9294fcc00c90f59b7dbbd3c",
+  "status": "controller_ready_for_cloud_packaging"
+}

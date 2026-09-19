@@ -1,0 +1,410 @@
+{
+  "fresh_input_evidence": false,
+  "full_roster_evidence": false,
+  "original_results": {
+    "calculator": {
+      "abstentions": 3,
+      "arithmetic_operations": 4,
+      "case_count": 5,
+      "correct_cases": 4,
+      "numeric_answers": 2
+    },
+    "operand_only": {
+      "abstentions": 3,
+      "arithmetic_operations": 0,
+      "case_count": 5,
+      "correct_cases": 2,
+      "numeric_answers": 2
+    }
+  },
+  "results": {
+    "calculator": {
+      "abstentions": 2,
+      "arithmetic_operations": 5,
+      "case_count": 5,
+      "cases": [
+        {
+          "arm": "calculator",
+          "exact_result": "11197/100",
+          "id": "MAS/2017/page_27.pdf-2",
+          "operands": [
+            {
+              "evidence_id": "table_1",
+              "label": "masco",
+              "span": [
+                149,
+                157
+              ],
+              "text": "$ 318.46",
+              "unit": "usd",
+              "value": "15923/50",
+              "year": 2017
+            },
+            {
+              "evidence_id": "table_2",
+              "label": "s&p 500 index",
+              "span": [
+                189,
+                197
+              ],
+              "text": "$ 206.49",
+              "unit": "usd",
+              "value": "20649/100",
+              "year": 2017
+            }
+          ],
+          "operation": "difference",
+          "prediction": "111.97",
+          "reason": "answered",
+          "route": "single_year",
+          "schema": "ilxyr.feral_evidence_calculator.v2",
+          "selected_series": [
+            "masco",
+            "s&p 500 index"
+          ],
+          "target_correct": true,
+          "target_kind": "numeric",
+          "unit": "percentage_points",
+          "work": {
+            "arithmetic_operations": 1,
+            "evidence_rows": 3,
+            "parsed_cells": 10,
+            "series_scored": 4
+          }
+        },
+        {
+          "arm": "calculator",
+          "exact_result": null,
+          "id": "AES/2002/page_128.pdf-2",
+          "operands": [],
+          "operation": null,
+          "prediction": null,
+          "reason": "question_needs_distinct_years",
+          "route": "legacy",
+          "schema": "ilxyr.feral_evidence_calculator.v2",
+          "target_correct": true,
+          "target_kind": "abstention",
+          "unit": null,
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 0,
+            "series_scored": 0
+          }
+        },
+        {
+          "arm": "calculator",
+          "exact_result": "184",
+          "id": "PNC/2012/page_100.pdf-3",
+          "operands": [
+            {
+              "evidence_id": "table_2",
+              "label": "private investors ( a )",
+              "span": [
+                121,
+                126
+              ],
+              "text": "$ 110",
+              "unit": "usd_million",
+              "value": "110",
+              "year": 2011
+            },
+            {
+              "evidence_id": "table_2",
+              "label": "private investors ( a )",
+              "span": [
+                63,
+                67
+              ],
+              "text": "$ 74",
+              "unit": "usd_million",
+              "value": "74",
+              "year": 2012
+            }
+          ],
+          "operation": "sum",
+          "prediction": "184",
+          "reason": "answered",
+          "route": "legacy",
+          "schema": "ilxyr.feral_evidence_calculator.v2",
+          "selected_series": "private investors ( a )",
+          "target_correct": true,
+          "target_kind": "numeric",
+          "unit": "usd_million",
+          "work": {
+            "arithmetic_operations": 1,
+            "evidence_rows": 3,
+            "parsed_cells": 2,
+            "series_scored": 1
+          }
+        },
+        {
+          "arm": "calculator",
+          "exact_result": "1650/43",
+          "id": "CE/2016/page_19.pdf-4",
+          "operands": [
+            {
+              "evidence_id": "text_5",
+              "label": "research and development expense",
+              "span": [
+                70,
+                82
+              ],
+              "text": "$ 86 million",
+              "unit": "usd_million",
+              "value": "86",
+              "year": 2014
+            },
+            {
+              "evidence_id": "text_5",
+              "label": "research and development expense",
+              "span": [
+                52,
+                65
+              ],
+              "text": "$ 119 million",
+              "unit": "usd_million",
+              "value": "119",
+              "year": 2015
+            }
+          ],
+          "operation": "percent_change",
+          "prediction": "38.37%",
+          "reason": "answered",
+          "route": "legacy",
+          "schema": "ilxyr.feral_evidence_calculator.v2",
+          "selected_series": "research and development expense",
+          "target_correct": true,
+          "target_kind": "numeric",
+          "unit": "percent",
+          "work": {
+            "arithmetic_operations": 3,
+            "evidence_rows": 3,
+            "parsed_cells": 3,
+            "series_scored": 1
+          }
+        },
+        {
+          "arm": "calculator",
+          "exact_result": null,
+          "id": "HIG/2011/page_53.pdf-4",
+          "operands": [],
+          "operation": "percent_change",
+          "prediction": null,
+          "reason": "missing_matching_series",
+          "route": "legacy",
+          "schema": "ilxyr.feral_evidence_calculator.v2",
+          "target_correct": true,
+          "target_kind": "abstention",
+          "unit": null,
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 0,
+            "series_scored": 0
+          }
+        }
+      ],
+      "correct_cases": 5,
+      "numeric_answers": 3
+    },
+    "operand_only": {
+      "abstentions": 2,
+      "arithmetic_operations": 0,
+      "case_count": 5,
+      "cases": [
+        {
+          "arm": "operand_only",
+          "exact_result": "20649/100",
+          "id": "MAS/2017/page_27.pdf-2",
+          "operands": [
+            {
+              "evidence_id": "table_1",
+              "label": "masco",
+              "span": [
+                149,
+                157
+              ],
+              "text": "$ 318.46",
+              "unit": "usd",
+              "value": "15923/50",
+              "year": 2017
+            },
+            {
+              "evidence_id": "table_2",
+              "label": "s&p 500 index",
+              "span": [
+                189,
+                197
+              ],
+              "text": "$ 206.49",
+              "unit": "usd",
+              "value": "20649/100",
+              "year": 2017
+            }
+          ],
+          "operation": "difference",
+          "prediction": "206.49",
+          "reason": "answered",
+          "route": "single_year",
+          "schema": "ilxyr.feral_evidence_calculator.v2",
+          "selected_series": [
+            "masco",
+            "s&p 500 index"
+          ],
+          "target_correct": false,
+          "target_kind": "numeric",
+          "unit": "usd",
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 10,
+            "series_scored": 4
+          }
+        },
+        {
+          "arm": "operand_only",
+          "exact_result": null,
+          "id": "AES/2002/page_128.pdf-2",
+          "operands": [],
+          "operation": null,
+          "prediction": null,
+          "reason": "question_needs_distinct_years",
+          "route": "legacy",
+          "schema": "ilxyr.feral_evidence_calculator.v2",
+          "target_correct": true,
+          "target_kind": "abstention",
+          "unit": null,
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 0,
+            "series_scored": 0
+          }
+        },
+        {
+          "arm": "operand_only",
+          "exact_result": "74",
+          "id": "PNC/2012/page_100.pdf-3",
+          "operands": [
+            {
+              "evidence_id": "table_2",
+              "label": "private investors ( a )",
+              "span": [
+                121,
+                126
+              ],
+              "text": "$ 110",
+              "unit": "usd_million",
+              "value": "110",
+              "year": 2011
+            },
+            {
+              "evidence_id": "table_2",
+              "label": "private investors ( a )",
+              "span": [
+                63,
+                67
+              ],
+              "text": "$ 74",
+              "unit": "usd_million",
+              "value": "74",
+              "year": 2012
+            }
+          ],
+          "operation": "sum",
+          "prediction": "74",
+          "reason": "answered",
+          "route": "legacy",
+          "schema": "ilxyr.feral_evidence_calculator.v2",
+          "selected_series": "private investors ( a )",
+          "target_correct": false,
+          "target_kind": "numeric",
+          "unit": "usd_million",
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 2,
+            "series_scored": 1
+          }
+        },
+        {
+          "arm": "operand_only",
+          "exact_result": "119",
+          "id": "CE/2016/page_19.pdf-4",
+          "operands": [
+            {
+              "evidence_id": "text_5",
+              "label": "research and development expense",
+              "span": [
+                70,
+                82
+              ],
+              "text": "$ 86 million",
+              "unit": "usd_million",
+              "value": "86",
+              "year": 2014
+            },
+            {
+              "evidence_id": "text_5",
+              "label": "research and development expense",
+              "span": [
+                52,
+                65
+              ],
+              "text": "$ 119 million",
+              "unit": "usd_million",
+              "value": "119",
+              "year": 2015
+            }
+          ],
+          "operation": "percent_change",
+          "prediction": "119",
+          "reason": "answered",
+          "route": "legacy",
+          "schema": "ilxyr.feral_evidence_calculator.v2",
+          "selected_series": "research and development expense",
+          "target_correct": false,
+          "target_kind": "numeric",
+          "unit": "usd_million",
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 3,
+            "series_scored": 1
+          }
+        },
+        {
+          "arm": "operand_only",
+          "exact_result": null,
+          "id": "HIG/2011/page_53.pdf-4",
+          "operands": [],
+          "operation": "percent_change",
+          "prediction": null,
+          "reason": "missing_matching_series",
+          "route": "legacy",
+          "schema": "ilxyr.feral_evidence_calculator.v2",
+          "target_correct": true,
+          "target_kind": "abstention",
+          "unit": null,
+          "work": {
+            "arithmetic_operations": 0,
+            "evidence_rows": 3,
+            "parsed_cells": 0,
+            "series_scored": 0
+          }
+        }
+      ],
+      "correct_cases": 2,
+      "numeric_answers": 3
+    }
+  },
+  "schema": "ilxyr.feral_calculator_v2_smoke.v1",
+  "scope": "five_opened_development_cases",
+  "source_bindings": {
+    "scripts/feral_evidence_calculator.py": "40790cad9cdfd1b53caac7764f9f8e9b0607ceba300699edcc9326e18c96953c",
+    "scripts/feral_evidence_calculator_v2.py": "7bf3e5627006d12dd835f40d5b364d8252c2bd8fe668ab179d793b9bc5830eba",
+    "scripts/test_feral_evidence_calculator_v2.py": "2764780811afced9d6be76f58f5765c85117c87067b9cdad46cff467052a73a7"
+  },
+  "source_smoke_sha256": "f554af04923799b4cb22c1928efd7d6c808d76488ef7f48e91344df225669261"
+}

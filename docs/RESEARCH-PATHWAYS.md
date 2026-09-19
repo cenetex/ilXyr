@@ -1,7 +1,7 @@
 # Research pathways and exploration method
 
 This document maps the decision-bearing model research recorded by ilXyr as of
-2026-08-31. It distinguishes a scientific no-go from an unexecuted blocker and
+2026-09-01. It distinguishes a scientific no-go from an unexecuted blocker and
 from a completed result whose disclosure is intentionally withheld.
 
 The machine-readable source is [`research-pathways.json`](research-pathways.json).
@@ -62,8 +62,8 @@ These axes must not be collapsed. In particular:
   public inference.
 - A **mixed** pathway contains separately stated positive and negative claims.
 
-The current graph contains 28 nodes: 27 completed and one not run. Seven have
-positive scientific outcomes, 17 negative, two mixed, and two unknown. These
+The current graph contains 30 nodes: 28 completed and two not run. Eight have
+positive scientific outcomes, 17 negative, two mixed, and three unknown. These
 counts are not a success rate: the nodes include enabling experiments,
 diagnostics, replications, managed checkpoints, and blocked questions at
 different levels of the same lineages.
@@ -142,9 +142,11 @@ repair to this training result.
 
 ### Solomon successor-v2
 
-The integer-transformer successor beat uniform, retrieval, byte-ngram, and
+The successor beat the frozen uniform, retrieval, byte-ngram, and
 float-transformer NLL baselines on 5,896 targets with no zero-probability
-windows. The exact pipeline replayed from a clean public checkout. This is a
+windows. The pinned trainer fits byte frequencies and emits a constant output
+distribution through the integer runtime. The shared baseline audit therefore
+classifies this as a context-free probability-modeling and replay result. The exact pipeline replayed from a clean public checkout. This is a
 promoted Solomon result and supplied the deployment substrate used by the
 completed Q22 shared-task bridge.
 
@@ -232,6 +234,25 @@ available, so exact replication is retired and the Holo lineage is frozen. The
 private-result claim remains unknown; closing infeasible work does not turn it
 into a negative result.
 
+## Reasoner frontier
+
+The current frontier is recorded in the [shared research-step report](../experiments/research-step-1/REPORT.md).
+Its source update includes the 5.0–5.4 series, 5.5 public-family results, and
+5.6 development failures. The graph below retains the original 3.x/4.0
+registration snapshot.
+
+### Original frontier snapshot
+
+Reasoner (3,9) was the frontier at the original registration. Its external public result
+supports active compositional law induction inside a fixed typed integer
+program language. It does not establish open-ended reasoning or arbitrary
+representation transfer.
+
+Reasoner 4.0 records the next open question: infer a structured adapter from
+examples while the (3,9) core remains frozen. It is deliberately marked
+`not_run`, `unknown`, `open`, and `documented`. No prospective experiment has
+been compiled and no execution is authorized.
+
 ## Assessment of the exploration method
 
 The program is excellent at preserving truth. Prospective contracts, immutable
@@ -291,18 +312,26 @@ Apply these additional rules:
 
 ## Priority order
 
-1. Run a read-only representation-sufficiency diagnosis of EXP-008 before
+The current sequence is in [research step 1](../experiments/research-step-1/REPORT.md).
+The earlier proposed sequence is preserved below.
+
+1. Write and review the Reasoner 4.0 representation-transfer contract without
+   authorizing execution.
+2. Run a read-only representation-sufficiency diagnosis of EXP-008 before
    choosing a representation- or objective-level successor on fresh templates.
-2. Run a read-only NSRL frozen-representation sufficiency audit before another
+3. Run a read-only NSRL frozen-representation sufficiency audit before another
    training method.
-3. Decide whether ZERO5-C6.1 earns its separately authorized
-   representation-level run.
 4. Import the remaining external evidence and settle the verified upstream
    family evidence locally.
 5. Do not reopen the closed local-coordinate, scalar-backtracking, or ordinary
    paired-next-token branches without a new causal hypothesis. Keep the Holo
    lineage frozen because its required private corpus and matching hardware
    will not be available.
+
+The shared [`frozen representation audit`](REPRESENTATION-AUDITS.md) now gives
+items 1 through 3 one contract shape. The prepared EXP-008, NSRL p10m, and
+Reasoner 4.0 drafts bind each line's question, controls, metrics, and next-step
+decision before execution.
 
 ## Maintenance
 

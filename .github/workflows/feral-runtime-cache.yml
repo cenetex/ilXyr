@@ -1,0 +1,43 @@
+name: feral runtime cache
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/feral-runtime-cache.yml'
+      - 'scripts/check_feral_runtime_cache.py'
+      - 'scripts/aws/feral-comparison-user-data.sh'
+      - 'scripts/test_feral_bootstrap.py'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/feral-runtime-cache.yml'
+      - 'scripts/check_feral_runtime_cache.py'
+      - 'scripts/aws/feral-comparison-user-data.sh'
+      - 'scripts/test_feral_bootstrap.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fixed-cache-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reserve disk for the 25 GB frozen image
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
+          df -h /
+      - name: Pull the frozen runtime
+        run: docker pull ghcr.io/atimics/feral-7b-sec-qwen@sha256:c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b
+      - name: Reproduce the default cache failure
+        run: |
+          mkdir "$RUNNER_TEMP/feral-cache-smoke"
+          docker run --rm --network none --memory 2g --cpus 1 --read-only --tmpfs /tmp:rw,exec,size=1g --mount "type=bind,src=$GITHUB_WORKSPACE/scripts,dst=/work/scripts,readonly" --entrypoint /opt/sec-qwen/.venv/bin/python ghcr.io/atimics/feral-7b-sec-qwen@sha256:c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b /work/scripts/check_feral_runtime_cache.py --expect-read-only-failure > "$RUNNER_TEMP/feral-cache-smoke/default.json"
+      - name: Compile and load through the writable cache
+        run: |
+          docker run --rm --network none --memory 2g --cpus 1 --read-only --tmpfs /tmp:rw,exec,size=1g --env TRITON_CACHE_DIR=/tmp/feral-triton --mount "type=bind,src=$GITHUB_WORKSPACE/scripts,dst=/work/scripts,readonly" --entrypoint /opt/sec-qwen/.venv/bin/python ghcr.io/atimics/feral-7b-sec-qwen@sha256:c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b /work/scripts/check_feral_runtime_cache.py > "$RUNNER_TEMP/feral-cache-smoke/repaired.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: feral-cache-smoke
+          retention-days: 30
+          path: ${{ runner.temp }}/feral-cache-smoke/

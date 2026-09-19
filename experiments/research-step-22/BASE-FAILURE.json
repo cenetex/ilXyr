@@ -1,0 +1,17 @@
+{
+  "arm": "base",
+  "bindings": {
+    "inputs_sha256": "308a7b50bf9d2e018e36dab68f5238d26246f79c2f7672a176be7017f750eb8a",
+    "model_inventory_sha256": "a0930528f9a481412d29d0ee19adea458e25a0f7733347b34b4b845584d621bd",
+    "package_manifest_sha256": "486afd3e27d8d6856283c27f695d513be72edb0f3fd780a5c3844bba73554b0b"
+  },
+  "error": "Invalid device argument ",
+  "expected_rows": 1147,
+  "failed_input_id": null,
+  "performance_evidence": false,
+  "process_cpu_ns": 3119617445,
+  "rows": 0,
+  "schema": "ilxyr.feral_arm_result.v1",
+  "status": "failed",
+  "total_wall_ns": 2415387526
+}

@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-48/FAILURES.json",
+  "evidence_ref": "artifact://sha256/15fc33c81a87cd7ad1f04baa2b3910c2608caffb4b90f35c63f82f4c95d13128",
+  "experiment_id": "research.step48.selected-series-check.v1",
+  "family": "feral",
+  "id": "verdict:research.step48.selected-series-check.v1",
+  "lineage_note": "Require selected-series order and completion to agree with source operand labels, including partial abstentions.",
+  "mechanism": "selected series check",
+  "mechanism_tags": [
+    "independent-checker",
+    "fact-selection",
+    "source-provenance"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "feral",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The first checker accepted a selected-series label changed from operating income to net income while the operands still named Operating income. All three passes and output inventories were altered together.",
+  "taxonomy": "implementation"
+}

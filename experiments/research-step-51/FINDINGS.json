@@ -1,0 +1,197 @@
+{
+  "feral": {
+    "arms": {
+      "calculator_v1": {
+        "counts": {
+          "answerable_cases": 164,
+          "cases": 228,
+          "correct_abstention": 64,
+          "correct_numeric": 40,
+          "correct_numeric_coverage": "10/41",
+          "incorrect_abstention": 124,
+          "numeric_answer_coverage": "10/57",
+          "numeric_precision": "1",
+          "wrong_numeric": 0
+        },
+        "style": {
+          "canonical": {
+            "answerable_cases": 82,
+            "cases": 114,
+            "correct_abstention": 32,
+            "correct_numeric": 40,
+            "correct_numeric_coverage": "20/41",
+            "incorrect_abstention": 42,
+            "numeric_answer_coverage": "20/57",
+            "numeric_precision": "1",
+            "wrong_numeric": 0
+          },
+          "paraphrase": {
+            "answerable_cases": 82,
+            "cases": 114,
+            "correct_abstention": 32,
+            "correct_numeric": 0,
+            "correct_numeric_coverage": "0",
+            "incorrect_abstention": 82,
+            "numeric_answer_coverage": "0",
+            "numeric_precision": null,
+            "wrong_numeric": 0
+          }
+        }
+      },
+      "calculator_v2": {
+        "counts": {
+          "answerable_cases": 164,
+          "cases": 228,
+          "correct_abstention": 63,
+          "correct_numeric": 77,
+          "correct_numeric_coverage": "77/164",
+          "incorrect_abstention": 87,
+          "numeric_answer_coverage": "13/38",
+          "numeric_precision": "77/78",
+          "wrong_numeric": 1
+        },
+        "style": {
+          "canonical": {
+            "answerable_cases": 82,
+            "cases": 114,
+            "correct_abstention": 31,
+            "correct_numeric": 77,
+            "correct_numeric_coverage": "77/82",
+            "incorrect_abstention": 5,
+            "numeric_answer_coverage": "13/19",
+            "numeric_precision": "77/78",
+            "wrong_numeric": 1
+          },
+          "paraphrase": {
+            "answerable_cases": 82,
+            "cases": 114,
+            "correct_abstention": 32,
+            "correct_numeric": 0,
+            "correct_numeric_coverage": "0",
+            "incorrect_abstention": 82,
+            "numeric_answer_coverage": "0",
+            "numeric_precision": null,
+            "wrong_numeric": 0
+          }
+        }
+      },
+      "v2_operand_only": {
+        "counts": {
+          "answerable_cases": 164,
+          "cases": 228,
+          "correct_abstention": 63,
+          "correct_numeric": 8,
+          "correct_numeric_coverage": "2/41",
+          "incorrect_abstention": 87,
+          "numeric_answer_coverage": "13/38",
+          "numeric_precision": "4/39",
+          "wrong_numeric": 70
+        },
+        "style": {
+          "canonical": {
+            "answerable_cases": 82,
+            "cases": 114,
+            "correct_abstention": 31,
+            "correct_numeric": 8,
+            "correct_numeric_coverage": "4/41",
+            "incorrect_abstention": 5,
+            "numeric_answer_coverage": "13/19",
+            "numeric_precision": "4/39",
+            "wrong_numeric": 70
+          },
+          "paraphrase": {
+            "answerable_cases": 82,
+            "cases": 114,
+            "correct_abstention": 32,
+            "correct_numeric": 0,
+            "correct_numeric_coverage": "0",
+            "incorrect_abstention": 82,
+            "numeric_answer_coverage": "0",
+            "numeric_precision": null,
+            "wrong_numeric": 0
+          }
+        }
+      }
+    },
+    "cases": 228,
+    "distinct_results": 684,
+    "next": "Diagnose the wording failures and the erroneous answer on a required-abstention case. Freeze a fact and operation selector with explicit ambiguity handling.",
+    "outcome": "complete_no_go",
+    "predictor_calls": 8208
+  },
+  "reasoner": {
+    "comparisons": {
+      "raw_lexical_task_guide": {
+        "checks": {
+          "ratio": 0.9940697989344296,
+          "upper_one_sided_9875": 1.04004584786538
+        },
+        "cpu": {
+          "ratio": 1.0007720360922716,
+          "upper_one_sided_9875": 1.0025493330275426
+        },
+        "gate_passed": false
+      },
+      "semantic_frequency": {
+        "checks": {
+          "ratio": 0.9518106305857933,
+          "upper_one_sided_9875": 1.0249601266887312
+        },
+        "cpu": {
+          "ratio": 0.9968381534360458,
+          "upper_one_sided_9875": 1.0017550665242891
+        },
+        "gate_passed": false
+      }
+    },
+    "families": 128,
+    "fresh_episode_visits": 49152,
+    "measured_replays": 2048,
+    "next": "Change the guidance representation or mechanism before another fresh comparison.",
+    "outcome": "complete_no_go"
+  },
+  "schema": "ilxyr.research_run_set_findings.v1",
+  "solomon": {
+    "documents": 12,
+    "equal_document_brier": {
+      "native": 1.0710324304550476,
+      "point_mass": 1.359375,
+      "smoothed_point_mass": 1.232962496451914,
+      "suffix_empirical": 1.0176857879293606,
+      "suffix_unit_prior": 0.88347439394777
+    },
+    "mistakes_per_method": 261,
+    "native_forward_calls": 1920,
+    "next": "Use smoothed suffix counts as the confidence reference, inspect document differences, and register a fresh comparison before fitting another confidence method.",
+    "outcome": "fixed_panel_confidence_diagnostic",
+    "probability_rows": 9600,
+    "promotion_evidence": false,
+    "windows": 384
+  },
+  "weight": {
+    "all_accounted_calls": 2430395,
+    "binding_call_limit": 2430387,
+    "cumulative_p99_ms": 3.9048469999979716,
+    "next": "Trace observed yield and duplicate or rejected draws by stratum against the pilot projection. Keep the original budget and incomplete corpus status visible.",
+    "outcome": "verified_hold",
+    "p99_stage": "measurement_only",
+    "partial_training_rows": 79452,
+    "partial_training_strata": {
+      "0": 75000,
+      "1": 965,
+      "2-7": 2119,
+      "8-31": 1368
+    },
+    "reason": "oracle_call_limit",
+    "workload_calls": 2430387
+  },
+  "zero4": {
+    "deficit_bytes": 11876134912,
+    "free_bytes": 27919421440,
+    "next": "Size the root disk for the observed image footprint plus the frozen output and archive reserve, then test and publish a replacement package.",
+    "outcome": "execution_failure",
+    "phase": "storage",
+    "required_bytes": 39795556352,
+    "scientific_calls": 0
+  }
+}

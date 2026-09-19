@@ -1,0 +1,28 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:zero.reasoner59a-development-current.v1",
+  "experiment_id": "zero.reasoner59a-development-current.v1",
+  "family": "zero",
+  "project": "reasoner",
+  "taxonomy": "transfer",
+  "outcome": "no_go",
+  "evidence_kind": "existing_public_result",
+  "source_outcome": "no-go",
+  "evidence_path": "experiments/research-step-4/RESULT.json",
+  "mechanism": "Symbolic transfer across syntax-first and behavior-constraint-first generators.",
+  "mechanism_tags": [
+    "semantic-transfer",
+    "learned-search",
+    "generator-transfer",
+    "derangement-control"
+  ],
+  "summary": "The sixteen-family development result has a point ratio of 0.6312 and an upper ratio of 1.0232. It fails the confidence, family-win, stratum, mechanism, and derangement gates. The derangement p-value is 0.375.",
+  "lineage_note": "Redesign the source prior and test its mechanism controls in development before opening a fresh sealed family set.",
+  "evidence_ref": "artifact://sha256/37eec05228f6ff213cfb63a4dc5e8c0cdb716d0d0c1fb144d36f7df22df0ebae",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788600443636
+}

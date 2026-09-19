@@ -1,0 +1,75 @@
+{
+  "schema": "ilxyr.executor_environment.v1",
+  "id": "environment://cenetex/cloud-launcher-diagnostic/v1",
+  "operator": {
+    "id": "service://cenetex/cloud-launcher-diagnostic/v1",
+    "kind": "service"
+  },
+  "source": {
+    "repository": "https://github.com/cenetex/ilXyr",
+    "commit": "c0e47a5405df60b945645131540b08856ca2f93b",
+    "archive": {
+      "name": "source-archive",
+      "uri": "https://github.com/cenetex/ilXyr/archive/c0e47a5405df60b945645131540b08856ca2f93b.tar.gz",
+      "sha256": "667ad45d810af48471685b3489a710fb4825da88f6c18a9521bfb27e26fdb4f0",
+      "size_bytes": 59283485
+    }
+  },
+  "build_recipe": {
+    "name": "bootstrap-template",
+    "uri": "https://raw.githubusercontent.com/cenetex/ilXyr/c0e47a5405df60b945645131540b08856ca2f93b/scripts/aws/cloud-launcher-diagnostic-bootstrap.sh.in",
+    "sha256": "47171b56af9a0b4465f4f52cfba45592e93e5604356cef52b701697b23267c10",
+    "size_bytes": 12084
+  },
+  "runner": {
+    "name": "diagnostic-program",
+    "uri": "https://raw.githubusercontent.com/cenetex/ilXyr/c0e47a5405df60b945645131540b08856ca2f93b/scripts/aws/cloud-launcher-diagnostic-program.sh",
+    "sha256": "9ea6e5e7cc1a7cc79f422b65e286bbad86cadcd77e78e5f87c61a59825abcaf2",
+    "size_bytes": 90
+  },
+  "kernel": {
+    "name": "aws-image-kernel",
+    "uri": "aws://ec2/us-east-1/ami-0ab0461f645928576#kernel",
+    "sha256": "d9b8b763c83a082e14f925b85cfef3247a8d12a30995b23af3439fc9a6275507",
+    "size_bytes": 359
+  },
+  "rootfs": {
+    "name": "aws-image-rootfs",
+    "uri": "aws://ec2/us-east-1/snap-0505c60d709f4628d",
+    "sha256": "d9b8b763c83a082e14f925b85cfef3247a8d12a30995b23af3439fc9a6275507",
+    "size_bytes": 359
+  },
+  "sbom": {
+    "name": "environment-sbom",
+    "uri": "s3://zero-training-022118847419/experiments/cloud-launcher-diagnostic-v1/environment/b0cce28e1bbfb8de42ed6d6eef650cba618db38583a711ae8b2c6cb1a7da84be.json",
+    "sha256": "b0cce28e1bbfb8de42ed6d6eef650cba618db38583a711ae8b2c6cb1a7da84be",
+    "size_bytes": 667
+  },
+  "provenance": {
+    "name": "aws-image-evidence",
+    "uri": "s3://zero-training-022118847419/experiments/cloud-launcher-diagnostic-v1/environment/df67101b467ac6527ac17876be6b2f2ca27720868c6b1228b08e5b14726017ac.json",
+    "sha256": "df67101b467ac6527ac17876be6b2f2ca27720868c6b1228b08e5b14726017ac",
+    "size_bytes": 405
+  },
+  "isolation": {
+    "boundary": "systemd_dynamic_user_private_network",
+    "one_job_per_vm": true,
+    "read_only_rootfs": true,
+    "host_mounts": false,
+    "interactive_access": false,
+    "metadata_service_in_guest": false,
+    "signing_key_in_guest": false,
+    "reporting_outside_guest": true
+  },
+  "capabilities": {
+    "weight_classes": ["public"],
+    "network_modes": ["denied"],
+    "export_policies": ["metrics_only"]
+  },
+  "conformance_suite": {
+    "name": "conformance-suite",
+    "uri": "s3://zero-training-022118847419/experiments/cloud-launcher-diagnostic-v1/environment/691184bd80dd32ebc792a8c2ba349bcc8c22850629eb97b4f7a2b02a2b00bb92.json",
+    "sha256": "691184bd80dd32ebc792a8c2ba349bcc8c22850629eb97b4f7a2b02a2b00bb92",
+    "size_bytes": 692
+  }
+}
