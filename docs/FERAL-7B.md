@@ -6,9 +6,10 @@ by numerical abstraction and requirement review. The
 [September 19 research critique](FERAL-7B-V3-RESEARCH-REVIEW-2026-09-19.md)
 connects the design to recent workspace results and academic work.
 
-The [v3 model selection](FERAL-V3-MODEL-SELECTION.md) selects Qwen3.5-4B-Base
-for development. Its task quality and speed qualification are pending. The
-identities below describe the historical 7B experiment.
+The [v3 model selection plan](FERAL-V3-MODEL-SELECTION.md) keeps Qwen3.5-4B-Base
+as the first development candidate. A bounded 60-concept annotation pilot precedes
+the matched selector study. Comparative quality and cost results determine the
+backbone recommendation. The identities below describe the historical 7B experiment.
 
 FERAL-7B is owned by ilXyr as a training experiment. The surrounding systems have narrower roles:
 

@@ -53,7 +53,10 @@ assigns the proposed XBRL evidence release and reader to BRAID. It tests
 context-aware fact selection first, followed by numerical abstraction and
 requirement review. The [research critique](FERAL-7B-V3-RESEARCH-REVIEW-2026-09-19.md)
 connects that order to the completed FERAL results, related workspace work,
-and academic research. The evidence reader and new study are proposed work.
+and academic research. The [external review in #225](https://github.com/cenetex/ilXyr/issues/225)
+adds a bounded 60-concept annotation pilot and per-link error reporting. The
+4B model remains a development candidate; comparative results determine the
+backbone recommendation. The evidence reader and new study are proposed work.
 
 The [ZERO.4 storage repair](../experiments/research-step-52/REPORT.md) uses
 a 160 GiB disk and the observed 75 GiB source snapshot. Its approved replacement
