@@ -509,6 +509,149 @@ fn replication_reserve_is_unavailable_to_general_sandbox_work() {
 }
 
 #[test]
+fn probe_reserve_bounds_the_sandbox_lane() {
+    let directory = TestDirectory::create("probe-reserve-cutoff");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let signing_key = SigningKey::from_bytes(&[23; 32]);
+    trust_test_key(&workspace, &signing_key);
+    let mut budget = budget_fixture();
+    budget.total_compute_credits = 100;
+    budget.replication_reserve_pct = 0.0;
+    budget.probe_reserve_pct = 20.0;
+    budget.acknowledgement_thresholds.cumulative_spend_pct = 100.0;
+    let cap = budget
+        .per_executable_caps
+        .get_mut("/bin/echo")
+        .expect("echo cap must exist");
+    cap.per_run_credits = 100;
+    cap.per_epoch_credits = 100;
+    sign_budget(&mut budget, &signing_key);
+    register_epoch_budget(&workspace, budget.clone()).expect("budget must register");
+
+    let mut within = sandbox_spec();
+    within.cost_credits = 20;
+    run_sandbox(&workspace, &budget.id, within).expect("the probe reserve must be spendable");
+
+    let mut beyond = sandbox_spec();
+    beyond.id = "toy.sandbox.probe-overrun.v1".to_owned();
+    beyond.experiment_id = "toy.score.probe-overrun.v1".to_owned();
+    beyond.cost_credits = 1;
+    let error = run_sandbox(&workspace, &budget.id, beyond)
+        .expect_err("the probe reserve must cap the sandbox lane");
+    assert!(
+        error
+            .to_string()
+            .contains("probe reserve 20 would be exceeded")
+    );
+    assert!(workspace.verify().expect("ledger must verify").valid);
+}
+
+#[test]
+fn probe_and_promoted_reserves_are_spendable_in_either_order() {
+    for probe_first in [true, false] {
+        let directory = TestDirectory::create("independent-probe-reserve");
+        let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+        let signing_key = SigningKey::from_bytes(&[25; 32]);
+        trust_test_key(&workspace, &signing_key);
+        let mut budget = budget_fixture();
+        budget.total_compute_credits = 100;
+        budget.replication_reserve_pct = 70.0;
+        budget.probe_reserve_pct = 20.0;
+        budget.acknowledgement_thresholds.cumulative_spend_pct = 100.0;
+        let cap = budget.per_executable_caps.get_mut("/bin/echo").unwrap();
+        cap.per_run_credits = 20;
+        cap.per_epoch_credits = 100;
+        sign_budget(&mut budget, &signing_key);
+        register_epoch_budget(&workspace, budget.clone()).expect("budget must register");
+        prepare_unfunded_experiment(&workspace);
+
+        let mut probe = sandbox_spec();
+        probe.cost_credits = 20;
+        if probe_first {
+            run_sandbox(&workspace, &budget.id, probe.clone()).expect("probe must run");
+        }
+        let report = allocate_epoch(&workspace, &budget.id, &["toy.score.v1".to_owned()])
+            .expect("promoted allocation must be evaluated");
+        assert_eq!(
+            report.allocated_compute_credits, 10,
+            "probe_first={probe_first}"
+        );
+        assert!(report.decisions[0].allocated);
+        if !probe_first {
+            run_sandbox(&workspace, &budget.id, probe).expect("reserved probe must run");
+        }
+        assert!(workspace.verify().expect("ledger must verify").valid);
+    }
+}
+
+#[test]
+fn sandbox_keeps_the_general_pool_when_no_probe_reserve_is_declared() {
+    let directory = TestDirectory::create("probe-reserve-absent");
+    let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+    let signing_key = SigningKey::from_bytes(&[24; 32]);
+    trust_test_key(&workspace, &signing_key);
+    let mut budget = budget_fixture();
+    budget.total_compute_credits = 100;
+    budget.replication_reserve_pct = 0.0;
+    budget.acknowledgement_thresholds.cumulative_spend_pct = 100.0;
+    let cap = budget
+        .per_executable_caps
+        .get_mut("/bin/echo")
+        .expect("echo cap must exist");
+    cap.per_run_credits = 100;
+    cap.per_epoch_credits = 100;
+    sign_budget(&mut budget, &signing_key);
+    register_epoch_budget(&workspace, budget.clone()).expect("budget must register");
+
+    // Well beyond any probe-sized slice, and short of the acknowledgement
+    // threshold the fixture sets on cumulative spend.
+    let mut general_pool = sandbox_spec();
+    general_pool.cost_credits = 80;
+    run_sandbox(&workspace, &budget.id, general_pool)
+        .expect("the general pool must remain available to sandbox work");
+    assert!(workspace.verify().expect("ledger must verify").valid);
+}
+
+#[test]
+fn a_zero_probe_reserve_leaves_the_signing_payload_unchanged() {
+    // Budgets signed before the field existed must keep verifying, which holds
+    // only while a zero reserve stays out of the serialized form.
+    let budget = budget_fixture();
+    let payload = epoch_budget_signing_payload(&budget).expect("payload must serialize");
+    let text = String::from_utf8(payload).expect("payload must be utf-8");
+    assert!(!text.contains("probe_reserve_pct"));
+
+    let mut declared = budget_fixture();
+    declared.probe_reserve_pct = 20.0;
+    let payload = epoch_budget_signing_payload(&declared).expect("payload must serialize");
+    let text = String::from_utf8(payload).expect("payload must be utf-8");
+    assert!(text.contains("probe_reserve_pct"));
+}
+
+#[test]
+fn rounded_reserves_must_fit_the_epoch() {
+    let mut budget = budget_fixture();
+    budget.total_compute_credits = 1;
+    budget.replication_reserve_pct = 50.0;
+    budget.probe_reserve_pct = 50.0;
+    let error = ilxyr_core::validation::epoch_budget(&budget)
+        .expect_err("two one-credit reserves require at least two credits");
+    assert!(error.to_string().contains("rounded epoch reserves"));
+    budget.total_compute_credits = 2;
+    ilxyr_core::validation::epoch_budget(&budget).expect("both reserves now fit");
+}
+
+#[test]
+fn reserves_may_not_exceed_the_epoch_together() {
+    let mut budget = budget_fixture();
+    budget.replication_reserve_pct = 60.0;
+    budget.probe_reserve_pct = 50.0;
+    let error = ilxyr_core::validation::epoch_budget(&budget)
+        .expect_err("reserves totalling more than the epoch must be refused");
+    assert!(error.to_string().contains("together"));
+}
+
+#[test]
 fn sandbox_allocation_is_reused_after_executor_start_failure() {
     let directory = TestDirectory::create("sandbox-resume");
     let workspace = Workspace::init(&directory.0).expect("workspace must initialize");

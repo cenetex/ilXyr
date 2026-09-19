@@ -944,6 +944,13 @@ pub struct EpochBudget {
     pub epoch: u64,
     pub total_compute_credits: u64,
     pub replication_reserve_pct: f64,
+    /// Share of epoch credits reserved for the sandbox lane, which is both its
+    /// floor and its ceiling (ADR 0008). Zero keeps the pre-0008 behaviour, in
+    /// which sandbox work draws from the same general pool as promoted work and
+    /// has no bound of its own. Omitted when zero so that budgets signed before
+    /// this field existed produce an unchanged signing payload.
+    #[serde(default, skip_serializing_if = "is_zero_percentage")]
+    pub probe_reserve_pct: f64,
     pub per_executable_caps: BTreeMap<String, ExecutableCap>,
     pub allowlisted_executables: Vec<String>,
     pub promoted_metrics: Vec<String>,
@@ -956,6 +963,10 @@ pub struct EpochBudget {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub expires_at_ms: Option<u128>,
     pub signature: PolicySignature,
+}
+
+fn is_zero_percentage(value: &f64) -> bool {
+    *value == 0.0
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
