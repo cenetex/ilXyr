@@ -48,6 +48,13 @@ all three older numeric development answers. That coverage failure is preserved
 in the shared ledger. The next selector needs source context for label and
 baseline mappings, plus an independent wording roster.
 
+The [September 19 FERAL v3 revision](FERAL-7B-V3-XBRL-REGULATORY-PROPOSAL.md)
+assigns the proposed XBRL evidence release and reader to BRAID. It tests
+context-aware fact selection first, followed by numerical abstraction and
+requirement review. The [research critique](FERAL-7B-V3-RESEARCH-REVIEW-2026-09-19.md)
+connects that order to the completed FERAL results, related workspace work,
+and academic research. The evidence reader and new study are proposed work.
+
 The [ZERO.4 storage repair](../experiments/research-step-52/REPORT.md) uses
 a 160 GiB disk and the observed 75 GiB source snapshot. Its approved replacement
 passed the live disk reserve check. The later adapter failure and repair are
