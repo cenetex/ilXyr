@@ -1,8 +1,8 @@
-# FERAL-7B v3: XBRL and Regulatory Compliance Tagging
+# FERAL v3: XBRL and Regulatory Compliance Tagging
 
 ## 1. Executive recommendation
 
-Build FERAL v3 around source-grounded fact selection. BRAID should compile and serve versioned XBRL evidence: filing packages, facts, taxonomy relationships, source passages, and reproducible views. FERAL should map questions to that evidence, request exact calculations, and explain the result. ilXyr should own the experiment and its acceptance decision. Keep 7B as the matched model candidate while measuring smaller selectors as cost references.
+Build FERAL v3 around source-grounded fact selection. BRAID should compile and serve versioned XBRL evidence: filing packages, facts, taxonomy relationships, source passages, and reproducible views. FERAL should map questions to that evidence, request exact calculations, and explain the result. ilXyr should own the experiment and its acceptance decision. Select Qwen3.5-4B-Base as the v3 training backbone, with the existing 7B model as a historical control. The [model selection](FERAL-V3-MODEL-SELECTION.md) pins the candidates and defines quality and cost qualification.
 
 The first product question is: **can a reviewer ask about a financial change in ordinary words and receive the correct facts, periods, calculation, and source passages?** Start with annual Forms 10-K and US GAAP statements. Tag review follows that source-selection test. Annual cybersecurity disclosure coverage follows a separately reviewed requirement package. European Single Electronic Format (ESEF) and bank reporting remain later release stages.
 
@@ -31,7 +31,7 @@ The recorded Qwen comparison reached runtime and capacity problems. Step 28 reco
 | Evaluation | FinQA diagnostics and development cases | Fresh issuer, time, taxonomy, and requirement tests |
 | Output | Prediction and calculation trace | Finding, evidence links, scope, rule version, and calculation trace |
 
-Use `FERAL-7B v3` as the proposed system version. Record the base model, adapter, fact representation, and rule package as separate versioned components. This keeps a taxonomy update independent of a model training run.
+Use `FERAL v3` as the system version. Record the base model, adapter, fact representation, and rule package as separate versioned components. This keeps a taxonomy update independent of a model training run.
 
 ## 3. Three meanings of tagging
 
@@ -89,7 +89,7 @@ The contribution to test is a reusable, source-grounded XBRL environment plus me
 | --- | --- | --- | --- |
 | Text retrieval plus 7B model | Simple continuity with FERAL | Evidence coverage and context selection | Baseline |
 | Rules plus lexical retrieval | Cheap, traceable selection | Coverage of varied wording | Strong baseline |
-| Structured retrieval, tools, and 7B model | Clear evidence and calculation boundaries | Added learned value per task | First v3 candidate |
+| Structured retrieval, tools, and selected 4B model | Clear evidence and calculation boundaries | Added learned value per task | First v3 candidate |
 | Custom graph neural network | Can learn relational ranking | Benefit beyond explicit graph traversal | Later ablation |
 | New transformer trained from scratch | Full architectural control | Data, quality, and compute burden | Later research branch |
 
@@ -130,7 +130,7 @@ Exact calculations             Applicability and formal checks
        |                                |
 Signals + source references + evidence coverage
                        |
-                 FERAL-7B analyst
+                 FERAL v3 analyst
                        |
         Evidence requests and draft findings
                        |
@@ -242,7 +242,7 @@ Start with at most six tool rounds and an 8,000-token evidence budget per questi
 
 ## 10. Training plan
 
-Use the existing Qwen2.5-7B-Instruct revision for the first matched comparison. The official model card identifies Apache 2.0 licensing. Choose a newer base in a separate backbone experiment once the representation effect is measured.[^21]
+Use Qwen3.5-4B-Base for v3 training. Compare the published Qwen3.5-4B prompting checkpoint with the existing Qwen2.5-7B-Instruct control on the same evidence before adaptation. The [model selection](FERAL-V3-MODEL-SELECTION.md) pins revisions, distinguishes pretrained and post-trained arms, and sets qualification rules. The historical 7B model carries Apache 2.0 licensing.[^21]
 
 Begin with prompting and tools. Then train a LoRA adapter, meaning a small set of trainable additions to the base model. Proposed development settings are ranks 16 and 32, short context first, and one to two epochs. Select settings using development results and measured memory. Test a quantized deployment against the chosen full-precision reference on the same cases.
 
@@ -268,7 +268,7 @@ Keep raw filing text, derived examples, and released model artifacts as distinct
 
 ## 11. Evaluation design
 
-Run the selection experiment first. Freeze a shared candidate pool, source passages, exact values, calculator, and output contract. Compare strict calculator v3 selection, lexical/context rules, a small learned ranker, and a fixed 7B selector. Preserve the earlier calculator sources and identify any input adapters separately. Count ranker training, indexing, and model inference in each arm's cost. Every selected fact must carry the source words that justify a label mapping, table scope, or shared baseline. Use an oracle fact-selection arm only as a diagnostic upper reference for downstream calculation.
+Run the selection experiment first. Freeze a shared candidate pool, source passages, exact values, calculator, and output contract. Compare strict calculator v3 selection, lexical/context rules, a small learned ranker, and fixed 4B and historical 7B selectors. Preserve the earlier calculator sources and identify any input adapters separately. Count ranker training, indexing, and model inference in each arm's cost. Every selected fact must carry the source words that justify a label mapping, table scope, or shared baseline. Use an oracle fact-selection arm only as a diagnostic upper reference for downstream calculation.
 
 Measure candidate recall, conditional selection accuracy when the correct facts are present, and complete-pipeline quality on every case. Then run an end-to-end retrieval comparison with each method's retrieval cost included. This separates retrieval coverage from selection quality. Settings for lexical rules, learned ranks, and abstention are selected on development data.
 
@@ -385,7 +385,7 @@ The first engineering package is a BRAID XBRL evidence reader plus a FERAL conte
 
 Prepare 50 reviewed source questions with one independently authored paraphrase each, for 100 visible question forms. Include required-abstention families. Treat paired forms as one family. Assign source families to development and held-out partitions before label work. Keep test wording and labels with the evaluator. Use the earlier FERAL cases as a separate regression set. This small pilot measures feasibility; broader acceptance needs a sample sized for the declared confidence bounds.
 
-BRAID delivers raw dependency manifests, Arelle configuration, typed facts and edges, occurrence/source maps, validation coverage, an offline query reader, and one deterministic replay command. FERAL delivers four selector controls, the shared exact engine, source-supported alias mappings, trace checks, and measured query costs. ilXyr records the roster, visible fields, target custody, budget, scoring, and decision before execution. A second reader client checks reuse of the same release.
+BRAID delivers raw dependency manifests, Arelle configuration, typed facts and edges, occurrence/source maps, validation coverage, an offline query reader, and one deterministic replay command. FERAL delivers rules, a small ranker, and the fixed 4B and historical 7B selector controls, the shared exact engine, source-supported alias mappings, trace checks, and measured query costs. ilXyr records the roster, visible fields, target custody, budget, scoring, and decision before execution. A second reader client checks reuse of the same release.
 
 Proposed repository additions are an experiment directory for v3, schemas for facts/signals/requirements/findings, adapters around the current FERAL calculator and worker, and a dedicated evaluator. Keep existing experiment records intact. A v3 training package should identify its own dataset, tokenizer, base revision, adapter settings, runtime image, and evaluation roster.
 
