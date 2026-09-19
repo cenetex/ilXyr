@@ -2,13 +2,13 @@
 
 ## 1. Executive recommendation
 
-Build FERAL-7B v3 as a financial analysis model with a structured evidence system. The model should learn how to select concepts, match reporting contexts, connect disclosures to requirements, and explain findings. A separate engine should preserve exact amounts, perform calculations, and run formal checks. The model should normally receive financial signals and evidence references, with exact values available through controlled requests.
+Build FERAL v3 around source-grounded fact selection. BRAID should compile and serve versioned XBRL evidence: filing packages, facts, taxonomy relationships, source passages, and reproducible views. FERAL should map questions to that evidence, request exact calculations, and explain the result. ilXyr should own the experiment and its acceptance decision. Keep 7B as the matched model candidate while measuring smaller selectors as cost references.
 
-The proposed first product is a review workspace for US public-company reporting. It has three connected jobs: explain financial changes, suggest or review XBRL tags, and assemble evidence against selected disclosure requirements. Start with annual Forms 10-K, US GAAP financial statements, cover-page information, and annual cybersecurity disclosures. Use a separate release path for European Single Electronic Format (ESEF) reporting and, later, bank regulatory reporting.
+The first product question is: **can a reviewer ask about a financial change in ordinary words and receive the correct facts, periods, calculation, and source passages?** Start with annual Forms 10-K and US GAAP statements. Tag review follows that source-selection test. Annual cybersecurity disclosure coverage follows a separately reviewed requirement package. European Single Electronic Format (ESEF) and bank reporting remain later release stages.
 
-This is an architecture proposal and research plan. The evidence cutoff is September 12, 2026. Repository observations use main commit `6172f0329ab33b58c3ade6043daea9879eed0de1`, refreshed on that date. Dataset sizes, thresholds, schedules, and model settings below are proposed experiment choices. Performance claims are limited to the cited studies and recorded FERAL experiments.
+This is an architecture proposal and research plan, revised September 19, 2026. The [research review](FERAL-7B-V3-RESEARCH-REVIEW-2026-09-19.md) records the workspace findings, academic sources, and changes. Current ilXyr observations use main commit `68861d4e`; BRAID observations use `4b8c3db8`. The original September 12 sources retain their dates. Dataset sizes, thresholds, schedules, interfaces, and model settings below are proposed choices. Performance claims describe the cited studies and saved experiments.
 
-The core hypothesis is that **concepts plus calculated signals provide enough information for many useful analysis tasks, while a precise engine owns numerical correctness**. A second hypothesis is that explicit links among requirements, disclosures, and checks improve review quality. Both hypotheses require comparisons on fresh filings with measured cost.
+The first hypothesis is that **document context plus typed fact candidates improves supported answers on unfamiliar wording at a measured cost**. The second tests whether calculated signals preserve task quality while reducing model input. A third tests dated requirement links. Test these in that order so each decision has a clear cause.
 
 ## 2. FERAL's starting point
 
@@ -16,7 +16,9 @@ The existing FERAL experiment identifies Qwen2.5-7B-Instruct as its base and def
 
 The recorded calculator work provides a useful design lesson. Calculator v1 selects dated values from supplied text and keeps source spans, units, and an arithmetic trace. On the opened five-case development set it matched four targets. On the full 1,147-case revised FinQA roster, it scored 24 correct: 21 numerical answers and three required abstentions. It answered 91 cases and abstained on 1,056. Calculator v2 later matched all five development cases through broader selection and operation rules.[^2][^3]
 
-The larger result makes evidence selection and coverage central v3 research questions. A precise calculator becomes useful when the system selects the right series, period, unit, and operation. XBRL offers a stronger structure for these choices. The historical roster also gives an opportunity to measure whether structured evidence improves coverage on questions whose source filings can be recovered.
+The completed fresh comparison now sharpens this result. Across 228 questions from three company reports, v2 answered 77/82 canonical numeric questions and 0/82 paraphrases. It correctly abstained on 63/64 required cases. The erroneous answer used a Dow Jones index after the requested S&P 500 series had been removed. Calculator v3 fixed that identity error and solved 22 invented wording cases, while scoring 0/3 on older numeric cases that v2 answered. Those cases require table labels, prose baselines, and context mappings.[^23]
+
+Use the opened 228-case roster and the calculator v3 cases as development and regression material. The next evaluation needs fresh filing families and independently written questions. Distinguish the implemented **calculator v3 control** from the proposed **FERAL v3 system** throughout results and interfaces.
 
 The recorded Qwen comparison reached runtime and capacity problems. Step 28 records GPU model loading followed by a Triton cache failure. Step 30 records a closed capacity window with twelve unsuccessful launch attempts. The inspected records therefore support conclusions about the controls and execution environment; comparative model quality remains an open measurement.[^4]
 
@@ -79,7 +81,9 @@ FinAuditing contains 1,102 annotated instances and evaluates semantic matching, 
 
 AuditFlow is especially close to this proposal. It connects taxonomy and filing graphs through typed tools, with language models directing search and deterministic tools performing verification. The authors report 55/67 joint-correct cases, or 82.09%, with GPT-5.5, versus 67.16% for the single-agent baseline. Their test covers 67 cases and three DQC rule families. Its narrow size, larger backbones, and multi-agent design make direct transfer to a 7B deployment an open question.[^16]
 
-The proposed research contribution is therefore specific: measure how well a 7B model can perform financial and requirement analysis with exact values abstracted into task-relevant signals. Add dated requirement applicability and track the cost of every component. Compare one analyst model against optional escalation to a larger reviewer only after the single-model baseline is measured.
+Earlier research strengthens the selector controls. FiNER studies context and number representation in tagging. FNXL broadens the label set; the later parameter-efficient instruction-tuning study and XBRLTagRec supply learned tagging references. These are useful candidates for a small retriever or ranker beside the 7B model.[^24][^25][^26][^27]
+
+The contribution to test is a reusable, source-grounded XBRL environment plus measured selection quality under new wording, company, period, and context. Program of Thoughts already separates reasoning from executable computation. AuditFlow already supplies an XBRL tool environment. FERAL's proposed contribution lies in the controlled comparisons, evidence fidelity, selective coverage, and total cost. Numerical abstraction becomes a second experiment after fact selection works.[^16][^28]
 
 | Design | Strength | Main research question | Recommended role |
 | --- | --- | --- | --- |
@@ -91,7 +95,29 @@ The proposed research contribution is therefore specific: measure how well a 7B 
 
 ## 6. Recommended architecture
 
-The first implementation should have six components: ingestion, a fact store, taxonomy retrieval, a requirement registry, a calculation/check engine, and a 7B analyst. Use ordinary database tables for durable records and edge tables for relationships. A graph database is an implementation option once query measurements justify it.
+The first implementation should have six components: BRAID ingestion, a BRAID fact store, replaceable concept retrieval, a later requirement registry, a calculation/check engine, and a FERAL selector. Use ordinary database tables and typed edge tables first. Select a graph database after query measurements justify it.
+
+### BRAID ownership and serving boundary
+
+BRAID's current SEC worker archives submissions, selected primary filing documents, and Company Facts. Its selected-document loop fetches the primary document URL. A complete XBRL package therefore needs a new dependency collector for extension schemas, linkbases, referenced taxonomy files, and Inline XBRL document sets. Measure this gap before estimating reuse.[^29]
+
+| Component | Owner | Deliverable |
+| --- | --- | --- |
+| Filing acquisition and dependency closure | BRAID | Immutable source release with per-file hashes and completeness |
+| XBRL parsing and source links | BRAID adapter around Arelle | Facts, occurrences, text, typed relationships, validation log |
+| Reusable fact and representation views | BRAID | Versioned views with source and compiler bindings |
+| Query interpretation and learned ranking | FERAL | Requested entity, concept, context, operation, evidence mappings |
+| Exact numerical and declared rule execution | Versioned tool engine | Formula, inputs, applicability, result, and check coverage |
+| Experiment, target access, scoring and costs | ilXyr | Fixed arms, held-out labels, measured outcome |
+| Review experience | FERAL application | Finding, source passage, explanation, correction |
+
+Use an OIM-aligned fact model and an xBRL-JSON export where the supported feature profile permits it. Keep taxonomy relationships, original source locations, and parser diagnostics in separately versioned records. The OIM index treats report data and taxonomy work as separate specifications.[^5]
+
+The proposed `XbrlEvidenceRelease` extends the source release with the parser version, taxonomy package hashes, transformation registry, supported feature profile, dependency status, occurrence map, typed facts and edges, and validation results. The proposed `XbrlEvidenceView` binds one release, a task profile, serializer, index implementation, availability cutoff, split membership, and visible fields. These names describe interfaces to implement.
+
+Start with an offline release reader. Then expose release-bound, read-only `get_fact`, `get_context`, `get_passage`, `get_relationships`, and bounded `search_concepts` operations. Every response carries its release ID, view ID, evidence IDs, and completeness. A mutable latest pointer may help discovery; queries bind a fixed release. Stream training packs from a separately selected training view. Evaluation targets use a separate evaluator access path.
+
+This serves both model training and applications that need exact financial evidence. A second client, such as Runner Watch, should reconstruct the same fact bundle through the reader before the interface is called reusable. Hosting follows an offline replay and measured query workload.
 
 ```text
 Filing packages              Official rules and guidance
@@ -123,7 +149,7 @@ Run ingestion with fixed network and file access, archive-size limits, and safe 
 
 Use the namespace URI and local concept name for identity. Prefixes are display choices. Add taxonomy release, entity, period, unit, explicit or typed dimensions, filing accession, and fact occurrence. Preserve both the reported lexical value and a normalized decimal representation.
 
-Maintain two time axes: the period described by the fact and the time the filing became available. A historical question uses an explicit availability cutoff. An amendment adds another source version. Cross-filing reconciliation records which version a query selected and why.
+Maintain the period described by the fact, the filing acceptance time, and the archive observation time as separate fields. A historical question uses an explicit availability cutoff and selects source filings available by then. Company Facts is a retrieved aggregate snapshot; retain its observation time and each accession. Historical reconstruction uses archived filings and their acceptance times. An amendment adds another source version. Cross-filing reconciliation records the selected version and policy.
 
 Group duplicate facts using their complete aspects. Preserve occurrence references and classify value consistency. Compare cumulative periods only through a declared derivation, such as a standalone fourth quarter derived from annual and nine-month values with matching accounting scope. Nil, missing, reported zero, and ingestion failure should have distinct states.
 
@@ -137,7 +163,7 @@ For an existing tag, the system performs review against surrounding evidence. Fo
 
 ## 7. Numerical abstraction
 
-The model's default input should preserve meaning at a controlled level of detail. A useful signal record contains the metric definition, matched context, direction, change size, historical position, uncertainty, and a pointer to its derivation. Industry comparisons require an explicit peer set and observation date.
+The selection baseline receives exact values with their context. After that baseline is measured, test controlled numerical abstraction. A signal record contains the metric definition, matched context, direction, change size, historical position, uncertainty, and a pointer to its derivation. Industry comparisons require an explicit peer set and observation date.
 
 Start with signed growth, margin changes, working-capital movements, cash conversion, and threshold distance. Define any words such as "moderate" or "large" in a versioned feature policy fitted using training data. Where numerical detail matters to interpretation, expose a normalized ratio or exact threshold result. Attach units to every numerical feature.
 
@@ -226,7 +252,7 @@ The target model should learn the sequence "select evidence, check context, requ
 
 ### Proposed pilot data
 
-Collect up to 1,000 annual filings from roughly 200 domestic issuers across five industries. A smaller feasibility intake of 50 filings should establish actual parsing coverage and annotation effort first. Target 60 common financial concepts and about 20 reviewed requirement/check records in the pilot. The full taxonomy remains available during concept retrieval.
+After the first package in section 15, consider up to 1,000 annual filings from roughly 200 domestic issuers across five industries for the broader training pilot. Expand through a 50-filing intake after the ten-family feasibility check. Target 60 common financial concepts and about 20 reviewed requirement/check records at that later stage. The full taxonomy remains available during concept retrieval.
 
 Plan for 20,000-60,000 training examples after extraction and review. Allocate an initial 30% to concept/context selection, 25% to requirement/evidence linking, 20% to tool use, 15% to supported explanations, and 10% to ambiguous or incomplete evidence. These are planning proportions; report the realized distribution and task overlap.
 
@@ -242,7 +268,11 @@ Keep raw filing text, derived examples, and released model artifacts as distinct
 
 ## 11. Evaluation design
 
-Run two experiments. The first measures representation with a fixed base model, retriever policy, tool budget, and underlying evidence. The second measures adaptation with the selected representation held constant. This separates the effect of structured input from the effect of training.
+Run the selection experiment first. Freeze a shared candidate pool, source passages, exact values, calculator, and output contract. Compare strict calculator v3 selection, lexical/context rules, a small learned ranker, and a fixed 7B selector. Preserve the earlier calculator sources and identify any input adapters separately. Count ranker training, indexing, and model inference in each arm's cost. Every selected fact must carry the source words that justify a label mapping, table scope, or shared baseline. Use an oracle fact-selection arm only as a diagnostic upper reference for downstream calculation.
+
+Measure candidate recall, conditional selection accuracy when the correct facts are present, and complete-pipeline quality on every case. Then run an end-to-end retrieval comparison with each method's retrieval cost included. This separates retrieval coverage from selection quality. Settings for lexical rules, learned ranks, and abstention are selected on development data.
+
+Once selection passes, measure representation with a fixed base model, evidence policy, and tool budget. Finally measure adaptation with the selected representation held constant. Keep these as separate decisions.
 
 | Arm | Model input | Purpose |
 | --- | --- | --- |
@@ -255,9 +285,17 @@ Run two experiments. The first measures representation with a fixed base model, 
 
 R2 can use schema and context checks; its numerical tool responses should follow the defined amount-masking policy. R3 can access numerical derivations through approved signals. R4 receives the exact values. Each arm's policy must cover every input and tool channel. Record any other differences as explicit interventions.
 
+The abstraction comparison has two parts. A paired representation test gives R3 and R4 the same selected facts and tool schedule, with only value visibility changed. A later adaptive test permits different requests and measures whole-system cost. Signals bind formulas, operands, units, and feature policy. Select formulas from the question and permitted evidence before grading. Return exact final amounts through the renderer in both arms; score evidence selection and claim correctness as well as the rendered result. Audit visible text, tables, errors, identifiers, metadata, caches, and tool outputs for amount exposure.
+
+### Task-specific evidence views
+
+For fact lookup, filed tags and relationships are legitimate evidence. For new tag prediction, keep the target occurrence's tag, revealing IDs, and label-bearing links in the evaluator view; expose the plain report passage, table context, and candidate taxonomy definitions. For tag review, expose the filed tag as the item under review and keep the adjudicated answer separate. For rule-discovery tests, keep target-producing validation messages and corrected values with the evaluator. A separate guided-replay arm may receive those messages and must state that task.
+
+FinAuditing derives targets from DQC messages, so these visibility choices determine what a score measures.[^15] Store the exact predictor-visible bytes and evaluator-only labels separately. Save a view audit for each arm. Verify source spans against the original package and check selected fact meaning with independent expected records. Identifier resolution alone measures trace integrity; joint correctness also requires the requested concept, entity, period, unit, dimensions, operation, and evidence support. FinBalance supplies an additional reason to score source binding and replay separately.[^30]
+
 Use fresh issuer and time splits with family-level deduplication. Keep all amendments, repeated facts, near-duplicate passages, and generated variants within their assigned source family. Hold out a later reporting window and a set of issuers. Add a separate test for new taxonomy concepts and changed rule applicability. Pretraining exposure remains a possible influence on public filings, so include post-cutoff sources and controlled counterfactuals where feasible.
 
-A proposed final set has 1,200 cases: 300 concept/context cases, 300 numerical/relationship cases, 300 requirement/evidence cases, and 300 ambiguity or counterfactual cases. Freeze case identities, task labels, scoring rubrics, and operating thresholds before final evaluation. Increase the set if a critical slice has too few independent filings.
+A proposed later final set has 1,200 cases: 300 concept/context cases, 300 numerical/relationship cases, 300 requirement/evidence cases, and 300 ambiguity or counterfactual cases. The first selection pilot uses the narrower roster in section 15. Freeze case identities, task labels, scoring rubrics, and operating thresholds before final evaluation. Determine final sample size from independent issuer clusters, expected paired disagreement, and the required confidence interval. Preserve all paraphrases, amendments, and mutations of a source family in one split and one resampling cluster.
 
 ### Metrics and proposed gates
 
@@ -265,15 +303,19 @@ Report retrieval recall before model selection accuracy. For tagging, report top
 
 | Gate | Proposed pilot threshold | Interpretation |
 | --- | --- | --- |
+| Context selector | At least 5 percentage points higher joint correctness than the strongest development-selected baseline, with the paired 95% lower bound above zero | Added selection value |
+| Wrong answers on required-abstention cases | One-sided 95% upper bound at most 5%, plus at least 50% answerable-case coverage | Error and useful-coverage tradeoff |
 | Trace integrity | 100% of accepted findings resolve to valid source IDs | Mechanical release check |
 | Exact engine | 100% pass on fixed unit, period, rounding, and mutation tests | Tested-domain correctness |
 | Concept retrieval | At least 98% recall at 20 candidates | Candidate coverage before ranking |
 | Automatic tag suggestions | At least 95% precision at at least 50% coverage | Review workload tradeoff |
 | Requirement findings | At least 95% supported-claim precision at at least 50% answerable-case coverage | Scoped review usefulness |
 | R3 versus R4 | Accuracy loss at most 2 percentage points, with at least 20% fewer input tokens | Value of abstraction |
-| T1 versus fixed-base R3 | At least 5 percentage points higher joint correctness, or at least 20% lower total cost at matched quality | Value of adaptation |
+| T1 versus the selected fixed-base arm | At least 5 percentage points higher joint correctness, or at least 20% lower total cost at matched quality | Value of adaptation |
 
 These thresholds are proposed decisions, not measured results. Set operating points on development data. Use paired confidence intervals with resampling by issuer or filing family. For the R3/R4 gate, require the lower confidence bound on their accuracy difference to exceed minus two percentage points. Report whether sample size gives enough precision for that decision.
+
+The small feasibility roster establishes mechanics and observed rates. A confidence interval wider than the decision margin leaves the research decision open. Repeated inference passes measure execution variability; the independent sample count comes from source families. For later acceptance, require the stated precision thresholds on lower confidence bounds and report the corresponding coverage bounds. Choose an interval method that handles zero observed errors and clustered variants before scoring. Freeze the cost or quality success branch before final evaluation. These proposed v3 decisions apply to a new study; the saved v2 outcome and its original rules remain the historical result.
 
 A high precision score needs its coverage denominator. Report all cases, answerable cases, answered cases, and accepted findings. Include false acceptance of an unsupported conclusion, useful abstention, and cost per correct supported answer. Evaluate each critical rule family separately.
 
@@ -293,16 +335,16 @@ Have reviewers compare financial explanations blindly for evidence quality, usef
 
 ## 13. Delivery plan and cost model
 
-The proposed schedule is ten to twelve weeks for two engineers with part-time accounting and regulatory review. It is a planning estimate. The first two weeks should measure intake coverage, reviewer effort, and tool reliability, then revise the later estimates.
+Use staged exit decisions. The earlier ten-to-twelve-week estimate assumed two engineers and part-time accounting and regulatory review. Re-estimate it after the first source and selector package measures acquisition, parsing, annotation, and execution costs.
 
 | Stage | Indicative timing | Deliverable and exit decision |
 | --- | --- | --- |
-| Source and task definition | Weeks 1-2 | 50-filing intake, authority matrix, reviewed examples, fixed pilot questions |
-| Fact and rule engine | Weeks 3-4 | Replayable facts, retrieval, calculations, and scoped rule checks |
-| Fixed-base comparison | Weeks 5-6 | R0-R4 development results and measured input savings |
-| Adapter training | Weeks 7-8 | Frozen training set, selected adapter, task and retention results |
-| Final evaluation | Weeks 9-10 | Sealed comparison, confidence intervals, error analysis, cost report |
-| Review pilot | Weeks 11-12 | Reviewer workflow, correction study, release decision |
+| Source feasibility | First package | Ten filing families, complete dependencies, replayable facts and source links |
+| Context selection | After source feasibility | Fresh wording roster, matched selectors, exact calculations, error and cost report |
+| Numerical abstraction | After selection decision | Paired R3/R4 comparison and separate adaptive-tool costs |
+| Adapter training | After fixed-base comparison | Frozen training set, selected adapter, task and retention results |
+| Tag and requirement review | After reviewed task intake | Task-specific views, dated rules, independent labels |
+| Broader pilot | After final evaluation | Reviewer workflow, correction study, release decision |
 
 Start with the parser, retrieval, and exact engine because they establish what every model sees. Use one model worker before testing model teams. Separate startup checks from scored work and preserve failed processes in cost accounting. Existing FERAL execution and source-binding utilities are reusable foundations.[^1][^4]
 
@@ -339,22 +381,26 @@ An accepted filing, a technical validation result, and a compliance judgment are
 
 ## 15. Proposed first implementation package
 
-The first engineering package should deliver an ingestion adapter, an internal fact schema, a concept index, a small dated requirement registry, the calculator interface, and 50 reviewed examples. It should include one replay command and a report of parsing coverage. The main acceptance question is whether each example can be reconstructed from the original filing and the selected source packages.
+The first engineering package is a BRAID XBRL evidence reader plus a FERAL context-selection study. Proposed feasibility scope is ten fresh 10-K filing families across at least five issuers and three industries, with amendments attached to their source family. Include standard and extension concepts, instant and duration periods, dimensions, duplicate or nil facts, and a shared baseline expressed in prose. Add declared synthetic fixtures for rare parser conditions. Record observed support for each family of facts.
+
+Prepare 50 reviewed source questions with one independently authored paraphrase each, for 100 visible question forms. Include required-abstention families. Treat paired forms as one family. Assign source families to development and held-out partitions before label work. Keep test wording and labels with the evaluator. Use the earlier FERAL cases as a separate regression set. This small pilot measures feasibility; broader acceptance needs a sample sized for the declared confidence bounds.
+
+BRAID delivers raw dependency manifests, Arelle configuration, typed facts and edges, occurrence/source maps, validation coverage, an offline query reader, and one deterministic replay command. FERAL delivers four selector controls, the shared exact engine, source-supported alias mappings, trace checks, and measured query costs. ilXyr records the roster, visible fields, target custody, budget, scoring, and decision before execution. A second reader client checks reuse of the same release.
 
 Proposed repository additions are an experiment directory for v3, schemas for facts/signals/requirements/findings, adapters around the current FERAL calculator and worker, and a dedicated evaluator. Keep existing experiment records intact. A v3 training package should identify its own dataset, tokenizer, base revision, adapter settings, runtime image, and evaluation roster.
 
-The first research decision should be whether R3 retains enough quality relative to R4 while reducing evidence size. The second should be whether adaptation improves the selected baseline at an acceptable total cost. Expand regulatory scope after the first pilot has measured tag quality, requirement coverage, and reviewer value.
+The first research decision is whether context selection improves supported answers on independent wording while meeting the error and cost rules. The second concerns numerical abstraction. The third concerns adaptation. Expand tag and regulatory review as their labels and applicability rules become ready. Implementation and paid experiment execution are separate follow-up packages with measured costs.
 
 ## Sources
 
-All web sources were consulted on September 12, 2026. Regulatory sources support the stated pilot scope; implementation should bind the exact source edition and applicable date. Repository links below use the inspected commit. External URLs with changing content require a saved version at intake.
+Sources 1-22 retain the original September 12 review context. The September 19 review rechecked the cited academic papers, SEC API documentation, OIM index, Arelle plugin documentation, and Calculations 1.1 guidance. New sources 23-30 support this revision. Regulatory rollout requires the exact source edition and applicable date at implementation. External URLs with changing content require a saved version at intake.
 
 [^1]: ilXyr. [FERAL-7B training lab](https://github.com/cenetex/ilXyr/blob/6172f0329ab33b58c3ade6043daea9879eed0de1/docs/FERAL-7B.md). Repository snapshot, September 12, 2026. Base model, corpus counts, and experiment structure.
 [^2]: ilXyr. [Research step 22: FERAL control results and model startup failure](https://github.com/cenetex/ilXyr/blob/6172f0329ab33b58c3ade6043daea9879eed0de1/experiments/research-step-22/REPORT.md). September 8, 2026. Full-roster calculator results and numerical-answer breakdown.
 [^3]: ilXyr. [Research step 25: FERAL startup check and calculator v2](https://github.com/cenetex/ilXyr/blob/6172f0329ab33b58c3ade6043daea9879eed0de1/experiments/research-step-25/REPORT.md). September 8, 2026. Opened development results and next coverage test.
 [^4]: ilXyr. [Research step 28](https://github.com/cenetex/ilXyr/blob/6172f0329ab33b58c3ade6043daea9879eed0de1/experiments/research-step-28/REPORT.md) and [Research step 30](https://github.com/cenetex/ilXyr/blob/6172f0329ab33b58c3ade6043daea9879eed0de1/experiments/research-step-30/REPORT.md). September 2026. Runtime failure and closed capacity window.
 [^5]: XBRL International. [Open Information Model 1.0](https://specifications.xbrl.org/work-product-index-open-information-model-open-information-model.html), recommendation index, April 19, 2023; [XBRL essentials](https://specifications.xbrl.org/xbrl-essentials.html). Facts, concepts, dimensions, and common data model.
-[^6]: US SEC. [EDGAR Application Programming Interfaces](https://www.sec.gov/search-filings/edgar-application-programming-interfaces). June 6, 2024. API coverage and frame alignment.
+[^6]: US SEC. [EDGAR Application Programming Interfaces](https://www.sec.gov/search-filings/edgar-application-programming-interfaces). Rechecked September 19, 2026; page states last updated April 8, 2025. API coverage and frame alignment.
 [^7]: US SEC. [2026 XBRL Taxonomies Update](https://www.sec.gov/newsroom/whats-new/2603-2026-xbrl-taxonomies-update). March 17, 2026. Taxonomy release, compatibility, and CYD availability.
 [^8]: US SEC staff. [EDGAR XBRL Guide](https://www.sec.gov/files/edgar/filer-information/specifications/xbrl-guide-2026-08-14.pdf). August 2026, disclaimer and sections 1-3. Staff guidance status and filing context checks.
 [^9]: Office of the Federal Register / eCFR. [17 CFR 229.106, Item 106: Cybersecurity](https://www.ecfr.gov/current/title-17/chapter-II/part-229/subpart-229.100/section-229.106). Page displayed Title 17 through September 10, 2026. Paragraphs (b), (c), and (d); US SEC staff, [Cybersecurity Risk Management, Strategy, Governance, and Incident Disclosure](https://www.sec.gov/resources-small-businesses/small-business-compliance-guides/cybersecurity-risk-management-strategy-governance-incident-disclosure), August 30, 2023. Annual and incident disclosure context.
@@ -371,3 +417,12 @@ All web sources were consulted on September 12, 2026. Regulatory sources support
 [^20]: XBRL International. [Adopting Calculations 1.1](https://www.xbrl.org/guidance/adopting-calc1-1/); [Calculations 1.1 specification index](https://specifications.xbrl.org/work-product-index-calculations-2-calculations-1-1.html), recommendation February 14, 2024. Rounded values, duplicate facts, and scope limits.
 [^21]: Qwen team. [Qwen2.5-7B-Instruct model card](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct). Current model card at access. Model identity and Apache 2.0 license.
 [^22]: ilXyr. [FERAL-7B SEC Season 00 rights review](https://github.com/cenetex/ilXyr/blob/6172f0329ab33b58c3ade6043daea9879eed0de1/docs/FERAL-7B-RIGHTS-REVIEW.md). Repository snapshot, September 12, 2026. Existing project scope and corpus-change requirements.
+
+[^23]: ilXyr. [Completed comparison](../experiments/research-step-51/REPORT.md) and [context-gap diagnostic](../experiments/research-step-53/REPORT.md), inspected at `68861d4e` on September 19, 2026. The three-company result and later opened development cases have separate denominators.
+[^24]: Loukas and colleagues. [FiNER: Financial Numeric Entity Recognition for XBRL Tagging](https://aclanthology.org/2022.acl-long.303/). ACL 2022. Context, number representation, and a 139-label benchmark.
+[^25]: Sharma and colleagues. [Financial Numeric Extreme Labelling](https://aclanthology.org/2023.findings-acl.219/). Findings of ACL 2023. A 2,794-label financial tagging benchmark.
+[^26]: [Parameter-Efficient Instruction Tuning of Large Language Models For Extreme Financial Numeral Labelling](https://aclanthology.org/2024.naacl-long.410/). NAACL 2024. Metadata-based outputs and LoRA for numeric labels.
+[^27]: Hu and colleagues. [XBRLTagRec](https://arxiv.org/abs/2603.25263v1). March 26, 2026; the arXiv record lists IJCNN 2026. Tag-document generation, retrieval, and reranking on FNXL.
+[^28]: Chen and colleagues. [Program of Thoughts Prompting](https://arxiv.org/abs/2211.12588v4). TMLR 2023. Executable numerical computation as prior art.
+[^29]: BRAID at `4b8c3db8e0b04c3e4aba97027b3e976a4e63ee48`: [SEC worker](https://github.com/cenetex/braid/blob/4b8c3db8e0b04c3e4aba97027b3e976a4e63ee48/src/sec/service.ts), especially the selected-document fetch and `parseFilingCandidates`; [architecture](https://github.com/cenetex/braid/blob/4b8c3db8e0b04c3e4aba97027b3e976a4e63ee48/ARCHITECTURE.md). Inspected September 19, 2026.
+[^30]: Tumpati and colleagues. [FinBalance](https://arxiv.org/abs/2606.15949v1). June 14, 2026 preprint. Generated document bundles and ledger replay; its accounting task differs from XBRL tag selection.
