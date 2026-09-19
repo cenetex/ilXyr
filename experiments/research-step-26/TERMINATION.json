@@ -1,0 +1,24 @@
+{
+  "actual_billed_usd": null,
+  "compute_hourly_usd": "0.17",
+  "conservative_estimated_before_tax_usd": "0.3365",
+  "cost_basis": "Launch through provider observation of termination, rounded up to a whole second, plus the full frozen reserve. The invoice remains unknown.",
+  "elapsed_seconds_upper_estimate": 1830,
+  "infrastructure_reserve_usd": "0.25",
+  "instance_id": "i-0ffba5be5a2f4141b",
+  "instance_state": "terminated",
+  "launch_time": "2026-09-08T07:12:34+00:00",
+  "provider_observed_at": "2026-09-08T07:43:03.403326+00:00",
+  "receipts": {
+    "instance-terminal-check.json": "7cd11c67ecdfb2bf868b5d40ff436b48e0b5c26213f657f76958c91827975992",
+    "terminal-observed-at.json": "5f94307b61931412bc2d7b4c3d5b39d3bf319e13d3fa0b8f5fbed8ca9b9ba15c",
+    "volume-terminal-check.json.error": "45d7e7f8b49fc796a56ff9cb6758ed86747644ee535ceab746ade3008b19567b"
+  },
+  "root_volume_deleted": true,
+  "root_volume_id": "vol-0409abb4e185a28c9",
+  "schema": "ilxyr.reasoner55_termination.v1",
+  "state_reason": {
+    "Code": "Client.InstanceInitiatedShutdown",
+    "Message": "Client.InstanceInitiatedShutdown: Instance initiated shutdown"
+  }
+}

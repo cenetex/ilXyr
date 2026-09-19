@@ -1,25 +1,38 @@
 use std::{env, fs, path::Path, process::ExitCode};
 
+use ilxyr_aws::{AwsCliAdapter, AwsLauncherConfig};
 use ilxyr_core::{
-    ActorKind, ActorRef, Certificate, ClaimNode, DsseEnvelope, EpochBudget, EvidenceGraphEdge,
+    ActorKind, ActorRef, BraidCorpusImport, Certificate, ClaimNode, DsseEnvelope, EpochBudget,
+    EvidenceGraphEdge, ExecutionReport, ExecutorArtifactMaterialization, ExecutorConformanceReport,
+    ExecutorConformanceSuite, ExecutorEnvironmentManifest, ExecutorJobPackage, ExperimentProposal,
     ExperimentSpec, ExternalRegistrationReceipt, Forecast, FundingCommitment, HuggingFaceModel,
-    InteropFormat, LoopCycle, NsrlGateEvidence, NsrlRegistration, ReplicationContract,
-    ResearchContribution, Result, RetroRegistrationSpec, SandboxSpec, SharedTaskContract,
-    Workspace, allocate_epoch, allocate_replication, authorize_unattended_run, calibration_for,
-    claim_status, claim_support, commit_funding, compile_experiment, decide_admission,
-    epoch_budget_signing_payload, execute_loop_cycle, experiment_status, export_evidence,
-    load_paper_contract, prepare_registration, program_status, record_certificate,
-    record_evidence_edge, record_executor_attestation, record_external_registration,
-    register_claim, register_epoch_budget, register_nsrl_model, register_replication_contract,
-    register_shared_task, retro_register, run_experiment, run_experiment_unattended, run_sandbox,
-    settle_replication, submit_contribution, submit_forecast, trust_attestation_key,
-    trust_policy_key,
+    InteropFormat, LoopCycle, MechanismTournament, NsrlGateEvidence, NsrlRegistration,
+    OciJobCompletion, OciJobDispatch, ProposalReview, ReplicationContract, ResearchContribution,
+    ResearchRegistry, Result, RetroRegistrationSpec, SandboxSpec, SharedTaskContract,
+    TrustedAttestationKey, Workspace, accept_remote_execution_report, allocate_epoch,
+    allocate_replication, authorize_remote_execution, authorize_unattended_run, calibration_for,
+    claim_status, claim_support, collect_remote_execution_report, commit_funding,
+    compile_experiment, compile_proposal, decide_admission, epoch_budget_signing_payload,
+    execute_loop_cycle, experiment_status, export_evidence, freeze_proposal,
+    launch_remote_execution, load_paper_contract, observe_remote_execution, package_proposal,
+    preflight_remote_execution, prepare_registration, program_status, proposal_status,
+    record_certificate, record_evidence_edge, record_executor_attestation,
+    record_external_registration, record_oci_job_completion, record_oci_job_dispatch,
+    register_braid_corpus_release, register_claim, register_epoch_budget,
+    register_mechanism_tournament, register_nsrl_model, register_replication_contract,
+    register_shared_task, retro_register, review_proposal, run_experiment,
+    run_experiment_unattended, run_sandbox, settle_mechanism_tournament, settle_oci_job,
+    settle_replication, submit_contribution, submit_forecast, submit_proposal,
+    trust_attestation_key, trust_policy_key, verify_compiled_job_package,
+    verify_conformance_report, verify_conformance_suite, verify_environment_manifest,
+    verify_execution_report, verify_executor_materialization, verify_job_package,
 };
 use serde::{Serialize, de::DeserializeOwned};
 use serde_json::json;
 
 mod family;
 mod huggingface;
+mod mcp;
 mod nsrl;
 
 fn main() -> ExitCode {
@@ -40,6 +53,63 @@ fn run() -> Result<()> {
     };
     match command {
         "help" | "--help" | "-h" => usage(),
+        "search" => {
+            let query = registry_query_args(
+                &args[1..],
+                1,
+                "ilxyr search <query> [--json] [--registry <path>]",
+            )?;
+            let registry = load_registry(query.registry_path.as_deref())?;
+            print_json(&registry.search(&query.positionals[0])?)?;
+        }
+        "lineage" => {
+            let query = registry_query_args(
+                &args[1..],
+                1,
+                "ilxyr lineage <experiment-id> [--json] [--registry <path>]",
+            )?;
+            let registry = load_registry(query.registry_path.as_deref())?;
+            print_json(&registry.lineage(&query.positionals[0])?)?;
+        }
+        "artifact-metadata" => {
+            let query = registry_query_args(
+                &args[1..],
+                1,
+                "ilxyr artifact-metadata <artifact-id-or-digest> [--json] [--registry <path>]",
+            )?;
+            let registry = load_registry(query.registry_path.as_deref())?;
+            print_json(&registry.artifact_metadata(&query.positionals[0])?)?;
+        }
+        "registry-verify" => {
+            let query =
+                registry_query_args(&args[1..], 0, "ilxyr registry-verify [--registry <path>]")?;
+            let registry = load_registry(query.registry_path.as_deref())?;
+            print_json(&json!({
+                "schema": registry.schema,
+                "projects": registry.projects.len(),
+                "valid": true
+            }))?;
+        }
+        "braid-corpus-register" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr braid-corpus-register <workspace> <release.json> <import.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let manifest_bytes = fs::read(&args[2])?;
+            let import = read_json::<BraidCorpusImport>(&args[3])?;
+            print_json(&register_braid_corpus_release(
+                &workspace,
+                import,
+                &manifest_bytes,
+            )?)?;
+        }
+        "mcp" => {
+            let query = registry_query_args(&args[1..], 0, "ilxyr mcp [--registry <path>]")?;
+            let registry = load_registry(query.registry_path.as_deref())?;
+            mcp::serve(&registry)?;
+        }
         "init" => {
             require_len(&args, 2, "ilxyr init <workspace>")?;
             Workspace::init(&args[1])?;
@@ -107,6 +177,52 @@ fn run() -> Result<()> {
             let contribution = read_json::<ResearchContribution>(&args[2])?;
             let artifact_ref = submit_contribution(&workspace, contribution)?;
             print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "proposal-submit" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr proposal-submit <workspace> <proposal.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let proposal = read_json::<ExperimentProposal>(&args[2])?;
+            let artifact_ref = submit_proposal(&workspace, proposal)?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "proposal-review" => {
+            require_len(&args, 3, "ilxyr proposal-review <workspace> <review.json>")?;
+            let workspace = Workspace::open(&args[1])?;
+            let review = read_json::<ProposalReview>(&args[2])?;
+            let artifact_ref = review_proposal(&workspace, review)?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "proposal-freeze" => {
+            require_len(&args, 3, "ilxyr proposal-freeze <workspace> <proposal-id>")?;
+            let workspace = Workspace::open(&args[1])?;
+            let artifact_ref = freeze_proposal(&workspace, &args[2])?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "proposal-status" => {
+            require_len(&args, 3, "ilxyr proposal-status <workspace> <proposal-id>")?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&proposal_status(&workspace, &args[2])?)?;
+        }
+        "proposal-package" => {
+            require_len(
+                &args,
+                5,
+                "ilxyr proposal-package <workspace> <proposal-id> <contributions.json> <experiment.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let contributions = read_json::<Vec<ResearchContribution>>(&args[3])?;
+            let experiment = read_json::<ExperimentSpec>(&args[4])?;
+            let artifact_ref = package_proposal(&workspace, &args[2], contributions, experiment)?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "proposal-compile" => {
+            require_len(&args, 3, "ilxyr proposal-compile <workspace> <proposal-id>")?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&compile_proposal(&workspace, &args[2])?)?;
         }
         "compile" => {
             require_len(&args, 3, "ilxyr compile <workspace> <experiment.json>")?;
@@ -262,6 +378,25 @@ fn run() -> Result<()> {
             let artifact_ref = submit_forecast(&workspace, forecast)?;
             print_json(&json!({ "artifact_ref": artifact_ref }))?;
         }
+        "tournament-register" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr tournament-register <workspace> <tournament.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let tournament = read_json::<MechanismTournament>(&args[2])?;
+            print_json(&register_mechanism_tournament(&workspace, tournament)?)?;
+        }
+        "tournament-settle" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr tournament-settle <workspace> <tournament-id>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&settle_mechanism_tournament(&workspace, &args[2])?)?;
+        }
         "fund" => {
             require_len(&args, 3, "ilxyr fund <workspace> <funding.json>")?;
             let workspace = Workspace::open(&args[1])?;
@@ -307,6 +442,212 @@ fn run() -> Result<()> {
             )?;
             print_json(&key)?;
         }
+        "executor-environment-verify" => {
+            require_len(
+                &args,
+                2,
+                "ilxyr executor-environment-verify <environment.json>",
+            )?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[1])?;
+            print_json(&json!({
+                "environment_ref": verify_environment_manifest(&environment)?
+            }))?;
+        }
+        "executor-package-verify" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr executor-package-verify <environment.json> <job-package.json>",
+            )?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[1])?;
+            let package = read_json::<ExecutorJobPackage>(&args[2])?;
+            print_json(&json!({
+                "job_package_ref": verify_job_package(&environment, &package)?
+            }))?;
+        }
+        "executor-preflight-verify" => {
+            require_len(
+                &args,
+                5,
+                "ilxyr executor-preflight-verify <environment.json> <job-package.json> <materialization.json> <artifact-root>",
+            )?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[1])?;
+            let package = read_json::<ExecutorJobPackage>(&args[2])?;
+            let materialization = read_json::<ExecutorArtifactMaterialization>(&args[3])?;
+            print_json(&verify_executor_materialization(
+                &environment,
+                &package,
+                &materialization,
+                Path::new(&args[4]),
+            )?)?;
+        }
+        "executor-conformance-suite-verify" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr executor-conformance-suite-verify <environment.json> <suite.json>",
+            )?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[1])?;
+            let suite = read_json::<ExecutorConformanceSuite>(&args[2])?;
+            print_json(&json!({
+                "suite_ref": verify_conformance_suite(&environment, &suite)?
+            }))?;
+        }
+        "executor-conformance-report-verify" => {
+            require_len(
+                &args,
+                5,
+                "ilxyr executor-conformance-report-verify <environment.json> <suite.json> <trusted-keys.json> <report.json>",
+            )?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[1])?;
+            let suite = read_json::<ExecutorConformanceSuite>(&args[2])?;
+            let trusted_keys = read_json::<Vec<TrustedAttestationKey>>(&args[3])?;
+            let report = read_json::<ExecutorConformanceReport>(&args[4])?;
+            print_json(&verify_conformance_report(
+                &environment,
+                &suite,
+                &trusted_keys,
+                &report,
+            )?)?;
+        }
+        "execution-report-verify" => {
+            require_len(
+                &args,
+                5,
+                "ilxyr execution-report-verify <environment.json> <job-package.json> <trusted-keys.json> <execution-report.json>",
+            )?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[1])?;
+            let package = read_json::<ExecutorJobPackage>(&args[2])?;
+            let trusted_keys = read_json::<Vec<TrustedAttestationKey>>(&args[3])?;
+            let report = read_json::<ExecutionReport>(&args[4])?;
+            print_json(&verify_execution_report(
+                &environment,
+                &package,
+                &trusted_keys,
+                &report,
+            )?)?;
+        }
+        "remote-package-verify" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr remote-package-verify <workspace> <environment.json> <job-package.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[2])?;
+            let package = read_json::<ExecutorJobPackage>(&args[3])?;
+            print_json(&json!({
+                "job_package_ref": verify_compiled_job_package(
+                    &workspace,
+                    &environment,
+                    &package,
+                )?
+            }))?;
+        }
+        "remote-authorize" => {
+            require_len(
+                &args,
+                7,
+                "ilxyr remote-authorize <workspace> <environment.json> <job-package.json> <budget-id> <authorization-id> <expires-at-ms>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[2])?;
+            let package = read_json::<ExecutorJobPackage>(&args[3])?;
+            let expires_at_ms = args[6].parse::<u128>().map_err(|error| {
+                ilxyr_core::Error::Validation(vec![format!(
+                    "expires-at-ms must be an integer: {error}"
+                )])
+            })?;
+            print_json(&authorize_remote_execution(
+                &workspace,
+                &environment,
+                &package,
+                &args[4],
+                &args[5],
+                expires_at_ms,
+            )?)?;
+        }
+        "remote-aws-stage" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr remote-aws-stage <environment.json> <job-package.json> <aws-config.json>",
+            )?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[1])?;
+            let package = read_json::<ExecutorJobPackage>(&args[2])?;
+            let config = read_json::<AwsLauncherConfig>(&args[3])?;
+            let mut adapter = AwsCliAdapter::new(config)?;
+            print_json(&adapter.stage_job_package(&environment, &package)?)?;
+        }
+        "remote-aws-preflight" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr remote-aws-preflight <environment.json> <job-package.json> <aws-config.json>",
+            )?;
+            let environment = read_json::<ExecutorEnvironmentManifest>(&args[1])?;
+            let package = read_json::<ExecutorJobPackage>(&args[2])?;
+            let config = read_json::<AwsLauncherConfig>(&args[3])?;
+            let mut adapter = AwsCliAdapter::new(config)?;
+            print_json(&preflight_remote_execution(
+                &mut adapter,
+                &environment,
+                &package,
+            )?)?;
+        }
+        "remote-aws-launch" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr remote-aws-launch <workspace> <aws-config.json> <authorization-id>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let config = read_json::<AwsLauncherConfig>(&args[2])?;
+            let mut adapter = AwsCliAdapter::new(config)?;
+            let receipt = launch_remote_execution(&workspace, &mut adapter, &args[3])?;
+            adapter.publish_launch_receipt(&receipt)?;
+            print_json(&receipt)?;
+        }
+        "remote-aws-observe" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr remote-aws-observe <workspace> <aws-config.json> <authorization-id>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let config = read_json::<AwsLauncherConfig>(&args[2])?;
+            let mut adapter = AwsCliAdapter::new(config)?;
+            print_json(&observe_remote_execution(
+                &workspace,
+                &mut adapter,
+                &args[3],
+            )?)?;
+        }
+        "remote-aws-collect" => {
+            require_len(
+                &args,
+                4,
+                "ilxyr remote-aws-collect <workspace> <aws-config.json> <authorization-id>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let config = read_json::<AwsLauncherConfig>(&args[2])?;
+            let mut adapter = AwsCliAdapter::new(config)?;
+            print_json(&collect_remote_execution_report(
+                &workspace,
+                &mut adapter,
+                &args[3],
+            )?)?;
+        }
+        "remote-report-accept" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr remote-report-accept <workspace> <execution-report.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let report = read_json::<ExecutionReport>(&args[2])?;
+            print_json(&accept_remote_execution_report(&workspace, &report)?)?;
+        }
         "budget-payload" => {
             require_len(&args, 2, "ilxyr budget-payload <budget.json>")?;
             let budget = read_json::<EpochBudget>(&args[1])?;
@@ -343,6 +684,33 @@ fn run() -> Result<()> {
             }
             let workspace = Workspace::open(&args[1])?;
             print_json(&run_experiment(&workspace, &args[2])?)?;
+        }
+        "oci-dispatch-record" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr oci-dispatch-record <workspace> <dispatch.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let dispatch = read_json::<OciJobDispatch>(&args[2])?;
+            let artifact_ref = record_oci_job_dispatch(&workspace, dispatch)?;
+            print_json(&json!({ "artifact_ref": artifact_ref }))?;
+        }
+        "oci-complete-record" => {
+            require_len(
+                &args,
+                3,
+                "ilxyr oci-complete-record <workspace> <completion.json>",
+            )?;
+            let workspace = Workspace::open(&args[1])?;
+            let completion = read_json::<OciJobCompletion>(&args[2])?;
+            let run_ref = record_oci_job_completion(&workspace, completion)?;
+            print_json(&json!({ "run_ref": run_ref }))?;
+        }
+        "oci-settle" => {
+            require_len(&args, 3, "ilxyr oci-settle <workspace> <experiment-id>")?;
+            let workspace = Workspace::open(&args[1])?;
+            print_json(&settle_oci_job(&workspace, &args[2])?)?;
         }
         "authorize" => {
             require_len(
@@ -474,9 +842,18 @@ fn run() -> Result<()> {
             print_json(&calibration_for(&workspace, &args[2])?)?;
         }
         "status" => {
-            require_len(&args, 3, "ilxyr status <workspace> <experiment-id>")?;
-            let workspace = Workspace::open(&args[1])?;
-            print_json(&experiment_status(&workspace, &args[2])?)?;
+            if args.len() == 3 && args[2] != "--json" {
+                let workspace = Workspace::open(&args[1])?;
+                print_json(&experiment_status(&workspace, &args[2])?)?;
+            } else {
+                let query = registry_query_args(
+                    &args[1..],
+                    1,
+                    "ilxyr status <project-id-or-alias> [--json] [--registry <path>]",
+                )?;
+                let registry = load_registry(query.registry_path.as_deref())?;
+                print_json(&registry.status(&query.positionals[0])?)?;
+            }
         }
         "export-evidence" => {
             require_len(
@@ -510,6 +887,63 @@ fn read_json<T: DeserializeOwned>(path: impl AsRef<Path>) -> Result<T> {
 fn print_json<T: Serialize>(value: &T) -> Result<()> {
     println!("{}", serde_json::to_string_pretty(value)?);
     Ok(())
+}
+
+struct RegistryQueryArgs {
+    positionals: Vec<String>,
+    registry_path: Option<String>,
+}
+
+fn registry_query_args(
+    args: &[String],
+    expected_positionals: usize,
+    usage: &str,
+) -> Result<RegistryQueryArgs> {
+    let mut positionals = Vec::new();
+    let mut registry_path = None;
+    let mut index = 0;
+    while index < args.len() {
+        match args[index].as_str() {
+            "--json" => index += 1,
+            "--registry" => {
+                let Some(path) = args.get(index + 1) else {
+                    return Err(ilxyr_core::Error::Validation(vec![format!(
+                        "usage: {usage}"
+                    )]));
+                };
+                registry_path = Some(path.clone());
+                index += 2;
+            }
+            flag if flag.starts_with("--") => {
+                return Err(ilxyr_core::Error::Validation(vec![format!(
+                    "unknown option {flag}; usage: {usage}"
+                )]));
+            }
+            positional => {
+                positionals.push(positional.to_owned());
+                index += 1;
+            }
+        }
+    }
+    if positionals.len() != expected_positionals {
+        return Err(ilxyr_core::Error::Validation(vec![format!(
+            "usage: {usage}"
+        )]));
+    }
+    Ok(RegistryQueryArgs {
+        positionals,
+        registry_path,
+    })
+}
+
+fn load_registry(path: Option<&str>) -> Result<ResearchRegistry> {
+    if let Some(path) = path {
+        ResearchRegistry::load(path)
+    } else if let Ok(path) = env::var("ILXYR_REGISTRY") {
+        ResearchRegistry::load(path)
+    } else {
+        ResearchRegistry::builtin()
+    }
 }
 
 fn require_len(args: &[String], expected: usize, usage: &str) -> Result<()> {
@@ -547,11 +981,24 @@ fn usage() {
         "ilxyr v1 — Fund uncertainty. Settle in evidence.\n\n\
          Commands:\n\
            ilxyr init <workspace>\n\
+           ilxyr search <query> [--json] [--registry <path>]\n\
+           ilxyr status <project-id-or-alias> [--json] [--registry <path>]\n\
+           ilxyr lineage <experiment-id> [--json] [--registry <path>]\n\
+           ilxyr artifact-metadata <artifact-id-or-digest> [--json] [--registry <path>]\n\
+           ilxyr registry-verify [--registry <path>]\n\
+           ilxyr braid-corpus-register <workspace> <release.json> <import.json>\n\
+           ilxyr mcp [--registry <path>]\n\
            ilxyr family freeze <workspace> <family-manifest.json>\n\
            ilxyr family check <workspace> <family-manifest.json>\n\
            ilxyr family run <workspace> <family-manifest.json> --execute\n\
            ilxyr family settle <workspace> <family-manifest.json>\n\
            ilxyr contribute <workspace> <contribution.json>\n\
+           ilxyr proposal-submit <workspace> <proposal.json>\n\
+           ilxyr proposal-review <workspace> <review.json>\n\
+           ilxyr proposal-freeze <workspace> <proposal-id>\n\
+           ilxyr proposal-status <workspace> <proposal-id>\n\
+           ilxyr proposal-package <workspace> <proposal-id> <contributions.json> <experiment.json>\n\
+           ilxyr proposal-compile <workspace> <proposal-id>\n\
            ilxyr shared-task-register <workspace> <shared-task.json>\n\
            ilxyr huggingface-import <workspace> <repo-id> [commit-sha]\n\
            ilxyr huggingface-register <workspace> <model.json>\n\
@@ -565,14 +1012,33 @@ fn usage() {
            ilxyr preregister-record <workspace> <receipt.json>\n\
            ilxyr retro <workspace> <retro-registration.json> --execute\n\
            ilxyr forecast <workspace> <forecast.json>\n\
+           ilxyr tournament-register <workspace> <tournament.json>\n\
+           ilxyr tournament-settle <workspace> <tournament-id>\n\
            ilxyr fund <workspace> <funding.json>\n\
            ilxyr trust-key <workspace> <human-id> <key-id> <public-key-base64>\n\
            ilxyr trust-attestation-key <workspace> <service-id> <key-id> <public-key-base64>\n\
+           ilxyr executor-environment-verify <environment.json>\n\
+           ilxyr executor-package-verify <environment.json> <job-package.json>\n\
+           ilxyr executor-preflight-verify <environment.json> <job-package.json> <materialization.json> <artifact-root>\n\
+           ilxyr executor-conformance-suite-verify <environment.json> <suite.json>\n\
+           ilxyr executor-conformance-report-verify <environment.json> <suite.json> <trusted-keys.json> <report.json>\n\
+           ilxyr execution-report-verify <environment.json> <job-package.json> <trusted-keys.json> <execution-report.json>\n\
+           ilxyr remote-package-verify <workspace> <environment.json> <job-package.json>\n\
+           ilxyr remote-authorize <workspace> <environment.json> <job-package.json> <budget-id> <authorization-id> <expires-at-ms>\n\
+           ilxyr remote-aws-stage <environment.json> <job-package.json> <aws-config.json>\n\
+           ilxyr remote-aws-preflight <environment.json> <job-package.json> <aws-config.json>\n\
+           ilxyr remote-aws-launch <workspace> <aws-config.json> <authorization-id>\n\
+           ilxyr remote-aws-observe <workspace> <aws-config.json> <authorization-id>\n\
+           ilxyr remote-aws-collect <workspace> <aws-config.json> <authorization-id>\n\
+           ilxyr remote-report-accept <workspace> <execution-report.json>\n\
            ilxyr budget-payload <budget.json>\n\
            ilxyr budget-register <workspace> <budget.json>\n\
            ilxyr allocate <workspace> <budget-id> <experiment-id>...\n\
            ilxyr admit <workspace> <experiment-id>\n\
            ilxyr run <workspace> <experiment-id> --execute\n\
+           ilxyr oci-dispatch-record <workspace> <dispatch.json>\n\
+           ilxyr oci-complete-record <workspace> <completion.json>\n\
+           ilxyr oci-settle <workspace> <experiment-id>\n\
            ilxyr authorize <workspace> <budget-id> <experiment-id>\n\
            ilxyr run-auto <workspace> <budget-id> <experiment-id>\n\
            ilxyr loop-cycle <workspace> <budget-id> <cycle.json>\n\

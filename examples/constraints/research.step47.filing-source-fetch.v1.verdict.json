@@ -1,0 +1,26 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-47/FAILURES.json",
+  "evidence_ref": "artifact://sha256/acae1f25543d6a5518a1a3086f54d1f61cb21769d4f0b9f4302e4a82011d05e8",
+  "experiment_id": "research.step47.filing-source-fetch.v1",
+  "family": "feral",
+  "id": "verdict:research.step47.filing-source-fetch.v1",
+  "lineage_note": "Preserve failed intake receipts and use exact company-hosted source bytes for preparation and CI reconstruction.",
+  "mechanism": "filing source fetch",
+  "mechanism_tags": [
+    "source-intake",
+    "source-provenance"
+  ],
+  "outcome": "execution_failure",
+  "project": "feral",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The SEC filing endpoints returned HTTP 403 for the Apple and Costco source intake. The fixed company-hosted copies were recovered and hashed.",
+  "taxonomy": "venue"
+}

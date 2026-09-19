@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-32/FAILURES.json",
+  "evidence_ref": "artifact://sha256/32056ec4d4f359be55cdd0236e92ee1a495e3a48420382d64bd410ab6c613305",
+  "experiment_id": "research.step32.window-selection.v1",
+  "family": "solomon",
+  "id": "verdict:research.step32.window-selection.v1",
+  "lineage_note": "Check normalized context length, retain shared phrases in linked document groups, and apply the declared overlap rule against prior candidate data.",
+  "mechanism": "window selection",
+  "mechanism_tags": [
+    "fresh-data",
+    "document-groups",
+    "context-use"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "solomon",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "Two of 384 fixed-position contexts were too short after layout normalization. A later zero-shared-phrase rule rejected two contexts across fresh documents.",
+  "taxonomy": "measurement"
+}

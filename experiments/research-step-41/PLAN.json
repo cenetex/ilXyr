@@ -1,0 +1,70 @@
+{
+  "failure_history": [
+    "Q2.9 update 50 passed its replay training proxy and failed TinyStories at 2.5797352564366838 bits against its historical 2.553139779957201 limit.",
+    "Initial inspection found repeated old quantity keys across splits and one possible foundation validation start; final counts follow the frozen canonicalization."
+  ],
+  "language": {
+    "blimp_paradigms": 67,
+    "blimp_per_paradigm": 15,
+    "blimp_rule": "Rank within each paradigm by SHA256(seed + NUL + id + NUL + TSV row). Reject exposed IDs, any normalized sentence shared with old cases, then any sentence shared with accepted new cases. Sentence key is ASCII lowercase with whitespace collapsed. Keep first 15 accepted per group; process groups in byte-sorted order.",
+    "claim": "Fresh relative to the declared screen and calibration history; initial pretraining exposure and semantic similarity remain separate coverage questions.",
+    "future_gate": "Measure the same frozen initial teacher on these exact new cases. Report paired per-paradigm grammar accuracy and per-story bits. A later fixed comparison must specify uncertainty, cost, source caps and endpoint rules before any model call.",
+    "normalization": "Reuse the pinned JavaScript source and verify both historical prepared TSV hashes before selection.",
+    "prior_exposure": "Old 1000-case BLiMP screen plus 64-case evenly spaced calibration; all old 1000 TinyStories cases, including its calibration subset.",
+    "seed": "zero4-step41-language-v1",
+    "tinystories_cases": 1000,
+    "tinystories_rule": "Rank all eligible stories by SHA256(seed + NUL + filtered story index + NUL + normalized full story). Derive window offset from first 12 rank hex digits modulo (max(0,length-512)+1). Reject old story IDs, old full-story hashes, any 64-character lowercase whitespace-collapsed window substring shared with old test windows, then those same overlaps with accepted new stories/windows. Save all attempted decisions until 1000 accepted.",
+    "window_bytes": 512
+  },
+  "local_limits": {
+    "new_model_calls": 0,
+    "paid_instances": 0,
+    "seconds_per_process": 120,
+    "total_data_bytes": 536870912
+  },
+  "retention": {
+    "audit": "Rebuild all six original replay token files with the pinned native encoder and channel builder; verify historical hashes. Enumerate validation starts and old sampler starts. Report unused starts, overlap with old sampled intervals, and whether two disjoint files each satisfy the 1026-token minimum.",
+    "context_tokens": 512,
+    "failure_policy": "If a source cannot supply fresh evaluation under this sampler, record the shortage and require a separate retention-source or window-protocol design. Preserve the source and the original evaluation.",
+    "minimum_nonchannel_file_tokens": 1026,
+    "prior_eval_samples": 4
+  },
+  "schema": "ilxyr.zero4_fresh_data_plan.v1",
+  "scope": "Data preparation and prior exposure audit. Model calls await a separate fixed comparison.",
+  "source_commit": "9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d",
+  "task": {
+    "candidate_rule": "For split, operation, accepted index, attempt: SHA256(seed + NUL + split + NUL + operation + NUL + index + NUL + attempt). Each operand draw uses SHA256(candidate digest hex + NUL + draw index) as a big-endian integer with modulo reduction into the original inclusive range.",
+    "canonical_key": "Sort integer operands for add/multiply; reduce and sort rational operands; divide positive-coefficient linear equation coefficients, offset, rhs by their gcd; keep conversion value and unit. Preserve operation.",
+    "claim": "The model chooses the operation from a canonical command; the controller binds arguments and the exact kernel commits the answer.",
+    "counts": {
+      "promotion": 500,
+      "train": 4750,
+      "validation": 250
+    },
+    "decision_rule": "Reject a canonical key from either prior generator, then reject a key already accepted in any new split. Save every attempted key, rank and decision.",
+    "maximum_attempts_per_slot": 65536,
+    "operations": [
+      "add",
+      "multiply",
+      "add-rational",
+      "convert",
+      "solve-linear"
+    ],
+    "per_operation_balance": true,
+    "prior_generators": [
+      {
+        "name": "q26",
+        "quantity": 10000,
+        "seed": 5
+      },
+      {
+        "name": "retention-smoke",
+        "quantity": 100,
+        "seed": 55321
+      }
+    ],
+    "prior_request_mode": "operation",
+    "seed": "zero4-step41-task-v1",
+    "tokens": "Train then validation in the original channel protocol. The native 95 percent record split yields 4750 training and 250 validation records. Promotion remains separate."
+  }
+}

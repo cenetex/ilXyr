@@ -1,0 +1,15 @@
+{
+  "archive_bytes": 3816487,
+  "archive_name": "solomon-step32-source-kit.tar.gz",
+  "archive_sha256": "a836f7d9ddda66a9399de0910ee9804a64367a8bad506cd902375ede45351901",
+  "bound_files": 148,
+  "execution_authorized": false,
+  "fresh_model_calls": 0,
+  "implementation_commit": "6241f871585c315ad5c2841d46e94bfe60e56837",
+  "manifest_sha256": "3467467b0388470ba874b00e3901cfb1dbce398f0a60d5a3e4a3c5dd0b23a1fa",
+  "publication_status": "local_archive_with_compact_evidence_in_PR_189",
+  "schema": "ilxyr.solomon_source_kit.v1",
+  "scope": "Frozen source and data kit; full cloud controller, result checker, machine, limits and price remain pending.",
+  "status": "built_and_read_back_verified",
+  "uncompressed_file_bytes": 14842856
+}

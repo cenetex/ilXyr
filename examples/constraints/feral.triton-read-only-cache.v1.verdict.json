@@ -1,0 +1,28 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-28/STARTUP-FAILURE.json",
+  "evidence_ref": "artifact://sha256/7ae35c740c321f2ba05847820330cafd84fb8a3606411fdf8c355541555cac16",
+  "experiment_id": "feral.triton-read-only-cache.v1",
+  "family": "feral",
+  "id": "verdict:feral.triton-read-only-cache.v1",
+  "lineage_note": "Provide a writable cache within the bounded temporary filesystem. Test actual native compilation and module loading in the frozen image before another GPU run.",
+  "mechanism": "The native kernel compiler selected a cache under the read-only container root.",
+  "mechanism_tags": [
+    "triton-cache",
+    "read-only-runtime",
+    "native-compilation",
+    "startup-failure"
+  ],
+  "outcome": "execution_failure",
+  "project": "feral",
+  "recorded_at_ms": 1788858606785,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "model loaded on CUDA; synthetic generation failed at the Triton cache write",
+  "summary": "The fixed Qwen model loaded onto the L40S, then its first synthetic generation failed while creating /root/.triton. The model produced zero scored answers; both 1147-row controls completed.",
+  "taxonomy": "implementation"
+}

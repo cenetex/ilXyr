@@ -1,0 +1,46 @@
+{
+  "schema": "ilxyr.cenetex_reference_build_contract.v1",
+  "environment_id": "environment://cenetex/public-v1",
+  "state": "candidate",
+  "source": {
+    "repository": "https://github.com/cenetex/ilXyr",
+    "exact_commit_required": true,
+    "content_addressed_archive_required": true
+  },
+  "builder": {
+    "system": "nix_flake",
+    "lock_file_required": true,
+    "supported_host_os": "linux",
+    "supported_architecture": "x86_64",
+    "sandbox_required": true,
+    "mutable_dependency_resolution_allowed": false
+  },
+  "required_outputs": [
+    "supervisor",
+    "linux_kernel",
+    "read_only_rootfs",
+    "spdx_or_cyclonedx_sbom",
+    "slsa_build_provenance",
+    "canonical_conformance_suite"
+  ],
+  "runtime": {
+    "boundary": "firecracker_microvm",
+    "one_job_per_vm": true,
+    "host_mounts": false,
+    "interactive_access": false,
+    "guest_network": "denied",
+    "guest_credentials": false,
+    "reporting_outside_guest": true
+  },
+  "acceptance": {
+    "minimum_independent_builders": 1,
+    "matching_output_digests_required": [
+      "supervisor",
+      "linux_kernel",
+      "read_only_rootfs",
+      "canonical_conformance_suite"
+    ],
+    "signed_independent_conformance_required": true,
+    "all_linux_microvm_tests_required": true
+  }
+}

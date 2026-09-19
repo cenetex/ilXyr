@@ -1,0 +1,1692 @@
+{
+  "bounds": {
+    "max_calls": 3000000,
+    "max_group_keys": 1500000,
+    "max_unique": 500000
+  },
+  "corpus_records": 79452,
+  "corpus_records_by_slice": {
+    "0|dominant": 56250,
+    "0|non_dominant": 18750,
+    "1|dominant": 517,
+    "1|non_dominant": 448,
+    "2-7|dominant": 1077,
+    "2-7|non_dominant": 1042,
+    "8-31|dominant": 709,
+    "8-31|non_dominant": 659
+  },
+  "corpus_sha256": "227d87ec524af92db6cd75265e50f4a595d9e1a9cbdb3245b4ef48aa4629cd93",
+  "dispositions": {
+    "candidate_for_selection": 79557,
+    "pilot_observation": 26624,
+    "stratum_mismatch": 2324206,
+    "warmup": 8
+  },
+  "generation_blocks": [
+    {
+      "calls": 250000,
+      "corpus_records": 76620,
+      "first_generation_call": 1,
+      "index": 0,
+      "last_generation_call": 250000,
+      "matching_calls": 76651,
+      "nonzero_corpus_records": 3012,
+      "repeated_calls": 102829
+    },
+    {
+      "calls": 250000,
+      "corpus_records": 2046,
+      "first_generation_call": 250001,
+      "index": 1,
+      "last_generation_call": 500000,
+      "matching_calls": 2120,
+      "nonzero_corpus_records": 654,
+      "repeated_calls": 190437
+    },
+    {
+      "calls": 250000,
+      "corpus_records": 251,
+      "first_generation_call": 500001,
+      "index": 2,
+      "last_generation_call": 750000,
+      "matching_calls": 251,
+      "nonzero_corpus_records": 251,
+      "repeated_calls": 206317
+    },
+    {
+      "calls": 250000,
+      "corpus_records": 133,
+      "first_generation_call": 750001,
+      "index": 3,
+      "last_generation_call": 1000000,
+      "matching_calls": 133,
+      "nonzero_corpus_records": 133,
+      "repeated_calls": 213266
+    },
+    {
+      "calls": 250000,
+      "corpus_records": 116,
+      "first_generation_call": 1000001,
+      "index": 4,
+      "last_generation_call": 1250000,
+      "matching_calls": 116,
+      "nonzero_corpus_records": 116,
+      "repeated_calls": 217000
+    },
+    {
+      "calls": 250000,
+      "corpus_records": 73,
+      "first_generation_call": 1250001,
+      "index": 5,
+      "last_generation_call": 1500000,
+      "matching_calls": 73,
+      "nonzero_corpus_records": 73,
+      "repeated_calls": 220072
+    },
+    {
+      "calls": 250000,
+      "corpus_records": 62,
+      "first_generation_call": 1500001,
+      "index": 6,
+      "last_generation_call": 1750000,
+      "matching_calls": 62,
+      "nonzero_corpus_records": 62,
+      "repeated_calls": 222874
+    },
+    {
+      "calls": 250000,
+      "corpus_records": 68,
+      "first_generation_call": 1750001,
+      "index": 7,
+      "last_generation_call": 2000000,
+      "matching_calls": 68,
+      "nonzero_corpus_records": 68,
+      "repeated_calls": 224431
+    },
+    {
+      "calls": 250000,
+      "corpus_records": 53,
+      "first_generation_call": 2000001,
+      "index": 8,
+      "last_generation_call": 2250000,
+      "matching_calls": 53,
+      "nonzero_corpus_records": 53,
+      "repeated_calls": 225548
+    },
+    {
+      "calls": 153763,
+      "corpus_records": 30,
+      "first_generation_call": 2250001,
+      "index": 9,
+      "last_generation_call": 2403763,
+      "matching_calls": 30,
+      "nonzero_corpus_records": 30,
+      "repeated_calls": 139421
+    }
+  ],
+  "generation_calls": 2403763,
+  "generation_matching_calls": 79557,
+  "groups": [
+    {
+      "calls": 1024,
+      "desired_stratum": "0",
+      "matching_calls": 1024,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 1024
+      },
+      "slice_id": "pilot:classical|0|dominant",
+      "target_status": "dominant",
+      "types": {
+        "A6": 86,
+        "A7": 86,
+        "A8": 86,
+        "B6": 86,
+        "B7": 85,
+        "B8": 85,
+        "C6": 85,
+        "C7": 85,
+        "C8": 85,
+        "D6": 85,
+        "D7": 85,
+        "D8": 85
+      },
+      "unique_matching_queries": 1024,
+      "unique_queries": 1024
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "0",
+      "matching_calls": 1024,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 1024
+      },
+      "slice_id": "pilot:classical|0|non_dominant",
+      "target_status": "non_dominant",
+      "types": {
+        "A6": 86,
+        "A7": 86,
+        "A8": 86,
+        "B6": 86,
+        "B7": 85,
+        "B8": 85,
+        "C6": 85,
+        "C7": 85,
+        "C8": 85,
+        "D6": 85,
+        "D7": 85,
+        "D8": 85
+      },
+      "unique_matching_queries": 1024,
+      "unique_queries": 1024
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "1",
+      "matching_calls": 260,
+      "matching_fraction": 0.25390625,
+      "observed": {
+        "0": 526,
+        "1": 260,
+        "2-7": 37,
+        "8-31": 36,
+        ">31": 165
+      },
+      "slice_id": "pilot:classical|1|dominant",
+      "target_status": "dominant",
+      "types": {
+        "A6": 86,
+        "A7": 86,
+        "A8": 86,
+        "B6": 86,
+        "B7": 85,
+        "B8": 85,
+        "C6": 85,
+        "C7": 85,
+        "C8": 85,
+        "D6": 85,
+        "D7": 85,
+        "D8": 85
+      },
+      "unique_matching_queries": 223,
+      "unique_queries": 967
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "1",
+      "matching_calls": 253,
+      "matching_fraction": 0.2470703125,
+      "observed": {
+        "0": 533,
+        "1": 253,
+        "2-7": 30,
+        "8-31": 24,
+        ">31": 184
+      },
+      "slice_id": "pilot:classical|1|non_dominant",
+      "target_status": "non_dominant",
+      "types": {
+        "A6": 86,
+        "A7": 86,
+        "A8": 86,
+        "B6": 86,
+        "B7": 85,
+        "B8": 85,
+        "C6": 85,
+        "C7": 85,
+        "C8": 85,
+        "D6": 85,
+        "D7": 85,
+        "D8": 85
+      },
+      "unique_matching_queries": 248,
+      "unique_queries": 1017
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "2-7",
+      "matching_calls": 42,
+      "matching_fraction": 0.041015625,
+      "observed": {
+        "0": 619,
+        "1": 27,
+        "2-7": 42,
+        "8-31": 42,
+        ">31": 294
+      },
+      "slice_id": "pilot:classical|2-7|dominant",
+      "target_status": "dominant",
+      "types": {
+        "A6": 86,
+        "A7": 86,
+        "A8": 86,
+        "B6": 86,
+        "B7": 85,
+        "B8": 85,
+        "C6": 85,
+        "C7": 85,
+        "C8": 85,
+        "D6": 85,
+        "D7": 85,
+        "D8": 85
+      },
+      "unique_matching_queries": 40,
+      "unique_queries": 1001
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "2-7",
+      "matching_calls": 41,
+      "matching_fraction": 0.0400390625,
+      "observed": {
+        "0": 618,
+        "1": 28,
+        "2-7": 41,
+        "8-31": 49,
+        ">31": 288
+      },
+      "slice_id": "pilot:classical|2-7|non_dominant",
+      "target_status": "non_dominant",
+      "types": {
+        "A6": 86,
+        "A7": 86,
+        "A8": 86,
+        "B6": 86,
+        "B7": 85,
+        "B8": 85,
+        "C6": 85,
+        "C7": 85,
+        "C8": 85,
+        "D6": 85,
+        "D7": 85,
+        "D8": 85
+      },
+      "unique_matching_queries": 41,
+      "unique_queries": 1020
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "8-31",
+      "matching_calls": 42,
+      "matching_fraction": 0.041015625,
+      "observed": {
+        "0": 536,
+        "1": 49,
+        "2-7": 51,
+        "8-31": 42,
+        ">31": 346
+      },
+      "slice_id": "pilot:classical|8-31|dominant",
+      "target_status": "dominant",
+      "types": {
+        "A6": 86,
+        "A7": 86,
+        "A8": 86,
+        "B6": 86,
+        "B7": 85,
+        "B8": 85,
+        "C6": 85,
+        "C7": 85,
+        "C8": 85,
+        "D6": 85,
+        "D7": 85,
+        "D8": 85
+      },
+      "unique_matching_queries": 41,
+      "unique_queries": 995
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "8-31",
+      "matching_calls": 51,
+      "matching_fraction": 0.0498046875,
+      "observed": {
+        "0": 531,
+        "1": 28,
+        "2-7": 47,
+        "8-31": 51,
+        ">31": 367
+      },
+      "slice_id": "pilot:classical|8-31|non_dominant",
+      "target_status": "non_dominant",
+      "types": {
+        "A6": 86,
+        "A7": 86,
+        "A8": 86,
+        "B6": 85,
+        "B7": 86,
+        "B8": 85,
+        "C6": 85,
+        "C7": 85,
+        "C8": 85,
+        "D6": 85,
+        "D7": 85,
+        "D8": 85
+      },
+      "unique_matching_queries": 51,
+      "unique_queries": 1021
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "0",
+      "matching_calls": 384,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 384
+      },
+      "slice_id": "pilot:exceptional|E6|0",
+      "target_status": "dominant",
+      "types": {
+        "E6": 384
+      },
+      "unique_matching_queries": 383,
+      "unique_queries": 383
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "0",
+      "matching_calls": 128,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 128
+      },
+      "slice_id": "pilot:exceptional|E6|0",
+      "target_status": "non_dominant",
+      "types": {
+        "E6": 128
+      },
+      "unique_matching_queries": 128,
+      "unique_queries": 128
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "1",
+      "matching_calls": 98,
+      "matching_fraction": 0.2552083333333333,
+      "observed": {
+        "0": 166,
+        "1": 98,
+        "2-7": 14,
+        "8-31": 16,
+        ">31": 90
+      },
+      "slice_id": "pilot:exceptional|E6|1",
+      "target_status": "dominant",
+      "types": {
+        "E6": 384
+      },
+      "unique_matching_queries": 37,
+      "unique_queries": 288
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "1",
+      "matching_calls": 25,
+      "matching_fraction": 0.1953125,
+      "observed": {
+        "0": 66,
+        "1": 25,
+        "2-7": 5,
+        "8-31": 4,
+        ">31": 28
+      },
+      "slice_id": "pilot:exceptional|E6|1",
+      "target_status": "non_dominant",
+      "types": {
+        "E6": 128
+      },
+      "unique_matching_queries": 22,
+      "unique_queries": 124
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "2-7",
+      "matching_calls": 16,
+      "matching_fraction": 0.041666666666666664,
+      "observed": {
+        "0": 202,
+        "1": 19,
+        "2-7": 16,
+        "8-31": 15,
+        ">31": 132
+      },
+      "slice_id": "pilot:exceptional|E6|2-7",
+      "target_status": "dominant",
+      "types": {
+        "E6": 384
+      },
+      "unique_matching_queries": 10,
+      "unique_queries": 330
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "2-7",
+      "matching_calls": 3,
+      "matching_fraction": 0.0234375,
+      "observed": {
+        "0": 66,
+        "1": 6,
+        "2-7": 3,
+        "8-31": 10,
+        ">31": 43
+      },
+      "slice_id": "pilot:exceptional|E6|2-7",
+      "target_status": "non_dominant",
+      "types": {
+        "E6": 128
+      },
+      "unique_matching_queries": 3,
+      "unique_queries": 128
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "8-31",
+      "matching_calls": 12,
+      "matching_fraction": 0.03125,
+      "observed": {
+        "0": 189,
+        "1": 16,
+        "2-7": 20,
+        "8-31": 12,
+        ">31": 147
+      },
+      "slice_id": "pilot:exceptional|E6|8-31",
+      "target_status": "dominant",
+      "types": {
+        "E6": 384
+      },
+      "unique_matching_queries": 11,
+      "unique_queries": 323
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "8-31",
+      "matching_calls": 7,
+      "matching_fraction": 0.0546875,
+      "observed": {
+        "0": 58,
+        "1": 3,
+        "2-7": 7,
+        "8-31": 7,
+        ">31": 53
+      },
+      "slice_id": "pilot:exceptional|E6|8-31",
+      "target_status": "non_dominant",
+      "types": {
+        "E6": 128
+      },
+      "unique_matching_queries": 7,
+      "unique_queries": 125
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "0",
+      "matching_calls": 384,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 384
+      },
+      "slice_id": "pilot:exceptional|E7|0",
+      "target_status": "dominant",
+      "types": {
+        "E7": 384
+      },
+      "unique_matching_queries": 384,
+      "unique_queries": 384
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "0",
+      "matching_calls": 128,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 128
+      },
+      "slice_id": "pilot:exceptional|E7|0",
+      "target_status": "non_dominant",
+      "types": {
+        "E7": 128
+      },
+      "unique_matching_queries": 128,
+      "unique_queries": 128
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "1",
+      "matching_calls": 89,
+      "matching_fraction": 0.23177083333333334,
+      "observed": {
+        "0": 169,
+        "1": 89,
+        "2-7": 17,
+        "8-31": 14,
+        ">31": 95
+      },
+      "slice_id": "pilot:exceptional|E7|1",
+      "target_status": "dominant",
+      "types": {
+        "E7": 384
+      },
+      "unique_matching_queries": 40,
+      "unique_queries": 313
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "1",
+      "matching_calls": 32,
+      "matching_fraction": 0.25,
+      "observed": {
+        "0": 61,
+        "1": 32,
+        "2-7": 2,
+        "8-31": 2,
+        ">31": 31
+      },
+      "slice_id": "pilot:exceptional|E7|1",
+      "target_status": "non_dominant",
+      "types": {
+        "E7": 128
+      },
+      "unique_matching_queries": 30,
+      "unique_queries": 126
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "2-7",
+      "matching_calls": 11,
+      "matching_fraction": 0.028645833333333332,
+      "observed": {
+        "0": 208,
+        "1": 13,
+        "2-7": 11,
+        "8-31": 14,
+        ">31": 138
+      },
+      "slice_id": "pilot:exceptional|E7|2-7",
+      "target_status": "dominant",
+      "types": {
+        "E7": 384
+      },
+      "unique_matching_queries": 9,
+      "unique_queries": 334
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "2-7",
+      "matching_calls": 4,
+      "matching_fraction": 0.03125,
+      "observed": {
+        "0": 69,
+        "1": 4,
+        "2-7": 4,
+        "8-31": 5,
+        ">31": 46
+      },
+      "slice_id": "pilot:exceptional|E7|2-7",
+      "target_status": "non_dominant",
+      "types": {
+        "E7": 128
+      },
+      "unique_matching_queries": 4,
+      "unique_queries": 126
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "8-31",
+      "matching_calls": 10,
+      "matching_fraction": 0.026041666666666668,
+      "observed": {
+        "0": 189,
+        "1": 14,
+        "2-7": 14,
+        "8-31": 10,
+        ">31": 157
+      },
+      "slice_id": "pilot:exceptional|E7|8-31",
+      "target_status": "dominant",
+      "types": {
+        "E7": 384
+      },
+      "unique_matching_queries": 8,
+      "unique_queries": 320
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "8-31",
+      "matching_calls": 7,
+      "matching_fraction": 0.0546875,
+      "observed": {
+        "0": 54,
+        "1": 7,
+        "2-7": 3,
+        "8-31": 7,
+        ">31": 57
+      },
+      "slice_id": "pilot:exceptional|E7|8-31",
+      "target_status": "non_dominant",
+      "types": {
+        "E7": 128
+      },
+      "unique_matching_queries": 7,
+      "unique_queries": 127
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "0",
+      "matching_calls": 384,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 384
+      },
+      "slice_id": "pilot:exceptional|E8|0",
+      "target_status": "dominant",
+      "types": {
+        "E8": 384
+      },
+      "unique_matching_queries": 382,
+      "unique_queries": 382
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "0",
+      "matching_calls": 128,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 128
+      },
+      "slice_id": "pilot:exceptional|E8|0",
+      "target_status": "non_dominant",
+      "types": {
+        "E8": 128
+      },
+      "unique_matching_queries": 128,
+      "unique_queries": 128
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "1",
+      "matching_calls": 85,
+      "matching_fraction": 0.22135416666666666,
+      "observed": {
+        "0": 174,
+        "1": 85,
+        "2-7": 11,
+        "8-31": 14,
+        ">31": 100
+      },
+      "slice_id": "pilot:exceptional|E8|1",
+      "target_status": "dominant",
+      "types": {
+        "E8": 384
+      },
+      "unique_matching_queries": 32,
+      "unique_queries": 297
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "1",
+      "matching_calls": 24,
+      "matching_fraction": 0.1875,
+      "observed": {
+        "0": 59,
+        "1": 24,
+        "2-7": 3,
+        "8-31": 4,
+        ">31": 38
+      },
+      "slice_id": "pilot:exceptional|E8|1",
+      "target_status": "non_dominant",
+      "types": {
+        "E8": 128
+      },
+      "unique_matching_queries": 24,
+      "unique_queries": 128
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "2-7",
+      "matching_calls": 8,
+      "matching_fraction": 0.020833333333333332,
+      "observed": {
+        "0": 195,
+        "1": 15,
+        "2-7": 8,
+        "8-31": 7,
+        ">31": 159
+      },
+      "slice_id": "pilot:exceptional|E8|2-7",
+      "target_status": "dominant",
+      "types": {
+        "E8": 384
+      },
+      "unique_matching_queries": 7,
+      "unique_queries": 332
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "2-7",
+      "matching_calls": 4,
+      "matching_fraction": 0.03125,
+      "observed": {
+        "0": 63,
+        "1": 2,
+        "2-7": 4,
+        "8-31": 9,
+        ">31": 50
+      },
+      "slice_id": "pilot:exceptional|E8|2-7",
+      "target_status": "non_dominant",
+      "types": {
+        "E8": 128
+      },
+      "unique_matching_queries": 4,
+      "unique_queries": 127
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "8-31",
+      "matching_calls": 9,
+      "matching_fraction": 0.0234375,
+      "observed": {
+        "0": 149,
+        "1": 13,
+        "2-7": 14,
+        "8-31": 9,
+        ">31": 199
+      },
+      "slice_id": "pilot:exceptional|E8|8-31",
+      "target_status": "dominant",
+      "types": {
+        "E8": 384
+      },
+      "unique_matching_queries": 6,
+      "unique_queries": 303
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "8-31",
+      "matching_calls": 3,
+      "matching_fraction": 0.0234375,
+      "observed": {
+        "0": 55,
+        "1": 5,
+        "2-7": 4,
+        "8-31": 3,
+        ">31": 61
+      },
+      "slice_id": "pilot:exceptional|E8|8-31",
+      "target_status": "non_dominant",
+      "types": {
+        "E8": 128
+      },
+      "unique_matching_queries": 3,
+      "unique_queries": 128
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "0",
+      "matching_calls": 384,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 384
+      },
+      "slice_id": "pilot:exceptional|F4|0",
+      "target_status": "dominant",
+      "types": {
+        "F4": 384
+      },
+      "unique_matching_queries": 384,
+      "unique_queries": 384
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "0",
+      "matching_calls": 128,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 128
+      },
+      "slice_id": "pilot:exceptional|F4|0",
+      "target_status": "non_dominant",
+      "types": {
+        "F4": 128
+      },
+      "unique_matching_queries": 128,
+      "unique_queries": 128
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "1",
+      "matching_calls": 99,
+      "matching_fraction": 0.2578125,
+      "observed": {
+        "0": 124,
+        "1": 99,
+        "2-7": 20,
+        "8-31": 19,
+        ">31": 122
+      },
+      "slice_id": "pilot:exceptional|F4|1",
+      "target_status": "dominant",
+      "types": {
+        "F4": 384
+      },
+      "unique_matching_queries": 45,
+      "unique_queries": 293
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "1",
+      "matching_calls": 26,
+      "matching_fraction": 0.203125,
+      "observed": {
+        "0": 42,
+        "1": 26,
+        "2-7": 6,
+        "8-31": 11,
+        ">31": 43
+      },
+      "slice_id": "pilot:exceptional|F4|1",
+      "target_status": "non_dominant",
+      "types": {
+        "F4": 128
+      },
+      "unique_matching_queries": 24,
+      "unique_queries": 126
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "2-7",
+      "matching_calls": 14,
+      "matching_fraction": 0.036458333333333336,
+      "observed": {
+        "0": 149,
+        "1": 23,
+        "2-7": 14,
+        "8-31": 24,
+        ">31": 174
+      },
+      "slice_id": "pilot:exceptional|F4|2-7",
+      "target_status": "dominant",
+      "types": {
+        "F4": 384
+      },
+      "unique_matching_queries": 12,
+      "unique_queries": 319
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "2-7",
+      "matching_calls": 8,
+      "matching_fraction": 0.0625,
+      "observed": {
+        "0": 38,
+        "1": 13,
+        "2-7": 8,
+        "8-31": 7,
+        ">31": 62
+      },
+      "slice_id": "pilot:exceptional|F4|2-7",
+      "target_status": "non_dominant",
+      "types": {
+        "F4": 128
+      },
+      "unique_matching_queries": 8,
+      "unique_queries": 126
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "8-31",
+      "matching_calls": 19,
+      "matching_fraction": 0.049479166666666664,
+      "observed": {
+        "0": 126,
+        "1": 13,
+        "2-7": 17,
+        "8-31": 19,
+        ">31": 209
+      },
+      "slice_id": "pilot:exceptional|F4|8-31",
+      "target_status": "dominant",
+      "types": {
+        "F4": 384
+      },
+      "unique_matching_queries": 10,
+      "unique_queries": 294
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "8-31",
+      "matching_calls": 4,
+      "matching_fraction": 0.03125,
+      "observed": {
+        "0": 53,
+        "1": 4,
+        "2-7": 10,
+        "8-31": 4,
+        ">31": 57
+      },
+      "slice_id": "pilot:exceptional|F4|8-31",
+      "target_status": "non_dominant",
+      "types": {
+        "F4": 128
+      },
+      "unique_matching_queries": 4,
+      "unique_queries": 124
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "0",
+      "matching_calls": 384,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 384
+      },
+      "slice_id": "pilot:exceptional|G2|0",
+      "target_status": "dominant",
+      "types": {
+        "G2": 384
+      },
+      "unique_matching_queries": 381,
+      "unique_queries": 381
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "0",
+      "matching_calls": 128,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 128
+      },
+      "slice_id": "pilot:exceptional|G2|0",
+      "target_status": "non_dominant",
+      "types": {
+        "G2": 128
+      },
+      "unique_matching_queries": 128,
+      "unique_queries": 128
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "1",
+      "matching_calls": 162,
+      "matching_fraction": 0.421875,
+      "observed": {
+        "0": 59,
+        "1": 162,
+        "2-7": 69,
+        "8-31": 47,
+        ">31": 47
+      },
+      "slice_id": "pilot:exceptional|G2|1",
+      "target_status": "dominant",
+      "types": {
+        "G2": 384
+      },
+      "unique_matching_queries": 24,
+      "unique_queries": 153
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "1",
+      "matching_calls": 39,
+      "matching_fraction": 0.3046875,
+      "observed": {
+        "0": 25,
+        "1": 39,
+        "2-7": 27,
+        "8-31": 22,
+        ">31": 15
+      },
+      "slice_id": "pilot:exceptional|G2|1",
+      "target_status": "non_dominant",
+      "types": {
+        "G2": 128
+      },
+      "unique_matching_queries": 29,
+      "unique_queries": 112
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "2-7",
+      "matching_calls": 93,
+      "matching_fraction": 0.2421875,
+      "observed": {
+        "0": 77,
+        "1": 60,
+        "2-7": 93,
+        "8-31": 87,
+        ">31": 67
+      },
+      "slice_id": "pilot:exceptional|G2|2-7",
+      "target_status": "dominant",
+      "types": {
+        "G2": 384
+      },
+      "unique_matching_queries": 31,
+      "unique_queries": 185
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "2-7",
+      "matching_calls": 34,
+      "matching_fraction": 0.265625,
+      "observed": {
+        "0": 25,
+        "1": 23,
+        "2-7": 34,
+        "8-31": 28,
+        ">31": 18
+      },
+      "slice_id": "pilot:exceptional|G2|2-7",
+      "target_status": "non_dominant",
+      "types": {
+        "G2": 128
+      },
+      "unique_matching_queries": 30,
+      "unique_queries": 109
+    },
+    {
+      "calls": 384,
+      "desired_stratum": "8-31",
+      "matching_calls": 99,
+      "matching_fraction": 0.2578125,
+      "observed": {
+        "0": 62,
+        "1": 19,
+        "2-7": 96,
+        "8-31": 99,
+        ">31": 108
+      },
+      "slice_id": "pilot:exceptional|G2|8-31",
+      "target_status": "dominant",
+      "types": {
+        "G2": 384
+      },
+      "unique_matching_queries": 32,
+      "unique_queries": 150
+    },
+    {
+      "calls": 128,
+      "desired_stratum": "8-31",
+      "matching_calls": 24,
+      "matching_fraction": 0.1875,
+      "observed": {
+        "0": 27,
+        "1": 5,
+        "2-7": 32,
+        "8-31": 24,
+        ">31": 40
+      },
+      "slice_id": "pilot:exceptional|G2|8-31",
+      "target_status": "non_dominant",
+      "types": {
+        "G2": 128
+      },
+      "unique_matching_queries": 19,
+      "unique_queries": 110
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "0",
+      "matching_calls": 1024,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 1024
+      },
+      "slice_id": "pilot:training|0|dominant",
+      "target_status": "dominant",
+      "types": {
+        "A1": 74,
+        "A2": 74,
+        "A3": 73,
+        "A4": 73,
+        "A5": 73,
+        "B2": 73,
+        "B3": 73,
+        "B4": 73,
+        "B5": 73,
+        "C3": 73,
+        "C4": 73,
+        "C5": 73,
+        "D4": 73,
+        "D5": 73
+      },
+      "unique_matching_queries": 1022,
+      "unique_queries": 1022
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "0",
+      "matching_calls": 1024,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 1024
+      },
+      "slice_id": "pilot:training|0|non_dominant",
+      "target_status": "non_dominant",
+      "types": {
+        "A1": 74,
+        "A2": 74,
+        "A3": 73,
+        "A4": 73,
+        "A5": 73,
+        "B2": 73,
+        "B3": 73,
+        "B4": 73,
+        "B5": 73,
+        "C3": 73,
+        "C4": 73,
+        "C5": 73,
+        "D4": 73,
+        "D5": 73
+      },
+      "unique_matching_queries": 1016,
+      "unique_queries": 1016
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "1",
+      "matching_calls": 483,
+      "matching_fraction": 0.4716796875,
+      "observed": {
+        "0": 276,
+        "1": 483,
+        "2-7": 118,
+        "8-31": 61,
+        ">31": 86
+      },
+      "slice_id": "pilot:training|1|dominant",
+      "target_status": "dominant",
+      "types": {
+        "A1": 74,
+        "A2": 74,
+        "A3": 73,
+        "A4": 73,
+        "A5": 73,
+        "B2": 73,
+        "B3": 73,
+        "B4": 73,
+        "B5": 73,
+        "C3": 73,
+        "C4": 73,
+        "C5": 73,
+        "D4": 73,
+        "D5": 73
+      },
+      "unique_matching_queries": 234,
+      "unique_queries": 721
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "1",
+      "matching_calls": 427,
+      "matching_fraction": 0.4169921875,
+      "observed": {
+        "0": 273,
+        "1": 427,
+        "2-7": 145,
+        "8-31": 62,
+        ">31": 117
+      },
+      "slice_id": "pilot:training|1|non_dominant",
+      "target_status": "non_dominant",
+      "types": {
+        "A1": 68,
+        "A2": 74,
+        "A3": 74,
+        "A4": 74,
+        "A5": 74,
+        "B2": 71,
+        "B3": 73,
+        "B4": 74,
+        "B5": 74,
+        "C3": 73,
+        "C4": 74,
+        "C5": 74,
+        "D4": 74,
+        "D5": 73
+      },
+      "unique_matching_queries": 296,
+      "unique_queries": 882
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "2-7",
+      "matching_calls": 172,
+      "matching_fraction": 0.16796875,
+      "observed": {
+        "0": 347,
+        "1": 226,
+        "2-7": 172,
+        "8-31": 83,
+        ">31": 196
+      },
+      "slice_id": "pilot:training|2-7|dominant",
+      "target_status": "dominant",
+      "types": {
+        "A1": 74,
+        "A2": 74,
+        "A3": 73,
+        "A4": 73,
+        "A5": 73,
+        "B2": 73,
+        "B3": 73,
+        "B4": 73,
+        "B5": 73,
+        "C3": 73,
+        "C4": 73,
+        "C5": 73,
+        "D4": 73,
+        "D5": 73
+      },
+      "unique_matching_queries": 128,
+      "unique_queries": 787
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "2-7",
+      "matching_calls": 172,
+      "matching_fraction": 0.16796875,
+      "observed": {
+        "0": 355,
+        "1": 209,
+        "2-7": 172,
+        "8-31": 96,
+        ">31": 192
+      },
+      "slice_id": "pilot:training|2-7|non_dominant",
+      "target_status": "non_dominant",
+      "types": {
+        "A1": 57,
+        "A2": 74,
+        "A3": 74,
+        "A4": 75,
+        "A5": 75,
+        "B2": 72,
+        "B3": 75,
+        "B4": 75,
+        "B5": 75,
+        "C3": 75,
+        "C4": 75,
+        "C5": 74,
+        "D4": 74,
+        "D5": 74
+      },
+      "unique_matching_queries": 159,
+      "unique_queries": 911
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "8-31",
+      "matching_calls": 157,
+      "matching_fraction": 0.1533203125,
+      "observed": {
+        "0": 216,
+        "1": 85,
+        "2-7": 282,
+        "8-31": 157,
+        ">31": 284
+      },
+      "slice_id": "pilot:training|8-31|dominant",
+      "target_status": "dominant",
+      "types": {
+        "A2": 79,
+        "A3": 79,
+        "A4": 79,
+        "A5": 79,
+        "B2": 79,
+        "B3": 79,
+        "B4": 79,
+        "B5": 79,
+        "C3": 79,
+        "C4": 79,
+        "C5": 78,
+        "D4": 78,
+        "D5": 78
+      },
+      "unique_matching_queries": 108,
+      "unique_queries": 767
+    },
+    {
+      "calls": 1024,
+      "desired_stratum": "8-31",
+      "matching_calls": 153,
+      "matching_fraction": 0.1494140625,
+      "observed": {
+        "0": 230,
+        "1": 109,
+        "2-7": 259,
+        "8-31": 153,
+        ">31": 273
+      },
+      "slice_id": "pilot:training|8-31|non_dominant",
+      "target_status": "non_dominant",
+      "types": {
+        "A2": 77,
+        "A3": 80,
+        "A4": 80,
+        "A5": 80,
+        "B2": 75,
+        "B3": 79,
+        "B4": 79,
+        "B5": 79,
+        "C3": 79,
+        "C4": 79,
+        "C5": 79,
+        "D4": 79,
+        "D5": 79
+      },
+      "unique_matching_queries": 138,
+      "unique_queries": 938
+    },
+    {
+      "calls": 8,
+      "desired_stratum": null,
+      "matching_calls": 0,
+      "matching_fraction": 0.0,
+      "observed": {
+        "1": 8
+      },
+      "slice_id": "setup:warmup",
+      "target_status": "dominant",
+      "types": {
+        "A1": 8
+      },
+      "unique_matching_queries": 0,
+      "unique_queries": 1
+    },
+    {
+      "calls": 56324,
+      "corpus_records": 56250,
+      "desired_stratum": "0",
+      "matching_calls": 56324,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 56324
+      },
+      "repeated_generation_calls": 169,
+      "repeated_mismatch_calls": 0,
+      "slice_id": "training",
+      "target_status": "dominant",
+      "types": {
+        "A1": 246,
+        "A2": 2,
+        "A3": 1750,
+        "A4": 7749,
+        "A5": 6277,
+        "B2": 4079,
+        "B3": 3592,
+        "B4": 4866,
+        "B5": 1771,
+        "C3": 89,
+        "C4": 8501,
+        "C5": 6516,
+        "D4": 6795,
+        "D5": 4091
+      },
+      "unique_matching_queries": 56324,
+      "unique_queries": 56324
+    },
+    {
+      "calls": 18781,
+      "corpus_records": 18750,
+      "desired_stratum": "0",
+      "matching_calls": 18781,
+      "matching_fraction": 1.0,
+      "observed": {
+        "0": 18781
+      },
+      "repeated_generation_calls": 4,
+      "repeated_mismatch_calls": 0,
+      "slice_id": "training",
+      "target_status": "non_dominant",
+      "types": {
+        "A1": 266,
+        "A2": 1559,
+        "A3": 2,
+        "A4": 1687,
+        "A5": 1749,
+        "B2": 1384,
+        "B3": 1660,
+        "B4": 1715,
+        "B5": 1766,
+        "C3": 1735,
+        "C4": 20,
+        "C5": 1739,
+        "D4": 1749,
+        "D5": 1750
+      },
+      "unique_matching_queries": 18781,
+      "unique_queries": 18781
+    },
+    {
+      "calls": 301409,
+      "corpus_records": 517,
+      "desired_stratum": "1",
+      "matching_calls": 517,
+      "matching_fraction": 0.0017152772478592213,
+      "observed": {
+        "0": 202282,
+        "1": 517,
+        "2-7": 2157,
+        "8-31": 6154,
+        ">31": 90299
+      },
+      "repeated_generation_calls": 279887,
+      "repeated_mismatch_calls": 279729,
+      "slice_id": "training",
+      "target_status": "dominant",
+      "types": {
+        "A1": 3,
+        "A2": 317,
+        "A3": 18033,
+        "A4": 22671,
+        "A5": 41903,
+        "B2": 304,
+        "B3": 29613,
+        "B4": 2557,
+        "B5": 60890,
+        "C3": 30217,
+        "C4": 47196,
+        "C5": 5423,
+        "D4": 37374,
+        "D5": 4908
+      },
+      "unique_matching_queries": 517,
+      "unique_queries": 34974
+    },
+    {
+      "calls": 330434,
+      "corpus_records": 448,
+      "desired_stratum": "1",
+      "matching_calls": 448,
+      "matching_fraction": 0.0013557926847721483,
+      "observed": {
+        "0": 216520,
+        "1": 448,
+        "2-7": 2646,
+        "8-31": 6623,
+        ">31": 104197
+      },
+      "repeated_generation_calls": 233775,
+      "repeated_mismatch_calls": 233739,
+      "slice_id": "training",
+      "target_status": "non_dominant",
+      "types": {
+        "A1": 3,
+        "A2": 6143,
+        "A3": 1047,
+        "A4": 26585,
+        "A5": 37495,
+        "B2": 2182,
+        "B3": 2545,
+        "B4": 51780,
+        "B5": 2916,
+        "C3": 31383,
+        "C4": 50124,
+        "C5": 57675,
+        "D4": 3535,
+        "D5": 57021
+      },
+      "unique_matching_queries": 448,
+      "unique_queries": 131511
+    },
+    {
+      "calls": 419570,
+      "corpus_records": 1077,
+      "desired_stratum": "2-7",
+      "matching_calls": 1077,
+      "matching_fraction": 0.002566913745024668,
+      "observed": {
+        "0": 253862,
+        "1": 290,
+        "2-7": 1077,
+        "8-31": 6730,
+        ">31": 157611
+      },
+      "repeated_generation_calls": 375665,
+      "repeated_mismatch_calls": 375147,
+      "slice_id": "training",
+      "target_status": "dominant",
+      "types": {
+        "A1": 1,
+        "A2": 424,
+        "A3": 25531,
+        "A4": 2155,
+        "A5": 52555,
+        "B2": 2813,
+        "B3": 44153,
+        "B4": 5765,
+        "B5": 81745,
+        "C3": 2169,
+        "C4": 67398,
+        "C5": 77822,
+        "D4": 50288,
+        "D5": 6751
+      },
+      "unique_matching_queries": 1077,
+      "unique_queries": 57429
+    },
+    {
+      "calls": 418812,
+      "corpus_records": 1042,
+      "desired_stratum": "2-7",
+      "matching_calls": 1042,
+      "matching_fraction": 0.0024879898379225047,
+      "observed": {
+        "0": 244682,
+        "1": 285,
+        "2-7": 1042,
+        "8-31": 7555,
+        ">31": 165248
+      },
+      "repeated_generation_calls": 305410,
+      "repeated_mismatch_calls": 305303,
+      "slice_id": "training",
+      "target_status": "non_dominant",
+      "types": {
+        "A2": 3986,
+        "A3": 2097,
+        "A4": 32718,
+        "A5": 3316,
+        "B2": 2934,
+        "B3": 41753,
+        "B4": 70837,
+        "B5": 6512,
+        "C3": 46732,
+        "C4": 3184,
+        "C5": 81348,
+        "D4": 52100,
+        "D5": 71295
+      },
+      "unique_matching_queries": 1042,
+      "unique_queries": 145492
+    },
+    {
+      "calls": 457945,
+      "corpus_records": 709,
+      "desired_stratum": "8-31",
+      "matching_calls": 709,
+      "matching_fraction": 0.001548220856216358,
+      "observed": {
+        "0": 205612,
+        "1": 277,
+        "2-7": 1449,
+        "8-31": 709,
+        ">31": 249898
+      },
+      "repeated_generation_calls": 443925,
+      "repeated_mismatch_calls": 443543,
+      "slice_id": "training",
+      "target_status": "dominant",
+      "types": {
+        "A2": 34,
+        "A3": 16171,
+        "A4": 2713,
+        "A5": 55805,
+        "B2": 195,
+        "B3": 34923,
+        "B4": 64001,
+        "B5": 79309,
+        "C3": 3595,
+        "C4": 66999,
+        "C5": 3654,
+        "D4": 55131,
+        "D5": 75415
+      },
+      "unique_matching_queries": 709,
+      "unique_queries": 21191
+    },
+    {
+      "calls": 400488,
+      "corpus_records": 659,
+      "desired_stratum": "8-31",
+      "matching_calls": 659,
+      "matching_fraction": 0.0016454924991510357,
+      "observed": {
+        "0": 191714,
+        "1": 261,
+        "2-7": 1177,
+        "8-31": 659,
+        ">31": 206677
+      },
+      "repeated_generation_calls": 323360,
+      "repeated_mismatch_calls": 323271,
+      "slice_id": "training",
+      "target_status": "non_dominant",
+      "types": {
+        "A2": 19,
+        "A3": 16698,
+        "A4": 30555,
+        "A5": 4619,
+        "B2": 397,
+        "B3": 2293,
+        "B4": 65127,
+        "B5": 74632,
+        "C3": 40692,
+        "C4": 5497,
+        "C5": 81642,
+        "D4": 2482,
+        "D5": 75835
+      },
+      "unique_matching_queries": 659,
+      "unique_queries": 99690
+    }
+  ],
+  "new_oracle_calls": 0,
+  "phase_calls": {
+    "setup": 8,
+    "workload": 2430387
+  },
+  "repeated_generation_calls": 1962195,
+  "repeated_generation_mismatch_calls": 1960732,
+  "schema": "ilxyr.weight_yield_audit.v1",
+  "scope": "Read-only diagnosis of the opened partial training run. Query candidates rejected before dispatch and orbit occupancy are absent from this trace.",
+  "status": "saved_trace_verified",
+  "trace_calls": 2430395,
+  "trace_sha256": "39c24773e4b8cdf73402573afe729ea3c9b2bafaf47831168e9b9e420ff79169",
+  "unique_generation_queries": 441568,
+  "unique_queries_all_phases": 460506
+}

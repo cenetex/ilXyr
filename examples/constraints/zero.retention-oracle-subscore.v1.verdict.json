@@ -1,0 +1,28 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:zero.retention-oracle-subscore.v1",
+  "experiment_id": "zero.retention-oracle-subscore.v1",
+  "family": "zero",
+  "project": "zero4",
+  "taxonomy": "measurement",
+  "outcome": "diagnostic_failure",
+  "evidence_kind": "posthoc_diagnostic",
+  "source_outcome": "known toy smoke completed five arms with zero correct final artifacts and five correct oracle arithmetic cases per arm",
+  "evidence_path": "experiments/research-step-11/RESULT.json",
+  "evidence_ref": "artifact://sha256/71782a62ff754aa2856aef2fa94629d48cd78a372f03c8a42b23455c69b57547",
+  "mechanism": "The evaluator executes the supplied bound target request for its oracle arithmetic count before model generation. All five toy arms score 5/5 on that component and 0/5 on complete final artifacts.",
+  "mechanism_tags": [
+    "retention-controls",
+    "component-score",
+    "exact-artifact",
+    "replay-tangent"
+  ],
+  "summary": "A perfect oracle arithmetic subscore coexists with zero correct final artifacts in every arm of the five-case toy smoke.",
+  "lineage_note": "Keep this as an engineering diagnostic on known toy inputs. Preserve Q2.6 results and require complete final-artifact counts, retention scores, and full work in the fresh five-arm comparison.",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788625880422
+}

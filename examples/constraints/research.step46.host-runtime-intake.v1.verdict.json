@@ -1,0 +1,26 @@
+{
+  "evidence_kind": "operational_failure",
+  "evidence_path": "experiments/research-step-46/FAILURES.json",
+  "evidence_ref": "artifact://sha256/84f67e09ea6fae3decf09c0d8dba8e9695d0c60d16a266448a458c3c5d9cb1bc",
+  "experiment_id": "research.step46.host-runtime-intake.v1",
+  "family": "zero",
+  "id": "verdict:research.step46.host-runtime-intake.v1",
+  "lineage_note": "Verify the complete tool roster inside the fixed image and bind compiler, Python and Node identities before packaging.",
+  "mechanism": "host runtime intake",
+  "mechanism_tags": [
+    "fixed-runtime",
+    "package-integrity"
+  ],
+  "outcome": "execution_failure",
+  "project": "reasoner",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The GCC build stopped on a maybe-uninitialized warning in the frozen gradient function. The next Swift image lacked Python and stopped before study jobs.",
+  "taxonomy": "implementation"
+}

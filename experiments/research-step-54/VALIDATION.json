@@ -1,0 +1,37 @@
+{
+  "full_source_ci": {
+    "head": "ad9b5cc58f110189d9602fae2801e9f3d6dcad91",
+    "receipt_sha256": "ebdc1f258f25ba97297b40409841322d8565421008a43cb501ad9813ebe4bf57",
+    "run": 34725909077,
+    "status": "passed"
+  },
+  "ledger_check_sha256": "5b945805f22d192985edbac81af9acf8a65c5200d59e94ec6967ba2adb8c33fa",
+  "local_schema_suite": {
+    "receipt_sha256": "21f2e6d1101b068a6f0f17a6efd55423e45fc7061e78004d456355e4986e78ed",
+    "status": "passed",
+    "wall_seconds": 165.931138459
+  },
+  "prior_ledger_entries_preserved": 70,
+  "read_only_audit": {
+    "oracle_calls": 0,
+    "receipt_sha256": "734bbb4bb48c2ede55cbc189b46fb1880f9d340409c08059d576ca064882cc35",
+    "status": "passed"
+  },
+  "record_check_sha256": "0ea4cdce2b9ca820f613a0b6937eaf854aeb56b1d819bc43265ba58d1ad0b3f3",
+  "records": {
+    "FAILURES.json": "46a4611db9c7c53eb5baac17529224cdab885ac0c1261d1248ec4a5c0dd809d0",
+    "NEXT.json": "80dc739ea7f4a31cf597675bfdb59162881f8909063343ca02a1f1ecbee632c3",
+    "PILOT.json": "e91eb62a93ffc21b757ef1b509649856be49bd7a767d3630d106f9ac67acfc42",
+    "RESULT.json": "7918937c639897101c1a4e6f8a0d465cbd949d7a475bb5851e78bd117fb2c5d4",
+    "SOURCES.json": "09967024ffc956b32e1643571b7daf90ab65078d8eea8a6f4c62f0f1f2e42f1f"
+  },
+  "schema": "ilxyr.weight_yield_validation.v1",
+  "source_commit": "ad9b5cc58f110189d9602fae2801e9f3d6dcad91",
+  "status": "local_and_source_ci_checks_passed",
+  "total_ledger_entries": 71,
+  "unit_tests": {
+    "receipt_sha256": "6f08d807d19a35db9e85f09eefc5d268ac8423d76f1526422c26a439618c9fa2",
+    "status": "passed",
+    "tests": 13
+  }
+}

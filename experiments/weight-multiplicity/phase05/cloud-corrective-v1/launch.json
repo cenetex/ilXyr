@@ -1,0 +1,18 @@
+{
+  "schema": "ilxyr.weight_multiplicity_corrective_cloud_launch.v1",
+  "run_id": "33353839104",
+  "instance_id": "i-07ed6044d7463a155",
+  "ami": "ami-0d7f022123f8ff19d",
+  "instance_type": "c6i.4xlarge",
+  "region": "us-east-1",
+  "source_commit": "cb09bcd5121cdc799749173963bda4cc54a32e9b",
+  "ilxyr_commit": "ad39f923c5b1c489afec24b461ef922cdd2db561",
+  "package_key": "jobs/33353839104/weight-multiplicity-phase05-corrective-package.tar.gz",
+  "package_sha256": "55876ed37f596976457620f63e96e5aa2b992c60a4328b2d60ffe405d6c5bc04",
+  "contract_sha256": "0d783bb4579138320480cc8d61a776ac955fc56f31be4c081d286cf8069b6dd9",
+  "approval_id": "weight-multiplicity-phase05-corrective-cloud-2026-08-30-v1",
+  "launch_epoch": 1788146813,
+  "maximum_instance_seconds": 2647,
+  "workload_timeout_seconds": 2100,
+  "maximum_ec2_usd": 0.5
+}

@@ -65,3 +65,9 @@ Before another training run, ilXyr needs a signed compute budget and a frozen ex
 the known conditional-output failure. Provenance repair can proceed independently: publish the
 exact source commit and declare a weight licence. A future candidate still has to pass every gate
 together; this intake does not grandfather its two passing gates.
+
+The prepared
+[`NSRL p10m hidden-state sufficiency audit`](../../examples/diagnostics/nsrl-p10m-representation-audit.json)
+tests the six frozen layers across held-out public documents and distractor
+swaps. It keeps the independent panel closed. Its decision table separates a
+new objective branch from representation repair or a line stop.

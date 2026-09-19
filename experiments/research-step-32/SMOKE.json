@@ -1,0 +1,81 @@
+{
+  "compiler_identity": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6",
+  "fresh_model_calls": 0,
+  "performance_evidence": false,
+  "prepared_bindings_sha256": "e0017b9f6953e116bdcff989c0e15af43a190f08692ba53f8148a12351ddb7b9",
+  "promotion_evidence": false,
+  "reference_forward_calls": 32,
+  "schema": "ilxyr.solomon_isolated_confidence_smoke.v1",
+  "scope": "sixteen_opened_windows",
+  "scores": {
+    "native": {
+      "mistakes": 4,
+      "normalized_brier_mean": "1420335975978148766363188142973448605069246555099550495025021098739217652436015141422087318517574363782467663067327107/2022529072966686760923120238703827496436699864270007965445030720176869235839317452946132765458333406147099805430230400",
+      "zeros": 2
+    },
+    "point_mass": {
+      "mistakes": 4,
+      "normalized_brier_mean": "1/2",
+      "zeros": 4
+    },
+    "smoothed_point_mass": {
+      "mistakes": 4,
+      "normalized_brier_mean": "493727109/1073676289",
+      "zeros": 0
+    },
+    "suffix_empirical": {
+      "mistakes": 4,
+      "normalized_brier_mean": "2681/6144",
+      "zeros": 4
+    },
+    "suffix_unit_prior": {
+      "mistakes": 4,
+      "normalized_brier_mean": "1898464909/3835330560",
+      "zeros": 0
+    }
+  },
+  "work": {
+    "native": {
+      "arm": "native",
+      "artifact_bytes": 443564,
+      "context_bytes": 1024,
+      "native_forward_calls": 16,
+      "receipt_sha256": "7c3c6f1d197a8931b7b67b1ccf0fd7d1bec87683d2b3b6e05dec130c89714508",
+      "windows": 16
+    },
+    "point_mass": {
+      "arm": "point_mass",
+      "artifact_bytes": 9388,
+      "context_bytes": 1024,
+      "native_forward_calls": 0,
+      "receipt_sha256": "d81f8eed7f3b8a9b3e92d9d4dc53edd408e51227058a10cdfac1002b5b2e42b7",
+      "windows": 16
+    },
+    "smoothed_point_mass": {
+      "arm": "smoothed_point_mass",
+      "artifact_bytes": 9388,
+      "context_bytes": 1024,
+      "native_forward_calls": 0,
+      "receipt_sha256": "6000ac51dad68b10d3591210fb0c871077352006b74eb1a12659c064d938b235",
+      "windows": 16
+    },
+    "suffix_empirical": {
+      "arm": "suffix_empirical",
+      "artifact_bytes": 9388,
+      "context_bytes": 1024,
+      "native_forward_calls": 0,
+      "receipt_sha256": "640219192d6b11cf90fdc7e054a301e6494fe85bd64c8331cea95a2121de01ab",
+      "windows": 16
+    },
+    "suffix_unit_prior": {
+      "arm": "suffix_unit_prior",
+      "artifact_bytes": 9388,
+      "context_bytes": 1024,
+      "native_forward_calls": 0,
+      "receipt_sha256": "499a473cc3b802f046324ce4db8451899ba39363f96d98b9c53a0871c3683c24",
+      "windows": 16
+    }
+  },
+  "worker_sha256": "2af1ccf4c4d45a3c34ee4250fea13b5441539fe4aaba9d3358136b58bbab0b0d",
+  "worker_source_sha256": "b6b4c09f6132c30f357b32b68fa8908f74df87bf20b265d4080c70b29988a1bd"
+}

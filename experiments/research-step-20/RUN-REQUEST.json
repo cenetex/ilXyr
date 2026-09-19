@@ -1,0 +1,23 @@
+{
+  "approval_reference": "pending-user",
+  "completion": "Retain complete or partial results, verify provider termination, then import artifacts and cost receipts.",
+  "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+  "experiment": "FERAL base model versus calculator and operand-only controls on 1147 revised FinQA inputs",
+  "host_package_s3_version": "LnSWe132MAfKJg_oTtMzaGXkwHgUMCHg",
+  "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+  "launch_preparation": "Render a fresh run identity and launch time after approval; verify the same package version and network binding before dispatch.",
+  "max_infrastructure_usd": "3.00",
+  "max_instance_seconds": 3600,
+  "network_binding_sha256": "d4eccccfaa4f1263925bfa5195e6951aec950ece47ca0b76258ffe60157b2544",
+  "provider": {
+    "account": "022118847419",
+    "ami_id": "ami-0d3378afe7683c867",
+    "count": 1,
+    "encrypted_root_gib": 150,
+    "instance_type": "g6e.2xlarge",
+    "region": "us-east-1"
+  },
+  "schema": "ilxyr.feral_bounded_run_request.v1",
+  "status": "awaiting_user_approval",
+  "tax_scope": "before_tax"
+}

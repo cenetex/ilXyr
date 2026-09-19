@@ -1,0 +1,27 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:zero.reasoner58-development-current.v1",
+  "experiment_id": "zero.reasoner58-development-current.v1",
+  "family": "zero",
+  "project": "reasoner",
+  "taxonomy": "measurement",
+  "outcome": "measurement_floor",
+  "evidence_kind": "existing_public_result",
+  "source_outcome": "measurement-floor",
+  "evidence_path": "experiments/research-step-4/RESULT.json",
+  "mechanism": "Behavior-guided compositional transfer in the current 5.8 development harness.",
+  "mechanism_tags": [
+    "semantic-transfer",
+    "learned-search",
+    "measurement-floor"
+  ],
+  "summary": "The current machine record has sixteen families, a full/source-free point ratio of 1.1040, and a measurement-floor decision.",
+  "lineage_note": "Establish adequate source-free search work in development before a new sealed comparison.",
+  "evidence_ref": "artifact://sha256/37eec05228f6ff213cfb63a4dc5e8c0cdb716d0d0c1fb144d36f7df22df0ebae",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788600443635
+}

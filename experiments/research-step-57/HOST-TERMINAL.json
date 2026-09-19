@@ -1,0 +1,28 @@
+{
+  "actual_billed_usd": null,
+  "bootstrap_receipt": {
+    "bytes": 1521,
+    "key": "runs/zero4-52-20260913T013725Z/bootstrap.log",
+    "sha256": "947f368e3fdb08a6ac3a72685a1a8478bff2589a5e0135d6d9b25f838255323d",
+    "version_id": ".mvlcU2IjpkUIqiwNM.lT8ydDtEdA2XQ"
+  },
+  "collection_complete": true,
+  "collection_receipt": {
+    "bytes": 422,
+    "key": "runs/zero4-52-20260913T013725Z/collection.json",
+    "sha256": "bd98fd8b7c44f7051ff376fb3a851e3d1c6d53b0c6c55d0a3ea521059dcfbe18",
+    "version_id": "Tw.siuNWR3UIxaL6DGI9KTjUS3zwT.HW"
+  },
+  "elapsed_instance_seconds": 94.92471551895142,
+  "exit_code": 1,
+  "instance_id": "i-0b1ac37bc23724f38",
+  "instance_termination_verified": false,
+  "launch_epoch_seconds": 1789263574,
+  "package_sha256": "b9cd62c7577536bc284e53cc066d789eb0e65890ccff7668529bb6a33262aa02",
+  "phase": "controller",
+  "plan_sha256": "9a8e016502e693e37c6333a852854d1896a37807cf4ea7477b7374b784c4393b",
+  "run_id": "zero4-52-20260913T013725Z",
+  "schema": "ilxyr.zero4_host_terminal.v1",
+  "status": "failed",
+  "user_data_sha256": "0968c1977830826bbd5002b0b47fff396861b7bd92b184e6a56d019ebd334ecd"
+}

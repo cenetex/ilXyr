@@ -2,7 +2,7 @@
 
 - Status: completed, **`feature_no_go`** for all three hypotheses
 - Zero repository: `atimics/zero-grounded-literary-lm`
-- Source commit: `8f048aab1f922e65abfbebef86f200e84ab528cd`
+- Execution source commit: `8f048aab1f922e65abfbebef86f200e84ab528cd`
 - Zero PR: https://github.com/atimics/zero-grounded-literary-lm/pull/240
 - Zero preregistration: `benchmarks/zero4-q36-factor-probe-v1/PREREGISTRATION.md`
 - Scope: feature-level diagnostic. No package, canonical, runtime, language, or
@@ -13,10 +13,11 @@ registered experiment; it carries no ilxyr ledger authority.
 
 ## What ran
 
-A 3 × 3 factorial over the Q3.5 frozen representation, one feature extraction,
-seed 2, 100 updates: features {linear, dense, sparse} × scale {unscaled,
-fan-in} × clip {global, per-parameter}. Linear anchor reproduced Q3.4 exactly
-(0.416).
+Eight expanded arms form a 2 × 2 × 2 factorial: features {dense, sparse} ×
+scale {unscaled, fan-in} × clip {global, per-parameter}. A ninth arm is the
+linear reference. All use the Q3.5 frozen representation, one feature
+extraction, seed 2, and 100 updates. The linear reference reproduced Q3.4
+exactly (0.416).
 
 ## Result
 
@@ -48,29 +49,37 @@ A post-hoc nearest-centroid diagnostic (means from 1,000 records, test on the
 | dense fan-in | 0.328 |
 | sparse fan-in | 0.416 |
 
-The sparse winner-take-all code is the **most linearly separable**
-representation tried, and a trivial nearest-centroid readout on it matches the
-gradient-trained raw linear head (0.416). The representation carries class
-signal; the gradient-trained head is what fails.
+The sparse winner-take-all code has the highest observed nearest-centroid
+accuracy in this diagnostic: 42.0%, compared with 30.0% for raw features. It
+also approaches the gradient-trained raw head's 41.6%. This comparison measures
+one readout, sample, and split. Establishing the best achievable linear score
+would require additional fitting and independent evaluation.
 
-## What this closes
+## Supported conclusion
 
-The fixed-random-feature family, at this exposure. Neither projection scale nor
-gradient clipping changes the outcome, the sparse code is linearly at least as
-good as the raw features, and a perfect simple readout on it is ~0.42 — far
-below the 0.80 semantic gate. The gap is in the frozen representation and/or
-the training exposure, not the readout architecture.
+The eight registered expanded arms missed the 80% semantic gate at this
+exposure. Scale and clipping changes left their accuracy at 20%. The 42%
+centroid result is an observed score; the achievable accuracy of other
+readouts remains an open empirical question.
 
 ## Recorded next boundary
 
-The 0.80 semantic gate needs a representation or supervision change, not a
-larger random readout. A further fly-aligned probe would be a closed-form
-readout (nearest centroid or ridge) on the sparse code to remove the Adam
-pathology, but this diagnostic already estimates its ceiling at ~0.42, so it is
-lower priority than a representation or exposure experiment.
+A bounded comparison of centroid, regularized linear, and ridge readouts can
+help separate fitting quality from representation quality. Choose settings on
+a development split and freeze them before testing fresh examples. A later
+representation or exposure experiment should use that fitted reference and
+the same cost accounting.
 
 ## Governance note
 
 Import as an upstream evidence record. `diagnostics.json` and
 `separability.json` are post-hoc, exploratory, and did not change the recorded
 decision.
+
+## Source verification
+
+The [result](https://github.com/atimics/zero-grounded-literary-lm/blob/b00574b21ddeac22e378aebc04157330110f959c/benchmarks/zero4-q36-factor-probe-v1/seed2/result.json)
+and [centroid diagnostic](https://github.com/atimics/zero-grounded-literary-lm/blob/b00574b21ddeac22e378aebc04157330110f959c/benchmarks/zero4-q36-factor-probe-v1/seed2/separability.json)
+were checked on 2026-09-19 at evidence commit `b00574b21ddeac22e378aebc04157330110f959c`.
+Upstream PR #240 was open. Its historical interpretation calls 42% a ceiling;
+this summary limits the conclusion to the measured readout and sample.

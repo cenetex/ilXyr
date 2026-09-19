@@ -1,0 +1,28 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:solomon.suffix-answer-ownership.v1",
+  "experiment_id": "solomon.suffix-answer-ownership.v1",
+  "family": "solomon",
+  "project": "solomon",
+  "taxonomy": "measurement",
+  "outcome": "diagnostic_failure",
+  "evidence_kind": "posthoc_diagnostic",
+  "source_outcome": "source mechanism audit with thirty native engineering windows",
+  "evidence_path": "experiments/research-step-16/RESULT.json",
+  "evidence_ref": "artifact://sha256/ea45b202d3b063d7bb6984ba2e3aa5d8b1b9b590d35021a72755caa73a6fa9ec",
+  "mechanism": "Under mini-calibrated and NOPE, the valid stored suffix memory picks a byte and the reranker sets its logit above the i16 output-head maximum. The transformer supplies confidence while suffix memory selects every valid answer.",
+  "mechanism_tags": [
+    "integer-transformer",
+    "suffix-memory",
+    "answer-selection",
+    "confidence-control"
+  ],
+  "summary": "The frozen combined candidate selects suffix memory answers by construction; all thirty native windows agree with an independent memory reader.",
+  "lineage_note": "Keep existing promotion records and scores. Test fresh-data confidence against strong count controls. Use an architecture that can change the answer for the next learned-accuracy claim.",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788635589858
+}

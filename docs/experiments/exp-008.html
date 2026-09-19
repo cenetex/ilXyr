@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="EXP-008: the prospectively frozen shortcut-resistant Zero to Solomon Q22 transfer test resolved no-go.">
+  <title>EXP-008 — Shortcut-resistant Q22 routing</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header>
+    <nav class="shell" aria-label="Primary navigation">
+      <a class="brand" href="../index.html">ilXyr / lab notebook</a>
+      <div class="nav-links">
+        <a href="exp-006.html">EXP-006</a>
+        <a href="exp-007.html">EXP-007</a>
+        <a href="https://github.com/cenetex/ilXyr/blob/main/docs/experiments/EXP-008.md">Source guide</a>
+        <a href="https://github.com/cenetex/ilXyr">Repository</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="shell">
+    <div class="hero">
+      <div class="eyebrow">EXP-008 · completed 2026-08-31</div>
+      <h1>The shortcut was real.<br>The harder bridge did not pass.</h1>
+      <p class="lede">The unchanged sparse integer class head fit every training seed exactly, then failed to transfer across held-out sentence templates with balanced distractors.</p>
+      <p><span class="tag no-go">Shared-task no-go</span></p>
+    </div>
+
+    <div class="status-row" aria-label="Experiment outcome">
+      <div class="status"><span class="label">Minimum exact rate</span><strong>425,000 ppm</strong></div>
+      <div class="status"><span class="label">Worst seed-class</span><strong>0 ppm</strong></div>
+      <div class="status"><span class="label">Seed agreement</span><strong>531 / 1,000</strong></div>
+    </div>
+
+    <section>
+      <div class="panel">
+        <div class="eyebrow">Decision</div>
+        <h2>Close the fixed sparse class-head path at this transfer boundary.</h2>
+        <p>Every input used the same prefix. Classes and wrong-operation distractors were balanced, literal labels were absent, and all 20 promotion template families were held out from the 30 training families.</p>
+        <p>The data hashes, source commits, model form, four epochs, three seeds, three gates, forecasts, and model-first firewall merged before promotion opened.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="eyebrow">Measured result</div>
+      <h2>Some signal, no stable transfer.</h2>
+      <div class="table-wrap">
+        <table class="metrics">
+          <thead><tr><th>Seed</th><th>Exact selections</th><th>Exact rate</th><th>Overall gate</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>425 / 1,000</td><td>425,000 ppm</td><td class="fail">miss</td></tr>
+            <tr><td>2</td><td>430 / 1,000</td><td>430,000 ppm</td><td class="fail">miss</td></tr>
+            <tr><td>3</td><td>533 / 1,000</td><td>533,000 ppm</td><td class="fail">miss</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The minimum result remained 225,000 ppm above the exactly balanced prefix-only baseline. That is evidence of partial learning, but it is far below the 900,000 ppm overall gate. The per-class and agreement gates also failed.</p>
+    </section>
+
+    <section>
+      <div class="grid">
+        <article class="card"><h3>Frozen first</h3><p>The ilXyr registration merged before promotion bytes opened. All models were hashed before blinding and prediction.</p></article>
+        <article class="card"><h3>Discriminating task</h3><p>The successor changed the information surface, not the threshold: common prefix, balanced decoys, and held-out templates.</p></article>
+        <article class="card"><h3>Public negative evidence</h3><p>Models, traces, blinded inputs, predictions, exact checks, and a complete manifest are published in NSRL.</p></article>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <div class="eyebrow">Next boundary</div>
+        <h2>Change abstraction; do not tune the opened test.</h2>
+        <ul class="boundary">
+          <li>The no-go covers this fixed hashed feature map, perceptron objective, and four-epoch rule.</li>
+          <li>It does not reject all sparse or integer models, arithmetic generation, or the wider Solomon lineage.</li>
+          <li>A successor needs fresh evaluation templates and a representation- or objective-level change.</li>
+          <li>A read-only representation-sufficiency diagnostic should come before more training.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <div class="eyebrow">Public evidence</div>
+        <h2>The complete no-go is hash-bound and independently checkable.</h2>
+        <p>The result SHA-256 is <code>c3b826685fc004fbc9b69a3a8ee539987522c1d3bf61e6e8d7c251147b394900</code>. The scientific run used NSRL commit <code>fa60312f93ec859e42a57f383f5972b8df4cf807</code>; the published evidence is at merge commit <code>df244eb414e68ad97c7bcce228b6129522e9a969</code>.</p>
+        <p><a href="exp-008-evidence.json">Read the machine-readable evidence →</a><br>
+        <a href="https://github.com/atimics/nsrl/tree/df244eb414e68ad97c7bcce228b6129522e9a969/benchmarks/q22-compositional-solomon-prospective-v1">Inspect the frozen NSRL bundle →</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="shell">EXP-008 · shortcut-resistant Q22 · three-seed no-go · sparse class-head path closed</div></footer>
+</body>
+</html>

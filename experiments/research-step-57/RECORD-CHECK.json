@@ -1,0 +1,22 @@
+{
+  "entries": 76,
+  "ledger_sha256": "f0001223806f031daf481e3770bbaa6d94e9c3c6df04fcdaa9d619ce75705b1f",
+  "prior_entries_preserved": 75,
+  "records": {
+    "CLEANUP.json": "76462d9b4cb36416f11af7b8efed0898dcbc1fec769807f45d7baf7c5a277bb5",
+    "COLLECTION.json": "65034660c0040ec4c493262523f2465147ff7ecc618b1fbcfa1deb229bbb1780",
+    "DISK.json": "f7de7fb86a30fce609c95e7dd4a3e32c4eb62392a6aad2967374475813c3a335",
+    "FAILURES.json": "e57b39575cda53b5670bb9b7a931f250e4ba7d05729b15602dbfe6845479e84d",
+    "FINDINGS.json": "07bbbc5429f6d1dacc703a8e33e1b73011013f3a1cf268f22fbce18cd4bb212c",
+    "HOST-TERMINAL.json": "831bc8634ba6461f8e660d621030afa5788fa64f5686f9c2e7667d2835e3cb3c",
+    "LAUNCH.json": "64220b88ebb8e2ac926d1327c447197bcf661473b0dc8e99340c350bbe3d8896",
+    "PACKAGE.json": "98c4d9e70a5369de2c7a3e28ad7d2f8a0c6667ac4db18fc982e0d9c60a4a37a8",
+    "PREFLIGHT.json": "eaeb9cc4194f6faa2f387ddafe9a0a9f2de1f5bad54acd453e70163376875199",
+    "REPORT.md": "e147d310b79ee01242d13cdbc747683f2363c899c98fefa4111d289839c9a7ef",
+    "RUNTIME.json": "b50faa290aa3fbbf115c583d9e75edb600aebfff41529db9f72c908eb99bd249",
+    "STAGING.json": "0c3b8339cf3837b61aa6b18845b2e8a7c27c96f88a7d545c90ae767807171fe6",
+    "STUDY-RESULT.json": "59794d89a5b41010c85079c420a5514bae436550867ea5b2455b52d1ba5e60c4",
+    "VALIDATION.json": "e88faf9d7e1893bb69076f9ec711a58b6c5bbdef309171023342dbbe899e5686"
+  },
+  "status": "verified"
+}

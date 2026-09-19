@@ -1,0 +1,8 @@
+{
+  "bytes": 16568320,
+  "controller_sha256": "13ac113cff5db7a22b66fdd9f1176746fb7d9a79e0a1ef0b1c8af6adde218712",
+  "files": 5,
+  "plan_sha256": "62e5d421dbb2b61a9e4e25816d059a1a569b819061ac1c70a940961864c16ecc",
+  "sha256": "baca1320cc10071513a47bfd3d853ecf67a48f0aaf3c16429f2398cb7feaa29e",
+  "source_commit": "f5d29f66151c5f5b27cfc2c3067f7e0260c30bad"
+}

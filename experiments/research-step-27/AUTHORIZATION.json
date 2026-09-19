@@ -1,0 +1,12 @@
+{
+  "approval": {
+    "approval_reference": "user-approved-step25-20260908",
+    "execution_plan_sha256": "eeb5658143faebd7aeb9db25185c5503a59ab5dc555c378cbdd243c35a2b3e49",
+    "host_package_sha256": "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+    "max_infrastructure_usd": "3.00",
+    "max_instance_seconds": 3600
+  },
+  "approved_request": "One FERAL comparison using published research-step-25 package for at most one hour and $3 before tax, plus five-minute follow-up through cleanup and result publication. The follow-up may stop this exact instance at its fixed deadline.",
+  "recorded_at": "2026-09-08T08:03:18.310250+00:00",
+  "user_statement": "I approve the 3 dollars"
+}

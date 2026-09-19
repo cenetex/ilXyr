@@ -1,0 +1,8 @@
+{
+  "schema": "ilxyr.funding.v1",
+  "id": "solomon.q22-compositional.funding.local-cpu-a.v1",
+  "experiment_id": "solomon.q22-compositional-routing.three-seed.v1",
+  "funder": {"id": "service://ilxyr/solomon-replication-program", "kind": "service"},
+  "compute_credits": 2,
+  "rationale": "Fund two bounded local integer class-head replicas without paid compute."
+}

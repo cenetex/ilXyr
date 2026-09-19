@@ -1,0 +1,80 @@
+{
+  "schema": "ilxyr.corpus_materialization.v1",
+  "id": "materialization://aws/ilxyr/feral-7b/sec-v1/ee1d545f60fa",
+  "corpus_ref": "artifact://sha256/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c",
+  "location": {
+    "kind": "amazon_s3",
+    "region": "us-east-1",
+    "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c"
+  },
+  "objects": [
+    {
+      "path": "README.md",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c/README.md",
+      "sha256": "18495c879828e1475f0fba00a297c3344b6b09278609f0094771fdc37a81ab40",
+      "size_bytes": 1665,
+      "provider_version": "9UN2qves.scEEGcoA2rFbY5jc.427JWk"
+    },
+    {
+      "path": "audit/decisions.jsonl",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c/audit/decisions.jsonl",
+      "sha256": "d0ccf31f1c17c9fe705ae18f67e2e4d4a7dc6b3ac72556a480e21fe4b2c5b8a4",
+      "size_bytes": 1151307969,
+      "provider_version": "ZgePqGUwu.6X5Dd3pC56FPUZQ4hznXux"
+    },
+    {
+      "path": "audit/membership.jsonl",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c/audit/membership.jsonl",
+      "sha256": "9cc70dc38ebdb7fb24a610a93a04b34008bd37661a1af3466de6bb69122930e8",
+      "size_bytes": 37146435,
+      "provider_version": "iAQ7J9PbsxJnIv5c8basffzvD5Y.M9UG"
+    },
+    {
+      "path": "braid.yaml",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c/braid.yaml",
+      "sha256": "18d674eae24be2ca0a2d7a83fc05dc2b878c983149f213c161648ab8083650a9",
+      "size_bytes": 3281,
+      "provider_version": "DNnS7cBQpVDC9KQrSCWT6liICjp3Vk0t"
+    },
+    {
+      "path": "checksums.sha256",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c/checksums.sha256",
+      "sha256": "ddbb0dacc3bc54c577e8b60cc9ad6e01288699fd81ce2b153b37f595e4260331",
+      "size_bytes": 583,
+      "provider_version": "Jg9MZlOGsoa4F7281feXFkezvQEB3m0s"
+    },
+    {
+      "path": "data/train.jsonl",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c/data/train.jsonl",
+      "sha256": "cc52ff92cc1d2803c83e2c4736d9f0470453b1fd6fcecd351ce8ab38c64d2854",
+      "size_bytes": 1825197752,
+      "provider_version": "J8emKyAIj4XXGoa727OT0SNqvhVGq2Da"
+    },
+    {
+      "path": "data/validation.jsonl",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c/data/validation.jsonl",
+      "sha256": "9bb25f7fd51699c9cc4c076d60a360039bcac948bb9a104dac3d90f563d2bfef",
+      "size_bytes": 322668171,
+      "provider_version": "TZCHsfd7oeRI4xsyX4Xi1Cm32VdIIvDG"
+    },
+    {
+      "path": "evaluation.json",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c/evaluation.json",
+      "sha256": "2b0a3ed664a51d2b745c0a858c1e9a83dd4f3876074b9666cdf3ee76cdb3bda7",
+      "size_bytes": 1560,
+      "provider_version": "XUnCGV0U_mBxBIdjoJCn4ojBWv.mlsJa"
+    },
+    {
+      "path": "release.json",
+      "uri": "s3://ilxyr-feral-7b-corpus-022118847419-us-east-1/corpora/ee1d545f60fa6f0cb824a1b37e81ff51a1ed88322079be89adcf148169e6c58c/release.json",
+      "sha256": "ebada7a16eae7c836e3ece19d1154c2956367aac0c182e87898bd6f929b56103",
+      "size_bytes": 5099,
+      "provider_version": ".4kJQd195WURNnuk5DyFR4fAD1DM4X3n"
+    }
+  ],
+  "verified_by": {
+    "id": "service://ilxyr/s3-readback-materializer-v1",
+    "kind": "service"
+  },
+  "verified_at_ms": 1788324069000
+}

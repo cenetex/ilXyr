@@ -1,0 +1,30 @@
+{
+  "approval_reference": "pending-user",
+  "completion": "Retain complete or partial results, verify provider termination, and import artifacts and cost receipts. The host package and scientific plan keep their approved identities.",
+  "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+  "experiment": "FERAL base model versus calculator and operand-only controls on 1147 revised FinQA inputs",
+  "host_package_changed": false,
+  "host_package_s3_version": "LnSWe132MAfKJg_oTtMzaGXkwHgUMCHg",
+  "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+  "launch_preparation": "Render a fresh run identity and launch time after approval; verify the same package version and network binding before dispatch.",
+  "launcher_repair_commit": "8fbc6aa3518a5fea24d5c79b857e9aab74f014ef",
+  "launcher_sha256": "11a76b6e9c2e2bfadac443e034d8f60608b041ea5cdf725f129f92492f54a4a0",
+  "max_infrastructure_usd": "3.00",
+  "max_instance_seconds": 3600,
+  "network_binding_sha256": "d4eccccfaa4f1263925bfa5195e6951aec950ece47ca0b76258ffe60157b2544",
+  "prior_run_cost_upper_estimate_usd": "1.0595316000",
+  "prior_run_id": "feral-finqa-20260905T212657Z",
+  "prior_run_outcome": "operator_terminated_during_image_setup",
+  "provider": {
+    "account": "022118847419",
+    "ami_id": "ami-0d3378afe7683c867",
+    "count": 1,
+    "encrypted_root_gib": 150,
+    "instance_type": "g6e.2xlarge",
+    "region": "us-east-1"
+  },
+  "request_kind": "one_replacement_attempt",
+  "schema": "ilxyr.feral_bounded_retry_request.v1",
+  "status": "awaiting_user_approval",
+  "tax_scope": "before_tax"
+}

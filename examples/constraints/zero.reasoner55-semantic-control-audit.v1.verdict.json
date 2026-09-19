@@ -1,0 +1,27 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:zero.reasoner55-semantic-control-audit.v1",
+  "experiment_id": "zero.reasoner55-semantic-control-audit.v1",
+  "family": "zero",
+  "project": "reasoner",
+  "taxonomy": "measurement",
+  "outcome": "diagnostic_failure",
+  "evidence_kind": "posthoc_diagnostic",
+  "source_outcome": "semantic contribution unresolved",
+  "evidence_path": "experiments/research-step-4/RESULT.json",
+  "mechanism": "Contribution of semantic source mapping to the learned task guide.",
+  "mechanism_tags": [
+    "semantic-transfer",
+    "learned-search",
+    "lexical-control"
+  ],
+  "summary": "On the opened 128-family cohort, the task/lexical verifier-cost ratio is 1.00624 and its CPU ratio is 1.00459. The semantic contribution remains unresolved by these point estimates.",
+  "lineage_note": "Apply equal search optimizations to all arms, keep the model fixed, and compare semantic and lexical guidance on fresh families.",
+  "evidence_ref": "artifact://sha256/37eec05228f6ff213cfb63a4dc5e8c0cdb716d0d0c1fb144d36f7df22df0ebae",
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "recorded_at_ms": 1788600443634
+}

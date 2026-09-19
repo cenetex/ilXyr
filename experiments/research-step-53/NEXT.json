@@ -1,0 +1,37 @@
+{
+  "benefit_rule": "Retain the declared coverage gain in each wording style, reference-relative wrong-answer limits and complete required abstention. A new roster must state its exact count before predictions.",
+  "benefit_rule_source": "experiments/research-step-47/PLAN.json",
+  "candidate_request": [
+    "operation",
+    "ordered entity labels and years",
+    "source fact spans",
+    "source context spans for every label or shared-baseline mapping"
+  ],
+  "controls": [
+    "frozen calculator v1",
+    "frozen calculator v2",
+    "strict request control v3",
+    "matched operand-only control"
+  ],
+  "evidence_rules": [
+    "Derive the request from question and supplied evidence. Keep targets and case IDs outside selection.",
+    "A context mapping must cite the words that justify the mapped label or baseline.",
+    "Preserve abstention, unsupported requests, wrong numeric answers and all costs.",
+    "Use a new source and wording roster. Keep these 22 invented questions, five older cases and the opened index error in development.",
+    "Freeze candidate, references, input and target separation, source identities, analysis and cloud cost before a full run."
+  ],
+  "fresh_scientific_calls": 0,
+  "paid_execution_authorized": false,
+  "problem": "Complete label matching fixes the observed wrong-index answer but loses source-context mappings that v2 answered.",
+  "required_faults": [
+    "requested index missing with a different index present",
+    "different numbers and single-letter entity names",
+    "same short name with distinct financial categories",
+    "conflicting source labels or periods",
+    "altered or removed alias-supporting prose",
+    "unequal or missing investment baselines",
+    "unfamiliar independently authored question wording"
+  ],
+  "schema": "ilxyr.feral_context_mapping_next_step.v1",
+  "status": "design_requires_independent_roster_and_candidate_freeze"
+}

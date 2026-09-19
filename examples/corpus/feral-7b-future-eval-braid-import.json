@@ -1,0 +1,29 @@
+{
+  "schema": "ilxyr.braid_corpus_import.v1",
+  "id": "dataset://braid/feral-7b-sec-future-eval/v1",
+  "title": "FERAL-7B sealed future SEC evaluation v1",
+  "version": "v1",
+  "source": {
+    "repository": "https://github.com/cenetex/braid",
+    "revision": "1d2c78a945e978c44ec2c3972195a9c4c2d2d2fd",
+    "path": "src/release.ts"
+  },
+  "rights": {
+    "license": "SEC-EDGAR-PUBLIC-FILING-REUSE-POLICY",
+    "use_constraints": [
+      "united-states-project-use-only",
+      "private-access-controlled-materialization-only",
+      "evaluation-requires-explicit-authorization",
+      "raw-corpus-redistribution-prohibited",
+      "preserve-accession-url-date-issuer-and-hash-provenance",
+      "no-sec-branding-or-implied-affiliation",
+      "long-verbatim-output-prohibited",
+      "public-model-release-requires-separate-rights-review"
+    ]
+  },
+  "expected_release_id": "feral-7b-sec-future-eval-v1-2eb548107c0b-63a772a749f1f57d8de29aa902047de6ac17bed72b800b95251554fabdc88d9c",
+  "expected_manifest_sha256": "acda2f96a372c30ccf1804719ecf58b6266026a565ddde1178e42a9a6af5d6ab",
+  "required_files": [
+    "data/test.jsonl"
+  ]
+}

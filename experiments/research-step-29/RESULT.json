@@ -1,0 +1,18 @@
+{
+  "artifacts": {
+    "CAPACITY-FAILURES.json": "b089459780a4af6ccf167cccc2071cb72534441daa218c5ef5a5efc1bbfa1917",
+    "EXECUTION-STATUS.json": "8313bebe932e903ae62beed3aa5a5b458929340f6d47605b2ed2c4f1b4df463c",
+    "FOLLOW-UP.json": "fe5ec20930ebb1210de7e276530ae45918298ec6ec8e1bfd842c21317de6e2bf",
+    "PRICE-CHECK-FAILURE.json": "522d4a4f6b9f651731ffbacd87210bd6a684d316546d7c1579bc8d83927d0833"
+  },
+  "capacity_failures": 4,
+  "execution_plan_sha256": "eeb5658143faebd7aeb9db25185c5503a59ab5dc555c378cbdd243c35a2b3e49",
+  "follow_up_status": "ACTIVE",
+  "host_package_sha256": "25c350b4819e499bcf1adabe56d5d05cb8ef7c07daccb13d7a221545cd74d821",
+  "paid_instances_created": 0,
+  "price_document_check_failures": 1,
+  "schema": "ilxyr.feral_step29_capacity_review.v1",
+  "scored_model_rows": 0,
+  "selected_rate_entry_unchanged": true,
+  "status": "approved_awaiting_capacity"
+}

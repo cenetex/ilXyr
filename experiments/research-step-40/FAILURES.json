@@ -1,0 +1,118 @@
+{
+  "checker_counter_probe": {
+    "alteration": "heap_comparisons increased by one for every row; stable repeats retained",
+    "altered_work_count_accepted": true,
+    "changed_rows": 256,
+    "checker_sha256": "20bc3555c0599e68fc4d6cc45669ccf9c40e338350956fb754356b631f8ee6a8",
+    "exit_code": 0,
+    "resolution": "Independently replay heap comparisons, batch counts, selected counts and maximum batch; changed counters now fail.",
+    "schema": "ilxyr.reasoner_counter_probe.v1"
+  },
+  "controlled_cases": {
+    "cases": [
+      {
+        "case": "heap_count",
+        "status": "rejected"
+      },
+      {
+        "case": "batch_count",
+        "status": "rejected"
+      },
+      {
+        "case": "feature_digest",
+        "status": "rejected"
+      },
+      {
+        "case": "proposal_order",
+        "status": "rejected"
+      },
+      {
+        "case": "verifier_count",
+        "status": "rejected"
+      },
+      {
+        "case": "fallback_count",
+        "status": "rejected"
+      },
+      {
+        "case": "accepted_map",
+        "status": "rejected"
+      },
+      {
+        "case": "missing_row",
+        "status": "rejected"
+      },
+      {
+        "case": "duplicate_row",
+        "status": "rejected"
+      },
+      {
+        "case": "changed_order",
+        "status": "rejected"
+      },
+      {
+        "case": "missing_model",
+        "status": "failed"
+      },
+      {
+        "case": "deadline",
+        "status": "failed"
+      },
+      {
+        "case": "compiler_failure",
+        "status": "retained"
+      },
+      {
+        "case": "negative_cpu",
+        "status": "rejected"
+      },
+      {
+        "case": "altered_header",
+        "status": "rejected"
+      },
+      {
+        "case": "extra_collection_file",
+        "status": "rejected"
+      },
+      {
+        "case": "incomplete_supervisor",
+        "status": "rejected"
+      }
+    ],
+    "count": 17,
+    "platforms": "local, Linux CI and Mac CI"
+  },
+  "fresh_episode_visits": 0,
+  "opened_ranking": {
+    "full_guide_checks": 243,
+    "lexical_checks": 176,
+    "prior_feature_removed_checks": 233,
+    "semantic_frequency_checks": 211,
+    "status": "retained_from_step36"
+  },
+  "schema": "ilxyr.reasoner_study_failures.v1",
+  "unit_fixture_error": {
+    "actual": [
+      4,
+      21,
+      22,
+      7,
+      7,
+      31,
+      18,
+      17
+    ],
+    "first_expected": [
+      25,
+      29,
+      13,
+      12,
+      22,
+      29,
+      22,
+      19
+    ],
+    "resolution": "Corrected the test expectation after an independent JavaScript calculation agreed with Python. The fixed plan and generator stayed unchanged.",
+    "test": "xorshift32 seed sequence"
+  }
+}

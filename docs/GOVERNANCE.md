@@ -1,39 +1,38 @@
-# Governance (enforced)
+# Development flow
 
-The workspace `AGENTS.md` describes the contract; this document records how
-it is actually enforced for this repository as of 2026-08-24.
+ilXyr is a solo project. Its development process is optimized for fast,
+traceable iteration:
 
-## Enforced mechanics
+```text
+request -> branch -> pull request -> checks -> merge -> verify
+```
 
-| Contract rule | Enforcement |
-| --- | --- |
-| Every change goes through a PR | Branch protection on `main`: direct pushes rejected, PR required |
-| cenetex bot reviews every PR | `.github/workflows/cenetex-review.yml` posts an approving review on policy-safe PRs |
-| Protected paths escalate to human review | The bot refuses to approve PRs touching `.github/workflows/**`, `CODEOWNERS`, `LICENSE`, `docs/SECURITY.md`, or `AGENTS.md`; it labels them `review:human-required` and comments. A human approval then satisfies the gate. |
-| Required CI checks pass | Required status checks: `rust`, `msrv`, `schemas`, `validate` |
-| Stale approvals don't count | Dismiss-stale-reviews is on: every new push resets the bot's approval, and the workflow re-reviews automatically |
+The request authorizes the work. The pull request is the collaboration and
+tracking surface. The `rust`, `msrv`, and `schemas` checks protect the
+default branch. When they are green and GitHub reports the pull request
+mergeable, a developer or coding agent may merge it.
 
-## Not currently enforced
+No separate approval is required for workflow, security, license, governance,
+or agent-instruction changes. The former `gatekeep` status, automated review,
+`/approve-protected <sha>` command, protected-path labels, and external hold
+notice are retired.
 
-- **Hold period**: GitHub branch protection cannot express time-based gates.
-  Merges are gated on approval + checks only.
-- **Merge triage**: merges are performed by the author once gates pass; there
-  is no separate merger identity.
+GitHub already records the request, diff, discussion, checks, author, merge, and
+resulting commit. Do not duplicate that record in an approval ledger.
 
-## Enforcement scope
+Ask the owner only for a material decision that is ambiguous or difficult to
+reverse. Secret handling, data loss, external publication, and unbounded paid
+compute still need deliberate care; ordinary coding, merging, deployment, and
+rollback do not need extra paperwork.
 
-Protection applies to **all** actors including repository admins
-(`enforce_admins` is on), so the sole maintainer is subject to the same
-gates as agents.
+## Intended GitHub settings
 
-## Emergency override
+- Changes to `main` arrive through pull requests.
+- Required checks are `rust`, `msrv`, and `schemas`.
+- No approving review is required.
+- Branches must be current when GitHub needs that to give a reliable check
+  result.
+- Administrators and installed coding agents may merge green pull requests.
 
-There is no push-level bypass. If the Actions pipeline breaks and blocks
-merges, the recovery path is deliberate friction: disable branch protection
-via Settings or the API, land the fix, re-enable protection. Any such
-disable window should be recorded in an issue.
-
-Enforcement is live as of 2026-08-24. See docs/GOVERNANCE.md.
-
-- 2026-08-24: adversarial test suite passed (5/5).
-- escalation path verified on protected-path PR.
+Historical files under `docs/governance/` describe the retired system. They
+are records, not current instructions.

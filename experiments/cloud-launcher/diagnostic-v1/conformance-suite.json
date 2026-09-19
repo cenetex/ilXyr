@@ -1,0 +1,27 @@
+{
+  "schema": "ilxyr.executor_conformance_suite.v1",
+  "id": "conformance://cenetex/cloud-launcher-diagnostic/v1",
+  "environment_id": "environment://cenetex/cloud-launcher-diagnostic/v1",
+  "tests": [
+    {
+      "name": "one-job-per-instance",
+      "execution_class": "offline",
+      "requirement": "Run one sealed job on one temporary instance."
+    },
+    {
+      "name": "private-job-network",
+      "execution_class": "offline",
+      "requirement": "Run the test program in a private network namespace."
+    },
+    {
+      "name": "host-side-reporting",
+      "execution_class": "offline",
+      "requirement": "Keep the report key and S3 client outside the test program."
+    },
+    {
+      "name": "bounded-shutdown",
+      "execution_class": "offline",
+      "requirement": "Arm the shutdown watchdog before the job starts."
+    }
+  ]
+}

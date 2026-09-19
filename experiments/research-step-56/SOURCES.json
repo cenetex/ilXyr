@@ -1,0 +1,75 @@
+{
+  "files": {
+    ".github/workflows/weight-source-kit.yml": {
+      "bytes": 6071,
+      "sha256": "4c85d5eacd169889fbd572eb7e6dd9877172a8ef51fd21ee60e3c83d53e0f90b"
+    },
+    "experiments/research-step-56/PILOT-PLAN.json": {
+      "bytes": 6265,
+      "sha256": "a6e902e9441817cfdea7566b88e26b9edf6625b94fba70220335d294c3787da8"
+    },
+    "package.json": {
+      "bytes": 8625,
+      "sha256": "7d85b932ca03530714bfe81ee4d7678fca7cc16986a80c186aa776e899cebfd6"
+    },
+    "scripts/lib/weight-candidates-v2.mjs": {
+      "bytes": 11328,
+      "sha256": "6afa056e52c64a4c9ee5f5a8d275a1dd67884e03630487888aecabfad8bdcf54"
+    },
+    "scripts/lib/weight-query-cache.mjs": {
+      "bytes": 4926,
+      "sha256": "31628e30ac7cc01e71cecb0d5788c7ad4381e55390694e89fd19b62ac0305da9"
+    },
+    "scripts/lib/weight-selection-pilot.mjs": {
+      "bytes": 13668,
+      "sha256": "fa76178add2c568cc3a57f7453f671bb8cab0755dbcda6e06e3b3b1c86b8f830"
+    },
+    "scripts/test_weight_native_check.py": {
+      "bytes": 4860,
+      "sha256": "4c2b495900d59b4aab788fdf2b84b9d2047f8cfdfff9730ca70070071a01558e"
+    },
+    "scripts/test_weight_pilot_check.py": {
+      "bytes": 5781,
+      "sha256": "09a74de3f8f040666ba4c45a94b76ab9a2ec843c6027b68a9b30e6a648275878"
+    },
+    "scripts/test_weight_pilot_package.py": {
+      "bytes": 9928,
+      "sha256": "1f0bc9451a1cdde9814564232ada2602f72fe94ba2e9a8a7ff0e2535b605a5e6"
+    },
+    "scripts/weight_native_check.py": {
+      "bytes": 12630,
+      "sha256": "f10ebd8f512761e4df738d33dd28f20c2a6d477322adb46ecf16e64a40f6a61b"
+    },
+    "scripts/weight_pilot_check.py": {
+      "bytes": 19160,
+      "sha256": "c90de0f6080eb4f4e75c4071d6525260c056fafcdb862450d2e34349ac3e883d"
+    },
+    "scripts/weight_pilot_controller.py": {
+      "bytes": 9734,
+      "sha256": "351b30b295f401cc9f4f9276fe0f5383165f4724bcc45048a55db61338ee1044"
+    },
+    "scripts/weight_pilot_fixtures.mjs": {
+      "bytes": 3226,
+      "sha256": "b62f1c0811fb0fb3a5e0bed811f260a4d0f11b18b2e69d3a8487bc923c1b9898"
+    },
+    "scripts/weight_pilot_job.mjs": {
+      "bytes": 8959,
+      "sha256": "30e53c08f65d142ad998e47e62b6ff89daa5a0af07967626b65867e2f36522a2"
+    },
+    "scripts/weight_pilot_package.py": {
+      "bytes": 4774,
+      "sha256": "3a5c837096c7a02e23a3ab4f53d4af8477daddb0aad67b596c16a130385dd32d"
+    },
+    "scripts/weight_pilot_replay.mjs": {
+      "bytes": 2004,
+      "sha256": "f35cb36f26ac34f7732836af0801620ea23ba4a575147a464724f400acb3f05d"
+    },
+    "scripts/weight_process_tree.py": {
+      "bytes": 2085,
+      "sha256": "c862c2ccda65edad129df448325e31b995514aa52f8a06302e40577f60835b40"
+    }
+  },
+  "original_runner_sha256": "af676e6f8043a82e277926f0e5b08e506bb48fef4b8ba376a44d459c452f42cf",
+  "schema": "ilxyr.weight_native_pilot_sources.v1",
+  "source_commit": "57db690ec7c03dd19d6358bb52d173111a4bcd07"
+}

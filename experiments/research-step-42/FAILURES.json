@@ -1,0 +1,81 @@
+{
+  "failures": [
+    {
+      "endpoint_windows_retained": 16,
+      "id": "blake_uniform_quota_exceeds_source",
+      "original_plan_sha256": "82a39e63329b76af9fd4bd6293eb7ad811c2dcc199f161a4b19c61234b588a73",
+      "replay_windows_revised_from": 128,
+      "replay_windows_revised_to": 64,
+      "required_tokens": 73872,
+      "source_tokens": 65811,
+      "status": "repaired_before_selection"
+    },
+    {
+      "after_result_sha256": "802d1fb568e7b1a86905cbaec53d51a8ca6aa429383873e8dd49ac6e2733ae0c",
+      "before_result_sha256": "af04e0b55ae16f615542755e231711d541ec7dc98883dc818cae6404e4398aa9",
+      "endpoint_mean_after": 3.81208634,
+      "endpoint_mean_before": 4.85686731,
+      "endpoint_mean_relative_change": -0.21511416790177862,
+      "finding": "The mean endpoint loss improves while the dialogue endpoint loss rises. The full study needs fixed per-source limits.",
+      "guarded_updates_accepted": 4,
+      "id": "mean_hides_dialogue_loss",
+      "scope": "Small synthetic model and artificial windows; a test of the measurement boundary.",
+      "source_changes": [
+        {
+          "after": 3.36209059,
+          "before": 4.86201191,
+          "relative_change": -0.30849807605674906,
+          "source_index": 0
+        },
+        {
+          "after": 3.30909348,
+          "before": 4.85414886,
+          "relative_change": -0.31829583817089613,
+          "source_index": 1
+        },
+        {
+          "after": 3.56659245,
+          "before": 4.85676956,
+          "relative_change": -0.26564511535111834,
+          "source_index": 2
+        },
+        {
+          "after": 3.56861472,
+          "before": 4.85610676,
+          "relative_change": -0.2651284462288058,
+          "source_index": 3
+        },
+        {
+          "after": 4.00344944,
+          "before": 4.85441351,
+          "relative_change": -0.1752969886572353,
+          "source_index": 4
+        },
+        {
+          "after": 5.06267738,
+          "before": 4.85775232,
+          "relative_change": 0.04218516023476471,
+          "source_index": 5
+        }
+      ],
+      "status": "preserved_opened_counterexample"
+    },
+    {
+      "detail": "The first opened replay invocation used the default foundation teacher weight while its synthetic fixture supplied only the same-architecture teacher. The native startup check rejected it. The fixture now sets the foundation teacher weight to zero.",
+      "failure_result_sha256": "6633b6cd8078dc845fa68d05d1f52ae3b4b6648e54e50edf07819aaf54d2f722",
+      "id": "opened_foundation_teacher_setting",
+      "status": "repaired"
+    },
+    {
+      "detail": "The first strict build stopped at the historical portable kernel unused scratch parameter. The fixed flags retain warnings as errors and exempt unused parameters; the frozen kernel stays bound.",
+      "id": "strict_portable_build_warning",
+      "status": "resolved_in_fixed_flags"
+    },
+    {
+      "detail": "An early input-audit invocation ran before the compiler process completed and found no executable. Its process receipt is retained. The same compiler handle later completed, and the next input audit verified all 658 windows.",
+      "id": "audit_started_before_compiler_finished",
+      "status": "recovered"
+    }
+  ],
+  "schema": "ilxyr.zero4_window_failures.v1"
+}

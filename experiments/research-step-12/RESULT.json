@@ -1,0 +1,60 @@
+{
+  "schema": "ilxyr.weight_multiplicity_resource_policy_smoke.v1",
+  "scope": "controlled_correctness_fixtures",
+  "performance_evidence": false,
+  "full_oracle_run": false,
+  "limits": {
+    "final_p99_ms": 50,
+    "hard_timeout_ms": 30000,
+    "oracle_calls": 2430387,
+    "total_query_ms": 8474852,
+    "elapsed_wall_seconds": 2119
+  },
+  "sources": {
+    "experiments/weight-multiplicity/phase1/phase1-tail-calibration-run-20260901015649-closeout-v1.json": "4ddedd80e464ffa901fa24304b59139a5cc449871a8f7dcb8c525db69e93a398",
+    "examples/weight-multiplicity/phase1-corpus-plan-v1.json": "9311b0f28de0f3f42614fd17fa808d812ae7a0ad354fa723f55222b0b4116e18",
+    "examples/weight-multiplicity/phase06-reduced-corpus-manifest-v1.json": "1d097675fbff83e704cfd0128ea98caa116d6bcb3573fa7ef314b9d1f357a733",
+    "examples/weight-multiplicity/phase1-root-systems-v1.json": "b8b175011909e6734bc6d6a6d55b3d09a67c34a5106a5908a5029206bf4f0271",
+    "examples/weight-multiplicity/rev3-contract.json": "91dca2253e0289db792a9886dad85aa35c7522d345b2f60905f9bb4dfe735b06",
+    "examples/weight-multiplicity/phase06-lie-governance-v1.json": "d32edfbfe42dd0770c7724f255a314684bf2c3c6631429d9f0294d850ceaf36a",
+    "experiments/weight-multiplicity/phase05/phase06-lie-preflight-closeout-v1.json": "c8a289ce7af0795184ac4f320fed8d3718574f94bf1f2d51b7e519810bcf4550",
+    "scripts/run-weight-multiplicity-phase1-corpus.mjs": "af676e6f8043a82e277926f0e5b08e506bb48fef4b8ba376a44d459c452f42cf",
+    "scripts/lib/oracle-attempt-trace.mjs": "9f57403234ee6d5d32aa1134a7048b81f57077589bd973d553b06dd70b3875cb",
+    "scripts/lib/oracle-query-batch.mjs": "fde59cb38028765bbe795c3b2d1d78a02d1d773820ad155489d7f3e790875f13",
+    "scripts/lib/oracle-resource-accounting.mjs": "c7819fa5ffeaad9c73160b29f85fe21536219be239314f030f2ce7fee954276d",
+    "scripts/lib/weight-multiplicity-resource-policy.mjs": "221f4aae5262e185b6bf0c1b5ee196b936d584a74c663104afb0b7383c2f0aaa",
+    "scripts/prepare-weight-multiplicity-resource-policy.mjs": "2528664ce4416ae5ad790ebd4f3516a839b0268ec8c25ea34be14c8ab00da549",
+    "scripts/test-weight-multiplicity-resource-policy.mjs": "8747271747116515222ba7ff8ede38847d2027cbb0239669ef8e1cf5bcb2998e"
+  },
+  "retained_failures": [
+    {
+      "fixture": "final_p99_above_limit",
+      "reason": "final_p99_limit",
+      "calls": 100,
+      "pending_manifest_created": false
+    },
+    {
+      "fixture": "query_cost_hold_with_in_flight_work",
+      "reason": "total_query_time_limit",
+      "calls": 2,
+      "total_query_ms": 5,
+      "test_limit_query_ms": 1,
+      "first_completed_query_ms": 2,
+      "in_flight_query_ms": 3
+    }
+  ],
+  "checks": [
+    "read_only_policy_preflight",
+    "changed_limits_and_sources_rejected",
+    "full_workload_required",
+    "setup_and_workload_accounting",
+    "out_of_range_costs",
+    "final_p99_before_pending_manifest",
+    "call_reservations",
+    "in_flight_costs_and_first_hold",
+    "wall_gate_before_dispatch",
+    "hard_timeout_boundary",
+    "empty_call_set_hold",
+    "fixed_caps_survive_pilot_projection"
+  ]
+}

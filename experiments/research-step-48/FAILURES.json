@@ -1,0 +1,45 @@
+{
+  "failures": [
+    {
+      "evidence": "Initial unit-test setup reported ValueError: process command differs.",
+      "id": "temporary-path-alias",
+      "observed": "The first direct test used a temporary path alias in the supervisor command. The child stored its resolved path, so command verification failed.",
+      "phase": "first_local_collection_check",
+      "predictor_scope": "522 invented fixture calls; zero fresh calls",
+      "repair": "Resolve prepared, output and worker paths at both public controller entry points."
+    },
+    {
+      "altered_rows": [
+        {
+          "id": "feral47-457eb26c95f304c55ffa6316",
+          "job": "0003",
+          "pass": 1
+        },
+        {
+          "id": "feral47-457eb26c95f304c55ffa6316",
+          "job": "0008",
+          "pass": 2
+        },
+        {
+          "id": "feral47-457eb26c95f304c55ffa6316",
+          "job": "0001",
+          "pass": 0
+        }
+      ],
+      "id": "selected-series-operand-mismatch",
+      "observed": "The first checker accepted a selected-series label changed from operating income to net income while its source operands still named Operating income. The alteration was repeated in all three passes and all output inventories were rebuilt.",
+      "phase": "independent_checker_probe",
+      "pre_repair_check_sha256": "584a4212254428ddfc29dccb42aead9070084daf2f1a1efdd72b1430db5e1601",
+      "pre_repair_checker_sha256": "182fd1e30c11b60e14980320a2b3efe79a992c313755b9268770d9f3107801c3",
+      "pre_repair_source_archive": {
+        "bytes": 1044480,
+        "sha256": "55eba8f62226ea93003d6fa86dcfb33f329291aa3c8fd16641191786e33cac12"
+      },
+      "pre_repair_status": "verified_complete",
+      "regression": "test_selected_series_must_match_source_operands",
+      "repair": "Require selected-series order and completion to agree with source operand labels, including partial abstentions."
+    }
+  ],
+  "fresh_predictor_calls": 0,
+  "schema": "ilxyr.feral_coverage_failures.v1"
+}

@@ -1,0 +1,220 @@
+{
+  "q26_default_sample_counts": [
+    1,
+    2,
+    8
+  ],
+  "q26_default_sampler_union": {
+    "corpus/bpe/bible-kjv.tok": {
+      "coverage_scope": "Positions within the pinned source; equal text elsewhere and prior teacher training require separate checks.",
+      "possible_validation_starts": 207994,
+      "sampled_starts": [
+        3961624,
+        3991337,
+        4021050,
+        4050763,
+        4080477,
+        4110190,
+        4139903,
+        4169617
+      ],
+      "tokens": 4170130,
+      "two_disjoint_native_size_files_possible_by_length": true,
+      "unused_start_positions": 207986,
+      "unused_windows_disjoint_from_sampled_tokens": 200818,
+      "validation_start": 3961624,
+      "validation_tokens": 208506
+    },
+    "corpus/bpe/blake.tok": {
+      "coverage_scope": "Positions within the pinned source; equal text elsewhere and prior teacher training require separate checks.",
+      "possible_validation_starts": 2778,
+      "sampled_starts": [
+        62521,
+        62917,
+        63314,
+        63711,
+        64107,
+        64504,
+        64901,
+        65298
+      ],
+      "tokens": 65811,
+      "two_disjoint_native_size_files_possible_by_length": true,
+      "unused_start_positions": 2770,
+      "unused_windows_disjoint_from_sampled_tokens": 0,
+      "validation_start": 62521,
+      "validation_tokens": 3290
+    },
+    "corpus/bpe/crowley.tok": {
+      "coverage_scope": "Positions within the pinned source; equal text elsewhere and prior teacher training require separate checks.",
+      "possible_validation_starts": 12026,
+      "sampled_starts": [
+        238231,
+        239948,
+        241666,
+        243384,
+        245102,
+        246820,
+        248538,
+        250256
+      ],
+      "tokens": 250769,
+      "two_disjoint_native_size_files_possible_by_length": true,
+      "unused_start_positions": 12018,
+      "unused_windows_disjoint_from_sampled_tokens": 4850,
+      "validation_start": 238231,
+      "validation_tokens": 12538
+    },
+    "corpus/bpe/shakespeare.tok": {
+      "coverage_scope": "Positions within the pinned source; equal text elsewhere and prior teacher training require separate checks.",
+      "possible_validation_starts": 267107,
+      "sampled_starts": [
+        5084767,
+        5122925,
+        5161083,
+        5199241,
+        5237399,
+        5275557,
+        5313715,
+        5351873
+      ],
+      "tokens": 5352386,
+      "two_disjoint_native_size_files_possible_by_length": true,
+      "unused_start_positions": 267099,
+      "unused_windows_disjoint_from_sampled_tokens": 259931,
+      "validation_start": 5084767,
+      "validation_tokens": 267619
+    },
+    "corpus/bpe/zero-foundation.tok": {
+      "coverage_scope": "Positions within the pinned source; equal text elsewhere and prior teacher training require separate checks.",
+      "possible_validation_starts": 1,
+      "sampled_starts": [
+        893
+      ],
+      "tokens": 1406,
+      "two_disjoint_native_size_files_possible_by_length": false,
+      "unused_start_positions": 0,
+      "unused_windows_disjoint_from_sampled_tokens": 0,
+      "validation_start": 893,
+      "validation_tokens": 513
+    },
+    "corpus/channel/literary-dialogue.tok": {
+      "coverage_scope": "Positions within the pinned source; equal text elsewhere and prior teacher training require separate checks.",
+      "possible_validation_starts": 4857,
+      "sampled_starts": [
+        27601708,
+        27806127,
+        27987819,
+        28108738,
+        28209852,
+        28316196,
+        28458594,
+        28622114
+      ],
+      "tokens": 28622690,
+      "two_disjoint_native_size_files_possible_by_length": true,
+      "unused_start_positions": 4849,
+      "unused_windows_disjoint_from_sampled_tokens": 4818,
+      "validation_start": 27601708,
+      "validation_tokens": 1020982
+    }
+  },
+  "samples_per_source": 4,
+  "sampling_scope": "The fixed four-window diagnostic and Q2.6 default sampler union. The Q2.6 sentinel uses 12 batches across six sources, full evaluation uses 48, and training reports use 56 across seven sources. Older lineages and any non-default schedules need a separate exposure audit.",
+  "schema": "ilxyr.zero4_retention_coverage.v1",
+  "sources": {
+    "corpus/bpe/bible-kjv.tok": {
+      "coverage_scope": "Positions within the pinned source; equal text elsewhere and prior teacher training require separate checks.",
+      "possible_validation_starts": 207994,
+      "sampled_starts": [
+        3961624,
+        4030955,
+        4100286,
+        4169617
+      ],
+      "tokens": 4170130,
+      "two_disjoint_native_size_files_possible_by_length": true,
+      "unused_start_positions": 207990,
+      "unused_windows_disjoint_from_sampled_tokens": 204918,
+      "validation_start": 3961624,
+      "validation_tokens": 208506
+    },
+    "corpus/bpe/blake.tok": {
+      "coverage_scope": "Positions within the pinned source; equal text elsewhere and prior teacher training require separate checks.",
+      "possible_validation_starts": 2778,
+      "sampled_starts": [
+        62521,
+        63446,
+        64372,
+        65298
+      ],
+      "tokens": 65811,
+      "two_disjoint_native_size_files_possible_by_length": true,
+      "unused_start_positions": 2774,
+      "unused_windows_disjoint_from_sampled_tokens": 0,
+      "validation_start": 62521,
+      "validation_tokens": 3290
+    },
+    "corpus/bpe/crowley.tok": {
+      "coverage_scope": "Positions within the pinned source; equal text elsewhere and prior teacher training require separate checks.",
+      "possible_validation_starts": 12026,
+      "sampled_starts": [
+        238231,
+        242239,
+        246247,
+        250256
+      ],
+      "tokens": 250769,
+      "two_disjoint_native_size_files_possible_by_length": true,
+      "unused_start_positions": 12022,
+      "unused_windows_disjoint_from_sampled_tokens": 8950,
+      "validation_start": 238231,
+      "validation_tokens": 12538
+    },
+    "corpus/bpe/shakespeare.tok": {
+      "coverage_scope": "Positions within the pinned source; equal text elsewhere and prior teacher training require separate checks.",
+      "possible_validation_starts": 267107,
+      "sampled_starts": [
+        5084767,
+        5173802,
+        5262837,
+        5351873
+      ],
+      "tokens": 5352386,
+      "two_disjoint_native_size_files_possible_by_length": true,
+      "unused_start_positions": 267103,
+      "unused_windows_disjoint_from_sampled_tokens": 264031,
+      "validation_start": 5084767,
+      "validation_tokens": 267619
+    },
+    "corpus/bpe/zero-foundation.tok": {
+      "coverage_scope": "Positions within the pinned source; equal text elsewhere and prior teacher training require separate checks.",
+      "possible_validation_starts": 1,
+      "sampled_starts": [
+        893
+      ],
+      "tokens": 1406,
+      "two_disjoint_native_size_files_possible_by_length": false,
+      "unused_start_positions": 0,
+      "unused_windows_disjoint_from_sampled_tokens": 0,
+      "validation_start": 893,
+      "validation_tokens": 513
+    },
+    "corpus/channel/literary-dialogue.tok": {
+      "coverage_scope": "Positions within the pinned source; equal text elsewhere and prior teacher training require separate checks.",
+      "possible_validation_starts": 4857,
+      "sampled_starts": [
+        27601708,
+        28027826,
+        28281450,
+        28622114
+      ],
+      "tokens": 28622690,
+      "two_disjoint_native_size_files_possible_by_length": true,
+      "unused_start_positions": 4853,
+      "unused_windows_disjoint_from_sampled_tokens": 4840,
+      "validation_start": 27601708,
+      "validation_tokens": 1020982
+    }
+  }
+}

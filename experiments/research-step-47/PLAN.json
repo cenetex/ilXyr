@@ -1,0 +1,84 @@
+{
+  "abstention_cases": 64,
+  "analysis": {
+    "benefit_rule": "For both canonical and paraphrase questions, v2 correct numeric coverage must exceed both references by at least 0.10 in the company-macro average; v2 wrong numeric answers must be no greater than either reference in either style; all 64 required abstentions must be correct. All outputs must be complete and source spans valid.",
+    "metrics": [
+      "numeric answer coverage",
+      "correct numeric coverage",
+      "wrong numeric answers",
+      "numeric precision",
+      "correct abstentions",
+      "incorrect abstentions",
+      "whole-process CPU",
+      "peak RSS",
+      "wall time",
+      "source preparation and checking costs"
+    ],
+    "primary": "Company-macro correct numeric coverage on the 164 answerable cases, reported for each question style and reference.",
+    "required_breakdowns": [
+      "company",
+      "table family",
+      "question form",
+      "question style",
+      "retrieval fault"
+    ],
+    "total_cost": "Report full preparation, each arm process, checking and collection separately; each parent is counted once with its waited descendants.",
+    "uncertainty": "Exact finite-roster counts and paired deltas. Three companies and eight related tables support a controlled coverage finding; broader population intervals require a broader independently sampled roster."
+  },
+  "arms": [
+    "calculator_v1",
+    "calculator_v2",
+    "v2_operand_only"
+  ],
+  "cases": 228,
+  "companies": 3,
+  "execution": {
+    "engineering_fixture": "Only invented source fixtures or the five previously opened cases may be executed locally.",
+    "full_comparison_venue": "cloud",
+    "host_package_and_budget": "next after the controller is verified",
+    "max_log_bytes": 4194304,
+    "max_output_bytes": 67108864,
+    "maximum_child_seconds": 15,
+    "maximum_controller_seconds": 300,
+    "order": "Sort opaque case IDs; rotate arm order by pass modulo three. Every arm has the same case order.",
+    "passes": 12,
+    "predictor_workers": 1
+  },
+  "families": 8,
+  "fresh_predictor_calls_before_freeze": 0,
+  "frozen_predictor_sources": {
+    "scripts/feral_evidence_calculator.py": "40790cad9cdfd1b53caac7764f9f8e9b0607ceba300699edcc9326e18c96953c",
+    "scripts/feral_evidence_calculator_v2.py": "7bf3e5627006d12dd835f40d5b364d8252c2bd8fe668ab179d793b9bc5830eba",
+    "scripts/test_feral_evidence_calculator_v2.py": "2764780811afced9d6be76f58f5765c85117c87067b9cdad46cff467052a73a7"
+  },
+  "normalization": "Each selected source cell becomes a separate sentence with its unchanged label, year, value and explicit USD scale. The shareholder inputs use dollar wealth from a common $100 base; their return-difference targets use percentage points. Normalization is fixed and charged as preparation.",
+  "numeric_cases": 164,
+  "opened_audit_sha256": "65cb32fa6353aba91b314c5c4a7eebf4f793c84df8d00613a889a4f0a7b9d980",
+  "question_authorship": "Codex authored fixed canonical templates and paired plain-English variants before any fresh predictor calls. Both styles use the same source facts and gold operation.",
+  "retrieval_faults": [
+    "omit requested year cell",
+    "omit requested series",
+    "ask an under-specified label with several eligible series",
+    "add the prior-year amount under the requested year as an explicit retrieval-error injection"
+  ],
+  "schema": "ilxyr.feral_fresh_coverage_plan.v1",
+  "scope": "Constructed source-grounded question coverage for the fixed arithmetic controls. Document and complete-input freshness are relative to the opened 1,147-case set. Company overlap is reported.",
+  "source_selection": "Microsoft, Apple and Costco fiscal 2025 reports. Income and balance tables for each; two available HTML shareholder tables. Costco uses the company-hosted XBRL presentation of its 10-K.",
+  "split": {
+    "development": "separate invented source fixtures and the five previously opened cases",
+    "evaluation": "all 228 new cases; family and question-style pairs stay together for analysis"
+  },
+  "target_policy": {
+    "abstention": "prediction and exact_result must both be null; retain the reason and any selected source spans.",
+    "evidence_scope": "Answerability is determined from supplied evidence. Missing or contradictory required facts require abstention.",
+    "negative_difference": "excess and change mean signed subtraction; a negative result is valid.",
+    "numeric": "Compare output exact_result and unit to the independent rational target rounded half away from zero to two decimals. Also verify the printed numeric answer agrees with exact_result.",
+    "units": [
+      "usd",
+      "usd_million",
+      "ratio",
+      "percent",
+      "percentage_points"
+    ]
+  }
+}

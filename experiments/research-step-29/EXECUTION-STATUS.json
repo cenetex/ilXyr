@@ -1,0 +1,32 @@
+{
+  "actual_run_deadline_utc": null,
+  "arms": [
+    "base",
+    "evidence_calculator_v1",
+    "operand_only_v1"
+  ],
+  "compute_spend_from_these_attempts_usd": "0.00",
+  "deadline_rule": "successful launch binding epoch plus 3600 seconds",
+  "execution_approval_received": true,
+  "execution_plan_sha256": "eeb5658143faebd7aeb9db25185c5503a59ab5dc555c378cbdd243c35a2b3e49",
+  "host_package_sha256": "25c350b4819e499bcf1adabe56d5d05cb8ef7c07daccb13d7a221545cd74d821",
+  "hourly_instance_usd": "2.24208",
+  "max_instance_seconds": 3600,
+  "max_paid_instances": 1,
+  "maximum_before_tax_usd": "3.00",
+  "maximum_estimated_before_tax_usd": "2.99208",
+  "model_result_status": "awaiting_execution",
+  "package_bytes": 1638400,
+  "paid_instances_created": 0,
+  "private_authorization_receipt_sha256": "010c5b6a0523c22e39ee20523d71f1a8b0db1fcbc34505cb0e2b2f7d49ba7907",
+  "reserve_usd": "0.75",
+  "schema": "ilxyr.feral_execution_status.v1",
+  "scored_input_count": 1147,
+  "scored_model_rows": 0,
+  "source_repair_merge": "2298742c76188a79a50fb276ced29c57ab44f383",
+  "source_repair_pr": 185,
+  "startup_check": "same loaded model checks CUDA placement and synthetic generation before scored inputs",
+  "status": "approved_awaiting_capacity",
+  "stored_version_and_sha256_verified": true,
+  "synthetic_scored_rows": 0
+}

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/execution-verification-summary.v1.json",
+  "title": "ilxyr remote execution verification summary attestation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["_type", "subject", "predicateType", "predicate"],
+  "properties": {
+    "_type": { "const": "https://in-toto.io/Statement/v1" },
+    "subject": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "digest"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "digest": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["sha256"],
+            "properties": {
+              "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+            }
+          }
+        }
+      }
+    },
+    "predicateType": { "const": "https://slsa.dev/verification_summary/v1" },
+    "predicate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "verifier",
+        "timeVerified",
+        "resourceUri",
+        "policy",
+        "inputAttestations",
+        "verificationResult",
+        "verifiedLevels"
+      ],
+      "properties": {
+        "verifier": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id"],
+          "properties": {
+            "id": { "const": "service://ilxyr/report-verifier-v1" }
+          }
+        },
+        "timeVerified": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?Z$"
+        },
+        "resourceUri": { "type": "string", "pattern": "^artifact://sha256/[a-f0-9]{64}$" },
+        "policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["uri"],
+          "properties": {
+            "uri": { "const": "https://ilxyr.dev/policies/remote-execution-report/v1" },
+            "digest": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["sha256"],
+              "properties": {
+                "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+              }
+            }
+          }
+        },
+        "inputAttestations": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^artifact://sha256/[a-f0-9]{64}$" }
+        },
+        "verificationResult": { "const": "PASSED" },
+        "verifiedLevels": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "contains": { "const": "ILXYR_REMOTE_EXECUTION_VERIFIED_V1" },
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

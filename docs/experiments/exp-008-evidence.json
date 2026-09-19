@@ -1,0 +1,127 @@
+{
+  "schema": "ilxyr.experiment_evidence_summary.v1",
+  "public_id": "EXP-008",
+  "experiment_id": "solomon.q22-compositional-routing.three-seed.v1",
+  "shared_task_id": "zero-solomon.q22-compositional-routing.v1",
+  "resolved_outcome": "no_go",
+  "registration": {
+    "repository": "https://github.com/cenetex/ilXyr.git",
+    "experiment_commit": "033644f9c555c21c000b3affb034b363ed28430c",
+    "registration_merge_commit": "8168c86a2996b731d703f662537432e4cf9d2a02",
+    "shared_task_ref": "artifact://sha256/97236b3f02109ab9fd64741304035164e0cd60f999e4b9f1851abb17006c9774",
+    "harness_sha256": "e3f84e9dbc3b5a2223f554aeb2966750d8df74e4148627a1da3f0d8f787e969c",
+    "merged_before_evaluation": true
+  },
+  "datasets": {
+    "training_records": 10000,
+    "training_sha256": "1f997d174ea1e3f3675612e24ecced15f8145abd29819e532b2f890f36245e8f",
+    "encoded_training_sha256": "6fc74419d063ecbba1bf86bcb5e9cc0df8e134fc3b401ea67e48be4edf2a99a5",
+    "promotion_records": 1000,
+    "promotion_sha256": "42902d61d9edc2ceb5a33875deddbdd9e9b523b06fb1aa13a22249acbf2983fe",
+    "blind_inputs_sha256": "871ab80d0b1fc55df785fd33f53baf1395efb2dd0db228aa330e6e5eef29ee45",
+    "prefix_only_exact_rate_ppm": 200000,
+    "train_template_families": 30,
+    "promotion_template_families": 20
+  },
+  "source": {
+    "repository": "https://github.com/atimics/nsrl.git",
+    "zero_dataset_commit": "8deeb138e4c01ba5b64bb22e5125d5c823c37f78",
+    "scientific_commit": "fa60312f93ec859e42a57f383f5972b8df4cf807",
+    "evidence_merge_commit": "df244eb414e68ad97c7bcce228b6129522e9a969",
+    "contract_path": "benchmarks/q22-compositional-solomon-prospective-v1/contract.json",
+    "contract_sha256": "f5fdd260ae7e7ef2fdab85bb4aaf0aaebb2716015b3e8026a677aaf8fa8d0ae4",
+    "result_path": "benchmarks/q22-compositional-solomon-prospective-v1/evidence/result.json",
+    "result_sha256": "c3b826685fc004fbc9b69a3a8ee539987522c1d3bf61e6e8d7c251147b394900",
+    "evidence_manifest_sha256": "30db8f6f7669daaac8002a11b190e6e8a19d16ef40bdf988c1d0de92bac5ba72",
+    "model_freeze_sha256": "928d912b56018d696ab2dda2497a5ca98c41f55eafe5ae1a63535d69c4fc9526",
+    "evaluation_open_record_sha256": "a2c8e8a07b7bafa5376ff6fcffa5a0d3e4a645a87f18534e090593ae5f20a94e"
+  },
+  "firewall": {
+    "models_frozen_before_evaluation": true,
+    "training_had_evaluation_path": false,
+    "prediction_received_blind_input_only": true,
+    "retraining_allowed_after_open": false,
+    "paid_compute_used": false
+  },
+  "scientific_run": {
+    "seeds": [
+      {
+        "seed": 1,
+        "cases": 1000,
+        "operation_exact": 425,
+        "operation_exact_rate_ppm": 425000,
+        "per_class_exact_rate_ppm": {
+          "quantity.add": 0,
+          "quantity.multiply": 595000,
+          "quantity.add-rational": 750000,
+          "quantity.convert": 750000,
+          "quantity.solve-linear": 30000
+        },
+        "model_sha256": "7e65210bc40be1728007a8b8ba9bf5c05983779e44dbaab8b240e533e51dec07"
+      },
+      {
+        "seed": 2,
+        "cases": 1000,
+        "operation_exact": 430,
+        "operation_exact_rate_ppm": 430000,
+        "per_class_exact_rate_ppm": {
+          "quantity.add": 165000,
+          "quantity.multiply": 750000,
+          "quantity.add-rational": 410000,
+          "quantity.convert": 750000,
+          "quantity.solve-linear": 75000
+        },
+        "model_sha256": "e73196d52784c2928e65326a50de035c7c9ffd19d79e96029bc0557acbbcc688"
+      },
+      {
+        "seed": 3,
+        "cases": 1000,
+        "operation_exact": 533,
+        "operation_exact_rate_ppm": 533000,
+        "per_class_exact_rate_ppm": {
+          "quantity.add": 250000,
+          "quantity.multiply": 605000,
+          "quantity.add-rational": 295000,
+          "quantity.convert": 960000,
+          "quantity.solve-linear": 555000
+        },
+        "model_sha256": "8c8f620ba4e8cca5b9e3503753523007d1f37b15eda14eb9b9e2bf0a3989da56"
+      }
+    ],
+    "minimum_operation_exact_rate_ppm": 425000,
+    "minimum_per_class_exact_rate_ppm": 0,
+    "mean_operation_exact_rate_ppm": 462666,
+    "minimum_margin_over_prefix_ppm": 225000,
+    "all_seed_agreement_cases": 531,
+    "all_seed_agreement_rate_ppm": 531000,
+    "family_passed": false
+  },
+  "forecasts": {
+    "ledger_recorded_settlement": false,
+    "analytical_settlement": [
+      {
+        "forecast_id": "solomon.q22-compositional.forecast.mechanistic.v1",
+        "probabilities": {"go": 0.72, "no_go": 0.27, "execution_failure": 0.01},
+        "resolved_outcome": "no_go",
+        "stake": 10,
+        "brier_score": 1.0514
+      },
+      {
+        "forecast_id": "solomon.q22-compositional.forecast.empirical.v1",
+        "probabilities": {"go": 0.82, "no_go": 0.17, "execution_failure": 0.01},
+        "resolved_outcome": "no_go",
+        "stake": 10,
+        "brier_score": 1.3614
+      }
+    ]
+  },
+  "interpretation": {
+    "prefix_shortcut_removed": true,
+    "held_out_template_transfer_passed": false,
+    "some_operation_signal_learned": true,
+    "arithmetic_answer_generation_tested": false,
+    "general_language_quality_tested": false,
+    "solomon_model_promotion_authorized": false,
+    "next_boundary": "Close this fixed sparse class-head contract. Any successor must use a new frozen evaluation surface and change representation or objective rather than tune against the opened promotion set."
+  }
+}

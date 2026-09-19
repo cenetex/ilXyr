@@ -1,0 +1,8 @@
+{
+  "schema": "ilxyr.funding.v1",
+  "id": "solomon.q22-compositional.funding.local-cpu-b.v1",
+  "experiment_id": "solomon.q22-compositional-routing.three-seed.v1",
+  "funder": {"id": "service://ilxyr/shared-task-program", "kind": "service"},
+  "compute_credits": 1,
+  "rationale": "Complete the frozen three-seed local CPU reservation."
+}

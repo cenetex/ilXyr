@@ -1,0 +1,23 @@
+{
+  "schema": "ilxyr.verdict.v1",
+  "id": "verdict:solomon.nsrl-p10m-direct-head-nll-guard-v1.negative.v1",
+  "experiment_id": "solomon.nsrl-p10m-direct-head-nll-guard-v1.negative.v1",
+  "family": "solomon",
+  "seed": 0,
+  "outcome": "no_go",
+  "taxonomy": "interference",
+  "mechanism": "Canonical-NLL output-head coordinate search evaluated against a document-disjoint training guard. The selected coordinate improved proposal NLL but worsened the guard, so the move was atomically rejected.",
+  "mechanism_tags": [
+    "output-head-search",
+    "nll-guard",
+    "document-disjoint"
+  ],
+  "summary": "A prospectively frozen canonical-NLL output-head search selected a coordinate that improved exact proposal NLL but worsened a document-disjoint training guard. The move was atomically rejected, exact rerun replay passed, the source model was retained, and public test plus all later gates stayed closed.",
+  "evidence_ref": "artifact://sha256/592ee07674b8d932f7f06319c1a365b5239fb1c5db98dc28ebb6b9d7daee9387",
+  "retro_registration_ref": "solomon.nsrl-p10m-direct-head-nll-guard-v1.negative.v1",
+  "recorded_by": {
+    "id": "human://cenetex",
+    "kind": "human"
+  },
+  "recorded_at_ms": 1788300600000
+}

@@ -1,0 +1,50 @@
+name: Reasoner fresh roster
+on:
+  pull_request:
+    paths:
+      - 'scripts/*reasoner_fresh_roster*'
+      - 'scripts/probe_reasoner_roster_legacy.mjs'
+      - 'experiments/research-step-39/**'
+      - '.github/workflows/reasoner-fresh-roster.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/*reasoner_fresh_roster*'
+      - 'scripts/probe_reasoner_roster_legacy.mjs'
+      - 'experiments/research-step-39/**'
+      - '.github/workflows/reasoner-fresh-roster.yml'
+permissions:
+  contents: read
+jobs:
+  independent-replay:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch the frozen public source
+        run: |
+          git init "$RUNNER_TEMP/zero"
+          git -C "$RUNNER_TEMP/zero" remote add origin https://github.com/atimics/zero-grounded-literary-lm.git
+          git -C "$RUNNER_TEMP/zero" fetch --depth 1 --filter=blob:none origin 0c5253604593acb3b9294fcc00c90f59b7dbbd3c
+      - name: Rebuild the roster and replay every decision
+        run: python3 scripts/check_reasoner_fresh_roster.py --source "$RUNNER_TEMP/zero" --git --output "$RUNNER_TEMP/reasoner-roster-check"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reasoner-roster-${{ matrix.os }}
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/reasoner-roster-check/TERMINAL.json
+            ${{ runner.temp }}/reasoner-roster-check/CHECK.json
+            ${{ runner.temp }}/reasoner-roster-check/LEGACY-PROBE.json
+            ${{ runner.temp }}/reasoner-roster-check/*/process.json
+            ${{ runner.temp }}/reasoner-roster-check/*/*.log
+            ${{ runner.temp }}/reasoner-roster-check/roster/
+            ${{ runner.temp }}/reasoner-roster-check/native

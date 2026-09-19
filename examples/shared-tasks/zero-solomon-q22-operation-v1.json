@@ -60,7 +60,7 @@
       },
       "implementation": {
         "repository": "https://github.com/atimics/nsrl",
-        "commit": "aac8bfb81ea043226265ff016f5d5e8e675564ae",
+        "commit": "5de132b52b361b8b79638969bb0f0ab6c04111a6",
         "artifacts": [
           {
             "path": "benchmarks/q22-shared-task-v1/manifest.tsv",
@@ -68,11 +68,23 @@
           },
           {
             "path": "crates/nsrl-eval/src/q22.rs",
-            "sha256": "31d5c7c89f09489e82d71d0411699a84ace29fea93f463f5dd70a945b3de177a"
+            "sha256": "05f057a8217190709ff5965ea3e8d488a15770b8b84d7d216efaf36ce24f5135"
           },
           {
             "path": "crates/nsrl-eval/src/main.rs",
-            "sha256": "5e86aae9d674178426955c18685932740eac9595d74786a297f0b0df9684e400"
+            "sha256": "4aa1d35ea0468c310c52e09f0051c6a5afd4f0bfa02111f6d9a8b5535bc22d4f"
+          },
+          {
+            "path": "crates/nsrl-train/src/bin/nsrl-q22-proposer.rs",
+            "sha256": "2bf5350717679210f694c4453d70882e39130a5b3965f169692705d78f7a849e"
+          },
+          {
+            "path": "benchmarks/q22-solomon-prospective-v1/contract.json",
+            "sha256": "b3b2e2d2648802ac99395c0d1110207409f240cc5e4b83d8c89186c36238ccc0"
+          },
+          {
+            "path": "scripts/run-q22-solomon-prospective.mjs",
+            "sha256": "631e95705577854381b8d8c10aa63b426c52a4beb067054403c72dbaa1ed7726"
           }
         ]
       }

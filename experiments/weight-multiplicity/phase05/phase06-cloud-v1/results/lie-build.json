@@ -1,0 +1,8 @@
+{
+  "schema": "ilxyr.weight_multiplicity_phase06_lie_build.v1",
+  "source_sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e",
+  "executable_sha256": "d2478e3cf9abed5cc0105da52fb6580a8c85b66ec74b7cfd3192d3eb6953f391",
+  "command": "make noreadline CFLAGS=-O_-D_POSIX_C_SOURCE=200809L",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "source_modified": false
+}

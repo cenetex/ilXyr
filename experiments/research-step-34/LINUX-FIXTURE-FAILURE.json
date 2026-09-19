@@ -1,0 +1,21 @@
+{
+  "ci_run": "https://github.com/cenetex/ilXyr/actions/runs/34275484372",
+  "details": {
+    "elapsed_ms": 1.742049999999999,
+    "error": "spawn /tmp/tmprsuc65do/lie EACCES",
+    "multiplicity": null,
+    "status": "process_error",
+    "worker_id": "lie-1"
+  },
+  "environment": {
+    "platform": "linux",
+    "temporary_directory_flags": 4110,
+    "temporary_directory_noexec": true
+  },
+  "kind": "engineering_test_fixture",
+  "real_symbolic_oracle_queries": 0,
+  "reason": "lie_warmup_failure",
+  "schema": "ilxyr.weight_controller_fixture_failure.v1",
+  "setup_queries": 1,
+  "workload_queries": 0
+}

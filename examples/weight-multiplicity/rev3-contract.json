@@ -1,0 +1,298 @@
+{
+  "schema": "ilxyr.weight_multiplicity_program.v1",
+  "id": "weight-multiplicity-transfer-r3",
+  "revision": 3,
+  "status": "signed_execution_contract",
+  "source_document": {
+    "title": "Statement of Work — Verified-Oracle Weight-Multiplicity Transfer",
+    "received_sha256": "e77a6341155242a7e08e8a0675100fd347fbf1d637c58092561ea2c052dc6b3c",
+    "canonical_repository_path": "docs/contracts/WEIGHT-MULTIPLICITY-TRANSFER-R3.md",
+    "canonical_sha256": "5cbd190d12cc3f40a3dcd62cd793f9da0b8252a6314e06128a1b80cb373222be"
+  },
+  "primary_question": "Can a small model trained on exact weight-multiplicity examples transfer to unseen ranks and to non-dominant weights at those ranks?",
+  "task": {
+    "target": "exact_integer_weight_multiplicity",
+    "minimum_label": 0,
+    "maximum_exact_label": 31,
+    "strata": [
+      { "id": "zero", "minimum": 0, "maximum": 0, "share_per_mille": 250 },
+      { "id": "one", "minimum": 1, "maximum": 1, "share_per_mille": 250 },
+      { "id": "two_to_seven", "minimum": 2, "maximum": 7, "share_per_mille": 250 },
+      { "id": "eight_to_thirty_one", "minimum": 8, "maximum": 31, "share_per_mille": 250 }
+    ],
+    "tail_policy": {
+      "decision_gate": "exclude_above_31",
+      "natural_distribution": "report_and_count_as_incorrect_end_to_end"
+    }
+  },
+  "roles": {
+    "control_plane": "ilxyr",
+    "oracle": "zero_symbolic",
+    "research_models": "three_full_input_seeds_plus_one_shortcut_null",
+    "integer_feasibility": "nsrl_note_only"
+  },
+  "oracle_frontier": {
+    "maximum_rank": 8,
+    "maximum_height": 8,
+    "uncached_queries_per_cell": 100,
+    "cell_dimensions": [
+      "lie_family",
+      "rank",
+      "highest_weight_height",
+      "target_weight_depth",
+      "multiplicity_stratum",
+      "dominance_status",
+      "oracle_implementation",
+      "reference_hardware",
+      "safe_parallel_worker_count"
+    ],
+    "maximum_p95_latency_ms": 1000,
+    "maximum_incremental_memory_mib_per_worker": 2048,
+    "cell_pass_conditions": [
+      "all_queries_return_exact_integers",
+      "repeated_results_are_byte_identical",
+      "no_crash",
+      "no_timeout",
+      "latency_and_memory_within_limits"
+    ],
+    "deterministic_replay_required": true,
+    "budget_method": "upper_95_percent_estimate_from_mean_latency_and_observed_yield",
+    "budget_margin_per_mille": 150,
+    "overrun_policy": "stop_generation_and_report",
+    "out_of_frontier_policy": "phase_1_does_not_begin_without_signed_scope_revision",
+    "required_report_fields": [
+      "maximum_height_by_family_and_rank",
+      "conservative_common_rank_height_boundary",
+      "mean_p50_p95_latency",
+      "safe_parallelism",
+      "stratum_acceptance_rates",
+      "projected_oracle_calls",
+      "projected_cpu_core_hours",
+      "projected_wall_clock_time",
+      "per_query_budget_boundary"
+    ]
+  },
+  "datasets": {
+    "training_families": ["A1-A5", "B2-B5", "C3-C5", "D4-D5"],
+    "held_out_classical_families": ["A6-A8", "B6-B8", "C6-C8", "D6-D8"],
+    "held_out_exceptional_types": ["G2", "F4", "E6", "E7", "E8"],
+    "training_target_mix_per_mille": { "dominant": 750, "non_dominant": 250 },
+    "non_dominant_sampling_dimensions": ["negative_coordinate_count", "coordinate_magnitude_band", "classical_family", "training_rank"],
+    "one_target_per_orbit": true,
+    "acr2_coordinate_envelope": "within_frozen_training_non_dominant_scalar_range",
+    "accepted_records": {
+      "training": 300000,
+      "development": 30000,
+      "blind_in_range_stratified": 30000,
+      "blind_in_range_unstratified": 30000,
+      "cross_rank_stratified": 24000,
+      "cross_rank_unstratified": 24000,
+      "exceptional_stratified": 2500,
+      "exceptional_unstratified": 2500,
+      "acr1": 3750,
+      "acr2_transformed": 12000,
+      "total": 458750
+    }
+  },
+  "models": {
+    "full": {
+      "seeds": [1, 2, 3],
+      "maximum_parameters": 5000000,
+      "maximum_cpu_core_hours_per_seed": 500,
+      "maximum_memory_mib": 16384,
+      "maximum_median_inference_ms": 40,
+      "output_labels": 32,
+      "normalized_distribution": true,
+      "shared_architecture_corpus_optimizer": true,
+      "seed_specific_tuning": false,
+      "blind_results_available_during_training": false,
+      "gpu_allowed": false,
+      "gpu_specific_operations_allowed": false
+    },
+    "shortcut": {
+      "seeds": [0],
+      "maximum_parameters": 1000000,
+      "maximum_cpu_core_hours": 100,
+      "same_training_labels": true,
+      "output_labels": 32,
+      "normalized_distribution": true,
+      "target_magnitude_definition_frozen_in_week_1": true,
+      "allowed_inputs": ["family", "rank", "highest_weight_height", "target_depth", "target_magnitude"],
+      "forbidden_inputs": [
+        "cartan_matrix",
+        "root_set",
+        "positive_roots",
+        "root_coordinates",
+        "highest_weight_coordinates",
+        "target_weight_coordinates",
+        "weyl_data",
+        "orbit_annotation"
+      ]
+    }
+  },
+  "gates": {
+    "acr1": {
+      "root_queries": 1860,
+      "doubled_root_queries": 1860,
+      "zero_weight_queries": 30,
+      "total": 3750,
+      "expected_correct": 3750,
+      "fixable_failure_policy": "pause_diagnose_version_repair_and_rerun",
+      "clean_model_failure_policy": "stop"
+    },
+    "acr2": {
+      "pairs": 12000,
+      "pairs_per_stratum": 3000,
+      "coxeter_length_bands": 4,
+      "construction": [
+        "dominant_base_weight",
+        "non_dominant_weyl_orbit_partner",
+        "unseen_highest_weights",
+        "unseen_classical_ranks",
+        "nontrivial_weyl_elements"
+      ],
+      "rejection_rules": [
+        "transformed_weight_equals_base",
+        "transformed_weight_remains_dominant",
+        "multiplicity_above_31",
+        "coordinate_outside_frozen_training_envelope",
+        "duplicate_evaluation_query",
+        "orbit_information_exposed_by_annotation"
+      ],
+      "hidden_at_inference": [
+        "dominant_representative",
+        "weyl_word_or_action_matrix",
+        "orbit_identifier",
+        "paired_input",
+        "multiplicity",
+        "oracle_access"
+      ],
+      "pass_per_mille": {
+        "median_non_dominant": 850,
+        "every_seed_non_dominant": 800,
+        "maximum_dominant_drop": 30,
+        "maximum_consistency_deficit": 30
+      },
+      "rescope_per_mille": {
+        "median_non_dominant": 750,
+        "every_seed_non_dominant": 650,
+        "maximum_dominant_drop": 100,
+        "maximum_consistency_deficit": 100
+      }
+    },
+    "classical_cross_rank": {
+      "pass_median_per_mille": 900,
+      "pass_every_seed_per_mille": 850,
+      "stop_median_below_per_mille": 750,
+      "stop_any_seed_below_per_mille": 650
+    },
+    "shortcut_clearance": {
+      "median_advantage_per_mille": 100,
+      "every_seed_advantage_per_mille": 50,
+      "bootstrap_lower_bound_per_mille": 75,
+      "bootstrap_resamples": 10000,
+      "cluster_unit": "highest_weight_representation",
+      "point_failure": "stop_shortcut_indistinguishable",
+      "confidence_failure": "rescope"
+    },
+    "exceptional": {
+      "samples_per_type": 500,
+      "median_threshold_per_mille": 700,
+      "every_seed_threshold_per_mille": 600,
+      "confidence_interval": "representation_clustered_bootstrap_95_percent_10000_resamples",
+      "straddling_policy": "hold"
+    },
+    "disagreement": {
+      "score": "jensen_shannon_divergence",
+      "minimum_auroc_per_mille": 650,
+      "minimum_auroc_lower_bound_per_mille": 600,
+      "top_to_bottom_error_ratio_per_mille": 1500,
+      "minimum_absolute_error_increase_per_mille": 50
+    }
+  },
+  "decision_policy": {
+    "valid_outcomes": ["pass", "classical_pass_exceptional_hold", "rescope", "stop"],
+    "pass": [
+      "acr1_clean_or_repaired_integrity",
+      "acr2_pass",
+      "classical_cross_rank_pass",
+      "shortcut_clearance_pass",
+      "all_exceptional_types_pass"
+    ],
+    "classical_pass_exceptional_hold": [
+      "acr1_clean_or_repaired_integrity",
+      "acr2_pass",
+      "classical_cross_rank_pass",
+      "shortcut_clearance_pass",
+      "one_or_more_exceptional_types_hold_or_fail"
+    ],
+    "rescope": [
+      "metric_in_rescope_range",
+      "integrity_repair_exceeds_current_envelope",
+      "shortcut_point_margin_passes_but_confidence_fails"
+    ],
+    "stop": [
+      "clean_model_acr1_failure",
+      "acr2_below_rescope",
+      "classical_median_below_750_per_mille",
+      "any_classical_seed_below_650_per_mille",
+      "shortcut_point_margin_failure",
+      "leakage",
+      "oracle_or_resource_frontier_failure"
+    ]
+  },
+  "schedule": [
+    "week_1_specification",
+    "week_2_oracle_frontier",
+    "week_3_corpus",
+    "weeks_4_5_training",
+    "week_6_blind_evaluation",
+    "week_7_decision_and_handoff"
+  ],
+  "deliverables": [
+    "project_source",
+    "oracle_adapters_and_validation_tests",
+    "frozen_schemas_and_configurations",
+    "oracle_frontier_yield_and_cost_report",
+    "generated_corpora_and_manifests",
+    "three_full_model_checkpoints",
+    "shortcut_baseline_checkpoint",
+    "shortcut_cross_rank_and_unstratified_results",
+    "paired_shortcut_clearance_analysis",
+    "training_and_evaluation_traces",
+    "stratified_and_unstratified_results",
+    "out_of_range_coverage",
+    "per_type_exceptional_results_and_intervals",
+    "acr1_integrity_versions_and_repairs",
+    "acr2_manifest_and_results",
+    "uncertainty_analysis",
+    "ilxyr_evidence_records",
+    "final_decision_report",
+    "negative_result_analysis_if_applicable",
+    "integer_model_feasibility_note"
+  ],
+  "acceptance": {
+    "negative_result_accepted": true,
+    "scientific_pass_required": false,
+    "valid_outcomes": ["pass", "classical_pass_exceptional_hold", "rescope", "stop"]
+  },
+  "intellectual_property": {
+    "client_owns": ["project_specific_application_code", "trained_model_weights"],
+    "supplier_retains": ["pre_existing_ilxyr_zero_nsrl", "general_methodology", "schemas", "evaluation_patterns", "reusable_harness_designs"],
+    "corpora": "delivered_non_exclusively_subject_to_upstream_licenses",
+    "client_license": "perpetual_for_retained_components_required_to_use_deliverables",
+    "publication": "separate_written_agreement_required"
+  },
+  "exclusions": [
+    "exact_prediction_above_31",
+    "tensor_product_decomposition",
+    "branching_rules",
+    "multi_agent_curiosity_swarm",
+    "gpu_training",
+    "integer_model_port",
+    "production_deployment",
+    "theorem_or_conjecture_guarantees",
+    "natural_language_capability",
+    "work_beyond_seven_weeks"
+  ]
+}

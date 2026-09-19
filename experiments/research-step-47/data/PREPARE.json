@@ -1,0 +1,39 @@
+{
+  "cases": 228,
+  "company_overlap": [
+    "AAPL"
+  ],
+  "families": 8,
+  "files": {
+    "FAMILIES.json": {
+      "bytes": 28999,
+      "sha256": "630581c076ea8c89e94c69bc79a279dca24a61c8c6b01b2a39668bf16be44ec1"
+    },
+    "ROSTER.json": {
+      "bytes": 509931,
+      "sha256": "0cc1977b1dc1468993aeacb66c379696528e5c4f1401a61fd9cec2505687808a"
+    },
+    "grader/TARGETS.jsonl": {
+      "bytes": 39510,
+      "sha256": "e99710825d4316e6058f715efe6fd8d9ad9d87209db326ce4d7f62bbb03002bf"
+    },
+    "predictor/INPUTS.jsonl": {
+      "bytes": 169093,
+      "sha256": "e497b4ef25cebea469133c05e1158fd4a85a799a59f1513c15d7eb1fd616e2a7"
+    }
+  },
+  "fresh_predictor_calls": 0,
+  "implementation": {
+    "check_feral_fresh.mjs": "8590de7a247a01e8187088f6af35c5dc18363cdbd3c14e300c828ad74f5d701c",
+    "feral_fresh_sources.py": "5fb6817ff62cdc84b9a6bf33c0270436115358439961d7eb2779ea85f0bc922e",
+    "prepare_feral_fresh.py": "853850400d37441e25fb7febca3e938f3ac2649b710df36fa6a44cd84e6187b5"
+  },
+  "opened_audit_sha256": "65cb32fa6353aba91b314c5c4a7eebf4f793c84df8d00613a889a4f0a7b9d980",
+  "opened_input_overlap": [],
+  "plan_sha256": "e504594e547a6aee894e16b290d958df58cf2d595ffe787db41a9abd8995e91c",
+  "schema": "ilxyr.feral_fresh_preparation.v1",
+  "source_document_overlap": [],
+  "source_facts": 81,
+  "source_sha256": "681855eabaad24565124df41966843fa83e80c080969616c1427ba6deabb1cc1",
+  "status": "verified"
+}

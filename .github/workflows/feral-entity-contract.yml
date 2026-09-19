@@ -1,0 +1,38 @@
+name: FERAL entity contract
+on:
+  pull_request:
+    paths:
+      - 'scripts/feral_evidence_calculator*.py'
+      - 'scripts/test_feral_evidence_calculator_v3.py'
+      - 'scripts/research_feral_entity_contract.py'
+      - 'experiments/research-step-53/**'
+      - '.github/workflows/feral-entity-contract.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/feral_evidence_calculator*.py'
+      - 'scripts/test_feral_evidence_calculator_v3.py'
+      - 'scripts/research_feral_entity_contract.py'
+      - 'experiments/research-step-53/**'
+      - '.github/workflows/feral-entity-contract.yml'
+permissions:
+  contents: read
+jobs:
+  development:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test requests and source interventions
+        run: python3 -B scripts/test_feral_evidence_calculator_v3.py
+      - name: Record the development result and coverage failure
+        run: python3 -B scripts/research_feral_entity_contract.py --output "$RUNNER_TEMP/feral-entity"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: feral-entity-${{ matrix.os }}
+          path: ${{ runner.temp }}/feral-entity

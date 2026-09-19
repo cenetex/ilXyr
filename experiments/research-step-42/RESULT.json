@@ -1,0 +1,38 @@
+{
+  "context_tokens": 512,
+  "counts": {
+    "endpoint": {
+      "bible-kjv": 16,
+      "blake": 16,
+      "crowley": 16,
+      "literary-dialogue": 16,
+      "shakespeare": 16,
+      "zero-foundation": 1
+    },
+    "replay": {
+      "bible-kjv": 128,
+      "blake": 64,
+      "crowley": 128,
+      "literary-dialogue": 128,
+      "shakespeare": 128,
+      "zero-foundation": 1
+    }
+  },
+  "decision_counts": {
+    "accept": 658,
+    "repeated_start": 1,
+    "shared_selected_text": 5,
+    "shared_source_tokens": 379
+  },
+  "decisions": 1043,
+  "derived_native_source_sha256": "54bb8f66e120f594a7e9b0692977d964ef19054a431524ce1c5933dbf5610bd7",
+  "paid_instances": 0,
+  "plan_commit": "ff3efabbd9716012cbd0579f9ea522b79434d583",
+  "production_model_calls": 0,
+  "remaining_work": "Bind the five-method controller to packed inputs, per-source limits, one final endpoint evaluation, whole-process costs and a cloud package.",
+  "schema": "ilxyr.zero4_window_selection.v1",
+  "source_commit": "9b4806f77a8cf4c3c0809bfc7136ae8eb320fa7d",
+  "status": "data_and_native_adapter_verified",
+  "window_manifest_sha256": "f772e27fd95793394e7f2b34032bc8f38118fa108aa261a3128ed9158d3af8ee",
+  "window_pack_bytes": 675396
+}

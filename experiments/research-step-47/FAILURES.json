@@ -1,0 +1,55 @@
+{
+  "earlier_runtime_and_capacity_records": [
+    "experiments/research-step-28/REPORT.md",
+    "experiments/research-step-30/REPORT.md"
+  ],
+  "failures": [
+    {
+      "effect": "Use the fixed company-hosted filing copy for preparation and CI reconstruction.",
+      "id": "source-fetch-aapl-403",
+      "observed": {
+        "checked_utc": "2026-09-12T18:45:27.997426+00:00",
+        "error": "HTTP Error 403: Forbidden",
+        "id": "aapl",
+        "status": "failed",
+        "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm"
+      },
+      "phase": "source_intake",
+      "receipt_sha256": "f1ad0f87436291758e922d6d4b02dd4a4c30d1d1d1e2c80d22ed6a7d3cbe937b",
+      "recovery": {
+        "bytes": 1452459,
+        "checked_utc": "2026-09-12T18:46:42.725099+00:00",
+        "id": "aapl",
+        "sha256": "eb08113db1fa3b847936c68ddf7bd9c31b5d708c14794c94355fd38ac3846850",
+        "status": "downloaded",
+        "table_count": 67,
+        "url": "https://d18rn0p25nwr6d.cloudfront.net/CIK-0000320193/c636d8a7-8025-47d2-9b13-bcf5465343b3.html"
+      }
+    },
+    {
+      "effect": "Use the fixed company-hosted filing copy for preparation and CI reconstruction.",
+      "id": "source-fetch-cost-403",
+      "observed": {
+        "checked_utc": "2026-09-12T18:45:28.254961+00:00",
+        "error": "HTTP Error 403: Forbidden",
+        "id": "cost",
+        "status": "failed",
+        "url": "https://www.sec.gov/Archives/edgar/data/909832/000090983225000101/cost-20250831.htm"
+      },
+      "phase": "source_intake",
+      "receipt_sha256": "c1e1a78c881b3d4ff578bafc97c605ac02c69cf3eee1031a64e8848c3fb1f7c4",
+      "recovery": {
+        "bytes": 2402603,
+        "checked_utc": "2026-09-12T18:46:43.424962+00:00",
+        "id": "cost",
+        "sha256": "0a19166022388dcfc985da106690874b662377feefed78bb0f285a4a423edbce",
+        "status": "downloaded",
+        "table_count": 1347,
+        "url": "https://d18rn0p25nwr6d.cloudfront.net/CIK-0000909832/43af4132-72c7-4bb8-803f-06b8f0e13093.html"
+      }
+    }
+  ],
+  "fresh_predictor_calls": 0,
+  "schema": "ilxyr.feral_fresh_failures.v1",
+  "scope": "Observed intake failures. The 64 designed evidence faults await the fixed predictor comparison."
+}

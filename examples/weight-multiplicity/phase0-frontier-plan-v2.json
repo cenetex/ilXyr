@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "contract_revision": "3-final-execution-copy",
+  "contract_received_sha256": "e77a6341155242a7e08e8a0675100fd347fbf1d637c58092561ea2c052dc6b3c",
+  "oracle": {
+    "implementation": "zero-freudenthal-exact-c11",
+    "interface_version": 1,
+    "zero_revision": "2eaf1e4"
+  },
+  "generator": {
+    "implementation": "ilxyr-weight-multiplicity-frontier",
+    "version": 2,
+    "seed": 230917,
+    "deduplication": "report-unique-count-do-not-cache-labels"
+  },
+  "coordinates": {
+    "cartan": "A_ij=<alpha_i_coroot,alpha_j>",
+    "weights": "integer_dynkin_labels",
+    "roots": "integer_simple_root_coefficients",
+    "highest_weight_height": "sum_of_highest_weight_dynkin_labels",
+    "target_depth": "signed_sum_of_integer_simple_root_coefficients_in_lambda_minus_mu",
+    "target_magnitude": "l1_norm_of_target_dynkin_labels",
+    "dominance": "all_target_dynkin_labels_nonnegative",
+    "weyl_action": "s_i(mu)=mu-mu_i*cartan_column_i"
+  },
+  "frontier": {
+    "types": [
+      "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8",
+      "B2", "B3", "B4", "B5", "B6", "B7", "B8",
+      "C3", "C4", "C5", "C6", "C7", "C8",
+      "D4", "D5", "D6", "D7", "D8",
+      "G2", "F4", "E6", "E7", "E8"
+    ],
+    "heights": [1, 2, 3, 4, 5, 6, 7, 8],
+    "cell_key": ["type", "highest_weight_height"],
+    "accepted_queries_per_cell": 100,
+    "stratum_quota": { "0": 25, "1": 25, "2-7": 25, "8-31": 25 },
+    "target_status_quota_by_stratum": {
+      "0": { "dominant": 19, "non_dominant": 6 },
+      "1": { "dominant": 19, "non_dominant": 6 },
+      "2-7": { "dominant": 19, "non_dominant": 6 },
+      "8-31": { "dominant": 18, "non_dominant": 7 }
+    },
+    "dominant_quota": 75,
+    "non_dominant_quota": 25,
+    "depth_bands": [
+      { "id": "q1", "lower_per_mille": 0, "upper_per_mille": 250 },
+      { "id": "q2", "lower_per_mille": 251, "upper_per_mille": 500 },
+      { "id": "q3", "lower_per_mille": 501, "upper_per_mille": 750 },
+      { "id": "q4", "lower_per_mille": 751, "upper_per_mille": 1000 }
+    ],
+    "minimum_per_depth_band": 0,
+    "attempt_cap_per_cell": 20000,
+    "replays": 2,
+    "query_timeout_ms": 1000,
+    "p95_limit_ms": 1000,
+    "peak_incremental_memory_limit_bytes": 2147483648,
+    "parallelism_candidates": [1, 2, 4, 8]
+  },
+  "budget_rule": "upper_95_percent_estimate_plus_15_percent_operational_margin",
+  "supersedes": {
+    "plan_sha256": "c4b1ad5f9c15c3b76f3b214beae4d8fafa0ede6f51d4c3a3601a2ca9f937e05b",
+    "result_sha256": "b1d4cf21c083ac2a52a929c7736c9ca1b570ff2b4a093bfc70ef8c56c3bc3c8b",
+    "reason": "Version 1 sampled unconstrained simple-root compositions for positive strata. The binding run proved that this produced almost only zero-multiplicity targets in E7 and E8. Version 2 uses valid lowering walks for positive-stratum candidates; Version 1 remains sealed as superseded evidence."
+  }
+}

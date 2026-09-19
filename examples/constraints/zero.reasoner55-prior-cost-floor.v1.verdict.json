@@ -1,0 +1,28 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-31/RESULT.json",
+  "evidence_ref": "artifact://sha256/a8f1de11af093d3bd331ee6cefbda7da06e1348beb28145319aa1779fd763038",
+  "experiment_id": "zero.reasoner55-prior-cost-floor.v1",
+  "family": "zero",
+  "id": "verdict:zero.reasoner55-prior-cost-floor.v1",
+  "lineage_note": "Change work before search, apply shared optimizations to all controls, and retain semantic frequency as a cost reference. Use fresh families after the opened-data engineering check.",
+  "mechanism": "Fixed learned semantic task guidance versus raw lexical guidance, with shared optimized search, on fresh target behaviors and primitive sets within the fixed family design.",
+  "mechanism_tags": [
+    "learned-search",
+    "stage-cost",
+    "prior-feature",
+    "frequency-control"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "reasoner",
+  "recorded_at_ms": 1788892924492,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "The ablated guide spends more CPU in all 128 opened families; scoring and ranking dominate the remaining cost.",
+  "summary": "The feature-removed guide uses 14.31 percent more family-weighted CPU than semantic frequency on the opened cohort. Assigning zero search wall time leaves a 10.53 percent aggregate wall gap with other stages fixed.",
+  "taxonomy": "measurement"
+}

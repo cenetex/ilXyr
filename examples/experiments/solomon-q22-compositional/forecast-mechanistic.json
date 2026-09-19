@@ -1,0 +1,13 @@
+{
+  "schema": "ilxyr.forecast.v1",
+  "id": "solomon.q22-compositional.forecast.mechanistic.v1",
+  "experiment_id": "solomon.q22-compositional-routing.three-seed.v1",
+  "forecaster": {
+    "id": "model://solomon/q22-compositional/forecaster-mechanistic",
+    "kind": "model",
+    "model_ref": "model://solomon/q22/compositional-separability-forecast/v1"
+  },
+  "probabilities": {"go": 0.72, "no_go": 0.27, "execution_failure": 0.01},
+  "stake": 10,
+  "rationale": "The sparse n-gram surface should capture operation-specific language beyond the constant prefix, but success now requires transfer across held-out template families and resistance to balanced contradictory cues. The worst seed-class and agreement gates make this materially harder than the original prefix-separable task."
+}

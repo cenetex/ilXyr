@@ -1,0 +1,48 @@
+{
+  "ci_run": 34296608844,
+  "fresh_episode_visits": 0,
+  "implementation_commit": "2d6bc9dccf3797a917f898a322d4edf6d0b161e5",
+  "independent_heap_cases": 516,
+  "local_stable_rows_sha256": "fdfc86fe9f096955099bdf622cf6d69aadd9ab2570071ddc6f7774c512dfde36",
+  "platforms": [
+    {
+      "collection_sha256": "bedb896f11dab1751761bfd0ed8c7b73a9a1f4653d540f3db7ba8606068b76e0",
+      "compiler_identity_sha256": "6c263f4a0b378193483e8853193204a89db0eacf407199d789fb7e3125b8148b",
+      "failure_cases": 17,
+      "independent_measured_replays": 64,
+      "native_sha256": "cd1ae3afbeed989cfe44ed5b924cf309ce5ab4534007cff948eb9d5d6b088ae2",
+      "opened_episode_visits": 256,
+      "platform": "reasoner-study-macos-latest",
+      "stable_rows_sha256": "fdfc86fe9f096955099bdf622cf6d69aadd9ab2570071ddc6f7774c512dfde36",
+      "status": "passed",
+      "supervisor_sha256": "ccfda32e131e3d7b8b837b2eb8c3deda57cd64b34d0394bbbdabaff3af4a708e"
+    },
+    {
+      "collection_sha256": "91f8b0407eb26175fea5129103e2bf8347d816f758be61c9153bbb968c2a484f",
+      "compiler_identity_sha256": "3635b8631d4ebcd8ed7586f4e01e7a6b44407de9d38db6e01daca9c242ed7a53",
+      "failure_cases": 17,
+      "independent_measured_replays": 64,
+      "native_sha256": "3c5837c2cf05df20c4f42302a9cb7b1253d2cc05a50dfbde8706a30851ca2441",
+      "opened_episode_visits": 256,
+      "platform": "reasoner-study-ubuntu-latest",
+      "stable_rows_sha256": "fdfc86fe9f096955099bdf622cf6d69aadd9ab2570071ddc6f7774c512dfde36",
+      "status": "passed",
+      "supervisor_sha256": "9b463c4ad9255870c3b91c1a5ff39bc394925f20abf83ffc2c478ede1e6c8593"
+    }
+  ],
+  "sanitizers": {
+    "arms": [
+      "semantic_frequency",
+      "task_guide",
+      "raw_lexical_task_guide",
+      "task_without_prior_feature"
+    ],
+    "binary_sha256": "bac6f274334424b22f5747e26f7cb71ddeda13af58061aa0e5bc77060f5bffde",
+    "fresh_episode_visits": 0,
+    "opened_episode_visits": 128,
+    "source_sha256": "c582dca8f4fa85a289f55762304da040fed7c7e65dc7fcbd232cd2520542b950",
+    "status": "passed"
+  },
+  "schema": "ilxyr.reasoner_study_platform_checks.v1",
+  "unit_cases": 8
+}

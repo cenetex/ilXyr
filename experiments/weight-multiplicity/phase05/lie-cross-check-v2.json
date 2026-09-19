@@ -1,0 +1,7839 @@
+{
+  "schema_version": 1,
+  "evidence_status": "hold_on_unresolved_disagreement",
+  "manifest_sha256": "f0ccd1b089b1a8e3004fbb060ae3221bbb414d2eb595ba7f101ee4688dd2966e",
+  "zero_executable_sha256": "cb57c268c58a4ed16df5dc2ca08edd8d5a249028308395e15195a2852999bb46",
+  "lie_executable_sha256": "aaf91a06cb8012f27d1f7baf9e2d753726fe386c79e68ce88efb9abb01d4cd11",
+  "timeout_ms": 60000,
+  "results": [
+    {
+      "id": "A1:lie:01",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1
+      ],
+      "representation_dimension": "2",
+      "target_weight": [
+        -1
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 3.745540999999996
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 2.2702919999999978
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:02",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:2",
+      "representation_source": "candidate_envelope_fill",
+      "highest_weight": [
+        2
+      ],
+      "representation_dimension": "3",
+      "target_weight": [
+        0
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.0589999999999975
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.923375
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:03",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:4",
+      "representation_source": "candidate_envelope_fill",
+      "highest_weight": [
+        4
+      ],
+      "representation_dimension": "5",
+      "target_weight": [
+        2
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.8824169999999967
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.7265000000000015
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:04",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:4",
+      "representation_source": "candidate_envelope_fill",
+      "highest_weight": [
+        4
+      ],
+      "representation_dimension": "5",
+      "target_weight": [
+        -2
+      ],
+      "target_depth": 3,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.8861659999999958
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.8115829999999988
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:05",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:4",
+      "representation_source": "candidate_envelope_fill",
+      "highest_weight": [
+        4
+      ],
+      "representation_dimension": "5",
+      "target_weight": [
+        0
+      ],
+      "target_depth": 2,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.7090419999999966
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.8829160000000016
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:06",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:8",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        8
+      ],
+      "representation_dimension": "9",
+      "target_weight": [
+        4
+      ],
+      "target_depth": 2,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.8897079999999988
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.9267499999999984
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:07",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:8",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        8
+      ],
+      "representation_dimension": "9",
+      "target_weight": [
+        -4
+      ],
+      "target_depth": 6,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.466458000000003
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.7078339999999912
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:08",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:8",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        8
+      ],
+      "representation_dimension": "9",
+      "target_weight": [
+        0
+      ],
+      "target_depth": 4,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.566749999999999
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.615542000000005
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:09",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:8",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        8
+      ],
+      "representation_dimension": "9",
+      "target_weight": [
+        6
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.3740829999999988
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.5618750000000006
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:10",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:8",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        8
+      ],
+      "representation_dimension": "9",
+      "target_weight": [
+        2
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.7489580000000018
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.7149160000000023
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:11",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:8",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        8
+      ],
+      "representation_dimension": "9",
+      "target_weight": [
+        -2
+      ],
+      "target_depth": 5,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.561791999999997
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.6778329999999926
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:12",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:8",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        8
+      ],
+      "representation_dimension": "9",
+      "target_weight": [
+        -6
+      ],
+      "target_depth": 7,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.6463329999999985
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.7055000000000007
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:13",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:3",
+      "representation_source": "candidate_envelope_fill",
+      "highest_weight": [
+        3
+      ],
+      "representation_dimension": "4",
+      "target_weight": [
+        1
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.4175419999999974
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.574666999999991
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:14",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:3",
+      "representation_source": "candidate_envelope_fill",
+      "highest_weight": [
+        3
+      ],
+      "representation_dimension": "4",
+      "target_weight": [
+        -1
+      ],
+      "target_depth": 2,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.6632079999999974
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.6724169999999958
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:15",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:5",
+      "representation_source": "candidate_envelope_fill",
+      "highest_weight": [
+        5
+      ],
+      "representation_dimension": "6",
+      "target_weight": [
+        3
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5751249999999999
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.709457999999998
+      },
+      "agreement": true
+    },
+    {
+      "id": "A1:lie:16",
+      "type": "A1",
+      "rank": 1,
+      "representation_id": "A1:5",
+      "representation_source": "candidate_envelope_fill",
+      "highest_weight": [
+        5
+      ],
+      "representation_dimension": "6",
+      "target_weight": [
+        -3
+      ],
+      "target_depth": 4,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.7596249999999998
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A1",
+        "elapsed_ms": 1.729416999999998
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:01",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:0,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        1
+      ],
+      "representation_dimension": "3",
+      "target_weight": [
+        1,
+        -1
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.819416000000004
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A2",
+        "elapsed_ms": 1.695208000000008
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:02",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        3
+      ],
+      "representation_dimension": "10",
+      "target_weight": [
+        1,
+        1
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.506875000000008
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A2",
+        "elapsed_ms": 1.8444999999999965
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:03",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        3
+      ],
+      "representation_dimension": "10",
+      "target_weight": [
+        -1,
+        2
+      ],
+      "target_depth": 2,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.7690000000000055
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A2",
+        "elapsed_ms": 1.7604999999999933
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:04",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        3
+      ],
+      "representation_dimension": "10",
+      "target_weight": [
+        0,
+        0
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5060830000000038
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A2",
+        "elapsed_ms": 1.9265410000000003
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:05",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        3
+      ],
+      "representation_dimension": "10",
+      "target_weight": [
+        2,
+        -1
+      ],
+      "target_depth": 2,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.6597909999999985
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A2",
+        "elapsed_ms": 1.7610839999999968
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:06",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:4,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        3
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        1,
+        3
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 1.5307080000000042
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "A2",
+        "elapsed_ms": 1.7039999999999935
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:07",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:4,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        3
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        -4,
+        4
+      ],
+      "target_depth": 7,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 1.7974169999999958
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "A2",
+        "elapsed_ms": 1.7877080000000092
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:08",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:4,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        3
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        4,
+        0
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 2,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 1.9208330000000018
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "A2",
+        "elapsed_ms": 1.79308300000001
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:09",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:4,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        3
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        1,
+        0
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "4",
+        "elapsed_ms": 1.5448750000000047
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "4",
+        "query_type": "A2",
+        "elapsed_ms": 1.542665999999997
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:10",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:4,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        3
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        -1,
+        1
+      ],
+      "target_depth": 7,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "4",
+        "elapsed_ms": 1.5389169999999979
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "4",
+        "query_type": "A2",
+        "elapsed_ms": 1.5773750000000035
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:11",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:4,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        3
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        5,
+        1
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5764580000000024
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A2",
+        "elapsed_ms": 1.8513749999999902
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:12",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:4,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        3
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        2,
+        1
+      ],
+      "target_depth": 4,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "3",
+        "elapsed_ms": 1.6844169999999963
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "3",
+        "query_type": "A2",
+        "elapsed_ms": 1.830083000000002
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:13",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:4,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        3
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        -5,
+        6
+      ],
+      "target_depth": 6,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5819589999999977
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A2",
+        "elapsed_ms": 1.519834000000003
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:14",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:4,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        3
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        2,
+        -2
+      ],
+      "target_depth": 7,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "3",
+        "elapsed_ms": 1.6973749999999939
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "3",
+        "query_type": "A2",
+        "elapsed_ms": 1.6890420000000006
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:15",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:4,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        3
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        2,
+        4
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5437090000000069
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A2",
+        "elapsed_ms": 1.7908329999999921
+      },
+      "agreement": true
+    },
+    {
+      "id": "A2:lie:16",
+      "type": "A2",
+      "rank": 2,
+      "representation_id": "A2:4,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        3
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        0,
+        2
+      ],
+      "target_depth": 5,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "3",
+        "elapsed_ms": 1.636917000000011
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "3",
+        "query_type": "A2",
+        "elapsed_ms": 1.9426670000000001
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:01",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:0,0,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        1
+      ],
+      "representation_dimension": "4",
+      "target_weight": [
+        0,
+        1,
+        -1
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5701249999999902
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A3",
+        "elapsed_ms": 1.7495410000000078
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:02",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:0,0,2",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        2
+      ],
+      "representation_dimension": "10",
+      "target_weight": [
+        0,
+        1,
+        0
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5819170000000042
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A3",
+        "elapsed_ms": 1.5934579999999983
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:03",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:0,0,2",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        2
+      ],
+      "representation_dimension": "10",
+      "target_weight": [
+        1,
+        -1,
+        1
+      ],
+      "target_depth": 2,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5820829999999972
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A3",
+        "elapsed_ms": 1.694749999999999
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:04",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:6,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        3,
+        0,
+        1
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.8728749999999934
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A3",
+        "elapsed_ms": 1.8141660000000002
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:05",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:6,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        1,
+        2,
+        -1
+      ],
+      "target_depth": 5,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5706250000000068
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A3",
+        "elapsed_ms": 1.617750000000001
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:06",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:6,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        1,
+        1,
+        1
+      ],
+      "target_depth": 4,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.6310000000000002
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A3",
+        "elapsed_ms": 1.675458000000006
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:07",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:6,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        0,
+        1,
+        0
+      ],
+      "target_depth": 7,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.6547910000000172
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A3",
+        "elapsed_ms": 1.7456249999999898
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:08",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:6,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        1,
+        -1,
+        1
+      ],
+      "target_depth": 8,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.9776659999999993
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A3",
+        "elapsed_ms": 1.7697919999999954
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:09",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:6,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        2,
+        2,
+        0
+      ],
+      "target_depth": 2,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.7057920000000024
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A3",
+        "elapsed_ms": 1.6017500000000098
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:10",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:6,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        2,
+        0,
+        0
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5067499999999825
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A3",
+        "elapsed_ms": 1.5472499999999911
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:11",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:6,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        -4,
+        5,
+        0
+      ],
+      "target_depth": 5,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5942090000000064
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A3",
+        "elapsed_ms": 1.6589999999999918
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:12",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:6,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        0,
+        0,
+        2
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.570666999999986
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A3",
+        "elapsed_ms": 1.7839170000000024
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:13",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:2,4,2",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        4,
+        2
+      ],
+      "representation_dimension": "2640",
+      "target_weight": [
+        1,
+        2,
+        1
+      ],
+      "target_depth": 7,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "13",
+        "elapsed_ms": 1.633874999999989
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "13",
+        "query_type": "A3",
+        "elapsed_ms": 1.618333000000007
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:14",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:2,4,2",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        4,
+        2
+      ],
+      "representation_dimension": "2640",
+      "target_weight": [
+        -1,
+        2,
+        3
+      ],
+      "target_depth": 7,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "8",
+        "elapsed_ms": 1.332415999999995
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "8",
+        "query_type": "A3",
+        "elapsed_ms": 1.5110420000000033
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:15",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:2,4,2",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        4,
+        2
+      ],
+      "representation_dimension": "2640",
+      "target_weight": [
+        1,
+        1,
+        3
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "8",
+        "elapsed_ms": 1.57891699999999
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "8",
+        "query_type": "A3",
+        "elapsed_ms": 1.648541999999992
+      },
+      "agreement": true
+    },
+    {
+      "id": "A3:lie:16",
+      "type": "A3",
+      "rank": 3,
+      "representation_id": "A3:2,4,2",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        4,
+        2
+      ],
+      "representation_dimension": "2640",
+      "target_weight": [
+        0,
+        0,
+        0
+      ],
+      "target_depth": 14,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "24",
+        "elapsed_ms": 1.6185409999999933
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "24",
+        "query_type": "A3",
+        "elapsed_ms": 2.0257080000000087
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:01",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,0,0,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "representation_dimension": "5",
+      "target_weight": [
+        0,
+        0,
+        1,
+        -1
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.6341250000000116
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A4",
+        "elapsed_ms": 1.5720420000000104
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:02",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,1,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "representation_dimension": "75",
+      "target_weight": [
+        1,
+        0,
+        0,
+        1
+      ],
+      "target_depth": 2,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 1.499750000000006
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "A4",
+        "elapsed_ms": 1.6141660000000115
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:03",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,1,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "representation_dimension": "75",
+      "target_weight": [
+        1,
+        0,
+        1,
+        -1
+      ],
+      "target_depth": 3,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 1.529291999999998
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "A4",
+        "elapsed_ms": 1.577083000000016
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:04",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,1,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "representation_dimension": "75",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "5",
+        "elapsed_ms": 1.4480420000000152
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "5",
+        "query_type": "A4",
+        "elapsed_ms": 1.7262910000000034
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:05",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,1,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "representation_dimension": "75",
+      "target_weight": [
+        1,
+        -1,
+        2,
+        0
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.7208339999999964
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A4",
+        "elapsed_ms": 1.6022079999999903
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:06",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,1,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "representation_dimension": "75",
+      "target_weight": [
+        -1,
+        1,
+        0,
+        1
+      ],
+      "target_depth": 3,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 1.3127079999999864
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "A4",
+        "elapsed_ms": 1.5740419999999915
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:07",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,3,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        3,
+        1,
+        0
+      ],
+      "representation_dimension": "980",
+      "target_weight": [
+        0,
+        2,
+        0,
+        0
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "6",
+        "elapsed_ms": 1.4048329999999964
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "6",
+        "query_type": "A4",
+        "elapsed_ms": 1.5452080000000024
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:08",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,3,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        3,
+        1,
+        0
+      ],
+      "representation_dimension": "980",
+      "target_weight": [
+        0,
+        2,
+        -1,
+        2
+      ],
+      "target_depth": 5,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "3",
+        "elapsed_ms": 1.6735830000000078
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "3",
+        "query_type": "A4",
+        "elapsed_ms": 1.6475410000000181
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:09",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,3,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        3,
+        1,
+        0
+      ],
+      "representation_dimension": "980",
+      "target_weight": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "target_depth": 10,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "10",
+        "elapsed_ms": 1.8047499999999843
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "10",
+        "query_type": "A4",
+        "elapsed_ms": 1.8616250000000036
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:10",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,3,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        3,
+        1,
+        0
+      ],
+      "representation_dimension": "980",
+      "target_weight": [
+        0,
+        0,
+        1,
+        -1
+      ],
+      "target_depth": 11,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "10",
+        "elapsed_ms": 1.5931249999999864
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "10",
+        "query_type": "A4",
+        "elapsed_ms": 1.6102909999999895
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:11",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,3,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        3,
+        1,
+        0
+      ],
+      "representation_dimension": "980",
+      "target_weight": [
+        0,
+        0,
+        3,
+        0
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.4141249999999843
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A4",
+        "elapsed_ms": 1.5543749999999932
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:12",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,3,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        3,
+        1,
+        0
+      ],
+      "representation_dimension": "980",
+      "target_weight": [
+        1,
+        0,
+        1,
+        0
+      ],
+      "target_depth": 7,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "7",
+        "elapsed_ms": 1.5234999999999843
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "7",
+        "query_type": "A4",
+        "elapsed_ms": 1.761084000000011
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:13",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,3,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        3,
+        1,
+        0
+      ],
+      "representation_dimension": "980",
+      "target_weight": [
+        0,
+        3,
+        -3,
+        3
+      ],
+      "target_depth": 6,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.4890419999999835
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A4",
+        "elapsed_ms": 1.909667000000013
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:14",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:0,3,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        3,
+        1,
+        0
+      ],
+      "representation_dimension": "980",
+      "target_weight": [
+        -1,
+        1,
+        1,
+        0
+      ],
+      "target_depth": 8,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "7",
+        "elapsed_ms": 1.5761660000000006
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "7",
+        "query_type": "A4",
+        "elapsed_ms": 1.6300829999999848
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:15",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:4,1,0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        1,
+        0,
+        3
+      ],
+      "representation_dimension": "9800",
+      "target_weight": [
+        2,
+        1,
+        0,
+        1
+      ],
+      "target_depth": 8,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "18",
+        "elapsed_ms": 1.5068330000000003
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "18",
+        "query_type": "A4",
+        "elapsed_ms": 1.542082999999991
+      },
+      "agreement": true
+    },
+    {
+      "id": "A4:lie:16",
+      "type": "A4",
+      "rank": 4,
+      "representation_id": "A4:4,1,0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        1,
+        0,
+        3
+      ],
+      "representation_dimension": "9800",
+      "target_weight": [
+        0,
+        3,
+        -2,
+        2
+      ],
+      "target_depth": 10,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "9",
+        "elapsed_ms": 1.6402909999999906
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "9",
+        "query_type": "A4",
+        "elapsed_ms": 1.616708000000017
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:01",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:0,0,0,0,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "representation_dimension": "6",
+      "target_weight": [
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.6794999999999902
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A5",
+        "elapsed_ms": 1.797458000000006
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:02",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,0,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        -1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.722332999999992
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A5",
+        "elapsed_ms": 1.6739169999999888
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:03",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,0,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "target_depth": 4,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "4",
+        "elapsed_ms": 1.5150409999999965
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "4",
+        "query_type": "A5",
+        "elapsed_ms": 1.506750000000011
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:04",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,0,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      "target_depth": 5,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "4",
+        "elapsed_ms": 1.5328340000000082
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "4",
+        "query_type": "A5",
+        "elapsed_ms": 1.6149580000000014
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:05",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,0,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        1,
+        0,
+        1,
+        -1,
+        1
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.4883330000000115
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A5",
+        "elapsed_ms": 1.625959000000023
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:06",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,0,0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        3
+      ],
+      "representation_dimension": "315",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        2
+      ],
+      "target_depth": 5,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "5",
+        "elapsed_ms": 1.8519579999999962
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "5",
+        "query_type": "A5",
+        "elapsed_ms": 1.785334000000006
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:07",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,0,0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        3
+      ],
+      "representation_dimension": "315",
+      "target_weight": [
+        1,
+        0,
+        1,
+        -1,
+        2
+      ],
+      "target_depth": 2,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.4844579999999894
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A5",
+        "elapsed_ms": 1.7665829999999971
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:08",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,0,0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        3
+      ],
+      "representation_dimension": "315",
+      "target_weight": [
+        1,
+        0,
+        0,
+        1,
+        1
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.4914170000000126
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A5",
+        "elapsed_ms": 1.7512079999999912
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:09",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,0,0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        3
+      ],
+      "representation_dimension": "315",
+      "target_weight": [
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "5",
+        "elapsed_ms": 1.6129999999999995
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "5",
+        "query_type": "A5",
+        "elapsed_ms": 1.7077079999999967
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:10",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,0,0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        3
+      ],
+      "representation_dimension": "315",
+      "target_weight": [
+        0,
+        0,
+        1,
+        -1,
+        1
+      ],
+      "target_depth": 7,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "5",
+        "elapsed_ms": 1.934958000000023
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "5",
+        "query_type": "A5",
+        "elapsed_ms": 1.7201669999999751
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:11",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,0,0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        3
+      ],
+      "representation_dimension": "315",
+      "target_weight": [
+        1,
+        0,
+        0,
+        2,
+        -1
+      ],
+      "target_depth": 2,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.453583000000009
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A5",
+        "elapsed_ms": 1.5303329999999846
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:12",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,1,1,5",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        1,
+        1,
+        5
+      ],
+      "representation_dimension": "100100",
+      "target_weight": [
+        0,
+        1,
+        1,
+        0,
+        2
+      ],
+      "target_depth": 10,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "40",
+        "elapsed_ms": 1.5415830000000028
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "40",
+        "query_type": "A5",
+        "elapsed_ms": 1.6512910000000147
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:13",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,1,1,5",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        1,
+        1,
+        5
+      ],
+      "representation_dimension": "100100",
+      "target_weight": [
+        0,
+        2,
+        -1,
+        2,
+        0
+      ],
+      "target_depth": 12,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "40",
+        "elapsed_ms": 1.7394999999999925
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "40",
+        "query_type": "A5",
+        "elapsed_ms": 1.5705829999999992
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:14",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,1,1,5",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        1,
+        1,
+        5
+      ],
+      "representation_dimension": "100100",
+      "target_weight": [
+        0,
+        1,
+        0,
+        1,
+        3
+      ],
+      "target_depth": 8,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "31",
+        "elapsed_ms": 1.6898750000000007
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "31",
+        "query_type": "A5",
+        "elapsed_ms": 2.0577499999999986
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:15",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,1,1,5",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        1,
+        1,
+        5
+      ],
+      "representation_dimension": "100100",
+      "target_weight": [
+        0,
+        1,
+        1,
+        1,
+        0
+      ],
+      "target_depth": 11,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 2,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "40",
+        "elapsed_ms": 1.758166999999986
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "40",
+        "query_type": "A5",
+        "elapsed_ms": 1.6350839999999778
+      },
+      "agreement": true
+    },
+    {
+      "id": "A5:lie:16",
+      "type": "A5",
+      "rank": 5,
+      "representation_id": "A5:1,0,1,1,5",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        1,
+        1,
+        5
+      ],
+      "representation_dimension": "100100",
+      "target_weight": [
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 19,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "130",
+        "elapsed_ms": 4.418834000000004
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "130",
+        "query_type": "A5",
+        "elapsed_ms": 1.6623749999999973
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:01",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:0,0,0,0,0,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "representation_dimension": "7",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.8039579999999944
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.5936669999999822
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:02",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:3,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.6596659999999872
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.5895000000000152
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:03",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:3,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        0,
+        1,
+        -1,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 4,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5700840000000085
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.5680409999999938
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:04",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:3,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.6354579999999999
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.644834000000003
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:05",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:3,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "84",
+      "target_weight": [
+        -1,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 2,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5948750000000018
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.6836250000000064
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:06",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:6,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        2,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.7441670000000045
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.6380000000000052
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:07",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:6,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        1,
+        -1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 8,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.4164159999999981
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.525999999999982
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:08",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:6,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 7,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.761209000000008
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.7282500000000027
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:09",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:6,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "target_depth": 15,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.5098330000000146
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.7959579999999846
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:10",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:6,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      "target_depth": 16,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.165541999999988
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.5547909999999945
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:11",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:6,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 4,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.4275420000000167
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.6551249999999982
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:12",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:6,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "target_depth": 10,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5562499999999773
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.6895000000000095
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:13",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:6,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        3,
+        1,
+        -1,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 4,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.7524580000000185
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.9391669999999976
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:14",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:6,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        0,
+        1,
+        1,
+        -1,
+        1,
+        0
+      ],
+      "target_depth": 8,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5459169999999745
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.5809999999999889
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:15",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:6,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        3,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5071670000000097
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A6",
+        "elapsed_ms": 1.5969580000000008
+      },
+      "agreement": true
+    },
+    {
+      "id": "A6:lie:16",
+      "type": "A6",
+      "rank": 6,
+      "representation_id": "A6:5,0,0,3,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        5,
+        0,
+        0,
+        3,
+        0,
+        0
+      ],
+      "representation_dimension": "998816",
+      "target_weight": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "target_depth": 16,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "64",
+        "elapsed_ms": 4.153375000000011
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "64",
+        "query_type": "A6",
+        "elapsed_ms": 1.636667000000017
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:01",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:0,0,0,0,0,0,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "representation_dimension": "8",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.7381249999999966
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A7",
+        "elapsed_ms": 1.6692500000000052
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:02",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:0,0,0,0,0,0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3
+      ],
+      "representation_dimension": "120",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.4309999999999832
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A7",
+        "elapsed_ms": 1.6609160000000145
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:03",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:0,0,0,0,0,0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3
+      ],
+      "representation_dimension": "120",
+      "target_weight": [
+        0,
+        0,
+        0,
+        1,
+        -1,
+        1,
+        0
+      ],
+      "target_depth": 4,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.4965409999999792
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A7",
+        "elapsed_ms": 1.5525840000000244
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:04",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:0,0,0,0,0,0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3
+      ],
+      "representation_dimension": "120",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5525419999999883
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A7",
+        "elapsed_ms": 1.853999999999985
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:05",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:0,0,0,0,0,0,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3
+      ],
+      "representation_dimension": "120",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        -1
+      ],
+      "target_depth": 2,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.619874999999979
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A7",
+        "elapsed_ms": 1.5613330000000474
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:06",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:0,0,0,0,0,0,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4
+      ],
+      "representation_dimension": "330",
+      "target_weight": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.4203750000000355
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A7",
+        "elapsed_ms": 1.5080829999999992
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:07",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:0,0,0,0,0,0,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4
+      ],
+      "representation_dimension": "330",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        -1
+      ],
+      "target_depth": 4,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.391999999999996
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A7",
+        "elapsed_ms": 1.6447919999999954
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:08",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:0,0,0,0,0,0,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4
+      ],
+      "representation_dimension": "330",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 2,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.908834000000013
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A7",
+        "elapsed_ms": 1.618750000000034
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:09",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:0,0,0,0,0,0,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4
+      ],
+      "representation_dimension": "330",
+      "target_weight": [
+        0,
+        0,
+        1,
+        -1,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 7,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.5900830000000497
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A7",
+        "elapsed_ms": 1.5355410000000234
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:10",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:0,0,0,0,0,0,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4
+      ],
+      "representation_dimension": "330",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 2,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.458958999999993
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A7",
+        "elapsed_ms": 1.5807080000000155
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:11",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:1,0,0,0,2,1,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        2,
+        1,
+        4
+      ],
+      "representation_dimension": "10010000",
+      "target_weight": [
+        0,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "target_depth": 19,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "443",
+        "elapsed_ms": 12.711082999999974
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "443",
+        "query_type": "A7",
+        "elapsed_ms": 2.0762919999999667
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:12",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:1,0,0,0,2,1,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        2,
+        1,
+        4
+      ],
+      "representation_dimension": "10010000",
+      "target_weight": [
+        0,
+        1,
+        0,
+        1,
+        -1,
+        2,
+        0
+      ],
+      "target_depth": 20,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "443",
+        "elapsed_ms": 13.13579199999998
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "443",
+        "query_type": "A7",
+        "elapsed_ms": 1.9201669999999922
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:13",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:1,0,0,0,2,1,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        2,
+        1,
+        4
+      ],
+      "representation_dimension": "10010000",
+      "target_weight": [
+        0,
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "target_depth": 16,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "214",
+        "elapsed_ms": 5.553584000000001
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "214",
+        "query_type": "A7",
+        "elapsed_ms": 1.834791999999993
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:14",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:1,0,0,0,2,1,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        2,
+        1,
+        4
+      ],
+      "representation_dimension": "10010000",
+      "target_weight": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2,
+        1
+      ],
+      "target_depth": 17,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 2,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "284",
+        "elapsed_ms": 8.510207999999977
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "284",
+        "query_type": "A7",
+        "elapsed_ms": 1.9136669999999754
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:15",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:1,0,0,0,2,1,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        2,
+        1,
+        4
+      ],
+      "representation_dimension": "10010000",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 31,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1715",
+        "elapsed_ms": 322.06645899999995
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1715",
+        "query_type": "A7",
+        "elapsed_ms": 1.9637500000000045
+      },
+      "agreement": true
+    },
+    {
+      "id": "A7:lie:16",
+      "type": "A7",
+      "rank": 7,
+      "representation_id": "A7:1,0,0,0,2,1,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        2,
+        1,
+        4
+      ],
+      "representation_dimension": "10010000",
+      "target_weight": [
+        0,
+        0,
+        0,
+        1,
+        -1,
+        1,
+        0
+      ],
+      "target_depth": 32,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1715",
+        "elapsed_ms": 347.15591600000005
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1715",
+        "query_type": "A7",
+        "elapsed_ms": 2.447458000000097
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:01",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,0,0,0,0,0,0,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "representation_dimension": "9",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.138667000000055
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A8",
+        "elapsed_ms": 2.3327919999999267
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:02",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,1,0,0,0,0,0,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "representation_dimension": "315",
+      "target_weight": [
+        1,
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.189707999999996
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A8",
+        "elapsed_ms": 2.2774160000000165
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:03",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,1,0,0,0,0,0,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "representation_dimension": "315",
+      "target_weight": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 7,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "7",
+        "elapsed_ms": 2.001209000000017
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "7",
+        "query_type": "A8",
+        "elapsed_ms": 1.9250409999999647
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:04",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,1,0,0,0,0,0,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "representation_dimension": "315",
+      "target_weight": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 1.9501249999999573
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "A8",
+        "elapsed_ms": 2.1943749999999227
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:05",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,1,0,0,0,0,0,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "representation_dimension": "315",
+      "target_weight": [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 8,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 750,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "7",
+        "elapsed_ms": 2.0771670000000313
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "7",
+        "query_type": "A8",
+        "elapsed_ms": 2.093417000000045
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:06",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,0,0,0,0,0,1,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        3
+      ],
+      "representation_dimension": "3168",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "target_depth": 5,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "3",
+        "elapsed_ms": 1.9884579999999232
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "3",
+        "query_type": "A8",
+        "elapsed_ms": 1.940040999999951
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:07",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,0,0,0,0,0,1,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        3
+      ],
+      "representation_dimension": "3168",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        -2
+      ],
+      "target_depth": 4,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 2.020458000000076
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "A8",
+        "elapsed_ms": 1.989084000000048
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:08",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,0,0,0,0,0,1,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        3
+      ],
+      "representation_dimension": "3168",
+      "target_weight": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 9,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "4",
+        "elapsed_ms": 2.239167000000066
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "4",
+        "query_type": "A8",
+        "elapsed_ms": 2.0602499999999964
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:09",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,0,0,0,0,0,1,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        3
+      ],
+      "representation_dimension": "3168",
+      "target_weight": [
+        0,
+        0,
+        1,
+        -1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 10,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "4",
+        "elapsed_ms": 2.0367499999999836
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "4",
+        "query_type": "A8",
+        "elapsed_ms": 2.279333000000065
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:10",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,0,0,0,0,0,1,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        3
+      ],
+      "representation_dimension": "3168",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 1.9722080000000233
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "A8",
+        "elapsed_ms": 1.8260420000000295
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:11",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,0,0,0,0,0,1,3",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        3
+      ],
+      "representation_dimension": "3168",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2
+      ],
+      "target_depth": 2,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 1.995166999999924
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "A8",
+        "elapsed_ms": 2.030167000000006
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:12",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,0,0,0,0,2,2,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        4
+      ],
+      "representation_dimension": "31711680",
+      "target_weight": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        2,
+        0,
+        1
+      ],
+      "target_depth": 19,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "170",
+        "elapsed_ms": 9.613166999999976
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "170",
+        "query_type": "A8",
+        "elapsed_ms": 2.4306669999999713
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:13",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,0,0,0,0,2,2,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        4
+      ],
+      "representation_dimension": "31711680",
+      "target_weight": [
+        0,
+        1,
+        0,
+        0,
+        1,
+        1,
+        -1,
+        2
+      ],
+      "target_depth": 21,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "220",
+        "elapsed_ms": 11.190375000000017
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "220",
+        "query_type": "A8",
+        "elapsed_ms": 2.2094999999999345
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:14",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,0,0,0,0,2,2,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        4
+      ],
+      "representation_dimension": "31711680",
+      "target_weight": [
+        0,
+        0,
+        1,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 19,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "124",
+        "elapsed_ms": 5.337999999999965
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "124",
+        "query_type": "A8",
+        "elapsed_ms": 2.3828750000000127
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:15",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,0,0,0,0,2,2,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        4
+      ],
+      "representation_dimension": "31711680",
+      "target_weight": [
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 20,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 2,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "160",
+        "elapsed_ms": 6.069999999999936
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "160",
+        "query_type": "A8",
+        "elapsed_ms": 2.312874999999849
+      },
+      "agreement": true
+    },
+    {
+      "id": "A8:lie:16",
+      "type": "A8",
+      "rank": 8,
+      "representation_id": "A8:0,0,0,0,0,2,2,4",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        4
+      ],
+      "representation_dimension": "31711680",
+      "target_weight": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 38,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1300",
+        "elapsed_ms": 2155.894125
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1300",
+        "query_type": "A8",
+        "elapsed_ms": 2.1086669999999685
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:01",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0
+      ],
+      "representation_dimension": "4",
+      "target_weight": [
+        -1,
+        1
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.803124999999909
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C2",
+        "elapsed_ms": 2.6439579999996567
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:02",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:2,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0
+      ],
+      "representation_dimension": "10",
+      "target_weight": [
+        0,
+        1
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.3097500000003492
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C2",
+        "elapsed_ms": 2.6655000000000655
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:03",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:2,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0
+      ],
+      "representation_dimension": "10",
+      "target_weight": [
+        2,
+        -1
+      ],
+      "target_depth": 2,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.558332999999948
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C2",
+        "elapsed_ms": 2.5941670000001977
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:04",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:2,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0
+      ],
+      "representation_dimension": "10",
+      "target_weight": [
+        0,
+        0
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 2.2312080000001515
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "C2",
+        "elapsed_ms": 2.988749999999982
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:05",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:0,5",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        5
+      ],
+      "representation_dimension": "91",
+      "target_weight": [
+        2,
+        1
+      ],
+      "target_depth": 5,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 2.5959169999996448
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "C2",
+        "elapsed_ms": 2.460834000000432
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:06",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:0,5",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        5
+      ],
+      "representation_dimension": "91",
+      "target_weight": [
+        4,
+        -1
+      ],
+      "target_depth": 6,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 2.379667000000154
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "C2",
+        "elapsed_ms": 2.4334579999999733
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:07",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:0,5",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        5
+      ],
+      "representation_dimension": "91",
+      "target_weight": [
+        0,
+        0
+      ],
+      "target_depth": 10,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "3",
+        "elapsed_ms": 2.41025000000036
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "3",
+        "query_type": "C2",
+        "elapsed_ms": 2.283415999999761
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:08",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:0,5",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        5
+      ],
+      "representation_dimension": "91",
+      "target_weight": [
+        0,
+        4
+      ],
+      "target_depth": 2,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.2625419999999394
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C2",
+        "elapsed_ms": 2.3412090000001626
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:09",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:0,5",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        5
+      ],
+      "representation_dimension": "91",
+      "target_weight": [
+        2,
+        0
+      ],
+      "target_depth": 7,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 2.936999999999898
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "C2",
+        "elapsed_ms": 3.6251250000000255
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:10",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:0,5",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        5
+      ],
+      "representation_dimension": "91",
+      "target_weight": [
+        -4,
+        5
+      ],
+      "target_depth": 6,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.411416999999801
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C2",
+        "elapsed_ms": 2.3182080000001406
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:11",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:0,5",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        5
+      ],
+      "representation_dimension": "91",
+      "target_weight": [
+        -2,
+        2
+      ],
+      "target_depth": 9,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 2.265041999999994
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "C2",
+        "elapsed_ms": 2.239541999999801
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:12",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:0,5",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        5
+      ],
+      "representation_dimension": "91",
+      "target_weight": [
+        4,
+        1
+      ],
+      "target_depth": 2,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.2692919999999503
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C2",
+        "elapsed_ms": 2.399917000000187
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:13",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:7,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        1
+      ],
+      "representation_dimension": "320",
+      "target_weight": [
+        3,
+        1
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "5",
+        "elapsed_ms": 2.3512500000001637
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "5",
+        "query_type": "C2",
+        "elapsed_ms": 2.294750000000022
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:14",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:7,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        1
+      ],
+      "representation_dimension": "320",
+      "target_weight": [
+        5,
+        -1
+      ],
+      "target_depth": 7,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "5",
+        "elapsed_ms": 2.1462910000000193
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "5",
+        "query_type": "C2",
+        "elapsed_ms": 2.250500000000102
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:15",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:7,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        1
+      ],
+      "representation_dimension": "320",
+      "target_weight": [
+        1,
+        3
+      ],
+      "target_depth": 5,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 2,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "3",
+        "elapsed_ms": 2.1708749999997963
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "3",
+        "query_type": "C2",
+        "elapsed_ms": 2.198374999999942
+      },
+      "agreement": true
+    },
+    {
+      "id": "B2:lie:16",
+      "type": "B2",
+      "rank": 2,
+      "representation_id": "B2:7,1",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        1
+      ],
+      "representation_dimension": "320",
+      "target_weight": [
+        1,
+        0
+      ],
+      "target_depth": 11,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "8",
+        "elapsed_ms": 2.212500000000091
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "8",
+        "query_type": "C2",
+        "elapsed_ms": 2.303124999999909
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:01",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:1,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0
+      ],
+      "representation_dimension": "6",
+      "target_weight": [
+        -1,
+        1,
+        0
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.116207999999915
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C3",
+        "elapsed_ms": 2.113832999999886
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:02",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:0,2,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        2,
+        0
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        0,
+        1,
+        0
+      ],
+      "target_depth": 4,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "3",
+        "elapsed_ms": 2.7232090000002245
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "3",
+        "query_type": "C3",
+        "elapsed_ms": 2.8015839999998207
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:03",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:0,2,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        2,
+        0
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        1,
+        -1,
+        1
+      ],
+      "target_depth": 5,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "3",
+        "elapsed_ms": 2.3620410000003176
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "3",
+        "query_type": "C3",
+        "elapsed_ms": 2.4492089999998825
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:04",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:0,2,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        2,
+        0
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        0,
+        0,
+        0
+      ],
+      "target_depth": 8,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "6",
+        "elapsed_ms": 2.1375840000000608
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "6",
+        "query_type": "C3",
+        "elapsed_ms": 2.3632920000000013
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:05",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:0,2,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        2,
+        0
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        1,
+        0,
+        1
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.245625000000018
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C3",
+        "elapsed_ms": 2.1587500000000546
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:06",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:0,2,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        0,
+        2,
+        0
+      ],
+      "representation_dimension": "90",
+      "target_weight": [
+        -1,
+        1,
+        1
+      ],
+      "target_depth": 2,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.355833000000075
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C3",
+        "elapsed_ms": 2.3126659999998083
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:07",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:4,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        1,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        1,
+        0,
+        1
+      ],
+      "target_depth": 7,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "8",
+        "elapsed_ms": 2.3455410000001393
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "8",
+        "query_type": "C3",
+        "elapsed_ms": 2.360167000000274
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:08",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:4,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        1,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        1,
+        2,
+        -1
+      ],
+      "target_depth": 8,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "8",
+        "elapsed_ms": 2.6740410000002157
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "8",
+        "query_type": "C3",
+        "elapsed_ms": 2.772791999999754
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:09",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:4,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        1,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        0,
+        0,
+        0
+      ],
+      "target_depth": 14,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "20",
+        "elapsed_ms": 2.673041000000012
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "20",
+        "query_type": "C3",
+        "elapsed_ms": 2.4572500000003856
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:10",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:4,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        1,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        1,
+        1,
+        1
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 2.1647079999997914
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "C3",
+        "elapsed_ms": 2.2681250000000546
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:11",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:4,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        1,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        0,
+        1,
+        0
+      ],
+      "target_depth": 10,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "15",
+        "elapsed_ms": 2.660541000000194
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "15",
+        "query_type": "C3",
+        "elapsed_ms": 2.4829580000000533
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:12",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:4,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        1,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        2,
+        -1,
+        2
+      ],
+      "target_depth": 4,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "2",
+        "elapsed_ms": 2.396291999999903
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "2",
+        "query_type": "C3",
+        "elapsed_ms": 2.4549160000001393
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:13",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:4,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        1,
+        0
+      ],
+      "representation_dimension": "924",
+      "target_weight": [
+        1,
+        -1,
+        1
+      ],
+      "target_depth": 11,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "15",
+        "elapsed_ms": 2.456500000000233
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "15",
+        "query_type": "C3",
+        "elapsed_ms": 2.4504580000002534
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:14",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:4,4,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        4,
+        0
+      ],
+      "representation_dimension": "32725",
+      "target_weight": [
+        0,
+        1,
+        2
+      ],
+      "target_depth": 13,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "47",
+        "elapsed_ms": 2.5868749999999636
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "47",
+        "query_type": "C3",
+        "elapsed_ms": 2.6396249999997963
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:15",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:4,4,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        4,
+        0
+      ],
+      "representation_dimension": "32725",
+      "target_weight": [
+        0,
+        5,
+        -2
+      ],
+      "target_depth": 15,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "47",
+        "elapsed_ms": 2.5925419999998667
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "47",
+        "query_type": "C3",
+        "elapsed_ms": 2.5838340000000244
+      },
+      "agreement": true
+    },
+    {
+      "id": "B3:lie:16",
+      "type": "B3",
+      "rank": 3,
+      "representation_id": "B3:4,4,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        4,
+        0
+      ],
+      "representation_dimension": "32725",
+      "target_weight": [
+        1,
+        2,
+        1
+      ],
+      "target_depth": 11,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "38",
+        "elapsed_ms": 2.4364160000000084
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "38",
+        "query_type": "C3",
+        "elapsed_ms": 2.5612499999997453
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:01",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:1,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "8",
+      "target_weight": [
+        -1,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.3878340000001117
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C4",
+        "elapsed_ms": 2.537000000000262
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:02",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:3,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        3,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "120",
+      "target_weight": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.482166999999663
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C4",
+        "elapsed_ms": 2.500332999999955
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:03",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:3,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        3,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "120",
+      "target_weight": [
+        0,
+        1,
+        -1,
+        1
+      ],
+      "target_depth": 4,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.4092499999997017
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C4",
+        "elapsed_ms": 2.3417500000000473
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:04",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:3,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        3,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "120",
+      "target_weight": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 7,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "4",
+        "elapsed_ms": 2.3958330000000387
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "4",
+        "query_type": "C4",
+        "elapsed_ms": 2.4042500000000473
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:05",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:3,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        3,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "120",
+      "target_weight": [
+        -1,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 8,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "4",
+        "elapsed_ms": 2.6149579999996604
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "4",
+        "query_type": "C4",
+        "elapsed_ms": 2.975332999999864
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:06",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:3,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        3,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "120",
+      "target_weight": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 3.188333000000057
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C4",
+        "elapsed_ms": 3.0812089999999444
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:07",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:3,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        3,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "120",
+      "target_weight": [
+        -1,
+        2,
+        0,
+        0
+      ],
+      "target_depth": 2,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.3170000000000073
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C4",
+        "elapsed_ms": 2.4686249999999745
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:08",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:7,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "3432",
+      "target_weight": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "target_depth": 11,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "4",
+        "elapsed_ms": 3.515957999999955
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "4",
+        "query_type": "C4",
+        "elapsed_ms": 3.090208000000075
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:09",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:7,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "3432",
+      "target_weight": [
+        1,
+        -1,
+        2,
+        0
+      ],
+      "target_depth": 12,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "4",
+        "elapsed_ms": 2.605917000000318
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "4",
+        "query_type": "C4",
+        "elapsed_ms": 2.6262919999999212
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:10",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:7,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "3432",
+      "target_weight": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 21,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "20",
+        "elapsed_ms": 4.3165829999998095
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "20",
+        "query_type": "C4",
+        "elapsed_ms": 2.8682079999998678
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:11",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:7,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "3432",
+      "target_weight": [
+        -1,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 22,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "20",
+        "elapsed_ms": 4.363833000000341
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "20",
+        "query_type": "C4",
+        "elapsed_ms": 2.5186670000002778
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:12",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:7,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "3432",
+      "target_weight": [
+        3,
+        0,
+        0,
+        1
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.5961660000002666
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C4",
+        "elapsed_ms": 2.4189580000002024
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:13",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:7,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "3432",
+      "target_weight": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "target_depth": 17,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "10",
+        "elapsed_ms": 2.9967500000002474
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "10",
+        "query_type": "C4",
+        "elapsed_ms": 2.2872080000001915
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:14",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:7,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "3432",
+      "target_weight": [
+        3,
+        0,
+        2,
+        -1
+      ],
+      "target_depth": 7,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.4565840000000208
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C4",
+        "elapsed_ms": 2.44787499999984
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:15",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:7,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "3432",
+      "target_weight": [
+        0,
+        1,
+        -1,
+        1
+      ],
+      "target_depth": 18,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "10",
+        "elapsed_ms": 3.009291999999732
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "10",
+        "query_type": "C4",
+        "elapsed_ms": 2.5945839999999407
+      },
+      "agreement": true
+    },
+    {
+      "id": "B4:lie:16",
+      "type": "B4",
+      "rank": 4,
+      "representation_id": "B4:7,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "3432",
+      "target_weight": [
+        1,
+        0,
+        2,
+        0
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.5401660000002266
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C4",
+        "elapsed_ms": 2.3725830000003043
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:01",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:1,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "10",
+      "target_weight": [
+        -1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.6573339999999916
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C5",
+        "elapsed_ms": 2.5778329999998277
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:02",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:2,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "55",
+      "target_weight": [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.362333999999919
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C5",
+        "elapsed_ms": 2.5275839999999334
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:03",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:2,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "55",
+      "target_weight": [
+        1,
+        -1,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 2,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.8581250000002
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C5",
+        "elapsed_ms": 2.8366249999999127
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:04",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:2,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "55",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 9,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "5",
+        "elapsed_ms": 2.8105000000000473
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "5",
+        "query_type": "C5",
+        "elapsed_ms": 2.6229159999998046
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:05",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:7,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "11440",
+      "target_weight": [
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "target_depth": 15,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "5",
+        "elapsed_ms": 3.4002080000000205
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "5",
+        "query_type": "C5",
+        "elapsed_ms": 2.683915999999954
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:06",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:7,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "11440",
+      "target_weight": [
+        0,
+        2,
+        -1,
+        1,
+        0
+      ],
+      "target_depth": 14,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "5",
+        "elapsed_ms": 3.1084579999997004
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "5",
+        "query_type": "C5",
+        "elapsed_ms": 2.6071249999999964
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:07",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:7,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "11440",
+      "target_weight": [
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "target_depth": 11,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 2,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.5387919999998303
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C5",
+        "elapsed_ms": 2.575332999999773
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:08",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:7,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "11440",
+      "target_weight": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 27,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "35",
+        "elapsed_ms": 25.917165999999725
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "35",
+        "query_type": "C5",
+        "elapsed_ms": 2.855750000000171
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:09",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:7,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "11440",
+      "target_weight": [
+        -1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 28,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "35",
+        "elapsed_ms": 26.91204199999993
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "35",
+        "query_type": "C5",
+        "elapsed_ms": 2.76700000000028
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:10",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:7,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "11440",
+      "target_weight": [
+        3,
+        0,
+        0,
+        1,
+        0
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 3.34887499999968
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C5",
+        "elapsed_ms": 2.9392079999997804
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:11",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:7,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "11440",
+      "target_weight": [
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 21,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "15",
+        "elapsed_ms": 9.91366700000026
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "15",
+        "query_type": "C5",
+        "elapsed_ms": 3.28716600000007
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:12",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:7,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "11440",
+      "target_weight": [
+        -1,
+        2,
+        0,
+        1,
+        0
+      ],
+      "target_depth": 8,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.672125000000051
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C5",
+        "elapsed_ms": 2.761540999999852
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:13",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:7,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "11440",
+      "target_weight": [
+        0,
+        1,
+        -1,
+        1,
+        0
+      ],
+      "target_depth": 22,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "15",
+        "elapsed_ms": 9.23937500000011
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "15",
+        "query_type": "C5",
+        "elapsed_ms": 2.873207999999977
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:14",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:7,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "11440",
+      "target_weight": [
+        0,
+        2,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 5,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.5641669999999976
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C5",
+        "elapsed_ms": 2.726458999999977
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:15",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:7,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "11440",
+      "target_weight": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "target_depth": 7,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 2,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.503291999999874
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C5",
+        "elapsed_ms": 2.6514579999998205
+      },
+      "agreement": true
+    },
+    {
+      "id": "B5:lie:16",
+      "type": "B5",
+      "rank": 5,
+      "representation_id": "B5:7,0,0,1,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        7,
+        0,
+        0,
+        1,
+        0
+      ],
+      "representation_dimension": "1018368",
+      "target_weight": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "target_depth": 19,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "115",
+        "elapsed_ms": 7.131917000000158
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "115",
+        "query_type": "C5",
+        "elapsed_ms": 2.8011249999999563
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:01",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:1,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "12",
+      "target_weight": [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 1,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.869166999999834
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C6",
+        "elapsed_ms": 2.6854160000002594
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:02",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:2,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "78",
+      "target_weight": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 1,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.2944579999998496
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C6",
+        "elapsed_ms": 2.576792000000296
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:03",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:2,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "78",
+      "target_weight": [
+        1,
+        -1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 2,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.575709000000188
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C6",
+        "elapsed_ms": 2.7085409999999683
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:04",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:2,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "78",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 11,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "6",
+        "elapsed_ms": 3.276959000000261
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "6",
+        "query_type": "C6",
+        "elapsed_ms": 2.5302499999997963
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:05",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:4,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "1365",
+      "target_weight": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 6,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.309124999999767
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C6",
+        "elapsed_ms": 2.5315420000001723
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:06",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:4,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "1365",
+      "target_weight": [
+        0,
+        0,
+        1,
+        -1,
+        1,
+        0
+      ],
+      "target_depth": 7,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.788792000000285
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C6",
+        "elapsed_ms": 2.7669160000000375
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:07",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:4,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "1365",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 22,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "21",
+        "elapsed_ms": 24.34925000000021
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "21",
+        "query_type": "C6",
+        "elapsed_ms": 2.4954999999999927
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:08",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:4,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "1365",
+      "target_weight": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 3,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.48050000000012
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C6",
+        "elapsed_ms": 2.58199999999988
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:09",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:4,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "1365",
+      "target_weight": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 12,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "6",
+        "elapsed_ms": 3.0803750000000036
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "6",
+        "query_type": "C6",
+        "elapsed_ms": 2.6778330000001915
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:10",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:4,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "1365",
+      "target_weight": [
+        1,
+        1,
+        -1,
+        1,
+        0,
+        0
+      ],
+      "target_depth": 4,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 125,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1",
+        "elapsed_ms": 2.4949579999997695
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1",
+        "query_type": "C6",
+        "elapsed_ms": 2.4444589999998243
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:11",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:4,0,0,0,0,0",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        4,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "representation_dimension": "1365",
+      "target_weight": [
+        1,
+        -1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 13,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 375,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "6",
+        "elapsed_ms": 2.8604589999999916
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "6",
+        "query_type": "C6",
+        "elapsed_ms": 2.525959000000057
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:12",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:2,0,4,0,0,2",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0,
+        4,
+        0,
+        0,
+        2
+      ],
+      "representation_dimension": "998098101000",
+      "target_weight": [
+        1,
+        0,
+        1,
+        1,
+        0,
+        1
+      ],
+      "target_depth": 48,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1263006",
+        "elapsed_ms": 4162.728416
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1263006",
+        "query_type": "C6",
+        "elapsed_ms": 7.267249999999876
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:13",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:2,0,4,0,0,2",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0,
+        4,
+        0,
+        0,
+        2
+      ],
+      "representation_dimension": "998098101000",
+      "target_weight": [
+        1,
+        1,
+        -1,
+        2,
+        0,
+        1
+      ],
+      "target_depth": 49,
+      "target_status": "non_dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 3,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1263006",
+        "elapsed_ms": 2044.1497910000007
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1263006",
+        "query_type": "C6",
+        "elapsed_ms": 6.718832999999904
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:14",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:2,0,4,0,0,2",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0,
+        4,
+        0,
+        0,
+        2
+      ],
+      "representation_dimension": "998098101000",
+      "target_weight": [
+        1,
+        3,
+        0,
+        0,
+        1,
+        0
+      ],
+      "target_depth": 48,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 1,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "795096",
+        "elapsed_ms": 1588.9655000000002
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "795096",
+        "query_type": "C6",
+        "elapsed_ms": 5.637958000001163
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:15",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:2,0,4,0,0,2",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0,
+        4,
+        0,
+        0,
+        2
+      ],
+      "representation_dimension": "998098101000",
+      "target_weight": [
+        1,
+        1,
+        0,
+        0,
+        1,
+        1
+      ],
+      "target_depth": 50,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 250,
+      "source_trajectory": 2,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "ok",
+        "multiplicity": "1565812",
+        "elapsed_ms": 2474.1710000000003
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "1565812",
+        "query_type": "C6",
+        "elapsed_ms": 5.66912499999853
+      },
+      "agreement": true
+    },
+    {
+      "id": "B6:lie:16",
+      "type": "B6",
+      "rank": 6,
+      "representation_id": "B6:2,0,4,0,0,2",
+      "representation_source": "frontier_manifest",
+      "highest_weight": [
+        2,
+        0,
+        4,
+        0,
+        0,
+        2
+      ],
+      "representation_dimension": "998098101000",
+      "target_weight": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "target_depth": 101,
+      "target_status": "dominant",
+      "source_anchor_per_mille": 500,
+      "source_trajectory": 0,
+      "selection_reason": "height_and_depth_stratified",
+      "zero": {
+        "status": "timeout",
+        "error": null,
+        "elapsed_ms": 60150.521166
+      },
+      "lie": {
+        "status": "ok",
+        "multiplicity": "56073120",
+        "query_type": "C6",
+        "elapsed_ms": 5.801042000000962
+      },
+      "agreement": false
+    }
+  ],
+  "summary": {
+    "completed": 208,
+    "agreements": 207,
+    "disagreements": 1
+  }
+}

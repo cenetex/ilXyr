@@ -1,0 +1,303 @@
+{
+  "schema": "zero.reasoner55_matched_analysis.v1",
+  "families": 128,
+  "passes": 12,
+  "exact": true,
+  "primary_reference": "raw_lexical_task_guide",
+  "primary_effect": false,
+  "bootstrap_draws": 5000,
+  "comparisons": [
+    {
+      "reference": "target_only",
+      "paired": {
+        "cpu": {
+          "ratio": 0.7169682368115249,
+          "upper_one_sided_95": 0.7230963766466793
+        },
+        "checks": {
+          "ratio": 0.922191023206518,
+          "upper_one_sided_95": 0.9761086577466368
+        }
+      },
+      "strata": [
+        {
+          "cell": 0,
+          "cpu": 0.7080853758135529,
+          "checks": 0.6577531352941679
+        },
+        {
+          "cell": 1,
+          "cpu": 0.7305623659183778,
+          "checks": 1.43505512807914
+        },
+        {
+          "cell": 2,
+          "cpu": 0.7118011339822532,
+          "checks": 0.6647471563552942
+        },
+        {
+          "cell": 3,
+          "cpu": 0.7176258379935021,
+          "checks": 1.152644975653841
+        }
+      ],
+      "family_outcomes": {
+        "cpu": {
+          "wins": 128,
+          "ties": 0,
+          "losses": 0
+        },
+        "checks": {
+          "wins": 65,
+          "ties": 0,
+          "losses": 63
+        }
+      }
+    },
+    {
+      "reference": "source_free_jit",
+      "paired": {
+        "cpu": {
+          "ratio": 0.6089237572275596,
+          "upper_one_sided_95": 0.6235231366788574
+        },
+        "checks": {
+          "ratio": 0.951829204154414,
+          "upper_one_sided_95": 1.0456420356436176
+        }
+      },
+      "strata": [
+        {
+          "cell": 0,
+          "cpu": 0.6121283136459654,
+          "checks": 0.7903881551418563
+        },
+        {
+          "cell": 1,
+          "cpu": 0.5874260663767319,
+          "checks": 1.168594373934826
+        },
+        {
+          "cell": 2,
+          "cpu": 0.6163374160524351,
+          "checks": 0.7192365875742452
+        },
+        {
+          "cell": 3,
+          "cpu": 0.6203509597821728,
+          "checks": 1.2355494075515194
+        }
+      ],
+      "family_outcomes": {
+        "cpu": {
+          "wins": 128,
+          "ties": 0,
+          "losses": 0
+        },
+        "checks": {
+          "wins": 69,
+          "ties": 2,
+          "losses": 57
+        }
+      }
+    },
+    {
+      "reference": "semantic_frequency",
+      "paired": {
+        "cpu": {
+          "ratio": 1.2277348851963674,
+          "upper_one_sided_95": 1.229766023588021
+        },
+        "checks": {
+          "ratio": 0.963823060598512,
+          "upper_one_sided_95": 1.0034534689566526
+        }
+      },
+      "strata": [
+        {
+          "cell": 0,
+          "cpu": 1.220232743618928,
+          "checks": 0.7715490607056634
+        },
+        {
+          "cell": 1,
+          "cpu": 1.235095033208366,
+          "checks": 1.1997569066545444
+        },
+        {
+          "cell": 2,
+          "cpu": 1.222396305333315,
+          "checks": 0.7874013026627138
+        },
+        {
+          "cell": 3,
+          "cpu": 1.2332845935800356,
+          "checks": 1.1839580584413891
+        }
+      ],
+      "family_outcomes": {
+        "cpu": {
+          "wins": 0,
+          "ties": 0,
+          "losses": 128
+        },
+        "checks": {
+          "wins": 68,
+          "ties": 6,
+          "losses": 54
+        }
+      }
+    },
+    {
+      "reference": "raw_lexical_task_guide",
+      "paired": {
+        "cpu": {
+          "ratio": 1.0004048854579077,
+          "upper_one_sided_95": 1.0015464001891072
+        },
+        "checks": {
+          "ratio": 1.0360413333950111,
+          "upper_one_sided_95": 1.0770571958560866
+        }
+      },
+      "strata": [
+        {
+          "cell": 0,
+          "cpu": 1.0018997657403568,
+          "checks": 1.1088423815515405
+        },
+        {
+          "cell": 1,
+          "cpu": 1.0025861928494242,
+          "checks": 1.0955023595206221
+        },
+        {
+          "cell": 2,
+          "cpu": 0.9996009343139961,
+          "checks": 0.9684094996301477
+        },
+        {
+          "cell": 3,
+          "cpu": 0.9975405708783442,
+          "checks": 0.9794136520749187
+        }
+      ],
+      "family_outcomes": {
+        "cpu": {
+          "wins": 61,
+          "ties": 0,
+          "losses": 67
+        },
+        "checks": {
+          "wins": 55,
+          "ties": 14,
+          "losses": 59
+        }
+      }
+    },
+    {
+      "reference": "task_without_prior_feature",
+      "paired": {
+        "cpu": {
+          "ratio": 1.0740269936913984,
+          "upper_one_sided_95": 1.0749068381334677
+        },
+        "checks": {
+          "ratio": 1.0112995962011788,
+          "upper_one_sided_95": 1.0326804525167823
+        }
+      },
+      "strata": [
+        {
+          "cell": 0,
+          "cpu": 1.0766512997528146,
+          "checks": 1.055031423606323
+        },
+        {
+          "cell": 1,
+          "cpu": 1.072535937074763,
+          "checks": 0.995940480246327
+        },
+        {
+          "cell": 2,
+          "cpu": 1.0752865688431414,
+          "checks": 1.016199226555559
+        },
+        {
+          "cell": 3,
+          "cpu": 1.0716417964576617,
+          "checks": 0.9795840282186199
+        }
+      ],
+      "family_outcomes": {
+        "cpu": {
+          "wins": 0,
+          "ties": 0,
+          "losses": 128
+        },
+        "checks": {
+          "wins": 56,
+          "ties": 14,
+          "losses": 58
+        }
+      }
+    }
+  ],
+  "totals": {
+    "target_only": {
+      "process_cpu_ns": 18142210795,
+      "process_wall_ns": 18205958212,
+      "corpus_cpu_ns": 3912867330,
+      "model_load_cpu_ns": 0,
+      "warmup_cpu_ns": 7085075737,
+      "measured_cpu_ns": 7083734233,
+      "peak_rss_bytes": 43900928
+    },
+    "source_free_jit": {
+      "process_cpu_ns": 21426589125,
+      "process_wall_ns": 21496962561,
+      "corpus_cpu_ns": 3914133038,
+      "model_load_cpu_ns": 0,
+      "warmup_cpu_ns": 8728700802,
+      "measured_cpu_ns": 8720558908,
+      "peak_rss_bytes": 43790336
+    },
+    "semantic_frequency": {
+      "process_cpu_ns": 12267964612,
+      "process_wall_ns": 12325000605,
+      "corpus_cpu_ns": 3917962758,
+      "model_load_cpu_ns": 0,
+      "warmup_cpu_ns": 4154627120,
+      "measured_cpu_ns": 4148902797,
+      "peak_rss_bytes": 43028480
+    },
+    "task_guide": {
+      "process_cpu_ns": 14164078343,
+      "process_wall_ns": 14224967529,
+      "corpus_cpu_ns": 3922986316,
+      "model_load_cpu_ns": 634057,
+      "warmup_cpu_ns": 5095497961,
+      "measured_cpu_ns": 5096937742,
+      "peak_rss_bytes": 45285376
+    },
+    "raw_lexical_task_guide": {
+      "process_cpu_ns": 14147693797,
+      "process_wall_ns": 14208890717,
+      "corpus_cpu_ns": 3917525449,
+      "model_load_cpu_ns": 602936,
+      "warmup_cpu_ns": 5092102075,
+      "measured_cpu_ns": 5089274379,
+      "peak_rss_bytes": 45285376
+    },
+    "task_without_prior_feature": {
+      "process_cpu_ns": 13454331003,
+      "process_wall_ns": 13513686833,
+      "corpus_cpu_ns": 3915640325,
+      "model_load_cpu_ns": 587962,
+      "warmup_cpu_ns": 4746948096,
+      "measured_cpu_ns": 4742892449,
+      "peak_rss_bytes": 42754048
+    }
+  },
+  "replayed_rows": 3072
+}

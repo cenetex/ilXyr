@@ -3,6 +3,9 @@
 ## State machine
 
 ```text
+proposal revision -> exact-revision review -> frozen candidate
+    -> four-contribution package -> compiled experiment
+
 contributions
     -> compiled experiment
     -> optional external preregistration package + receipt
@@ -27,13 +30,52 @@ recorded evidence -> verified native bundle -> RO-Crate | in-toto statement | ML
 
 trusted attestation key + ledgered run + signed DSSE envelope -> verified executor attestation
 
+executor environment + immutable job package + one-run authorization
+    -> remote execution -> signed DSSE/SLSA report -> independent verification
+    -> single-writer ingestion -> read-only public projection
+
+compiled experiment + verified corpus materializations -> OCI dispatch
+OCI dispatch + provider result -> completed run
+completed run + trusted executor attestation -> promoted evidence
+
 claim + frozen replication contract -> reserved allocation -> forward evidence
     -> independence/tolerance settlement -> replicates edge -> passive claim status
+
+rival mechanisms + metric predictions + exhaustive decision table
+    -> ranked discriminating observations -> evidence -> mechanism tournament settlement
 ```
+
+The OCI path freezes a digest-pinned image and resolves dataset handles to exact corpus artifacts
+at compilation, then to exact materialization artifacts at dispatch. Completion must match the
+frozen metric and `artifacts.*` output names. Recording completion never bypasses attestation.
 
 The steps are monotonic. Objects are immutable; revisions create new objects and experiment
 revisions use new experiment IDs. Events may add information but never mutate prior evidence.
-Contribution, forecast, funding, and experiment IDs are unique within their object type.
+Contribution, forecast, funding, proposal-review, and experiment IDs are unique within their
+object type.
+
+## Experiment proposals
+
+`ilxyr.experiment_proposal.v1` is the decision boundary before a full runnable experiment exists.
+It freezes the hypothesis, family, baseline, datasets, primary metric, directional success
+threshold, seeds, compute ceiling, evidence level, and export policy. Runtime arguments, full
+metric descriptions, funding participation, and the finite outcome partition are added in the
+formal experiment package.
+
+A proposal begins at revision 1. A successor keeps the proposal and experiment identities,
+increments the revision by one, and binds `predecessor_ref` to the exact current object. A review
+binds `proposal_ref` to one revision and its reviewer must be independent from the proposer.
+Revision therefore invalidates old reviews mechanically; it does not erase them.
+
+Freeze requires at least one current-revision independent review and no current blocking review.
+Blocking feedback is resolved by a successor revision, not by mutating the review. Freeze creates
+an immutable candidate containing the exact proposal and review references.
+
+Packaging then requires exactly one contribution from each formal stage. The proposer authors the
+hypothesis and experiment-design contributions. The mathematical-foundation and engineering-review
+authors must be independent from the proposer. The compiler checks that the full experiment has
+not changed any frozen proposal field before it submits those contributions and invokes the normal
+experiment compiler. Exact retries return the existing objects; drift fails closed.
 
 ## Contributions
 
@@ -87,6 +129,12 @@ reliability and resolution record. Settlement never mints, burns, or transfers c
 
 The reference implementation emits:
 
+- `ProposalDrafted`
+- `ProposalRevised`
+- `ProposalReviewed`
+- `ProposalFrozen`
+- `ProposalPackaged`
+- `ProposalCompiled`
 - `ContributionSubmitted`
 - `ExperimentCompiled`
 - `RegistrationPackaged`
@@ -117,6 +165,8 @@ The reference implementation emits:
 - `EvidenceEdgeRecorded`
 - `ReplicationContractRegistered`
 - `ReplicationSettled`
+- `MechanismTournamentRegistered`
+- `MechanismTournamentSettled`
 
 Each event contains the preceding event hash. Events that materialize an object contain its
 content-addressed artifact reference.
@@ -297,8 +347,31 @@ independent replication. It does not answer whether the claim is true.
 `loop-cycle` is one idempotent orchestration transaction over immutable inputs supplied by external
 actors. It ensures contributions, compilation, and forecasts, invokes the existing signed-budget
 allocator, runs only when unattended authorization passes, and returns the settled result. It is
-safe to call repeatedly with the same cycle. Daemon scheduling and proposal generation are outside
-the core so they cannot bypass the same policy boundary.
+safe to call repeatedly with the same cycle. Daemon scheduling and proposal generation remain
+outside the core; generated drafts enter through the proposal review and freeze boundary.
+
+### Rival-mechanism tournaments
+
+A mechanism tournament is registered against a compiled experiment before accepted admission or
+execution. It freezes at least two rival explanations, one or more evidence-metric condition sets,
+each rival's probability that every condition will be satisfied, estimated observation costs, and
+an exhaustive decision table over all boolean observation patterns. The registration event is
+attributed to the tournament's validated author.
+
+Registration is idempotent for identical content. Reusing a tournament ID with different content
+is a conflict, including after experiment admission.
+
+The planner ranks observations by cross-rival probability variance divided by estimated credits.
+This is a deterministic information-value proxy, not an execution authorization or a claim that
+the observations are statistically independent. Existing funding and signed-policy gates still
+control compute.
+
+Settlement evaluates the frozen conditions against the latest ledgered evidence, records a mean
+binary Brier score for each rival, selects the exact predeclared decision row, and records its
+supported rivals and next action. Missing facts fail closed without creating a settlement, so a
+safe retry can occur after the required evidence arrives. The lowest Brier score and the authored
+decision row are both retained: predictive accuracy does not silently rewrite the investigator's
+causal decision rule.
 
 ### Roles and separation
 

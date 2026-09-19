@@ -1,0 +1,12 @@
+{
+  "completed_ci_artifact_upload": 34197168252,
+  "paid_execution_authorized": false,
+  "previous_review": "Automatic approval review questioned source and smoke artifact upload. The user then explicitly approved posting all.",
+  "public_repositories": [
+    "atimics/zero-grounded-literary-lm",
+    "cenetex/ilXyr"
+  ],
+  "schema": "ilxyr.research_publication_authorization.v1",
+  "scope": "Publish the Reasoner source package, smoke artifacts, and research results to GitHub. Publish the FERAL source package and collected research results.",
+  "user_statement": "i approve posting all"
+}

@@ -1,0 +1,148 @@
+{
+  "files": {
+    "examples/weight-multiplicity/phase06-lie-governance-v1.json": {
+      "bytes": 2068,
+      "sha256": "d32edfbfe42dd0770c7724f255a314684bf2c3c6631429d9f0294d850ceaf36a"
+    },
+    "examples/weight-multiplicity/phase06-reduced-corpus-manifest-v1.json": {
+      "bytes": 593336,
+      "sha256": "1d097675fbff83e704cfd0128ea98caa116d6bcb3573fa7ef314b9d1f357a733"
+    },
+    "examples/weight-multiplicity/phase1-corpus-plan-v1.json": {
+      "bytes": 6668,
+      "sha256": "9311b0f28de0f3f42614fd17fa808d812ae7a0ad354fa723f55222b0b4116e18"
+    },
+    "examples/weight-multiplicity/phase1-root-systems-v1.json": {
+      "bytes": 120657,
+      "sha256": "b8b175011909e6734bc6d6a6d55b3d09a67c34a5106a5908a5029206bf4f0271"
+    },
+    "examples/weight-multiplicity/rev3-contract.json": {
+      "bytes": 10516,
+      "sha256": "91dca2253e0289db792a9886dad85aa35c7522d345b2f60905f9bb4dfe735b06"
+    },
+    "experiments/research-step-12/RESOURCE-POLICY.json": {
+      "bytes": 3483,
+      "sha256": "1ebc76e8692fa3d440386532ac562981e9965b430fd9af19d45f2415c7f64623"
+    },
+    "experiments/research-step-33/SOURCE-PLAN.json": {
+      "bytes": 2592,
+      "sha256": "9b451b438dc3fb719a903443f5fb370324206746745898f6da71fda3e9bc53ef"
+    },
+    "experiments/weight-multiplicity/phase05/phase06-lie-preflight-closeout-v1.json": {
+      "bytes": 3021,
+      "sha256": "c8a289ce7af0795184ac4f320fed8d3718574f94bf1f2d51b7e519810bcf4550"
+    },
+    "experiments/weight-multiplicity/phase1/phase1-tail-calibration-run-20260901015649-closeout-v1.json": {
+      "bytes": 6640,
+      "sha256": "4ddedd80e464ffa901fa24304b59139a5cc449871a8f7dcb8c525db69e93a398"
+    },
+    "inputs/bison.deb": {
+      "bytes": 1174528,
+      "sha256": "a414afd7519c53bfa33415ba5b951bc8b4906877004c49723ffda50a6033c3e8"
+    },
+    "inputs/calibration-tail.json": {
+      "bytes": 308848,
+      "sha256": "9d48cc8fc8adba793b1173b7ed8de43b35cffb1f3b0279d375cf4c7d93254949"
+    },
+    "inputs/calibration-trace.jsonl": {
+      "bytes": 13248076,
+      "sha256": "191c82bb4ec80d5eb9779b6c9dd46ec2e9b582df87adb9e1d449a7317ddc219a"
+    },
+    "inputs/lie-2.2.2.tar.gz": {
+      "bytes": 361073,
+      "sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e"
+    },
+    "scripts/feral_process.py": {
+      "bytes": 5673,
+      "sha256": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526"
+    },
+    "scripts/lib/oracle-attempt-trace.mjs": {
+      "bytes": 5620,
+      "sha256": "9f57403234ee6d5d32aa1134a7048b81f57077589bd973d553b06dd70b3875cb"
+    },
+    "scripts/lib/oracle-query-batch.mjs": {
+      "bytes": 1241,
+      "sha256": "fde59cb38028765bbe795c3b2d1d78a02d1d773820ad155489d7f3e790875f13"
+    },
+    "scripts/lib/oracle-resource-accounting.mjs": {
+      "bytes": 9382,
+      "sha256": "c7819fa5ffeaad9c73160b29f85fe21536219be239314f030f2ce7fee954276d"
+    },
+    "scripts/lib/weight-multiplicity-resource-policy.mjs": {
+      "bytes": 4389,
+      "sha256": "221f4aae5262e185b6bf0c1b5ee196b936d584a74c663104afb0b7383c2f0aaa"
+    },
+    "scripts/prepare-weight-multiplicity-resource-policy.mjs": {
+      "bytes": 685,
+      "sha256": "2528664ce4416ae5ad790ebd4f3516a839b0268ec8c25ea34be14c8ab00da549"
+    },
+    "scripts/run-weight-multiplicity-phase1-corpus.mjs": {
+      "bytes": 101237,
+      "sha256": "af676e6f8043a82e277926f0e5b08e506bb48fef4b8ba376a44d459c452f42cf"
+    },
+    "scripts/test-weight-multiplicity-resource-policy.mjs": {
+      "bytes": 10462,
+      "sha256": "8747271747116515222ba7ff8ede38847d2027cbb0239669ef8e1cf5bcb2998e"
+    },
+    "scripts/verify-weight-multiplicity-calibration-trace.mjs": {
+      "bytes": 6855,
+      "sha256": "d7f0f8e0dcb0476cfcc1924fb8b82458767ab4b1f9b4acd04a4e6b67d89e0a92"
+    },
+    "scripts/weight_oracle_smoke.mjs": {
+      "bytes": 1768,
+      "sha256": "1adfffbddcb59a3878fbfabeeddb3b56397a6f6d3142ea64b8724e6a29b1bed0"
+    },
+    "scripts/weight_oracle_smoke.py": {
+      "bytes": 4245,
+      "sha256": "fae608bf8410d72433705a49d4f28c6cfde8906853bb54b6f6f53412fb1580f3"
+    },
+    "scripts/weight_source_kit.py": {
+      "bytes": 8418,
+      "sha256": "606b540a79e66a2283a8db1cedc20882c5da4c7bb97c022bcbb0855982ae7cf2"
+    },
+    "zero/LICENSE": {
+      "bytes": 11358,
+      "sha256": "37f6b7d766eb6791edb89211111a48e3e12ff5cb06578299019bb009fd5be44c"
+    },
+    "zero/LICENSES.md": {
+      "bytes": 1116,
+      "sha256": "6acaa442abcca8788956a3960d9331b62f76dfd24413bc170adc7ba49ed01020"
+    },
+    "zero/Makefile": {
+      "bytes": 119223,
+      "sha256": "9e7d70605875768b504f9d9745daac2301f16e26dfa8a501b48f6a120a8f9c00"
+    },
+    "zero/reasoner0.c": {
+      "bytes": 57216,
+      "sha256": "ed94baf3c90226cae1c542b5d19fbb41a7e893d54a6e67f366b6ebb9faf3191f"
+    },
+    "zero/reasoner0.h": {
+      "bytes": 5040,
+      "sha256": "5b009aaa025861e82228ebbe53af28ec2de9b35c7a20c2e98115ff955aabe1c1"
+    },
+    "zero/weight_multiplicity.c": {
+      "bytes": 183936,
+      "sha256": "8a35a303836b1ee70e6446f0539d99056604a16a1f3be5cedebaa55b6fa94cd4"
+    },
+    "zero/weight_multiplicity.h": {
+      "bytes": 6605,
+      "sha256": "a216db00f434d169da18c9bf0e61346f8861b2915da41f84687cb9aa5ffa830d"
+    },
+    "zero/weight_multiplicity_cli.c": {
+      "bytes": 45709,
+      "sha256": "1be0b8d22633863f64a9c94f8c48ab470777f18bcc2d458ee203a76eab04bb63"
+    }
+  },
+  "original_zero_archive": {
+    "bytes": 99096573,
+    "sha256": "9af79279246cbad8254a53289a3a83fe3a3a2a30bd87860112dd88bce408e783"
+  },
+  "pending": [
+    "full_cloud_controller_and_result_checker",
+    "machine_storage_and_watchdog",
+    "preflight_price_and_digest_bound_run_approval"
+  ],
+  "schema": "ilxyr.weight_source_kit.v1",
+  "scope": "prepared_scientific_sources_and_saved_calibration",
+  "source_commit": "3e6a931b1fb8af385f753011e3b94bc29e839b44"
+}

@@ -1,0 +1,13 @@
+{
+  "schema": "ilxyr.aws_image_evidence.v1",
+  "region": "us-east-1",
+  "image_id": "ami-0ab0461f645928576",
+  "source_image_id": "ami-0d7f022123f8ff19d",
+  "source_snapshot_id": "snap-07118997ca43d077c",
+  "root_snapshot_id": "snap-0505c60d709f4628d",
+  "architecture": "x86_64",
+  "root_device_name": "/dev/sda1",
+  "virtualization_type": "hvm",
+  "encrypted": true,
+  "recorded_at_ms": 1788465209000
+}

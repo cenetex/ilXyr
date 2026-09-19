@@ -8,16 +8,105 @@ const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const map = readJson("docs/research-pathways.json");
 const registry = readJson("docs/lab-registry.json");
 
-assert(map.schema === "ilxyr.research_pathways.v1",
+assert(map.schema === "ilxyr.research_pathways.v2",
   "research pathway map schema mismatch");
 assert(map.as_of >= registry.as_of,
   "research pathway map predates its lab registry source");
 
+const factorSpaces = new Map();
+for (const space of map.factor_spaces) {
+  assert(!factorSpaces.has(space.lineage),
+    `duplicate factor space for lineage ${space.lineage}`);
+  assert(/^[A-Z][A-Z0-9]*$/.test(space.track),
+    `factor space ${space.lineage} has an invalid track`);
+  assert(space.axes.length > 0 && space.axes.every(axis => /^[a-z][a-z0-9_]*$/.test(axis)),
+    `factor space ${space.lineage} has invalid axes`);
+  assert(new Set(space.axes).size === space.axes.length,
+    `factor space ${space.lineage} contains duplicate axes`);
+  factorSpaces.set(space.lineage, space);
+}
+
 const nodes = new Map();
+const coordinateKeys = new Set();
+const coordinateSlugs = new Set();
 for (const node of map.nodes) {
   assert(!nodes.has(node.id), `duplicate research pathway node ${node.id}`);
   nodes.set(node.id, node);
   validateNode(node);
+
+  const coordinateKey = JSON.stringify([
+    node.lineage,
+    node.coordinate.track,
+    node.coordinate.parts,
+  ]);
+  assert(!coordinateKeys.has(coordinateKey),
+    `duplicate research coordinate ${formatCoordinate(node.coordinate)} in ${node.lineage}`);
+  coordinateKeys.add(coordinateKey);
+
+  const slugKey = `${node.lineage}\0${node.coordinate.slug}`;
+  assert(!coordinateSlugs.has(slugKey),
+    `duplicate research coordinate slug ${node.coordinate.slug} in ${node.lineage}`);
+  coordinateSlugs.add(slugKey);
+}
+for (const lineage of factorSpaces.keys()) {
+  assert(map.nodes.some(node => node.lineage === lineage),
+    `factor space ${lineage} has no research pathway nodes`);
+}
+const legacyC31 = nodes.get("zero5-c31-v1");
+assert(JSON.stringify(legacyC31?.coordinate.parts) === JSON.stringify([3, 1])
+    && legacyC31.coordinate.slug === "c3_1",
+  "legacy zero5-c31-v1 must resolve explicitly to C[3,1] and c3_1");
+
+const q22Evidence = readJson("docs/experiments/exp-007-evidence.json");
+const q22Bridge = nodes.get("zero-solomon-shared-task-bridge-v1");
+assert(q22Evidence.public_id === "EXP-007"
+    && q22Evidence.resolved_outcome === "go"
+    && q22Evidence.registration.merged_before_evaluation === true,
+  "EXP-007 must retain its prospective go registration boundary");
+assert(q22Evidence.scientific_run.seeds.length === 3
+    && q22Evidence.scientific_run.seeds.every(seed =>
+      seed.cases === 500 && seed.operation_exact === 500
+      && seed.operation_exact_rate_ppm === 1000000)
+    && q22Evidence.scientific_run.all_seed_agreement_cases === 500
+    && q22Evidence.scientific_run.all_seed_agreement_rate_ppm === 1000000
+    && q22Evidence.scientific_run.family_passed === true,
+  "EXP-007 exact result or agreement gate drifted");
+assert(q22Bridge?.execution_status === "completed"
+    && q22Bridge.scientific_outcome === "positive"
+    && q22Bridge.lifecycle_status === "closed",
+  "the completed EXP-007 bridge must remain a closed positive pathway");
+for (const forecast of q22Evidence.forecasts.analytical_settlement) {
+  const expected = Object.entries(forecast.probabilities)
+    .reduce((score, [outcome, probability]) =>
+      score + (probability - (outcome === forecast.resolved_outcome ? 1 : 0)) ** 2, 0);
+  assert(Math.abs(expected - forecast.brier_score) < 1e-12,
+    `EXP-007 forecast score drifted for ${forecast.forecast_id}`);
+}
+
+const compositionalEvidence = readJson("docs/experiments/exp-008-evidence.json");
+const compositionalBridge = nodes.get("zero-solomon-compositional-routing-v1");
+assert(compositionalEvidence.public_id === "EXP-008"
+    && compositionalEvidence.resolved_outcome === "no_go"
+    && compositionalEvidence.registration.merged_before_evaluation === true,
+  "EXP-008 must retain its prospective no-go registration boundary");
+assert(compositionalEvidence.scientific_run.seeds.length === 3
+    && JSON.stringify(compositionalEvidence.scientific_run.seeds.map(seed =>
+      seed.operation_exact_rate_ppm)) === JSON.stringify([425000, 430000, 533000])
+    && compositionalEvidence.scientific_run.minimum_per_class_exact_rate_ppm === 0
+    && compositionalEvidence.scientific_run.all_seed_agreement_cases === 531
+    && compositionalEvidence.scientific_run.all_seed_agreement_rate_ppm === 531000
+    && compositionalEvidence.scientific_run.family_passed === false,
+  "EXP-008 exact result, per-class gate, or agreement gate drifted");
+assert(compositionalBridge?.execution_status === "completed"
+    && compositionalBridge.scientific_outcome === "negative"
+    && compositionalBridge.lifecycle_status === "closed",
+  "the completed EXP-008 shortcut-resistant branch must remain a closed negative pathway");
+for (const forecast of compositionalEvidence.forecasts.analytical_settlement) {
+  const expected = Object.entries(forecast.probabilities)
+    .reduce((score, [outcome, probability]) =>
+      score + (probability - (outcome === forecast.resolved_outcome ? 1 : 0)) ** 2, 0);
+  assert(Math.abs(expected - forecast.brier_score) < 1e-12,
+    `EXP-008 forecast score drifted for ${forecast.forecast_id}`);
 }
 
 const edgeKeys = new Set();
@@ -25,11 +114,20 @@ for (const edge of map.edges) {
   assert(nodes.has(edge.from), `research pathway edge source is missing: ${edge.from}`);
   assert(nodes.has(edge.to), `research pathway edge target is missing: ${edge.to}`);
   assert(edge.from !== edge.to, `research pathway self-edge is invalid: ${edge.from}`);
+  const source = nodes.get(edge.from);
+  const target = nodes.get(edge.to);
+  if (source.lineage === target.lineage) {
+    const changedFactors = Object.keys(source.factor_state)
+      .filter(axis => source.factor_state[axis] !== target.factor_state[axis]);
+    assert(changedFactors.length > 0,
+      `research pathway edge ${edge.from} -> ${edge.to} changes no factors`);
+  }
   const key = `${edge.from}\0${edge.to}\0${edge.relation}`;
   assert(!edgeKeys.has(key), `duplicate research pathway edge ${edge.from} -> ${edge.to}`);
   edgeKeys.add(key);
 }
 assertAcyclic(map.nodes, map.edges);
+testCoordinateValidation();
 
 const registryBindings = sourceBindings("lab_registry_experiment");
 const expectedRegistry = new Map(registry.experiments.map(experiment => [
@@ -109,10 +207,14 @@ console.log(JSON.stringify({
   covered_lab_registry_experiments: registryBindings.size,
   covered_retro_registrations: retroBindings.size,
   covered_numbered_experiment_records: experimentBindings.length,
+  factor_spaces: factorSpaces.size,
+  integer_coordinates: coordinateKeys.size,
   counts,
 }));
 
 function validateNode(node) {
+  validateCoordinate(node);
+
   const claimOutcomes = new Set(node.claim_results.map(result => result.outcome));
   if (node.scientific_outcome === "positive") {
     assert(claimOutcomes.has("positive") && !claimOutcomes.has("negative"),
@@ -165,6 +267,63 @@ function validateNode(node) {
     assert(source.record_id,
       `${node.id} source binding must name the exact record it covers`);
   }
+}
+
+function validateCoordinate(node) {
+  const factorSpace = factorSpaces.get(node.lineage);
+  assert(factorSpace, `${node.id} has no factor space for lineage ${node.lineage}`);
+  assert(node.coordinate, `${node.id} has no research coordinate`);
+  assert(node.factor_state, `${node.id} has no factor vector`);
+  assert(node.coordinate.track === factorSpace.track,
+    `${node.id} coordinate track must be ${factorSpace.track}`);
+  assert(node.coordinate.parts.length > 0
+      && node.coordinate.parts.every(part => Number.isSafeInteger(part) && part >= 0),
+    `${node.id} coordinate parts must be non-negative safe integers`);
+  const expectedSlug = `${node.coordinate.track.toLowerCase()}${node.coordinate.parts.join("_")}`;
+  assert(node.coordinate.slug === expectedSlug,
+    `${node.id} coordinate slug must be ${expectedSlug}`);
+  assert(Number.isSafeInteger(node.record_revision) && node.record_revision > 0,
+    `${node.id} record revision must be a positive safe integer`);
+
+  const expectedFactors = [...factorSpace.axes].sort();
+  const observedFactors = Object.keys(node.factor_state).sort();
+  assert(JSON.stringify(observedFactors) === JSON.stringify(expectedFactors),
+    `${node.id} factor state must contain exactly ${expectedFactors.join(",")}`);
+  assert(Object.values(node.factor_state)
+    .every(value => Number.isSafeInteger(value) && value >= 0),
+    `${node.id} factor state values must be non-negative safe integers`);
+}
+
+function formatCoordinate(coordinate) {
+  return `${coordinate.track}[${coordinate.parts.join(",")}]`;
+}
+
+function testCoordinateValidation() {
+  const sample = structuredClone(map.nodes.find(node => node.coordinate.parts.length > 1));
+
+  const ambiguousSlug = structuredClone(sample);
+  ambiguousSlug.coordinate.slug = `${sample.coordinate.track.toLowerCase()}${sample.coordinate.parts.join("")}`;
+  assertThrows(() => validateCoordinate(ambiguousSlug),
+    "coordinate validator accepted a delimiter-free slug");
+
+  const missingFactor = structuredClone(sample);
+  delete missingFactor.factor_state[Object.keys(missingFactor.factor_state)[0]];
+  assertThrows(() => validateCoordinate(missingFactor),
+    "coordinate validator accepted an incomplete factor vector");
+
+  const decimalPart = structuredClone(sample);
+  decimalPart.coordinate.parts[0] += 0.5;
+  assertThrows(() => validateCoordinate(decimalPart),
+    "coordinate validator accepted a non-integer coordinate");
+}
+
+function assertThrows(callback, message) {
+  try {
+    callback();
+  } catch {
+    return;
+  }
+  throw new Error(message);
 }
 
 function sourceBindings(kind) {

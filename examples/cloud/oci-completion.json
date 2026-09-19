@@ -1,0 +1,25 @@
+{
+  "schema": "ilxyr.oci_job_completion.v1",
+  "id": "run:sec-qwen-v1:1788051600000",
+  "dispatch_ref": "artifact://sha256/cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "executor": {
+    "id": "service://ilxyr/aws-sagemaker-v1",
+    "kind": "service"
+  },
+  "exit_code": 0,
+  "timed_out": false,
+  "metrics": {
+    "sec_qa_exact_match": 0.71
+  },
+  "artifacts": [
+    {
+      "name": "adapter",
+      "uri": "s3://ilxyr-runs/sec-qwen-v1/adapter",
+      "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "size_bytes": 1048576,
+      "media_type": "application/x-tar",
+      "provider_version": "3LgQ"
+    }
+  ],
+  "completed_at_ms": 1788051600000
+}

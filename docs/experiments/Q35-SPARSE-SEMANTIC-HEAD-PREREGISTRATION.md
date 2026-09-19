@@ -10,6 +10,14 @@ Supersedes the mis-numbered `Q27-FLAGSHIP-PROPOSAL.md` flagship for the semantic
 path. Q2.7 and the Q2.7.x identifiers are already taken by settled upstream
 records (`Q27-FLAGSHIP-PROPOSAL.md`, Revision 2).
 
+## Later status (2026-09-19)
+
+This file preserves the original ilxyr candidate. The separately frozen upstream
+contract ran three arms, including a linear reference, and produced the
+[Q3.5 result](Q35-RESULT.md). [Q3.6](Q36-RESULT.md) records its follow-up.
+Both are upstream evidence with their original chronology. The sections below
+remain the candidate design as written.
+
 ## 1. Why this experiment exists
 
 Q3.4 trained the same frozen-base 7,685-parameter **linear** head on 4,500

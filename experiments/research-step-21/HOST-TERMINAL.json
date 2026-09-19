@@ -1,0 +1,16 @@
+{
+  "actual_billed_usd": null,
+  "collection_complete": true,
+  "elapsed_instance_seconds": 83.43480706214905,
+  "execution_plan_sha256": "e98d0a4fbdc438126686a27803d528406183d99d157171a6b66a497bd5c9cb9d",
+  "exit_code": 1,
+  "failed_phase": "image",
+  "host_package_sha256": "4ad780b4a09134255eea0d8a3cbb87727d9843de10f9cee7e110c91381ac2355",
+  "instance_id": "i-03bcb139c46b6b11e",
+  "instance_termination_verified": false,
+  "phase": "failed",
+  "run_id": "feral-finqa-20260905T212657Z",
+  "schema": "ilxyr.feral_host_terminal.v1",
+  "status": "failed",
+  "user_data_sha256": "e08b70496fc73727ee6e7d0b2da7969f14850ad043c91f63b54ec0295ecd1ab0"
+}

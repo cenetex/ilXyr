@@ -1,0 +1,27 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-41/FAILURES.json",
+  "evidence_ref": "artifact://sha256/bc9b376975f9f36f8992835ca6624684777bccf6b52f4a1c80dd239b71b268ea",
+  "experiment_id": "research.step41.retention-window-exposure.v1",
+  "family": "zero",
+  "id": "verdict:research.step41.retention-window-exposure.v1",
+  "lineage_note": "Use explicit windows disjoint from the audited token exposure, or declare a new source and protocol before evaluation.",
+  "mechanism": "retention window exposure",
+  "mechanism_tags": [
+    "fresh-data",
+    "content-overlap",
+    "retention-windows"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "zero4",
+  "recorded_at_ms": 1789248213469,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "Published preparation diagnostic; original scope retained.",
+  "summary": "The only eligible foundation validation start was already used. All eligible Blake windows overlapped tokens sampled by the audited historical validation schedules.",
+  "taxonomy": "measurement"
+}

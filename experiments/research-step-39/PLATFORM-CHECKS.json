@@ -1,0 +1,58 @@
+{
+  "ci_run": 34294254273,
+  "javascript_integrity_cases": 14,
+  "local_sanitizers": {
+    "address_sanitizer": true,
+    "fresh_method_evaluations": 0,
+    "native_guard_cases": 6,
+    "native_rows": 128,
+    "replayed_decisions": 234,
+    "source_sha256": "c28760b97db135db4b42278ac02f680adaca38f3aa14022179782c7a6624b5c5",
+    "status": "passed",
+    "trace_matches_plain_native": true,
+    "undefined_behavior_sanitizer": true
+  },
+  "native_guard_cases": 6,
+  "platforms": [
+    {
+      "compiler_sha256": "3635b8631d4ebcd8ed7586f4e01e7a6b44407de9d38db6e01daca9c242ed7a53",
+      "implementation": {
+        "check_reasoner_fresh_roster.py": "4e9492a5fe1db125cd03d7aa1ab177912aff61620748eb6b0c6db6224e0c1979",
+        "feral_process.py": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526",
+        "probe_reasoner_roster_legacy.mjs": "7f530b590d1ac04d36d9fb1d014afb8269657cc3acfb61adcf492a9a3f3a9b5e",
+        "reasoner_fresh_roster.c": "c28760b97db135db4b42278ac02f680adaca38f3aa14022179782c7a6624b5c5",
+        "reasoner_fresh_roster.mjs": "24498fcf56032e3aa68c4707179be9c3079e96a2b630c75b660dc10968882c78",
+        "test_reasoner_fresh_roster.mjs": "8ab30c9fb4e0d72a7a772f7323d1d503cd5802e4ea87098962ff7fe03ec6b7ad"
+      },
+      "native_executable_sha256": "4a9eaffa382a7ddb036e6ab9acbf2f422d0032de09f7b679126e3ee2c1534284",
+      "platform": "reasoner-roster-ubuntu-latest"
+    },
+    {
+      "compiler_sha256": "6c263f4a0b378193483e8853193204a89db0eacf407199d789fb7e3125b8148b",
+      "implementation": {
+        "check_reasoner_fresh_roster.py": "4e9492a5fe1db125cd03d7aa1ab177912aff61620748eb6b0c6db6224e0c1979",
+        "feral_process.py": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526",
+        "probe_reasoner_roster_legacy.mjs": "7f530b590d1ac04d36d9fb1d014afb8269657cc3acfb61adcf492a9a3f3a9b5e",
+        "reasoner_fresh_roster.c": "c28760b97db135db4b42278ac02f680adaca38f3aa14022179782c7a6624b5c5",
+        "reasoner_fresh_roster.mjs": "24498fcf56032e3aa68c4707179be9c3079e96a2b630c75b660dc10968882c78",
+        "test_reasoner_fresh_roster.mjs": "8ab30c9fb4e0d72a7a772f7323d1d503cd5802e4ea87098962ff7fe03ec6b7ad"
+      },
+      "native_executable_sha256": "b5cd67327ee728c5c85a0e0981232105402677ee6aa5e84a9676ef68c64dd3d6",
+      "platform": "reasoner-roster-macos-latest"
+    }
+  ],
+  "schema": "ilxyr.reasoner_roster_platform_checks.v1",
+  "source_commit": "e9809373f00bea37fc268455fb54d371d98d5eb9",
+  "stable_artifacts": {
+    "CHECK.json": "41f69dc6e08e0bbe7324385dc5a78aed8ac12e63e1decbf915ce49117cd57378",
+    "LEGACY-PROBE.json": "87f007d6cd66b3e76ac712c1c16a6cbb17f905853b21c5a3a8297c786316d786",
+    "native-replay/stdout.log": "b35a09a71f783a8e7f1b202e050800009bb5cd6a380cf0a16d46019d81c069ae",
+    "roster/DECISIONS.json": "f28ee575dc435264e915f4f80f91706375d6bf4efd437a637a7ecd05101fa380",
+    "roster/GENERATION.json": "bdcb1cca628f02dbe2fef56a7243898235ea3eb13ecd2842567a5f339b4138a9",
+    "roster/ROSTER.json": "037caefb37b9656e5681dc3dd145a2cf20d4517582c5faf373b42265782da42e",
+    "roster/SOURCE-SYNTAX.json": "924ab1e791950a0aec0dbbf0c08987537a4353b3949e13ebe8e814a68178a6c3",
+    "roster/exclusions.h": "1c48cec775b4c6fe6f869dbb53ec9138dce9e3d044e8649840c5b92e2fccdf1b"
+  },
+  "stable_artifacts_equal": true,
+  "status": "passed"
+}

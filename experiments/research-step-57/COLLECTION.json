@@ -1,0 +1,12 @@
+{
+  "host_collection_complete": true,
+  "instance_termination_verified": true,
+  "scientific_acceptance": "pending_offline_controller_check",
+  "status": "collected",
+  "terminal_object": {
+    "bytes": 1133,
+    "key": "runs/zero4-52-20260913T013725Z/host-terminal.json",
+    "sha256": "831bc8634ba6461f8e660d621030afa5788fa64f5686f9c2e7667d2835e3cb3c",
+    "version_id": "gLveZN2FyQxDXIf446TIemF30LhWJyJu"
+  }
+}

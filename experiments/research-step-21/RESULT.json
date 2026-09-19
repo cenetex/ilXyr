@@ -1,0 +1,28 @@
+{
+  "artifacts": {
+    "AUTHORIZATION.json": "db8deebc4f9a670bafa85734a3b1ab8a09cbc011b350a229389aa27c43d2ab3c",
+    "COLLECTION.json": "f6470ae1f4cd15aaccfa03dded97d0fc35231b4020e39d6e046aeeed0f017063",
+    "FAILURE.json": "b58030fe233092282b3aece298a943aad8c6a8f6a9379493acfbcc168e58b0e3",
+    "HOST-TERMINAL.json": "e137ad14540408c51ae931018c1a0c8810cd481636ed7ab6ff1408c79ef4fc52",
+    "LAUNCH.json": "d82ec47458966e79620aab4bacc39ba614e95d29de6daa6ff9c721059a8c6fdf",
+    "RUN-REQUEST.json": "9b2dbb564e8c7cf92fb46d122aed86e495830f9d072b4da96567caa7077a10b8",
+    "TERMINATION.json": "e2d58baf5a704c355b571f6fe2c970ce63b74f5f135d4b4d490c0a0f0420e717",
+    "TRANSPORT-CHECK.json": "2d549ec02608cbbd10db9262f892be780cb68f17a45d60689da4a1af849751de"
+  },
+  "implementation_commit": "8fbc6aa3518a5fea24d5c79b857e9aab74f014ef",
+  "implementation_sources": {
+    "package.json": "5dafd28e7f7d259b3c216cb4247f7bb0bf3ffb130e198ef3e7ca9bf60a89384d",
+    "scripts/feral_cloud_package.py": "11a76b6e9c2e2bfadac443e034d8f60608b041ea5cdf725f129f92492f54a4a0",
+    "scripts/test_feral_bootstrap.py": "902e95e96e73af660b5f7aa1e7441f602b2cc3b37d9b9215950e477f983d7d07",
+    "scripts/test_feral_cli_transport.py": "cdce5c9398b587dde01133a28e1ae99eb0ed43a394067ba54587f1b1825966ce"
+  },
+  "model_predictions": 0,
+  "next_decision": "Approve one replacement attempt with the same frozen package and plan, using the repaired CLI transport, at most 3600 instance seconds and USD 3.00 before tax.",
+  "outcome": "execution_failure",
+  "paid_instances_created": 1,
+  "provider_termination_verified": true,
+  "root_volume_deletion_verified": true,
+  "run_id": "feral-finqa-20260905T212657Z",
+  "schema": "ilxyr.feral_attempt_review.v1",
+  "scientific_result": "unmeasured"
+}

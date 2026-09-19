@@ -1,0 +1,26 @@
+{
+  "actual_billed_usd": null,
+  "calculated_cost_ceiling_before_margin_usd": "1.566234",
+  "deterministic_rebuild_identical": true,
+  "linux_tests_passed": 10,
+  "local_tests_passed": 10,
+  "maximum_before_tax_usd": "2.00",
+  "maximum_instance_seconds": 5400,
+  "new_corpus_rows": 0,
+  "new_full_corpus_runs": 0,
+  "new_paid_instances": 0,
+  "next": "Request exact package-and-budget approval after publication, refresh preflight, then execute one bounded run and verify cleanup and results.",
+  "package": {
+    "bytes": 16568320,
+    "controller_sha256": "13ac113cff5db7a22b66fdd9f1176746fb7d9a79e0a1ef0b1c8af6adde218712",
+    "files": 5,
+    "plan_sha256": "62e5d421dbb2b61a9e4e25816d059a1a569b819061ac1c70a940961864c16ecc",
+    "sha256": "baca1320cc10071513a47bfd3d853ecf67a48f0aaf3c16429f2398cb7feaa29e",
+    "source_commit": "f5d29f66151c5f5b27cfc2c3067f7e0260c30bad"
+  },
+  "preflight_passed": true,
+  "resource_policy_files_preserved": 14,
+  "schema": "ilxyr.weight_cloud_preparation_result.v1",
+  "source_kit_preserved": true,
+  "status": "launch_package_preflight_passed"
+}

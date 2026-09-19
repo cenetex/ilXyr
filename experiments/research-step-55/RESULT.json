@@ -1,0 +1,1622 @@
+{
+  "schema": "ilxyr.weight_selection_development.v1",
+  "status": "development_checks_passed_with_quota_holds",
+  "scope": "Invented finite rosters and one small A1 candidate smoke using a declared answer control.",
+  "full_corpus_comparisons": 0,
+  "native_oracle_calls": 0,
+  "development_answer_calls": 12,
+  "fixture_contracts": [
+    {
+      "kind": "declared_A1_development_answers",
+      "highest": 8,
+      "values": {
+        "6": "1",
+        "8": "1",
+        "10": "0",
+        "12": "0",
+        "-8": "1"
+      }
+    },
+    {
+      "kind": "A1_highest_1_closed_form_development_control",
+      "positive_targets": [
+        -1,
+        1
+      ]
+    }
+  ],
+  "finite_roster": {
+    "records": [
+      {
+        "canonical_type": "A1",
+        "canonical_representation_id": "A1:8",
+        "highest_weight": [
+          8
+        ],
+        "target_weight": [
+          8
+        ],
+        "target_status": "dominant",
+        "dominant_target_key": "8",
+        "query_key": "A1\t8\t8",
+        "multiplicity": "1"
+      },
+      {
+        "canonical_type": "A1",
+        "canonical_representation_id": "A1:8",
+        "highest_weight": [
+          8
+        ],
+        "target_weight": [
+          -8
+        ],
+        "target_status": "non_dominant",
+        "dominant_target_key": "8",
+        "query_key": "A1\t8\t-8",
+        "multiplicity": "1"
+      }
+    ],
+    "capacity": {
+      "scope": "supplied_finite_roster",
+      "status": "quota_unreachable",
+      "roster_rows": 2,
+      "unique_queries": 2,
+      "eligible_selection_units": 1,
+      "required_rows": 2,
+      "maximum_assignable_rows": 1,
+      "slices": [
+        {
+          "id": "1|dominant",
+          "required": 1,
+          "assigned": 1
+        },
+        {
+          "id": "1|non_dominant",
+          "required": 1,
+          "assigned": 0
+        }
+      ]
+    }
+  },
+  "cases": {
+    "repeated_rejection_uncached": {
+      "schema": "ilxyr.weight_selection_pilot.v1",
+      "status": "requested_quotas_reached",
+      "hold": null,
+      "oracle_sha256": "401d57f15bec3aa34d972479806242d9fa98af0db48625920cb62618b22c3af9",
+      "mode": "uncached_control",
+      "scheduling": "rotate_unfinished_slices_each_batch",
+      "limits": {
+        "maxDraws": 1000,
+        "maxOracleCalls": 50,
+        "maxEvaluations": 30,
+        "maxBatches": 10,
+        "batchSize": 1,
+        "maxAcceptedRows": 20
+      },
+      "totals": {
+        "candidate_draws": 4,
+        "construction_failed": 0,
+        "no_representation": 0,
+        "query_exclusions": 0,
+        "orbit_exclusions": 0,
+        "candidates_reserved": 4,
+        "candidate_evaluations": 4,
+        "oracle_calls": 4,
+        "oracle_failures": 0,
+        "cache_hits": 0,
+        "label_matches": 2,
+        "stratum_rejections": 2,
+        "quota_rejections": 0,
+        "accepted_rows": 2
+      },
+      "by_slice": {
+        "1|dominant": {
+          "candidate_draws": 4,
+          "construction_failed": 0,
+          "no_representation": 0,
+          "query_exclusions": 0,
+          "orbit_exclusions": 0,
+          "candidates_reserved": 4,
+          "candidate_evaluations": 4,
+          "oracle_calls": 4,
+          "oracle_failures": 0,
+          "cache_hits": 0,
+          "label_matches": 2,
+          "stratum_rejections": 2,
+          "quota_rejections": 0,
+          "accepted_rows": 2
+        }
+      },
+      "slices": [
+        {
+          "desired": "1",
+          "status": "dominant",
+          "required": 2,
+          "id": "1|dominant",
+          "accepted": 2,
+          "attempts": 4
+        }
+      ],
+      "cache": null,
+      "selected_queries": 2,
+      "selected_orbits": 2,
+      "candidate_support": {
+        "status": "unknown",
+        "reason": "Sampling observations cover proposed candidates; complete reachable support requires a separate finite roster."
+      },
+      "projection_scope": "Observed block rates only. Adaptive selection and cache occupancy require a new prospective budget study.",
+      "checkpoints": [
+        {
+          "batch": 1,
+          "accepted_rows": 0,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 0,
+              "remaining": 2,
+              "candidate_draws": 1,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 1,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 1,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        },
+        {
+          "batch": 2,
+          "accepted_rows": 0,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 0,
+              "remaining": 2,
+              "candidate_draws": 1,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 1,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 1,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        },
+        {
+          "batch": 3,
+          "accepted_rows": 1,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 1,
+              "remaining": 1,
+              "candidate_draws": 1,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 1,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 1,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 1,
+              "new_rows_per_draw": 1,
+              "calls_for_remaining_at_block_rate": 1
+            }
+          ]
+        },
+        {
+          "batch": 4,
+          "accepted_rows": 2,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 2,
+              "remaining": 0,
+              "candidate_draws": 1,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 1,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 1,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 1,
+              "new_rows_per_draw": 1,
+              "calls_for_remaining_at_block_rate": 0
+            }
+          ]
+        }
+      ],
+      "accepted": [
+        {
+          "query_key": "A1\t8\t8",
+          "orbit_key": "A1|A1:8|8",
+          "canonical_type": "A1",
+          "highest_weight": [
+            8
+          ],
+          "target_weight": [
+            8
+          ],
+          "target_status": "dominant",
+          "multiplicity": "1",
+          "slice_id": "1|dominant",
+          "source_query_sequence": 3
+        },
+        {
+          "query_key": "A1\t8\t6",
+          "orbit_key": "A1|A1:8|6",
+          "canonical_type": "A1",
+          "highest_weight": [
+            8
+          ],
+          "target_weight": [
+            6
+          ],
+          "target_status": "dominant",
+          "multiplicity": "1",
+          "slice_id": "1|dominant",
+          "source_query_sequence": 4
+        }
+      ],
+      "evaluations": [
+        {
+          "query_key": "A1\t8\t10",
+          "slice_id": "1|dominant",
+          "source": "oracle",
+          "source_query_sequence": 1,
+          "multiplicity": "0",
+          "observed_stratum": "0",
+          "status": "ok",
+          "disposition": "stratum_rejections"
+        },
+        {
+          "query_key": "A1\t8\t10",
+          "slice_id": "1|dominant",
+          "source": "oracle",
+          "source_query_sequence": 2,
+          "multiplicity": "0",
+          "observed_stratum": "0",
+          "status": "ok",
+          "disposition": "stratum_rejections"
+        },
+        {
+          "query_key": "A1\t8\t8",
+          "slice_id": "1|dominant",
+          "source": "oracle",
+          "source_query_sequence": 3,
+          "multiplicity": "1",
+          "observed_stratum": "1",
+          "status": "ok",
+          "disposition": "accepted"
+        },
+        {
+          "query_key": "A1\t8\t6",
+          "slice_id": "1|dominant",
+          "source": "oracle",
+          "source_query_sequence": 4,
+          "multiplicity": "1",
+          "observed_stratum": "1",
+          "status": "ok",
+          "disposition": "accepted"
+        }
+      ]
+    },
+    "repeated_rejection_cached": {
+      "schema": "ilxyr.weight_selection_pilot.v1",
+      "status": "requested_quotas_reached",
+      "hold": null,
+      "oracle_sha256": "401d57f15bec3aa34d972479806242d9fa98af0db48625920cb62618b22c3af9",
+      "mode": "cached",
+      "scheduling": "rotate_unfinished_slices_each_batch",
+      "limits": {
+        "maxDraws": 1000,
+        "maxOracleCalls": 50,
+        "maxEvaluations": 30,
+        "maxBatches": 10,
+        "batchSize": 1,
+        "maxAcceptedRows": 20
+      },
+      "totals": {
+        "candidate_draws": 4,
+        "construction_failed": 0,
+        "no_representation": 0,
+        "query_exclusions": 0,
+        "orbit_exclusions": 0,
+        "candidates_reserved": 4,
+        "candidate_evaluations": 4,
+        "oracle_calls": 3,
+        "oracle_failures": 0,
+        "cache_hits": 1,
+        "label_matches": 2,
+        "stratum_rejections": 2,
+        "quota_rejections": 0,
+        "accepted_rows": 2
+      },
+      "by_slice": {
+        "1|dominant": {
+          "candidate_draws": 4,
+          "construction_failed": 0,
+          "no_representation": 0,
+          "query_exclusions": 0,
+          "orbit_exclusions": 0,
+          "candidates_reserved": 4,
+          "candidate_evaluations": 4,
+          "oracle_calls": 3,
+          "oracle_failures": 0,
+          "cache_hits": 1,
+          "label_matches": 2,
+          "stratum_rejections": 2,
+          "quota_rejections": 0,
+          "accepted_rows": 2
+        }
+      },
+      "slices": [
+        {
+          "desired": "1",
+          "status": "dominant",
+          "required": 2,
+          "id": "1|dominant",
+          "accepted": 2,
+          "attempts": 4
+        }
+      ],
+      "cache": {
+        "oracle_sha256": "401d57f15bec3aa34d972479806242d9fa98af0db48625920cb62618b22c3af9",
+        "entries": 3,
+        "used_payload_bytes": 22,
+        "allocated_buffer_bytes": 5248,
+        "max_entries": 40,
+        "max_payload_bytes": 4096,
+        "max_key_bytes": 512,
+        "max_value_bytes": 64
+      },
+      "selected_queries": 2,
+      "selected_orbits": 2,
+      "candidate_support": {
+        "status": "unknown",
+        "reason": "Sampling observations cover proposed candidates; complete reachable support requires a separate finite roster."
+      },
+      "projection_scope": "Observed block rates only. Adaptive selection and cache occupancy require a new prospective budget study.",
+      "checkpoints": [
+        {
+          "batch": 1,
+          "accepted_rows": 0,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 0,
+              "remaining": 2,
+              "candidate_draws": 1,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 1,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 1,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        },
+        {
+          "batch": 2,
+          "accepted_rows": 0,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 0,
+              "remaining": 2,
+              "candidate_draws": 1,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 1,
+              "label_matches": 0,
+              "stratum_rejections": 1,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        },
+        {
+          "batch": 3,
+          "accepted_rows": 1,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 1,
+              "remaining": 1,
+              "candidate_draws": 1,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 1,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 1,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 1,
+              "new_rows_per_draw": 1,
+              "calls_for_remaining_at_block_rate": 1
+            }
+          ]
+        },
+        {
+          "batch": 4,
+          "accepted_rows": 2,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 2,
+              "remaining": 0,
+              "candidate_draws": 1,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 1,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 1,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 1,
+              "new_rows_per_draw": 1,
+              "calls_for_remaining_at_block_rate": 0
+            }
+          ]
+        }
+      ],
+      "accepted": [
+        {
+          "query_key": "A1\t8\t8",
+          "orbit_key": "A1|A1:8|8",
+          "canonical_type": "A1",
+          "highest_weight": [
+            8
+          ],
+          "target_weight": [
+            8
+          ],
+          "target_status": "dominant",
+          "multiplicity": "1",
+          "slice_id": "1|dominant",
+          "source_query_sequence": 2
+        },
+        {
+          "query_key": "A1\t8\t6",
+          "orbit_key": "A1|A1:8|6",
+          "canonical_type": "A1",
+          "highest_weight": [
+            8
+          ],
+          "target_weight": [
+            6
+          ],
+          "target_status": "dominant",
+          "multiplicity": "1",
+          "slice_id": "1|dominant",
+          "source_query_sequence": 3
+        }
+      ],
+      "evaluations": [
+        {
+          "query_key": "A1\t8\t10",
+          "slice_id": "1|dominant",
+          "source": "oracle",
+          "source_query_sequence": 1,
+          "multiplicity": "0",
+          "observed_stratum": "0",
+          "status": "ok",
+          "disposition": "stratum_rejections"
+        },
+        {
+          "query_key": "A1\t8\t10",
+          "slice_id": "1|dominant",
+          "source": "cache",
+          "source_query_sequence": 1,
+          "multiplicity": "0",
+          "observed_stratum": "0",
+          "status": "ok",
+          "disposition": "stratum_rejections"
+        },
+        {
+          "query_key": "A1\t8\t8",
+          "slice_id": "1|dominant",
+          "source": "oracle",
+          "source_query_sequence": 2,
+          "multiplicity": "1",
+          "observed_stratum": "1",
+          "status": "ok",
+          "disposition": "accepted"
+        },
+        {
+          "query_key": "A1\t8\t6",
+          "slice_id": "1|dominant",
+          "source": "oracle",
+          "source_query_sequence": 3,
+          "multiplicity": "1",
+          "observed_stratum": "1",
+          "status": "ok",
+          "disposition": "accepted"
+        }
+      ]
+    },
+    "fixed_start_starvation": {
+      "schema": "ilxyr.weight_selection_pilot.v1",
+      "status": "hold",
+      "hold": "batch_limit",
+      "oracle_sha256": "401d57f15bec3aa34d972479806242d9fa98af0db48625920cb62618b22c3af9",
+      "mode": "cached",
+      "scheduling": "original_fixed_start",
+      "limits": {
+        "maxDraws": 1000,
+        "maxOracleCalls": 50,
+        "maxEvaluations": 30,
+        "maxBatches": 2,
+        "batchSize": 2,
+        "maxAcceptedRows": 20
+      },
+      "totals": {
+        "candidate_draws": 400,
+        "construction_failed": 0,
+        "no_representation": 0,
+        "query_exclusions": 398,
+        "orbit_exclusions": 0,
+        "candidates_reserved": 2,
+        "candidate_evaluations": 2,
+        "oracle_calls": 1,
+        "oracle_failures": 0,
+        "cache_hits": 1,
+        "label_matches": 0,
+        "stratum_rejections": 2,
+        "quota_rejections": 0,
+        "accepted_rows": 0
+      },
+      "by_slice": {
+        "2-7|dominant": {
+          "candidate_draws": 200,
+          "construction_failed": 0,
+          "no_representation": 0,
+          "query_exclusions": 198,
+          "orbit_exclusions": 0,
+          "candidates_reserved": 2,
+          "candidate_evaluations": 2,
+          "oracle_calls": 1,
+          "oracle_failures": 0,
+          "cache_hits": 1,
+          "label_matches": 0,
+          "stratum_rejections": 2,
+          "quota_rejections": 0,
+          "accepted_rows": 0
+        },
+        "1|dominant": {
+          "candidate_draws": 200,
+          "construction_failed": 0,
+          "no_representation": 0,
+          "query_exclusions": 200,
+          "orbit_exclusions": 0,
+          "candidates_reserved": 0,
+          "candidate_evaluations": 0,
+          "oracle_calls": 0,
+          "oracle_failures": 0,
+          "cache_hits": 0,
+          "label_matches": 0,
+          "stratum_rejections": 0,
+          "quota_rejections": 0,
+          "accepted_rows": 0
+        }
+      },
+      "slices": [
+        {
+          "desired": "2-7",
+          "status": "dominant",
+          "required": 1,
+          "id": "2-7|dominant",
+          "accepted": 0,
+          "attempts": 2
+        },
+        {
+          "desired": "1",
+          "status": "dominant",
+          "required": 1,
+          "id": "1|dominant",
+          "accepted": 0,
+          "attempts": 0
+        }
+      ],
+      "cache": {
+        "oracle_sha256": "401d57f15bec3aa34d972479806242d9fa98af0db48625920cb62618b22c3af9",
+        "entries": 1,
+        "used_payload_bytes": 7,
+        "allocated_buffer_bytes": 5248,
+        "max_entries": 40,
+        "max_payload_bytes": 4096,
+        "max_key_bytes": 512,
+        "max_value_bytes": 64
+      },
+      "selected_queries": 0,
+      "selected_orbits": 0,
+      "candidate_support": {
+        "status": "unknown",
+        "reason": "Sampling observations cover proposed candidates; complete reachable support requires a separate finite roster."
+      },
+      "projection_scope": "Observed block rates only. Adaptive selection and cache occupancy require a new prospective budget study.",
+      "checkpoints": [
+        {
+          "batch": 1,
+          "accepted_rows": 0,
+          "slices": [
+            {
+              "id": "2-7|dominant",
+              "accepted": 0,
+              "remaining": 1,
+              "candidate_draws": 100,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 99,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 1,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 1,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            },
+            {
+              "id": "1|dominant",
+              "accepted": 0,
+              "remaining": 1,
+              "candidate_draws": 100,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 100,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 0,
+              "candidate_evaluations": 0,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        },
+        {
+          "batch": 2,
+          "accepted_rows": 0,
+          "slices": [
+            {
+              "id": "2-7|dominant",
+              "accepted": 0,
+              "remaining": 1,
+              "candidate_draws": 100,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 99,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 1,
+              "label_matches": 0,
+              "stratum_rejections": 1,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            },
+            {
+              "id": "1|dominant",
+              "accepted": 0,
+              "remaining": 1,
+              "candidate_draws": 100,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 100,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 0,
+              "candidate_evaluations": 0,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        },
+        {
+          "batch": 2,
+          "accepted_rows": 0,
+          "slices": [
+            {
+              "id": "2-7|dominant",
+              "accepted": 0,
+              "remaining": 1,
+              "candidate_draws": 0,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 0,
+              "candidate_evaluations": 0,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": null,
+              "calls_for_remaining_at_block_rate": null
+            },
+            {
+              "id": "1|dominant",
+              "accepted": 0,
+              "remaining": 1,
+              "candidate_draws": 0,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 0,
+              "candidate_evaluations": 0,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": null,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        }
+      ],
+      "accepted": [],
+      "evaluations": [
+        {
+          "query_key": "A1\t8\t8",
+          "slice_id": "2-7|dominant",
+          "source": "oracle",
+          "source_query_sequence": 1,
+          "multiplicity": "1",
+          "observed_stratum": "1",
+          "status": "ok",
+          "disposition": "stratum_rejections"
+        },
+        {
+          "query_key": "A1\t8\t8",
+          "slice_id": "2-7|dominant",
+          "source": "cache",
+          "source_query_sequence": 1,
+          "multiplicity": "1",
+          "observed_stratum": "1",
+          "status": "ok",
+          "disposition": "stratum_rejections"
+        }
+      ]
+    },
+    "rotated_start": {
+      "schema": "ilxyr.weight_selection_pilot.v1",
+      "status": "hold",
+      "hold": "batch_limit",
+      "oracle_sha256": "401d57f15bec3aa34d972479806242d9fa98af0db48625920cb62618b22c3af9",
+      "mode": "cached",
+      "scheduling": "rotate_unfinished_slices_each_batch",
+      "limits": {
+        "maxDraws": 1000,
+        "maxOracleCalls": 50,
+        "maxEvaluations": 30,
+        "maxBatches": 2,
+        "batchSize": 2,
+        "maxAcceptedRows": 20
+      },
+      "totals": {
+        "candidate_draws": 400,
+        "construction_failed": 0,
+        "no_representation": 0,
+        "query_exclusions": 398,
+        "orbit_exclusions": 0,
+        "candidates_reserved": 2,
+        "candidate_evaluations": 2,
+        "oracle_calls": 1,
+        "oracle_failures": 0,
+        "cache_hits": 1,
+        "label_matches": 1,
+        "stratum_rejections": 1,
+        "quota_rejections": 0,
+        "accepted_rows": 1
+      },
+      "by_slice": {
+        "2-7|dominant": {
+          "candidate_draws": 200,
+          "construction_failed": 0,
+          "no_representation": 0,
+          "query_exclusions": 199,
+          "orbit_exclusions": 0,
+          "candidates_reserved": 1,
+          "candidate_evaluations": 1,
+          "oracle_calls": 1,
+          "oracle_failures": 0,
+          "cache_hits": 0,
+          "label_matches": 0,
+          "stratum_rejections": 1,
+          "quota_rejections": 0,
+          "accepted_rows": 0
+        },
+        "1|dominant": {
+          "candidate_draws": 200,
+          "construction_failed": 0,
+          "no_representation": 0,
+          "query_exclusions": 199,
+          "orbit_exclusions": 0,
+          "candidates_reserved": 1,
+          "candidate_evaluations": 1,
+          "oracle_calls": 0,
+          "oracle_failures": 0,
+          "cache_hits": 1,
+          "label_matches": 1,
+          "stratum_rejections": 0,
+          "quota_rejections": 0,
+          "accepted_rows": 1
+        }
+      },
+      "slices": [
+        {
+          "desired": "2-7",
+          "status": "dominant",
+          "required": 1,
+          "id": "2-7|dominant",
+          "accepted": 0,
+          "attempts": 1
+        },
+        {
+          "desired": "1",
+          "status": "dominant",
+          "required": 1,
+          "id": "1|dominant",
+          "accepted": 1,
+          "attempts": 1
+        }
+      ],
+      "cache": {
+        "oracle_sha256": "401d57f15bec3aa34d972479806242d9fa98af0db48625920cb62618b22c3af9",
+        "entries": 1,
+        "used_payload_bytes": 7,
+        "allocated_buffer_bytes": 5248,
+        "max_entries": 40,
+        "max_payload_bytes": 4096,
+        "max_key_bytes": 512,
+        "max_value_bytes": 64
+      },
+      "selected_queries": 1,
+      "selected_orbits": 1,
+      "candidate_support": {
+        "status": "unknown",
+        "reason": "Sampling observations cover proposed candidates; complete reachable support requires a separate finite roster."
+      },
+      "projection_scope": "Observed block rates only. Adaptive selection and cache occupancy require a new prospective budget study.",
+      "checkpoints": [
+        {
+          "batch": 1,
+          "accepted_rows": 0,
+          "slices": [
+            {
+              "id": "2-7|dominant",
+              "accepted": 0,
+              "remaining": 1,
+              "candidate_draws": 100,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 99,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 1,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 1,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            },
+            {
+              "id": "1|dominant",
+              "accepted": 0,
+              "remaining": 1,
+              "candidate_draws": 100,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 100,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 0,
+              "candidate_evaluations": 0,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        },
+        {
+          "batch": 2,
+          "accepted_rows": 1,
+          "slices": [
+            {
+              "id": "2-7|dominant",
+              "accepted": 0,
+              "remaining": 1,
+              "candidate_draws": 100,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 100,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 0,
+              "candidate_evaluations": 0,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            },
+            {
+              "id": "1|dominant",
+              "accepted": 1,
+              "remaining": 0,
+              "candidate_draws": 100,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 99,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 1,
+              "label_matches": 1,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 1,
+              "new_rows_per_draw": 0.01,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        },
+        {
+          "batch": 2,
+          "accepted_rows": 1,
+          "slices": [
+            {
+              "id": "2-7|dominant",
+              "accepted": 0,
+              "remaining": 1,
+              "candidate_draws": 0,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 0,
+              "candidate_evaluations": 0,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": null,
+              "calls_for_remaining_at_block_rate": null
+            },
+            {
+              "id": "1|dominant",
+              "accepted": 1,
+              "remaining": 0,
+              "candidate_draws": 0,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 0,
+              "candidate_evaluations": 0,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": null,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        }
+      ],
+      "accepted": [
+        {
+          "query_key": "A1\t8\t8",
+          "orbit_key": "A1|A1:8|8",
+          "canonical_type": "A1",
+          "highest_weight": [
+            8
+          ],
+          "target_weight": [
+            8
+          ],
+          "target_status": "dominant",
+          "multiplicity": "1",
+          "slice_id": "1|dominant",
+          "source_query_sequence": 1
+        }
+      ],
+      "evaluations": [
+        {
+          "query_key": "A1\t8\t8",
+          "slice_id": "2-7|dominant",
+          "source": "oracle",
+          "source_query_sequence": 1,
+          "multiplicity": "1",
+          "observed_stratum": "1",
+          "status": "ok",
+          "disposition": "stratum_rejections"
+        },
+        {
+          "query_key": "A1\t8\t8",
+          "slice_id": "1|dominant",
+          "source": "cache",
+          "source_query_sequence": 1,
+          "multiplicity": "1",
+          "observed_stratum": "1",
+          "status": "ok",
+          "disposition": "accepted"
+        }
+      ]
+    },
+    "finite_query_support": {
+      "schema": "ilxyr.weight_selection_pilot.v1",
+      "status": "hold",
+      "hold": "candidate_generation_exhausted",
+      "oracle_sha256": "401d57f15bec3aa34d972479806242d9fa98af0db48625920cb62618b22c3af9",
+      "mode": "cached",
+      "scheduling": "rotate_unfinished_slices_each_batch",
+      "limits": {
+        "maxDraws": 1000,
+        "maxOracleCalls": 50,
+        "maxEvaluations": 30,
+        "maxBatches": 10,
+        "batchSize": 1,
+        "maxAcceptedRows": 20
+      },
+      "totals": {
+        "candidate_draws": 101,
+        "construction_failed": 0,
+        "no_representation": 0,
+        "query_exclusions": 100,
+        "orbit_exclusions": 0,
+        "candidates_reserved": 1,
+        "candidate_evaluations": 1,
+        "oracle_calls": 1,
+        "oracle_failures": 0,
+        "cache_hits": 0,
+        "label_matches": 1,
+        "stratum_rejections": 0,
+        "quota_rejections": 0,
+        "accepted_rows": 1
+      },
+      "by_slice": {
+        "1|dominant": {
+          "candidate_draws": 101,
+          "construction_failed": 0,
+          "no_representation": 0,
+          "query_exclusions": 100,
+          "orbit_exclusions": 0,
+          "candidates_reserved": 1,
+          "candidate_evaluations": 1,
+          "oracle_calls": 1,
+          "oracle_failures": 0,
+          "cache_hits": 0,
+          "label_matches": 1,
+          "stratum_rejections": 0,
+          "quota_rejections": 0,
+          "accepted_rows": 1
+        }
+      },
+      "slices": [
+        {
+          "desired": "1",
+          "status": "dominant",
+          "required": 2,
+          "id": "1|dominant",
+          "accepted": 1,
+          "attempts": 1
+        }
+      ],
+      "cache": {
+        "oracle_sha256": "401d57f15bec3aa34d972479806242d9fa98af0db48625920cb62618b22c3af9",
+        "entries": 1,
+        "used_payload_bytes": 7,
+        "allocated_buffer_bytes": 5248,
+        "max_entries": 40,
+        "max_payload_bytes": 4096,
+        "max_key_bytes": 512,
+        "max_value_bytes": 64
+      },
+      "selected_queries": 1,
+      "selected_orbits": 1,
+      "candidate_support": {
+        "status": "unknown",
+        "reason": "Sampling observations cover proposed candidates; complete reachable support requires a separate finite roster."
+      },
+      "projection_scope": "Observed block rates only. Adaptive selection and cache occupancy require a new prospective budget study.",
+      "checkpoints": [
+        {
+          "batch": 1,
+          "accepted_rows": 1,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 1,
+              "remaining": 1,
+              "candidate_draws": 1,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 1,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 1,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 1,
+              "new_rows_per_draw": 1,
+              "calls_for_remaining_at_block_rate": 1
+            }
+          ]
+        },
+        {
+          "batch": 2,
+          "accepted_rows": 1,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 1,
+              "remaining": 1,
+              "candidate_draws": 100,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 100,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 0,
+              "candidate_evaluations": 0,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        }
+      ],
+      "accepted": [
+        {
+          "query_key": "A1\t8\t8",
+          "orbit_key": "A1|A1:8|8",
+          "canonical_type": "A1",
+          "highest_weight": [
+            8
+          ],
+          "target_weight": [
+            8
+          ],
+          "target_status": "dominant",
+          "multiplicity": "1",
+          "slice_id": "1|dominant",
+          "source_query_sequence": 1
+        }
+      ],
+      "evaluations": [
+        {
+          "query_key": "A1\t8\t8",
+          "slice_id": "1|dominant",
+          "source": "oracle",
+          "source_query_sequence": 1,
+          "multiplicity": "1",
+          "observed_stratum": "1",
+          "status": "ok",
+          "disposition": "accepted"
+        }
+      ]
+    },
+    "cache_capacity": {
+      "schema": "ilxyr.weight_selection_pilot.v1",
+      "status": "hold",
+      "hold": "cache_capacity",
+      "oracle_sha256": "401d57f15bec3aa34d972479806242d9fa98af0db48625920cb62618b22c3af9",
+      "mode": "cached",
+      "scheduling": "rotate_unfinished_slices_each_batch",
+      "limits": {
+        "maxDraws": 1000,
+        "maxOracleCalls": 50,
+        "maxEvaluations": 30,
+        "maxBatches": 10,
+        "batchSize": 1,
+        "maxAcceptedRows": 20
+      },
+      "totals": {
+        "candidate_draws": 2,
+        "construction_failed": 0,
+        "no_representation": 0,
+        "query_exclusions": 0,
+        "orbit_exclusions": 0,
+        "candidates_reserved": 2,
+        "candidate_evaluations": 1,
+        "oracle_calls": 1,
+        "oracle_failures": 0,
+        "cache_hits": 0,
+        "label_matches": 0,
+        "stratum_rejections": 1,
+        "quota_rejections": 0,
+        "accepted_rows": 0
+      },
+      "by_slice": {
+        "1|dominant": {
+          "candidate_draws": 2,
+          "construction_failed": 0,
+          "no_representation": 0,
+          "query_exclusions": 0,
+          "orbit_exclusions": 0,
+          "candidates_reserved": 2,
+          "candidate_evaluations": 1,
+          "oracle_calls": 1,
+          "oracle_failures": 0,
+          "cache_hits": 0,
+          "label_matches": 0,
+          "stratum_rejections": 1,
+          "quota_rejections": 0,
+          "accepted_rows": 0
+        }
+      },
+      "slices": [
+        {
+          "desired": "1",
+          "status": "dominant",
+          "required": 2,
+          "id": "1|dominant",
+          "accepted": 0,
+          "attempts": 2
+        }
+      ],
+      "cache": {
+        "oracle_sha256": "401d57f15bec3aa34d972479806242d9fa98af0db48625920cb62618b22c3af9",
+        "entries": 1,
+        "used_payload_bytes": 8,
+        "allocated_buffer_bytes": 4120,
+        "max_entries": 1,
+        "max_payload_bytes": 4096,
+        "max_key_bytes": 512,
+        "max_value_bytes": 64
+      },
+      "selected_queries": 0,
+      "selected_orbits": 0,
+      "candidate_support": {
+        "status": "unknown",
+        "reason": "Sampling observations cover proposed candidates; complete reachable support requires a separate finite roster."
+      },
+      "projection_scope": "Observed block rates only. Adaptive selection and cache occupancy require a new prospective budget study.",
+      "checkpoints": [
+        {
+          "batch": 1,
+          "accepted_rows": 0,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 0,
+              "remaining": 2,
+              "candidate_draws": 1,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 1,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 1,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        },
+        {
+          "batch": 2,
+          "accepted_rows": 0,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 0,
+              "remaining": 2,
+              "candidate_draws": 1,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 0,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 0,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        }
+      ],
+      "accepted": [],
+      "evaluations": [
+        {
+          "query_key": "A1\t8\t10",
+          "slice_id": "1|dominant",
+          "source": "oracle",
+          "source_query_sequence": 1,
+          "multiplicity": "0",
+          "observed_stratum": "0",
+          "status": "ok",
+          "disposition": "stratum_rejections"
+        }
+      ]
+    },
+    "frozen_A1_candidate_smoke": {
+      "schema": "ilxyr.weight_selection_pilot.v1",
+      "status": "hold",
+      "hold": "candidate_generation_exhausted",
+      "oracle_sha256": "b7a42150e97fc833e02e741f2006274fe6af583266c2cd7eef4e435a9b696918",
+      "mode": "cached",
+      "scheduling": "rotate_unfinished_slices_each_batch",
+      "limits": {
+        "maxDraws": 1000,
+        "maxOracleCalls": 50,
+        "maxEvaluations": 30,
+        "maxBatches": 10,
+        "batchSize": 4,
+        "maxAcceptedRows": 20
+      },
+      "totals": {
+        "candidate_draws": 800,
+        "construction_failed": 0,
+        "no_representation": 0,
+        "query_exclusions": 799,
+        "orbit_exclusions": 0,
+        "candidates_reserved": 1,
+        "candidate_evaluations": 1,
+        "oracle_calls": 1,
+        "oracle_failures": 0,
+        "cache_hits": 0,
+        "label_matches": 1,
+        "stratum_rejections": 0,
+        "quota_rejections": 0,
+        "accepted_rows": 1
+      },
+      "by_slice": {
+        "1|dominant": {
+          "candidate_draws": 800,
+          "construction_failed": 0,
+          "no_representation": 0,
+          "query_exclusions": 799,
+          "orbit_exclusions": 0,
+          "candidates_reserved": 1,
+          "candidate_evaluations": 1,
+          "oracle_calls": 1,
+          "oracle_failures": 0,
+          "cache_hits": 0,
+          "label_matches": 1,
+          "stratum_rejections": 0,
+          "quota_rejections": 0,
+          "accepted_rows": 1
+        }
+      },
+      "slices": [
+        {
+          "desired": "1",
+          "status": "dominant",
+          "required": 2,
+          "id": "1|dominant",
+          "accepted": 1,
+          "attempts": 1
+        }
+      ],
+      "cache": {
+        "oracle_sha256": "b7a42150e97fc833e02e741f2006274fe6af583266c2cd7eef4e435a9b696918",
+        "entries": 1,
+        "used_payload_bytes": 7,
+        "allocated_buffer_bytes": 5248,
+        "max_entries": 40,
+        "max_payload_bytes": 4096,
+        "max_key_bytes": 512,
+        "max_value_bytes": 64
+      },
+      "selected_queries": 1,
+      "selected_orbits": 1,
+      "candidate_support": {
+        "status": "unknown",
+        "reason": "Sampling observations cover proposed candidates; complete reachable support requires a separate finite roster."
+      },
+      "projection_scope": "Observed block rates only. Adaptive selection and cache occupancy require a new prospective budget study.",
+      "checkpoints": [
+        {
+          "batch": 1,
+          "accepted_rows": 1,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 1,
+              "remaining": 1,
+              "candidate_draws": 400,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 399,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 1,
+              "candidate_evaluations": 1,
+              "oracle_calls": 1,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 1,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 1,
+              "new_rows_per_draw": 0.0025,
+              "calls_for_remaining_at_block_rate": 1
+            }
+          ]
+        },
+        {
+          "batch": 2,
+          "accepted_rows": 1,
+          "slices": [
+            {
+              "id": "1|dominant",
+              "accepted": 1,
+              "remaining": 1,
+              "candidate_draws": 400,
+              "construction_failed": 0,
+              "no_representation": 0,
+              "query_exclusions": 400,
+              "orbit_exclusions": 0,
+              "candidates_reserved": 0,
+              "candidate_evaluations": 0,
+              "oracle_calls": 0,
+              "oracle_failures": 0,
+              "cache_hits": 0,
+              "label_matches": 0,
+              "stratum_rejections": 0,
+              "quota_rejections": 0,
+              "accepted_rows": 0,
+              "new_rows_per_draw": 0,
+              "calls_for_remaining_at_block_rate": null
+            }
+          ]
+        }
+      ],
+      "accepted": [
+        {
+          "query_key": "A1\t1\t1",
+          "orbit_key": "A1|A1:1|1",
+          "canonical_type": "A1",
+          "highest_weight": [
+            1
+          ],
+          "target_weight": [
+            1
+          ],
+          "target_status": "dominant",
+          "multiplicity": "1",
+          "slice_id": "1|dominant",
+          "source_query_sequence": 1
+        }
+      ],
+      "evaluations": [
+        {
+          "query_key": "A1\t1\t1",
+          "slice_id": "1|dominant",
+          "source": "oracle",
+          "source_query_sequence": 1,
+          "multiplicity": "1",
+          "observed_stratum": "1",
+          "status": "ok",
+          "disposition": "accepted"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "ilxyr.constraint_diff_report.v1",
+  "report_id": "constraint-diff:zero4.next-comparison.v1",
+  "experiment_id": "zero4.next-comparison.v1",
+  "ledger_id": "ilxyr.negative-knowledge.v1",
+  "ledger_ref": "artifact://sha256/8be79f853a182e39a9a7fe2be8b2b67438680c03e0b4804591f63880a3e7dc67",
+  "generated_at_ms": 1788600742008,
+  "proposed_mechanism_tags": [
+    "replay-guard",
+    "cumulative",
+    "gradient-projection",
+    "quantity-gate"
+  ],
+  "matches": [
+    {
+      "verdict_id": "verdict:zero.q23.seed2.local-guard.v1",
+      "experiment_id": "zero.q23.seed2.local-guard.no-go.v1",
+      "family": "zero",
+      "outcome": "no_go",
+      "taxonomy": "transfer",
+      "matched_tags": [
+        "replay-guard",
+        "quantity-gate"
+      ],
+      "verdict_summary": "Q2.3 seed 2 completed under its frozen local functional replay guard: quantity reached the declared threshold, the guard rejected no attempts, cumulative public replay regression reached 2.685%, and the diagnostic was a no-go without promotion or replication-seed access.",
+      "same_mechanism_tags": false,
+      "seed": 2
+    },
+    {
+      "verdict_id": "verdict:zero.q24.seed2.cumulative-guard.v1",
+      "experiment_id": "zero.q24.seed2.cumulative-guard.v1",
+      "family": "zero",
+      "outcome": "no_go",
+      "taxonomy": "interference",
+      "matched_tags": [
+        "replay-guard",
+        "cumulative",
+        "quantity-gate"
+      ],
+      "verdict_summary": "Q2.4 seed 2 committed 66 candidates under the frozen 1.5% cumulative replay authority. Attempts 67-74 each exceeded the ceiling and rolled back, ending the run via the eight-rejection fallback before any public checkpoint or promotion evaluation.",
+      "same_mechanism_tags": false,
+      "seed": 2
+    },
+    {
+      "verdict_id": "verdict:zero.q25.seed2.deterministic-backtracking.v1",
+      "experiment_id": "zero.q25.seed2.deterministic-backtracking.v1",
+      "family": "zero",
+      "outcome": "complete_no_go",
+      "taxonomy": "interference",
+      "matched_tags": [
+        "replay-guard",
+        "cumulative",
+        "quantity-gate"
+      ],
+      "verdict_summary": "Q2.5 seed 2 committed 71 updates (66 full-scale, 5 backtracked), then exhausted all eight scales on attempts 72-79. The terminal minimum-scale candidates missed the 1.5% authority by only 0.000151-0.000238 percentage points. Promotion and replication stayed sealed.",
+      "same_mechanism_tags": false,
+      "seed": 2
+    }
+  ],
+  "taxonomy_counts": {
+    "transfer": 1,
+    "interference": 2,
+    "measurement": 0,
+    "venue": 0,
+    "implementation": 0
+  },
+  "superseded_entries": 0,
+  "proposed_change": "Compare the frozen reference, task-only continuation, ordinary replay, and replay with projection at equal compute on a fresh task.",
+  "summary": "3 prior results share these mechanism tags. Review their evidence and the required design changes.",
+  "recommendation": "review"
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "ilxyr.weight_multiplicity_phase06_lie_preflight_launch_attempt.v1",
+  "run_id": "20260831211713",
+  "instance_id": "i-031fd5416965d2074",
+  "status": "failed_before_queries",
+  "phase": "build",
+  "ilxyr_commit": "4e04b21df34eaee3e0520a590ef9ae28516ce225",
+  "package_sha256": "337261babef676b6b26da4cafbd2e8d5152dbb001bc0997e969f79dfdc8535a5",
+  "plan_sha256": "9c2ae822347a6d0860027137f8d473b21051b4506b3087b32d774b823e92857f",
+  "manifest_sha256": "4c161a88ba116c64bae00e70ff1d602954e5a2e69ea07ff0a8e9a5ebe53f78ff",
+  "lie_source_sha256": "c4d6f67fa17d2bc77c875a5b2ad2b42ffc5cadf30e7d1c64c097648ccb918b1e",
+  "historical_timestamped_executable_sha256": "d2478e3cf9abed5cc0105da52fb6580a8c85b66ec74b7cfd3192d3eb6953f391",
+  "attempt_executable_sha256": "8f5991bf5fa603fbad1bf35c7a738fd1b79de489b9716332c8fc83e95f6c665c",
+  "cause": "LiE date.c embeds __DATE__ and __TIME__, so an ordinary unmodified rebuild cannot match a prior timestamped executable hash.",
+  "corrective_action": "Use a fixed SOURCE_DATE_EPOCH and require two independent build hashes to match before queries.",
+  "elapsed_instance_seconds": 73,
+  "estimated_ec2_usd": 0.013788888889,
+  "automatic_termination_confirmed": true,
+  "preflight_queries_started": false,
+  "corpus_generation_started": false,
+  "model_training_started": false
+}

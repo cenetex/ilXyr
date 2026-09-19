@@ -1,0 +1,112 @@
+{
+  "schema": "ilxyr.shared_task.v2",
+  "id": "zero-solomon.q22-compositional-routing.v1",
+  "title": "Zero to Solomon Q22 compositional operation routing",
+  "dataset": {
+    "handle": "dataset://zero/q22-compositional-routing/train/v1",
+    "sha256": "1f997d174ea1e3f3675612e24ecced15f8145abd29819e532b2f890f36245e8f"
+  },
+  "eval_set": {
+    "handle": "dataset://zero/q22-compositional-routing/promotion/v1",
+    "sha256": "42902d61d9edc2ceb5a33875deddbdd9e9b523b06fb1aa13a22249acbf2983fe"
+  },
+  "metrics": [
+    {
+      "name": "family_gate_ppm",
+      "unit": "parts_per_million",
+      "description": "One million only when the frozen overall, per-class, and agreement gates all pass; otherwise zero"
+    },
+    {
+      "name": "minimum_operation_exact_rate_ppm",
+      "unit": "parts_per_million",
+      "description": "Lowest exact operation-routing rate across the three frozen seeds"
+    },
+    {
+      "name": "minimum_per_class_exact_rate_ppm",
+      "unit": "parts_per_million",
+      "description": "Lowest exact rate across every frozen seed and operation class"
+    },
+    {
+      "name": "all_seed_agreement_rate_ppm",
+      "unit": "parts_per_million",
+      "description": "Promotion inputs receiving the same prediction from all three frozen seeds"
+    }
+  ],
+  "seeds": [1, 2, 3],
+  "family_bindings": [
+    {
+      "family": "zero",
+      "encoding": "zero.quantity-compositional-operation-request.v1",
+      "verifier": "verifier://zero/quantity-request/v1",
+      "designated_proposer": {
+        "id": "service://zero/q22-compositional-proposer-v1",
+        "kind": "service"
+      },
+      "implementation": {
+        "repository": "https://github.com/atimics/zero-grounded-literary-lm",
+        "commit": "8deeb138e4c01ba5b64bb22e5125d5c823c37f78",
+        "artifacts": [
+          {
+            "path": "benchmarks/zero4-q22-compositional-shared-task-v1/manifest.json",
+            "sha256": "8d7196afc3a80f89998a272dd689d309df9db2e0ac9202cbe3a2f41b9390c1ee"
+          },
+          {
+            "path": "scripts/generate_q22_compositional_routing.mjs",
+            "sha256": "2600635c99199f9840c0c7cb0db50e62437e139672cd871bf0b9b2fb082429b0"
+          },
+          {
+            "path": "scripts/check_q22_compositional_shared_task.mjs",
+            "sha256": "c8a21add7d905c1c605c972e1ad703accd829c9633f72d7bf8ebb6648481a605"
+          },
+          {
+            "path": "quantity_request_eval.c",
+            "sha256": "1627c00a2a49846170b8ee49160ac55ae02e1f4f687397f3e46641e271537902"
+          }
+        ]
+      }
+    },
+    {
+      "family": "solomon",
+      "encoding": "solomon.q22-compositional-operation.byte-v1",
+      "verifier": "verifier://solomon/q22-compositional-operation/v1",
+      "designated_proposer": {
+        "id": "service://solomon/q22-compositional-proposer-v1",
+        "kind": "service"
+      },
+      "implementation": {
+        "repository": "https://github.com/atimics/nsrl",
+        "commit": "fa60312f93ec859e42a57f383f5972b8df4cf807",
+        "artifacts": [
+          {
+            "path": "benchmarks/q22-compositional-shared-task-v1/manifest.tsv",
+            "sha256": "51f06ae293f338a27c1bbcc4fb52d66cffc5a7727b15998fa606b1a073ee8e21"
+          },
+          {
+            "path": "benchmarks/q22-compositional-solomon-prospective-v1/contract.json",
+            "sha256": "f5fdd260ae7e7ef2fdab85bb4aaf0aaebb2716015b3e8026a677aaf8fa8d0ae4"
+          },
+          {
+            "path": "crates/nsrl-eval/src/lib.rs",
+            "sha256": "a84d470b39c13945078dfe169baf8be1ee8f77e24517a6adaf72e381cefe29e6"
+          },
+          {
+            "path": "crates/nsrl-eval/src/q22_compositional.rs",
+            "sha256": "ab224c965a352882eeebb0bff7f8f7393759a6f3c35be1d4493952ce9691dc46"
+          },
+          {
+            "path": "crates/nsrl-eval/src/bin/nsrl-q22-compositional-eval.rs",
+            "sha256": "e6d4b54a0bc8b546f8630443d8e0bf67dc770cb2a7b4f2095415ae67ac35bf61"
+          },
+          {
+            "path": "crates/nsrl-train/src/bin/nsrl-q22-compositional-proposer.rs",
+            "sha256": "8caa5121b9bd2a2c64db378cb207eef15974a174baa32e6d9ab7d70afd9fbdef"
+          },
+          {
+            "path": "scripts/run-q22-compositional-solomon-prospective.mjs",
+            "sha256": "2cf2a578ad093a78c4e224dff7d009472ef43435ac26856ba6af29e1df9f88c4"
+          }
+        ]
+      }
+    }
+  ]
+}

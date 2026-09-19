@@ -1,0 +1,26 @@
+{
+  "failures": [
+    {
+      "evidence": "LINUX-FIXTURE-FAILURE.json",
+      "id": "linux_fixture_noexec",
+      "kind": "observed_CI_failure",
+      "observation": "The fixed Linux test mount denied execution of the tiny test oracle. The runner retained a lie_warmup_failure with spawn EACCES and zero workload calls.",
+      "resolution": "Allow executable fixtures on the CI temporary mount, then rerun the same tests and frozen scientific inputs."
+    },
+    {
+      "evidence": "https://github.com/cenetex/ilXyr/actions/runs/34274923839",
+      "id": "assertion_before_failure_capture",
+      "kind": "test_harness_failure",
+      "observation": "The first Linux failure reported an assertion before writing its diagnostic artifacts.",
+      "resolution": "Save terminal files, process logs and mount flags before test assertions. The next failed run exposed the exact cause."
+    },
+    {
+      "id": "detached_build_descendant",
+      "kind": "cleanup_test",
+      "observation": "A test process exited with code zero while its detached child was still alive. The controller found, stopped and reaped the child, then classified the process as failed.",
+      "resolution": "Use Linux child adoption around serial runtime steps and include cleanup in the final process status."
+    }
+  ],
+  "schema": "ilxyr.weight_controller_failures.v1",
+  "scientific_full_corpus_runs": 0
+}

@@ -208,6 +208,10 @@
           "type": "object",
           "additionalProperties": { "type": "number" }
         },
+        "artifacts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/run_artifact" }
+        },
         "source_attestation": {
           "$ref": "https://ilxyr.dev/schemas/retro-registration-spec.v1.json#/properties/source"
         }
@@ -231,10 +235,39 @@
           "type": "object",
           "additionalProperties": { "$ref": "#/$defs/artifact_ref" }
         },
+        "resolved_datasets": {
+          "type": "object",
+          "propertyNames": { "pattern": "^dataset://\\S+$" },
+          "additionalProperties": { "$ref": "#/$defs/artifact_ref" }
+        },
         "shared_task_ref": { "$ref": "#/$defs/artifact_ref" },
         "evidence_authority": {
           "$ref": "https://ilxyr.dev/schemas/evidence.v1.json#/properties/authority"
         }
+      }
+    },
+    "run_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "uri",
+        "sha256",
+        "size_bytes",
+        "media_type",
+        "provider_version"
+      ],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "uri": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9+.-]*://\\S+$",
+          "not": { "pattern": "^file://" }
+        },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "media_type": { "type": "string", "pattern": "^[^\\s/]+/[^\\s/]+$" },
+        "provider_version": { "type": "string", "minLength": 1 }
       }
     },
     "retro_registration": {

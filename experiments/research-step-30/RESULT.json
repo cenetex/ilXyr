@@ -1,0 +1,27 @@
+{
+  "artifacts": {
+    "CAPACITY-WINDOW.json": "9fa41527fa058c3224fd5f926a45e1243905ae836036dd4f6246bc86cb773936",
+    "FOLLOW-UP-UPDATE.json": "7f686d5be510c217666695c542d3c310c4c8831e6bb2af6d1f1b5650a0bfafb1",
+    "FOLLOW-UP.json": "a75455863d937ddb0bff413542e93effdf07d27304370fecd6617b7c610a09a2",
+    "VERIFICATION.json": "278edd67cb04592161053b0b93e1ca1bbd843a79d36dfd89b631b4fd0d9a3280"
+  },
+  "attempts_per_zone": {
+    "us-east-1a": 3,
+    "us-east-1b": 3,
+    "us-east-1c": 3,
+    "us-east-1d": 3
+  },
+  "capacity_failures": 12,
+  "execution_approval_status": "first_paid_instance_pending",
+  "execution_plan_sha256": "eeb5658143faebd7aeb9db25185c5503a59ab5dc555c378cbdd243c35a2b3e49",
+  "follow_up_status": "PAUSED",
+  "host_package_sha256": "25c350b4819e499bcf1adabe56d5d05cb8ef7c07daccb13d7a221545cd74d821",
+  "initial_attempts": 4,
+  "instance_compute_spend_usd": "0.00",
+  "paid_instances_created": 0,
+  "scheduled_follow_up_attempts": 8,
+  "schema": "ilxyr.feral_step30_capacity_closeout.v1",
+  "scientific_comparison_status": "awaiting_execution",
+  "scored_model_rows": 0,
+  "status": "capacity_blocked_retry_window_closed"
+}

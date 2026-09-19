@@ -1,0 +1,7 @@
+{
+  "error": "selected context is too short after normalization",
+  "model_calls": 0,
+  "phase": "inputs",
+  "plan_sha256": "fa62515db2d1a1ac42727b23db3485aba7cafb94bcb1352da25dd9f994ce3b56",
+  "status": "failed"
+}

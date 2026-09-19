@@ -1,0 +1,17 @@
+{
+  "console_receipt_sha256": "85078389ca812fab3a9a757ed9f97eb356fd1cec12c35454b4207df430b6249e",
+  "deadline_utc": "2026-09-08T09:09:16Z",
+  "decoded_console_sha256": "d5a4174c33e2a7096f7e42245244a2127bef20e3434f77d6bbb31513e40045b8",
+  "fixed_package_version_observed": true,
+  "instance_id": "i-05210fe6cd2d5817c",
+  "live_gpu_generation_verified": false,
+  "observed_markers": [
+    "Running timer as unit: feral-finqa-deadline.timer",
+    "ZkHR6v0wApi4MSDdwXOk6VEcthWuwAmy",
+    "3602dfc569d45962aba00d76f888c3aa9b6b024b4ddc8bad8c7294ca9376bc75",
+    "c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b: Pulling"
+  ],
+  "runtime_image_pull_started": true,
+  "schema": "ilxyr.feral_host_startup_observation.v1",
+  "shutdown_timer_armed": true
+}

@@ -1,0 +1,63 @@
+{
+  "focused_tests": 7,
+  "full_counts_sha256": "0a41ebc43b0bf59cef8b023f2413e28b23f045eef09120a9f66a6d4727c47cff",
+  "implementation_commit": "ae5b8639c051d3f10c98d1cfc017104c62ab3f00",
+  "implementation_sources": {
+    "scripts/feral_process.py": "6a54b1920464cf85d9a78459e5342093fd46d9fc190a666b81648e1edc9af526",
+    "scripts/research_solomon_answer_ownership.py": "eb817c68076acdcec4d06dcabbd84398168c81df8b46292d071967e3792cd8fa",
+    "scripts/research_solomon_suffix_probabilities.py": "9faeccbad5b0a63fded01c501bf23c98f2ecf2baa5c71b818d2e9826ec4f843e",
+    "scripts/test_solomon_suffix_probabilities.py": "5cd216b4648b965d2fc6705d87b7adefcbcbdd50318c204e886666a47cc31d21"
+  },
+  "native_forward_calls": 32,
+  "native_sha256": "3378c4f0ec2053a9c43f42dbe4cbf20e3cabfc5a44571ff5d4fc636c56f6fd01",
+  "next_step": "Freeze a fresh document roster and a package with separate complete inference costs for all five arms.",
+  "observed_limit": "The empirical arm assigns zero probability to four targets. The uniform prior removes zero probabilities and raises Brier error on these opened windows.",
+  "performance_evidence": false,
+  "promotion_evidence": false,
+  "schema": "ilxyr.solomon_suffix_probability_review.v1",
+  "scope": "sixteen_opened_windows_engineering_smoke",
+  "scores": {
+    "native": {
+      "l1": 666174,
+      "maximum_mass": 33007,
+      "minimum_mass": 32771,
+      "mistakes": 4,
+      "normalized_brier_mean": "1420335975978148766363188142973448605069246555099550495025021098739217652436015141422087318517574363782467663067327107/2022529072966686760923120238703827496436699864270007965445030720176869235839317452946132765458333406147099805430230400",
+      "zeros": 2
+    },
+    "point_mass": {
+      "l1": 262136,
+      "maximum_mass": 32767,
+      "minimum_mass": 32767,
+      "mistakes": 4,
+      "normalized_brier_mean": "1/2",
+      "zeros": 4
+    },
+    "smoothed_point_mass": {
+      "l1": 340656,
+      "maximum_mass": 32767,
+      "minimum_mass": 32767,
+      "mistakes": 4,
+      "normalized_brier_mean": "493727109/1073676289",
+      "zeros": 0
+    },
+    "suffix_empirical": {
+      "mistakes": 4,
+      "normalized_brier_mean": "2681/6144",
+      "zeros": 4
+    },
+    "suffix_unit_prior": {
+      "mistakes": 4,
+      "normalized_brier_mean": "1898464909/3835330560",
+      "zeros": 0
+    }
+  },
+  "target_independent_probability_rules": [
+    "suffix_empirical",
+    "suffix_unit_prior"
+  ],
+  "upstream_commit": "96321943e1da7b67bf6c9b4954ff14e6057ac433",
+  "upstream_source_files_verified": 76,
+  "windows": 16,
+  "windows_sha256": "e86a45002accea6c294a4b797393f10c79e558fdc1085d88a7f4b56f8258c3b2"
+}

@@ -1,0 +1,10 @@
+{
+  "node": "v22.22.0",
+  "compiler_version": "12.2.0",
+  "compiler_sha256": "75e997ec62297a6484f491bae28ab0ccb489daba23e398fd10fe68e9e6f0def8",
+  "compiler_flags": "-O2 -std=c11 -Wall -Wextra -Wpedantic",
+  "runtime_image": "docker.io/library/node@sha256:2e3d655fd1e3ffaa6b5f23ee9f3905a0fd9e8c0a65df94c8ae6e4d18a0f48870",
+  "plan_sha256": "70eee53ef3ada5353d48fcb5323a45db7d4e3536241937e0a492516d38f93f6a",
+  "mode": "run",
+  "timing_evidence": true
+}

@@ -1,0 +1,52 @@
+{
+  "active_feral_instances_observed": 0,
+  "all_supported_zones_attempted": true,
+  "failed_attempts": [
+    {
+      "availability_zone": "us-east-1d",
+      "failure": "InsufficientInstanceCapacity",
+      "free_dry_run_passed": true,
+      "instances_created": 0,
+      "observed_at": "2026-09-08T15:58:53.895028+00:00",
+      "private_launch_receipt_sha256": "76f3d6e40ecdb752e72b41975ee731744dc4a6b4c5c6e31c72d5a15bc5c3a2dc",
+      "private_zero_instance_receipt_sha256": "a7ce7359393c06a423d23e3a32f1df64809059bf3618a008cd5d728eb77bb25b"
+    },
+    {
+      "availability_zone": "us-east-1a",
+      "failure": "InsufficientInstanceCapacity",
+      "free_dry_run_passed": true,
+      "instances_created": 0,
+      "observed_at": "2026-09-08T16:00:04.884468+00:00",
+      "private_launch_receipt_sha256": "3c32376934317eaa9eae450ea8b54cd343129e2aaf4e98b86ffe67a84f7131bd",
+      "private_zero_instance_receipt_sha256": "a7ce7359393c06a423d23e3a32f1df64809059bf3618a008cd5d728eb77bb25b"
+    },
+    {
+      "availability_zone": "us-east-1b",
+      "failure": "InsufficientInstanceCapacity",
+      "free_dry_run_passed": true,
+      "instances_created": 0,
+      "observed_at": "2026-09-08T16:02:39.642313+00:00",
+      "private_launch_receipt_sha256": "5a6f9173ba042e1364df44eb869701e3bf5787a7b3eb6dff456f6b3abc939646",
+      "private_zero_instance_receipt_sha256": "a7ce7359393c06a423d23e3a32f1df64809059bf3618a008cd5d728eb77bb25b"
+    },
+    {
+      "availability_zone": "us-east-1c",
+      "failure": "InsufficientInstanceCapacity",
+      "free_dry_run_passed": true,
+      "instances_created": 0,
+      "observed_at": "2026-09-08T16:03:26.348217+00:00",
+      "private_launch_receipt_sha256": "4821bbc0eb9c7b9c635110c5f290a7988b0761714eb86dd455a769b3211c10b0",
+      "private_zero_instance_receipt_sha256": "a7ce7359393c06a423d23e3a32f1df64809059bf3618a008cd5d728eb77bb25b"
+    }
+  ],
+  "paid_instances_created": 0,
+  "private_active_instance_receipt_sha256": "a7ce7359393c06a423d23e3a32f1df64809059bf3618a008cd5d728eb77bb25b",
+  "raw_provider_receipts_custody": "local",
+  "schema": "ilxyr.feral_capacity_summary.v1",
+  "supported_zones": [
+    "us-east-1a",
+    "us-east-1b",
+    "us-east-1c",
+    "us-east-1d"
+  ]
+}

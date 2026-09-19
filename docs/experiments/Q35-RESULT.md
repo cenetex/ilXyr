@@ -2,9 +2,9 @@
 
 - Status: completed, **`feature_no_go`**
 - Zero repository: `atimics/zero-grounded-literary-lm`
-- Source commit: `cb57a0170b17bcdacaab67efb95ca04233a6a3cd`
+- Execution source commit: `cb57a0170b17bcdacaab67efb95ca04233a6a3cd`
 - Zero PR: https://github.com/atimics/zero-grounded-literary-lm/pull/240
-- ilxyr preregistration: [`Q35-SPARSE-SEMANTIC-HEAD-PREREGISTRATION.md`](Q35-SPARSE-SEMANTIC-HEAD-PREREGISTRATION.md)
+- ilxyr proposal: [`Q35-SPARSE-SEMANTIC-HEAD-PREREGISTRATION.md`](Q35-SPARSE-SEMANTIC-HEAD-PREREGISTRATION.md)
 - Scope: feature-level diagnostic. No package, canonical, runtime, language, or
   promotion claim.
 
@@ -15,8 +15,9 @@ without rewriting chronology.
 
 ## What ran
 
-The Q3.5 preregistration was executed exactly once at the frozen commit. One
-feature extraction over the Q3.4 `mixed-training.tok` trained three heads:
+The upstream record reports one execution under its own frozen contract. The
+ilxyr candidate proposed two arms; the upstream contract also includes a linear
+anchor. One feature extraction over Q3.4 `mixed-training.tok` trained three heads:
 
 - **sparse** — ReLU(P x) with top-307 winner-take-all over 6,144 expanded units;
 - **dense** — ReLU(P x) with no winner-take-all;
@@ -51,25 +52,20 @@ records:
 
 Across-record coefficient of variation of unit means: 1.1214.
 
-The expanded code is healthy and informative. The failure is an
-**optimization-scale interaction**, not a representational limit: the frozen
-unit-entry projection produces features about 7× the raw scale over 4× the
-inputs, and the unchanged **global gradient-norm clip** in `q32_head_update`
-suppresses every step, leaving the 30,725-parameter head at uniform logits.
+The initial interpretation proposed a scale-and-clipping interaction. This was
+an exploratory explanation of the failed expanded heads. [Q3.6](Q36-RESULT.md)
+then tested scale and clip changes; every expanded arm again scored 20%.
+The later result supersedes the original clipping explanation.
 
-## What this does and does not close
+## Supported conclusion
 
-- It closes the frozen Q3.5 intervention: as specified, sparse random features
-  do not unlock semantic routing at this optimizer.
-- It does **not** close the fly-brain architecture family, because the active
-  constraint is now identified as scale and clipping rather than the sparse
-  code itself.
-- It leaves Q3.4's semantic gap open. The raw features do carry signal at the
-  current exposure (41.6%), so the gap is not pure undertraining.
+The specified Q3.5 intervention missed the semantic gate at this optimizer and
+exposure. The 41.6% linear reference shows usable class signal. Representation,
+readout fitting, and exposure remain distinct questions for later tests.
 
 ## Recorded next boundary
 
-Two separately registrable interventions:
+The initial follow-up proposed two interventions, later tested in Q3.6:
 
 1. **Fan-in scaled projection.** Scale P by 1/sqrt(154) so post-ReLU
    activations have unit scale, with the optimizer unchanged. Tests the
@@ -87,3 +83,10 @@ than registered as a prospective ilxyr experiment. The frozen Q3.5
 preregistration and its outcome are preserved in the Zero repository; the
 ilxyr ledger should not imply that this run carried ilxyr forecast or funding
 risk.
+
+## Source verification
+
+The result bytes were checked on 2026-09-19 at upstream evidence commit
+[`b00574b2`](https://github.com/atimics/zero-grounded-literary-lm/blob/b00574b21ddeac22e378aebc04157330110f959c/benchmarks/zero4-q35-sparse-probe-v1/seed2/result.json).
+Upstream PR #240 was open at this check. The execution source above identifies
+the code used for the run; this evidence commit contains its saved result.

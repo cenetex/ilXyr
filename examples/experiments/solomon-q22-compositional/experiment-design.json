@@ -1,0 +1,23 @@
+{
+  "schema": "ilxyr.contribution.v1",
+  "id": "solomon.q22-compositional.experiment-design.v1",
+  "stage": "experiment_design",
+  "actor": {
+    "id": "model://solomon/q22-compositional/experiment-designer",
+    "kind": "model",
+    "model_ref": "model://solomon/q22-compositional/frozen-design/v1"
+  },
+  "title": "Prospective held-out three-seed routing run",
+  "body": "Regenerate the hash-checked Zero files, encode training through the Solomon byte adapter, train seeds 1, 2, and 3 for exactly four epochs, freeze every model hash, create ID-and-input-only blinded promotion rows, predict once per frozen model, and verify all seeds. The derived family_gate_ppm is 1000000 only when every seed reaches 900000 overall ppm, every seed-class pair reaches 800000 ppm, and all-seed agreement reaches 950000 ppm; otherwise it is zero.",
+  "input_refs": [
+    "solomon.q22-compositional.hypothesis.v1",
+    "solomon.q22-compositional.foundation.v1",
+    "solomon.q22-compositional.engineering-review.v1"
+  ],
+  "claims": [
+    "The promotion outcome is opened only after this design, both forecasts, both funding records, and the executable ilXyr registration merge.",
+    "The run happens once; training-only liveness evidence is excluded from the outcome.",
+    "Raw overall, per-class, and agreement metrics remain reportable beside the derived conjunctive gate."
+  ],
+  "confidence": 0.99
+}

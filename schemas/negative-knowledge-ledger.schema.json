@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ilxyr.dev/schemas/negative-knowledge-ledger.v1.json",
+  "title": "ilXyr append-only negative-knowledge ledger v1",
+  "description": "Append-only ledger of canonical negative verdicts spanning all registered experiment families. Entries are never modified or deleted; corrections add a new entry with a supersedes_ref. The ledger is the design-time system of record for cross-repo negative knowledge.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "ledger_id",
+    "created_at_ms",
+    "entries"
+  ],
+  "properties": {
+    "schema": {
+      "const": "ilxyr.negative_knowledge_ledger.v1"
+    },
+    "ledger_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:/-]+$"
+    },
+    "created_at_ms": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/ledger_entry"
+      }
+    }
+  },
+  "$defs": {
+    "ledger_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "seq",
+        "verdict_id",
+        "experiment_id",
+        "family",
+        "outcome",
+        "taxonomy",
+        "mechanism_tags",
+        "recorded_at_ms"
+      ],
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Monotonically increasing append sequence. No two entries in the same ledger share a seq."
+        },
+        "verdict_id": {
+          "type": "string",
+          "pattern": "^verdict:[A-Za-z0-9._:/-]+$"
+        },
+        "experiment_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:/-]+$"
+        },
+        "family": {
+          "enum": [
+            "zero",
+            "solomon",
+            "feral",
+            "ilxyr"
+          ]
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "outcome": {
+          "enum": [
+            "no_go",
+            "complete_no_go",
+            "measured_local_no_go",
+            "execution_failure",
+            "diagnostic_failure",
+            "measurement_floor"
+          ],
+          "description": "Only negative results appear in the negative-knowledge ledger. A 'go' verdict is recorded as a verdict artifact but is not an entry here."
+        },
+        "taxonomy": {
+          "enum": [
+            "transfer",
+            "interference",
+            "measurement",
+            "venue",
+            "implementation"
+          ]
+        },
+        "mechanism_tags": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          }
+        },
+        "supersedes_ref": {
+          "type": "string",
+          "pattern": "^verdict:[A-Za-z0-9._:/-]+$",
+          "description": "If this entry corrects or replaces a prior verdict, the superseded verdict_id. The prior entry remains in the ledger (append-only); this field links the correction."
+        },
+        "recorded_at_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Verbatim summary from the registered verdict. Included so the constraint-diff report can present it without a separate verdict lookup."
+        },
+        "project": {
+          "enum": [
+            "reasoner",
+            "solomon",
+            "zero4",
+            "feral",
+            "weight_multiplicity",
+            "program"
+          ]
+        },
+        "evidence_kind": {
+          "enum": [
+            "existing_public_result",
+            "posthoc_diagnostic",
+            "operational_failure"
+          ]
+        },
+        "source_outcome": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lineage_note": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The concrete change or control needed in the next design."
+        },
+        "verdict_ref": {
+          "type": "string",
+          "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+        },
+        "evidence_ref": {
+          "type": "string",
+          "pattern": "^artifact://sha256/[a-f0-9]{64}$"
+        }
+      }
+    }
+  }
+}

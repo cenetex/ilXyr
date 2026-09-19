@@ -1,0 +1,51 @@
+name: FERAL fresh coverage preparation
+on:
+  pull_request:
+    paths:
+      - 'scripts/*feral_fresh*'
+      - 'scripts/feral_evidence_calculator*.py'
+      - 'experiments/research-step-47/**'
+      - '.github/workflows/feral-fresh-coverage.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/*feral_fresh*'
+      - 'scripts/feral_evidence_calculator*.py'
+      - 'experiments/research-step-47/**'
+      - '.github/workflows/feral-fresh-coverage.yml'
+permissions:
+  contents: read
+jobs:
+  source-and-target-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check source binding, faults and target isolation
+        run: python3 scripts/test_feral_fresh.py
+      - name: Fetch the fixed public filing bytes
+        run: python3 scripts/fetch_feral_fresh_sources.py --output "$RUNNER_TEMP/sources"
+      - name: Rebuild questions and targets from the source tables
+        run: python3 scripts/prepare_feral_fresh.py --source-dir "$RUNNER_TEMP/sources" --output "$RUNNER_TEMP/prepared"
+      - name: Compare every file and check independent exact arithmetic
+        run: |
+          python3 - <<'PY'
+          import hashlib,os,pathlib,subprocess
+          expected=pathlib.Path('experiments/research-step-47/data');actual=pathlib.Path(os.environ['RUNNER_TEMP'])/'prepared'
+          for p in expected.rglob('*'):
+              if p.is_file():assert p.read_bytes()==(actual/p.relative_to(expected)).read_bytes(),str(p)
+          digest=hashlib.sha256((expected/'PREPARE.json').read_bytes()).hexdigest()
+          result=subprocess.check_output(['node','scripts/check_feral_fresh.mjs',str(actual),digest])
+          (pathlib.Path(os.environ['RUNNER_TEMP'])/'CHECK.json').write_bytes(result);print(result.decode())
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: feral-fresh-source-checks
+          path: |
+            ${{ runner.temp }}/sources/FETCH.json
+            ${{ runner.temp }}/prepared/PREPARE.json
+            ${{ runner.temp }}/CHECK.json

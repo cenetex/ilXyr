@@ -1,0 +1,28 @@
+{
+  "evidence_kind": "posthoc_diagnostic",
+  "evidence_path": "experiments/research-step-55/RESULT.json",
+  "evidence_ref": "artifact://sha256/d2c89e7db382dd94ff5291e5815b0fb215e0f25bf9cfc113efcbf2db88830e83",
+  "experiment_id": "research.step55.weight-slice-starvation.v1",
+  "family": "ilxyr",
+  "id": "verdict:research.step55.weight-slice-starvation.v1",
+  "lineage_note": "Use the rotated scheduler in both the pilot and training selection. Preserve the original ordering as a control.",
+  "mechanism": "Fixed batch start with query reservations",
+  "mechanism_tags": [
+    "query-cache",
+    "sampling-yield",
+    "selection-capacity",
+    "batch-scheduling"
+  ],
+  "outcome": "diagnostic_failure",
+  "project": "weight_multiplicity",
+  "recorded_at_ms": 1789257825608,
+  "recorded_by": {
+    "id": "model://codex/research-agent",
+    "kind": "model",
+    "model_ref": "model://codex/research-agent"
+  },
+  "schema": "ilxyr.verdict.v1",
+  "source_outcome": "development_quota_hold",
+  "summary": "A two-range development fixture accepts zero rows with original ordering because its first range repeatedly reserves and rejects the shared query. Rotating the first unfinished range accepts the reachable row with the same one new query and one cache hit.",
+  "taxonomy": "implementation"
+}

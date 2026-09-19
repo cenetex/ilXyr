@@ -1,0 +1,69 @@
+{
+  "architecture": "amd64",
+  "check_sha256": "ceb39e47fb7393478732c0075313eb047305ca8b826d72b2f68544983ddae627",
+  "ci_run": 34723123172,
+  "ci_url": "https://github.com/cenetex/ilXyr/actions/runs/34723123172",
+  "compiler_identity": "cc (Debian 12.2.0-14+deb12u1) 12.2.0\nCopyright (C) 2022 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "decisions": [
+    {
+      "arm": "replay_guard",
+      "passes": false
+    },
+    {
+      "arm": "replay_projection",
+      "passes": false
+    }
+  ],
+  "endpoint_models": 5,
+  "exact_parser_cases": 5,
+  "memory": {
+    "cpu": {
+      "burst_usec": 0,
+      "core_sched.force_idle_usec": 0,
+      "nice_usec": 0,
+      "nr_bursts": 0,
+      "nr_periods": 181,
+      "nr_throttled": 0,
+      "system_usec": 1935695,
+      "throttled_usec": 0,
+      "usage_usec": 17169347,
+      "user_usec": 15233652
+    },
+    "events": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "limit_bytes": 2147483648,
+    "peak_bytes": 119906304,
+    "scope": "whole_container_cgroup_v2"
+  },
+  "mode": "opened",
+  "performance_evidence": false,
+  "process_count": 39,
+  "production_scientific_calls": 0,
+  "python_identity": "Python 3.11.2",
+  "relocated_check_sha256": "e8f56c6b2af0f365d4d4a47ca01ae76990f6854ddaa4a6b90a713140072c9613",
+  "relocated_scientific_values_equal": true,
+  "runtime_image": "docker.io/library/rust@sha256:4e4a7e7939c17991ab35f2b8c2e67593980f771d28f6b1254b1850f860fd0c7f",
+  "runtime_image_id": "sha256:a3535ab419a167bf1c5acc0ea5d536c358152a9fb8dd8504068ef24bb0f4a1f1",
+  "runtime_receipt_sha256": "e5a79f4f3a0aae753a60fd3692f62bf3de95c42c67ca88c6be32b8636329a4b9",
+  "schema": "ilxyr.zero4_storage_runtime_check.v1",
+  "source_commit": "4569cd01c82a58b9c32bba117623d86b79f82d0e",
+  "source_files": {
+    "experiments/research-step-44/KIT.json": "82af108cbef438feb9490d1ffbd866d24a4a55b5cf5e3ffd2c884c4b81b5d018",
+    "experiments/research-step-52/EXECUTION-PLAN.json": "9a8e016502e693e37c6333a852854d1896a37807cf4ea7477b7374b784c4393b",
+    "scripts/aws/zero4-52-user-data.sh": "2f51e2377de6c41b1ac7c24be3ab79526656dae420285e199f154348f38900b6",
+    "scripts/feral_cloud_package.py": "6c5488d187ae597b9f7f7f7c2e7c6df4b2068b853171d8be3476067b682b1a67",
+    "scripts/package_solomon_cloud.py": "664464883cae7f45e4cedce850169f4b6ddd69a3f3decf7be693cbd916345cd3",
+    "scripts/package_zero4_cloud.py": "948f097c5291215c7f8877e478fddf7b9bb183d64f1aab763364260375c2c238",
+    "scripts/zero4_cloud_collect.py": "9f1b99168ca7e29ce514108a5478e78a1c0aef8ca1be3281f765bc8385c8e0a4",
+    "scripts/zero4_cloud_launch.py": "c36b1e08bc226a2e4462209ab877eb8eaf4928c73eacb99caad98d06ab350b2f",
+    "scripts/zero4_cloud_preflight.py": "89661c6228d33e8214ae56a0ddddda19480656ea71a9dfdc59ef94daa0040c7c",
+    "scripts/zero4_cloud_runtime.py": "38aba46ddb3c81c6d29e23ae20f29400c611e421e05fe5b711da61f223769ab4"
+  },
+  "status": "complete"
+}

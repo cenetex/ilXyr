@@ -10,6 +10,7 @@ name = "ilxyr"
 path = "src/main.rs"
 
 [dependencies]
+ilxyr-aws = { path = "../ilxyr-aws" }
 ilxyr-core = { path = "../ilxyr-core" }
 serde.workspace = true
 serde_json.workspace = true

@@ -1,0 +1,264 @@
+{
+  "exact_kit_opened": {
+    "altered_records_rejected": 18,
+    "budget_check_status": "complete",
+    "budget_selected_attempts": {
+      "seed-71-frozen": 0,
+      "seed-71-replay": 0,
+      "seed-71-replay_guard": 0,
+      "seed-71-replay_projection": 0,
+      "seed-71-task_only": 0
+    },
+    "decisions": [
+      {
+        "arm": "replay_guard",
+        "passes": false
+      },
+      {
+        "arm": "replay_projection",
+        "passes": false
+      }
+    ],
+    "endpoint_models": 5,
+    "exact_parser_cases": 5,
+    "historical_task_parity_models": 5,
+    "native_failure_check_status": "incomplete",
+    "native_failure_endpoint_models": 5,
+    "opened_guard_failure": {
+      "dialogue_relative_change": 0.04218516023476471,
+      "story_bpb_relative_change": 0.17184474689135598,
+      "task_mean_change": 0
+    },
+    "opened_sha256": "915063be327e3d317c1426764772894262607911c4e14560760a48441174744c",
+    "parallel_case_comparisons": [
+      {
+        "arm": "frozen",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "frozen",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "frozen",
+        "cases": 2,
+        "endpoint": "tinystories"
+      },
+      {
+        "arm": "task_only",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "task_only",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "task_only",
+        "cases": 2,
+        "endpoint": "tinystories"
+      },
+      {
+        "arm": "replay",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "replay",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "replay",
+        "cases": 2,
+        "endpoint": "tinystories"
+      },
+      {
+        "arm": "replay_guard",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "replay_guard",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "replay_guard",
+        "cases": 2,
+        "endpoint": "tinystories"
+      },
+      {
+        "arm": "replay_projection",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "replay_projection",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "replay_projection",
+        "cases": 2,
+        "endpoint": "tinystories"
+      }
+    ],
+    "relocated_check_status": "complete",
+    "status": "complete",
+    "training_validation_parity": {
+      "replay": "bf234fe99dbe89991718886b8008724c4221e1bfb444668fcb3d412cc2babad0",
+      "replay_guard": "67cec745b4e98f28e8094ada80654faf9797295076a59f053cda57dd5b4e8093",
+      "replay_projection": "5eef0aee3e009073f2eb44e3d0cc60b0102a0cf8ca58b8cc75b7d28a5c92ec1c",
+      "task_only": "12146d94463c8715e8b4c7958781e065c1802ed6cc5ed63dd3ab9a0ff99f3e2e"
+    }
+  },
+  "fixed_runtime_check_sha256": "bcaf78dd49d35fb626b4ad908361ad12c23b30fa27bd2bb40cf33ddbfd2c90ac",
+  "kit": {
+    "archive_entries": 63,
+    "bytes": 6717440,
+    "sha256": "b00e96da55ce4f0711bdd28d4ef5f10fafc7ed5eb24dfd82da36b72883fab884",
+    "source_commit": "8355feec434cc9be4a25bad7eaced0aaf8fa2f12"
+  },
+  "local_endpoint_unit_tests": 7,
+  "local_opened": {
+    "altered_records_rejected": 18,
+    "budget_check_status": "complete",
+    "budget_selected_attempts": {
+      "seed-71-frozen": 0,
+      "seed-71-replay": 0,
+      "seed-71-replay_guard": 0,
+      "seed-71-replay_projection": 0,
+      "seed-71-task_only": 0
+    },
+    "decisions": [
+      {
+        "arm": "replay_guard",
+        "passes": false
+      },
+      {
+        "arm": "replay_projection",
+        "passes": false
+      }
+    ],
+    "endpoint_models": 5,
+    "exact_parser_cases": 5,
+    "historical_task_parity_models": 5,
+    "native_failure_check_status": "incomplete",
+    "native_failure_endpoint_models": 5,
+    "opened_guard_failure": {
+      "dialogue_relative_change": 0.04218516023476471,
+      "story_bpb_relative_change": 0.17184474689135598,
+      "task_mean_change": 0
+    },
+    "opened_sha256": "27d79530a46e11d1b79fa9460a1ff3a4bc2fbf153e914fdd750660e27f538127",
+    "parallel_case_comparisons": [
+      {
+        "arm": "frozen",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "frozen",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "frozen",
+        "cases": 2,
+        "endpoint": "tinystories"
+      },
+      {
+        "arm": "task_only",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "task_only",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "task_only",
+        "cases": 2,
+        "endpoint": "tinystories"
+      },
+      {
+        "arm": "replay",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "replay",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "replay",
+        "cases": 2,
+        "endpoint": "tinystories"
+      },
+      {
+        "arm": "replay_guard",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "replay_guard",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "replay_guard",
+        "cases": 2,
+        "endpoint": "tinystories"
+      },
+      {
+        "arm": "replay_projection",
+        "cases": 5,
+        "endpoint": "task"
+      },
+      {
+        "arm": "replay_projection",
+        "cases": 2,
+        "endpoint": "blimp"
+      },
+      {
+        "arm": "replay_projection",
+        "cases": 2,
+        "endpoint": "tinystories"
+      }
+    ],
+    "relocated_check_status": "complete",
+    "status": "complete",
+    "training_validation_parity": {
+      "replay": "bf234fe99dbe89991718886b8008724c4221e1bfb444668fcb3d412cc2babad0",
+      "replay_guard": "67cec745b4e98f28e8094ada80654faf9797295076a59f053cda57dd5b4e8093",
+      "replay_projection": "5eef0aee3e009073f2eb44e3d0cc60b0102a0cf8ca58b8cc75b7d28a5c92ec1c",
+      "task_only": "12146d94463c8715e8b4c7958781e065c1802ed6cc5ed63dd3ab9a0ff99f3e2e"
+    }
+  },
+  "local_schema_check": {
+    "receipt_sha256": "4ec350fb51cb2f082dbf0d4ac93a577100ba4b4a1a7cbb87f5c8ea7babfb949e",
+    "status": "complete"
+  },
+  "local_study_unit_tests": 8,
+  "next_work": [
+    "Bind the checked runtime and full inputs into the cloud host package.",
+    "Keep the complete result archive within object, disk, time and cost limits.",
+    "Complete the free provider preflight, then present the exact package and cost ceiling."
+  ],
+  "plan_sha256": "b538f826b010daedec222da11b3bb1881fcf16091f95c6fa2c44cd0ef38581a0",
+  "prepared": {
+    "bound_files": 63,
+    "endpoint_workers": 16,
+    "input_bytes": 47987778,
+    "manifest_sha256": "ed1caf4772d0100108251b9a5270b07330452a393ebdfea853dcdaf492c83e3a"
+  },
+  "production_teacher_forward_calls": 0,
+  "schema": "ilxyr.zero4_parallel_preparation.v1",
+  "status": "parallel_runtime_checked"
+}
