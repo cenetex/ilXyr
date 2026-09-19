@@ -2,13 +2,13 @@
 
 ## 1. Executive recommendation
 
-Build FERAL v3 around source-grounded fact selection. BRAID should compile and serve versioned XBRL evidence: filing packages, facts, taxonomy relationships, source passages, and reproducible views. FERAL should map questions to that evidence, request exact calculations, and explain the result. ilXyr should own the experiment and its acceptance decision. Select Qwen3.5-4B-Base as the v3 training backbone, with the existing 7B model as a historical control. The [model selection](FERAL-V3-MODEL-SELECTION.md) pins the candidates and defines quality and cost qualification.
+Build FERAL v3 around source-grounded fact selection. BRAID should compile and serve versioned XBRL evidence: filing packages, facts, taxonomy relationships, source passages, and reproducible views. FERAL should map questions to that evidence, request exact calculations, and explain the result. ilXyr should own the experiment and its acceptance decision. Run the matched selector study before recommending a training or deployment backbone. Qwen3.5-4B-Base is the first development candidate; the existing 7B model supplies a historical control. The [model selection plan](FERAL-V3-MODEL-SELECTION.md) pins the candidates and defines quality and cost qualification.
 
 The first product question is: **can a reviewer ask about a financial change in ordinary words and receive the correct facts, periods, calculation, and source passages?** Start with annual Forms 10-K and US GAAP statements. Tag review follows that source-selection test. Annual cybersecurity disclosure coverage follows a separately reviewed requirement package. European Single Electronic Format (ESEF) and bank reporting remain later release stages.
 
 This is an architecture proposal and research plan, revised September 19, 2026. The [research review](FERAL-7B-V3-RESEARCH-REVIEW-2026-09-19.md) records the workspace findings, academic sources, and changes. Current ilXyr observations use main commit `68861d4e`; BRAID observations use `4b8c3db8`. The original September 12 sources retain their dates. Dataset sizes, thresholds, schedules, interfaces, and model settings below are proposed choices. Performance claims describe the cited studies and saved experiments.
 
-The first hypothesis is that **document context plus typed fact candidates improves supported answers on unfamiliar wording at a measured cost**. The second tests whether calculated signals preserve task quality while reducing model input. A third tests dated requirement links. Test these in that order so each decision has a clear cause.
+The first hypothesis is that **document context plus typed fact candidates improves supported answers on unfamiliar wording at a measured cost**. The second tests whether calculated signals preserve task quality while reducing model input. A third tests dated requirement links. Test these in that order so each decision has a clear cause. The [external review in issue #225](https://github.com/cenetex/ilXyr/issues/225) motivates the staged annotation pilot and link diagnostics below. The calculator results motivate the first hypothesis; measured learned-model comparisons will establish its scope.
 
 ## 2. FERAL's starting point
 
@@ -89,7 +89,7 @@ The contribution to test is a reusable, source-grounded XBRL environment plus me
 | --- | --- | --- | --- |
 | Text retrieval plus 7B model | Simple continuity with FERAL | Evidence coverage and context selection | Baseline |
 | Rules plus lexical retrieval | Cheap, traceable selection | Coverage of varied wording | Strong baseline |
-| Structured retrieval, tools, and selected 4B model | Clear evidence and calculation boundaries | Added learned value per task | First v3 candidate |
+| Structured retrieval, tools, and candidate 4B model | Clear evidence and calculation boundaries | Added learned value per task | First v3 candidate |
 | Custom graph neural network | Can learn relational ranking | Benefit beyond explicit graph traversal | Later ablation |
 | New transformer trained from scratch | Full architectural control | Data, quality, and compute burden | Later research branch |
 
@@ -242,7 +242,7 @@ Start with at most six tool rounds and an 8,000-token evidence budget per questi
 
 ## 10. Training plan
 
-Use Qwen3.5-4B-Base for v3 training. Compare the published Qwen3.5-4B prompting checkpoint with the existing Qwen2.5-7B-Instruct control on the same evidence before adaptation. The [model selection](FERAL-V3-MODEL-SELECTION.md) pins revisions, distinguishes pretrained and post-trained arms, and sets qualification rules. The historical 7B model carries Apache 2.0 licensing.[^21]
+Keep Qwen3.5-4B-Base as the first development candidate. Compare the published Qwen3.5-4B prompting checkpoint with the existing Qwen2.5-7B-Instruct control and cheaper selectors on the same evidence. Use that report to choose the adaptation experiment; recommend a backbone after its own quality and cost qualification. The [model selection plan](FERAL-V3-MODEL-SELECTION.md) pins revisions and keeps prompting and pretrained adaptation arms separate. The historical 7B model carries Apache 2.0 licensing.[^21]
 
 Begin with prompting and tools. Then train a LoRA adapter, meaning a small set of trainable additions to the base model. Proposed development settings are ranks 16 and 32, short context first, and one to two epochs. Select settings using development results and measured memory. Test a quantized deployment against the chosen full-precision reference on the same cases.
 
@@ -252,7 +252,7 @@ The target model should learn the sequence "select evidence, check context, requ
 
 ### Proposed pilot data
 
-After the first package in section 15, consider up to 1,000 annual filings from roughly 200 domestic issuers across five industries for the broader training pilot. Expand through a 50-filing intake after the ten-family feasibility check. Target 60 common financial concepts and about 20 reviewed requirement/check records at that later stage. The full taxonomy remains available during concept retrieval.
+Start with the fixed 60-concept development catalogue in section 15. Expand to a ten-family selector pilot, then a separately scored full-taxonomy retrieval test. After those decisions, consider a 50-filing intake and up to 1,000 annual filings from roughly 200 domestic issuers across five industries for the broader training pilot. Add about 20 reviewed requirement/check records when the dated requirement package is ready. Record the candidate catalogue and taxonomy release for each stage.
 
 Plan for 20,000-60,000 training examples after extraction and review. Allocate an initial 30% to concept/context selection, 25% to requirement/evidence linking, 20% to tool use, 15% to supported explanations, and 10% to ambiguous or incomplete evidence. These are planning proportions; report the realized distribution and task overlap.
 
@@ -301,13 +301,31 @@ A proposed later final set has 1,200 cases: 300 concept/context cases, 300 numer
 
 Report retrieval recall before model selection accuracy. For tagging, report top-1 accuracy, candidate recall, and full fact-context match, with separate extension and standard-tag slices. For compliance review, score applicability, evidence coverage, and each substantive claim. For calculations, score fact selection, operation, unit, value, and rendering separately.
 
-| Gate | Proposed pilot threshold | Interpretation |
+### Link diagnostics and early stop rule
+
+Save each proposed link with its source ID, target ID, link type, evidence-view ID, and reviewer decision. Review the complete expected link set for each scored case. Many-to-many cases may require several correct links for a supported finding.
+
+| Link type | Correctness check | First measured stage |
+| --- | --- | --- |
+| Fact to concept/context | Correct concept, entity, period, unit, and dimensions | 60-concept development pilot |
+| Fact occurrence to source passage | Exact occurrence resolves to the correct source bytes and location | 60-concept development pilot |
+| Finding to fact/calculation | The cited facts and calculation support the particular claim | 60-concept development pilot |
+| Requirement to passage/fact | Evidence addresses the dated obligation and its applicability conditions | Reviewed requirement pilot |
+| Finding to requirement | Finding class and scope follow the applicable requirement and evidence | Reviewed requirement pilot |
+
+For every link type, report correct proposed links / all proposed links as precision, recovered expected links / all expected links as recall, raw counts, and family-clustered uncertainty. Count each distinct case/source/target/type link once. Report complete-link-set correctness per finding too. Count omitted links and abstentions in recall and case coverage. A type with zero proposed links has undefined precision and its coverage remains visible. Check the scorer against reviewed positive and negative reference links for every early link type before scoring model output. Mark later requirement types as awaiting their reviewed package.
+
+The proposed early-warning trigger is **observed precision below 95% for any measured semantic link type**. Pause annotation expansion and adaptation, inspect that type's errors, and repeat the development check with the repair identified. The small pilot supplies a diagnostic trigger; later acceptance uses the confidence-bound rules below. Valid source IDs paired with the wrong concept or passage remain semantic errors. Any accepted finding with an unresolved source ID fails the 100% trace-integrity gate immediately. Mechanical source resolution and semantic support retain separate results.
+
+### Qualification gates after feasibility
+
+| Gate | Proposed qualification threshold | Interpretation |
 | --- | --- | --- |
 | Context selector | At least 5 percentage points higher joint correctness than the strongest development-selected baseline, with the paired 95% lower bound above zero | Added selection value |
 | Wrong answers on required-abstention cases | One-sided 95% upper bound at most 5%, plus at least 50% answerable-case coverage | Error and useful-coverage tradeoff |
-| Trace integrity | 100% of accepted findings resolve to valid source IDs | Mechanical release check |
+| Trace integrity | 100% of accepted findings resolve through valid source IDs to the bound source bytes in the frozen release | Mechanical release check |
 | Exact engine | 100% pass on fixed unit, period, rounding, and mutation tests | Tested-domain correctness |
-| Concept retrieval | At least 98% recall at 20 candidates | Candidate coverage before ranking |
+| Concept retrieval | At least 98% recall at 20 candidates on the separately frozen full-taxonomy roster | Candidate coverage before ranking; the 60-concept screen has its own result |
 | Automatic tag suggestions | At least 95% precision at at least 50% coverage | Review workload tradeoff |
 | Requirement findings | At least 95% supported-claim precision at at least 50% answerable-case coverage | Scoped review usefulness |
 | R3 versus R4 | Accuracy loss at most 2 percentage points, with at least 20% fewer input tokens | Value of abstraction |
@@ -339,8 +357,9 @@ Use staged exit decisions. The earlier ten-to-twelve-week estimate assumed two e
 
 | Stage | Indicative timing | Deliverable and exit decision |
 | --- | --- | --- |
-| Source feasibility | First package | Ten filing families, complete dependencies, replayable facts and source links |
-| Context selection | After source feasibility | Fresh wording roster, matched selectors, exact calculations, error and cost report |
+| Source and annotation feasibility | First package | Three filing families, fixed 60-concept catalogue, source links, review-time and link-error report |
+| Selector pilot | After the development screen | Ten fresh filing families, paired wording, candidate comparison, separate full-taxonomy retrieval result |
+| Context qualification | After selector pilot | Fresh roster sized for the confidence bounds, matched selectors, exact calculations, quality and cost decision |
 | Numerical abstraction | After selection decision | Paired R3/R4 comparison and separate adaptive-tool costs |
 | Adapter training | After fixed-base comparison | Frozen training set, selected adapter, task and retention results |
 | Tag and requirement review | After reviewed task intake | Task-specific views, dated rules, independent labels |
@@ -359,7 +378,7 @@ total cost = compute + evaluation + storage + transfer + annotation
 
 For illustration, 40,000 examples at 1,500 tokens for two epochs produce 120 million training tokens. At an assumed 1,000 training tokens per second, that is 33.3 GPU hours; at 2,000, it is 16.7 hours. These are arithmetic scenarios. A bounded calibration must establish actual throughput, memory, startup cost, and checkpoint overhead before pricing a run.
 
-Measure end-to-end inference cost with parsing amortized separately, retrieval time, tool time, model input/output tokens, retries, and reviewer time. Give both a first-filing cost and a repeated-query cost. Annotation may dominate the pilot budget, so the feasibility intake should measure minutes per accepted label.
+Measure end-to-end inference cost with parsing amortized separately, retrieval time, tool time, model input/output tokens, retries, and reviewer time. Give both a first-filing cost and a repeated-query cost. Record active minutes separately for source selection, fact/link labeling, independent wording, second review, and adjudication. Report total minutes, minutes per accepted question family and link, disagreements, and unresolved cases. Use this measured yield to price the next annotation batch, including second review and adjudication.
 
 ## 14. Failure handling and operating choices
 
@@ -381,9 +400,17 @@ An accepted filing, a technical validation result, and a compliance judgment are
 
 ## 15. Proposed first implementation package
 
-The first engineering package is a BRAID XBRL evidence reader plus a FERAL context-selection study. Proposed feasibility scope is ten fresh 10-K filing families across at least five issuers and three industries, with amendments attached to their source family. Include standard and extension concepts, instant and duration periods, dimensions, duplicate or nil facts, and a shared baseline expressed in prose. Add declared synthetic fixtures for rare parser conditions. Record observed support for each family of facts.
+The first engineering package is a BRAID XBRL evidence reader plus a staged FERAL context-selection study.
 
-Prepare 50 reviewed source questions with one independently authored paraphrase each, for 100 visible question forms. Include required-abstention families. Treat paired forms as one family. Assign source families to development and held-out partitions before label work. Keep test wording and labels with the evaluator. Use the earlier FERAL cases as a separate regression set. This small pilot measures feasibility; broader acceptance needs a sample sized for the declared confidence bounds.
+**Stage A: source, annotation, and link mechanics.** Use three fresh 10-K filing families from three issuers as development material. Freeze one taxonomy release and a catalogue of 60 financial concepts, including common concepts and easily confused neighbours, before question selection. Save each concept's definition. Keep amendments with their source family. Record the catalogue-selection policy and each excluded or unsupported case.
+
+Prepare 12 answerable question families and six required-abstention families. Give each one source question and one independently authored paraphrase: 36 visible forms when complete. Include wrong periods, dimensions, index identity, missing evidence, and a prose baseline. Preserve parsed extensions and rare parser fixtures in the intake report; catalogue coverage has its own denominator. Propose a ceiling of **four aggregate reviewer-hours** across labeling, wording, second review, and adjudication. Stop at that ceiling or the 18-family target, whichever comes first, and publish partial counts and unresolved labels. This is a planning ceiling for the proposed package.
+
+First measure lexical candidate recall at 5 and 20, complete required-concept coverage per question, exact-engine behavior, and the three available link types. Report observed counts and uncertainty within the 60-concept catalogue. The 98%@20 threshold belongs to the later full-taxonomy study. Keep expected labels independent of retrieved candidates so missed concepts remain misses. Expand after trace and exact-engine checks pass, the link diagnostic is clear, and measured review time supports a priced next batch.
+
+**Stage B: matched selector pilot.** Prepare ten fresh 10-K filing families across at least five issuers and three industries, separate from Stage A. Assign source families to development and held-out partitions before label work. Target 50 reviewed question families: 35 answerable and 15 required-abstention families, with one independently authored paraphrase each, for 100 visible forms. Treat paired forms as one family. Keep held-out wording and labels with the evaluator. Fix the annotation-hour ceiling from Stage A's measured costs before this batch starts. Use the earlier FERAL cases as a separate regression set.
+
+Run the candidate comparison on the common evidence view. Add a separately frozen full-taxonomy retrieval roster with reviewed standard, rare, and extension slices; record the taxonomy release and catalogue size. Report per-concept-link recall and all-required-concepts coverage with explicit denominators. Use source families for uncertainty. The feasibility pilots estimate review cost and paired disagreement; a fresh qualification set sized for the declared bounds supports the backbone recommendation.
 
 BRAID delivers raw dependency manifests, Arelle configuration, typed facts and edges, occurrence/source maps, validation coverage, an offline query reader, and one deterministic replay command. FERAL delivers rules, a small ranker, and the fixed 4B and historical 7B selector controls, the shared exact engine, source-supported alias mappings, trace checks, and measured query costs. ilXyr records the roster, visible fields, target custody, budget, scoring, and decision before execution. A second reader client checks reuse of the same release.
 

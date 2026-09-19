@@ -181,16 +181,21 @@ with a clear cost and evidence basis for each step.
 
 ## The first package to build
 
-1. **BRAID source adapter:** ten fresh filing families, complete dependency
+1. **BRAID source adapter:** three development filing families, complete dependency
    manifests, a fixed Arelle setup, source-linked facts, and explicit coverage.
 2. **Shared evidence reader:** exact fact and context lookup, typed relationship
    queries, bounded concept search, and deterministic replay. A second client
    reconstructs the same bundle.
-3. **FERAL selector comparison:** strict v3, lexical/context rules, a small
-   learned ranker, and fixed 7B. Use the same fact candidates and exact engine.
-4. **Fresh feasibility roster:** 50 reviewed source questions and independently
-   written paired wording. Split source families before label work. Keep old
-   FERAL questions in a separate regression set.
+3. **Annotation and link screen:** a fixed 60-concept catalogue, 12 answerable
+   and six required-abstention question families, and paired wording. Use a
+   proposed four-reviewer-hour ceiling; retain partial and unresolved labels.
+   Report precision and recall by link type alongside source resolution.
+4. **Fresh selector pilot:** ten fresh filing families and 50 question families
+   after the annotation screen: 35 answerable and 15 required abstentions, with
+   paired wording. Compare strict v3, lexical/context rules, a small ranker, and
+   the candidate 4B and historical 7B models on the same facts and exact engine.
+   Split source families before label work. Price the annotation cap from the
+   first screen. Keep old FERAL questions in a separate regression set.
 5. **Decision report:** joint correctness, retrieval recall, coverage, mistaken
    answers, uncertainty, and full query cost. Size the later acceptance study
    from the observed family structure and the frozen decision margin.
@@ -198,3 +203,25 @@ with a clear cost and evidence basis for each step.
 These are proposed deliverables. This revision changes the research plan.
 Acquisition, model execution, and hosting each follow their implementation
 package and measured cost.
+
+## External review response: issue #225
+
+The [warrenmind review](https://github.com/cenetex/ilXyr/issues/225), read against
+proposal revision `f82081b7`, raised three changes now carried into the proposal
+and model selection plan:
+
+| Review point | Change | Evidence needed for the next decision |
+| --- | --- | --- |
+| Backbone recommendation precedes measured comparison | Keep 4B as the first development candidate; recommend the backbone after matched selection and qualification | Supported-answer quality, useful coverage, and whole-pipeline cost against rules, a small ranker, and the historical 7B |
+| Annotation cost and full-taxonomy recall make the first step large | Start with three development filing families and 60 fixed concepts under four aggregate reviewer-hours; price the later ten-family batch from measured review time | Per-task review minutes, accepted and unresolved labels, catalogue coverage, and a separate full-taxonomy result |
+| Many-to-many link quality needs an early warning | Report precision, recall, counts, and complete-link-set correctness by type; observed precision below 95% triggers a development repair | Fact/context, occurrence/source, and finding/evidence results first; requirement links when the dated package is reviewed |
+
+The 100% accepted-finding source-resolution gate remains required. It resolves
+identifiers to the bound source bytes in the frozen release. Semantic support
+has its own check, since an existing identifier can refer to the wrong fact.
+
+The calculator experiments establish the observed wording and context-selection
+failures. A learned-backbone comparison remains pending. The review's proposed
+transfer from micro-scale identity binding is a research hypothesis whose scope
+FERAL's own comparisons can measure. This revision updates the plan and records
+the response; implementation and experiment results have their own receipts.
