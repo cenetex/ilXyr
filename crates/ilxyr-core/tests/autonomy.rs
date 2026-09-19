@@ -547,6 +547,44 @@ fn probe_reserve_bounds_the_sandbox_lane() {
 }
 
 #[test]
+fn probe_and_promoted_reserves_are_spendable_in_either_order() {
+    for probe_first in [true, false] {
+        let directory = TestDirectory::create("independent-probe-reserve");
+        let workspace = Workspace::init(&directory.0).expect("workspace must initialize");
+        let signing_key = SigningKey::from_bytes(&[25; 32]);
+        trust_test_key(&workspace, &signing_key);
+        let mut budget = budget_fixture();
+        budget.total_compute_credits = 100;
+        budget.replication_reserve_pct = 70.0;
+        budget.probe_reserve_pct = 20.0;
+        budget.acknowledgement_thresholds.cumulative_spend_pct = 100.0;
+        let cap = budget.per_executable_caps.get_mut("/bin/echo").unwrap();
+        cap.per_run_credits = 20;
+        cap.per_epoch_credits = 100;
+        sign_budget(&mut budget, &signing_key);
+        register_epoch_budget(&workspace, budget.clone()).expect("budget must register");
+        prepare_unfunded_experiment(&workspace);
+
+        let mut probe = sandbox_spec();
+        probe.cost_credits = 20;
+        if probe_first {
+            run_sandbox(&workspace, &budget.id, probe.clone()).expect("probe must run");
+        }
+        let report = allocate_epoch(&workspace, &budget.id, &["toy.score.v1".to_owned()])
+            .expect("promoted allocation must be evaluated");
+        assert_eq!(
+            report.allocated_compute_credits, 10,
+            "probe_first={probe_first}"
+        );
+        assert!(report.decisions[0].allocated);
+        if !probe_first {
+            run_sandbox(&workspace, &budget.id, probe).expect("reserved probe must run");
+        }
+        assert!(workspace.verify().expect("ledger must verify").valid);
+    }
+}
+
+#[test]
 fn sandbox_keeps_the_general_pool_when_no_probe_reserve_is_declared() {
     let directory = TestDirectory::create("probe-reserve-absent");
     let workspace = Workspace::init(&directory.0).expect("workspace must initialize");

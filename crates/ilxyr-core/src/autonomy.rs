@@ -898,14 +898,15 @@ fn check_capacity(
         }
         AllocationKind::Promoted | AllocationKind::Sandbox => {
             let general_total = checked_allocation_total(&allocations, |allocation| {
-                allocation.kind != AllocationKind::Replication
+                allocation.kind == AllocationKind::Promoted
+                    || (probe_reserved == 0 && allocation.kind == AllocationKind::Sandbox)
             })?;
             if general_total
                 .checked_add(compute_credits)
                 .is_none_or(|next| next > general_limit)
             {
                 return Err(Error::Security(format!(
-                    "general epoch allocation limit {general_limit} would be exceeded; {reserved} credits are reserved for replication"
+                    "general epoch allocation limit {general_limit} would be exceeded; {reserved} credits are reserved for replication and {probe_reserved} for probes"
                 )));
             }
         }
