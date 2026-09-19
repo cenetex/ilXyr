@@ -727,6 +727,22 @@ pub fn epoch_budget(budget: &EpochBudget) -> Result<()> {
             "epoch_budget reserves must not exceed 100 percent of the epoch together".to_owned(),
         );
     }
+    if let (Ok(replication), Ok(probes)) = (
+        crate::autonomy::reserve_credits(
+            budget.total_compute_credits,
+            budget.replication_reserve_pct,
+            "replication",
+        ),
+        crate::autonomy::reserve_credits(
+            budget.total_compute_credits,
+            budget.probe_reserve_pct,
+            "probe",
+        ),
+    ) {
+        if u128::from(replication) + u128::from(probes) > u128::from(budget.total_compute_credits) {
+            errors.push("rounded epoch reserves must fit within total compute credits".to_owned());
+        }
+    }
     if budget.per_executable_caps.is_empty() {
         errors.push("epoch_budget.per_executable_caps must not be empty".to_owned());
     }

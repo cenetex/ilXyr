@@ -803,7 +803,7 @@ fn reserve_allocation(
     Ok(allocation)
 }
 
-fn reserve_credits(total: u64, percentage: f64, label: &str) -> Result<u64> {
+pub(crate) fn reserve_credits(total: u64, percentage: f64, label: &str) -> Result<u64> {
     let basis_points = percentage_basis_points(percentage)?;
     let product = u128::from(total) * basis_points;
     let reserved = product

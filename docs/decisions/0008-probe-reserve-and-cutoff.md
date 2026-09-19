@@ -72,6 +72,10 @@ The sandbox lane already implements that split. What it lacks is a bound, so:
 
 ## Consequences
 
+Each reserve rounds up to whole credits. Budget validation requires both
+rounded reserves to fit within the epoch. Promoted allocations count only
+their own pool when a probe reserve is declared, so either lane can spend first.
+
 An operator can now open the fast lane with a bounded blast radius, which is the condition
 under which using it is a reasonable decision rather than an act of faith. Exploratory work
 becomes cheap enough to register, so the ledger sees the probes as well as the flagships, and a

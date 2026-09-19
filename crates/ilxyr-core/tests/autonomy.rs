@@ -629,6 +629,19 @@ fn a_zero_probe_reserve_leaves_the_signing_payload_unchanged() {
 }
 
 #[test]
+fn rounded_reserves_must_fit_the_epoch() {
+    let mut budget = budget_fixture();
+    budget.total_compute_credits = 1;
+    budget.replication_reserve_pct = 50.0;
+    budget.probe_reserve_pct = 50.0;
+    let error = ilxyr_core::validation::epoch_budget(&budget)
+        .expect_err("two one-credit reserves require at least two credits");
+    assert!(error.to_string().contains("rounded epoch reserves"));
+    budget.total_compute_credits = 2;
+    ilxyr_core::validation::epoch_budget(&budget).expect("both reserves now fit");
+}
+
+#[test]
 fn reserves_may_not_exceed_the_epoch_together() {
     let mut budget = budget_fixture();
     budget.replication_reserve_pct = 60.0;
