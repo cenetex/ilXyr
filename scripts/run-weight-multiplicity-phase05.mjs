@@ -54,11 +54,27 @@ const parseArguments = (values) => {
 };
 
 const sha256 = (value) => createHash("sha256").update(value).digest("hex");
+const assertOracleExecutable = async (path, expectedSha256, context) => {
+  const actualSha256 = sha256(await readFile(path));
+  if (actualSha256 !== expectedSha256)
+    throw new Error(
+      `oracle executable drifted ${context}: expected ${expectedSha256}, got ${actualSha256}`,
+    );
+};
 const readJsonBytes = async (path) => {
   const bytes = await readFile(path);
   return { bytes, value: JSON.parse(bytes.toString("utf8")) };
 };
 const stableJson = (value) => `${JSON.stringify(value, null, 2)}\n`;
+const controllerRevision = () => {
+  const bound = process.env.ILXYR_CONTROLLER_REVISION;
+  if (bound) {
+    if (!/^[0-9a-f]{40}$/u.test(bound))
+      throw new Error("ILXYR_CONTROLLER_REVISION must be a full Git commit");
+    return bound;
+  }
+  return execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
+};
 
 const fnv1a = (text) => {
   let hash = 2166136261;
@@ -1483,14 +1499,14 @@ const main = async () => {
   let result;
   if (options.resume) {
     result = JSON.parse(await readFile(outPath, "utf8"));
-    if (result.plan_sha256 !== manifest.plan_sha256 || result.manifest_sha256 !== sha256(manifestRecord.bytes))
+    if (
+      result.plan_sha256 !== manifest.plan_sha256 ||
+      result.manifest_sha256 !== sha256(manifestRecord.bytes) ||
+      result.oracle_executable_sha256 !== manifest.oracle_executable_sha256
+    )
       throw new Error("resume result does not bind the current plan and manifest");
     result.measurements = result.measurements.map(compactMeasurementRecords);
-    result.checkpoint_writer_revision = execFileSync(
-      "git",
-      ["rev-parse", "HEAD"],
-      { cwd: root, encoding: "utf8" },
-    ).trim();
+    result.checkpoint_writer_revision = controllerRevision();
   } else {
     result = {
       schema_version: 1,
@@ -1517,7 +1533,7 @@ const main = async () => {
       },
       cold_reference_role:
         "fresh_answers_for_same-session-target_exactness_not_combined_resource_evidence",
-      controller_revision: execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim(),
+      controller_revision: controllerRevision(),
       reference_hardware: {
         cpu: cpus()[0]?.model ?? "unknown",
         architecture: arch(),
@@ -1533,12 +1549,18 @@ const main = async () => {
     };
   }
   const completed = new Set(result.measurements.map((measurement) => measurement.representation.id));
+  await assertOracleExecutable(
+    oraclePath,
+    manifest.oracle_executable_sha256,
+    "before type description",
+  );
   const descriptions = new Map();
   for (const representation of representations)
     if (!descriptions.has(representation.type))
       descriptions.set(representation.type, describeType(oraclePath, representation.type));
   for (const representation of representations) {
     if (completed.has(representation.id)) continue;
+    await assertOracleExecutable(oraclePath, manifest.oracle_executable_sha256, `before ${representation.id}`);
     const measurement = compactMeasurementRecords(await measureRepresentation({
       oracle: oraclePath,
       representation,
@@ -1547,6 +1569,7 @@ const main = async () => {
       replayCount: options.smoke ? 1 : plan.frontier.replays,
       targetLimit: options.smoke ? 8 : null,
     }));
+    await assertOracleExecutable(oraclePath, manifest.oracle_executable_sha256, `after ${representation.id}`);
     result.measurements.push(measurement);
     result.summary = summarize(result.measurements);
     await writeFile(outPath, stableJson(result));
@@ -1558,6 +1581,11 @@ const main = async () => {
       binding_incremental_memory_bytes: measurement.binding.memory_bytes.incremental_from_ready,
     }));
   }
+  await assertOracleExecutable(
+    oraclePath,
+    manifest.oracle_executable_sha256,
+    "before parallelism calibration",
+  );
   result.parallelism = await calibrateParallelism({
     oracle: oraclePath,
     measurements: result.measurements,
@@ -1565,6 +1593,11 @@ const main = async () => {
     plan,
     smoke: options.smoke,
   });
+  await assertOracleExecutable(
+    oraclePath,
+    manifest.oracle_executable_sha256,
+    "after parallelism calibration",
+  );
   result.summary = summarize(result.measurements);
   result.completed_at = new Date().toISOString();
   result.evidence_status = options.smoke ? "nonbinding_smoke" : "binding_frontier_complete_cross_check_pending";
@@ -1573,6 +1606,8 @@ const main = async () => {
 };
 
 export {
+  assertOracleExecutable,
+  controllerRevision,
   assessExactness,
   compareRuns,
   describeType,
