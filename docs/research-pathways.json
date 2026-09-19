@@ -637,7 +637,7 @@
     {
       "id": "holo-hrr-t512-public-corpus-v1",
       "coordinate": { "track": "H", "parts": [512, 1], "slug": "h512_1" },
-      "record_revision": 1,
+      "record_revision": 2,
       "factor_state": { "model": 1, "data": 1, "representation": 1, "objective": 1, "evaluation": 1, "replication": 0 },
       "display_name": "Holo HRR attention T=512 public-corpus verification",
       "family": "external",
@@ -646,7 +646,7 @@
       "execution_status": "completed",
       "scientific_outcome": "mixed",
       "disclosure_status": "public",
-      "lifecycle_status": "open",
+      "lifecycle_status": "closed",
       "evidence_status": "corpus_proxy",
       "claim_results": [
         { "claim": "The public HRR implementation executes the declared T=512 three-arm protocol", "outcome": "positive" },
@@ -654,11 +654,11 @@
         { "claim": "The private Telegram and MPS result reproduces exactly", "outcome": "unknown" }
       ],
       "blockers": [
-        "The upstream Telegram corpus is private.",
-        "Matching MPS hardware conditions were unavailable in the lab execution context."
+        "The upstream Telegram corpus is private and is not expected to become available.",
+        "Matching MPS hardware conditions are unavailable and are not expected to become available."
       ],
-      "summary": "Both HRR arms ran successfully but were slower and had worse validation bits per byte than softmax on enwik8.",
-      "next_boundary": "Do not rerun the public proxy for an advantage claim; exact replication waits for the original corpus and hardware conditions.",
+      "summary": "Both HRR arms ran successfully but were slower and had worse validation bits per byte than softmax on enwik8. Exact upstream replication is retired because its private corpus and matching hardware will not be available.",
+      "next_boundary": "Freeze the Holo lineage. Do not rerun the public proxy or allocate further replication work; the unknown private-result claim remains unknown rather than becoming a negative result.",
       "sources": [
         { "kind": "experiment_record", "path": "docs/experiments/EXP-006.md", "record_id": "EXP-006" }
       ]
@@ -816,7 +816,7 @@
       "Run a read-only NSRL frozen-representation sufficiency audit before another training method.",
       "Write the Reasoner 4.0 representation-transfer contract without authorizing execution.",
       "Import outstanding external evidence and settle verified upstream family evidence locally.",
-      "Do not reopen closed local-coordinate, scalar-backtracking, ordinary paired-next-token, or public-proxy HRR-advantage branches without a new causal hypothesis."
+      "Do not reopen closed local-coordinate, scalar-backtracking, or ordinary paired-next-token branches without a new causal hypothesis; keep the Holo lineage frozen because its required private corpus and matching hardware will not be available."
     ]
   }
 }
