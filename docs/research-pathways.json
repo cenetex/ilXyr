@@ -160,7 +160,7 @@
     {
       "id": "zero-q26-family-replication-v1",
       "coordinate": { "track": "Q", "parts": [2, 6, 2], "slug": "q2_6_2" },
-      "record_revision": 1,
+      "record_revision": 2,
       "factor_state": { "data": 1, "representation": 1, "objective": 1, "optimizer": 5, "evaluation": 1, "replication": 2 },
       "display_name": "ZERO.4 Q2.6 three-seed replication",
       "family": "zero",
@@ -170,14 +170,15 @@
       "scientific_outcome": "positive",
       "disclosure_status": "public",
       "lifecycle_status": "promoted",
-      "evidence_status": "native",
+      "evidence_status": "retro",
       "claim_results": [
         { "claim": "The replay-tangent intervention passes unchanged on all three declared seeds", "outcome": "positive" }
       ],
-      "summary": "Seeds 1 and 3 independently passed the unchanged public and promotion gates, completing the all-three-seed family conjunction and promoting ZERO.4.",
+      "summary": "Seeds 1 and 3 independently passed the unchanged public and promotion gates, completing the all-three-seed family conjunction and promoting ZERO.4. The published upstream family result is imported as deterministic-replay retro evidence in a local ilXyr ledger.",
       "next_boundary": "Preregister one bounded Solomon run against the frozen zero-solomon.q22-operation.v1 task.",
       "sources": [
-        { "kind": "experiment_record", "path": "docs/experiments/EXP-005.md", "record_id": "EXP-005" }
+        { "kind": "experiment_record", "path": "docs/experiments/EXP-005.md", "record_id": "EXP-005" },
+        { "kind": "retro_registration", "path": "examples/families/zero-q26r-family.retro.json", "record_id": "zero.q26r.family.decision.v1" }
       ]
     },
     {
