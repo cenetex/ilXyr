@@ -1,0 +1,83 @@
+{
+  "schema": "ilxyr.retro_registration_spec.v1",
+  "id": "zero.q26r.family.decision.v1",
+  "claim": "The Q2.6 global replay-tangent intervention passed unchanged on all three declared seeds: seeds 1, 2, and 3 each resolved go, the frozen family conjunction passed, and the prospectively selected seed-2 quantized model is promotion-eligible as ZERO.4.",
+  "family": "zero",
+  "source": {
+    "repository": "https://github.com/atimics/zero-grounded-literary-lm.git",
+    "commit": "bde7875bdc3947bb4203fe3b8eccc8fb6488bda6",
+    "artifacts": [
+      { "path": "benchmarks/zero4-q26r-v1/contract.json", "sha256": "f966485a209d21ef54b56601fb2d91ebcf318d4da646b5572c0a432996140318" },
+      { "path": "benchmarks/zero4-q26r-v1/aggregate.json", "sha256": "246274e15bcdcea7e337a01bdf415b72251f010fb411b8a1c0ac879d0ddc5d71" },
+      { "path": "benchmarks/zero4-q26r-v1/AGGREGATE.md", "sha256": "181c4ea553eceabe26fb8d31c84f8db5f4d4386b44d58847e367ebad47cbc575" },
+      { "path": "benchmarks/zero4-q26r-v1/seed1/result.json", "sha256": "9e80942f0e9c541fcd92fb63fd7a6b1fe82b5148b05239a34937c17926ff274f" },
+      { "path": "benchmarks/zero4-q26r-v1/seed1/optimizer-attempts.jsonl", "sha256": "3f0c85aab288572f0da1405455ff14194c52ebe195113864227362277910da03" },
+      { "path": "benchmarks/zero4-q26r-v1/seed1/selection.json", "sha256": "d7b8ad48d4a51fc5ed09cb4e0dfe5783a7eb5bc08f7e2811b2392d1c5dfc5810" },
+      { "path": "benchmarks/zero4-q26r-v1/seed3/result.json", "sha256": "38bda6500ddb1012cb0c37fe691b4803447e9f03e62d0a9c34f0b4c3f39f4537" },
+      { "path": "benchmarks/zero4-q26r-v1/seed3/optimizer-attempts.jsonl", "sha256": "0c0b16019033f72af7304073e916f9c1bf6a2ec2aaf2e991898518199e4d28a1" },
+      { "path": "benchmarks/zero4-q26r-v1/seed3/selection.json", "sha256": "1019c6bb5f677ee6f5860c4858ebb2ff6ebc8d85d122d57fa90f56d51a66dd0c" },
+      { "path": "benchmarks/zero4-q26-v1/seed2/result.json", "sha256": "6fba7b46a00c881ab129ea706125fee0924d897836784274275ae9517805eb5f" },
+      { "path": "scripts/check_zero4_q26r.mjs", "sha256": "a32242a4bae7d22481d8739326552187f36bde070d3c4b05aba274530b84b1eb" },
+      { "path": "scripts/aggregate_zero4_q26r.mjs", "sha256": "0a4af7877a10dd99aac2a3005cd5c91ca151666cb0ff3ac75b7d8621b28b884b" }
+    ]
+  },
+  "metrics": [
+    { "name": "declared_seeds", "unit": "count", "description": "Declared Q2.6-R family seeds" },
+    { "name": "completed_seeds", "unit": "count", "description": "Declared seeds with completed frozen-policy results" },
+    { "name": "go_seeds", "unit": "count", "description": "Seeds passing every frozen public and promotion gate" },
+    { "name": "no_go_seeds", "unit": "count", "description": "Seeds terminating with a valid scientific no-go" },
+    { "name": "family_promotion_eligible", "unit": "boolean", "description": "All-three-seed family promotion decision encoded as 0 or 1" },
+    { "name": "seed1_committed_updates", "unit": "count", "description": "Seed 1 committed outer updates" },
+    { "name": "seed1_selected_update", "unit": "count", "description": "Seed 1 selected public checkpoint update" },
+    { "name": "seed1_operation_rate", "unit": "ratio", "description": "Seed 1 selected operation rate" },
+    { "name": "seed1_exact_artifact_rate", "unit": "ratio", "description": "Seed 1 selected exact-artifact rate" },
+    { "name": "seed1_replay_relative_regression", "unit": "ratio", "description": "Seed 1 selected public replay regression" },
+    { "name": "seed1_max_committed_replay_increase", "unit": "ratio", "description": "Seed 1 largest committed relative replay increase" },
+    { "name": "seed1_projected_trials", "unit": "count", "description": "Seed 1 projected candidate scales evaluated" },
+    { "name": "seed1_unprojected_trials", "unit": "count", "description": "Seed 1 unprojected candidate scales evaluated" },
+    { "name": "seed1_promotion_passed", "unit": "boolean", "description": "Seed 1 exactly-once promotion gate encoded as 0 or 1" },
+    { "name": "seed3_committed_updates", "unit": "count", "description": "Seed 3 committed outer updates" },
+    { "name": "seed3_selected_update", "unit": "count", "description": "Seed 3 selected public checkpoint update" },
+    { "name": "seed3_operation_rate", "unit": "ratio", "description": "Seed 3 selected operation rate" },
+    { "name": "seed3_exact_artifact_rate", "unit": "ratio", "description": "Seed 3 selected exact-artifact rate" },
+    { "name": "seed3_replay_relative_regression", "unit": "ratio", "description": "Seed 3 selected public replay regression" },
+    { "name": "seed3_max_committed_replay_increase", "unit": "ratio", "description": "Seed 3 largest committed relative replay increase" },
+    { "name": "seed3_projected_trials", "unit": "count", "description": "Seed 3 projected candidate scales evaluated" },
+    { "name": "seed3_unprojected_trials", "unit": "count", "description": "Seed 3 unprojected candidate scales evaluated" },
+    { "name": "seed3_promotion_passed", "unit": "boolean", "description": "Seed 3 exactly-once promotion gate encoded as 0 or 1" },
+    { "name": "seed2_committed_updates", "unit": "count", "description": "Prior seed-2 diagnostic committed outer updates" },
+    { "name": "seed2_selected_update", "unit": "count", "description": "Prior seed-2 diagnostic selected public checkpoint update" },
+    { "name": "seed2_operation_rate", "unit": "ratio", "description": "Prior seed-2 diagnostic selected operation rate" },
+    { "name": "seed2_exact_artifact_rate", "unit": "ratio", "description": "Prior seed-2 diagnostic selected exact-artifact rate" },
+    { "name": "seed2_replay_relative_regression", "unit": "ratio", "description": "Prior seed-2 diagnostic selected public replay regression" },
+    { "name": "promoted_model_matches_frozen_candidate", "unit": "boolean", "description": "Promoted model equals the frozen seed-2 candidate encoded as 0 or 1" },
+    { "name": "promotion_evaluations", "unit": "count", "description": "Declared seeds with an exactly-once promotion evaluation" }
+  ],
+  "seeds": [1, 2, 3],
+  "replay": {
+    "program": "/usr/local/bin/node",
+    "args": [
+      "/workspace/ilxyr/scripts/harness-zero-q26r-family.mjs",
+      "--repo", "/workspace/zero-grounded-literary-lm",
+      "--repository", "https://github.com/atimics/zero-grounded-literary-lm.git",
+      "--commit", "bde7875bdc3947bb4203fe3b8eccc8fb6488bda6",
+      "--git", "/usr/bin/git",
+      "--node", "/usr/local/bin/node"
+    ],
+    "timeout_seconds": 300,
+    "network": "open"
+  },
+  "authority": {
+    "level": "deterministic_replay",
+    "scope": {
+      "seeds": [1, 2, 3],
+      "eval_set": "dataset://zero/q26r/family/public-and-promotion/v1",
+      "coverage": 1.0
+    },
+    "provenance": {
+      "artifact_hashes": [],
+      "model_lineage": "model://zero/zero4/q26r/bde7875b",
+      "checker": "checker://zero/q26r/family/v1"
+    }
+  }
+}

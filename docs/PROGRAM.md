@@ -427,7 +427,8 @@ results and the separate post-measurement wrapper failure.
    no-go, and EXP-003 records Q2.5's prospective deterministic-backtracking no-go. EXP-004 records
    Q2.6's prospective seed-2 replay-tangent go while preserving full gates for spine claims.
    EXP-005 records independent seed-1 and seed-3 go results and the verified family go. Its
-   upstream evidence still needs to be imported into the local ilXyr ledger.
+   published evidence is imported into the local ilXyr ledger as grounded deterministic-replay
+   retro evidence.
 5. The Solomon Q22 experiment was preregistered and completed unchanged as EXP-007. EXP-008 then
    tested a new shortcut-resistant task prospectively and resolved no-go. Preserve both results;
    do not tune the fixed class head against the opened EXP-008 promotion set.

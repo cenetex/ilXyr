@@ -38,7 +38,7 @@ These terms keep protocol state separate from stronger open-science claims.
 | Rust, schema, and CLI tests | Core protocol behavior and failure handling | No comparative study of research outcomes |
 | Toy promoted lifecycle | End-to-end wiring, settlement, and verification | Deliberately tautological; not a scientific benchmark |
 | EXP-001 to EXP-004 | Scoped Zero method results, including preserved no-go paths | Scientific artifacts live partly in the upstream Zero repository |
-| EXP-005 | Frozen three-seed family rule passed upstream | Local ilxyr import is pending; same-program seeds are not external reproduction |
+| EXP-005 | Frozen three-seed family rule passed upstream and is imported as grounded deterministic-replay retro evidence | Same-program seeds are not external reproduction |
 | EXP-006 | Public Holo implementation ran on one public-corpus CPU proxy | Not the private-corpus/MPS result; one seed; checkpoints are not all publicly archived |
 | NSRL p10m pilot | Exact custody, replay, gate failures, and preserved negative target-margin and canonical-NLL guard results | Source commit is unpublished, weights lack a licence, and independent evidence is unopened |
 

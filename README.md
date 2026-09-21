@@ -167,8 +167,10 @@ settle` waits for evidence from every declared run, applies the frozen all-membe
 and records one idempotent family settlement.
 
 The checked-in Q2.6-R manifest is a frozen record of EXP-005, which has already completed
-upstream. Do not use it to execute seeds 1 or 3 again. Its published evidence is verified, but its
-import and settlement in this repository's local ilXyr ledger are still pending.
+upstream. Do not use it to execute seeds 1 or 3 again. Its published evidence is imported into
+this repository's local ilXyr ledger through the verification-only `zero.q26r.family.decision.v1`
+retro registration; the adapter re-derives the family aggregate and re-runs the upstream per-seed
+checker without retraining.
 
 Executor/attestation adapters can bind signed provenance after a run:
 

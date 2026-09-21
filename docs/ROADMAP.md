@@ -58,7 +58,9 @@ into a promoted claim.
   passed. EXP-005 then executed replication seeds 1 and 3 against the frozen scientific contract,
   with independent forecasts and AWS provenance. Both resolved go after 600 full-scale commits.
   The all-three-seeds conjunction passed, making the seed-2 artifact promotion-eligible as ZERO.4.
-  The upstream result is verified; local ilXyr ledger import and settlement remain pending.
+  The published family result is imported into a local ilXyr ledger through the
+  `zero.q26r.family.decision.v1` retro registration; the deterministic replay adapter does not
+  re-run the terminal seed executors.
 - The q22 bridge now has frozen training/evaluation hashes plus public, source-pinned Zero and
   Solomon encodings and verifiers. EXP-007 subsequently ran the preregistered three-seed Solomon
   class head: every seed scored 500/500 and all predictions agreed. This closes the narrow bridge
