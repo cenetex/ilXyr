@@ -37,6 +37,11 @@ function reportedOutcomeLabel(value: string) {
   return `Reported ${outcomeLabel(value)}`;
 }
 
+function publisherLabel(record: RegistryRecord) {
+  if (record.publisherAuthentication !== "pass") return "Index owner unverified";
+  return record.publisherListed ? "Publisher address on list" : "Publisher address outside list";
+}
+
 function outcomeTone(value: string) {
   if (value === "go" || value === "accepted") return "go";
   if (value.includes("failure") || value.includes("no_go") || value === "rejected") return "no-go";
@@ -101,7 +106,7 @@ export function RecordDetail({ record, onClose }: { record: RegistryRecord; onCl
     <div className="detail-backdrop" role="dialog" aria-modal="true" aria-label={`Evidence for ${record.title}`}>
       <div className="detail-sheet">
         <div className="detail-toolbar">
-          <div><span className={`outcome-chip ${outcomeTone(record.outcome)}`}>{reportedOutcomeLabel(record.outcome)}</span><span>{record.publisherListed ? "Publisher address on list" : "Publisher address outside list"}</span></div>
+          <div><span className={`outcome-chip ${outcomeTone(record.outcome)}`}>{reportedOutcomeLabel(record.outcome)}</span><span>{publisherLabel(record)}</span></div>
           <button onClick={onClose} aria-label="Close evidence detail">×</button>
         </div>
         <div className="detail-hero">
@@ -112,10 +117,13 @@ export function RecordDetail({ record, onClose }: { record: RegistryRecord; onCl
         <div className="detail-facts">
           <div><span>Arweave transaction</span><a href={arweaveUrl(record.txId)} target="_blank" rel="noreferrer">{record.txId} ↗</a></div>
           <div><span>Evidence reference</span><strong>{record.evidenceRef || "Not declared"}</strong></div>
-          <div><span>Publisher</span><strong>{record.owner}</strong></div>
+          <div><span>Index publisher</span><strong>{record.publisherAddress || "Unknown"}</strong></div>
+          <div><span>Bundle owner</span><strong>{record.owner}</strong></div>
           <div><span>Listed by</span><strong>{record.source.replaceAll("-", " ")}</strong></div>
           <div><span>Listing retrieved</span><strong>{trust.listing === "pass" ? "Yes" : "Unknown"}</strong></div>
-          <div><span>Publisher authentication</span><strong>Not checked</strong></div>
+          <div><span>Index owner via gateway</span><strong>{trust.publisherAuthentication.replaceAll("_", " ")}</strong></div>
+          <div><span>Bundle owner via gateway</span><strong>{trust.bundleOwnerAuthentication.replaceAll("_", " ")}</strong></div>
+          <div><span>Publisher allowlist</span><strong>{trust.publisherAllowlist.replaceAll("_", " ")}</strong></div>
           <div><span>File retrieval</span><strong>{trust.fileRetrieval.replaceAll("_", " ")}</strong></div>
           <div><span>File byte integrity</span><strong>{trust.byteIntegrity.replaceAll("_", " ")}</strong></div>
           <div><span>ilXyr ledger binding</span><strong>Not checked</strong></div>
@@ -123,6 +131,7 @@ export function RecordDetail({ record, onClose }: { record: RegistryRecord; onCl
         </div>
         <div className="file-heading"><div><p className="eyebrow">Evidence files</p><h3>{record.files.length} files</h3></div><p>Select Verify file. The app checks its byte count and SHA-256 hash.</p></div>
         {record.manifestError && <p className="empty-copy" role="alert">Publication manifest: {record.manifestError}</p>}
+        {record.provenanceError && <p className="empty-copy" role="alert">Publisher provenance: {record.provenanceError}</p>}
         <div className="file-list">
           {record.files.length ? record.files.map((file) => <FileRow key={file.path} record={record} file={file} state={fileStates[file.path] || "idle"} onState={(state) => setFileStates((current) => ({ ...current, [file.path]: state }))} />) : <p className="empty-copy">This listing has no file list to check.</p>}
         </div>
@@ -317,7 +326,7 @@ export default function App() {
             <div className="section-heading"><div><p className="eyebrow">Experiment evidence</p><h2>Results stay available, including failed runs.</h2></div><label className="search-field"><span>⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by experiment, result, or hash" /></label></div>
             <div className="record-list">
               {loading && [0, 1, 2].map((item) => <div className="record-row loading" key={item} />)}
-              {!loading && filtered.map((record, index) => <button className="record-row" onClick={() => void openRecord(record)} key={record.txId}><span className="record-number">{String(index + 1).padStart(2, "0")}</span><div className="record-title"><span className={`outcome-chip ${outcomeTone(record.outcome)}`}>{reportedOutcomeLabel(record.outcome)}</span><h3>{record.title}</h3><p>{record.experimentId}</p></div><div className="record-evidence"><span>Evidence ref</span><code>{record.evidenceRef ? short(record.evidenceRef, 22, 12) : "—"}</code></div><div className="record-trust"><span className={record.publisherListed ? "listed" : "unlisted"}>{record.publisherListed ? "Address on list" : "Address outside list"}</span><strong>{record.files.length} files</strong></div><span className="row-arrow">↗</span></button>)}
+              {!loading && filtered.map((record, index) => <button className="record-row" onClick={() => void openRecord(record)} key={record.txId}><span className="record-number">{String(index + 1).padStart(2, "0")}</span><div className="record-title"><span className={`outcome-chip ${outcomeTone(record.outcome)}`}>{reportedOutcomeLabel(record.outcome)}</span><h3>{record.title}</h3><p>{record.experimentId}</p></div><div className="record-evidence"><span>Evidence ref</span><code>{record.evidenceRef ? short(record.evidenceRef, 22, 12) : "—"}</code></div><div className="record-trust"><span className={record.publisherListed ? "listed" : "unlisted"}>{publisherLabel(record)}</span><strong>{record.files.length} files</strong></div><span className="row-arrow">↗</span></button>)}
               {!loading && filtered.length === 0 && <p className="empty-copy">No permanent records match this search.</p>}
             </div>
           </section>

@@ -4,6 +4,8 @@ import { recordTrust } from "../src/trust.ts";
 
 const record = {
   publisherListed: true,
+  publisherAuthentication: "pass",
+  bundleOwnerAuthentication: "pass",
   outcome: "no_go",
   files: [{ path: "result.json" }, { path: "receipt.json" }],
 };
@@ -11,7 +13,8 @@ const record = {
 test("publisher and outcome claims stay separate from ledger verification", () => {
   const trust = recordTrust(record, {});
   assert.equal(trust.publisherAllowlist, "pass");
-  assert.equal(trust.publisherAuthentication, "not_checked");
+  assert.equal(trust.publisherAuthentication, "pass");
+  assert.equal(trust.bundleOwnerAuthentication, "pass");
   assert.equal(trust.ledgerBinding, "not_checked");
   assert.equal(trust.scientificDisposition, "not_checked");
   assert.equal(trust.reportedOutcome, "no_go");
@@ -41,4 +44,6 @@ test("complete hash checks pass while absent files and unlisted addresses stay e
   assert.equal(absent.fileRetrieval, "unknown");
   assert.equal(absent.byteIntegrity, "unknown");
   assert.equal(absent.publisherAllowlist, "fail");
+  const unverified = recordTrust({ ...record, publisherAuthentication: "unknown" }, {});
+  assert.equal(unverified.publisherAllowlist, "unknown");
 });

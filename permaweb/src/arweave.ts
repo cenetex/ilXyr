@@ -1,6 +1,6 @@
 import { arweaveUrl, config } from "./config";
 import type { EvidenceFile, RegistryRecord } from "./types";
-import { bindManifest, checkFileResponse, MAX_MANIFEST_BYTES, readBounded, validateCanonicalIndex, validateManifest } from "./publication";
+import { bindManifest, checkFileResponse, MAX_MANIFEST_BYTES, readBounded, validateCanonicalIndex, validateManifest, validTxId } from "./publication";
 
 type TransactionNode = {
   id: string;
@@ -66,6 +66,7 @@ async function queryTransactions(): Promise<TransactionNode[]> {
 }
 
 async function hydrateTransaction(node: TransactionNode, source: RegistryRecord["source"]): Promise<RegistryRecord | null> {
+  if (!validTxId(node.id) || !validTxId(node.owner?.address)) throw new Error("Gateway transaction identity differs");
   const tags = tagMap(node.tags);
   const experimentId = tags.get("experiment-id");
   if (!experimentId) return null;
@@ -82,7 +83,10 @@ async function hydrateTransaction(node: TransactionNode, source: RegistryRecord[
   return {
     txId: node.id,
     owner: node.owner.address,
+    publisherAddress: node.owner.address,
     publisherListed: config.publishers.includes(node.owner.address),
+    publisherAuthentication: "pass",
+    bundleOwnerAuthentication: "pass",
     experimentId,
     evidenceRef: tags.get("evidence-ref") || "",
     title: tags.get("title") || humanize(tags.get("app-name") || experimentId),
@@ -107,28 +111,65 @@ async function seedNode(txId: string): Promise<TransactionNode> {
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ query, variables: { id: txId } }),
   });
-  const payload = (await response.json()) as { data?: { transaction?: TransactionNode } };
+  if (!response.ok) throw new Error(`Gateway transaction lookup returned ${response.status}`);
+  const payload = (await response.json()) as { data?: { transaction?: TransactionNode }; errors?: { message: string }[] };
+  if (payload.errors?.length) throw new Error(payload.errors[0].message);
   if (!payload.data?.transaction) throw new Error(`Seed transaction ${txId} was not indexed`);
+  if (payload.data.transaction.id !== txId || !/^[A-Za-z0-9_-]{43}$/.test(payload.data.transaction.owner?.address || "")) {
+    throw new Error("Gateway transaction identity differs");
+  }
   return payload.data.transaction;
 }
 
-async function loadCanonicalIndex(): Promise<RegistryRecord[]> {
+export async function loadCanonicalIndex(): Promise<RegistryRecord[]> {
   const indexUrl = config.indexTx
     ? arweaveUrl(config.indexTx)
     : new URL("./ilxyr-index-v1.json", document.baseURI).toString();
   const index = validateCanonicalIndex(await fetchJson<unknown>(indexUrl));
+  const claimedPublisher = index.published_by.replace(/^arweave:\/\//, "");
+  let publisherAddress = claimedPublisher;
+  let publisherAuthentication: RegistryRecord["publisherAuthentication"] = "not_checked";
+  let provenanceError: string | undefined = config.indexTx ? undefined : "Bundled local index has no transaction owner proof";
+  if (config.indexTx) {
+    try {
+      const transaction = await seedNode(config.indexTx);
+      publisherAddress = transaction.owner.address;
+      publisherAuthentication = claimedPublisher === publisherAddress ? "pass" : "fail";
+      if (publisherAuthentication === "fail") provenanceError = "Index publisher differs from gateway transaction owner";
+    } catch (error) {
+      publisherAuthentication = "unknown";
+      provenanceError = error instanceof Error ? error.message : "Index owner lookup failed";
+    }
+  }
 
-  return index.experiments.map((entry) => ({
-    txId: entry.bundle_tx,
-    owner: entry.owner || index.published_by.replace(/^arweave:\/\//, ""),
-    publisherListed: config.publishers.includes(entry.owner || index.published_by.replace(/^arweave:\/\//, "")),
-    experimentId: entry.experiment_id,
-    evidenceRef: entry.evidence_ref,
-    title: entry.title || humanize(entry.experiment_id),
-    outcome: entry.outcome,
-    family: entry.family,
-    files: [],
-    source: "canonical-index",
+  return Promise.all(index.experiments.map(async (entry): Promise<RegistryRecord> => {
+    let owner = entry.owner || "unknown";
+    let bundleOwnerAuthentication: RegistryRecord["bundleOwnerAuthentication"] = "unknown";
+    let bundleError: string | undefined;
+    try {
+      const transaction = await seedNode(entry.bundle_tx);
+      owner = transaction.owner.address;
+      bundleOwnerAuthentication = !entry.owner || entry.owner === owner ? "pass" : "fail";
+      if (bundleOwnerAuthentication === "fail") bundleError = "Bundle owner differs from index entry";
+    } catch (error) {
+      bundleError = error instanceof Error ? error.message : "Bundle owner lookup failed";
+    }
+    return {
+      txId: entry.bundle_tx,
+      owner,
+      publisherAddress,
+      publisherListed: publisherAuthentication === "pass" && config.publishers.includes(publisherAddress),
+      publisherAuthentication,
+      bundleOwnerAuthentication,
+      provenanceError: [provenanceError, bundleError].filter(Boolean).join("; ") || undefined,
+      experimentId: entry.experiment_id,
+      evidenceRef: entry.evidence_ref,
+      title: entry.title || humanize(entry.experiment_id),
+      outcome: entry.outcome,
+      family: entry.family,
+      files: [],
+      source: "canonical-index",
+    };
   }));
 }
 
@@ -177,11 +218,18 @@ export async function loadRegistry(): Promise<RegistryRecord[]> {
       continue;
     }
     if (existingIsCanonical && !recordIsCanonical) {
+      if (existing.publisherAuthentication !== "pass") {
+        unique.set(key, { ...record, provenanceError: existing.provenanceError || "Canonical index publisher unverified" });
+        continue;
+      }
       const sameIdentity = existing.txId === record.txId &&
         existing.experimentId === record.experimentId && existing.evidenceRef === record.evidenceRef;
       unique.set(key, {
         ...existing,
         files: sameIdentity && record.files.length ? record.files : existing.files,
+        provenanceError: !sameIdentity
+          ? [existing.provenanceError, "Gateway record conflicts with canonical listing"].filter(Boolean).join("; ")
+          : existing.provenanceError,
         manifestError: !sameIdentity && existing.txId === record.txId
           ? "Gateway identity differs from canonical listing" : record.manifestError,
         blockHeight: existing.blockHeight || record.blockHeight,
