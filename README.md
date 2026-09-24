@@ -12,10 +12,44 @@ and the certified-gate method — is defined in [docs/PROGRAM.md](docs/PROGRAM.m
 
 **Experiment guide:** [cenetex.github.io/ilXyr](https://cenetex.github.io/ilXyr/)
 
-This repository is a local V1 vertical slice. It demonstrates the research lifecycle and its
-provider-neutral autonomous policy boundary before any service or cloud binding. The supported
-academic claim, evaluation boundary, and publication gaps are stated in
+The protocol began as a local V1 vertical slice. This repository now also contains tested
+report-intake and corpus-service boundaries, OCI job records and bounded cloud experiment
+packages. Deployment and scientific outcomes are recorded separately in
+[docs/PROGRAM.md](docs/PROGRAM.md); implemented interfaces alone do not establish an
+operated service or a completed experiment. The supported academic claim, evaluation boundary,
+and publication gaps are stated in
 [docs/ACADEMIC-SCOPE.md](docs/ACADEMIC-SCOPE.md).
+
+## Current research boundaries (September 24, 2026)
+
+The [five-project closeout](experiments/research-step-51/REPORT.md) records the
+completed Reasoner comparison (benefit gates failed), the completed Solomon
+fresh-document confidence comparison (smoothed suffix counts were best on its
+fixed panel), the FERAL selector no-go and the stopped ZERO.4 host. The
+[ZERO.4 replacement attempt](experiments/research-step-57/REPORT.md) reached
+the full-mode adapter guard with zero model processes. Its repaired entry-point
+test passes; the replacement scientific comparison is still pending in that
+record. These are different result types, with separate cost and failure receipts.
+
+The [lab registry](docs/lab-registry.json) is a dated snapshot of ZERO model
+lines, not a live inventory of later results. Reasoner is the active scientific
+line; ZERO.5 C training is frozen in that snapshot. NSRL's
+[combined integer-transformer substrate proof](https://github.com/atimics/nsrl/blob/main/docs/integer-transformer-proof-v1.md)
+is promoted under its own fixed gate; its Solomon product proof remains separate.
+The [confidence decision](docs/experiments/SOLOMON-CONFIDENCE-DECISION-2026-09-24.md)
+sets the next question after the completed comparison. Current owner issues:
+[#170](https://github.com/cenetex/ilXyr/issues/170),
+[#171](https://github.com/cenetex/ilXyr/issues/171),
+[#172](https://github.com/cenetex/ilXyr/issues/172),
+[#173](https://github.com/cenetex/ilXyr/issues/173), and
+[#174](https://github.com/cenetex/ilXyr/issues/174).
+
+Braid compiles source releases and exposure identities. Model repositories own
+training and task evaluation. ilxyr records admissible evidence, budgets and
+settlement. They do not share a model checkpoint. Local hash/ledger checks,
+authenticated publication and external replication answer different questions;
+the [academic scope](docs/ACADEMIC-SCOPE.md) states the limits on claims about
+scientific truth, novelty and productivity.
 
 ## What v1 does
 
@@ -74,8 +108,10 @@ academic claim, evaluation boundary, and publication gaps are stated in
 - Provides clean-commit metric adapters for Zero q22r seed and multi-seed decisions and the
   Solomon successor-v2 harness, plus ledgered Q2.3–Q2.6 prospective transaction experiments
   and the completed Q2.6 seed-1/3 family replication workflow.
-- Publishes a machine-readable lab registry that separates Braid data inputs, the promoted ZERO.4
-  line, the active ZERO.5 research line, upstream evidence debt, and C5.2's private terminal state.
+- Publishes a machine-readable lab registry, reviewed as of September 1, 2026, that separates
+  Braid data inputs, the scoped promoted ZERO.4 line, the frozen ZERO.5 C training line, active
+  Reasoner research, upstream evidence debt and C5.2's private terminal state. Later research
+  outcomes and execution failures live in [docs/PROGRAM.md](docs/PROGRAM.md).
 - Runs an authenticated, single-writer Corpus as a Service boundary that registers immutable
   Braid-style releases, checks complete S3 or Azure Blob materialization receipts, and emits
   digest-bound SageMaker or Azure ML training-input handoffs without storing cloud credentials.
@@ -330,7 +366,7 @@ started without producing a terminal run. `authorize` reports the same decision 
 
 - `permaweb`: the static Arweave/AO experiment registry, canonical index tooling, and signed
   proposal/review/funding process. See [`permaweb/README.md`](permaweb/README.md).
-- `portal`: the hosted submission and review portal used for the conventional web deployment.
+- `portal`: read-only views of published evidence for the conventional web deployment.
 - `crates/ilxyr-core`: protocol objects, validation, ledger, gates, execution, settlement.
 - `crates/ilxyr-cli`: a small reference control-plane CLI.
 - `schemas`: portable JSON contracts for non-Rust producers and consumers (strict Draft 2020-12
