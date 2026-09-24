@@ -18,6 +18,8 @@ export function validateIndex(index) {
   if (index.schema !== "ilxyr.index.v1") errors.push("schema must be ilxyr.index.v1");
   if (!Number.isInteger(index.sequence) || index.sequence < 1) errors.push("sequence must be a positive integer");
   if (index.previous_index_tx !== null && !TX_ID.test(index.previous_index_tx || "")) errors.push("previous_index_tx must be null or an Arweave transaction ID");
+  if (index.sequence === 1 && index.previous_index_tx !== null) errors.push("initial index must have a null predecessor");
+  if (index.sequence > 1 && !TX_ID.test(index.previous_index_tx || "")) errors.push("successor must reference a previous index transaction");
   if (!LEDGER_HEAD.test(index.ledger_head || "")) errors.push("ledger_head must be empty or an artifact SHA-256 reference");
   if (!/^arweave:\/\/[A-Za-z0-9_-]{43}$/.test(index.published_by || "")) errors.push("published_by must be an Arweave wallet handle");
   if (!Number.isFinite(Date.parse(index.generated_at || ""))) errors.push("generated_at must be an ISO timestamp");
@@ -57,11 +59,12 @@ export function buildIndex({ sequence, previousIndexTx = null, ledgerHead = "", 
   return { index, canonical, sha256 };
 }
 
-export function validateSuccessor(previous, next) {
+export function validateSuccessor(previous, next, previousTx) {
   const errors = [...validateIndex(previous), ...validateIndex(next)];
   if (errors.length) return errors;
   if (next.sequence !== previous.sequence + 1) errors.push("successor sequence must advance by one");
-  if (!TX_ID.test(next.previous_index_tx || "")) errors.push("successor must reference a previous index transaction");
+  if (!TX_ID.test(previousTx || "")) errors.push("expected previous transaction ID is required");
+  else if (next.previous_index_tx !== previousTx) errors.push("successor previous_index_tx differs from the expected transaction");
   const prior = new Map(previous.experiments.map((entry) => [entry.experiment_id, entry]));
   const successorIds = new Set(next.experiments.map((entry) => entry.experiment_id));
   for (const experimentId of prior.keys()) {
