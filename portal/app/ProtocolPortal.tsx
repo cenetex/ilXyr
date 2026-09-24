@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 
-type StatusItem = { readonly key: string; readonly value: string };
 type RouteItem = { readonly method: string; readonly path: string; readonly description: string };
+type ModelLineItem = { readonly id: string; readonly title: string; readonly state: string; readonly promotion_state: string };
 type EnvironmentItem = {
   readonly id: string;
   readonly state: string;
@@ -29,8 +29,9 @@ type DocumentItem = { readonly id: string; readonly title: string; readonly url:
 type CliGroup = { readonly name: string; readonly calls: readonly string[] };
 
 type ProtocolPortalProps = {
-  status: readonly StatusItem[];
   routes: readonly RouteItem[];
+  modelLines: readonly ModelLineItem[];
+  source: { readonly as_of: string; readonly generated_at: string; readonly stale_after: string };
   environments: readonly EnvironmentItem[];
   results: readonly ResultItem[];
   experiments: readonly ExperimentItem[];
@@ -85,14 +86,15 @@ function words(value: string) {
 function experimentTone(status: string) {
   const normalized = status.toLowerCase();
   if (normalized.includes("no-go")) return "no-go";
-  if (normalized.includes("go") || normalized.includes("success")) return "go";
+  if (normalized.includes("go") || normalized.includes("success") || normalized.includes("pass") || normalized.includes("selected")) return "go";
   if (normalized.includes("active") || normalized.includes("continue")) return "active";
   return "pending";
 }
 
 export function ProtocolPortal({
-  status,
   routes,
+  modelLines,
+  source,
   environments,
   results,
   experiments,
@@ -111,14 +113,8 @@ export function ProtocolPortal({
   });
   const [apiState, setApiState] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  const readyCount = status.filter((item) =>
-    [
-      "available_for_public_weight_experiments",
-      "implemented",
-      "implemented_with_fake_node",
-      "live_diagnostic_passed",
-    ].includes(item.value),
-  ).length;
+  const promoted = modelLines.find((line) => line.promotion_state === "promoted");
+  const active = modelLines.find((line) => line.state === "active_research");
   const activeProtocol = protocolSteps.find((step) => step.id === activeStep) ?? protocolSteps[0];
   const selectedRoute = routes.find((route) => route.path === activeRoute) ?? routes[0];
 
@@ -164,8 +160,8 @@ export function ProtocolPortal({
           <p className="kicker"><span className="live-dot" /> Public project index</p>
           <h1>Evidence before<br /><em>execution.</em></h1>
           <p className="hero-lede">
-            In ilXyr, each research claim has a test with rules set in advance. Every result
-            stays on record. The evidence shapes the next question.
+            In ilXyr, each research claim has a test with rules set in advance. This snapshot
+            keeps each listed decision. The evidence shapes the next question.
           </p>
           <div className="hero-actions">
             <a className="button primary" href="#protocol">Explore the system <span>↘</span></a>
@@ -173,18 +169,17 @@ export function ProtocolPortal({
           </div>
         </div>
 
-        <aside className="signal-card" aria-label="Current public system signal">
-          <div className="signal-topline"><span>PUBLIC DATA</span><span>LIVE INDEX</span></div>
-          <div className="signal-score"><strong>{readyCount}</strong><span>parts ready today</span></div>
-          <div className="signal-track"><span style={{ width: `${Math.round((readyCount / status.length) * 100)}%` }} /></div>
-          <p>This site shows public project data. Compute approval happens inside ilXyr.</p>
+        <aside className="signal-card" aria-label="Dated public registry signal">
+          <div className="signal-topline"><span>PUBLIC DATA</span><span>DATED SNAPSHOT</span></div>
+          <div className="signal-score"><strong>{experiments.length}</strong><span>registry decisions</span></div>
+          <p>Registry as of {source.as_of}. Snapshot built {source.generated_at.slice(0, 10)}. Compute approval happens inside ilXyr.</p>
         </aside>
       </section>
 
       <section className="status-strip" aria-label="System status">
-        <div><span>01 / Local executor</span><strong>Available</strong></div>
-        <div><span>02 / Remote verifier</span><strong>Implemented</strong></div>
-        <div><span>03 / Cloud launcher</span><strong>Live trial passed</strong></div>
+        <div><span>01 / Promoted model</span><strong>{promoted?.title || "Unknown"}</strong></div>
+        <div><span>02 / Active research</span><strong>{active?.title || "Unknown"}</strong></div>
+        <div><span>03 / Registry date</span><strong>{source.as_of}</strong></div>
       </section>
 
       <section className="protocol-section section-block" id="protocol">
@@ -223,7 +218,7 @@ export function ProtocolPortal({
       <section className="experiments-section section-block" id="experiments">
         <div className="section-heading compact-heading">
           <p className="section-index">02 — Evidence ledger</p>
-          <h2>Every result<br />has a record.</h2>
+          <h2>Each decision<br />keeps its status.</h2>
         </div>
 
         <div className="experiment-tools">
@@ -341,15 +336,15 @@ export function ProtocolPortal({
             ))}
           </div>
           <div className="boundary-card result-card">
-            <span className="card-label">Verified remote results</span>
+            <span className="card-label">Published acceptance records</span>
             <strong>{String(results.length).padStart(2, "0")}</strong>
             {results.length === 0 ? (
-              <p>Verified remote results: 0. The first verified result will appear here.</p>
+              <p>Published acceptance records: 0.</p>
             ) : (
               results.map((result) => (
                 <p key={result.id}>
                   <a href={result.url}>{result.experiment_id}</a><br />
-                  {result.outcome} · score {result.score}
+                  Source reported {result.outcome} · score {result.score}
                 </p>
               ))
             )}

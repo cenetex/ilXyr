@@ -6,23 +6,11 @@ export const cloudDiagnosticCommit = "b6fdbd6c5f6fcda11839009ce2cbb527f0ac9b82";
 export const publicRoutes = [
   { method: "GET", path: "/.well-known/ilxyr.json", description: "discover the public protocol and reporting status" },
   { method: "GET", path: "/api", description: "list public API routes" },
-  { method: "GET", path: "/api/status", description: "read executor and compute status" },
+  { method: "GET", path: "/api/status", description: "read dated registry status and source health" },
   { method: "GET", path: "/api/protocols", description: "list protocol documents and command line calls" },
   { method: "GET", path: "/api/experiments", description: "list published experiments and decisions" },
   { method: "GET", path: "/api/environments", description: "list known execution environments and compatibility state" },
-  { method: "GET", path: "/api/results", description: "list independently verified remote results" },
-] as const;
-
-export const siteStatus = [
-  { key: "local_executor", value: "available_for_public_weight_experiments" },
-  { key: "remote_report_verifier", value: "implemented" },
-  { key: "provider_neutral_adapter_boundary", value: "implemented_with_fake_node" },
-  { key: "local_single_writer_report_intake", value: "implemented" },
-  { key: "general_cloud_launcher", value: "implemented" },
-  { key: "authenticated_network_report_intake", value: "implemented_not_deployed" },
-  { key: "paid_cloud_experiment_work", value: "live_diagnostic_passed" },
-  { key: "protected_weight_execution", value: "not_available" },
-  { key: "mutable_cloud_checkouts", value: "not_accepted_as_reproducible_jobs" },
+  { method: "GET", path: "/api/results", description: "list published acceptance records and their check states" },
 ] as const;
 
 export const cliGroups = [
@@ -149,68 +137,13 @@ export const protocolDocuments = [
   },
 ] as const;
 
-export const executionEnvironments = [
-  {
-    id: "environment://cenetex/public-v1",
-    operator: "Cenetex",
-    state: "reference_candidate",
-    compatibility: "not_yet_verified",
-    weight_classes: ["public"],
-    network_modes: ["denied"],
-    export_policies: ["metrics_only"],
-    manifest_ref: null,
-    conformance_ref: null,
-    verified_results: 0,
-    source: `${repository}/tree/${remoteProtocolCommit}/executor/cenetex-public-v1`,
-    note: "Open reference profile; build artifacts and independent conformance are still pending.",
-  },
-  {
-    id: "environment://cenetex/cloud-launcher-diagnostic/v1",
-    operator: "Cenetex",
-    state: "verified_live_run",
-    compatibility: "aws_launcher_verified",
-    weight_classes: ["public"],
-    network_modes: ["denied"],
-    export_policies: ["metrics_only"],
-    manifest_ref: "artifact://sha256/16806f15da532858ecf2244026458330dfde08b34f838e46556bc0558224118e",
-    conformance_ref: "artifact://sha256/691184bd80dd32ebc792a8c2ba349bcc8c22850629eb97b4f7a2b02a2b00bb92",
-    verified_results: 1,
-    source: `${repository}/tree/${cloudDiagnosticCommit}/experiments/cloud-launcher/diagnostic-v1`,
-    note: "This environment returned one signed AWS result. ilXyr verified the report and recorded score 0.82.",
-  },
-] as const;
-
-export type VerifiedExecutionResult = {
-  id: string;
-  experiment_id: string;
-  run_ref: string;
-  environment_ref: string;
-  verification_summary_ref: string;
-  outcome: string;
-  score: number;
-  url: string;
-};
-
-export const verifiedExecutionResults: readonly VerifiedExecutionResult[] = [
-  {
-    id: "result:cloud.launcher.diagnostic.v1",
-    experiment_id: "cloud.launcher.diagnostic.v1",
-    run_ref: "artifact://sha256/abe1695664909c31187ed2a15c4ad52d555da00b3ea6f2d9fa3ddfd0f5fe587e",
-    environment_ref: "artifact://sha256/16806f15da532858ecf2244026458330dfde08b34f838e46556bc0558224118e",
-    verification_summary_ref: "artifact://sha256/6f6c3e0de79629d982fc7c223d65b9f7799fb5d390ef984ece0a08e11b499d3d",
-    outcome: "success",
-    score: 0.82,
-    url: `${repository}/blob/${cloudDiagnosticCommit}/experiments/cloud-launcher/diagnostic-v1/accepted-report.json`,
-  },
-];
-
 export const discovery = {
   schema: "ilxyr.discovery.v1",
   service: "ilXyr public protocol index",
   canonical_url: "https://ilxyr.cenetex.com",
   public_api: "https://ilxyr.cenetex.com/api",
   environments: "https://ilxyr.cenetex.com/api/environments",
-  verified_results: "https://ilxyr.cenetex.com/api/results",
+  results: "https://ilxyr.cenetex.com/api/results",
   reporting: {
     protocol: "ilxyr.execution_report.v1",
     status: "not_available",
@@ -218,48 +151,3 @@ export const discovery = {
     note: "The reporting API is implemented. Public deployment will add TLS, production trust roots, monitoring, backups, and recovery.",
   },
 } as const;
-
-export const experiments = [
-  { id: "EXP-001", title: "Q2.3 local replay guard", status: "no-go", url: `${guide}/experiments/exp-001.html` },
-  { id: "EXP-002", title: "Q2.4 cumulative replay guard", status: "no-go", url: `${guide}/experiments/exp-002.html` },
-  { id: "EXP-003", title: "Q2.5 deterministic backtracking", status: "no-go", url: `${guide}/experiments/exp-003.html` },
-  { id: "EXP-004", title: "Q2.6 replay-tangent projection", status: "go", url: `${guide}/experiments/exp-004.html` },
-  {
-    id: "EXP-005",
-    title: "Q2.6 family replication",
-    status: "verified upstream; local import pending",
-    url: `${guide}/experiments/exp-005.html`,
-  },
-  { id: "EXP-006", title: "Holo HRR attention at T=512", status: "settled proxy result", url: `${guide}/experiments/exp-006.html` },
-  { id: "EXP-007", title: "Zero to Solomon Q22 bridge", status: "go", url: `${guide}/experiments/exp-007.html` },
-  {
-    id: "EXP-008",
-    title: "shortcut-resistant Q22 routing",
-    status: "no-go",
-    url: `${guide}/experiments/exp-008.html`,
-  },
-  {
-    id: "REASONER-3.9",
-    title: "active compositional law induction",
-    status: "active research line",
-    url: `${guide}/REASONER-LINE.html`,
-  },
-  {
-    id: "NSRL-P10M-PILOT",
-    title: "NSRL p10m managed pilot",
-    status: "continue-experimental",
-    url: `${repository}/blob/main/docs/experiments/NSRL-P10M-PILOT.md`,
-  },
-  {
-    id: "WEIGHT-MULTIPLICITY-PHASE0",
-    title: "weight multiplicity Phase 0",
-    status: "diagnostic record",
-    url: `${repository}/blob/main/docs/experiments/WEIGHT-MULTIPLICITY-PHASE0-DECISION.md`,
-  },
-  {
-    id: "CLOUD-LAUNCHER-DIAGNOSTIC-V1",
-    title: "first AWS cloud launcher result",
-    status: "success · score 0.82",
-    url: `${repository}/blob/${cloudDiagnosticCommit}/docs/experiments/CLOUD-LAUNCHER-DIAGNOSTIC.md`,
-  },
-] as const;

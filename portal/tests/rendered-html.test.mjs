@@ -39,15 +39,16 @@ test("server-renders the interactive public ilXyr protocol index", async () => {
   assert.match(html, /<title>ilXyr — Evidence before execution<\/title>/i);
   assert.match(html, /Evidence before/);
   assert.match(html, /each research claim has a test with rules set in advance/i);
-  assert.match(html, /Every result/);
+  assert.match(html, /This snapshot/);
   assert.match(html, /The evidence shapes the next question/);
   assert.doesNotMatch(html, /keeps research work clear/i);
   assert.match(html, /Explore the system/);
   assert.match(html, /Read the/);
   assert.match(html, /public data/);
-  assert.match(html, /EXP-008/);
-  assert.match(html, /REASONER-3.9/);
-  assert.match(html, /This site shows public project data/);
+  assert.match(html, /zero5-c43-v1/);
+  assert.match(html, /zero5-c52-targetbridge-v1/);
+  assert.match(html, /Registry as of.*2026-09-01/);
+  assert.match(html, /DATED SNAPSHOT/);
   assert.match(html, /<code>\/api\/status<\/code>/);
   assert.match(html, /<code>\/api\/protocols<\/code>/);
   assert.match(html, /<code>\/api\/experiments<\/code>/);
@@ -56,8 +57,8 @@ test("server-renders the interactive public ilXyr protocol index", async () => {
   assert.match(html, /<code>\/\.well-known\/ilxyr.json<\/code>/);
   assert.match(html, /Clear stages/);
   assert.match(html, /cloud.launcher.diagnostic.v1/);
-  assert.match(html, /success · score 0.82/);
-  assert.match(html, /Live trial passed/);
+  assert.match(html, /Source reported.*success.*score.*0.82/);
+  assert.match(html, /ZERO.4 promoted quantity line/);
   assert.match(html, /Compute approval happens inside ilXyr/);
   assert.match(html, /The reporting API is complete in the source code/);
   assert.match(html, /Public rollout will add TLS/);
@@ -71,11 +72,11 @@ test("server-renders the interactive public ilXyr protocol index", async () => {
 test("public API returns only static protocol data", async () => {
   const expectedSchemas = new Map([
     ["/api", "ilxyr.public_api_index.v1"],
-    ["/api/status", "ilxyr.public_status.v1"],
+    ["/api/status", "ilxyr.public_status.v2"],
     ["/api/protocols", "ilxyr.public_protocol_index.v1"],
-    ["/api/experiments", "ilxyr.public_experiment_index.v1"],
-    ["/api/environments", "ilxyr.public_environment_index.v1"],
-    ["/api/results", "ilxyr.public_verified_result_index.v1"],
+    ["/api/experiments", "ilxyr.public_experiment_index.v2"],
+    ["/api/environments", "ilxyr.public_environment_index.v2"],
+    ["/api/results", "ilxyr.public_result_index.v2"],
     ["/.well-known/ilxyr.json", "ilxyr.discovery.v1"],
   ]);
 
@@ -107,18 +108,10 @@ test("public API returns only static protocol data", async () => {
 
   const statusResponse = await request("/api/status");
   const status = await statusResponse.json();
-  assert.ok(status.status.some((item) =>
-    item.key === "provider_neutral_adapter_boundary" && item.value === "implemented_with_fake_node"
-  ));
-  assert.ok(status.status.some((item) =>
-    item.key === "authenticated_network_report_intake" && item.value === "implemented_not_deployed"
-  ));
-  assert.ok(status.status.some((item) =>
-    item.key === "general_cloud_launcher" && item.value === "implemented"
-  ));
-  assert.ok(status.status.some((item) =>
-    item.key === "paid_cloud_experiment_work" && item.value === "live_diagnostic_passed"
-  ));
+  assert.equal(status.source.as_of, "2026-09-01");
+  assert.equal(status.freshness, "stale");
+  assert.ok(status.status.some((item) => item.key === "active_experiment" && item.value === "none"));
+  assert.ok(status.source_health.some((item) => item.id === "permaweb-discovery" && item.status === "not_checked"));
 
   const environmentResponse = await request("/api/environments");
   const environmentIndex = await environmentResponse.json();
@@ -132,6 +125,15 @@ test("public API returns only static protocol data", async () => {
   assert.equal(results.results[0].experiment_id, "cloud.launcher.diagnostic.v1");
   assert.equal(results.results[0].outcome, "success");
   assert.equal(results.results[0].score, 0.82);
+  assert.equal(results.results[0].verification_state, "source_reported_acceptance");
+  assert.equal(results.results[0].ledger_binding, "not_checked");
+
+  const experimentsResponse = await request("/api/experiments");
+  const experimentIndex = await experimentsResponse.json();
+  assert.equal(experimentIndex.experiments.length, 12);
+  assert.ok(experimentIndex.experiments.some((item) => item.scientific_outcome === "no_go"));
+  assert.ok(experimentIndex.experiments.some((item) => item.disclosure_state === "withheld"));
+  assert.ok(experimentIndex.experiments.some((item) => item.execution_state === "blocked"));
 
   const imageOptimizerResponse = await request("/_vinext/image?url=%2Fog.png&w=640&q=75");
   assert.equal(imageOptimizerResponse.status, 404);

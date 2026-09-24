@@ -184,6 +184,7 @@ const fixtures = {
     "examples/schema/mechanism-tournament-settlement.json",
   ],
   "lab-registry.schema.json": ["docs/lab-registry.json"],
+  "public-snapshot.schema.json": ["docs/public-snapshot-v1.json", "portal/app/public-snapshot.json"],
   "nsrl-gate-evidence.schema.json": [
     "examples/nsrl/p10m-v10-context-gate.json",
     "examples/nsrl/p10m-v10-generation-gate.json",
