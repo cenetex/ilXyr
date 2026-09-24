@@ -68,9 +68,9 @@ function FileRow({ record, file, state, onState }: {
     onState("checking");
     try {
       const result = await verifyEvidenceFile(record, file);
-      onState(result.verified ? "verified" : "hash_failed");
-    } catch {
-      onState("fetch_failed");
+      onState(result.verified ? "verified" : result.reason === "size" ? "size_failed" : "hash_failed");
+    } catch (error) {
+      onState(error instanceof Error && error.message.includes("byte limit") ? "limit_failed" : "fetch_failed");
     }
   };
 
@@ -84,15 +84,17 @@ function FileRow({ record, file, state, onState }: {
       <button className={`verify-button ${state}`} onClick={verify} disabled={state === "checking"}>
         {state === "idle" && "Verify file"}
         {state === "checking" && "Checking file…"}
-        {state === "verified" && "✓ Hash matches"}
+        {state === "verified" && "✓ Byte integrity verified"}
         {state === "hash_failed" && "! Hash mismatch"}
+        {state === "size_failed" && "! Byte count mismatch"}
+        {state === "limit_failed" && "! File exceeds limit"}
         {state === "fetch_failed" && "! Could not retrieve"}
       </button>
     </div>
   );
 }
 
-function RecordDetail({ record, onClose }: { record: RegistryRecord; onClose: () => void }) {
+export function RecordDetail({ record, onClose }: { record: RegistryRecord; onClose: () => void }) {
   const [fileStates, setFileStates] = useState<Record<string, FileCheckState>>({});
   const trust = recordTrust(record, fileStates);
   return (
@@ -115,11 +117,12 @@ function RecordDetail({ record, onClose }: { record: RegistryRecord; onClose: ()
           <div><span>Listing retrieved</span><strong>{trust.listing === "pass" ? "Yes" : "Unknown"}</strong></div>
           <div><span>Publisher authentication</span><strong>Not checked</strong></div>
           <div><span>File retrieval</span><strong>{trust.fileRetrieval.replaceAll("_", " ")}</strong></div>
-          <div><span>File SHA-256 integrity</span><strong>{trust.byteIntegrity.replaceAll("_", " ")}</strong></div>
+          <div><span>File byte integrity</span><strong>{trust.byteIntegrity.replaceAll("_", " ")}</strong></div>
           <div><span>ilXyr ledger binding</span><strong>Not checked</strong></div>
           <div><span>Scientific disposition</span><strong>Not checked · {reportedOutcomeLabel(trust.reportedOutcome)}</strong></div>
         </div>
-        <div className="file-heading"><div><p className="eyebrow">Evidence files</p><h3>{record.files.length} files</h3></div><p>Select Verify file. The app downloads that file and checks its SHA-256 hash.</p></div>
+        <div className="file-heading"><div><p className="eyebrow">Evidence files</p><h3>{record.files.length} files</h3></div><p>Select Verify file. The app checks its byte count and SHA-256 hash.</p></div>
+        {record.manifestError && <p className="empty-copy" role="alert">Publication manifest: {record.manifestError}</p>}
         <div className="file-list">
           {record.files.length ? record.files.map((file) => <FileRow key={file.path} record={record} file={file} state={fileStates[file.path] || "idle"} onState={(state) => setFileStates((current) => ({ ...current, [file.path]: state }))} />) : <p className="empty-copy">This listing has no file list to check.</p>}
         </div>

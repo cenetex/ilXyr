@@ -17,6 +17,7 @@ export type RegistryRecord = {
   blockHeight?: number;
   timestamp?: number;
   files: EvidenceFile[];
+  manifestError?: string;
   source: "canonical-index" | "gateway" | "seed" | "ao";
 };
 

@@ -1,17 +1,12 @@
 import { arweaveUrl, config } from "./config";
-import type { CanonicalIndex, EvidenceFile, RegistryRecord } from "./types";
+import type { EvidenceFile, RegistryRecord } from "./types";
+import { bindManifest, checkFileResponse, MAX_MANIFEST_BYTES, readBounded, validateCanonicalIndex, validateManifest } from "./publication";
 
 type TransactionNode = {
   id: string;
   owner: { address: string };
   tags: { name: string; value: string }[];
   block: { height: number; timestamp: number } | null;
-};
-
-type PublicationManifest = {
-  experiment_id?: string;
-  evidence_ref?: string;
-  files?: EvidenceFile[];
 };
 
 function tagMap(tags: TransactionNode["tags"]) {
@@ -28,7 +23,8 @@ function humanize(value: string) {
 async function fetchJson<T>(url: string): Promise<T> {
   const response = await fetch(url, { headers: { accept: "application/json" } });
   if (!response.ok) throw new Error(`Arweave returned ${response.status}`);
-  return (await response.json()) as T;
+  const bytes = await readBounded(response, MAX_MANIFEST_BYTES);
+  return JSON.parse(new TextDecoder().decode(bytes)) as T;
 }
 
 async function queryTransactions(): Promise<TransactionNode[]> {
@@ -74,25 +70,28 @@ async function hydrateTransaction(node: TransactionNode, source: RegistryRecord[
   const experimentId = tags.get("experiment-id");
   if (!experimentId) return null;
 
-  let manifest: PublicationManifest = {};
+  let files: EvidenceFile[] = [];
+  let manifestError: string | undefined;
   try {
-    manifest = await fetchJson<PublicationManifest>(arweaveUrl(node.id));
-  } catch {
-    // A tagged record may be a single object instead of a publication manifest.
+    const manifest = validateManifest(await fetchJson<unknown>(arweaveUrl(node.id)));
+    files = bindManifest(manifest, experimentId, tags.get("evidence-ref") || "");
+  } catch (error) {
+    manifestError = error instanceof Error ? error.message : "Manifest validation failed";
   }
 
   return {
     txId: node.id,
     owner: node.owner.address,
     publisherListed: config.publishers.includes(node.owner.address),
-    experimentId: manifest.experiment_id || experimentId,
-    evidenceRef: manifest.evidence_ref || tags.get("evidence-ref") || "",
+    experimentId,
+    evidenceRef: tags.get("evidence-ref") || "",
     title: tags.get("title") || humanize(tags.get("app-name") || experimentId),
     outcome: tags.get("ilxyr-outcome") || tags.get("outcome") || "unresolved",
     family: tags.get("family"),
     blockHeight: node.block?.height,
     timestamp: node.block?.timestamp,
-    files: Array.isArray(manifest.files) ? manifest.files : [],
+    files,
+    manifestError,
     source,
   };
 }
@@ -117,8 +116,7 @@ async function loadCanonicalIndex(): Promise<RegistryRecord[]> {
   const indexUrl = config.indexTx
     ? arweaveUrl(config.indexTx)
     : new URL("./ilxyr-index-v1.json", document.baseURI).toString();
-  const index = await fetchJson<CanonicalIndex>(indexUrl);
-  if (index.schema !== "ilxyr.index.v1") throw new Error("Unsupported canonical index schema");
+  const index = validateCanonicalIndex(await fetchJson<unknown>(indexUrl));
 
   return index.experiments.map((entry) => ({
     txId: entry.bundle_tx,
@@ -179,9 +177,13 @@ export async function loadRegistry(): Promise<RegistryRecord[]> {
       continue;
     }
     if (existingIsCanonical && !recordIsCanonical) {
+      const sameIdentity = existing.txId === record.txId &&
+        existing.experimentId === record.experimentId && existing.evidenceRef === record.evidenceRef;
       unique.set(key, {
         ...existing,
-        files: existing.txId === record.txId && record.files.length ? record.files : existing.files,
+        files: sameIdentity && record.files.length ? record.files : existing.files,
+        manifestError: !sameIdentity && existing.txId === record.txId
+          ? "Gateway identity differs from canonical listing" : record.manifestError,
         blockHeight: existing.blockHeight || record.blockHeight,
         timestamp: existing.timestamp || record.timestamp,
       });
@@ -198,23 +200,18 @@ export async function loadRegistry(): Promise<RegistryRecord[]> {
 export async function hydrateRecord(record: RegistryRecord): Promise<RegistryRecord> {
   if (record.files.length) return record;
   try {
-    const manifest = await fetchJson<PublicationManifest>(arweaveUrl(record.txId));
+    const manifest = validateManifest(await fetchJson<unknown>(arweaveUrl(record.txId)));
     return {
       ...record,
-      experimentId: manifest.experiment_id || record.experimentId,
-      evidenceRef: manifest.evidence_ref || record.evidenceRef,
-      files: Array.isArray(manifest.files) ? manifest.files : [],
+      files: bindManifest(manifest, record.experimentId, record.evidenceRef),
+      manifestError: undefined,
     };
-  } catch {
-    return record;
+  } catch (error) {
+    return { ...record, manifestError: error instanceof Error ? error.message : "Manifest validation failed" };
   }
 }
 
 export async function verifyEvidenceFile(record: RegistryRecord, file: EvidenceFile) {
   const response = await fetch(arweaveUrl(record.txId, file.path));
-  if (!response.ok) throw new Error(`Could not retrieve ${file.path}`);
-  const bytes = await response.arrayBuffer();
-  const digest = await crypto.subtle.digest("SHA-256", bytes);
-  const actual = [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, "0")).join("");
-  return { verified: actual === file.sha256, actual };
+  return checkFileResponse(response, file);
 }
