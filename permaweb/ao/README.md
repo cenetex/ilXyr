@@ -13,13 +13,20 @@ Every change is an AO message signed by the sender's wallet.
 - `Forecast` rejects the proposer and permits one forecast per wallet.
 - `Fund` records one current compute-credit commitment per wallet.
 - `Publish-Evidence` is restricted to configured publisher authorities and cannot replace an
-  existing experiment identity.
+  existing experiment identity. It accepts canonical artifact references,
+  bounded index fields, and valid transaction IDs.
 - `Index-Snapshot` creates the next `ilxyr.index.v1` file; its request includes
-  `generated_at` and may include `ledger_head`.
+  an ISO UTC `generated_at` and may include an artifact-form `ledger_head`.
+  A current index transaction must be set first so the successor has an exact
+  `previous_index_tx`.
 - `Set-Index-Tx` advances the canonical index pointer by exactly one sequence.
 
 The dApp does not run experiments. The existing ilXyr control plane runs approved experiments. It
 then sends verified evidence through `Publish-Evidence`.
+
+The required permaweb test runs real AO handlers with a Lua 5.3 harness. It
+checks rejected messages and passes a successful snapshot to the same index
+validator used by the publication CLI.
 
 ## Deployment
 

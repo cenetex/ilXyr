@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
+import { execFileSync, spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
 import luaparse from "luaparse";
+import { validateIndex } from "../scripts/index-lib.mjs";
 
 const source = await readFile(new URL("../ao/ilxyr-registry.lua", import.meta.url), "utf8");
 
@@ -23,4 +26,14 @@ test("AO registry keeps published evidence immutable and emits complete index me
   assert.match(source, /if Evidence\[data\.experiment_id\] then return fail\(msg, "This experiment already has evidence\. It cannot be replaced"\) end/);
   assert.match(source, /generated_at = data\.generated_at/);
   assert.match(source, /if msg\.From ~= RegistryOwner then return fail\(msg, "Only the registry owner can make this change"\) end/);
+});
+
+test("AO transitions reject malformed entries and emit a validator-clean successor", () => {
+  const lua = ["lua5.3", "lua", "texlua"].find((name) => spawnSync(name, ["-v"], { encoding: "utf8" }).status === 0);
+  assert.ok(lua, "Lua 5.3 runtime is required for AO state-transition tests");
+  const harness = fileURLToPath(new URL("./ao-index-contract.lua", import.meta.url));
+  const processFile = fileURLToPath(new URL("../ao/ilxyr-registry.lua", import.meta.url));
+  const snapshots = JSON.parse(execFileSync(lua, [harness, processFile], { encoding: "utf8" }));
+  assert.equal(snapshots.length, 2);
+  for (const snapshot of snapshots) assert.deepEqual(validateIndex(snapshot), []);
 });
