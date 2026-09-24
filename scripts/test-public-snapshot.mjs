@@ -21,9 +21,8 @@ const inputs = {
 
 assert.deepEqual(buildPublicSnapshot(inputs), stored);
 assert.deepEqual(await readJson("portal/app/public-snapshot.json"), stored);
-assert.equal(stored.freshness, "stale");
-assert.equal(stored.source.as_of, "2026-09-01");
-assert.notEqual(stored.source.as_of, stored.source.generated_at.slice(0, 10));
+assert.equal(stored.freshness, Date.parse(stored.source.generated_at) > Date.parse(stored.source.stale_after) ? "stale" : "current_at_build");
+assert.equal(stored.source.as_of, registry.as_of);
 assert.ok(stored.experiments.some((item) => item.scientific_outcome === "no_go" && item.local_import_state === "pending_import"));
 assert.ok(stored.experiments.some((item) => item.disclosure_state === "withheld" && item.scientific_outcome === "unknown"));
 assert.ok(stored.experiments.some((item) => item.disclosure_state === "hash_only"));

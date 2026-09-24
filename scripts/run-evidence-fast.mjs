@@ -51,7 +51,6 @@ const additional = [
 ];
 
 const separateWorkflows = new Map([
-  ["test:pages", ".github/workflows/pages.yml"],
   ["test:aws-bootstrap-secret-hygiene", ".github/workflows/ci.yml"],
 ]);
 const orchestrators = new Set(["test:schemas", "test:evidence:fast"]);

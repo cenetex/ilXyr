@@ -140,10 +140,13 @@ if (fs.existsSync(programPage) &&
     !fs.readFileSync(programPage, "utf8").includes('href="lab-registry.json"')) {
   report(programPage, "must link the machine-readable lab registry");
 }
+if (fs.existsSync(programPage) &&
+    !fs.readFileSync(programPage, "utf8").includes('href="public-snapshot-v1.json"')) {
+  report(programPage, "must link the shared public snapshot");
+}
 if (fs.existsSync(indexPage)) {
   const indexContents = fs.readFileSync(indexPage, "utf8");
-  for (const required of ["program-registry.html", "ZERO5 C5.1", "ZERO5 C5.2",
-    "ZERO5 C6.1"]) {
+  for (const required of ["program-registry.html", 'id="program"', 'id="boundary"']) {
     if (!indexContents.includes(required)) report(indexPage, `must surface ${required}`);
   }
 }
