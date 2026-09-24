@@ -32,6 +32,7 @@ export type RegistrySourceHealth = {
   required: true;
   status: "complete" | "partial" | "unavailable";
   records: number;
+  scanned?: number;
   queriedAt: string;
   indexedAt?: string;
   continuation?: string;

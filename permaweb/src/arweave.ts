@@ -86,17 +86,19 @@ async function queryTransactions(queriedAt: string): Promise<{ nodes: Transactio
       if (!Array.isArray(connection?.edges) || typeof connection.pageInfo?.hasNextPage !== "boolean") {
         throw new Error("Gateway index omitted edges or pageInfo");
       }
+      const cursor = connection.pageInfo.hasNextPage ? connection.edges.at(-1)?.cursor : undefined;
+      if (connection.pageInfo.hasNextPage && (!cursor || cursors.has(cursor) || cursor === after)) {
+        throw new Error(cursor ? "Gateway index repeated a cursor" : "Gateway index omitted a continuation cursor");
+      }
       nodes.push(...connection.edges.map((edge) => edge.node));
+      health.scanned = nodes.length;
       health.records = nodes.length;
       health.indexedAt = indexedTime(nodes);
       if (!connection.pageInfo.hasNextPage) {
         health.status = "complete";
         return { nodes, health };
       }
-      const cursor = connection.edges.at(-1)?.cursor;
-      if (!cursor || cursors.has(cursor) || cursor === after) {
-        throw new Error(cursor ? "Gateway index repeated a cursor" : "Gateway index omitted a continuation cursor");
-      }
+      if (!cursor) throw new Error("Gateway index omitted a continuation cursor");
       cursors.add(cursor);
       after = cursor;
       health.continuation = cursor;
@@ -108,7 +110,7 @@ async function queryTransactions(queriedAt: string): Promise<{ nodes: Transactio
   }
   health.status = "partial";
   health.capReached = true;
-  health.error = `Gateway query stopped at ${MAX_GATEWAY_PAGES * GATEWAY_PAGE_SIZE} records`;
+  health.error = `Gateway query stopped at the ${MAX_GATEWAY_PAGES}-page cap`;
   return { nodes, health };
 }
 
@@ -306,8 +308,14 @@ export async function loadRegistry(): Promise<RegistryDiscovery> {
     if (existing.files.length === 0 && record.files.length > 0) unique.set(key, record);
   }
 
+  const byExperiment = new Map<string, RegistryRecord[]>();
+  for (const record of records) {
+    const group = byExperiment.get(record.experimentId) || [];
+    group.push(record);
+    byExperiment.set(record.experimentId, group);
+  }
   const result = [...unique.values()].map((record) => {
-    const observations = records.filter((item) => item.experimentId === record.experimentId);
+    const observations = byExperiment.get(record.experimentId) || [];
     const observedSources = [...new Set(observations.map((item) => item.source))];
     const identities = new Set(observations.map((item) =>
       `${item.txId}|${item.evidenceRef}|${item.outcome}`));

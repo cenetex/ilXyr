@@ -33,6 +33,23 @@ New evidence publication manifests should carry `Data-Protocol=ilxyr`, `Experime
 `Evidence-Ref`, and `ILXyr-Outcome` tags. Discovery always combines the protocol tag with the
 configured publisher addresses; the canonical index remains the listing view.
 
+## Discovery coverage
+
+`loadRegistry()` returns records, the underlying source observations, and health
+for the bundled or configured canonical index, the configured HTTPS gateway's
+`Data-Protocol=ilxyr` query, and every configured seed transaction. The gateway
+query follows cursors in pages of 100. It stops after 20 pages and reports a
+partial result with the continuation cursor. A failed page keeps earlier pages.
+Missing and repeated cursors also leave an explicit partial result.
+
+The page labels a count complete only when each configured source completed.
+It shows source errors, query time, index generation time or latest observed
+block time, and any continuation. This is completeness for those configured
+sources at query time. It is not a claim that all experiments exist in the
+index or that every Arweave gateway has indexed every publication. Conflicting
+bundle, evidence, or outcome claims remain visible with their source
+observations; a complete query does not verify a scientific claim.
+
 ## What the browser checks
 
 The record list shows a publisher-reported outcome. For a configured canonical
