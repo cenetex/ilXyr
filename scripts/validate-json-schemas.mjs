@@ -109,6 +109,7 @@ const fixtures = {
     "examples/schema/epoch-budget-probe-reserve.json",
   ],
   "evidence-bundle.schema.json": ["examples/schema/evidence-bundle.json"],
+  "evidence-ledger-proof.schema.json": [],
   "evidence-graph-edge.schema.json": [
     "examples/schema/evidence-graph-edge.json",
   ],

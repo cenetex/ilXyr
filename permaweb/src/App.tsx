@@ -1,7 +1,7 @@
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { connectWallet, readRegistryProcess, sendRegistryAction } from "./ao";
 import { arweaveUrl, config } from "./config";
-import { hydrateRecord, loadRegistry, verifyEvidenceFile } from "./arweave";
+import { hydrateRecord, loadRegistry, verifyEvidenceFile, verifyPublishedCoreProof } from "./arweave";
 import { recordTrust } from "./trust";
 import type { FileCheckState } from "./trust";
 import type { AoProposal, AoSnapshot, EvidenceFile, RegistryDiscovery, RegistryRecord } from "./types";
@@ -112,7 +112,25 @@ function FileRow({ record, file, state, onState }: {
 
 export function RecordDetail({ record, onClose }: { record: RegistryRecord; onClose: () => void }) {
   const [fileStates, setFileStates] = useState<Record<string, FileCheckState>>({});
+  const [coreProof, setCoreProof] = useState<"idle" | "checking" | "pass" | "fail">("idle");
+  const [coreProofMessage, setCoreProofMessage] = useState("");
+  useEffect(() => {
+    setCoreProof("idle");
+    setCoreProofMessage("");
+  }, [record.txId, record.experimentId, record.evidenceRef, record.outcome]);
   const trust = recordTrust(record, fileStates);
+  const hasCoreProof = record.files.some((file) => file.path === "core/evidence-ledger-proof.json");
+  const checkCoreProof = async () => {
+    setCoreProof("checking");
+    try {
+      const result = await verifyPublishedCoreProof(record);
+      setCoreProof("pass");
+      setCoreProofMessage(`${result.eventsChecked} linked events checked through ${short(result.ledgerHead)}. An independently retained head is needed for ledger binding.`);
+    } catch (error) {
+      setCoreProof("fail");
+      setCoreProofMessage(error instanceof Error ? error.message : "Core proof check failed");
+    }
+  };
   return (
     <div className="detail-backdrop" role="dialog" aria-modal="true" aria-label={`Evidence for ${record.title}`}>
       <div className="detail-sheet">
@@ -139,12 +157,14 @@ export function RecordDetail({ record, onClose }: { record: RegistryRecord; onCl
           <div><span>File retrieval</span><strong>{trust.fileRetrieval.replaceAll("_", " ")}</strong></div>
           <div><span>File byte integrity</span><strong>{trust.byteIntegrity.replaceAll("_", " ")}</strong></div>
           <div><span>ilXyr ledger binding</span><strong>Not checked</strong></div>
+          <div><span>Core event chain</span><strong>{coreProof === "pass" ? "Consistent with published proof" : coreProof === "fail" ? "Check failed" : "Not checked"}</strong></div>
           <div><span>Scientific disposition</span><strong>Not checked · {reportedOutcomeLabel(trust.reportedOutcome)}</strong></div>
         </div>
         <div className="file-heading"><div><p className="eyebrow">Evidence files</p><h3>{record.files.length} files</h3></div><p>Select Verify file. The app checks its byte count and SHA-256 hash.</p></div>
         {record.manifestError && <p className="empty-copy" role="alert">Publication manifest: {record.manifestError}</p>}
         {record.provenanceError && <p className="empty-copy" role="alert">Publisher provenance: {record.provenanceError}</p>}
         {record.identityConflicts?.map((conflict) => <p className="empty-copy" role="alert" key={conflict}>Source conflict: {conflict}</p>)}
+        {hasCoreProof && <div className="core-proof-check"><button className="verify-button" disabled={coreProof === "checking"} onClick={() => void checkCoreProof()}>{coreProof === "checking" ? "Checking core proof…" : "Check core event chain"}</button>{coreProofMessage && <p role={coreProof === "fail" ? "alert" : "status"}>{coreProofMessage}</p>}</div>}
         <div className="file-list">
           {record.files.length ? record.files.map((file) => <FileRow key={file.path} record={record} file={file} state={fileStates[file.path] || "idle"} onState={(state) => setFileStates((current) => ({ ...current, [file.path]: state }))} />) : <p className="empty-copy">This listing has no file list to check.</p>}
         </div>
