@@ -53,6 +53,39 @@ local function isTxId(value)
   return type(value) == "string" and #value == 43 and string.match(value, "^[%w_-]+$") ~= nil
 end
 
+local function isArtifactRef(value)
+  if type(value) ~= "string" then return false end
+  local digest = string.match(value, "^artifact://sha256/([0-9a-f]+)$")
+  return digest ~= nil and #digest == 64
+end
+
+local function isExperimentId(value)
+  return type(value) == "string" and #value >= 1 and #value <= 200 and
+    string.match(value, "^[%w][%w%._:/%-]*$") ~= nil
+end
+
+local function isOutcome(value)
+  return type(value) == "string" and #value >= 1 and #value <= 100 and
+    string.match(value, "^[%w][%w_-]*$") ~= nil
+end
+
+local function isIsoTime(value)
+  if type(value) ~= "string" or #value > 35 then return false end
+  local year, month, day, hour, minute, second = string.match(value,
+    "^(%d%d%d%d)%-(%d%d)%-(%d%d)T(%d%d):(%d%d):(%d%d)Z$")
+  if not year then
+    year, month, day, hour, minute, second = string.match(value,
+      "^(%d%d%d%d)%-(%d%d)%-(%d%d)T(%d%d):(%d%d):(%d%d)%.%d+Z$")
+  end
+  if not year then return false end
+  year, month, day = tonumber(year), tonumber(month), tonumber(day)
+  hour, minute, second = tonumber(hour), tonumber(minute), tonumber(second)
+  if month < 1 or month > 12 or hour > 23 or minute > 59 or second > 59 then return false end
+  local days = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
+  if month == 2 and year % 4 == 0 and (year % 100 ~= 0 or year % 400 == 0) then days[2] = 29 end
+  return day >= 1 and day <= days[month]
+end
+
 local function isSeeds(value)
   if type(value) ~= "table" or #value == 0 then return false end
   local seen = {}
@@ -298,7 +331,10 @@ Handlers.add("ilxyr.publish-evidence", Handlers.utils.hasMatchingTag("Action", "
   if not Publishers[msg.From] then return fail(msg, "Only an approved publisher can add evidence") end
   local data, err = decode(msg)
   if err then return fail(msg, err) end
-  if not isString(data.experiment_id) or not isTxId(data.bundle_tx) or not isString(data.evidence_ref) or not isString(data.outcome) then
+  if not isExperimentId(data.experiment_id) or not isTxId(data.bundle_tx) or not isArtifactRef(data.evidence_ref) or
+      not isOutcome(data.outcome) or not isTxId(msg.From) or
+      (data.title ~= nil and (not isString(data.title) or #data.title > 500)) or
+      (data.family ~= nil and (not isString(data.family) or #data.family > 100)) then
     return fail(msg, "Experiment identity, bundle transaction, evidence reference, and outcome are required")
   end
   if Evidence[data.experiment_id] then return fail(msg, "This experiment already has evidence. It cannot be replaced") end
@@ -341,7 +377,11 @@ end)
 Handlers.add("ilxyr.index-snapshot", Handlers.utils.hasMatchingTag("Action", "Index-Snapshot"), function(msg)
   local data, err = decode(msg)
   if err then return fail(msg, err) end
-  if not isString(data.generated_at) then return fail(msg, "A generated_at timestamp is required") end
+  if not isTxId(LatestIndexTx) then return fail(msg, "Set the current index transaction before a successor snapshot") end
+  if not isIsoTime(data.generated_at) then return fail(msg, "A valid generated_at timestamp is required") end
+  if data.ledger_head ~= nil and data.ledger_head ~= "" and not isArtifactRef(data.ledger_head) then
+    return fail(msg, "Ledger head must be an artifact SHA-256 reference")
+  end
   local entries = {}
   local keys = {}
   for experimentId, _ in pairs(Evidence) do table.insert(keys, experimentId) end
