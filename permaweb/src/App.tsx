@@ -2,10 +2,11 @@ import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { connectWallet, readRegistryProcess, sendRegistryAction } from "./ao";
 import { arweaveUrl, config } from "./config";
 import { hydrateRecord, loadRegistry, verifyEvidenceFile } from "./arweave";
+import { recordTrust } from "./trust";
+import type { FileCheckState } from "./trust";
 import type { AoProposal, AoSnapshot, EvidenceFile, RegistryRecord } from "./types";
 
 type View = "registry" | "submit" | "index";
-type FileState = "idle" | "checking" | "verified" | "failed";
 
 const proposalInitial = {
   title: "",
@@ -32,6 +33,10 @@ function outcomeLabel(value: string) {
   return value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
+function reportedOutcomeLabel(value: string) {
+  return `Reported ${outcomeLabel(value)}`;
+}
+
 function outcomeTone(value: string) {
   if (value === "go" || value === "accepted") return "go";
   if (value.includes("failure") || value.includes("no_go") || value === "rejected") return "no-go";
@@ -53,16 +58,19 @@ function downloadJson(filename: string, value: unknown) {
   URL.revokeObjectURL(url);
 }
 
-function FileRow({ record, file }: { record: RegistryRecord; file: EvidenceFile }) {
-  const [state, setState] = useState<FileState>("idle");
-
+function FileRow({ record, file, state, onState }: {
+  record: RegistryRecord;
+  file: EvidenceFile;
+  state: FileCheckState;
+  onState: (state: FileCheckState) => void;
+}) {
   const verify = async () => {
-    setState("checking");
+    onState("checking");
     try {
       const result = await verifyEvidenceFile(record, file);
-      setState(result.verified ? "verified" : "failed");
+      onState(result.verified ? "verified" : "hash_failed");
     } catch {
-      setState("failed");
+      onState("fetch_failed");
     }
   };
 
@@ -76,19 +84,22 @@ function FileRow({ record, file }: { record: RegistryRecord; file: EvidenceFile 
       <button className={`verify-button ${state}`} onClick={verify} disabled={state === "checking"}>
         {state === "idle" && "Verify file"}
         {state === "checking" && "Checking file…"}
-        {state === "verified" && "✓ Verified"}
-        {state === "failed" && "! Hash mismatch"}
+        {state === "verified" && "✓ Hash matches"}
+        {state === "hash_failed" && "! Hash mismatch"}
+        {state === "fetch_failed" && "! Could not retrieve"}
       </button>
     </div>
   );
 }
 
 function RecordDetail({ record, onClose }: { record: RegistryRecord; onClose: () => void }) {
+  const [fileStates, setFileStates] = useState<Record<string, FileCheckState>>({});
+  const trust = recordTrust(record, fileStates);
   return (
     <div className="detail-backdrop" role="dialog" aria-modal="true" aria-label={`Evidence for ${record.title}`}>
       <div className="detail-sheet">
         <div className="detail-toolbar">
-          <div><span className={`outcome-chip ${outcomeTone(record.outcome)}`}>{outcomeLabel(record.outcome)}</span><span>{record.trusted ? "Approved publisher" : "Publisher not approved"}</span></div>
+          <div><span className={`outcome-chip ${outcomeTone(record.outcome)}`}>{reportedOutcomeLabel(record.outcome)}</span><span>{record.publisherListed ? "Publisher address on list" : "Publisher address outside list"}</span></div>
           <button onClick={onClose} aria-label="Close evidence detail">×</button>
         </div>
         <div className="detail-hero">
@@ -101,10 +112,16 @@ function RecordDetail({ record, onClose }: { record: RegistryRecord; onClose: ()
           <div><span>Evidence reference</span><strong>{record.evidenceRef || "Not declared"}</strong></div>
           <div><span>Publisher</span><strong>{record.owner}</strong></div>
           <div><span>Listed by</span><strong>{record.source.replaceAll("-", " ")}</strong></div>
+          <div><span>Listing retrieved</span><strong>{trust.listing === "pass" ? "Yes" : "Unknown"}</strong></div>
+          <div><span>Publisher authentication</span><strong>Not checked</strong></div>
+          <div><span>File retrieval</span><strong>{trust.fileRetrieval.replaceAll("_", " ")}</strong></div>
+          <div><span>File SHA-256 integrity</span><strong>{trust.byteIntegrity.replaceAll("_", " ")}</strong></div>
+          <div><span>ilXyr ledger binding</span><strong>Not checked</strong></div>
+          <div><span>Scientific disposition</span><strong>Not checked · {reportedOutcomeLabel(trust.reportedOutcome)}</strong></div>
         </div>
         <div className="file-heading"><div><p className="eyebrow">Evidence files</p><h3>{record.files.length} files</h3></div><p>Select Verify file. The app downloads that file and checks its SHA-256 hash.</p></div>
         <div className="file-list">
-          {record.files.length ? record.files.map((file) => <FileRow key={file.path} record={record} file={file} />) : <p className="empty-copy">This transaction does not include a file list.</p>}
+          {record.files.length ? record.files.map((file) => <FileRow key={file.path} record={record} file={file} state={fileStates[file.path] || "idle"} onState={(state) => setFileStates((current) => ({ ...current, [file.path]: state }))} />) : <p className="empty-copy">This listing has no file list to check.</p>}
         </div>
       </div>
     </div>
@@ -288,16 +305,16 @@ export default function App() {
         <main>
           <section className="hero">
             <div className="hero-copy"><p className="eyebrow">Permanent experiment registry</p><h1>Find and verify <em>experiment evidence.</em></h1><p>View experiment plans, forecasts, run records, and failed results. Check each publisher and file hash.</p><div><button className="primary-button" onClick={() => setView("submit")}>Submit an experiment <span>↗</span></button><a className="text-button" href="#registry">Browse evidence <span>↓</span></a></div></div>
-            <div className="perma-card"><div className="perma-head"><span>Storage network</span><span className="live">Arweave</span></div><div className="perma-mark"><strong>{loading ? "…" : records.length}</strong><span>permanent experiment {records.length === 1 ? "record" : "records"}</span></div><div className="perma-rule"><span /></div><dl><div><dt>Approved publishers</dt><dd>{config.publishers.length}</dd></div><div><dt>Files in the index</dt><dd>{records.reduce((sum, record) => sum + record.files.length, 0)}</dd></div><div><dt>Stored data</dt><dd>{Math.max(1, Math.round(totalBytes / 1024))} KiB</dd></div></dl><p>The index helps you find records. Check the publisher and file hashes before you trust them.</p></div>
+            <div className="perma-card"><div className="perma-head"><span>Storage network</span><span className="live">Arweave</span></div><div className="perma-mark"><strong>{loading ? "…" : records.length}</strong><span>permanent experiment {records.length === 1 ? "record" : "records"}</span></div><div className="perma-rule"><span /></div><dl><div><dt>Listed publisher addresses</dt><dd>{config.publishers.length}</dd></div><div><dt>Files in the index</dt><dd>{records.reduce((sum, record) => sum + record.files.length, 0)}</dd></div><div><dt>Stored data</dt><dd>{Math.max(1, Math.round(totalBytes / 1024))} KiB</dd></div></dl><p>The index helps you find records. Open one to see each available check and its status.</p></div>
           </section>
 
-          <section className="trust-band"><span>Data stored on Arweave</span><i>→</i><span>Publisher address</span><i>→</i><span>SHA-256 file hashes</span><i>→</i><span>ilXyr ledger check</span></section>
+          <section className="trust-band"><span>Separate checks</span><i>·</i><span>Publisher address list</span><i>·</i><span>File SHA-256 on request</span><i>·</i><span>Ledger binding not checked</span></section>
 
           <section className="registry-section" id="registry">
             <div className="section-heading"><div><p className="eyebrow">Experiment evidence</p><h2>Results stay available, including failed runs.</h2></div><label className="search-field"><span>⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by experiment, result, or hash" /></label></div>
             <div className="record-list">
               {loading && [0, 1, 2].map((item) => <div className="record-row loading" key={item} />)}
-              {!loading && filtered.map((record, index) => <button className="record-row" onClick={() => void openRecord(record)} key={record.txId}><span className="record-number">{String(index + 1).padStart(2, "0")}</span><div className="record-title"><span className={`outcome-chip ${outcomeTone(record.outcome)}`}>{outcomeLabel(record.outcome)}</span><h3>{record.title}</h3><p>{record.experimentId}</p></div><div className="record-evidence"><span>Evidence ref</span><code>{record.evidenceRef ? short(record.evidenceRef, 22, 12) : "—"}</code></div><div className="record-trust"><span className={record.trusted ? "trusted" : "untrusted"}>{record.trusted ? "✓ publisher" : "! unknown"}</span><strong>{record.files.length} files</strong></div><span className="row-arrow">↗</span></button>)}
+              {!loading && filtered.map((record, index) => <button className="record-row" onClick={() => void openRecord(record)} key={record.txId}><span className="record-number">{String(index + 1).padStart(2, "0")}</span><div className="record-title"><span className={`outcome-chip ${outcomeTone(record.outcome)}`}>{reportedOutcomeLabel(record.outcome)}</span><h3>{record.title}</h3><p>{record.experimentId}</p></div><div className="record-evidence"><span>Evidence ref</span><code>{record.evidenceRef ? short(record.evidenceRef, 22, 12) : "—"}</code></div><div className="record-trust"><span className={record.publisherListed ? "listed" : "unlisted"}>{record.publisherListed ? "Address on list" : "Address outside list"}</span><strong>{record.files.length} files</strong></div><span className="row-arrow">↗</span></button>)}
               {!loading && filtered.length === 0 && <p className="empty-copy">No permanent records match this search.</p>}
             </div>
           </section>
@@ -327,7 +344,7 @@ export default function App() {
 
       {view === "index" && (
         <main className="inner-page index-page">
-          <section className="page-intro"><div><p className="eyebrow">Experiment index</p><h1>How the index works.</h1></div><p>The index helps you find records. It is not proof. Check the publisher, file hashes, and ilXyr ledger before you trust a record.</p></section>
+          <section className="page-intro"><div><p className="eyebrow">Experiment index</p><h1>How the index works.</h1></div><p>The index lists publisher claims. The detail view shows the address list and each file hash check. Ledger binding and scientific review are marked as not checked here.</p></section>
           <section className="index-stack">
             <div className="index-layer"><span>01</span><div><p className="eyebrow">Gateway search</p><h2>Find records</h2><p>GraphQL searches by approved publisher address and ilXyr tags. You can use a different gateway.</p></div><code>{config.gateway}/graphql</code></div>
             <div className="index-layer"><span>02</span><div><p className="eyebrow">Index versions</p><h2>Save the current list</h2><p>Each `ilxyr.index.v1` file points to the previous index file and lists exact evidence transactions.</p></div><code>{config.indexTx || "INDEX_TX_NOT_YET_PUBLISHED"}</code></div>
@@ -343,11 +360,11 @@ export default function App() {
     { "experiment_id": "…", "bundle_tx": "…" }
   ]
 }`}</pre></section>
-          <section className="publisher-table"><p className="eyebrow">Approved publishers</p>{config.publishers.map((publisher) => <div key={publisher}><span className="trusted">✓ approved</span><code>{publisher}</code><a href={`${config.gateway}/wallet/${publisher}/balance`} target="_blank" rel="noreferrer">View wallet ↗</a></div>)}</section>
+          <section className="publisher-table"><p className="eyebrow">Listed publisher addresses</p>{config.publishers.map((publisher) => <div key={publisher}><span className="listed">On list</span><code>{publisher}</code><a href={`${config.gateway}/wallet/${publisher}/balance`} target="_blank" rel="noreferrer">View wallet ↗</a></div>)}</section>
         </main>
       )}
 
-      {selectedRecord && <RecordDetail record={selectedRecord} onClose={() => setSelectedRecord(null)} />}
+      {selectedRecord && <RecordDetail key={selectedRecord.txId} record={selectedRecord} onClose={() => setSelectedRecord(null)} />}
       <footer><div><span className="footer-mark">iX</span><p><strong>ilXyr</strong><br />Review, fund, and verify experiments.</p></div><p>Permanent records · Changeable gateways · Verifiable file hashes</p><a href="https://github.com/cenetex/ilXyr" target="_blank" rel="noreferrer">View source code ↗</a></footer>
     </div>
   );
