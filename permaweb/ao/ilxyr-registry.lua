@@ -2,8 +2,8 @@ local json = require("json")
 
 RegistryOwner = RegistryOwner or Owner or (ao.env and ao.env.Process and ao.env.Process.Owner)
 assert(type(RegistryOwner) == "string" and #RegistryOwner == 43, "AO process owner is unavailable")
-RegistrySchema = "ilxyr.registry-state.v1"
-RegistryVersion = 1
+RegistrySchema = "ilxyr.registry-state.v2"
+RegistryVersion = 2
 Sequence = Sequence or 0
 LatestIndexTx = LatestIndexTx or nil
 Publishers = Publishers or { [RegistryOwner] = true }
@@ -111,8 +111,10 @@ local function reviewStats(proposal)
   local independent = 0
   local blocking = 0
   for _, review in pairs(proposal.reviews or {}) do
-    if review.reviewer ~= proposal.owner then independent = independent + 1 end
-    if review.severity == "blocking" and not review.resolved then blocking = blocking + 1 end
+    if isTxId(proposal.revision_message_id) and review.proposal_ref == proposal.revision_message_id then
+      if review.reviewer ~= proposal.owner then independent = independent + 1 end
+      if review.severity == "blocking" then blocking = blocking + 1 end
+    end
   end
   return independent, blocking
 end
@@ -120,6 +122,7 @@ end
 local function readiness(proposal)
   local independent, blocking = reviewStats(proposal)
   local checks = {
+    { label = "Current revision recorded", pass = type(proposal.revision) == "number" and proposal.revision >= 1 and isTxId(proposal.revision_message_id) },
     { label = "Testable hypothesis", pass = isString(proposal.hypothesis, 24) },
     { label = "Baseline selected", pass = isHandle(proposal.baseline) },
     { label = "Dataset selected", pass = isHandle(proposal.dataset) },
@@ -148,6 +151,40 @@ local function proposalView(proposal)
   return result
 end
 
+local contractFields = {
+  "title", "summary", "hypothesis", "family", "baseline", "dataset", "metric",
+  "threshold", "seeds", "compute_credits", "evidence_level", "export_policy", "novelty"
+}
+
+local function contractError(data)
+  if not isString(data.title) or not isString(data.summary) or not isString(data.hypothesis, 24) then
+    return "Title, summary, and a testable hypothesis are required"
+  end
+  if data.family ~= "zero" and data.family ~= "solomon" then return "Unknown model family" end
+  if not isHandle(data.baseline) or not isHandle(data.dataset) then return "Baseline and dataset must be portable handles" end
+  if not isString(data.metric) or type(data.threshold) ~= "number" then return "A numeric outcome threshold is required" end
+  if not isSeeds(data.seeds) then return "At least one unique non-negative seed is required" end
+  if type(data.compute_credits) ~= "number" or data.compute_credits <= 0 or data.compute_credits ~= math.floor(data.compute_credits) then
+    return "Compute credits must be a positive integer"
+  end
+  if not isString(data.evidence_level) or not isString(data.export_policy) or not isString(data.novelty) then
+    return "Evidence, export, and novelty declarations are required"
+  end
+  return nil
+end
+
+local function contractValues(data)
+  local result = {}
+  for _, field in ipairs(contractFields) do result[field] = data[field] end
+  return result
+end
+
+local function sameSeeds(left, right)
+  if #left ~= #right then return false end
+  for index, seed in ipairs(left) do if right[index] ~= seed then return false end end
+  return true
+end
+
 local function stateView()
   local proposals = {}
   local ids = {}
@@ -157,6 +194,7 @@ local function stateView()
 
   return {
     schema = RegistrySchema,
+    version = RegistryVersion,
     process_id = ao.id,
     owner = RegistryOwner,
     sequence = Sequence,
@@ -192,44 +230,25 @@ end)
 Handlers.add("ilxyr.propose", Handlers.utils.hasMatchingTag("Action", "Propose"), function(msg)
   local data, err = decode(msg)
   if err then return fail(msg, err) end
-  if not isString(data.title) or not isString(data.summary) or not isString(data.hypothesis, 24) then
-    return fail(msg, "Title, summary, and a testable hypothesis are required")
-  end
-  if data.family ~= "zero" and data.family ~= "solomon" then return fail(msg, "Unknown model family") end
-  if not isHandle(data.baseline) or not isHandle(data.dataset) then return fail(msg, "Baseline and dataset must be portable handles") end
-  if not isString(data.metric) or type(data.threshold) ~= "number" then return fail(msg, "A numeric outcome threshold is required") end
-  if not isSeeds(data.seeds) then return fail(msg, "At least one unique non-negative seed is required") end
-  if type(data.compute_credits) ~= "number" or data.compute_credits <= 0 or data.compute_credits ~= math.floor(data.compute_credits) then
-    return fail(msg, "Compute credits must be a positive integer")
-  end
-  if not isString(data.evidence_level) or not isString(data.export_policy) or not isString(data.novelty) then
-    return fail(msg, "Evidence, export, and novelty declarations are required")
-  end
+  local invalid = contractError(data)
+  if invalid then return fail(msg, invalid) end
 
   local id = "PROP-" .. string.upper(string.sub(msg.Id, 1, 12))
   if Proposals[id] then return fail(msg, "Proposal already exists") end
   Proposals[id] = {
     id = id,
     owner = msg.From,
-    title = data.title,
-    summary = data.summary,
-    hypothesis = data.hypothesis,
-    family = data.family,
-    baseline = data.baseline,
-    dataset = data.dataset,
-    metric = data.metric,
-    threshold = data.threshold,
-    seeds = data.seeds,
-    compute_credits = data.compute_credits,
-    evidence_level = data.evidence_level,
-    export_policy = data.export_policy,
-    novelty = data.novelty,
+    revision = 1,
+    revision_message_id = msg.Id,
+    predecessor_ref = nil,
+    revisions = { { revision = 1, message_id = msg.Id, created_at = now(msg) } },
     status = "review",
     created_at = now(msg),
     reviews = {},
     forecasts = {},
     funding = {}
   }
+  for field, value in pairs(contractValues(data)) do Proposals[id][field] = value end
   reply(msg, "Propose-Result", { proposal = proposalView(Proposals[id]) })
 end)
 
@@ -240,6 +259,9 @@ Handlers.add("ilxyr.review", Handlers.utils.hasMatchingTag("Action", "Review"), 
   if not proposal then return fail(msg, "Proposal not found") end
   if proposal.status ~= "review" then return fail(msg, "This proposal is locked. You cannot add a review") end
   if msg.From == proposal.owner then return fail(msg, "A proposer cannot review their own contract") end
+  if data.revision ~= proposal.revision or data.proposal_ref ~= proposal.revision_message_id then
+    return fail(msg, "Review must bind the current proposal revision and message")
+  end
   local severities = { advisory = true, blocking = true, endorsement = true }
   if not severities[data.severity] or not isString(data.category) or not isString(data.comment) then
     return fail(msg, "Category, severity, and feedback are required")
@@ -248,11 +270,12 @@ Handlers.add("ilxyr.review", Handlers.utils.hasMatchingTag("Action", "Review"), 
   proposal.reviews[id] = {
     id = id,
     reviewer = msg.From,
+    message_id = msg.Id,
+    revision = proposal.revision,
+    proposal_ref = proposal.revision_message_id,
     category = data.category,
     severity = data.severity,
     comment = data.comment,
-    addressed = false,
-    resolved = false,
     created_at = now(msg)
   }
   reply(msg, "Review-Result", { proposal = proposalView(proposal), review_id = id })
@@ -264,10 +287,35 @@ Handlers.add("ilxyr.address-review", Handlers.utils.hasMatchingTag("Action", "Ad
   local proposal = Proposals[data.proposal_id]
   local review = proposal and proposal.reviews[data.review_id]
   if not review then return fail(msg, "Review not found") end
-  if msg.From ~= proposal.owner then return fail(msg, "Only the proposer can mark feedback addressed") end
+  if msg.From ~= proposal.owner then return fail(msg, "Only the proposer can revise this proposal") end
   if proposal.status ~= "review" then return fail(msg, "This proposal is locked") end
-  review.addressed = true
-  review.response = data.response or "Addressed in the current draft"
+  if review.proposal_ref ~= proposal.revision_message_id or review.revision ~= proposal.revision then
+    return fail(msg, "Review must bind the current proposal revision")
+  end
+  if data.revision ~= proposal.revision + 1 or data.predecessor_ref ~= proposal.revision_message_id then
+    return fail(msg, "Successor must advance one revision and bind the exact predecessor")
+  end
+  if not isString(data.response) then return fail(msg, "A revision response is required") end
+  local nextContract = data.contract
+  if type(nextContract) ~= "table" then return fail(msg, "A complete revised contract is required") end
+  local invalid = contractError(nextContract)
+  if invalid then return fail(msg, invalid) end
+  local changed = false
+  for _, field in ipairs(contractFields) do
+    local nextValue = nextContract[field]
+    if field == "seeds" then
+      if not sameSeeds(proposal.seeds, nextValue) then changed = true end
+    elseif proposal[field] ~= nextValue then changed = true end
+  end
+  if not changed then return fail(msg, "The successor must change the contract") end
+  for field, value in pairs(contractValues(nextContract)) do proposal[field] = value end
+  proposal.revision = data.revision
+  proposal.predecessor_ref = data.predecessor_ref
+  proposal.revision_message_id = msg.Id
+  table.insert(proposal.revisions, {
+    revision = data.revision, message_id = msg.Id, predecessor_ref = data.predecessor_ref,
+    addressed_review_id = review.id, response = data.response, created_at = now(msg)
+  })
   reply(msg, "Address-Review-Result", { proposal = proposalView(proposal) })
 end)
 
@@ -278,10 +326,16 @@ Handlers.add("ilxyr.resolve-review", Handlers.utils.hasMatchingTag("Action", "Re
   local review = proposal and proposal.reviews[data.review_id]
   if not review then return fail(msg, "Review not found") end
   if msg.From ~= review.reviewer then return fail(msg, "Only the original reviewer can resolve this feedback") end
-  if review.severity == "blocking" and not review.addressed then return fail(msg, "Blocking feedback must be addressed before resolution") end
   if proposal.status ~= "review" then return fail(msg, "This proposal is locked") end
-  review.resolved = true
-  review.resolved_at = now(msg)
+  if proposal.revision <= review.revision then return fail(msg, "A successor revision is required before resolution") end
+  local addressed = false
+  for _, revision in ipairs(proposal.revisions) do
+    if revision.addressed_review_id == review.id then addressed = true end
+  end
+  if not addressed then return fail(msg, "This review has no linked successor revision") end
+  proposal.resolutions = proposal.resolutions or {}
+  if proposal.resolutions[review.id] then return fail(msg, "Review already acknowledged") end
+  proposal.resolutions[review.id] = { review_id = review.id, reviewer = msg.From, message_id = msg.Id, created_at = now(msg) }
   reply(msg, "Resolve-Review-Result", { proposal = proposalView(proposal) })
 end)
 
@@ -297,6 +351,14 @@ Handlers.add("ilxyr.promote", Handlers.utils.hasMatchingTag("Action", "Promote")
   proposal.status = "candidate"
   proposal.frozen_at = now(msg)
   proposal.frozen_by_message = msg.Id
+  proposal.frozen_proposal_ref = proposal.revision_message_id
+  proposal.frozen_review_refs = {}
+  for _, review in pairs(proposal.reviews) do
+    if review.proposal_ref == proposal.revision_message_id then
+      table.insert(proposal.frozen_review_refs, review.message_id)
+    end
+  end
+  table.sort(proposal.frozen_review_refs)
   reply(msg, "Promote-Result", { proposal = proposalView(proposal) })
 end)
 
