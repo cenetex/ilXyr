@@ -1,3 +1,5 @@
+import { publicationUrl } from "./publication";
+
 const DEFAULT_PUBLISHERS = [
   "I5Z-EnOhkasZjtaMu9IbSVK3duWSecQpZ0lnKFEjjRg",
   "CYVtYCPST9t7ziybtEpHSxncOEgCiofFatuiHcTFSjA",
@@ -29,6 +31,5 @@ export const config = {
 };
 
 export function arweaveUrl(txId: string, path = "") {
-  const suffix = path ? `/${path.split("/").map(encodeURIComponent).join("/")}` : "";
-  return `${config.gateway}/${txId}${suffix}`;
+  return publicationUrl(config.gateway, txId, path);
 }

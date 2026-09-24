@@ -26,6 +26,12 @@ test("a changed file and a failed fetch retain distinct states", () => {
   const unavailable = recordTrust(record, { "result.json": "verified", "receipt.json": "fetch_failed" });
   assert.equal(unavailable.fileRetrieval, "fail");
   assert.equal(unavailable.byteIntegrity, "not_checked");
+  const wrongSize = recordTrust(record, { "result.json": "verified", "receipt.json": "size_failed" });
+  assert.equal(wrongSize.fileRetrieval, "pass");
+  assert.equal(wrongSize.byteIntegrity, "fail");
+  const tooLarge = recordTrust(record, { "result.json": "verified", "receipt.json": "limit_failed" });
+  assert.equal(tooLarge.fileRetrieval, "fail");
+  assert.equal(tooLarge.byteIntegrity, "not_checked");
 });
 
 test("complete hash checks pass while absent files and unlisted addresses stay explicit", () => {

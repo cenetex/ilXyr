@@ -44,6 +44,15 @@ file. A retrieval error and a hash mismatch have different states. Existing reco
 the corresponding verification path exists. A reported `no_go` remains visible as a reported
 result, including when its provenance later verifies.
 
+The browser and `bundle:verify` accept `ilxyr.publication-manifest.v1` and the
+published `lecore.qwen35-publication-manifest.v1` file format. Both check
+manifest fields, transaction paths, file sizes and SHA-256 hashes. Manifest
+reads stop at 1 MiB; each evidence file stops at 64 MiB even when the server
+omits a length header. A malformed manifest stays visible as an explicit
+record error. A manifest with a different experiment or evidence reference
+cannot replace the registry listing's identity. Legacy ledger-verification
+fields remain publisher reports until the core-to-AO proof is checked.
+
 ## Build and verify
 
 ```bash

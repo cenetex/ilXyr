@@ -213,7 +213,7 @@ header nav button:hover, header nav button.active { background: rgba(24, 35, 29,
 .file-row code { color: var(--muted); font-size: 8px; }
 .verify-button { background: var(--cream); border: 1px solid var(--line); font-size: 8px; font-weight: 800; min-height: 31px; text-transform: uppercase; }
 .verify-button.verified { background: #e5f5c7; color: #28613b; }
-.verify-button.hash_failed, .verify-button.fetch_failed { background: #f3dbd4; color: #8d2f1d; }
+.verify-button.hash_failed, .verify-button.size_failed, .verify-button.limit_failed, .verify-button.fetch_failed { background: #f3dbd4; color: #8d2f1d; }
 
 footer { align-items: center; background: var(--ink); color: var(--white); display: grid; gap: 30px; grid-template-columns: 1fr auto 1fr; min-height: 148px; padding: 33px max(42px,calc((100vw - 1356px)/2)); }
 footer > div { align-items: center; display: flex; gap: 12px; }
