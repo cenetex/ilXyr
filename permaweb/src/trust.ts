@@ -28,7 +28,7 @@ export function recordTrust(record: RegistryRecord, files: Record<string, FileCh
       : states.every((state) => state === "verified") ? "pass"
         : "not_checked";
   return {
-    listing: "pass",
+    listing: record.identityConflicts?.length ? "fail" : "pass",
     fileRetrieval,
     byteIntegrity,
     publisherAllowlist: record.publisherAuthentication === "pass"

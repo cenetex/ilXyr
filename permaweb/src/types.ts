@@ -23,6 +23,30 @@ export type RegistryRecord = {
   files: EvidenceFile[];
   manifestError?: string;
   source: "canonical-index" | "gateway" | "seed" | "ao";
+  observedSources?: ("canonical-index" | "gateway" | "seed" | "ao")[];
+  identityConflicts?: string[];
+};
+
+export type RegistrySourceHealth = {
+  id: string;
+  required: true;
+  status: "complete" | "partial" | "unavailable";
+  records: number;
+  scanned?: number;
+  queriedAt: string;
+  indexedAt?: string;
+  continuation?: string;
+  capReached?: boolean;
+  error?: string;
+};
+
+export type RegistryDiscovery = {
+  scope: "configured-index-gateway-and-seeds";
+  status: "complete" | "partial" | "unavailable" | "empty";
+  records: RegistryRecord[];
+  observations: RegistryRecord[];
+  sources: RegistrySourceHealth[];
+  queriedAt: string;
 };
 
 export type ReadinessCheck = {

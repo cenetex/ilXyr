@@ -1,5 +1,5 @@
 import { arweaveUrl, config } from "./config";
-import type { EvidenceFile, RegistryRecord } from "./types";
+import type { EvidenceFile, RegistryDiscovery, RegistryRecord, RegistrySourceHealth } from "./types";
 import { bindManifest, checkFileResponse, MAX_MANIFEST_BYTES, readBounded, validateCanonicalIndex, validateManifest, validTxId } from "./publication";
 
 type TransactionNode = {
@@ -8,6 +8,18 @@ type TransactionNode = {
   tags: { name: string; value: string }[];
   block: { height: number; timestamp: number } | null;
 };
+
+const GATEWAY_PAGE_SIZE = 100;
+export const MAX_GATEWAY_PAGES = 20;
+
+function indexedTime(nodes: TransactionNode[]) {
+  const latest = Math.max(0, ...nodes.map((node) => node.block?.timestamp || 0));
+  return latest > 0 ? new Date(latest * 1000).toISOString() : undefined;
+}
+
+function message(error: unknown) {
+  return error instanceof Error ? error.message : String(error);
+}
 
 function tagMap(tags: TransactionNode["tags"]) {
   return new Map(tags.map((tag) => [tag.name.toLowerCase(), tag.value]));
@@ -27,17 +39,20 @@ async function fetchJson<T>(url: string): Promise<T> {
   return JSON.parse(new TextDecoder().decode(bytes)) as T;
 }
 
-async function queryTransactions(): Promise<TransactionNode[]> {
+async function queryTransactions(queriedAt: string): Promise<{ nodes: TransactionNode[]; health: RegistrySourceHealth }> {
   const withOwners = config.publishers.length > 0;
   const query = `
-    query IlxyrRecords(${withOwners ? "$owners: [String!]!, " : ""}$first: Int!) {
+    query IlxyrRecords(${withOwners ? "$owners: [String!]!, " : ""}$first: Int!, $after: String) {
       transactions(
         ${withOwners ? "owners: $owners," : ""}
         tags: [{ name: "Data-Protocol", values: ["ilxyr"] }],
         first: $first,
+        after: $after,
         sort: HEIGHT_DESC
       ) {
+        pageInfo { hasNextPage }
         edges {
+          cursor
           node {
             id
             owner { address }
@@ -48,21 +63,55 @@ async function queryTransactions(): Promise<TransactionNode[]> {
       }
     }
   `;
-  const response = await fetch(`${config.gateway}/graphql`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      query,
-      variables: { ...(withOwners ? { owners: config.publishers } : {}), first: 100 },
-    }),
-  });
-  if (!response.ok) throw new Error(`Gateway index returned ${response.status}`);
-  const payload = (await response.json()) as {
-    data?: { transactions?: { edges: { node: TransactionNode }[] } };
-    errors?: { message: string }[];
-  };
-  if (payload.errors?.length) throw new Error(payload.errors[0].message);
-  return payload.data?.transactions?.edges.map((edge) => edge.node) || [];
+  const nodes: TransactionNode[] = [];
+  const cursors = new Set<string>();
+  let after: string | undefined;
+  const health: RegistrySourceHealth = { id: "gateway", required: true, status: "unavailable", records: 0, queriedAt };
+  for (let page = 0; page < MAX_GATEWAY_PAGES; page++) {
+    try {
+      const response = await fetch(`${config.gateway}/graphql`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ query, variables: {
+          ...(withOwners ? { owners: config.publishers } : {}), first: GATEWAY_PAGE_SIZE, after: after || null,
+        } }),
+      });
+      if (!response.ok) throw new Error(`Gateway index returned ${response.status}`);
+      const payload = (await response.json()) as {
+        data?: { transactions?: { pageInfo?: { hasNextPage?: boolean }; edges?: { cursor?: string; node: TransactionNode }[] } };
+        errors?: { message: string }[];
+      };
+      if (payload.errors?.length) throw new Error(payload.errors[0].message);
+      const connection = payload.data?.transactions;
+      if (!Array.isArray(connection?.edges) || typeof connection.pageInfo?.hasNextPage !== "boolean") {
+        throw new Error("Gateway index omitted edges or pageInfo");
+      }
+      const cursor = connection.pageInfo.hasNextPage ? connection.edges.at(-1)?.cursor : undefined;
+      if (connection.pageInfo.hasNextPage && (!cursor || cursors.has(cursor) || cursor === after)) {
+        throw new Error(cursor ? "Gateway index repeated a cursor" : "Gateway index omitted a continuation cursor");
+      }
+      nodes.push(...connection.edges.map((edge) => edge.node));
+      health.scanned = nodes.length;
+      health.records = nodes.length;
+      health.indexedAt = indexedTime(nodes);
+      if (!connection.pageInfo.hasNextPage) {
+        health.status = "complete";
+        return { nodes, health };
+      }
+      if (!cursor) throw new Error("Gateway index omitted a continuation cursor");
+      cursors.add(cursor);
+      after = cursor;
+      health.continuation = cursor;
+    } catch (error) {
+      health.status = nodes.length ? "partial" : "unavailable";
+      health.error = message(error);
+      return { nodes, health };
+    }
+  }
+  health.status = "partial";
+  health.capReached = true;
+  health.error = `Gateway query stopped at the ${MAX_GATEWAY_PAGES}-page cap`;
+  return { nodes, health };
 }
 
 async function hydrateTransaction(node: TransactionNode, source: RegistryRecord["source"]): Promise<RegistryRecord | null> {
@@ -121,7 +170,7 @@ async function seedNode(txId: string): Promise<TransactionNode> {
   return payload.data.transaction;
 }
 
-export async function loadCanonicalIndex(): Promise<RegistryRecord[]> {
+async function loadCanonicalIndexSnapshot(): Promise<{ records: RegistryRecord[]; indexedAt: string }> {
   const indexUrl = config.indexTx
     ? arweaveUrl(config.indexTx)
     : new URL("./ilxyr-index-v1.json", document.baseURI).toString();
@@ -142,7 +191,7 @@ export async function loadCanonicalIndex(): Promise<RegistryRecord[]> {
     }
   }
 
-  return Promise.all(index.experiments.map(async (entry): Promise<RegistryRecord> => {
+  const records = await Promise.all(index.experiments.map(async (entry): Promise<RegistryRecord> => {
     let owner = entry.owner || "unknown";
     let bundleOwnerAuthentication: RegistryRecord["bundleOwnerAuthentication"] = "unknown";
     let bundleError: string | undefined;
@@ -171,34 +220,53 @@ export async function loadCanonicalIndex(): Promise<RegistryRecord[]> {
       source: "canonical-index",
     };
   }));
+  return { records, indexedAt: index.generated_at };
 }
 
-export async function loadRegistry(): Promise<RegistryRecord[]> {
+export async function loadCanonicalIndex(): Promise<RegistryRecord[]> {
+  return (await loadCanonicalIndexSnapshot()).records;
+}
+
+export async function loadRegistry(): Promise<RegistryDiscovery> {
+  const queriedAt = new Date().toISOString();
   const records: RegistryRecord[] = [];
-  const errors: unknown[] = [];
+  const sources: RegistrySourceHealth[] = [];
 
   try {
-    records.push(...(await loadCanonicalIndex()));
+    const index = await loadCanonicalIndexSnapshot();
+    records.push(...index.records);
+    sources.push({ id: "canonical-index", required: true, status: "complete", records: index.records.length,
+      queriedAt, indexedAt: index.indexedAt });
   } catch (error) {
-    errors.push(error);
+    sources.push({ id: "canonical-index", required: true, status: "unavailable", records: 0,
+      queriedAt, error: message(error) });
   }
 
-  try {
-    const nodes = await queryTransactions();
-    const hydrated = await Promise.all(nodes.map((node) => hydrateTransaction(node, "gateway")));
-    records.push(...hydrated.filter((record): record is RegistryRecord => Boolean(record)));
-  } catch (error) {
-    errors.push(error);
+  const gateway = await queryTransactions(queriedAt);
+  const hydrated = await Promise.allSettled(gateway.nodes.map((node) => hydrateTransaction(node, "gateway")));
+  const gatewayErrors: string[] = [];
+  for (const result of hydrated) {
+    if (result.status === "fulfilled") {
+      if (result.value) records.push(result.value);
+    } else gatewayErrors.push(message(result.reason));
   }
+  gateway.health.records = hydrated.filter((result) => result.status === "fulfilled" && result.value).length;
+  if (gatewayErrors.length) {
+    gateway.health.status = "partial";
+    gateway.health.error = [gateway.health.error, ...gatewayErrors].filter(Boolean).join("; ");
+  }
+  sources.push(gateway.health);
 
   for (const txId of config.seedTransactions) {
-    const existing = records.find((record) => record.txId === txId);
-    if (existing?.files.length) continue;
     try {
-      const record = await hydrateTransaction(await seedNode(txId), "seed");
+      const node = await seedNode(txId);
+      const record = await hydrateTransaction(node, "seed");
       if (record) records.push(record);
+      sources.push({ id: `seed:${txId}`, required: true, status: "complete", records: record ? 1 : 0,
+        queriedAt, indexedAt: indexedTime([node]) });
     } catch (error) {
-      errors.push(error);
+      sources.push({ id: `seed:${txId}`, required: true, status: "unavailable", records: 0,
+        queriedAt, error: message(error) });
     }
   }
 
@@ -240,9 +308,26 @@ export async function loadRegistry(): Promise<RegistryRecord[]> {
     if (existing.files.length === 0 && record.files.length > 0) unique.set(key, record);
   }
 
-  const result = [...unique.values()].sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-  if (result.length === 0 && errors.length) throw errors[0];
-  return result;
+  const byExperiment = new Map<string, RegistryRecord[]>();
+  for (const record of records) {
+    const group = byExperiment.get(record.experimentId) || [];
+    group.push(record);
+    byExperiment.set(record.experimentId, group);
+  }
+  const result = [...unique.values()].map((record) => {
+    const observations = byExperiment.get(record.experimentId) || [];
+    const observedSources = [...new Set(observations.map((item) => item.source))];
+    const identities = new Set(observations.map((item) =>
+      `${item.txId}|${item.evidenceRef}|${item.outcome}`));
+    const identityConflicts = identities.size > 1 ? ["Sources disagree on bundle, evidence, or reported outcome"] : [];
+    return { ...record, observedSources, identityConflicts };
+  }).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+  const allComplete = sources.every((source) => source.status === "complete");
+  const status: RegistryDiscovery["status"] = allComplete
+    ? result.length ? "complete" : "empty"
+    : result.length || sources.some((source) => source.status !== "unavailable") ? "partial" : "unavailable";
+  return { scope: "configured-index-gateway-and-seeds", status, records: result,
+    observations: records, sources, queriedAt };
 }
 
 export async function hydrateRecord(record: RegistryRecord): Promise<RegistryRecord> {

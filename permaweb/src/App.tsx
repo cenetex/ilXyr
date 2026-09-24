@@ -4,7 +4,7 @@ import { arweaveUrl, config } from "./config";
 import { hydrateRecord, loadRegistry, verifyEvidenceFile } from "./arweave";
 import { recordTrust } from "./trust";
 import type { FileCheckState } from "./trust";
-import type { AoProposal, AoSnapshot, EvidenceFile, RegistryRecord } from "./types";
+import type { AoProposal, AoSnapshot, EvidenceFile, RegistryDiscovery, RegistryRecord } from "./types";
 
 type View = "registry" | "submit" | "index";
 
@@ -131,7 +131,8 @@ export function RecordDetail({ record, onClose }: { record: RegistryRecord; onCl
           <div><span>Index publisher</span><strong>{record.publisherAddress || "Unknown"}</strong></div>
           <div><span>Bundle owner</span><strong>{record.owner}</strong></div>
           <div><span>Listed by</span><strong>{record.source.replaceAll("-", " ")}</strong></div>
-          <div><span>Listing retrieved</span><strong>{trust.listing === "pass" ? "Yes" : "Unknown"}</strong></div>
+          <div><span>Seen through</span><strong>{record.observedSources?.join(", ") || record.source}</strong></div>
+          <div><span>Listing identity</span><strong>{trust.listing === "pass" ? "Consistent across observed sources" : "Conflicting source claims"}</strong></div>
           <div><span>Index owner via gateway</span><strong>{trust.publisherAuthentication.replaceAll("_", " ")}</strong></div>
           <div><span>Bundle owner via gateway</span><strong>{trust.bundleOwnerAuthentication.replaceAll("_", " ")}</strong></div>
           <div><span>Publisher allowlist</span><strong>{trust.publisherAllowlist.replaceAll("_", " ")}</strong></div>
@@ -143,6 +144,7 @@ export function RecordDetail({ record, onClose }: { record: RegistryRecord; onCl
         <div className="file-heading"><div><p className="eyebrow">Evidence files</p><h3>{record.files.length} files</h3></div><p>Select Verify file. The app checks its byte count and SHA-256 hash.</p></div>
         {record.manifestError && <p className="empty-copy" role="alert">Publication manifest: {record.manifestError}</p>}
         {record.provenanceError && <p className="empty-copy" role="alert">Publisher provenance: {record.provenanceError}</p>}
+        {record.identityConflicts?.map((conflict) => <p className="empty-copy" role="alert" key={conflict}>Source conflict: {conflict}</p>)}
         <div className="file-list">
           {record.files.length ? record.files.map((file) => <FileRow key={file.path} record={record} file={file} state={fileStates[file.path] || "idle"} onState={(state) => setFileStates((current) => ({ ...current, [file.path]: state }))} />) : <p className="empty-copy">This listing has no file list to check.</p>}
         </div>
@@ -273,6 +275,7 @@ function ProposalDetail({ proposal, wallet, refresh, notify }: {
 export default function App() {
   const [view, setView] = useState<View>("registry");
   const [records, setRecords] = useState<RegistryRecord[]>([]);
+  const [discovery, setDiscovery] = useState<RegistryDiscovery | null>(null);
   const [snapshot, setSnapshot] = useState<AoSnapshot | null>(null);
   const [selectedRecord, setSelectedRecord] = useState<RegistryRecord | null>(null);
   const [selectedProposal, setSelectedProposal] = useState<AoProposal | null>(null);
@@ -299,7 +302,10 @@ export default function App() {
   useEffect(() => {
     Promise.allSettled([loadRegistry(), readRegistryProcess()])
       .then(([registryResult, processResult]) => {
-        if (registryResult.status === "fulfilled") setRecords(registryResult.value);
+        if (registryResult.status === "fulfilled") {
+          setRecords(registryResult.value.records);
+          setDiscovery(registryResult.value);
+        }
         if (processResult.status === "fulfilled") setSnapshot(processResult.value);
         if (registryResult.status === "rejected") notify(registryResult.reason instanceof Error ? registryResult.reason.message : "Registry discovery failed", true);
         else if (processResult.status === "rejected") notify(processResult.reason instanceof Error ? processResult.reason.message : "Could not read the AO process", true);
@@ -372,17 +378,22 @@ export default function App() {
         <main>
           <section className="hero">
             <div className="hero-copy"><p className="eyebrow">Permanent experiment registry</p><h1>Find and verify <em>experiment evidence.</em></h1><p>View experiment plans, forecasts, run records, and failed results. Check each publisher and file hash.</p><div><button className="primary-button" onClick={() => setView("submit")}>Submit an experiment <span>↗</span></button><a className="text-button" href="#registry">Browse evidence <span>↓</span></a></div></div>
-            <div className="perma-card"><div className="perma-head"><span>Storage network</span><span className="live">Arweave</span></div><div className="perma-mark"><strong>{loading ? "…" : records.length}</strong><span>permanent experiment {records.length === 1 ? "record" : "records"}</span></div><div className="perma-rule"><span /></div><dl><div><dt>Listed publisher addresses</dt><dd>{config.publishers.length}</dd></div><div><dt>Files in the index</dt><dd>{records.reduce((sum, record) => sum + record.files.length, 0)}</dd></div><div><dt>Stored data</dt><dd>{Math.max(1, Math.round(totalBytes / 1024))} KiB</dd></div></dl><p>The index helps you find records. Open one to see each available check and its status.</p></div>
+            <div className="perma-card"><div className="perma-head"><span>Storage network</span><span className="live">Arweave</span></div><div className="perma-mark"><strong>{loading ? "…" : records.length}</strong><span>{discovery?.status === "complete" || discovery?.status === "empty" ? "records in configured sources" : "visible records from available sources"}</span></div><div className="perma-rule"><span /></div><dl><div><dt>Listed publisher addresses</dt><dd>{config.publishers.length}</dd></div><div><dt>Files in the index</dt><dd>{records.reduce((sum, record) => sum + record.files.length, 0)}</dd></div><div><dt>Stored data</dt><dd>{Math.max(1, Math.round(totalBytes / 1024))} KiB</dd></div></dl><p>The index helps you find records. Open one to see each available check and its status.</p></div>
           </section>
 
           <section className="trust-band"><span>Separate checks</span><i>·</i><span>Publisher address list</span><i>·</i><span>File SHA-256 on request</span><i>·</i><span>Ledger binding not checked</span></section>
 
           <section className="registry-section" id="registry">
             <div className="section-heading"><div><p className="eyebrow">Experiment evidence</p><h2>Results stay available, including failed runs.</h2></div><label className="search-field"><span>⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by experiment, result, or hash" /></label></div>
+            {discovery && <div className={`source-health ${discovery.status}`} role="status">
+              <strong>{discovery.status === "complete" ? "Complete for configured sources" : discovery.status === "empty" ? "No records in configured sources" : discovery.status === "partial" ? "Partial discovery" : "Sources unavailable"}</strong>
+              <p>This view covers the configured index, this gateway's tagged transactions, and configured seed transactions. Checked {new Date(discovery.queriedAt).toLocaleString()}.</p>
+              <ul>{discovery.sources.map((source) => <li key={source.id}><span>{source.id.startsWith("seed:") ? `Seed ${short(source.id.slice(5))}` : source.id}</span><strong>{source.status} · {source.records} records{source.scanned !== undefined ? ` from ${source.scanned} matches` : ""}</strong>{source.indexedAt && <span>Indexed {new Date(source.indexedAt).toLocaleString()}</span>}{source.capReached && <span>Query cap reached</span>}{source.continuation && <span>Continuation {short(source.continuation)}</span>}{source.error && <span>{source.error}</span>}</li>)}</ul>
+            </div>}
             <div className="record-list">
               {loading && [0, 1, 2].map((item) => <div className="record-row loading" key={item} />)}
               {!loading && filtered.map((record, index) => <button className="record-row" onClick={() => void openRecord(record)} key={record.txId}><span className="record-number">{String(index + 1).padStart(2, "0")}</span><div className="record-title"><span className={`outcome-chip ${outcomeTone(record.outcome)}`}>{reportedOutcomeLabel(record.outcome)}</span><h3>{record.title}</h3><p>{record.experimentId}</p></div><div className="record-evidence"><span>Evidence ref</span><code>{record.evidenceRef ? short(record.evidenceRef, 22, 12) : "—"}</code></div><div className="record-trust"><span className={record.publisherListed ? "listed" : "unlisted"}>{publisherLabel(record)}</span><strong>{record.files.length} files</strong></div><span className="row-arrow">↗</span></button>)}
-              {!loading && filtered.length === 0 && <p className="empty-copy">No permanent records match this search.</p>}
+              {!loading && filtered.length === 0 && <p className="empty-copy">{query ? "No visible records match this search." : discovery?.status === "empty" ? "The configured sources returned an empty result." : discovery?.status === "partial" ? "The available sources returned no records. Check the source status above." : discovery?.status === "unavailable" ? "The configured sources could not be read. Check the source status above." : "No records are available."}</p>}
             </div>
           </section>
 

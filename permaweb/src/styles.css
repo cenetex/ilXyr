@@ -111,6 +111,14 @@ header nav button:hover, header nav button.active { background: rgba(24, 35, 29,
 .record-trust strong { display: block; font-size: 10px; margin-top: 9px; }
 .row-arrow { font-size: 18px; }
 .empty-copy { color: var(--muted); padding: 30px 10px; }
+.source-health { border: 1px solid #cad3c8; margin-bottom: 28px; padding: 20px; }
+.source-health.partial, .source-health.unavailable { border-color: #bb7f5c; }
+.source-health > strong { display: block; font-size: 16px; }
+.source-health > p { color: var(--muted); line-height: 1.45; margin: 6px 0 14px; }
+.source-health ul { display: grid; gap: 7px; list-style: none; margin: 0; padding: 0; }
+.source-health li { align-items: baseline; border-top: 1px solid #dce3da; display: flex; flex-wrap: wrap; gap: 8px 16px; padding-top: 7px; }
+.source-health li span { overflow-wrap: anywhere; }
+.source-health li strong { font-size: 12px; text-transform: capitalize; }
 
 .process-state { border: 1px solid var(--line); border-radius: 999px; font-family: ui-monospace, monospace; font-size: 8px; font-weight: 800; padding: 8px 10px; text-transform: uppercase; }
 .process-state.online { background: #e2f5bf; color: #2d6540; }

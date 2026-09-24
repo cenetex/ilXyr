@@ -42,7 +42,7 @@ test("index publisher and bundle owner need independent gateway metadata", async
       if (url.endsWith("/graphql")) {
         const request = JSON.parse(options.body);
         const id = request.variables?.id;
-        if (!id) return Response.json({ data: { transactions: { edges: gatewayRows.map((node) => ({ node })) } } });
+        if (!id) return Response.json({ data: { transactions: { pageInfo: { hasNextPage: false }, edges: gatewayRows.map((node) => ({ node, cursor: node.id })) } } });
         return Response.json({ data: { transaction: (id === indexTx && missingIndex) || (id === bundleTx && missingBundle) ? null
           : metadata(id, id === indexTx ? indexOwner : bundleOwner) } });
       }
@@ -58,7 +58,7 @@ test("index publisher and bundle owner need independent gateway metadata", async
     gatewayRows = [{ ...metadata("Z".repeat(43), approved), tags: [
       { name: "Experiment-Id", value: experimentId }, { name: "Evidence-Ref", value: evidenceRef },
     ] }];
-    let [resolved] = await loadRegistry();
+    let [resolved] = (await loadRegistry()).records;
     assert.equal(resolved.source, "canonical-index");
     assert.match(resolved.provenanceError, /Gateway record conflicts/);
     gatewayRows = [];
@@ -94,7 +94,7 @@ test("index publisher and bundle owner need independent gateway metadata", async
     gatewayRows = [{ ...metadata(bundleTx, approved), tags: [
       { name: "Experiment-Id", value: experimentId }, { name: "Evidence-Ref", value: evidenceRef },
     ] }];
-    [resolved] = await loadRegistry();
+    [resolved] = (await loadRegistry()).records;
     assert.equal(resolved.source, "gateway");
     assert.equal(resolved.publisherAuthentication, "pass");
     assert.match(resolved.provenanceError, /Index publisher differs/);
