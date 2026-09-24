@@ -5,8 +5,8 @@ use serde_json::{Value, json};
 
 use crate::{
     ActorKind, Certificate, CompiledExperiment, Error, Evidence, EvidenceLane, ExecutorAttestation,
-    ExternalRegistrationReceipt, Forecast, ForecastSettlement, RegistrationPackage, Result,
-    RetroRegistration, RetroRegistrationSpec, RunRecord, Workspace,
+    ExternalRegistrationReceipt, Forecast, ForecastSettlement, RegistrationPackage, ResearchEvent,
+    Result, RetroRegistration, RetroRegistrationSpec, RunRecord, Workspace,
 };
 
 const EVIDENCE_RECORDED: &str = "EvidenceRecorded";
@@ -31,6 +31,7 @@ pub enum InteropFormat {
     RoCrate,
     InToto,
     Mlflow,
+    LedgerProof,
 }
 
 impl FromStr for InteropFormat {
@@ -42,8 +43,9 @@ impl FromStr for InteropFormat {
             "ro-crate" => Ok(Self::RoCrate),
             "in-toto" => Ok(Self::InToto),
             "mlflow" => Ok(Self::Mlflow),
+            "ledger-proof" => Ok(Self::LedgerProof),
             _ => Err(Error::Validation(vec![format!(
-                "unsupported evidence export format {value}; expected native, ro-crate, in-toto, or mlflow"
+                "unsupported evidence export format {value}; expected native, ro-crate, in-toto, mlflow, or ledger-proof"
             )])),
         }
     }
@@ -85,6 +87,22 @@ pub struct EvidenceBundle {
     pub cold_replayable: bool,
 }
 
+/// Detached inclusion material. A verifier must compare `ledger_head` with a
+/// head retained independently of the publisher and this export.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct EvidenceLedgerProof {
+    pub schema: String,
+    pub bundle_sha256: String,
+    pub bundle_json: String,
+    pub evidence_json: String,
+    pub run_json: String,
+    pub evidence_ref: String,
+    pub evidence_event_hash: String,
+    pub ledger_head: String,
+    pub events: Vec<ResearchEvent>,
+}
+
 pub fn export_evidence(
     workspace: &Workspace,
     evidence_ref: &str,
@@ -96,6 +114,28 @@ pub fn export_evidence(
         InteropFormat::RoCrate => ro_crate(&bundle),
         InteropFormat::InToto => in_toto_statement(&bundle),
         InteropFormat::Mlflow => mlflow_bridge_manifest(&bundle),
+        InteropFormat::LedgerProof => {
+            let events = workspace.events()?;
+            let bundle_json = String::from_utf8(Workspace::canonical_json_bytes(&bundle)?)
+                .map_err(|error| Error::Conflict(format!("canonical bundle encoding: {error}")))?;
+            let evidence_json = String::from_utf8(Workspace::canonical_json_bytes(
+                &bundle.evidence,
+            )?)
+            .map_err(|error| Error::Conflict(format!("canonical evidence encoding: {error}")))?;
+            let run_json = String::from_utf8(Workspace::canonical_json_bytes(&bundle.run)?)
+                .map_err(|error| Error::Conflict(format!("canonical run encoding: {error}")))?;
+            Ok(serde_json::to_value(EvidenceLedgerProof {
+                schema: "ilxyr.evidence_ledger_proof.v1".to_owned(),
+                bundle_sha256: Workspace::digest(&bundle)?,
+                bundle_json,
+                evidence_json,
+                run_json,
+                evidence_ref: bundle.evidence_ref.clone(),
+                evidence_event_hash: bundle.evidence_event_hash.clone(),
+                ledger_head: bundle.ledger_head.clone(),
+                events,
+            })?)
+        }
     }
 }
 

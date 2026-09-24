@@ -71,6 +71,7 @@ cargo run -p ilxyr-cli -- export-evidence . EVIDENCE_REF native
 cargo run -p ilxyr-cli -- export-evidence . EVIDENCE_REF ro-crate
 cargo run -p ilxyr-cli -- export-evidence . EVIDENCE_REF in-toto
 cargo run -p ilxyr-cli -- export-evidence . EVIDENCE_REF mlflow
+cargo run -p ilxyr-cli -- export-evidence . EVIDENCE_REF ledger-proof
 ```
 
 ### Native bundle
@@ -80,9 +81,19 @@ run, prospective compiled experiment or retro plan, forecasts, settlements, cert
 recording event hash, and the ledger head observed at export. Its strict Draft 2020-12 schema is
 `schemas/evidence-bundle.schema.json`.
 
-The ledger head is an export observation, not a promise that the workspace will never grow. A
-consumer verifies object digests and the event chain in the source workspace before trusting it;
-a later detached-bundle verifier and signature profile remain roadmap work.
+The ledger head is an export observation. `ledger-proof` emits the canonical bundle, evidence,
+and run JSON bytes, their hashes, and every event from genesis through the observed head. The
+browser checks these bytes, the event links and hashes, the exact `EvidenceRecorded` event, and
+the experiment, run, evidence, and outcome identities. A publication can include this export at
+`core/evidence-ledger-proof.json` for the browser's **Check core event chain** action.
+
+The chain check proves internal consistency and inclusion relative to the claimed head. Ledger
+binding needs a head retained independently of the publisher and supplied to the verifier.
+The local single-writer chain permits a full-history rewrite before such an anchor is retained.
+The current public interface therefore reports ledger binding as unknown after a valid chain
+check. AO publisher approval and Arweave file hashes establish separate facts. This proof makes
+no consensus or scientific-truth claim. A signed AO-to-core handoff and independently retained
+anchor are still required for the complete Stage B round trip in issue #141.
 
 ### RO-Crate and PROV-O
 

@@ -80,6 +80,32 @@ fn promoted_evidence_exports_through_all_interoperability_views() {
         serde_json::from_value(native).expect("native bundle must round-trip");
     assert_eq!(roundtrip.evidence_ref, evidence_ref);
 
+    let proof = export_evidence(&workspace, &evidence_ref, InteropFormat::LedgerProof)
+        .expect("detached ledger proof must export");
+    assert_eq!(proof["schema"], "ilxyr.evidence_ledger_proof.v1");
+    assert_eq!(
+        proof["bundle_sha256"],
+        Workspace::digest(&bundle).expect("bundle digest")
+    );
+    assert_eq!(proof["evidence_ref"], evidence_ref);
+    assert_eq!(proof["evidence_event_hash"], bundle.evidence_event_hash);
+    assert_eq!(proof["ledger_head"], bundle.ledger_head);
+    assert_eq!(
+        proof["events"]
+            .as_array()
+            .expect("events")
+            .last()
+            .expect("head")["event_hash"],
+        bundle.ledger_head
+    );
+    assert_eq!(
+        serde_json::from_str::<serde_json::Value>(
+            proof["bundle_json"].as_str().expect("bundle bytes")
+        )
+        .expect("bundle JSON"),
+        serde_json::to_value(&bundle).expect("bundle value")
+    );
+
     let ro_crate =
         export_evidence(&workspace, &evidence_ref, InteropFormat::RoCrate).expect("RO-Crate");
     assert_eq!(

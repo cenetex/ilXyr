@@ -859,7 +859,7 @@ fn run() -> Result<()> {
             require_len(
                 &args,
                 4,
-                "ilxyr export-evidence <workspace> <evidence-ref> <native|ro-crate|in-toto|mlflow>",
+                "ilxyr export-evidence <workspace> <evidence-ref> <native|ro-crate|in-toto|mlflow|ledger-proof>",
             )?;
             let workspace = Workspace::open(&args[1])?;
             let format = args[3].parse::<InteropFormat>()?;
@@ -1055,7 +1055,7 @@ fn usage() {
            ilxyr attest <workspace> <run-ref> <dsse-envelope.json>\n\
            ilxyr calibration <workspace> <actor-handle>\n\
            ilxyr status <workspace> <experiment-id>\n\
-           ilxyr export-evidence <workspace> <evidence-ref> <native|ro-crate|in-toto|mlflow>\n\
+           ilxyr export-evidence <workspace> <evidence-ref> <native|ro-crate|in-toto|mlflow|ledger-proof>\n\
            ilxyr verify <workspace>"
     );
 }

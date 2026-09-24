@@ -1,6 +1,7 @@
 import { arweaveUrl, config } from "./config";
 import type { EvidenceFile, RegistryDiscovery, RegistryRecord, RegistrySourceHealth } from "./types";
 import { bindManifest, checkFileResponse, MAX_MANIFEST_BYTES, readBounded, validateCanonicalIndex, validateManifest, validTxId } from "./publication";
+import { verifyCoreProof } from "./core-proof";
 
 type TransactionNode = {
   id: string;
@@ -342,6 +343,18 @@ export async function hydrateRecord(record: RegistryRecord): Promise<RegistryRec
   } catch (error) {
     return { ...record, manifestError: error instanceof Error ? error.message : "Manifest validation failed" };
   }
+}
+
+export async function verifyPublishedCoreProof(record: RegistryRecord) {
+  const file = record.files.find((item) => item.path === "core/evidence-ledger-proof.json");
+  if (!file) throw new Error("This publication has no core ledger proof file");
+  const response = await fetch(arweaveUrl(record.txId, file.path));
+  if (!response.ok) throw new Error(`Core proof retrieval returned ${response.status}`);
+  const bytes = await readBounded(response, file.bytes);
+  const actual = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes.buffer as ArrayBuffer))]
+    .map((byte) => byte.toString(16).padStart(2, "0")).join("");
+  if (bytes.byteLength !== file.bytes || actual !== file.sha256) throw new Error("Core proof file differs from its manifest");
+  return verifyCoreProof(JSON.parse(new TextDecoder().decode(bytes)), record);
 }
 
 export async function verifyEvidenceFile(record: RegistryRecord, file: EvidenceFile) {
