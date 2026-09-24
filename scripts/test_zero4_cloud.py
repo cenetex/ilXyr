@@ -1,6 +1,7 @@
 """Controlled host failures, archive integrity and approval boundaries for zero4-52."""
 import copy
 import hashlib
+import importlib
 import json
 import os
 import runpy
@@ -25,13 +26,17 @@ STUB = STUB.replace("'g6e.2xlarge'", "'c6i.4xlarge'").replace('run/model/weight.
 STUB = STUB.replace("if args[:2]==['image','inspect']:print('[]');sys.exit(0)", "if args[:2]==['image','inspect']:print(json.dumps([{'Id':'sha256:a3535ab419a167bf1c5acc0ea5d536c358152a9fb8dd8504068ef24bb0f4a1f1','Architecture':'amd64','Os':'linux'}]));sys.exit(0)").replace("if args[:2]==['rm','-f']:sys.exit(0)", "if args[:2]==['rm','-f']:sys.exit(0)\n    if args[0]=='inspect':print('[]');sys.exit(0)")
 
 
-def fixture(root):
+def fixture(root, real_controller=False):
     plan = json.loads((ROOT / PLAN).read_bytes())
-    controller_files = {'scripts/zero4_study.py': b'# controlled source fixture\n'}
+    if real_controller:
+        from zero4_study import IMPLEMENTATION
+        controller_files = {'scripts/' + name: (ROOT / 'scripts' / name).read_bytes() for name in IMPLEMENTATION}
+    else:
+        controller_files = {'scripts/zero4_study.py': b'# controlled source fixture\n'}
     controller = root / 'controller.tar'; write_tar(controller, controller_files)
     kit = {'sha256': sha(controller.read_bytes()), 'bytes': controller.stat().st_size,
            'files': {n: {'path': n, 'bytes': len(b), 'sha256': sha(b)} for n, b in controller_files.items()}}
-    implementation = {'zero4_study.py': sha(controller_files['scripts/zero4_study.py'])}
+    implementation = {name.removeprefix('scripts/'): sha(raw) for name, raw in controller_files.items()}
     prepared_files = {'data/fixture': b'controlled inputs'}
     prepared_files['MANIFEST.json'] = encode({'mode': 'cloud', 'plan_sha256': plan['study_plan_sha256'],
         'config': {'limits': plan['study_limits']}, 'implementation': implementation,
@@ -349,6 +354,68 @@ class ChunkTests(unittest.TestCase):
 
 
 class RuntimeTests(unittest.TestCase):
+    def test_packaged_launch_handoff_reaches_full_controller_with_zero_calls(self):
+        from package_zero4_cloud import unpack
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            package, binding, network, _ = fixture(root, real_controller=True)
+            package_sha = sha(package.read_bytes())
+            user_data, request, _ = render(package, package_sha, binding, network)
+            self.assertIn(package_sha.encode(), user_data)
+            self.assertEqual(request['InstanceType'], 'c6i.4xlarge')
+            unpack(package, package_sha, root / 'package')
+            packaged = root / 'package'
+            runtime_spec = importlib.util.spec_from_file_location('zero4_packaged_runtime', packaged / 'scripts/zero4_cloud_runtime.py')
+            runtime = importlib.util.module_from_spec(runtime_spec)
+            runtime_spec.loader.exec_module(runtime)
+            plan = json.loads((packaged / PLAN).read_bytes())
+            provider = plan['provider']
+            execution = {'schema': 'ilxyr.zero4_study_execution.v1', 'run_id': binding['run_id'],
+                'package_sha256': package_sha, 'plan_sha256': sha((packaged / PLAN).read_bytes()),
+                'prepared_manifest_sha256': plan['prepared']['manifest_sha256'], 'limits': plan['limits'],
+                'machine': {'provider': 'AWS', **{key: provider[key] for key in
+                    ['region', 'instance_type', 'ami_id', 'architecture']}, 'runtime_image': plan['runtime_image']}}
+            execution_path = packaged / 'execution.json'; execution_path.write_bytes(encode(execution))
+
+            # Import the controller from the unpacked host archive, then stop at
+            # its first native build boundary before any model process starts.
+            previous = sys.modules.pop('zero4_study', None)
+            sys.path.insert(0, str(packaged / 'controller/scripts'))
+            try:
+                study = importlib.import_module('zero4_study')
+                self.assertTrue(Path(study.__file__).is_relative_to(packaged / 'controller/scripts'))
+                def process(command):
+                    self.assertEqual(command[1:3], [str(packaged / 'scripts/zero4_cloud_runtime.py'), 'controller'])
+                    class ControlledProcess:
+                        def wait(self_inner):
+                            with patch.object(sys, 'argv', command[1:]):
+                                with self.assertRaisesRegex(RuntimeError, 'controlled native boundary'):
+                                    runpy.run_path(command[1], run_name='__main__')
+                            return 7
+                    return ControlledProcess()
+
+                with patch.dict(os.environ, plan['environment']), \
+                     patch.object(runtime.platform, 'machine', return_value='x86_64'), \
+                     patch.object(runtime.subprocess, 'check_output', side_effect=[plan['compiler_identity'], plan['python_identity']]), \
+                     patch.object(runtime, 'memory', return_value={'limit_bytes': plan['limits']['container_memory_gib'] * 1024**3}), \
+                     patch.object(runtime.subprocess, 'Popen', side_effect=process), \
+                     patch.object(study, 'validate', return_value={'limits': plan['study_limits']}), \
+                     patch.object(study, 'compile_binaries', side_effect=RuntimeError('controlled native boundary')) as build:
+                    with self.assertRaisesRegex(ValueError, 'controller failed'):
+                        runtime.run(packaged, root / 'output', 'cloud', execution_path)
+                    build.assert_called_once()
+            finally:
+                sys.path.pop(0)
+                sys.modules.pop('zero4_study', None)
+                if previous is not None:
+                    sys.modules['zero4_study'] = previous
+            runtime_record = json.loads((root / 'output/RUNTIME.json').read_bytes())
+            study_record = json.loads((root / 'output/study/RESULT.json').read_bytes())
+            self.assertEqual((runtime_record['mode'], runtime_record['phase'], runtime_record['controller_exit_code']),
+                             ('cloud', 'controller', 7))
+            self.assertEqual(study_record['process_count'], 0)
+            self.assertEqual(study_record['errors'], [{'phase': 'controller', 'error': 'controlled native boundary'}])
+
     def test_cloud_cli_reaches_native_boundary_and_direct_study_keeps_guard(self):
         import zero4_study as study
         with tempfile.TemporaryDirectory() as name:
