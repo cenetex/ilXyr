@@ -37,3 +37,11 @@ test("AO transitions reject malformed entries and emit a validator-clean success
   assert.equal(snapshots.length, 2);
   for (const snapshot of snapshots) assert.deepEqual(validateIndex(snapshot), []);
 });
+
+test("AO revisions bind reviews to exact predecessors and require fresh review", () => {
+  const lua = ["lua5.3", "lua", "texlua"].find((name) => spawnSync(name, ["-v"], { encoding: "utf8" }).status === 0);
+  assert.ok(lua, "Lua 5.3 runtime is required for AO state-transition tests");
+  const harness = fileURLToPath(new URL("./ao-proposal-revisions.lua", import.meta.url));
+  const processFile = fileURLToPath(new URL("../ao/ilxyr-registry.lua", import.meta.url));
+  assert.equal(execFileSync(lua, [harness, processFile], { encoding: "utf8" }), "ok");
+});

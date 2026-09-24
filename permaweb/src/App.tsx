@@ -54,6 +54,17 @@ function reviewTypeLabel(value: string) {
   return "suggestion";
 }
 
+function revisionDraft(proposal: AoProposal) {
+  return {
+    title: proposal.title, summary: proposal.summary, hypothesis: proposal.hypothesis,
+    family: proposal.family, baseline: proposal.baseline, dataset: proposal.dataset,
+    metric: proposal.metric, threshold: String(proposal.threshold),
+    seeds: proposal.seeds.join(", "), compute_credits: String(proposal.compute_credits),
+    evidence_level: proposal.evidence_level, export_policy: proposal.export_policy,
+    novelty: proposal.novelty,
+  };
+}
+
 function downloadJson(filename: string, value: unknown) {
   const url = URL.createObjectURL(new Blob([`${JSON.stringify(value, null, 2)}\n`], { type: "application/json" }));
   const anchor = document.createElement("a");
@@ -148,8 +159,17 @@ function ProposalDetail({ proposal, wallet, refresh, notify }: {
 }) {
   const [working, setWorking] = useState(false);
   const [review, setReview] = useState({ category: "methodology", severity: "advisory", comment: "" });
+  const [draft, setDraft] = useState(() => revisionDraft(proposal));
+  const [addressedReview, setAddressedReview] = useState("");
+  const [response, setResponse] = useState("");
   const [forecast, setForecast] = useState({ probability: "50", stake: "10", rationale: "" });
   const [funding, setFunding] = useState({ compute_credits: "50", rationale: "" });
+
+  useEffect(() => {
+    setDraft(revisionDraft(proposal));
+    setAddressedReview("");
+    setResponse("");
+  }, [proposal.id, proposal.revision]);
 
   const act = async (action: string, payload: Record<string, unknown>) => {
     setWorking(true);
@@ -178,20 +198,51 @@ function ProposalDetail({ proposal, wallet, refresh, notify }: {
         <div><span>Decision rule</span><strong>{proposal.metric} · {proposal.threshold}</strong></div>
         <div><span>Seeds</span><strong>{proposal.seeds.join(" · ")}</strong></div>
         <div><span>Compute limit</span><strong>{proposal.compute_credits} credits</strong></div>
+        <div><span>Current revision</span><strong>r{proposal.revision} · {short(proposal.revision_message_id)}</strong></div>
       </div>
       <div className="readiness-list">
         {proposal.readiness?.checks.map((check) => <span className={check.pass ? "pass" : "fail"} key={check.label}>{check.pass ? "✓" : "!"} {check.label}</span>)}
       </div>
       {proposal.status === "review" && (
         <div className="action-grid">
-          <form onSubmit={(event) => { event.preventDefault(); void act("Review", review); setReview({ ...review, comment: "" }); }}>
+          <form onSubmit={(event) => { event.preventDefault(); void act("Review", { ...review, revision: proposal.revision, proposal_ref: proposal.revision_message_id }); setReview({ ...review, comment: "" }); }}>
             <p className="eyebrow">Add a review</p>
             <div className="split-fields"><label>Category<select value={review.category} onChange={(event) => setReview({ ...review, category: event.target.value })}><option value="methodology">Methodology</option><option value="security">Security</option><option value="engineering">Engineering</option><option value="prior_art">Prior art</option></select></label><label>Review type<select value={review.severity} onChange={(event) => setReview({ ...review, severity: event.target.value })}><option value="advisory">Suggestion</option><option value="blocking">Must fix</option><option value="endorsement">Approve</option></select></label></div>
             <label>Feedback<textarea required rows={3} value={review.comment} onChange={(event) => setReview({ ...review, comment: event.target.value })} /></label>
-            <button className="secondary-button" disabled={working || !wallet}>Sign review</button>
+            <button className="secondary-button" disabled={working || !wallet || wallet === proposal.owner}>Sign review of r{proposal.revision}</button>
           </form>
           <div className="promotion-box"><p className="eyebrow">Promotion</p><strong>{proposal.readiness?.score || 0}% ready</strong><p>Promotion locks this proposal. People can then add forecasts and compute credits.</p><button className="primary-button" disabled={working || !wallet || wallet !== proposal.owner || !proposal.readiness?.promotable} onClick={() => void act("Promote", {})}>Promote to candidate <span>↗</span></button></div>
         </div>
+      )}
+      {proposal.status === "review" && wallet === proposal.owner && (proposal.reviews || []).some((item) => item.revision === proposal.revision) && (
+        <form className="proposal-form" onSubmit={(event) => {
+          event.preventDefault();
+          void act("Address-Review", {
+            review_id: addressedReview || (proposal.reviews || []).find((item) => item.revision === proposal.revision)?.id,
+            revision: proposal.revision + 1,
+            predecessor_ref: proposal.revision_message_id,
+            response,
+            contract: {
+              ...draft,
+              threshold: Number(draft.threshold),
+              compute_credits: Number(draft.compute_credits),
+              seeds: draft.seeds.split(",").map((seed) => Number(seed.trim())),
+            },
+          });
+        }}>
+          <p className="eyebrow">Revise this proposal</p>
+          <p>Update the contract, then link the new revision to one review. A fresh review is needed for promotion.</p>
+          <label>Review to address<select value={addressedReview} onChange={(event) => setAddressedReview(event.target.value)}>{(proposal.reviews || []).filter((item) => item.revision === proposal.revision).map((item) => <option value={item.id} key={item.id}>{item.id} · {reviewTypeLabel(item.severity)}</option>)}</select></label>
+          <label>Response<textarea required rows={2} value={response} onChange={(event) => setResponse(event.target.value)} /></label>
+          <label>Title<input required value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} /></label>
+          <label>Summary<textarea required rows={2} value={draft.summary} onChange={(event) => setDraft({ ...draft, summary: event.target.value })} /></label>
+          <label>Hypothesis<textarea required minLength={24} rows={3} value={draft.hypothesis} onChange={(event) => setDraft({ ...draft, hypothesis: event.target.value })} /></label>
+          <div className="split-fields"><label>Family<select value={draft.family} onChange={(event) => setDraft({ ...draft, family: event.target.value as AoProposal["family"] })}><option value="zero">Zero</option><option value="solomon">Solomon</option></select></label><label>What is new?<textarea required value={draft.novelty} onChange={(event) => setDraft({ ...draft, novelty: event.target.value })} /></label></div>
+          <div className="split-fields"><label>Baseline URI<input required value={draft.baseline} onChange={(event) => setDraft({ ...draft, baseline: event.target.value })} /></label><label>Dataset URI<input required value={draft.dataset} onChange={(event) => setDraft({ ...draft, dataset: event.target.value })} /></label></div>
+          <div className="triple-fields"><label>Metric<input required value={draft.metric} onChange={(event) => setDraft({ ...draft, metric: event.target.value })} /></label><label>Threshold<input required type="number" step="any" value={draft.threshold} onChange={(event) => setDraft({ ...draft, threshold: event.target.value })} /></label><label>Seeds<input required value={draft.seeds} onChange={(event) => setDraft({ ...draft, seeds: event.target.value })} /></label></div>
+          <div className="triple-fields"><label>Compute credits<input required type="number" min="1" value={draft.compute_credits} onChange={(event) => setDraft({ ...draft, compute_credits: event.target.value })} /></label><label>Evidence type<input required value={draft.evidence_level} onChange={(event) => setDraft({ ...draft, evidence_level: event.target.value })} /></label><label>Output sharing<input required value={draft.export_policy} onChange={(event) => setDraft({ ...draft, export_policy: event.target.value })} /></label></div>
+          <button className="primary-button" disabled={working}>Sign revision r{proposal.revision + 1}</button>
+        </form>
       )}
       {proposal.status === "candidate" && (
         <div className="action-grid">
@@ -210,7 +261,10 @@ function ProposalDetail({ proposal, wallet, refresh, notify }: {
         </div>
       )}
       <div className="thread-list">
-        {(proposal.reviews || []).map((item) => <article key={item.id} className={item.severity}><span>{item.category.replaceAll("_", " ")} · {reviewTypeLabel(item.severity)}</span><p>{item.comment}</p><code>{short(item.reviewer)}</code></article>)}
+        {(proposal.reviews || []).map((item) => {
+          const successor = proposal.revisions?.find((revision) => revision.addressed_review_id === item.id);
+          return <article key={item.id} className={item.severity}><span>r{item.revision} · {item.category.replaceAll("_", " ")} · {reviewTypeLabel(item.severity)}</span><p>{item.comment}</p><code>{short(item.reviewer)} · {short(item.proposal_ref)}</code>{successor && <p>Addressed by r{successor.revision}: {successor.response}</p>}{proposal.resolutions?.[item.id] && <p>Reviewer acknowledged the revision.</p>}{proposal.status === "review" && successor && !proposal.resolutions?.[item.id] && wallet === item.reviewer && <button className="secondary-button" disabled={working} onClick={() => void act("Resolve-Review", { review_id: item.id })}>Acknowledge revision</button>}</article>;
+        })}
       </div>
     </section>
   );
@@ -243,12 +297,13 @@ export default function App() {
   }, [notify, selectedProposal]);
 
   useEffect(() => {
-    Promise.all([loadRegistry(), readRegistryProcess()])
-      .then(([nextRecords, nextSnapshot]) => {
-        setRecords(nextRecords);
-        setSnapshot(nextSnapshot);
+    Promise.allSettled([loadRegistry(), readRegistryProcess()])
+      .then(([registryResult, processResult]) => {
+        if (registryResult.status === "fulfilled") setRecords(registryResult.value);
+        if (processResult.status === "fulfilled") setSnapshot(processResult.value);
+        if (registryResult.status === "rejected") notify(registryResult.reason instanceof Error ? registryResult.reason.message : "Registry discovery failed", true);
+        else if (processResult.status === "rejected") notify(processResult.reason instanceof Error ? processResult.reason.message : "Could not read the AO process", true);
       })
-      .catch((error) => notify(error instanceof Error ? error.message : "Registry discovery failed", true))
       .finally(() => setLoading(false));
   }, [notify]);
 

@@ -2,14 +2,22 @@
 
 `ilxyr-registry.lua` stores proposal and review state for the permanent dApp.
 Every change is an AO message signed by the sender's wallet.
+The revision flow uses `ilxyr.registry-state.v2`. Configure the web app with a
+process running this version.
 
 ## State transitions
 
-- `Propose` creates a proposal that can receive reviews.
-- `Review` requires an identity other than the proposer.
-- `Address-Review` lets the proposer respond to a review. Only the original reviewer can use
-  `Resolve-Review`.
-- `Promote` locks the proposal after every required check passes.
+- `Propose` creates revision 1 and records its signed AO message ID.
+- `Review` requires an independent wallet, the current revision number, and its exact message ID
+  as `proposal_ref`.
+- `Address-Review` creates one successor revision. The owner sends the current `review_id`, the
+  next `revision`, the exact `predecessor_ref`, a response, and a complete revised `contract`.
+  Earlier reviews remain in the history. The contract must change.
+- `Resolve-Review` lets the original reviewer acknowledge a linked successor. This records a
+  separate acknowledgement and leaves the review intact.
+- `Promote` locks the proposal after a fresh independent review of the current revision passes
+  every required check. It records the exact proposal and current review message IDs. A blocking
+  review of that revision requires another successor.
 - `Forecast` rejects the proposer and permits one forecast per wallet.
 - `Fund` records one current compute-credit commitment per wallet.
 - `Publish-Evidence` is restricted to configured publisher authorities and cannot replace an
@@ -24,9 +32,9 @@ Every change is an AO message signed by the sender's wallet.
 The dApp does not run experiments. The existing ilXyr control plane runs approved experiments. It
 then sends verified evidence through `Publish-Evidence`.
 
-The required permaweb test runs real AO handlers with a Lua 5.3 harness. It
-checks rejected messages and passes a successful snapshot to the same index
-validator used by the publication CLI.
+The required permaweb tests run real AO handlers with Lua 5.3 harnesses. They
+check rejected proposal and index transitions and pass a successful snapshot
+to the same index validator used by the publication CLI.
 
 ## Deployment
 

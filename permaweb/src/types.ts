@@ -33,6 +33,11 @@ export type ReadinessCheck = {
 export type AoProposal = {
   id: string;
   owner: string;
+  revision: number;
+  revision_message_id: string;
+  predecessor_ref?: string;
+  revisions: { revision: number; message_id: string; predecessor_ref?: string; addressed_review_id?: string; response?: string; created_at: number }[];
+  resolutions?: Record<string, { review_id: string; reviewer: string; message_id: string; created_at: number }>;
   title: string;
   summary: string;
   hypothesis: string;
@@ -49,6 +54,8 @@ export type AoProposal = {
   status: "review" | "candidate" | "blocked";
   created_at: number;
   frozen_at?: number;
+  frozen_proposal_ref?: string;
+  frozen_review_refs?: string[];
   readiness?: { score: number; promotable: boolean; checks: ReadinessCheck[] };
   reviews?: AoReview[];
   forecasts?: AoForecast[];
@@ -58,11 +65,12 @@ export type AoProposal = {
 export type AoReview = {
   id: string;
   reviewer: string;
+  message_id: string;
+  revision: number;
+  proposal_ref: string;
   category: string;
   severity: "advisory" | "blocking" | "endorsement";
   comment: string;
-  addressed: boolean;
-  resolved: boolean;
   created_at: number;
 };
 
@@ -82,7 +90,8 @@ export type AoFunding = {
 };
 
 export type AoSnapshot = {
-  schema: "ilxyr.registry-state.v1";
+  schema: "ilxyr.registry-state.v2";
+  version: 2;
   process_id: string;
   owner: string;
   sequence: number;

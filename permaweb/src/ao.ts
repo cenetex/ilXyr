@@ -54,7 +54,11 @@ export async function readRegistryProcess(): Promise<AoSnapshot | null> {
     tags: [{ name: "Action", value: "List" }],
     data: "",
   });
-  return JSON.parse(extractData(response, "List-Result")) as AoSnapshot;
+  const snapshot = JSON.parse(extractData(response, "List-Result")) as AoSnapshot;
+  if (snapshot.schema !== "ilxyr.registry-state.v2" || snapshot.version !== 2) {
+    throw new Error("The configured AO process needs the proposal revision protocol (v2).");
+  }
+  return snapshot;
 }
 
 export async function sendRegistryAction(action: string, payload: Record<string, unknown>) {
