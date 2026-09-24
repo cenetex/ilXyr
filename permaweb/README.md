@@ -86,6 +86,21 @@ npm run index:build -- \
 npm run index:validate -- ilxyr-index.json
 ```
 
+For a successor, bind its predecessor to the exact published transaction. The
+validator fetches the previous index at that transaction ID and checks the
+supplied file against those bytes before checking sequence and entry
+immutability:
+
+```bash
+npm run index:validate -- successor-index.json \
+  --previous-tx PREVIOUS_ARWEAVE_TX_ID \
+  --previous previous-index.json
+```
+
+Omit `--previous` to validate directly against the fetched transaction. The
+gateway defaults to `https://arweave.net`; `--gateway` selects another trusted
+gateway. A sequence greater than one requires `--previous-tx`.
+
 ## Upload
 
 The production build uses relative asset paths and is ready for an Arweave path manifest. The
