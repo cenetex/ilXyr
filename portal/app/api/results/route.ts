@@ -1,8 +1,9 @@
-import { verifiedExecutionResults } from "../../catalog";
+import { publicResults, snapshot } from "../../snapshot";
 
 export async function GET() {
   return Response.json({
-    schema: "ilxyr.public_verified_result_index.v1",
-    results: verifiedExecutionResults,
+    schema: "ilxyr.public_result_index.v2",
+    source: snapshot.source,
+    results: publicResults,
   });
 }

@@ -1,0 +1,351 @@
+{
+  "schema": "ilxyr.public_snapshot.v1",
+  "source": {
+    "registry_path": "docs/lab-registry.json",
+    "registry_sha256": "cf2d7d97362085a07f2d09fbfb66795e1a0f9c4f7e58fbb83d432083d20f6f4b",
+    "registry_commit": "cd6edb7736d671d50c9bbdd2d3eea999b34aa294",
+    "as_of": "2026-09-01",
+    "generated_at": "2026-09-24T23:04:50.140Z",
+    "stale_after": "2026-09-15T00:00:00.000Z",
+    "freshness_rule_days": 14
+  },
+  "source_health": [
+    {
+      "id": "lab-registry",
+      "status": "complete",
+      "as_of": "2026-09-01"
+    },
+    {
+      "id": "diagnostic-accepted-report",
+      "status": "complete",
+      "as_of": "2026-09-03T20:06:49.651Z"
+    },
+    {
+      "id": "permaweb-discovery",
+      "status": "not_checked",
+      "as_of": null
+    }
+  ],
+  "freshness": "stale",
+  "governance": {
+    "active_experiment": null,
+    "system_of_record": "ilxyr"
+  },
+  "model_lines": [
+    {
+      "id": "model-line://zero/zero4",
+      "title": "ZERO.4 promoted quantity line",
+      "family": "zero",
+      "state": "promoted",
+      "promotion_state": "promoted",
+      "active_experiment": null,
+      "summary": "Q2.6 passed all three declared seeds. ZERO.4 remains the deployed promoted model and is not the parent checkpoint for the ZERO.5 C line."
+    },
+    {
+      "id": "model-line://zero/zero5",
+      "title": "ZERO.5 frozen C training line",
+      "family": "zero",
+      "state": "frozen",
+      "promotion_state": "not_promoted",
+      "active_experiment": null,
+      "summary": "Dependency-free C11 training at a fixed 4,852,992-parameter base. Its completed and already-started evidence keeps its real chronology, but no new training experiment is active or authorized."
+    },
+    {
+      "id": "model-line://zero/reasoner",
+      "title": "Reasoner verified reasoning line",
+      "family": "zero",
+      "state": "active_research",
+      "promotion_state": "not_promoted",
+      "active_experiment": null,
+      "summary": "Primary scientific line. External public evidence now includes Reasoner 5.0–5.4, the 5.5 generated-family and engineering comparisons, and 5.6 development failures. The shared research-step report binds current sources and the next fresh-family decision."
+    }
+  ],
+  "experiments": [
+    {
+      "id": "zero5-c0-v1",
+      "title": "ZERO5-C0-CORPUS-TOKENIZER",
+      "model_line_id": "model-line://zero/zero5",
+      "scientific_outcome": "selected",
+      "execution_state": "completed",
+      "disclosure_state": "public",
+      "lifecycle_state": "completed",
+      "evidence_maturity": "external_public",
+      "local_import_state": "pending_import",
+      "ledger_binding": "not_checked",
+      "publisher_authentication": "not_checked",
+      "file_integrity": "not_checked",
+      "ilxyr_recorded": false,
+      "summary": "Byte-BPE512 was selected after using 57.07% fewer validation content tokens than byte264 at the fixed model size.",
+      "source_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+      "source_repository": "repo://zero",
+      "url": "https://github.com/cenetex/ilXyr/blob/cd6edb7736d671d50c9bbdd2d3eea999b34aa294/docs/lab-registry.json"
+    },
+    {
+      "id": "zero5-c1-v1",
+      "title": "ZERO5-C1-NATIVE-C-TRAINING",
+      "model_line_id": "model-line://zero/zero5",
+      "scientific_outcome": "pass",
+      "execution_state": "completed",
+      "disclosure_state": "public",
+      "lifecycle_state": "completed",
+      "evidence_maturity": "external_public",
+      "local_import_state": "pending_import",
+      "ledger_binding": "not_checked",
+      "publisher_authentication": "not_checked",
+      "file_integrity": "not_checked",
+      "ilxyr_recorded": false,
+      "summary": "All mechanics and training-signal gates passed across three seeds; generation remained incoherent and no model promotion followed.",
+      "source_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+      "source_repository": "repo://zero",
+      "url": "https://github.com/cenetex/ilXyr/blob/cd6edb7736d671d50c9bbdd2d3eea999b34aa294/docs/lab-registry.json"
+    },
+    {
+      "id": "zero5-c2-v1",
+      "title": "ZERO5-C2-ATLAS-CONTINUATION",
+      "model_line_id": "model-line://zero/zero5",
+      "scientific_outcome": "pass",
+      "execution_state": "completed",
+      "disclosure_state": "public",
+      "lifecycle_state": "completed",
+      "evidence_maturity": "external_public",
+      "local_import_state": "pending_import",
+      "ledger_binding": "not_checked",
+      "publisher_authentication": "not_checked",
+      "file_integrity": "not_checked",
+      "ilxyr_recorded": false,
+      "summary": "Atlas validation loss fell 54.26% and the C1 anchor improved, establishing the selected C2 checkpoint as the later experiment baseline.",
+      "source_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+      "source_repository": "repo://zero",
+      "url": "https://github.com/cenetex/ilXyr/blob/cd6edb7736d671d50c9bbdd2d3eea999b34aa294/docs/lab-registry.json"
+    },
+    {
+      "id": "zero5-c3-v1",
+      "title": "ZERO5-C3-EVIDENCE-CURRICULUM",
+      "model_line_id": "model-line://zero/zero5",
+      "scientific_outcome": "no_go",
+      "execution_state": "completed",
+      "disclosure_state": "public",
+      "lifecycle_state": "completed",
+      "evidence_maturity": "external_public",
+      "local_import_state": "pending_import",
+      "ledger_binding": "not_checked",
+      "publisher_authentication": "not_checked",
+      "file_integrity": "not_checked",
+      "ilxyr_recorded": false,
+      "summary": "Combined loss improved, but claim, cloze, and retrieval decision gates exposed weak answer learning and task-order interference.",
+      "source_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+      "source_repository": "repo://zero",
+      "url": "https://github.com/cenetex/ilXyr/blob/cd6edb7736d671d50c9bbdd2d3eea999b34aa294/docs/lab-registry.json"
+    },
+    {
+      "id": "zero5-c31-v1",
+      "title": "ZERO5-C3.1-RECORD-SAFE-BRAID",
+      "model_line_id": "model-line://zero/zero5",
+      "scientific_outcome": "no_go",
+      "execution_state": "completed",
+      "disclosure_state": "public",
+      "lifecycle_state": "completed",
+      "evidence_maturity": "external_public",
+      "local_import_state": "pending_import",
+      "ledger_binding": "not_checked",
+      "publisher_authentication": "not_checked",
+      "file_integrity": "not_checked",
+      "ilxyr_recorded": false,
+      "summary": "Interleaving fixed cloze interference and answer weighting improved retrieval, but no arm cleared the complete gate.",
+      "source_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+      "source_repository": "repo://zero",
+      "url": "https://github.com/cenetex/ilXyr/blob/cd6edb7736d671d50c9bbdd2d3eea999b34aa294/docs/lab-registry.json"
+    },
+    {
+      "id": "zero5-c32-v1",
+      "title": "ZERO5-C3.2-PAIRED-INVARIANCE",
+      "model_line_id": "model-line://zero/zero5",
+      "scientific_outcome": "no_go",
+      "execution_state": "completed",
+      "disclosure_state": "public",
+      "lifecycle_state": "completed",
+      "evidence_maturity": "external_public",
+      "local_import_state": "pending_import",
+      "ledger_binding": "not_checked",
+      "publisher_authentication": "not_checked",
+      "file_integrity": "not_checked",
+      "ilxyr_recorded": false,
+      "summary": "Task balancing removed much aggregate position bias but failed the per-example swap-consistency and pair-exact gates.",
+      "source_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+      "source_repository": "repo://zero",
+      "url": "https://github.com/cenetex/ilXyr/blob/cd6edb7736d671d50c9bbdd2d3eea999b34aa294/docs/lab-registry.json"
+    },
+    {
+      "id": "zero5-c33-v1",
+      "title": "ZERO5-C3.3-PAIR-ATOMIC",
+      "model_line_id": "model-line://zero/zero5",
+      "scientific_outcome": "no_go",
+      "execution_state": "completed",
+      "disclosure_state": "public",
+      "lifecycle_state": "completed",
+      "evidence_maturity": "external_public",
+      "local_import_state": "pending_import",
+      "ledger_binding": "not_checked",
+      "publisher_authentication": "not_checked",
+      "file_integrity": "not_checked",
+      "ilxyr_recorded": false,
+      "summary": "Pair co-location moved swap consistency in the wrong direction and did not support an invariance claim.",
+      "source_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+      "source_repository": "repo://zero",
+      "url": "https://github.com/cenetex/ilXyr/blob/cd6edb7736d671d50c9bbdd2d3eea999b34aa294/docs/lab-registry.json"
+    },
+    {
+      "id": "zero5-c42-v1",
+      "title": "ZERO5-C4.2-GROUPED-TRAINING",
+      "model_line_id": "model-line://zero/zero5",
+      "scientific_outcome": "no_go",
+      "execution_state": "completed",
+      "disclosure_state": "public",
+      "lifecycle_state": "completed",
+      "evidence_maturity": "external_public",
+      "local_import_state": "pending_import",
+      "ledger_binding": "not_checked",
+      "publisher_authentication": "not_checked",
+      "file_integrity": "not_checked",
+      "ilxyr_recorded": false,
+      "summary": "Claim choice improved strongly, but cloze, retrieval, and frozen swap-improvement gates did not all pass.",
+      "source_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+      "source_repository": "repo://zero",
+      "url": "https://github.com/cenetex/ilXyr/blob/cd6edb7736d671d50c9bbdd2d3eea999b34aa294/docs/lab-registry.json"
+    },
+    {
+      "id": "zero5-c43-v1",
+      "title": "ZERO5-C4.3-DATA-REPAIR",
+      "model_line_id": "model-line://zero/zero5",
+      "scientific_outcome": "no_go",
+      "execution_state": "completed",
+      "disclosure_state": "public",
+      "lifecycle_state": "completed",
+      "evidence_maturity": "external_public",
+      "local_import_state": "pending_import",
+      "ledger_binding": "not_checked",
+      "publisher_authentication": "not_checked",
+      "file_integrity": "not_checked",
+      "ilxyr_recorded": false,
+      "summary": "Claim and retention gates passed, but retrieval choice stopped at 53.76% and cloze exact did not improve.",
+      "source_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+      "source_repository": "repo://zero",
+      "url": "https://github.com/cenetex/ilXyr/blob/cd6edb7736d671d50c9bbdd2d3eea999b34aa294/docs/lab-registry.json"
+    },
+    {
+      "id": "zero5-c51-statebridge-v1",
+      "title": "ZERO5-C5.1-STATEBRIDGE-TEXT",
+      "model_line_id": "model-line://zero/zero5",
+      "scientific_outcome": "no_go",
+      "execution_state": "completed",
+      "disclosure_state": "hash_only",
+      "lifecycle_state": "completed",
+      "evidence_maturity": "external_private_hash",
+      "local_import_state": "pending_import",
+      "ledger_binding": "not_checked",
+      "publisher_authentication": "not_checked",
+      "file_integrity": "not_checked",
+      "ilxyr_recorded": false,
+      "summary": "Structured text alone did not transfer: retrieval choice was 52.57%, pair-exact 50.94%, claim choice 56.14%, and the choice orientation gap was 62.43 points.",
+      "source_revision": "c16a4b6a14cd376260ff557e06acff46496bd5d7",
+      "source_repository": "repo://zero",
+      "url": "https://github.com/cenetex/ilXyr/blob/cd6edb7736d671d50c9bbdd2d3eea999b34aa294/docs/lab-registry.json"
+    },
+    {
+      "id": "zero5-c52-targetbridge-v1",
+      "title": "ZERO5-C5.2-TARGETBRIDGE-AUX",
+      "model_line_id": "model-line://zero/zero5",
+      "scientific_outcome": "unknown",
+      "execution_state": "completed",
+      "disclosure_state": "withheld",
+      "lifecycle_state": "withheld",
+      "evidence_maturity": "private_withheld",
+      "local_import_state": "withheld",
+      "ledger_binding": "not_checked",
+      "publisher_authentication": "not_checked",
+      "file_integrity": "not_checked",
+      "ilxyr_recorded": false,
+      "summary": "The authorized run finished under its frozen private-result and no-publication boundary. Its outcome, metrics, checkpoint hashes, and result hash are intentionally absent from this public registry.",
+      "source_revision": "ba7e24f65c4fa79b5b69d945acd6b47df6c9d7a6",
+      "source_repository": "repo://zero",
+      "url": "https://github.com/cenetex/ilXyr/blob/cd6edb7736d671d50c9bbdd2d3eea999b34aa294/docs/lab-registry.json"
+    },
+    {
+      "id": "zero5-c61-shared-state-v1",
+      "title": "ZERO5-C6.1-SHARED-STATE-BOTTLENECK",
+      "model_line_id": "model-line://zero/zero5",
+      "scientific_outcome": "unknown",
+      "execution_state": "blocked",
+      "disclosure_state": "public",
+      "lifecycle_state": "blocked",
+      "evidence_maturity": "native",
+      "local_import_state": "not_started",
+      "ledger_binding": "not_checked",
+      "publisher_authentication": "not_checked",
+      "file_integrity": "not_checked",
+      "ilxyr_recorded": true,
+      "summary": "The 152-wide bottleneck, evaluator, runner, and frozen gates are built. The same-checkpoint bridge-off ablation is mandatory. Training remains blocked until a separate authorization is bound to this contract and ilXyr registration.",
+      "source_revision": "8876c335f04966f09127e8e35c63558a2e2aaffb",
+      "source_repository": "repo://zero",
+      "url": "https://github.com/cenetex/ilXyr/blob/cd6edb7736d671d50c9bbdd2d3eea999b34aa294/docs/lab-registry.json"
+    }
+  ],
+  "environments": [
+    {
+      "id": "environment://cenetex/public-v1",
+      "operator": "Cenetex",
+      "state": "reference_candidate",
+      "compatibility": "not_yet_verified",
+      "weight_classes": [
+        "public"
+      ],
+      "network_modes": [
+        "denied"
+      ],
+      "export_policies": [
+        "metrics_only"
+      ],
+      "manifest_ref": null,
+      "conformance_ref": null,
+      "verified_results": 0,
+      "source": "https://github.com/cenetex/ilXyr/blob/cd6edb7736d671d50c9bbdd2d3eea999b34aa294/executor/cenetex-public-v1/profile.json",
+      "note": "build artifacts and final digests are not published; independent conformance has not run; authenticated report intake is implemented but not deployed; no cloud compute is authorized"
+    },
+    {
+      "id": "environment://cenetex/cloud-launcher-diagnostic/v1",
+      "operator": "service://cenetex/cloud-launcher-diagnostic/v1",
+      "state": "accepted_diagnostic_report",
+      "compatibility": "source_reported",
+      "weight_classes": [
+        "public"
+      ],
+      "network_modes": [
+        "denied"
+      ],
+      "export_policies": [
+        "metrics_only"
+      ],
+      "manifest_ref": null,
+      "conformance_ref": null,
+      "verified_results": 1,
+      "source": "https://github.com/cenetex/ilXyr/blob/b6fdbd6c5f6fcda11839009ce2cbb527f0ac9b82/experiments/cloud-launcher/diagnostic-v1/environment.json",
+      "note": "The public source contains one accepted diagnostic report."
+    }
+  ],
+  "results": [
+    {
+      "id": "result:cloud.launcher.diagnostic.v1",
+      "experiment_id": "cloud.launcher.diagnostic.v1",
+      "run_ref": "artifact://sha256/abe1695664909c31187ed2a15c4ad52d555da00b3ea6f2d9fa3ddfd0f5fe587e",
+      "environment_ref": "artifact://sha256/16806f15da532858ecf2244026458330dfde08b34f838e46556bc0558224118e",
+      "verification_summary_ref": "artifact://sha256/6f6c3e0de79629d982fc7c223d65b9f7799fb5d390ef984ece0a08e11b499d3d",
+      "outcome": "success",
+      "score": 0.82,
+      "execution_state": "completed",
+      "disclosure_state": "public",
+      "ledger_binding": "not_checked",
+      "verification_state": "source_reported_acceptance",
+      "source": "https://github.com/cenetex/ilXyr/blob/b6fdbd6c5f6fcda11839009ce2cbb527f0ac9b82/experiments/cloud-launcher/diagnostic-v1/accepted-report.json"
+    }
+  ]
+}

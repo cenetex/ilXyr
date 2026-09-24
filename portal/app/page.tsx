@@ -1,24 +1,22 @@
 import {
   cliGroups,
-  executionEnvironments,
-  experiments,
   guide,
   protocolDocuments,
   publicRoutes,
   repository,
-  siteStatus,
-  verifiedExecutionResults,
 } from "./catalog";
+import { executionEnvironments, experiments, publicResults, snapshot } from "./snapshot";
 import { ProtocolPortal } from "./ProtocolPortal";
 
 export default function Home() {
   return (
     <ProtocolPortal
-      status={siteStatus}
       routes={publicRoutes}
+      modelLines={snapshot.model_lines}
       environments={executionEnvironments}
-      results={verifiedExecutionResults}
+      results={publicResults}
       experiments={experiments}
+      source={snapshot.source}
       documents={protocolDocuments}
       cliGroups={cliGroups}
       repository={repository}
