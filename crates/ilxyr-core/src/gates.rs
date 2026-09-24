@@ -1,10 +1,10 @@
 //! Task accounting and paired-evaluation gate checks (#16, #17).
 //!
 //! Pure functions deriving [`GateCheck`]s from declared contracts and
-//! recorded evidence. Used at evidence finalization and by downstream
-//! consumers (nomination engine, paper lane).
+//! recorded evidence. Paired evaluation is currently a library-only gate:
+//! evidence finalization, export, nomination, and the paper lane do not call it.
 
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 use crate::model::GateCheck;
 
@@ -108,8 +108,45 @@ pub fn check_token_mass(
 /// Evaluate mirror-pair symmetry gates (issue #16).
 ///
 /// Returns one check per required orientation, plus mean-paired-accuracy and
-/// position-gap checks. Missing orientations fail closed.
+/// position-gap checks for valid inputs. Invalid contracts or results return
+/// only a failing contract check, before any aggregate is calculated.
 pub fn evaluate_paired_eval(spec: &PairedEvalSpec, result: &PairedEvalResult) -> Vec<GateCheck> {
+    let mut problems = Vec::new();
+    let declared: BTreeSet<_> = spec.orientations.iter().collect();
+    if spec.orientations.is_empty() {
+        problems.push("no orientations declared".to_owned());
+    }
+    if spec.orientations.iter().any(|name| name.trim().is_empty()) {
+        problems.push("empty orientation identifier".to_owned());
+    }
+    if declared.len() != spec.orientations.len() {
+        problems.push("duplicate declared orientations".to_owned());
+    }
+    if !spec.min_mean_paired_accuracy.is_finite()
+        || !(0.0..=1.0).contains(&spec.min_mean_paired_accuracy)
+    {
+        problems.push("invalid minimum paired accuracy".to_owned());
+    }
+    if !spec.max_position_gap.is_finite() || !(0.0..=1.0).contains(&spec.max_position_gap) {
+        problems.push("invalid maximum position gap".to_owned());
+    }
+    for name in &spec.orientations {
+        if !result.per_orientation.contains_key(name) {
+            problems.push(format!("missing orientation {name}"));
+        }
+    }
+    for (name, accuracy) in &result.per_orientation {
+        if !declared.contains(name) {
+            problems.push(format!("undeclared orientation {name}"));
+        }
+        if !accuracy.is_finite() || !(0.0..=1.0).contains(accuracy) {
+            problems.push(format!("invalid accuracy for orientation {name}"));
+        }
+    }
+    if !problems.is_empty() {
+        return vec![check("paired_contract", false, problems.join("; "))];
+    }
+
     let mut checks = Vec::new();
     for orientation in &spec.orientations {
         match result.per_orientation.get(orientation) {
@@ -156,4 +193,103 @@ pub fn evaluate_paired_eval(spec: &PairedEvalSpec, result: &PairedEvalResult) ->
         )),
     }
     checks
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn spec() -> PairedEvalSpec {
+        PairedEvalSpec {
+            orientations: vec!["ab".to_owned(), "ba".to_owned()],
+            min_mean_paired_accuracy: 0.8,
+            max_position_gap: 0.05,
+        }
+    }
+
+    fn result(pairs: &[(&str, f64)]) -> PairedEvalResult {
+        PairedEvalResult {
+            per_orientation: pairs
+                .iter()
+                .map(|(name, score)| ((*name).to_owned(), *score))
+                .collect(),
+        }
+    }
+
+    #[test]
+    fn undeclared_orientation_cannot_raise_the_paired_mean() {
+        let checks = evaluate_paired_eval(
+            &spec(),
+            &result(&[("ab", 0.79), ("ba", 0.79), ("undeclared", 0.83)]),
+        );
+        assert_eq!(checks.len(), 1);
+        assert_eq!(checks[0].gate, "paired_contract");
+        assert!(!checks[0].passed);
+        assert!(
+            checks[0]
+                .detail
+                .contains("undeclared orientation undeclared")
+        );
+    }
+
+    #[test]
+    fn valid_pair_keeps_the_existing_gate_results() {
+        let checks = evaluate_paired_eval(&spec(), &result(&[("ab", 0.81), ("ba", 0.82)]));
+        assert_eq!(
+            checks
+                .iter()
+                .map(|item| item.gate.as_str())
+                .collect::<Vec<_>>(),
+            [
+                "paired_orientation",
+                "paired_orientation",
+                "paired_choice_accuracy",
+                "position_gap"
+            ]
+        );
+        assert!(checks.iter().all(|item| item.passed));
+    }
+
+    #[test]
+    fn malformed_declarations_and_scores_fail_before_aggregation() {
+        let cases = [
+            (
+                PairedEvalSpec {
+                    orientations: vec![],
+                    ..spec()
+                },
+                result(&[]),
+            ),
+            (
+                PairedEvalSpec {
+                    orientations: vec!["ab".to_owned(), "ab".to_owned()],
+                    ..spec()
+                },
+                result(&[("ab", 0.9)]),
+            ),
+            (
+                PairedEvalSpec {
+                    min_mean_paired_accuracy: f64::NAN,
+                    ..spec()
+                },
+                result(&[("ab", 0.9), ("ba", 0.9)]),
+            ),
+            (
+                PairedEvalSpec {
+                    max_position_gap: 1.1,
+                    ..spec()
+                },
+                result(&[("ab", 0.9), ("ba", 0.9)]),
+            ),
+            (spec(), result(&[("ab", f64::INFINITY), ("ba", 0.9)])),
+            (spec(), result(&[("ab", -0.1), ("ba", 0.9)])),
+            (spec(), result(&[("ab", 0.9)])),
+        ];
+        for (spec, result) in cases {
+            let checks = evaluate_paired_eval(&spec, &result);
+            assert_eq!(checks.len(), 1);
+            assert_eq!(checks[0].gate, "paired_contract");
+            assert!(!checks[0].passed);
+        }
+    }
 }
