@@ -20,6 +20,24 @@ operated service or a completed experiment. The supported academic claim, evalua
 and publication gaps are stated in
 [docs/ACADEMIC-SCOPE.md](docs/ACADEMIC-SCOPE.md).
 
+## Surfaces and operating state (September 24, 2026)
+
+| Surface | What is available | Operating state |
+| --- | --- | --- |
+| Core and CLI | Local proposals, gates, runs, settlement, and an event chain | Implemented and tested; operators supply a workspace |
+| Execution and AWS | Bounded packages, preflight, launch, observation, and report checks | Tested adapters and retained cloud run receipts; each new paid run needs its own frozen package, fresh preflight, and cost approval |
+| Report intake | One-run credentials, replay handling, and durable writes | Implemented and tested; public operation awaits a verified deployment |
+| Corpus service | Versioned source releases and cloud materialization receipts | Implemented and tested; a public deployment is unverified |
+| Hosted portal | Read-only pages and APIs from the [shared snapshot](docs/PUBLIC-SNAPSHOT.md) | Built and tested; views carry the source date and freshness state |
+| GitHub Pages | Public program and experiment guide from the same snapshot | [Published](https://cenetex.github.io/ilXyr/) with a checked Pages workflow |
+| Arweave and AO | Static evidence viewer, index checks, proposal process source, and optional core-chain proof check | Viewer and process paths are tested; live AO operation needs a configured process, and public ledger binding needs an independent anchor |
+
+The [public snapshot](docs/public-snapshot-v1.json) carries the source commit,
+registry digest, source date, build time, freshness, and separate research and
+verification states. Required CI checks its schema and rejects drift from the
+registry. The [trust model](docs/INTEROPERABILITY.md) explains the evidence
+needed for core-ledger binding and scientific interpretation.
+
 ## Current research boundaries (September 24, 2026)
 
 The [five-project closeout](experiments/research-step-51/REPORT.md) records the
@@ -32,13 +50,17 @@ test passes; the replacement scientific comparison is still pending in that
 record. These are different result types, with separate cost and failure receipts.
 
 The [lab registry](docs/lab-registry.json) is a dated snapshot of ZERO model
-lines, not a live inventory of later results. Reasoner is the active scientific
-line; ZERO.5 C training is frozen in that snapshot. NSRL's
+lines. Reasoner is the active scientific line; ZERO.4 has a scoped historical
+promoted result; ZERO.5 C training is frozen; and C5.2 remains private. NSRL's
 [combined integer-transformer substrate proof](https://github.com/atimics/nsrl/blob/main/docs/integer-transformer-proof-v1.md)
-is promoted under its own fixed gate; its Solomon product proof remains separate.
+passed its fixed gate while its model and product readiness remain experimental.
+[NSRL issue #62](https://github.com/atimics/nsrl/issues/62) owns the current
+component attribution and status reconciliation.
 The [confidence decision](docs/experiments/SOLOMON-CONFIDENCE-DECISION-2026-09-24.md)
-sets the next question after the completed comparison. Current owner issues:
-[#170](https://github.com/cenetex/ilXyr/issues/170),
+sets the next question after the completed comparison. The completed Reasoner
+comparison is [#170](https://github.com/cenetex/ilXyr/issues/170); its next
+typed-role audit is [#233](https://github.com/cenetex/ilXyr/issues/233).
+Other owner issues are
 [#171](https://github.com/cenetex/ilXyr/issues/171),
 [#172](https://github.com/cenetex/ilXyr/issues/172),
 [#173](https://github.com/cenetex/ilXyr/issues/173), and
@@ -46,10 +68,18 @@ sets the next question after the completed comparison. Current owner issues:
 
 Braid compiles source releases and exposure identities. Model repositories own
 training and task evaluation. ilxyr records admissible evidence, budgets and
-settlement. They do not share a model checkpoint. Local hash/ledger checks,
-authenticated publication and external replication answer different questions;
-the [academic scope](docs/ACADEMIC-SCOPE.md) states the limits on claims about
-scientific truth, novelty and productivity.
+settlement. Each engine has its own model identity. A prospective freeze fixes
+the plan before execution; external preregistration adds an independently
+stored plan receipt; retrospective import checks earlier work under its
+original chronology. Several seeds from one team test robustness under one
+method. Outside reproduction adds an independent producer.
+
+The browser separates retrieved bytes, authenticated publisher identity,
+core-chain consistency, ledger binding, and scientific disposition. The
+[core proof](docs/INTEROPERABILITY.md) checks event inclusion relative to a
+claimed head; independent ledger binding still needs an outside anchor. The
+[academic scope](docs/ACADEMIC-SCOPE.md) explains why protocol tests alone
+cannot establish scientific truth, novelty, or productivity.
 
 ## What v1 does
 
@@ -202,11 +232,12 @@ admits every member and confirms that each local executable exists before execut
 settle` waits for evidence from every declared run, applies the frozen all-member outcome rule,
 and records one idempotent family settlement.
 
-The checked-in Q2.6-R manifest is a frozen record of EXP-005, which has already completed
-upstream. Do not use it to execute seeds 1 or 3 again. Its published evidence is imported into
-this repository's local ilXyr ledger through the verification-only `zero.q26r.family.decision.v1`
-retro registration; the adapter re-derives the family aggregate and re-runs the upstream per-seed
-checker without retraining.
+The checked-in Q2.6-R manifest is a frozen record of EXP-005, which completed
+upstream. Its local ilXyr import remains pending. The verification-only
+`zero.q26r.family.decision.v1` retro registration provides the import path:
+it re-derives the family aggregate and runs the upstream per-seed checker over
+the retained records. The completed seed-1 and seed-3 runs remain historical
+evidence.
 
 Executor/attestation adapters can bind signed provenance after a run:
 
@@ -366,7 +397,7 @@ started without producing a terminal run. `authorize` reports the same decision 
 
 - `permaweb`: the static Arweave/AO experiment registry, canonical index tooling, and signed
   proposal/review/funding process. See [`permaweb/README.md`](permaweb/README.md).
-- `portal`: read-only views of published evidence for the conventional web deployment.
+- `portal`: read-only views and APIs from the shared versioned public snapshot.
 - `crates/ilxyr-core`: protocol objects, validation, ledger, gates, execution, settlement.
 - `crates/ilxyr-cli`: a small reference control-plane CLI.
 - `schemas`: portable JSON contracts for non-Rust producers and consumers (strict Draft 2020-12
