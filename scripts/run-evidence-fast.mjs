@@ -13,6 +13,12 @@ const baseCommands = base.split(" && ");
 // Run its two new self-tests here so required CI executes each check once.
 const additional = [
   {
+    script: "test:feral-source-selector",
+    command: "npm run test:feral-source-selector",
+    evidence: "BRAID source request fixture and selector control",
+    binding: "experiments/feral-source-selector/fixture",
+  },
+  {
     script: "test:weight-multiplicity-frontier",
     command: "npm run test:weight-multiplicity-frontier",
     evidence: "weight phase 0 coordinate and seed replay",

@@ -63,6 +63,7 @@
     "test:feral-coverage-cloud": "python3 scripts/test_feral_coverage_cloud.py",
     "test:research-launch-bindings": "python3 scripts/test_research_launch_bindings.py",
     "test:feral-calculator-v3": "python3 scripts/test_feral_evidence_calculator_v3.py",
+    "test:feral-source-selector": "python3 scripts/test_feral_source_selector.py",
     "test:weight-yield": "python3 -B scripts/test_weight_yield_audit.py",
     "test:weight-selection": "node --test scripts/test-weight-selection-pilot.mjs",
     "test:weight-pilot-check": "python3 -B scripts/test_weight_pilot_check.py",

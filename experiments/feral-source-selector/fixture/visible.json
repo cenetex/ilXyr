@@ -1,0 +1,193 @@
+{
+  "schemaVersion": "braid.source-request-fixture/v1",
+  "provenanceTier": "synthetic-authored-development",
+  "purpose": "source-selection-development",
+  "resources": [
+    {
+      "resourceId": "resource://braid/synthetic/feral-source-request-v1/aster-2024",
+      "documentType": "regulatory_filing",
+      "eventAt": "2025-02-15T00:00:00.000Z",
+      "contentSha256": "69b7f25d6acd083655bfa0192e575d2a0a8e3867266caf0d73f1aa6de6edf209",
+      "content": "Aster Industries annual filing for 2024.\nRevenue: USD 90 million.\nOperating income: USD 12 million.\nDow Jones Technology Index: 140 points.",
+      "attributes": {
+        "fixture": "synthetic-authored-development",
+        "issuer": "Aster",
+        "filingKind": "annual",
+        "sourceFamily": "aster"
+      }
+    },
+    {
+      "resourceId": "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+      "documentType": "regulatory_filing",
+      "eventAt": "2026-02-10T00:00:00.000Z",
+      "contentSha256": "d085d1e9cc0dc41463798bd41b292fd5aaf2269594c5cdf4180c0d4bc236aeeb",
+      "content": "Aster Industries draft filing for 2025.\nRevenue: USD 120 million.\nOperating income: USD 16 million.\nDow Jones Technology Index: 180 points.",
+      "attributes": {
+        "fixture": "synthetic-authored-development",
+        "issuer": "Aster",
+        "filingKind": "draft",
+        "sourceFamily": "aster"
+      }
+    },
+    {
+      "resourceId": "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+      "documentType": "regulatory_filing",
+      "eventAt": "2026-02-20T00:00:00.000Z",
+      "contentSha256": "3aacbdefe07c2734c313dd9b58e976bb154af524d8bc786f488619223a3fc4da",
+      "content": "Aster Industries audited filing for 2025.\nRevenue: USD 120 million.\nOperating income: USD 18 million.\nDow Jones Technology Index: 180 points.",
+      "attributes": {
+        "fixture": "synthetic-authored-development",
+        "issuer": "Aster",
+        "filingKind": "audited",
+        "sourceFamily": "aster"
+      }
+    },
+    {
+      "resourceId": "resource://braid/synthetic/feral-source-request-v1/birch-2025",
+      "documentType": "regulatory_filing",
+      "eventAt": "2026-02-25T00:00:00.000Z",
+      "contentSha256": "17560e2741017c4a482cc595c23fc8d097ecf4ae671337f9234df6a071f79978",
+      "content": "Birch Systems audited filing for 2025.\nRevenue: USD 75 million.\nOperating income: USD 10 million.\nRevenue in thousands: USD 75000 thousand.",
+      "attributes": {
+        "fixture": "synthetic-authored-development",
+        "issuer": "Birch",
+        "filingKind": "audited",
+        "sourceFamily": "birch"
+      }
+    }
+  ],
+  "requests": [
+    {
+      "requestId": "q01",
+      "familyId": "aster-revenue",
+      "text": "What was Aster revenue in 2025?",
+      "change": "canonical",
+      "visibleResourceIds": [
+        "resource://braid/synthetic/feral-source-request-v1/aster-2024",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+        "resource://braid/synthetic/feral-source-request-v1/birch-2025"
+      ]
+    },
+    {
+      "requestId": "q01p",
+      "familyId": "aster-revenue",
+      "text": "Give the 2025 amount for Aster revenue.",
+      "change": "paraphrase",
+      "visibleResourceIds": [
+        "resource://braid/synthetic/feral-source-request-v1/aster-2024",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+        "resource://braid/synthetic/feral-source-request-v1/birch-2025"
+      ]
+    },
+    {
+      "requestId": "q02",
+      "familyId": "aster-revenue",
+      "text": "What was Aster revenue in 2024?",
+      "change": "period-change",
+      "visibleResourceIds": [
+        "resource://braid/synthetic/feral-source-request-v1/aster-2024",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+        "resource://braid/synthetic/feral-source-request-v1/birch-2025"
+      ]
+    },
+    {
+      "requestId": "q03",
+      "familyId": "birch-revenue",
+      "text": "What was Birch revenue in 2025?",
+      "change": "entity-change",
+      "visibleResourceIds": [
+        "resource://braid/synthetic/feral-source-request-v1/aster-2024",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+        "resource://braid/synthetic/feral-source-request-v1/birch-2025"
+      ]
+    },
+    {
+      "requestId": "q04",
+      "familyId": "aster-cash",
+      "text": "What was Aster cash flow in 2025?",
+      "change": "missing-fact",
+      "visibleResourceIds": [
+        "resource://braid/synthetic/feral-source-request-v1/aster-2024",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+        "resource://braid/synthetic/feral-source-request-v1/birch-2025"
+      ]
+    },
+    {
+      "requestId": "q05",
+      "familyId": "aster-index",
+      "text": "What was the S&P 500 Index value in Aster’s 2025 filing?",
+      "change": "confusable-index",
+      "visibleResourceIds": [
+        "resource://braid/synthetic/feral-source-request-v1/aster-2024",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+        "resource://braid/synthetic/feral-source-request-v1/birch-2025"
+      ]
+    },
+    {
+      "requestId": "q06",
+      "familyId": "aster-income",
+      "text": "What was Aster operating income in 2025?",
+      "change": "conflicting-sources",
+      "visibleResourceIds": [
+        "resource://braid/synthetic/feral-source-request-v1/aster-2024",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+        "resource://braid/synthetic/feral-source-request-v1/birch-2025"
+      ]
+    },
+    {
+      "requestId": "q07",
+      "familyId": "aster-income",
+      "text": "According to Aster’s audited 2025 filing, what was operating income?",
+      "change": "source-resolution",
+      "visibleResourceIds": [
+        "resource://braid/synthetic/feral-source-request-v1/aster-2024",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+        "resource://braid/synthetic/feral-source-request-v1/birch-2025"
+      ]
+    },
+    {
+      "requestId": "q07p",
+      "familyId": "aster-income",
+      "text": "In the audited Aster filing for 2025, give operating income.",
+      "change": "paraphrase",
+      "visibleResourceIds": [
+        "resource://braid/synthetic/feral-source-request-v1/aster-2024",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+        "resource://braid/synthetic/feral-source-request-v1/birch-2025"
+      ]
+    },
+    {
+      "requestId": "q08",
+      "familyId": "aster-income",
+      "text": "According to Aster’s draft 2025 filing, what was operating income?",
+      "change": "source-change",
+      "visibleResourceIds": [
+        "resource://braid/synthetic/feral-source-request-v1/aster-2024",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+        "resource://braid/synthetic/feral-source-request-v1/birch-2025"
+      ]
+    },
+    {
+      "requestId": "q09",
+      "familyId": "birch-revenue",
+      "text": "What was Birch revenue in thousands in 2025?",
+      "change": "unit-change",
+      "visibleResourceIds": [
+        "resource://braid/synthetic/feral-source-request-v1/aster-2024",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+        "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+        "resource://braid/synthetic/feral-source-request-v1/birch-2025"
+      ]
+    }
+  ]
+}
