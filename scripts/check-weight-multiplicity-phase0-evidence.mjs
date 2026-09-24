@@ -6,7 +6,9 @@ import { readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const root = process.argv[2] === "--root" && process.argv[3]
+  ? resolve(process.argv[3])
+  : join(dirname(fileURLToPath(import.meta.url)), "..");
 const evidenceDirectory = join(
   root,
   "experiments/weight-multiplicity/phase0",
