@@ -148,11 +148,13 @@ async function main() {
   const executionReport = JSON.parse(await readFile(executionPath, "utf8"));
   const environment = JSON.parse(await readFile(environmentPath, "utf8"));
   const profile = JSON.parse(await readFile(profilePath, "utf8"));
-  const registryCommit = execFileSync("git", ["log", "-1", "--format=%H", "--", "docs/lab-registry.json"],
-    { cwd: root, encoding: "utf8" }).trim();
-  const reportCommit = execFileSync("git", ["log", "-1", "--format=%H", "--", "experiments/cloud-launcher/diagnostic-v1/accepted-report.json"],
-    { cwd: root, encoding: "utf8" }).trim();
   const existing = check ? JSON.parse(await readFile(snapshotPath, "utf8")) : null;
+  const registryCommit = check ? existing?.source?.registry_commit :
+    execFileSync("git", ["log", "-1", "--format=%H", "--", "docs/lab-registry.json"],
+      { cwd: root, encoding: "utf8" }).trim();
+  const reportCommit = check ? existing?.results?.[0]?.source?.match(/\/blob\/([a-f0-9]{40})\//)?.[1] :
+    execFileSync("git", ["log", "-1", "--format=%H", "--", "experiments/cloud-launcher/diagnostic-v1/accepted-report.json"],
+      { cwd: root, encoding: "utf8" }).trim();
   const generatedAt = existing?.source?.generated_at || new Date().toISOString();
   const snapshot = buildPublicSnapshot({ registry, registryBytes: bytes, registryCommit, reportCommit,
     generatedAt, acceptedReport, executionReport, environment, profile });
