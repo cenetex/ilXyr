@@ -8,7 +8,11 @@ export type EvidenceFile = {
 export type RegistryRecord = {
   txId: string;
   owner: string;
+  publisherAddress?: string;
   publisherListed: boolean;
+  publisherAuthentication?: "pass" | "fail" | "unknown" | "not_checked";
+  bundleOwnerAuthentication?: "pass" | "fail" | "unknown" | "not_checked";
+  provenanceError?: string;
   experimentId: string;
   evidenceRef: string;
   title: string;

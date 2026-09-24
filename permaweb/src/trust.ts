@@ -9,6 +9,7 @@ export type RecordTrust = {
   byteIntegrity: CheckState;
   publisherAllowlist: CheckState;
   publisherAuthentication: CheckState;
+  bundleOwnerAuthentication: CheckState;
   ledgerBinding: CheckState;
   scientificDisposition: CheckState;
   reportedOutcome: string;
@@ -30,8 +31,10 @@ export function recordTrust(record: RegistryRecord, files: Record<string, FileCh
     listing: "pass",
     fileRetrieval,
     byteIntegrity,
-    publisherAllowlist: record.publisherListed ? "pass" : "fail",
-    publisherAuthentication: "not_checked",
+    publisherAllowlist: record.publisherAuthentication === "pass"
+      ? record.publisherListed ? "pass" : "fail" : "unknown",
+    publisherAuthentication: record.publisherAuthentication || "not_checked",
+    bundleOwnerAuthentication: record.bundleOwnerAuthentication || "not_checked",
     ledgerBinding: "not_checked",
     scientificDisposition: "not_checked",
     reportedOutcome: record.outcome || "unresolved",

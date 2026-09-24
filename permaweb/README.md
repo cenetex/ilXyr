@@ -35,14 +35,26 @@ configured publisher addresses; the canonical index remains the listing view.
 
 ## What the browser checks
 
-The record list shows a publisher-reported outcome and whether its publisher address appears
-in the configured list. Opening a record shows separate states for the listing, publisher
-authentication, file retrieval, SHA-256 file integrity, ilXyr ledger binding, and scientific
-disposition. A file's hash changes to `pass` only after the browser retrieves and hashes that
-file. A retrieval error and a hash mismatch have different states. Existing records carry
-`not checked` for publisher authentication, ledger binding, and scientific disposition until
-the corresponding verification path exists. A reported `no_go` remains visible as a reported
-result, including when its provenance later verifies.
+The record list shows a publisher-reported outcome. For a configured canonical
+index transaction, the browser reads that transaction's owner from the
+configured HTTPS Arweave gateway's GraphQL response. It checks the owner
+against `published_by` and the approved address list. It checks each bundle
+transaction's owner separately; an entry's `owner` field is only a claim. A
+bundled local fallback has no index transaction owner proof. Missing or
+conflicting gateway metadata leaves an explicit unknown or failed state. An
+authenticated gateway record can replace an unverified canonical listing in
+the de-duplicated view while preserving the canonical error.
+
+This is gateway-backed provenance: the browser trusts the configured HTTPS
+gateway to report transaction owners accurately. It does not independently
+verify Arweave signatures or consensus. Publisher provenance does not prove
+the core ledger binding or scientific outcome. Those remain separate checks.
+A reported `no_go` remains visible as a reported result.
+
+Opening a record shows separate states for the listing, gateway owner checks,
+file retrieval, byte integrity, ilXyr ledger binding, and scientific
+disposition. A file passes byte integrity only after the browser retrieves it
+and checks both size and SHA-256. Retrieval and integrity failures stay distinct.
 
 The browser and `bundle:verify` accept `ilxyr.publication-manifest.v1` and the
 published `lecore.qwen35-publication-manifest.v1` file format. Both check
