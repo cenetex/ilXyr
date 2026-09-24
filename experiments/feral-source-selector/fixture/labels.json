@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "braid.source-request-labels/v1",
+  "fixtureSha256": "6099210bfaaa89fe41480fcc88a52716b8a055244f752050191d362621a4efe2",
+  "scope": "synthetic-development-labels; public and opened",
+  "labels": [
+    {
+      "requestId": "q01",
+      "kind": "answer",
+      "answer": "120",
+      "unit": "usd_million",
+      "support": [
+        {
+          "resourceId": "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+          "span": {
+            "unit": "utf8_byte",
+            "start": 51,
+            "end": 66
+          },
+          "quotedValue": "USD 120 million"
+        }
+      ],
+      "abstentionReason": null
+    },
+    {
+      "requestId": "q01p",
+      "kind": "answer",
+      "answer": "120",
+      "unit": "usd_million",
+      "support": [
+        {
+          "resourceId": "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+          "span": {
+            "unit": "utf8_byte",
+            "start": 51,
+            "end": 66
+          },
+          "quotedValue": "USD 120 million"
+        }
+      ],
+      "abstentionReason": null
+    },
+    {
+      "requestId": "q02",
+      "kind": "answer",
+      "answer": "90",
+      "unit": "usd_million",
+      "support": [
+        {
+          "resourceId": "resource://braid/synthetic/feral-source-request-v1/aster-2024",
+          "span": {
+            "unit": "utf8_byte",
+            "start": 50,
+            "end": 64
+          },
+          "quotedValue": "USD 90 million"
+        }
+      ],
+      "abstentionReason": null
+    },
+    {
+      "requestId": "q03",
+      "kind": "answer",
+      "answer": "75",
+      "unit": "usd_million",
+      "support": [
+        {
+          "resourceId": "resource://braid/synthetic/feral-source-request-v1/birch-2025",
+          "span": {
+            "unit": "utf8_byte",
+            "start": 48,
+            "end": 62
+          },
+          "quotedValue": "USD 75 million"
+        }
+      ],
+      "abstentionReason": null
+    },
+    {
+      "requestId": "q04",
+      "kind": "abstain",
+      "answer": null,
+      "unit": null,
+      "support": [],
+      "abstentionReason": "missing_fact"
+    },
+    {
+      "requestId": "q05",
+      "kind": "abstain",
+      "answer": null,
+      "unit": null,
+      "support": [],
+      "abstentionReason": "wrong_index_identity"
+    },
+    {
+      "requestId": "q06",
+      "kind": "abstain",
+      "answer": null,
+      "unit": null,
+      "support": [
+        {
+          "resourceId": "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+          "span": {
+            "unit": "utf8_byte",
+            "start": 84,
+            "end": 98
+          },
+          "quotedValue": "USD 16 million"
+        },
+        {
+          "resourceId": "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+          "span": {
+            "unit": "utf8_byte",
+            "start": 86,
+            "end": 100
+          },
+          "quotedValue": "USD 18 million"
+        }
+      ],
+      "abstentionReason": "conflicting_sources"
+    },
+    {
+      "requestId": "q07",
+      "kind": "answer",
+      "answer": "18",
+      "unit": "usd_million",
+      "support": [
+        {
+          "resourceId": "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+          "span": {
+            "unit": "utf8_byte",
+            "start": 86,
+            "end": 100
+          },
+          "quotedValue": "USD 18 million"
+        }
+      ],
+      "abstentionReason": null
+    },
+    {
+      "requestId": "q07p",
+      "kind": "answer",
+      "answer": "18",
+      "unit": "usd_million",
+      "support": [
+        {
+          "resourceId": "resource://braid/synthetic/feral-source-request-v1/aster-2025-audited",
+          "span": {
+            "unit": "utf8_byte",
+            "start": 86,
+            "end": 100
+          },
+          "quotedValue": "USD 18 million"
+        }
+      ],
+      "abstentionReason": null
+    },
+    {
+      "requestId": "q08",
+      "kind": "answer",
+      "answer": "16",
+      "unit": "usd_million",
+      "support": [
+        {
+          "resourceId": "resource://braid/synthetic/feral-source-request-v1/aster-2025-draft",
+          "span": {
+            "unit": "utf8_byte",
+            "start": 84,
+            "end": 98
+          },
+          "quotedValue": "USD 16 million"
+        }
+      ],
+      "abstentionReason": null
+    },
+    {
+      "requestId": "q09",
+      "kind": "answer",
+      "answer": "75000",
+      "unit": "usd_thousand",
+      "support": [
+        {
+          "resourceId": "resource://braid/synthetic/feral-source-request-v1/birch-2025",
+          "span": {
+            "unit": "utf8_byte",
+            "start": 120,
+            "end": 138
+          },
+          "quotedValue": "USD 75000 thousand"
+        }
+      ],
+      "abstentionReason": null
+    }
+  ]
+}

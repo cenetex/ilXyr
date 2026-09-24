@@ -1,0 +1,90 @@
+{
+  "schema": "ilxyr.feral_source_selector_score.v1",
+  "method": "context_aware_deterministic_v1",
+  "visible_sha256": "6099210bfaaa89fe41480fcc88a52716b8a055244f752050191d362621a4efe2",
+  "rows": [
+    {
+      "requestId": "q01",
+      "source_correct": true,
+      "answer_correct": true,
+      "operation_correct": true,
+      "incorrect_assertion": false
+    },
+    {
+      "requestId": "q01p",
+      "source_correct": true,
+      "answer_correct": true,
+      "operation_correct": true,
+      "incorrect_assertion": false
+    },
+    {
+      "requestId": "q02",
+      "source_correct": true,
+      "answer_correct": true,
+      "operation_correct": true,
+      "incorrect_assertion": false
+    },
+    {
+      "requestId": "q03",
+      "source_correct": true,
+      "answer_correct": true,
+      "operation_correct": true,
+      "incorrect_assertion": false
+    },
+    {
+      "requestId": "q04",
+      "source_correct": true,
+      "answer_correct": true,
+      "operation_correct": null,
+      "incorrect_assertion": false
+    },
+    {
+      "requestId": "q05",
+      "source_correct": true,
+      "answer_correct": true,
+      "operation_correct": null,
+      "incorrect_assertion": false
+    },
+    {
+      "requestId": "q06",
+      "source_correct": true,
+      "answer_correct": true,
+      "operation_correct": null,
+      "incorrect_assertion": false
+    },
+    {
+      "requestId": "q07",
+      "source_correct": true,
+      "answer_correct": true,
+      "operation_correct": true,
+      "incorrect_assertion": false
+    },
+    {
+      "requestId": "q07p",
+      "source_correct": true,
+      "answer_correct": true,
+      "operation_correct": true,
+      "incorrect_assertion": false
+    },
+    {
+      "requestId": "q08",
+      "source_correct": true,
+      "answer_correct": true,
+      "operation_correct": true,
+      "incorrect_assertion": false
+    },
+    {
+      "requestId": "q09",
+      "source_correct": true,
+      "answer_correct": true,
+      "operation_correct": true,
+      "incorrect_assertion": false
+    }
+  ],
+  "source_correct": 11,
+  "answer_correct": 11,
+  "operation_correct_on_answers": 8,
+  "correct_answer_coverage": 8,
+  "incorrect_assertions": 0,
+  "requests": 11
+}
