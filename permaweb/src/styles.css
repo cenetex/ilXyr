@@ -106,8 +106,8 @@ header nav button:hover, header nav button.active { background: rgba(24, 35, 29,
 .record-title p { color: var(--muted); font-family: ui-monospace, monospace; font-size: 8px; margin: 0; overflow-wrap: anywhere; }
 .record-evidence span, .record-trust span, .detail-facts span, .proposal-contract-grid span { color: var(--muted); display: block; font-family: ui-monospace, monospace; font-size: 8px; letter-spacing: .06em; margin-bottom: 7px; text-transform: uppercase; }
 .record-evidence code { font-size: 9px; }
-.record-trust .trusted, .publisher-table .trusted { color: #277749; }
-.record-trust .untrusted { color: var(--red); }
+.record-trust .listed, .publisher-table .listed { color: #277749; }
+.record-trust .unlisted { color: var(--red); }
 .record-trust strong { display: block; font-size: 10px; margin-top: 9px; }
 .row-arrow { font-size: 18px; }
 .empty-copy { color: var(--muted); padding: 30px 10px; }
@@ -206,14 +206,14 @@ header nav button:hover, header nav button.active { background: rgba(24, 35, 29,
 .file-heading h3 { font-family: Georgia, serif; font-size: 35px; font-weight: 400; margin: 0; }
 .file-heading > p { color: var(--muted); font-size: 11px; line-height: 1.5; margin: 0; max-width: 380px; }
 .file-list { border-top: 1px solid var(--line); margin: 0 55px 65px; }
-.file-row { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 20px; grid-template-columns: 1fr 180px 80px; min-height: 66px; padding: 10px 4px; }
+.file-row { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 20px; grid-template-columns: 1fr 180px 135px; min-height: 66px; padding: 10px 4px; }
 .file-row a { display: block; font-size: 11px; font-weight: 700; text-decoration: none; }
 .file-row a:hover { text-decoration: underline; }
 .file-row div span { color: var(--muted); display: block; font-size: 8px; margin-top: 4px; }
 .file-row code { color: var(--muted); font-size: 8px; }
 .verify-button { background: var(--cream); border: 1px solid var(--line); font-size: 8px; font-weight: 800; min-height: 31px; text-transform: uppercase; }
 .verify-button.verified { background: #e5f5c7; color: #28613b; }
-.verify-button.failed { background: #f3dbd4; color: #8d2f1d; }
+.verify-button.hash_failed, .verify-button.fetch_failed { background: #f3dbd4; color: #8d2f1d; }
 
 footer { align-items: center; background: var(--ink); color: var(--white); display: grid; gap: 30px; grid-template-columns: 1fr auto 1fr; min-height: 148px; padding: 33px max(42px,calc((100vw - 1356px)/2)); }
 footer > div { align-items: center; display: flex; gap: 12px; }

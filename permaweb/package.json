@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc --noEmit && tsc --noEmit -p tsconfig.node.json && vite build",
-    "test": "npm run build && node --test tests/*.test.mjs",
+    "test": "npm run build && node --experimental-strip-types --test tests/*.test.mjs",
     "index:build": "node scripts/build-index.mjs",
     "index:validate": "node scripts/validate-index.mjs",
     "bundle:verify": "node scripts/verify-bundle.mjs",

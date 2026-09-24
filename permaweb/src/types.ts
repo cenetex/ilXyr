@@ -8,7 +8,7 @@ export type EvidenceFile = {
 export type RegistryRecord = {
   txId: string;
   owner: string;
-  trusted: boolean;
+  publisherListed: boolean;
   experimentId: string;
   evidenceRef: string;
   title: string;

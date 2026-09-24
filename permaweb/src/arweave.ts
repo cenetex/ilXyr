@@ -84,7 +84,7 @@ async function hydrateTransaction(node: TransactionNode, source: RegistryRecord[
   return {
     txId: node.id,
     owner: node.owner.address,
-    trusted: config.publishers.includes(node.owner.address),
+    publisherListed: config.publishers.includes(node.owner.address),
     experimentId: manifest.experiment_id || experimentId,
     evidenceRef: manifest.evidence_ref || tags.get("evidence-ref") || "",
     title: tags.get("title") || humanize(tags.get("app-name") || experimentId),
@@ -123,7 +123,7 @@ async function loadCanonicalIndex(): Promise<RegistryRecord[]> {
   return index.experiments.map((entry) => ({
     txId: entry.bundle_tx,
     owner: entry.owner || index.published_by.replace(/^arweave:\/\//, ""),
-    trusted: config.publishers.includes(entry.owner || index.published_by.replace(/^arweave:\/\//, "")),
+    publisherListed: config.publishers.includes(entry.owner || index.published_by.replace(/^arweave:\/\//, "")),
     experimentId: entry.experiment_id,
     evidenceRef: entry.evidence_ref,
     title: entry.title || humanize(entry.experiment_id),
