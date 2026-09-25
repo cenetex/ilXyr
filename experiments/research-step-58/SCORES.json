@@ -1,0 +1,102 @@
+{
+  "arms": {
+    "base": {
+      "by_target_kind": {
+        "abstention": {
+          "correct": 1,
+          "rows": 3
+        },
+        "legacy_exact": {
+          "correct": 162,
+          "rows": 1133
+        },
+        "numeric": {
+          "correct": 3,
+          "rows": 11
+        }
+      },
+      "explicit_abstentions": 5,
+      "original_correct": 162,
+      "raw_cost": {
+        "process_cpu_ns": 448195428045,
+        "setup_wall_ns": 20787425643,
+        "total_wall_ns": 448052660458
+      },
+      "response_counts": {
+        "abstained": 5,
+        "answered": 911,
+        "invalid": 231
+      },
+      "status": "complete",
+      "v2_accuracy": 0.14472537053182213,
+      "v2_correct": 166
+    },
+    "calculator": {
+      "by_target_kind": {
+        "abstention": {
+          "correct": 3,
+          "rows": 3
+        },
+        "legacy_exact": {
+          "correct": 19,
+          "rows": 1133
+        },
+        "numeric": {
+          "correct": 2,
+          "rows": 11
+        }
+      },
+      "explicit_abstentions": 1056,
+      "original_correct": 19,
+      "raw_cost": {
+        "process_cpu_ns": 84170842,
+        "setup_wall_ns": 4629816,
+        "total_wall_ns": 84185032
+      },
+      "response_counts": {
+        "abstained": 1056,
+        "answered": 91,
+        "invalid": 0
+      },
+      "status": "complete",
+      "v2_accuracy": 0.020924149956408022,
+      "v2_correct": 24
+    },
+    "operand_only": {
+      "by_target_kind": {
+        "abstention": {
+          "correct": 3,
+          "rows": 3
+        },
+        "legacy_exact": {
+          "correct": 0,
+          "rows": 1133
+        },
+        "numeric": {
+          "correct": 0,
+          "rows": 11
+        }
+      },
+      "explicit_abstentions": 1056,
+      "original_correct": 0,
+      "raw_cost": {
+        "process_cpu_ns": 83057571,
+        "setup_wall_ns": 4610624,
+        "total_wall_ns": 83062600
+      },
+      "response_counts": {
+        "abstained": 1056,
+        "answered": 91,
+        "invalid": 0
+      },
+      "status": "complete",
+      "v2_accuracy": 0.0026155187445510027,
+      "v2_correct": 3
+    }
+  },
+  "comparison_status": "complete",
+  "rows_per_arm": 1147,
+  "run_id": "feral-finqa-20260925T044400Z",
+  "schema": "ilxyr.feral_completed_scores.v1",
+  "target_policy": "revised_v2_and_original"
+}

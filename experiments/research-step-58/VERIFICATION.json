@@ -1,0 +1,19 @@
+{
+  "all_s3_objects_verified": 42,
+  "comparison_source_archive_sha256": "27a64e6f0b60691d3f9d4c40fdaec19cc9ae6934d8293df23b3886379aaa5202",
+  "controller_output_index_files_verified": 35,
+  "execution_plan_sha256": "eeb5658143faebd7aeb9db25185c5503a59ab5dc555c378cbdd243c35a2b3e49",
+  "host_package_sha256": "25c350b4819e499bcf1adabe56d5d05cb8ef7c07daccb13d7a221545cd74d821",
+  "independent_score_sha256": "6cf817ebf8221b2fb585b0f7ab596e22e1fcff3d36ad19d5b010a2d5eb1bd4f5",
+  "independent_scores_match_saved_comparison": true,
+  "instance_termination_verified": true,
+  "model_loaded_on_cuda": true,
+  "performance_evidence": false,
+  "prediction_rows_per_arm": 1147,
+  "root_volume_deletion_verified": true,
+  "saved_grades_reproduced": true,
+  "schema": "ilxyr.feral_completed_verification.v1",
+  "source_package_manifest_sha256": "486afd3e27d8d6856283c27f695d513be72edb0f3fd780a5c3844bba73554b0b",
+  "startup_synthetic_answer_correct": true,
+  "status": "verified"
+}
