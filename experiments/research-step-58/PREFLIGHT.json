@@ -1,0 +1,20 @@
+{
+  "availability_zone": "us-east-1b",
+  "checked_at": "2026-09-25T04:43:51.131699+00:00",
+  "dry_run_instances_created": 0,
+  "dry_run_receipt_sha256": "d977104ec4015ad2329d0ee9f579876a719828e110f4792df96092b868b7173a",
+  "dry_run_status": "dry_run_passed",
+  "host_package_sha256": "25c350b4819e499bcf1adabe56d5d05cb8ef7c07daccb13d7a221545cd74d821",
+  "host_package_version": "Z0P32ozupWl1Z0IEEYt3PnK0_9bJ7P4P",
+  "hourly_compute_usd": "2.2420800000",
+  "maximum_before_tax_usd": "3.00",
+  "maximum_estimated_before_tax_usd": "2.9920800000",
+  "package_bytes": 1638400,
+  "package_checksum_verified": true,
+  "package_encryption": "AES256",
+  "package_head_sha256": "8796f780428384a2eb7dbbf702368d581dffb3e1adc11204ecc3bcdfbdb053e0",
+  "provider_receipt_sha256": "ba8a5831267318d01973e072d5dd9a01d85bb714070348db683bee3bfd57b32b",
+  "reserve_usd": "0.75",
+  "schema": "ilxyr.feral_completed_preflight.v1",
+  "status": "provider_checks_passed"
+}

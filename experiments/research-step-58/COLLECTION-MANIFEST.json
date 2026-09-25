@@ -1,0 +1,258 @@
+{
+  "objects": [
+    {
+      "bytes": 12852,
+      "key": "runs/feral-finqa-20260925T044400Z/bootstrap.log",
+      "sha256": "b638f8b6cbeeb84a91cdfffcafa5a92fa44d7a354d5c242a5aa821c73b4fc21b",
+      "version_id": "2e5KTR.kz_GmSht3DZI5MAsFVLBh0DpZ"
+    },
+    {
+      "bytes": 649,
+      "key": "runs/feral-finqa-20260925T044400Z/host-terminal.json",
+      "sha256": "15ba8e8635c67cb5130599c054b6704393d746b90c631de0a03931dcfd608c27",
+      "version_id": "8DbXgGu9GflLP1SvCUry0ACB4rE4ZXT."
+    },
+    {
+      "bytes": 0,
+      "key": "runs/feral-finqa-20260925T044400Z/results/controller-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "FFJKuX4xI1j8C7tui9GlO59M0c639L.V"
+    },
+    {
+      "bytes": 102,
+      "key": "runs/feral-finqa-20260925T044400Z/results/controller-stdout.log",
+      "sha256": "bbbc74b5780a5a7d135eaad113324b40fd945bcac1a4c8827e55d6eaf4ca0c23",
+      "version_id": "vYtGy3El7.kT.vRZMHXhjzxFF7EVNAoP"
+    },
+    {
+      "bytes": 6216,
+      "key": "runs/feral-finqa-20260925T044400Z/results/image-inspect.json",
+      "sha256": "47ae5e6e2b797a65ad199f80a92a2f0dff9b9f22eb9f96b3b5b6118204b960c9",
+      "version_id": "EyagklVk7rA17YKgPdLVzRq6nfXYMPaK"
+    },
+    {
+      "bytes": 830,
+      "key": "runs/feral-finqa-20260925T044400Z/results/launch-input.json",
+      "sha256": "5967e4b6663deb73f08166d1b9e6f8b14f66ea03f816be17e279f18f5986bb1b",
+      "version_id": "eK8cFxP4kVps9RadAu5.YnqwldcXPcFj"
+    },
+    {
+      "bytes": 220,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/arms/base/device-memory.json",
+      "sha256": "b0513348786f3af5db4893272503a13f48f0168d1e37a69a383b6ef2c89a1f0f",
+      "version_id": "CqEWasPZKeKAUnfhdP6UcQWV63iQN_4v"
+    },
+    {
+      "bytes": 305,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/arms/base/invocation.json",
+      "sha256": "ae97c16920973d59d0414c6bdc351c5b04bf54fc515ca9a20ff34a11c1e691a9",
+      "version_id": "f9NIBEfOXdLv3Tuf2FG8hfv5RXSS4Ebx"
+    },
+    {
+      "bytes": 2531609,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/arms/base/predictions.jsonl",
+      "sha256": "6d732467a21a55111eb3831a820e949b9a8170e07f3d0b2ac6f10f91ccf443d9",
+      "version_id": "bDT3zOCXh.RVxKGbpxyyW2LpyZCjsRLU"
+    },
+    {
+      "bytes": 656,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/arms/base/result.json",
+      "sha256": "b960a5396c35a2561558a01c1417822a70f40ac3fa269427dbfcb0ffb2170868",
+      "version_id": "_SdV6n29rcyFCTlyi2Q_5Uu.4RNON.vg"
+    },
+    {
+      "bytes": 3594,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/arms/base/startup-check.json",
+      "sha256": "a3214b9d6751d66d2d9ba8f8fc8d1e270c9b66d0d71d008e1e53237629e4656f",
+      "version_id": "5LV0GMly_UUFZEXWqYBUVoYQ0mDsLKPe"
+    },
+    {
+      "bytes": 303,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/arms/calculator/invocation.json",
+      "sha256": "85da4524cb209ebfeba38840714b49662b0ec218337f131e105c4594c1f096b6",
+      "version_id": "rndwhcfKD3ldg8L.mb2RrAqtEQigtB3k"
+    },
+    {
+      "bytes": 627976,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/arms/calculator/predictions.jsonl",
+      "sha256": "4fcd832af59146a5ee3c923f643b36c15b2ff2f29176b249d18cc3f127c6a39e",
+      "version_id": "2HSTenKymCy7qSY1BcLmi0pPJHKVBw6O"
+    },
+    {
+      "bytes": 650,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/arms/calculator/result.json",
+      "sha256": "428f8f2478b5825eaea1ec8d32539480b38db6fe9f61df7667f47aa00de63750",
+      "version_id": "MLinJgOtqDenxuchbDRHLC0czxT8qZbT"
+    },
+    {
+      "bytes": 305,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/arms/operand_only/invocation.json",
+      "sha256": "3921718e221d4cb9a9d2ada4955b7a6af42fee5c0a0147b55b7f8e85510e9e1b",
+      "version_id": "zoaSVlvgJguWNwPT_YXFwGFF21pHS3mJ"
+    },
+    {
+      "bytes": 629840,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/arms/operand_only/predictions.jsonl",
+      "sha256": "e366cde95dfd85b178bc6a189c778d4ad7b733b9e2d09de681184f42c7bb1f6d",
+      "version_id": "7nQoV1hZiGPZoln6swywQl3vTDltZnbx"
+    },
+    {
+      "bytes": 652,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/arms/operand_only/result.json",
+      "sha256": "ca21577553a638c12d05e4eeb5f8fee96d45ae600e226dc478a9f76beb34194b",
+      "version_id": "XFPLFUc8LHrUCLTMkVoT8XYSydUbHhXU"
+    },
+    {
+      "bytes": 39654,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/comparison.json",
+      "sha256": "2abe6e6dee17de48a74d533b93e4b13c1f43aba65d9b23675be63c3669adb9d1",
+      "version_id": "zZ8UWIn2qwYh9aMESuw0Mp2dmZk7.OyJ"
+    },
+    {
+      "bytes": 4638,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/execution-plan.json",
+      "sha256": "eeb5658143faebd7aeb9db25185c5503a59ab5dc555c378cbdd243c35a2b3e49",
+      "version_id": "8KjebW.ttX3SHQL2ikhitkuFObHDArdY"
+    },
+    {
+      "bytes": 13319,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/execution.json",
+      "sha256": "7a3ef46e592209e9ccf97de9fef966f88f5389a9206b3021701dea0ebd48e25c",
+      "version_id": "sCviM467U7oMBSvatj2Tlf9qr4ePAcjg"
+    },
+    {
+      "bytes": 830,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/launch-receipt.json",
+      "sha256": "5967e4b6663deb73f08166d1b9e6f8b14f66ea03f816be17e279f18f5986bb1b",
+      "version_id": "wymnaJgkAK5uYYaVisqTMHAWIlsSzXtg"
+    },
+    {
+      "bytes": 2202,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/model-staging.json",
+      "sha256": "5b47c62dd22056b533a22f931a1992fd4008388b239a4986bb9a8924012384e0",
+      "version_id": ".SEyuSTme7Zh6Kn.qLWe0b6NZLpOiIdt"
+    },
+    {
+      "bytes": 6870,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/phases.json",
+      "sha256": "36a78da1ccd8bbfec828fa031d7af094561fbb5b0c69814c60964fd0b95b7767",
+      "version_id": "Zv5_xbmtvjDyM6SnjDGFjUAoyw8Rvg8y"
+    },
+    {
+      "bytes": 1056,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/base/process.json",
+      "sha256": "35a0c8a470214ef9e0c31a7cfff81e49d62f07155b9be956056da92c05e9d18a",
+      "version_id": "zyd9Jz6fRQlHOSOKF8N0EbZlYLecOGdb"
+    },
+    {
+      "bytes": 1080,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/base/stderr.log",
+      "sha256": "607161412196ef297a44136640ddfecfc1bf91418af79a3a2c81c99afaff8cfe",
+      "version_id": "Kp5nLnkjLtdgDjf195rArj4kbnUB6XRb"
+    },
+    {
+      "bytes": 0,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/base/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "KdM5ij3IoxU.WWJg5bU.gXV91X8IvZFB"
+    },
+    {
+      "bytes": 1051,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/calculator/process.json",
+      "sha256": "0a9432a788db9d536c5a31ef8525cd22189a87130d82148244f314d7a6c725d9",
+      "version_id": "fnuezcnGqqsc.CzKz7JEU4FAdKF0baMB"
+    },
+    {
+      "bytes": 0,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/calculator/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "seyqjU0M5dPFNqhCAmZkBLr5IxL9tGtZ"
+    },
+    {
+      "bytes": 0,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/calculator/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "Y3L_g4uCI3B7pfzYsDeSgdgFyt43vQoJ"
+    },
+    {
+      "bytes": 1046,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/grade/process.json",
+      "sha256": "a4b7f88ccff9f976254616e8b1216a28835137dc697dfb9a06d2da180cc280ac",
+      "version_id": "2Uejw.NW72AcztaGRUiQs2EM5bagzRyx"
+    },
+    {
+      "bytes": 0,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/grade/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "i0LG.csDZAML4k8rA4vToPJKZC.IUC52"
+    },
+    {
+      "bytes": 0,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/grade/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "DFykdmxVyns4a95oAbMn6odB6CkbMhh5"
+    },
+    {
+      "bytes": 1048,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/model/process.json",
+      "sha256": "d521f8b17b0fd4e54851dcd1d9586d58dca5e3e2bc8325c52780be8e58072e84",
+      "version_id": "wdfkH_uDWcsLUj.uHQHTBNxl5WqOQqTm"
+    },
+    {
+      "bytes": 0,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/model/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "VSrEy4htJVRDqmHhs6DlqWTZ9YYlqwS7"
+    },
+    {
+      "bytes": 0,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/model/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "hCqa7kAQp1ZcLN.Hd8RGD4YVdzuAJXoV"
+    },
+    {
+      "bytes": 1053,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/operand_only/process.json",
+      "sha256": "df6f98b47a176e0a543a4f99b2f4ab29ce0cbdac42fafd5a7baf856c21ae19a4",
+      "version_id": "HXljMcIW0RtXvjMcsFZ5JzDWtmui1Khq"
+    },
+    {
+      "bytes": 0,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/operand_only/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "NLK6O4BqCYIk.GVykGE9PpK9P4huevts"
+    },
+    {
+      "bytes": 0,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/operand_only/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "j9r9TonDF88MqNE3S0xSnejVboD5fcgK"
+    },
+    {
+      "bytes": 1060,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/runtime/process.json",
+      "sha256": "b847959ed045abe736368fb4a2bd61b5d1e5b907101eb9947a17dd78ce2d85cb",
+      "version_id": "fS0cTq.a0dKlWATg12Z9ons_4.bu1rZA"
+    },
+    {
+      "bytes": 0,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/runtime/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "Hg6ibanPCJth2HdJdVgVYlEwBlza6eTg"
+    },
+    {
+      "bytes": 0,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/processes/runtime/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "wrWWJinJpC_jlADZ923J5XudimUTdMk3"
+    },
+    {
+      "bytes": 955,
+      "key": "runs/feral-finqa-20260925T044400Z/results/run/runtime.json",
+      "sha256": "51f6aeda5e576aeed34f75bc4f4c38dbc2d004411a9c32daa338f68f89a9dfdf",
+      "version_id": "iw3Lfz68UHa5AsYc1ZhCoirwT0yQuKeB"
+    }
+  ],
+  "run_id": "feral-finqa-20260925T044400Z",
+  "schema": "ilxyr.feral_exact_collection.v1"
+}

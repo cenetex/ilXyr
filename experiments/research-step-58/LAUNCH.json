@@ -1,0 +1,23 @@
+{
+  "approval_reference": "chat-20260924-approved-all",
+  "availability_zone": "us-east-1b",
+  "execution_plan_sha256": "eeb5658143faebd7aeb9db25185c5503a59ab5dc555c378cbdd243c35a2b3e49",
+  "host_package_sha256": "25c350b4819e499bcf1adabe56d5d05cb8ef7c07daccb13d7a221545cd74d821",
+  "host_package_version": "Z0P32ozupWl1Z0IEEYt3PnK0_9bJ7P4P",
+  "initial_capacity_attempt": {
+    "availability_zone": "us-east-1a",
+    "client_token": "feral-finqa-20260925T044125Z",
+    "receipt_sha256": "021fa1fe989ddbd3a4beef2d827c223e78b5a7a9662e2eb51d035d1493433bd0",
+    "reconciled_instances": 0,
+    "reconciliation_sha256": "a7ce7359393c06a423d23e3a32f1df64809059bf3618a008cd5d728eb77bb25b",
+    "result": "insufficient_capacity"
+  },
+  "instance_id": "i-0d8139452fff8895a",
+  "launch_epoch_seconds": 1790311457,
+  "maximum_before_tax_usd": "3.00",
+  "maximum_instance_seconds": 3600,
+  "request_sha256": "baa0a90a27ff369a1dd7e0e79d85bc10a82d86f466e20a1621318465dad51dfc",
+  "run_id": "feral-finqa-20260925T044400Z",
+  "schema": "ilxyr.feral_completed_launch.v1",
+  "user_data_sha256": "e5c8639437175889f6b69a145790f32ea579080cbe77107e25f8fb527449b097"
+}

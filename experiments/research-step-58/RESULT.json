@@ -1,0 +1,23 @@
+{
+  "actual_billed_usd": null,
+  "artifacts_sha256": {
+    "CLEANUP.json": "7c789e9cc282553c253bea98629cfbcb6cc17b94c8972789207c04a218e3dbbf",
+    "COLLECTION-MANIFEST.json": "f25bc3dab846e0f1a79a43616de91be36bcbc419aee79a943452bb86da6b20a2",
+    "COLLECTION.json": "4383cd7abd384b5e113221940418b91727eaa91a19c88dd4485a9ad0ecffd25b",
+    "LAUNCH.json": "c3be0ea4986be6d18b9135228a248ce1fb96e30a9ec8a7e51533d571bce3539c",
+    "PREFLIGHT.json": "5469b9e47ae5d07ffdf59e65ed7b92a18ec6a45cb7cc4c4dd7d13e09506a5c74",
+    "REPORT.md": "4e57dcdf7209962b48cd566e9e124155dcbe840cac53597ed98ba49266c3012c",
+    "SCORES.json": "6d46811ecf0b855006abbef3b0f045d3ef73bdfa421a0b7562e8e5f7bc2feef6",
+    "VERIFICATION.json": "11ad1605cd5a7d4c69b07507d8708aec36a23c3e25f02a3415a5087f5354a25f"
+  },
+  "calculator_v2_correct": 24,
+  "instance_termination_verified": true,
+  "model_invalid_responses": 231,
+  "model_v2_correct": 166,
+  "operand_only_v2_correct": 3,
+  "root_volume_deletion_verified": true,
+  "run_id": "feral-finqa-20260925T044400Z",
+  "schema": "ilxyr.feral_step58_result.v1",
+  "scored_rows_per_arm": 1147,
+  "status": "complete_verified"
+}

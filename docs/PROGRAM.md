@@ -20,6 +20,13 @@ through the real command entry point. A new exact package preserves the
 scientific inputs and rules. Its next paid comparison follows replacement
 package approval.
 
+The [completed September 25 FERAL comparison](../experiments/research-step-58/REPORT.md)
+scored all 1,147 revised FinQA inputs. The 7B arm returned 166 correct answers,
+versus 24 for the calculator and 3 for the operand-only control. It also made
+231 invalid responses and only 5 explicit abstentions. Exact result versions,
+independent score replay, provider termination, and storage cleanup verify.
+The proposed source-linked XBRL study remains a separate decision.
+
 The [native weight pilot package](../experiments/research-step-56/REPORT.md)
 now binds all four controls, sixteen ordered jobs, exact native call records
 and independent result checks. Its A1 smoke verifies 805 decision events and

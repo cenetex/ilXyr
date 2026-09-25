@@ -1,0 +1,18 @@
+{
+  "all_exact_versions_and_checksums_verified": true,
+  "controller_output_index_files_verified": 35,
+  "host_collection_complete": true,
+  "host_terminal_object": {
+    "bytes": 649,
+    "key": "runs/feral-finqa-20260925T044400Z/host-terminal.json",
+    "sha256": "15ba8e8635c67cb5130599c054b6704393d746b90c631de0a03931dcfd608c27",
+    "version_id": "8DbXgGu9GflLP1SvCUry0ACB4rE4ZXT."
+  },
+  "host_terminal_status": "complete",
+  "manifest_sha256": "f25bc3dab846e0f1a79a43616de91be36bcbc419aee79a943452bb86da6b20a2",
+  "object_count": 42,
+  "raw_results_custody": "versioned private storage and local verified collection",
+  "run_id": "feral-finqa-20260925T044400Z",
+  "schema": "ilxyr.feral_completed_collection.v1",
+  "total_bytes": 3892621
+}

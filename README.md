@@ -38,7 +38,7 @@ verification states. Required CI checks its schema and rejects drift from the
 registry. The [trust model](docs/INTEROPERABILITY.md) explains the evidence
 needed for core-ledger binding and scientific interpretation.
 
-## Current research boundaries (September 24, 2026)
+## Current research boundaries (September 25, 2026)
 
 The [five-project closeout](experiments/research-step-51/REPORT.md) records the
 completed Reasoner comparison (benefit gates failed), the completed Solomon
@@ -48,6 +48,11 @@ fixed panel), the FERAL selector no-go and the stopped ZERO.4 host. The
 the full-mode adapter guard with zero model processes. Its repaired entry-point
 test passes; the replacement scientific comparison is still pending in that
 record. These are different result types, with separate cost and failure receipts.
+The [completed FERAL 7B comparison](experiments/research-step-58/REPORT.md)
+returned 166 correct revised FinQA answers out of 1,147, versus 24 for the
+calculator control. It also produced 231 invalid responses. The host,
+collection, and provider cleanup checks passed. The proposed source-linked
+study remains a separate next decision.
 
 The [lab registry](docs/lab-registry.json) is a dated snapshot of ZERO model
 lines. Reasoner is the active scientific line; ZERO.4 has a scoped historical
