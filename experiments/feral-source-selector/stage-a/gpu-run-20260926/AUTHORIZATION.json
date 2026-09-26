@@ -1,0 +1,10 @@
+{
+  "max_before_tax_usd": "3.00",
+  "max_instance_seconds": 3600,
+  "reference": "user-four-priorities-2026-09-26",
+  "run_count": 1,
+  "run_id": "feral-stage-a-20260926T233819Z",
+  "schema": "ilxyr.feral_stage_a_gpu_authorization.v1",
+  "source_sha256": "cb5aeb940b38e27e4bd88de91996b88e23f5508eeb44ca404d8eb5d8d256dd28",
+  "source_version": "zKNe1KPIYDk76zcIyAPTlmoF2WbjXxnN"
+}
