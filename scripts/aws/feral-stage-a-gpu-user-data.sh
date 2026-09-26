@@ -2,7 +2,8 @@ set -Eeuo pipefail
 trap 'shutdown -h now' EXIT
 
 # Values in the rendered prefix are checked by the launcher.
-deadline=$((FERAL_LAUNCH_EPOCH + 3570))
+test "$FERAL_MAX_SECONDS" -eq 2400
+deadline=$((FERAL_LAUNCH_EPOCH + FERAL_MAX_SECONDS - 30))
 remaining=$((deadline - $(date +%s)))
 test "$remaining" -gt 0
 systemd-run --unit=feral-stage-a-deadline --on-active="${remaining}s" /usr/sbin/shutdown -h now
@@ -17,7 +18,7 @@ export AWS_DEFAULT_REGION=us-east-1 AWS_MAX_ATTEMPTS=1
 time_left() {
   local reserve=$1
   shift
-  local seconds=$((FERAL_LAUNCH_EPOCH + 3600 - reserve - $(date +%s)))
+  local seconds=$((FERAL_LAUNCH_EPOCH + FERAL_MAX_SECONDS - reserve - $(date +%s)))
   test "$seconds" -gt 0
   timeout --signal=TERM --kill-after=5s "${seconds}s" "$@"
 }
@@ -50,14 +51,15 @@ finish() {
     put_once "$path" "runs/$FERAL_RUN_ID/$rel" || collection_complete=0
   done < <(find "$root/output" -type f ! -name TERMINAL.json -print | sort)
   if [ "$collection_complete" -ne 1 ]; then status=failed; code=1; fi
-  python3 - "$root/output/TERMINAL.json" "$status" "$phase" "$code" "$FERAL_RUN_ID" "$FERAL_SOURCE_SHA256" "$FERAL_LAUNCH_EPOCH" "$collection_complete" "${instance_id:-}" <<'PY'
+  python3 - "$root/output/TERMINAL.json" "$status" "$phase" "$code" "$FERAL_RUN_ID" "$FERAL_SOURCE_SHA256" "$FERAL_LAUNCH_EPOCH" "$collection_complete" "${instance_id:-}" "$FERAL_MAX_SECONDS" <<'PY'
 import hashlib,json,sys,time
 from pathlib import Path
-path,status,phase,code,run,source,epoch,collected,instance=sys.argv[1:]
+path,status,phase,code,run,source,epoch,collected,instance,limit=sys.argv[1:]
 user_data=Path('/var/lib/cloud/instance/user-data.txt')
 Path(path).write_text(json.dumps({'schema':'ilxyr.feral_stage_a_gpu_terminal.v1',
  'status':status,'phase':phase,'exit_code':int(code),'run_id':run,
  'source_archive_sha256':source,'elapsed_seconds':time.time()-int(epoch),
+ 'max_instance_seconds':int(limit),
  'collection_complete':collected=='1',
  'instance_id':instance or None,
  'user_data_sha256':hashlib.sha256(user_data.read_bytes()).hexdigest() if user_data.is_file() else None,
@@ -106,6 +108,22 @@ time_left 300 systemctl start docker
 time_left 300 docker pull "$FERAL_IMAGE"
 docker image inspect "$FERAL_IMAGE" > "$root/output/IMAGE.json"
 
+cache_env=(
+  --env TRITON_CACHE_DIR=/tmp/feral-triton
+  --env TORCHINDUCTOR_CACHE_DIR=/tmp/feral-inductor
+  --env TORCH_EXTENSIONS_DIR=/tmp/feral-extensions
+  --env TORCH_HOME=/tmp/feral-torch
+  --env HF_HOME=/tmp/feral-hf
+  --env XDG_CACHE_HOME=/tmp/feral-xdg
+)
+phase=cache_startup
+time_left 300 docker run --rm --gpus all --network none --memory 2g --cpus 1 \
+  --read-only --tmpfs /tmp:rw,exec,size=1g "${cache_env[@]}" \
+  --mount "type=bind,src=$root/source,dst=/work/source,readonly" \
+  --entrypoint /opt/sec-qwen/.venv/bin/python "$FERAL_IMAGE" \
+  /work/source/scripts/check_feral_runtime_cache.py --check-stage-a-caches \
+  >"$root/output/CACHE-CHECK.json" 2>"$root/output/cache-check.stderr.log"
+
 phase=model_download
 time_left 120 python3 - "$root/source/experiments/feral-source-selector/stage-a/MODEL-PROFILE.json" "$root/model" "$FERAL_MODEL_REVISION" <<'PY'
 import hashlib,json,subprocess,sys
@@ -134,6 +152,7 @@ run_worker() {
   if [ "$scope" = smoke ]; then extra+=(--smoke-only); fi
   time_left 120 docker run --rm --gpus all --network none --memory 56g --cpus 8 --shm-size 16g \
     --read-only --tmpfs /tmp:rw,exec,size=1g \
+    "${cache_env[@]}" \
     --mount "type=bind,src=$root/source,dst=/work/source,readonly" \
     --mount "type=bind,src=$root/model,dst=/work/model,readonly" \
     --mount "type=bind,src=$root/output,dst=/work/output" \
