@@ -149,7 +149,7 @@ def draft_labels(evidence, questions, manifest, specs):
             label["support"] = [row["id"] for row in chosen]
         labels.append(label)
     return {"schema": "ilxyr.feral_stage_a_draft_labels.v1",
-            "status": "first_review; independent_second_review_pending",
+            "status": specs["status"],
             "evidence_sha256": sha(encode(evidence)),
             "questions_sha256": sha(encode(questions)),
             "labels": labels}
@@ -178,18 +178,38 @@ def lexical_metrics(evidence, questions, labels):
 
 
 def score(evidence, questions, predictions, labels):
-    if predictions["evidence_sha256"] != labels["evidence_sha256"] or predictions["questions_sha256"] != labels["questions_sha256"]:
+    evidence_hash, questions_hash = sha(encode(evidence)), sha(encode(questions))
+    if (predictions["evidence_sha256"] != evidence_hash
+            or labels["evidence_sha256"] != evidence_hash
+            or predictions["questions_sha256"] != questions_hash
+            or labels["questions_sha256"] != questions_hash):
         raise ValueError("visible evidence or questions differ")
-    gold = {row["id"]: row for row in labels["labels"]}
+    expected_ids = [form["id"] for form in questions["forms"]]
+    predicted_rows = predictions["predictions"]
+    label_rows = labels["labels"]
+    if (len(expected_ids) != len(set(expected_ids))
+            or len(predicted_rows) != len(expected_ids)
+            or len(label_rows) != len(expected_ids)
+            or [row["id"] for row in predicted_rows] != expected_ids
+            or [row["id"] for row in label_rows] != expected_ids):
+        raise ValueError("prediction or label roster differs")
+    gold = {row["id"]: row for row in label_rows}
     rows = []
-    for row in predictions["predictions"]:
+    for row in predicted_rows:
         target = gold[row["id"]]
+        selection_correct = (row["selection"] == target["selection"]
+                             if target["kind"] == "answer" else row["kind"] == "abstain")
+        support_correct = row["support"] == target["support"]
+        answer_correct = (row["kind"], row["answer"], row["unit"]) == (target["kind"], target["answer"], target["unit"])
+        complete = selection_correct and support_correct and answer_correct
         rows.append({
             "id": row["id"],
-            "selection_correct": row["selection"] == target["selection"] if target["kind"] == "answer" else row["kind"] == "abstain",
-            "support_correct": row["support"] == target["support"],
-            "answer_correct": (row["kind"], row["answer"], row["unit"]) == (target["kind"], target["answer"], target["unit"]),
-            "incorrect_assertion": row["kind"] == "answer" and target["kind"] == "abstain",
+            "selection_correct": selection_correct,
+            "support_correct": support_correct,
+            "answer_correct": answer_correct,
+            "abstention_reason_correct": row["reason"] == target["reason"] if target["kind"] == "abstain" else None,
+            "complete_outcome_correct": complete,
+            "incorrect_assertion": row["kind"] == "answer" and not complete,
         })
     return {"schema": "ilxyr.feral_stage_a_development_score.v1",
             "label_status": labels["status"], "method": predictions["method"],
@@ -197,8 +217,10 @@ def score(evidence, questions, predictions, labels):
             "selection_correct": sum(row["selection_correct"] for row in rows),
             "support_correct": sum(row["support_correct"] for row in rows),
             "answer_correct": sum(row["answer_correct"] for row in rows),
+            "complete_outcome_correct": sum(row["complete_outcome_correct"] for row in rows),
+            "abstention_reason_correct": sum(row["abstention_reason_correct"] is True for row in rows),
             "incorrect_assertions": sum(row["incorrect_assertion"] for row in rows),
-            "answered": sum(row["kind"] == "answer" for row in predictions["predictions"]),
+            "answered": sum(row["kind"] == "answer" for row in predicted_rows),
             "lexical": lexical_metrics(evidence, questions, labels),
             "rows": rows}
 

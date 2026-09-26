@@ -1,6 +1,6 @@
 {
   "schema": "ilxyr.feral_stage_a_draft_label_specs.v1",
-  "status": "first review; independent second review pending",
+  "status": "agent_second_review_complete; development labels",
   "specs": [
     {
       "family": "f01",

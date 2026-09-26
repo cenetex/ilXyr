@@ -1,9 +1,8 @@
 # FERAL v3 Stage A: real iXBRL development screen
 
 Date: September 26, 2026. Issue: [#218](https://github.com/cenetex/ilXyr/issues/218).
-This is a development screen of evidence selection. The label file is in first
-review. Independent source/value review and independent paraphrase authorship
-remain pending.
+This is a development screen of evidence selection. An independent agent review checked the source/value labels and abstention
+reasons. Independent paraphrase authorship remains pending.
 
 ## Frozen sources and view
 
@@ -41,12 +40,12 @@ has a separate pending review and denominator.
 
 [QUESTIONS.json](QUESTIONS.json) has 18 question families and 36 visible
 forms: 12 answerable families and six required-abstention families. Each
-family has two authored wordings. A second independent wording review is
-pending. The questions include wrong period, missing concept, wrong index
+family has two authored wordings. A second agent reviewed the wording. The second wording was authored
+by the study author. The questions include wrong period, missing concept, wrong index
 identity, missing dimension, missing daily cash series, and a prose-reason
 request. [DRAFT-LABELS.json](DRAFT-LABELS.json) is separate from the
 predictor-visible evidence and questions. It names exact values and occurrence
-IDs. A second reviewer is checking these labels against the raw source bytes.
+IDs. An independent agent checked these labels against the raw source bytes.
 
 The lexical candidate screen found the required concept in the top five for
 20/24 answerable forms and in the top 20 for 20/24. This result uses the
@@ -76,9 +75,9 @@ allowance, worker limits, and maximum spend before a paid GPU run.
 An independent agent review checked all 12 answerable families against
 the raw filing bytes, occurrence IDs, concepts, issuers, periods, units,
 scales, and arithmetic. It corrected the IBM cost-of-revenue wording and
-the daily-cash abstention question. Human accounting review remains pending.
-The six abstention causes still need a separate source check against the
-60-concept visible view and the underlying filing. Review time for this work should be recorded under the
+the daily-cash abstention question. The agent also checked all six abstention causes against the visible view
+and the underlying filing, including the rebased S&P 500 total-return chart
+in Walmart's filing. This is an agent review of a development screen. Review time for this work should be recorded under the
 four-hour aggregate ceiling. A fresh held-out filing/wording set is required
 for a comparative claim.
 
@@ -98,3 +97,28 @@ python3 -B scripts/test_feral_stage_a_study.py
 The source builder verifies raw file hashes before parsing and checks every
 selected occurrence's ID, concept, context, and unit against its exact
 source tag. CI replays the compact evidence, labels, control, and score.
+
+## Pinned 4B prompting package
+
+[MODEL-INPUTS.json](MODEL-INPUTS.json) contains 36 label-free prompts.
+Each exposes the same 60 concept names, official labels, period types, issuer
+names, fiscal ends, and question text. The model selects issuer, concept,
+fiscal year, and operation, or abstains. The shared resolver picks the
+occurrence and computes the answer. This comparison measures
+concept/entity/period/operation choice. The resolver owns occurrence choice.
+
+[MODEL-PROFILE.json](MODEL-PROFILE.json) pins the published Qwen3.5-4B
+checkpoint and the SHA-256 of every required file. The two weight shards
+total 9,319,828,096 bytes. [MODEL-PACKAGE.json](MODEL-PACKAGE.json) binds the
+label-free worker code and data. Its deterministic source archive has SHA-256
+`16e19b0c56821e33d66909e0b8ab4f285035938d4fca640d88c68d0fe8f11f6e`
+and size 1,454,080 bytes. The archive stays in temporary local storage.
+[MODEL-PREFLIGHT.json](MODEL-PREFLIGHT.json) lists the remaining GPU and
+provider checks.
+
+The previous FERAL host preflight priced compute at $2.24208 per hour.
+At that historical rate, a one-hour ceiling plus $0.75 reserve reaches
+$2.99208 before tax. The proposed bound is $3.00 before tax for one instance.
+A current price check, model-file staging, GPU smoke, runtime image digest,
+watchdog, and immutable output destination are still needed before launch.
+The published 4B model has zero scored calls on this view.

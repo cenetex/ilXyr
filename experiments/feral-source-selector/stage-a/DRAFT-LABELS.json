@@ -592,5 +592,5 @@
   ],
   "questions_sha256": "586130c6710f6ecdc7e9bdea3863ff6d6368eedaaf69dec23d0bfbddad14378c",
   "schema": "ilxyr.feral_stage_a_draft_labels.v1",
-  "status": "first_review; independent_second_review_pending"
+  "status": "agent_second_review_complete; development labels"
 }
