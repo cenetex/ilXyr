@@ -1,11 +1,11 @@
 set -Eeuo pipefail
+trap 'shutdown -h now' EXIT
 
 # Values in the rendered prefix are checked by the launcher.
 deadline=$((FERAL_LAUNCH_EPOCH + 3570))
 remaining=$((deadline - $(date +%s)))
 test "$remaining" -gt 0
 systemd-run --unit=feral-stage-a-deadline --on-active="${remaining}s" /usr/sbin/shutdown -h now
-trap 'shutdown -h now' EXIT
 
 root=/opt/feral-stage-a
 mkdir -p "$root/source" "$root/model" "$root/output"
@@ -50,14 +50,17 @@ finish() {
     put_once "$path" "runs/$FERAL_RUN_ID/$rel" || collection_complete=0
   done < <(find "$root/output" -type f ! -name TERMINAL.json -print | sort)
   if [ "$collection_complete" -ne 1 ]; then status=failed; code=1; fi
-  python3 - "$root/output/TERMINAL.json" "$status" "$phase" "$code" "$FERAL_RUN_ID" "$FERAL_SOURCE_SHA256" "$FERAL_LAUNCH_EPOCH" "$collection_complete" <<'PY'
-import json,sys,time
+  python3 - "$root/output/TERMINAL.json" "$status" "$phase" "$code" "$FERAL_RUN_ID" "$FERAL_SOURCE_SHA256" "$FERAL_LAUNCH_EPOCH" "$collection_complete" "${instance_id:-}" <<'PY'
+import hashlib,json,sys,time
 from pathlib import Path
-path,status,phase,code,run,source,epoch,collected=sys.argv[1:]
+path,status,phase,code,run,source,epoch,collected,instance=sys.argv[1:]
+user_data=Path('/var/lib/cloud/instance/user-data.txt')
 Path(path).write_text(json.dumps({'schema':'ilxyr.feral_stage_a_gpu_terminal.v1',
  'status':status,'phase':phase,'exit_code':int(code),'run_id':run,
  'source_archive_sha256':source,'elapsed_seconds':time.time()-int(epoch),
  'collection_complete':collected=='1',
+ 'instance_id':instance or None,
+ 'user_data_sha256':hashlib.sha256(user_data.read_bytes()).hexdigest() if user_data.is_file() else None,
  'instance_termination_verified':False,'actual_billed_usd':None},sort_keys=True)+'\n')
 PY
   put_once "$root/output/TERMINAL.json" "runs/$FERAL_RUN_ID/TERMINAL.json" || code=1
@@ -73,7 +76,8 @@ meta() { curl -fsS --connect-timeout 3 --max-time 5 -H "X-aws-ec2-metadata-token
   "http://169.254.169.254/latest/meta-data/$1"; }
 test "$(meta instance-type)" = g6e.2xlarge
 test "$(meta ami-id)" = ami-0d3378afe7683c867
-echo "instance_id=$(meta instance-id)"
+instance_id=$(meta instance-id)
+echo "instance_id=$instance_id"
 
 phase=source
 time_left 300 aws s3api get-object --bucket "$FERAL_BUCKET" --key "$FERAL_SOURCE_KEY" \

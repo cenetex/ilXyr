@@ -30,6 +30,8 @@ class GpuPackageTest(unittest.TestCase):
         data = gpu.render(binding)
         self.assertLess(len(data), 16 * 1024)
         self.assertIn(b"systemd-run --unit=feral-stage-a-deadline", data)
+        self.assertLess(data.index(b"trap 'shutdown -h now' EXIT"),
+                        data.index(b"systemd-run --unit=feral-stage-a-deadline"))
         self.assertIn(b"--network none", data)
         request = gpu.launch_request(data, binding, {"subnet_id": "subnet-6d16a437",
                                                      "security_group_id": "sg-02b40b678ab46e5f4"})

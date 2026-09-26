@@ -225,6 +225,7 @@ def launch(profile, binding, network, preflight_path, authorization_path, out):
               "run_id": run["run_id"], "instance_id": instances[0]["InstanceId"],
               "source_sha256": binding["source_sha256"], "source_version": binding["source_version"],
               "request_sha256": sha(encode(request)), "launch_epoch_seconds": now,
+              "user_data_sha256": sha(request["UserData"].encode()),
               "authorization_sha256": sha(authorization_path.read_bytes()),
               "max_instance_seconds": 3600, "max_before_tax_usd": "3.00"}
     (out / "LAUNCH.json").write_bytes(encode(result))
@@ -285,10 +286,16 @@ def collect(profile, launch_record, out):
     if not terminal_path.is_file():
         raise ValueError("terminal result is missing")
     terminal = json.loads(terminal_path.read_bytes())
-    if terminal["run_id"] != launch_record["run_id"] or terminal["source_archive_sha256"] != launch_record["source_sha256"]:
+    if (terminal["run_id"] != launch_record["run_id"]
+            or terminal["instance_id"] != launch_record["instance_id"]
+            or terminal["source_archive_sha256"] != launch_record["source_sha256"]
+            or terminal["user_data_sha256"] != launch_record["user_data_sha256"]):
         raise ValueError("terminal identity differs")
     receipt = {"schema": "ilxyr.feral_stage_a_gpu_collection.v1", "run_id": launch_record["run_id"],
                "instance_id": launch_record["instance_id"], "instance_state": "terminated",
+               "source_archive_sha256": launch_record["source_sha256"],
+               "source_package_version": launch_record["source_version"],
+               "user_data_sha256": launch_record["user_data_sha256"], "bucket": BUCKET,
                "terminal_status": terminal["status"], "objects": records}
     (out / "COLLECTION.json").write_bytes(encode(receipt))
     return receipt
