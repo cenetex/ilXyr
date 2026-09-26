@@ -330,7 +330,8 @@ def readiness(evidence, source_root=None):
         raise ValueError("training prompt count must be a nonnegative integer")
     gates = {key: evidence.get(key) is True for key in required}
     mismatched = []
-    if "source_hashes" in evidence:
+    gates["source_integrity"] = bool(evidence.get("source_hashes"))
+    if gates["source_integrity"]:
         root = Path(source_root or ".").resolve()
         for name, expected in evidence["source_hashes"].items():
             path = (root / name).resolve()

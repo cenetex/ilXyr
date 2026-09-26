@@ -57,7 +57,7 @@ class PilotTest(unittest.TestCase):
         receipt = readiness({"training_prompts": 36, "learned_candidate": True})
         self.assertEqual(receipt["decision"], "no_go")
         self.assertEqual(receipt["minimum_warm_start_rollouts"], 288)
-        self.assertEqual(readiness({key: True for key in receipt["gates"]})["decision"], "ready")
+        self.assertEqual(readiness({key: True for key in receipt["gates"]})["decision"], "no_go")
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "view.json"
             source.write_bytes(b"frozen")
