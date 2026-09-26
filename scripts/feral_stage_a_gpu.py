@@ -124,14 +124,24 @@ def stage(profile, out):
     identity = aws(["sts", "get-caller-identity", "--query", "Account", "--output", "text"], profile).stdout.strip()
     if identity != ACCOUNT:
         raise ValueError("AWS account differs")
-    result = json.loads(aws(["s3api", "put-object", "--bucket", BUCKET, "--key", key,
-                            "--body", str(path), "--server-side-encryption", "AES256",
-                            "--if-none-match", "*", "--checksum-algorithm", "SHA256",
-                            "--checksum-sha256", checksum], profile).stdout)
+    put = aws(["s3api", "put-object", "--bucket", BUCKET, "--key", key,
+               "--body", str(path), "--server-side-encryption", "AES256",
+               "--if-none-match", "*", "--checksum-algorithm", "SHA256",
+               "--checksum-sha256", checksum], profile, False)
+    if put.returncode == 0:
+        version = json.loads(put.stdout)["VersionId"]
+    elif "PreconditionFailed" in put.stderr:
+        head = json.loads(aws(["s3api", "head-object", "--bucket", BUCKET,
+                              "--key", key, "--checksum-mode", "ENABLED"], profile).stdout)
+        if head["ContentLength"] != len(raw) or head.get("ChecksumSHA256") != checksum:
+            raise ValueError("existing source object differs")
+        version = head["VersionId"]
+    else:
+        raise RuntimeError("source stage failed: " + put.stderr.strip())
     binding = {"schema": "ilxyr.feral_stage_a_gpu_source_binding.v1", "bucket": BUCKET,
                "source_commit": source_commit,
                "key": key, "source_sha256": digest, "source_bytes": len(raw),
-               "source_version": result["VersionId"], "source_checksum_sha256": checksum,
+               "source_version": version, "source_checksum_sha256": checksum,
                "image": IMAGE, "model_revision": MODEL_REVISION}
     (out / "BINDING.json").write_bytes(encode(binding))
     return binding
