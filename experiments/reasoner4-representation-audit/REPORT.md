@@ -11,7 +11,9 @@ capture and predictor paths.
 The fit split contains ten balanced signed-input families in a four-column
 grammar. The fresh held split contains five opposing-sign and zero-boundary
 families in both a four-column grammar and a bracket-arrow grammar. The fit
-and held families, symbols, grammars, and input construction are separate. The
+and held families and symbols are disjoint, and the input construction changes.
+The held split includes the familiar four-column form and the new bracket-arrow
+form. The
 six source operators are shared. The parser normalizes both grammars before
 the probe. The audit measures six-role decoding from normalized numeric
 demonstrations across new input families. Equal predictions across renderings
@@ -40,8 +42,8 @@ family-grouped folds within fit data. Held data enter the final score once.
 
 ## Package and execution
 
-The [package record](PACKAGE.json) binds a 17,162,240-byte archive at
-`a8f2aed5e368455591013e6b849c0c87e2343fed854abb7abbf2e4cb84e576b4`.
+The [package record](PACKAGE.json) binds a 17,162,240-byte repaired archive at
+`04697f765f84feae91543e0ecc85bddf44f398e75700beffade5f3010f6b80bb`.
 The archive includes the exact source files, input and state artifacts, audit
 contract, code, profile, and pinned Linux NumPy wheel. Package verification
 passed locally. The package replay compiled the pinned source and checked
@@ -53,4 +55,12 @@ The [execution profile](EXECUTION-PROFILE.json) selects one AWS `c6i.large`
 in `us-east-1` with a 900-second cap and a $0.15 before-tax ceiling. The
 compute rate ceiling is $0.085 per hour. Live preflight must confirm the
 account, machine, image, network, permissions, storage, price, package object,
-and EC2 dry-run. An earlier archive was staged and passed free preflight; its receipts are retained in [superseded-v5-stage](superseded-v5-stage/). The final archive includes the full packaged import graph and a fit-only runtime check. The final [stage](STAGE.json) names S3 version `Gu9obk.lZIwmtdzpGovKlO1cvC_op3Xc`. The [free live preflight](PREFLIGHT.json) passed all 12 checks with zero instances created and a current $0.085/hour rate. A fresh preflight will precede any launch. No three-seed measurements or decision-table outcome exist yet.
+and EC2 dry-run. An earlier archive was staged and passed free preflight; its receipts are retained in [superseded-v5-stage](superseded-v5-stage/). The repaired archive includes the full packaged import graph and a fit-only runtime check. The [stage](STAGE.json) names immutable S3 version `VsWOddEQ4UzjacnTC_zgsl1lhy2FQaGB`. The [free live preflight](PREFLIGHT.json) passed all 12 checks with zero instances created and a current $0.085/hour rate.
+
+## First cloud attempt and repair
+
+The first bounded host ran the v6 archive at `a8f2aed5e368455591013e6b849c0c87e2343fed854abb7abbf2e4cb84e576b4`. Its [failure record](failed-v6-run/COLLECTION.json) binds the launch instance, provider tags, and versioned S3 outputs. Docker returned exit 125 while creating a nested bind mount inside a read-only mount. The host stopped before the probe. EC2 reports it terminated, with zero attached volumes and network interfaces. The first attempt produced no scientific measurements. Its [terminal receipt](failed-v6-run/TERMINAL.json) and [error log](failed-v6-run/probe.stderr.log) are preserved.
+
+The v7 bootstrap uses three sibling directory mounts: the verified package and archive are read-only, and output is writable. A tiny container smoke uses the same Docker flags before fitting. The pinned source, generated panels, seeds, probe, thresholds, and execution profile remain byte-identical to v6. The archive verifies locally, and the packaged import check runs a fit-only optimizer step. A fresh preflight will precede any retry. No three-seed measurements or decision-table outcome exist yet.
+
+The two attempts share a $0.15 before-tax envelope. At $0.085 per hour, two full 900-second host bounds cost $0.042500 compute. Two 80 GiB EBS bounds cost $0.004446, and IPv4 costs $0.002500. The package reserves $0.010000 for requests and storage and $0.090000 for transfer. The combined bound is $0.149446 before tax. The first host ended far before its 900-second cap, which gives further margin.

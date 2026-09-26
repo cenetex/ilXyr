@@ -71,21 +71,29 @@ test "$(sha256sum "$ROOT/package.tar" | cut -d' ' -f1)" = "$W_PACKAGE_SHA"
 mkdir "$ROOT/package"
 tar -xf "$ROOT/package.tar" -C "$ROOT/package"
 python3 "$ROOT/package/scripts/reasoner4_package.py" verify "$ROOT/package.tar" > "$ROOT/output/package-verification.json"
+mkdir "$ROOT/archive"
+cp "$ROOT/package.tar" "$ROOT/archive/package.tar"
+test "$(sha256sum "$ROOT/archive/package.tar" | cut -d' ' -f1)" = "$W_PACKAGE_SHA"
 PHASE=image
 bounded 240 systemctl start docker
 bounded 330 docker pull "$W_IMAGE"
 docker image inspect "$W_IMAGE" --format '{{.Id}}' > "$ROOT/output/image-id.txt"
 test "$(cat "$ROOT/output/image-id.txt")" = sha256:7b4141c49095bb5a8dfa2ba85266d4f1d836887c46deb33b43f542387e5656bd
+CONTAINER_ARGS=(--network none --cpuset-cpus 0 --memory 3g --memory-swap 3g
+  --pids-limit 256 --read-only --tmpfs /tmp:rw,exec,size=512m --log-driver none
+  --env OPENBLAS_NUM_THREADS=1 --env OMP_NUM_THREADS=1 --env MKL_NUM_THREADS=1
+  --env PIP_NO_CACHE_DIR=1 --env PYTHONDONTWRITEBYTECODE=1
+  --mount "type=bind,src=$ROOT/package,dst=/work/package,readonly"
+  --mount "type=bind,src=$ROOT/archive,dst=/work/archive,readonly"
+  --mount "type=bind,src=$ROOT/output,dst=/work/output")
+PHASE=container-smoke
+bounded 450 docker run --rm --name "$W_RUN-smoke" "${CONTAINER_ARGS[@]}" \
+  --entrypoint python3 "$W_IMAGE" -c \
+  'from pathlib import Path; root=Path("/work"); assert (root/"archive/package.tar").is_file(); assert (root/"package/scripts/reasoner4_package.py").is_file(); p=root/"output/container-smoke.txt"; p.write_text("mounted\n"); assert p.read_text()=="mounted\n"' \
+  > "$ROOT/output/container-smoke.stdout.log" 2> "$ROOT/output/container-smoke.stderr.log"
 PHASE=probe
-bounded 750 docker run --name "$W_RUN" --network none \
-  --cpuset-cpus 0 --memory 3g --memory-swap 3g --pids-limit 256 --read-only \
-  --tmpfs /tmp:rw,exec,size=512m --log-driver none \
-  --env OPENBLAS_NUM_THREADS=1 --env OMP_NUM_THREADS=1 --env MKL_NUM_THREADS=1 \
-  --env PIP_NO_CACHE_DIR=1 --env PYTHONDONTWRITEBYTECODE=1 \
-  --mount "type=bind,src=$ROOT/package,dst=/work,readonly" \
-  --mount "type=bind,src=$ROOT/package.tar,dst=/work/package.tar,readonly" \
-  --mount "type=bind,src=$ROOT/output,dst=/work/output" \
-  --entrypoint python3 "$W_IMAGE" /work/scripts/reasoner4_package.py run \
-  /work/package.tar /work/output/diagnostic --expected-sha256 "$W_PACKAGE_SHA" \
+bounded 750 docker run --name "$W_RUN" "${CONTAINER_ARGS[@]}" \
+  --entrypoint python3 "$W_IMAGE" /work/package/scripts/reasoner4_package.py run \
+  /work/archive/package.tar /work/output/diagnostic --expected-sha256 "$W_PACKAGE_SHA" \
   > "$ROOT/output/probe.stdout.log" 2> "$ROOT/output/probe.stderr.log"
 PHASE=complete
