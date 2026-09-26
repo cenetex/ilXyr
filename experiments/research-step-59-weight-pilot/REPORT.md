@@ -15,3 +15,23 @@ Use `scripts/weight_pilot_cloud_launch.py` with the exact archive, plan hash, ob
 After termination, run `scripts/weight_cloud_collect.py receive` with `experiments/research-step-59-weight-pilot/EXECUTION-PLAN.json`, the launch receipt, and a fresh output directory. The collector checks termination, volume and interface cleanup, versioned objects, checksums, and archive paths. Run the pilot's independent checker and replay on every complete job. Preserve partial jobs, holds, failed calls, and actual billed cost status in a follow-up report.
 
 Local package, staging, and preflight records are under `/private/tmp/zero4-retention-preflight-20260926/`. Raw provider responses remain outside Git.
+
+## September 26 launch
+
+[LAUNCH.json](LAUNCH.json) records run `weight-pilot-56-20260926T230650Z`,
+instance `i-02da7bfd691f11c5f`. A fresh preflight passed for this exact run,
+package, and object version. AWS then confirmed the instance running with
+the expected package and deadline tags. The watchdog deadline is
+September 27, 2026 at 00:36:50 UTC. Scientific results, collection, cleanup,
+and actual billing await the host's terminal record.
+
+The launch receipt is
+`/private/tmp/weight-pilot-live-20260926/launch/receipt.json`.
+After termination, collect into a fresh directory:
+
+```sh
+python3 -B scripts/weight_cloud_collect.py receive \
+  --plan experiments/research-step-59-weight-pilot/EXECUTION-PLAN.json \
+  --identity /private/tmp/weight-pilot-live-20260926/launch/receipt.json \
+  --output /private/tmp/weight-pilot-collected-20260927
+```
