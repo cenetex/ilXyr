@@ -1,0 +1,21 @@
+{
+  "account": "022118847419",
+  "ami": "ami-0d3378afe7683c867",
+  "checked_epoch_seconds": 1790465893,
+  "image": "ghcr.io/atimics/feral-7b-sec-qwen@sha256:c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b",
+  "instance_type": "g6e.2xlarge",
+  "max_before_tax_usd": "3.00",
+  "max_instance_seconds": 3600,
+  "price": {
+    "compute_usd_per_hour": "2.2420800000",
+    "max_before_tax_usd": "2.9920800000",
+    "publication_at": "2026-09-25T17:45:21Z",
+    "rate_code": "HK3A8PU2TSC6EKP6.JRTCKXETXF.6YS6EN2CT7",
+    "reserve_usd": "0.75",
+    "source_sha256": "a7a718589ab28b53fe5961fdcd3f4248d1a2c2b91e32980e8c5264f69abc0786"
+  },
+  "schema": "ilxyr.feral_stage_a_gpu_preflight.v1",
+  "source_sha256": "cb5aeb940b38e27e4bd88de91996b88e23f5508eeb44ca404d8eb5d8d256dd28",
+  "source_version": "zKNe1KPIYDk76zcIyAPTlmoF2WbjXxnN",
+  "status": "dry_run_passed"
+}

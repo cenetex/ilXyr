@@ -1,0 +1,8 @@
+{
+  "authorization_sha256": "9f589be38796872252336dcdce41a5ebb84600c1290d5ffbc8551c1fa8251fe7",
+  "launch_epoch_seconds": 1790465911,
+  "request_sha256": "c57f121d1f7f2a153bb6f2ee02705b876386660e31acc4283513555391748659",
+  "run_id": "feral-stage-a-20260926T233819Z",
+  "source_sha256": "cb5aeb940b38e27e4bd88de91996b88e23f5508eeb44ca404d8eb5d8d256dd28",
+  "status": "submission_started"
+}

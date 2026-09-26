@@ -1,0 +1,14 @@
+{
+  "authorization_sha256": "9f589be38796872252336dcdce41a5ebb84600c1290d5ffbc8551c1fa8251fe7",
+  "instance_id": "i-06dd8a22487bef678",
+  "launch_epoch_seconds": 1790465911,
+  "max_before_tax_usd": "3.00",
+  "max_instance_seconds": 3600,
+  "request_sha256": "c57f121d1f7f2a153bb6f2ee02705b876386660e31acc4283513555391748659",
+  "run_id": "feral-stage-a-20260926T233819Z",
+  "schema": "ilxyr.feral_stage_a_gpu_launch.v1",
+  "source_sha256": "cb5aeb940b38e27e4bd88de91996b88e23f5508eeb44ca404d8eb5d8d256dd28",
+  "source_version": "zKNe1KPIYDk76zcIyAPTlmoF2WbjXxnN",
+  "status": "launched",
+  "user_data_sha256": "cc918f307953ec7a71d062b25a5ffb04ea2444193d4242d860af4c35d17abb14"
+}
