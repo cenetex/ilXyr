@@ -44,6 +44,50 @@ jobs:
       - run: npm run test:schemas
       - run: npm run test:aws-bootstrap-secret-hygiene
 
+  reasoner4-runtime-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build exact Reasoner 4 package
+        run: |
+          mkdir -p "$RUNNER_TEMP/reasoner4-zero-source"
+          git -C "$RUNNER_TEMP/reasoner4-zero-source" init
+          git -C "$RUNNER_TEMP/reasoner4-zero-source" fetch --depth=1 https://github.com/atimics/zero-grounded-literary-lm.git 3b917b6f54d151a43dd65e45f094606272d166c5
+          mkdir -p "$RUNNER_TEMP/reasoner4-wheels"
+          python -m pip download --no-deps --require-hashes -r scripts/reasoner4-requirements-linux.txt -d "$RUNNER_TEMP/reasoner4-wheels"
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          import sys
+          sys.path.insert(0, 'scripts')
+          import reasoner4_representation_audit as audit
+          audit.SOURCE = Path(os.environ['RUNNER_TEMP']) / 'reasoner4-zero-source'
+          from reasoner4_package import build
+          build(Path(os.environ['RUNNER_TEMP']) / 'reasoner4-wheels' / 'numpy-2.2.6-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl',
+                Path(os.environ['RUNNER_TEMP']) / 'reasoner4.tar')
+          PY
+          python -c "import hashlib,json,pathlib,os; record=json.loads(pathlib.Path('experiments/reasoner4-representation-audit/PACKAGE.json').read_text()); assert hashlib.sha256((pathlib.Path(os.environ['RUNNER_TEMP'])/'reasoner4.tar').read_bytes()).hexdigest()==record['archive_sha256']"
+      - name: Test exact image, mounts, source replay, and fit-only NumPy import
+        run: |
+          work="$RUNNER_TEMP/reasoner4-container"
+          mkdir -p "$work/package" "$work/archive" "$work/output"
+          tar -xf "$RUNNER_TEMP/reasoner4.tar" -C "$work/package"
+          cp "$RUNNER_TEMP/reasoner4.tar" "$work/archive/package.tar"
+          image='mcr.microsoft.com/devcontainers/cpp@sha256:49a08fb3871da2fd63108773c662e6c739027982215491494995ba12f2fbb29b'
+          docker pull "$image"
+          test "$(docker image inspect "$image" --format '{{.Id}}')" = 'sha256:7b4141c49095bb5a8dfa2ba85266d4f1d836887c46deb33b43f542387e5656bd'
+          docker run --rm --network none --cpuset-cpus 0 --memory 3g --memory-swap 3g --pids-limit 256 --read-only \
+            --tmpfs /tmp:rw,exec,size=512m --log-driver none \
+            --env OPENBLAS_NUM_THREADS=1 --env OMP_NUM_THREADS=1 --env MKL_NUM_THREADS=1 \
+            --env PIP_NO_CACHE_DIR=1 --env PYTHONDONTWRITEBYTECODE=1 \
+            --mount "type=bind,src=$work/package,dst=/work/package,readonly" \
+            --mount "type=bind,src=$work/archive,dst=/work/archive,readonly" \
+            --mount "type=bind,src=$work/output,dst=/work/output" \
+            --entrypoint python3 "$image" /work/package/scripts/reasoner4_package.py runtime-check /work/archive/package.tar
+
   permaweb:
     runs-on: ubuntu-latest
     defaults:

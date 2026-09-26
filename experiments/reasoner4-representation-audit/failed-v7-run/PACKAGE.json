@@ -1,15 +1,15 @@
 {
   "schema": "ilxyr.reasoner4_role_audit_package_record.v1",
-  "archive_sha256": "636b86acbe232ac66b94117ff0213fcf448c1ca3efa26e0e869c6cc65ad51a84",
+  "archive_sha256": "04697f765f84feae91543e0ecc85bddf44f398e75700beffade5f3010f6b80bb",
   "archive_bytes": 17162240,
-  "manifest_sha256": "f8f2dc0b31247e00898b4465a15284dd2b20ca71423a47228cca5e74196b3f53",
+  "manifest_sha256": "9867a9388807aacefceaed5c29a1ecf3305f46ae7cd79d6c577a792824723f4e",
   "wheel_sha256": "ba10f8411898fc418a521833e014a77d3ca01c15b0c6cdcce6a0d2897e6dbbdf",
   "source_revision": "3b917b6f54d151a43dd65e45f094606272d166c5",
   "profile_sha256": "ba3217d622f8e1a7ec8c316ea7c51c78f4622aa6cbcaa19da048f6efc41136d9",
   "cost_ceiling_before_tax_usd": "0.15",
   "max_instance_seconds": 900,
   "status": "preflight_passed_unlaunched",
-  "local_package_path": "/tmp/reasoner4-audit-package-v8.tar",
+  "local_package_path": "/tmp/reasoner4-audit-package-v7.tar",
   "cloud_stage": "STAGE.json",
   "cloud_preflight": "PREFLIGHT.json",
   "cloud_result": null

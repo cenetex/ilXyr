@@ -2,15 +2,18 @@
 import copy
 import hashlib
 import json
+import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
+import zipfile
 
 import numpy as np
 
 from reasoner4_representation_audit import DIMENSION, REVISION, ROLES, capture, verify_firewall
 from reasoner4_role_probe import features, header_features, labels, select_penalty, swap_consistency
 from reasoner4_cloud_launch import BODY, request, retention_rules
+from reasoner4_package import install_wheel
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / 'experiments/reasoner4-representation-audit/v1'
@@ -90,6 +93,19 @@ class Reasoner4AuditTests(unittest.TestCase):
         self.assertTrue(rendered['BlockDeviceMappings'][0]['Ebs']['Encrypted'])
         self.assertEqual(rendered['InstanceInitiatedShutdownBehavior'], 'terminate')
         self.assertEqual(len(retention_rules()), 4)
+
+    def test_wheel_extraction_checks_hash_and_paths(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            wheel = root / 'wheel.whl'
+            with zipfile.ZipFile(wheel, 'w') as archive:
+                archive.writestr('../outside', 'bad')
+            correct_hash = hashlib.sha256(wheel.read_bytes()).hexdigest()
+            with self.assertRaisesRegex(ValueError, 'digest differs'):
+                install_wheel(wheel, root / 'wrong-hash', '0' * 64)
+            with self.assertRaisesRegex(ValueError, 'unsafe wheel member'):
+                install_wheel(wheel, root / 'unsafe-path', correct_hash)
+            self.assertFalse((root / 'outside').exists())
 
 
 if __name__ == '__main__':
