@@ -53,5 +53,4 @@ The [execution profile](EXECUTION-PROFILE.json) selects one AWS `c6i.large`
 in `us-east-1` with a 900-second cap and a $0.15 before-tax ceiling. The
 compute rate ceiling is $0.085 per hour. Live preflight must confirm the
 account, machine, image, network, permissions, storage, price, package object,
-and EC2 dry-run. The immutable package has not been launched. No three-seed
-measurements or decision-table outcome exist yet.
+and EC2 dry-run. The immutable package was staged as S3 version `y2J4xcaQe7RZralmnUT79U_FGuKV83wU`. The [live preflight](PREFLIGHT.json) passed account, image, machine, network, role, bucket, retention, price, fresh-prefix, and EC2 dry-run checks. The run created zero instances. A fresh preflight is required before launch. No three-seed measurements or decision-table outcome exist yet.

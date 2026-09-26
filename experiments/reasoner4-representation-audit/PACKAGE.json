@@ -8,9 +8,9 @@
   "profile_sha256": "ba3217d622f8e1a7ec8c316ea7c51c78f4622aa6cbcaa19da048f6efc41136d9",
   "cost_ceiling_before_tax_usd": "0.15",
   "max_instance_seconds": 900,
-  "status": "frozen_unlaunched",
+  "status": "preflight_passed_unlaunched",
   "local_package_path": "/tmp/reasoner4-audit-package-v5.tar",
-  "cloud_stage": null,
-  "cloud_preflight": null,
+  "cloud_stage": "STAGE.json",
+  "cloud_preflight": "PREFLIGHT.json",
   "cloud_result": null
 }
