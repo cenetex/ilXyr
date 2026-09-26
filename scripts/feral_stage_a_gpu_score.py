@@ -3,7 +3,7 @@ import argparse
 import json
 from pathlib import Path
 
-from feral_stage_a_model import load_view, model_inputs, resolve
+from feral_stage_a_model import MODEL, REVISION, load_view, model_inputs, resolve
 from feral_stage_a_selector import BASE, encode, score, sha
 
 
@@ -16,6 +16,11 @@ def verify_collection(base, launch, results):
             or collection["source_package_version"] != launch["source_version"]
             or collection["user_data_sha256"] != launch["user_data_sha256"]):
         raise ValueError("collection identity differs")
+    required = {"TERMINAL.json", "smoke/RECEIPT.json", "smoke/RAW.jsonl",
+                "full/RECEIPT.json", "full/RAW.jsonl", "full/PREDICTIONS.json"}
+    roster = [row["path"] for row in collection["objects"]]
+    if len(roster) != len(set(roster)) or not required.issubset(roster):
+        raise ValueError("scientific object roster differs")
     for row in collection["objects"]:
         path = (results / row["path"]).resolve()
         if not path.is_relative_to(results.resolve()):
@@ -24,6 +29,11 @@ def verify_collection(base, launch, results):
         if len(raw) != row["bytes"] or sha(raw) != row["sha256"]:
             raise ValueError("collected object differs: " + row["path"])
     terminal = json.loads((results / "TERMINAL.json").read_bytes())
+    if (terminal["run_id"] != launch["run_id"]
+            or terminal["instance_id"] != launch["instance_id"]
+            or terminal["source_archive_sha256"] != launch["source_sha256"]
+            or terminal["user_data_sha256"] != launch["user_data_sha256"]):
+        raise ValueError("terminal identity differs")
     if terminal["status"] != "complete" or not terminal["collection_complete"]:
         raise ValueError("host did not complete and collect all output")
     return collection, terminal
@@ -32,12 +42,14 @@ def verify_collection(base, launch, results):
 def score_run(base, launch, results):
     collection, terminal = verify_collection(base, launch, results)
     smoke = json.loads((results / "smoke/RECEIPT.json").read_bytes())
-    if smoke["scope"] != "one_form_loader_smoke" or smoke["rows"] != 1:
+    if (smoke["scope"] != "one_form_loader_smoke" or smoke["rows"] != 1
+            or smoke["model"] != MODEL or smoke["revision"] != REVISION):
         raise ValueError("loader smoke receipt differs")
     if smoke["raw_sha256"] != sha((results / "smoke/RAW.jsonl").read_bytes()):
         raise ValueError("loader smoke raw digest differs")
     receipt = json.loads((results / "full/RECEIPT.json").read_bytes())
-    if receipt["scope"] != "all_36_forms" or receipt["rows"] != 36:
+    if (receipt["scope"] != "all_36_forms" or receipt["rows"] != 36
+            or receipt["model"] != MODEL or receipt["revision"] != REVISION):
         raise ValueError("full model result roster differs")
     raw_bytes = (results / "full/RAW.jsonl").read_bytes()
     if receipt["raw_sha256"] != sha(raw_bytes):
