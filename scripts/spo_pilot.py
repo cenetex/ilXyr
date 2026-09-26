@@ -6,9 +6,11 @@ belong to that runner's evaluator and never enter the policy input.
 """
 
 import argparse
+import hashlib
 import json
 import math
 from pathlib import Path
+import random
 
 
 RHO_MIN = 0.875
@@ -16,6 +18,7 @@ RHO_MAX = 0.96
 WARM_SAMPLES = 8
 CLIP_LOW = 0.2
 CLIP_HIGH = 0.28
+PILOT_KL_HALF_LIFE = 0.1  # Explicit pilot choice; the paper leaves its numeric value open.
 
 
 def _probabilities(values):
@@ -97,6 +100,170 @@ def clipped_objective(ratio, advantage):
     return min(ratio * advantage, clipped * advantage)
 
 
+class CategoricalPolicy:
+    """Shared linear softmax policy for small source/action choice studies."""
+
+    def __init__(self, action_count, feature_count):
+        if action_count < 2 or feature_count < 1:
+            raise ValueError("policy needs actions and features")
+        self.weights = [[0.0] * feature_count for _ in range(action_count)]
+
+    def probabilities(self, features):
+        if len(features) != len(self.weights[0]) or any(not math.isfinite(x) for x in features):
+            raise ValueError("finite policy features required")
+        logits = [sum(w * x for w, x in zip(row, features)) for row in self.weights]
+        peak = max(logits)
+        scores = [math.exp(value - peak) for value in logits]
+        total = sum(scores)
+        return [score / total for score in scores]
+
+    def sample(self, features, generator):
+        probabilities = self.probabilities(features)
+        draw = generator.random()
+        running = 0.0
+        for index, probability in enumerate(probabilities):
+            running += probability
+            if draw < running:
+                return index, probabilities
+        return len(probabilities) - 1, probabilities
+
+    def _log_probability_gradient(self, features, action, probabilities):
+        return [[((index == action) - probability) * feature
+                 for feature in features]
+                for index, probability in enumerate(probabilities)]
+
+    def supervised_step(self, features, correct_action, learning_rate):
+        probabilities = self.probabilities(features)
+        self._apply(self._log_probability_gradient(features, correct_action, probabilities),
+                    learning_rate)
+        return -math.log(probabilities[correct_action])
+
+    def ppo_step(self, features, action, old_probability, advantage, learning_rate):
+        probabilities = self.probabilities(features)
+        if not 0 < old_probability <= 1:
+            raise ValueError("positive old action probability required")
+        ratio = probabilities[action] / old_probability
+        clipped = min(1 + CLIP_HIGH, max(1 - CLIP_LOW, ratio))
+        objective = min(ratio * advantage, clipped * advantage)
+        if ratio * advantage > clipped * advantage:
+            return objective, True
+        gradient = self._log_probability_gradient(features, action, probabilities)
+        self._apply(gradient, learning_rate * ratio * advantage)
+        return objective, False
+
+    def _apply(self, gradient, step):
+        if not math.isfinite(step):
+            raise ValueError("finite policy step required")
+        for row, change in zip(self.weights, gradient):
+            for index, value in enumerate(change):
+                row[index] += step * value
+
+
+def train_categorical(method, prompts, evaluator, *, rollout_budget, seed=0,
+                      learning_rate=0.05, group_size=8, half_life=PILOT_KL_HALF_LIFE,
+                      supervised_label=None):
+    """Train a small policy with one evaluator call per attempted rollout.
+
+    `evaluator(prompt_id, action)` returns a status and verified binary reward.
+    `supervised_label(prompt_id)` is a separate sealed-label interface. This
+    function leaves evaluation of held-out prompts to an independent caller.
+    """
+    if method not in ("supervised", "running", "spo", "grpo"):
+        raise ValueError("unknown training method")
+    if not prompts or rollout_budget < 0 or type(rollout_budget) is not int:
+        raise ValueError("prompts and nonnegative rollout budget required")
+    if group_size < 2:
+        raise ValueError("GRPO group size must be at least two")
+    actions = prompts[0]["actions"]
+    features = prompts[0]["features"]
+    if any(row["actions"] != actions or len(row["features"]) != len(features)
+           for row in prompts):
+        raise ValueError("ordered action and feature rosters must match")
+    if len({row["id"] for row in prompts}) != len(prompts):
+        raise ValueError("duplicate prompt id")
+    policy = CategoricalPolicy(len(actions), len(features))
+    generator = random.Random(seed)
+    accounting = {"attempted": 0, "accepted": 0, "failed": 0, "rejected": 0,
+                  "warm_start": 0, "updates": 0, "labels": 0}
+    if method == "supervised":
+        if supervised_label is None:
+            raise ValueError("supervised label interface required")
+        for prompt in prompts:
+            label = supervised_label(prompt["id"])
+            if label not in actions:
+                raise ValueError("supervised label outside action roster")
+            policy.supervised_step(prompt["features"], actions.index(label), learning_rate)
+            accounting["labels"] += 1
+            accounting["updates"] += 1
+        return policy, accounting
+
+    trackers = {}
+    running = {row["id"]: [0, 0] for row in prompts}
+    if method == "spo":
+        required = WARM_SAMPLES * len(prompts)
+        if rollout_budget < required:
+            raise ValueError("budget cannot cover SPO warm start")
+        for prompt in prompts:
+            warm = []
+            for _ in range(WARM_SAMPLES):
+                action, probabilities = policy.sample(prompt["features"], generator)
+                result = evaluator(prompt["id"], actions[action])
+                accounting["attempted"] += 1
+                accounting["warm_start"] += 1
+                if result["status"] != "accepted" or result.get("reward") not in (0, 1) or not result.get("resolver_verified"):
+                    raise ValueError("SPO warm start requires eight verified rewards per prompt")
+                accounting["accepted"] += 1
+                warm.append(result["reward"])
+            trackers[prompt["id"]] = BetaTracker(warm, probabilities)
+
+    cursor = 0
+    while accounting["attempted"] < rollout_budget:
+        batch = []
+        batch_size = min(group_size if method == "grpo" else len(prompts),
+                         rollout_budget - accounting["attempted"])
+        if method == "spo":
+            roster = sorted(prompts, key=lambda row: -prompt_weight(trackers[row["id"]].value))
+        else:
+            roster = prompts
+        for index in range(batch_size):
+            prompt = (roster[(cursor // group_size) % len(roster)] if method == "grpo"
+                      else roster[(cursor + index) % len(roster)])
+            action, probabilities = policy.sample(prompt["features"], generator)
+            result = evaluator(prompt["id"], actions[action])
+            accounting["attempted"] += 1
+            status = result["status"]
+            if status in ("failed", "rejected"):
+                accounting[status] += 1
+                continue
+            if status != "accepted" or result.get("reward") not in (0, 1) or not result.get("resolver_verified"):
+                raise ValueError("accepted rollout requires verified binary reward")
+            accounting["accepted"] += 1
+            batch.append((prompt, action, probabilities, result["reward"]))
+        cursor += batch_size
+        if not batch:
+            continue
+        if method == "spo":
+            if len({row[0]["id"] for row in batch}) != len(batch):
+                raise ValueError("SPO batch needs distinct prompts")
+            raw = [trackers[row[0]["id"]].observe(row[3], row[2], half_life)["advantage"]
+                   for row in batch]
+            advantages = global_advantages(raw)
+        elif method == "running":
+            advantages = []
+            for prompt, _, _, reward in batch:
+                success, count = running[prompt["id"]]
+                advantages.append(reward - (success / count if count else 0.5))
+                running[prompt["id"]] = [success + reward, count + 1]
+            advantages = global_advantages(advantages)
+        else:
+            advantages = global_advantages([row[3] for row in batch])
+        for (prompt, action, probabilities, _), advantage in zip(batch, advantages):
+            policy.ppo_step(prompt["features"], action, probabilities[action],
+                            advantage, learning_rate)
+            accounting["updates"] += 1
+    return policy, accounting
+
+
 def accept_rollouts(rows):
     """Record every attempt; use only completed, resolver-verified rewards."""
     used = []
@@ -154,7 +321,7 @@ def replay(payload):
                                for key, tracker in trackers.items()}}
 
 
-def readiness(evidence):
+def readiness(evidence, source_root=None):
     """A missing or failing gate yields a measured no-go receipt."""
     required = ("learned_candidate", "verified_binary_reward", "heldout_family_split",
                 "learned_gain_over_control", "frozen_matched_budget")
@@ -162,9 +329,18 @@ def readiness(evidence):
     if type(count) is not int or count < 0:
         raise ValueError("training prompt count must be a nonnegative integer")
     gates = {key: evidence.get(key) is True for key in required}
+    mismatched = []
+    if "source_hashes" in evidence:
+        root = Path(source_root or ".").resolve()
+        for name, expected in evidence["source_hashes"].items():
+            path = (root / name).resolve()
+            if not path.is_relative_to(root) or not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+                mismatched.append(name)
+        gates["source_integrity"] = not mismatched
     return {"schema": "ilxyr.spo_pilot_readiness.v1",
             "decision": "ready" if all(gates.values()) else "no_go",
             "gates": gates, "missing": [key for key, passed in gates.items() if not passed],
+            "source_mismatches": mismatched,
             "paper_warm_start_rollouts_per_prompt": WARM_SAMPLES,
             "minimum_warm_start_rollouts": WARM_SAMPLES * count}
 
@@ -174,9 +350,10 @@ def main():
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--readiness", type=Path)
     mode.add_argument("--replay", type=Path)
+    parser.add_argument("--source-root", type=Path, default=Path("."))
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-    receipt = (readiness(json.loads(args.readiness.read_text())) if args.readiness else
+    receipt = (readiness(json.loads(args.readiness.read_text()), args.source_root) if args.readiness else
                replay(json.loads(args.replay.read_text())))
     content = json.dumps(receipt, indent=2) + "\n"
     if args.output:

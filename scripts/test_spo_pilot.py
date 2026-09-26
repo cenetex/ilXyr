@@ -1,14 +1,16 @@
 """Focused SPO mechanics and failure-accounting tests."""
 
 import math
+import hashlib
 from pathlib import Path
 import sys
+import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from spo_pilot import (BetaTracker, accept_rollouts, clipped_objective, discount,
+from spo_pilot import (BetaTracker, CategoricalPolicy, accept_rollouts, clipped_objective, discount,
                        global_advantages, kl_divergence, prompt_weight, readiness,
-                       replay)
+                       replay, train_categorical)
 
 
 class PilotTest(unittest.TestCase):
@@ -56,6 +58,52 @@ class PilotTest(unittest.TestCase):
         self.assertEqual(receipt["decision"], "no_go")
         self.assertEqual(receipt["minimum_warm_start_rollouts"], 288)
         self.assertEqual(readiness({key: True for key in receipt["gates"]})["decision"], "ready")
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "view.json"
+            source.write_bytes(b"frozen")
+            evidence = {key: True for key in receipt["gates"]}
+            evidence["source_hashes"] = {"view.json": hashlib.sha256(b"frozen").hexdigest()}
+            self.assertEqual(readiness(evidence, directory)["decision"], "ready")
+            source.write_bytes(b"changed")
+            changed = readiness(evidence, directory)
+            self.assertEqual(changed["decision"], "no_go")
+            self.assertEqual(changed["source_mismatches"], ["view.json"])
+
+    def test_ppo_gradient_and_clipped_branch(self):
+        policy = CategoricalPolicy(2, 1)
+        objective, clipped = policy.ppo_step([1], 0, 0.5, 1, 0.2)
+        self.assertFalse(clipped)
+        self.assertEqual(objective, 1)
+        self.assertAlmostEqual(policy.weights[0][0], 0.1)
+        self.assertAlmostEqual(policy.weights[1][0], -0.1)
+        before = [row[:] for row in policy.weights]
+        objective, clipped = policy.ppo_step([1], 0, 0.1, 1, 0.2)
+        self.assertTrue(clipped)
+        self.assertEqual(objective, 1.28)
+        self.assertEqual(policy.weights, before)
+
+    def test_train_methods_share_attempt_ceiling_and_sealed_evaluator(self):
+        prompts = [{"id": "one", "features": [1, 0], "actions": ["a", "b"]},
+                   {"id": "two", "features": [0, 1], "actions": ["a", "b"]}]
+        correct = {"one": "a", "two": "b"}
+
+        def evaluator(prompt_id, action):
+            return {"status": "accepted", "reward": int(correct[prompt_id] == action),
+                    "resolver_verified": True}
+
+        for method in ("running", "spo", "grpo"):
+            policy, counts = train_categorical(method, prompts, evaluator,
+                                               rollout_budget=32, seed=4)
+            self.assertEqual(counts["attempted"], 32)
+            self.assertEqual(counts["accepted"], 32)
+            self.assertEqual(counts["warm_start"], 16 if method == "spo" else 0)
+            self.assertEqual(len(policy.probabilities([1, 0])), 2)
+        supervised, counts = train_categorical("supervised", prompts, evaluator,
+                                              rollout_budget=32,
+                                              supervised_label=lambda key: correct[key])
+        self.assertEqual(counts["labels"], 2)
+        self.assertEqual(counts["attempted"], 0)
+        self.assertGreater(supervised.probabilities([1, 0])[0], 0.5)
 
 
 if __name__ == "__main__":
