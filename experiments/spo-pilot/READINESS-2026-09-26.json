@@ -1,0 +1,9 @@
+{
+  "source": "FERAL Stage A PR #248 development control and pending Qwen3.5-4B comparison",
+  "training_prompts": 36,
+  "learned_candidate": false,
+  "verified_binary_reward": true,
+  "heldout_family_split": false,
+  "learned_gain_over_control": false,
+  "frozen_matched_budget": false
+}
