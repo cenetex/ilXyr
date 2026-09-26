@@ -1,0 +1,15 @@
+{
+  "source": "FERAL Stage A PR #248 development control and pending Qwen3.5-4B comparison",
+  "source_hashes": {
+    "experiments/feral-source-selector/stage-a/MODEL-INPUTS.json": "c83233d2825f563071f8ea650b07607a88cba5616707484654f459c7cdd56e33",
+    "experiments/feral-source-selector/stage-a/QUESTIONS.json": "d793c16df6ce388c57209e0caf0bbaa531960d4dd0630247c5436a7cb6eb2702",
+    "experiments/feral-source-selector/stage-a/SOURCE-MANIFEST.json": "311781aba4d824751fb09a407259ca5f4cab15fb77141a90c8fea7b94beb4f59",
+    "experiments/feral-source-selector/stage-a/DRAFT-LABELS.json": "e7897dfbebcef29fcda043d5f4ef83c208cd75cc64acc9f110dc0db8fe9d605a"
+  },
+  "training_prompts": 36,
+  "learned_candidate": false,
+  "verified_binary_reward": true,
+  "heldout_family_split": false,
+  "learned_gain_over_control": false,
+  "frozen_matched_budget": false
+}
