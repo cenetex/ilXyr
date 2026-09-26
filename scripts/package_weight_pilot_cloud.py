@@ -8,7 +8,7 @@ import tarfile
 from weight_source_kit import encode, sha, read_archive
 from weight_pilot_package import verify as verify_pilot, unpack as unpack_pilot
 
-PLAN = 'experiments/research-step-59-weight-pilot/EXECUTION-PLAN.json'
+PLAN = 'experiments/research-step-59-weight-pilot/RETRY-PLAN.json'
 BODY = 'scripts/aws/weight-pilot-56-user-data.sh'
 SOURCES = [PLAN, BODY, 'scripts/weight_cloud_collect.py']
 MAX_BYTES = 32 * 1024 * 1024

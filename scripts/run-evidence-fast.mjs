@@ -19,6 +19,12 @@ const additional = [
     binding: "experiments/feral-source-selector/REAL-SOURCE-AUDIT.json",
   },
   {
+    script: "test:spo-pilot",
+    command: "npm run test:spo-pilot",
+    evidence: "SPO mechanics and readiness gate",
+    binding: "experiments/spo-pilot/READINESS-2026-09-26.json",
+  },
+  {
     script: "test:feral-source-selector",
     command: "npm run test:feral-source-selector",
     evidence: "BRAID source request fixture and selector control",
