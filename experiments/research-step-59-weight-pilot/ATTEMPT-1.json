@@ -1,0 +1,34 @@
+{
+  "schema": "ilxyr.weight_pilot_attempt.v1",
+  "run_id": "weight-pilot-56-20260926T230650Z",
+  "instance_id": "i-02da7bfd691f11c5f",
+  "package_sha256": "a7338eb950e21bdbeba6df73f484fc9a4bd365e0eb3fecf4c9407f0f63a17f45",
+  "plan_sha256": "b494fc0a0280c2c4be9ec8a73fdd102c5ecf4d0ec489dffe4eda77f81182b73e",
+  "package_version": "WIMTYuUvkR9yD8ylo33nVkIarUuyU5qv",
+  "host_phase": "controller",
+  "host_exit_code": 1,
+  "host_elapsed_seconds": 137.99231624603271,
+  "failure": "ModuleNotFoundError: No module named 'feral_process'",
+  "failure_scope": "Controller import before native build or oracle call",
+  "scientific_processes_started": 0,
+  "scientific_result": "unresolved_execution_failure",
+  "result_archive": {
+    "bytes": 20480,
+    "sha256": "bb908e2f97908fbe4b1636e62124019ae086f631c434ea862695b0ef52109c6f",
+    "version_id": "naUXxLsuZC4KO0a64Ku46jE0wOtkjbTs"
+  },
+  "collection_complete": true,
+  "instance_termination_verified": true,
+  "remaining_volumes": 0,
+  "remaining_network_interfaces": 0,
+  "actual_billed_usd": null,
+  "budget_reserve_before_tax_usd": "0.15",
+  "budget_reserve_basis": "600-second conservative compute, 80 GiB gp3 and IPv4, bounded package/results storage and transfer, and request allowance; provider invoice remains unknown",
+  "receipt_paths": [
+    "/private/tmp/weight-pilot-live-20260926/launch/receipt.json",
+    "/private/tmp/weight-pilot-collected-20260926/RECEIPT.json",
+    "/private/tmp/weight-pilot-collected-20260926/host-terminal.json",
+    "/private/tmp/weight-pilot-collected-20260926/collection.json",
+    "/private/tmp/weight-pilot-collected-20260926/results/controller.stderr.log"
+  ]
+}
