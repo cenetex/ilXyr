@@ -65,10 +65,19 @@ configured `default` AWS profile and a network JSON with `subnet_id` and
 ```text
 python3 scripts/feral_stage_a_gpu.py stage --out /private/feral-stage-a-stage
 python3 scripts/feral_stage_a_gpu.py preflight --binding /private/feral-stage-a-stage/BINDING.json --network /private/feral-network.json --out /private/feral-stage-a-preflight
-python3 scripts/feral_stage_a_gpu.py launch --binding /private/feral-stage-a-stage/BINDING.json --network /private/feral-network.json --preflight /private/feral-stage-a-preflight/PREFLIGHT.json --out /private/feral-stage-a-launch
+python3 scripts/feral_stage_a_gpu.py launch --binding /private/feral-stage-a-stage/BINDING.json --network /private/feral-network.json --preflight /private/feral-stage-a-preflight/PREFLIGHT.json --authorization /private/feral-stage-a-authorization.json --out /private/feral-stage-a-launch
+python3 scripts/feral_stage_a_gpu.py observe --launch /private/feral-stage-a-launch/LAUNCH.json --out /private/feral-stage-a-observation
+python3 scripts/feral_stage_a_gpu.py collect --launch /private/feral-stage-a-launch/LAUNCH.json --out /private/feral-stage-a-results
 ```
 
 The launch receipt gives the run ID and instance ID for read-only observation.
+The authorization JSON binds the exact staged source SHA-256 and version,
+a single fixed `run_id`, one run, 3,600 seconds, the $3.00 before-tax ceiling, and reference
+`user-four-priorities-2026-09-26` using schema
+`ilxyr.feral_stage_a_gpu_authorization.v1`.
+Collection checks termination, each exact S3 version and SHA-256, and the
+terminal source identity. A failed run still keeps its output and failure
+receipt for diagnosis.
 The run is a development comparison. The fixed questions and deterministic
 control were tuned on these forms, so this run alone cannot establish a
 held-out gain.

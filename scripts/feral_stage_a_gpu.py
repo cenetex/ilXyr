@@ -85,6 +85,15 @@ def committed_source():
     return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
 
+def verify_staged_commit(binding):
+    committed_source()
+    source_commit = binding["source_commit"]
+    if not re.fullmatch(r"[0-9a-f]{40}", source_commit):
+        raise ValueError("staged source commit differs")
+    if subprocess.run(["git", "merge-base", "--is-ancestor", source_commit, "HEAD"], cwd=ROOT).returncode:
+        raise ValueError("staged source commit is outside current history")
+
+
 def current_compute_price():
     with urllib.request.urlopen(PRICE_URL, timeout=15) as stream:
         raw = stream.read(8 * 1024 * 1024)
@@ -129,8 +138,7 @@ def stage(profile, out):
 
 
 def preflight(profile, binding, network, out):
-    if committed_source() != binding["source_commit"]:
-        raise ValueError("staged source commit differs")
+    verify_staged_commit(binding)
     if binding["image"] != IMAGE or binding["model_revision"] != MODEL_REVISION:
         raise ValueError("runtime identity differs")
     raw = verify_local_package()
@@ -164,16 +172,33 @@ def preflight(profile, binding, network, out):
     return receipt
 
 
-def launch(profile, binding, network, preflight_path, out):
-    if committed_source() != binding["source_commit"]:
-        raise ValueError("staged source commit differs")
+def launch(profile, binding, network, preflight_path, authorization_path, out):
+    verify_staged_commit(binding)
     receipt = json.loads(preflight_path.read_bytes())
-    if receipt["status"] != "dry_run_passed" or receipt["source_sha256"] != binding["source_sha256"]:
+    if (receipt["status"] != "dry_run_passed"
+            or receipt["source_sha256"] != binding["source_sha256"]
+            or receipt["source_version"] != binding["source_version"]
+            or receipt["image"] != IMAGE
+            or receipt["account"] != ACCOUNT
+            or receipt["max_instance_seconds"] != 3600
+            or receipt["max_before_tax_usd"] != "3.00"):
         raise ValueError("preflight binding differs")
     if time.time() - receipt["checked_epoch_seconds"] > 3600:
         raise ValueError("preflight expired")
+    authorization = json.loads(authorization_path.read_bytes())
+    approved_run_id = authorization.get("run_id")
+    if not isinstance(approved_run_id, str) or not re.fullmatch(r"feral-stage-a-[0-9]{8}T[0-9]{6}Z", approved_run_id):
+        raise ValueError("authorized run ID differs")
+    expected = {"schema": "ilxyr.feral_stage_a_gpu_authorization.v1",
+                "run_id": approved_run_id,
+                "source_sha256": binding["source_sha256"],
+                "source_version": binding["source_version"],
+                "max_instance_seconds": 3600, "max_before_tax_usd": "3.00",
+                "run_count": 1, "reference": "user-four-priorities-2026-09-26"}
+    if authorization != expected:
+        raise ValueError("launch authorization differs")
     now = int(time.time())
-    run = {"run_id": time.strftime("feral-stage-a-%Y%m%dT%H%M%SZ", time.gmtime(now)),
+    run = {"run_id": approved_run_id,
            "source_sha256": binding["source_sha256"], "host_package_sha256": binding["source_sha256"],
            "source_version": binding["source_version"],
            "launch_epoch_seconds": now}
@@ -183,7 +208,8 @@ def launch(profile, binding, network, preflight_path, out):
     (out / "REQUEST.json").write_bytes(encode(request))
     (out / "SUBMITTED.json").write_bytes(encode({"status": "submission_started",
         "run_id": run["run_id"], "source_sha256": binding["source_sha256"],
-        "request_sha256": sha(encode(request)), "launch_epoch_seconds": now}))
+        "request_sha256": sha(encode(request)), "authorization_sha256": sha(authorization_path.read_bytes()),
+        "launch_epoch_seconds": now}))
     try:
         response = json.loads(aws(["ec2", "run-instances", "--cli-input-json",
                                    json.dumps(request, separators=(",", ":"))], profile).stdout)
@@ -199,32 +225,105 @@ def launch(profile, binding, network, preflight_path, out):
               "run_id": run["run_id"], "instance_id": instances[0]["InstanceId"],
               "source_sha256": binding["source_sha256"], "source_version": binding["source_version"],
               "request_sha256": sha(encode(request)), "launch_epoch_seconds": now,
+              "authorization_sha256": sha(authorization_path.read_bytes()),
               "max_instance_seconds": 3600, "max_before_tax_usd": "3.00"}
     (out / "LAUNCH.json").write_bytes(encode(result))
     return result
 
 
+def observe(profile, launch_record):
+    run_id = launch_record["run_id"]
+    if not re.fullmatch(r"feral-stage-a-[0-9]{8}T[0-9]{6}Z", run_id):
+        raise ValueError("run ID differs")
+    instance_id = launch_record["instance_id"]
+    if not re.fullmatch(r"i-[0-9a-f]+", instance_id):
+        raise ValueError("instance ID differs")
+    reservations = json.loads(aws(["ec2", "describe-instances", "--instance-ids", instance_id], profile).stdout)["Reservations"]
+    instances = [item for group in reservations for item in group["Instances"]]
+    if len(instances) != 1 or instances[0]["InstanceId"] != instance_id:
+        raise ValueError("instance lookup differs")
+    objects = json.loads(aws(["s3api", "list-object-versions", "--bucket", BUCKET,
+                              "--prefix", "runs/" + run_id + "/"], profile).stdout)
+    versions = [{"key": row["Key"], "version_id": row["VersionId"], "bytes": row["Size"]}
+                for row in objects.get("Versions", [])]
+    if objects.get("IsTruncated"):
+        raise ValueError("result version listing is truncated")
+    if len({row["key"] for row in versions}) != len(versions):
+        raise ValueError("result object has multiple versions")
+    return {"schema": "ilxyr.feral_stage_a_gpu_observation.v1", "run_id": run_id,
+            "instance_id": instance_id, "instance_state": instances[0]["State"]["Name"],
+            "result_versions": sorted(versions, key=lambda row: row["key"])}
+
+
+def collect(profile, launch_record, out):
+    observation = observe(profile, launch_record)
+    if observation["instance_state"] != "terminated":
+        raise ValueError("instance termination is pending")
+    prefix = "runs/" + launch_record["run_id"] + "/"
+    out.mkdir(parents=True, exist_ok=False)
+    records = []
+    for row in observation["result_versions"]:
+        key = row["key"]
+        if not key.startswith(prefix) or not key[len(prefix):] or ".." in Path(key[len(prefix):]).parts:
+            raise ValueError("result path differs")
+        target = out / key[len(prefix):]
+        target.parent.mkdir(parents=True, exist_ok=True)
+        aws(["s3api", "get-object", "--bucket", BUCKET, "--key", key,
+             "--version-id", row["version_id"], str(target)], profile)
+        raw = target.read_bytes()
+        if len(raw) != row["bytes"]:
+            raise ValueError("result object size differs: " + key)
+        head = json.loads(aws(["s3api", "head-object", "--bucket", BUCKET,
+                              "--key", key, "--version-id", row["version_id"],
+                              "--checksum-mode", "ENABLED"], profile).stdout)
+        expected = base64.b64encode(hashlib.sha256(raw).digest()).decode()
+        if head.get("ChecksumSHA256") != expected:
+            raise ValueError("result object checksum differs: " + key)
+        records.append({"path": key[len(prefix):], "version_id": row["version_id"],
+                        "bytes": len(raw), "sha256": sha(raw)})
+    terminal_path = out / "TERMINAL.json"
+    if not terminal_path.is_file():
+        raise ValueError("terminal result is missing")
+    terminal = json.loads(terminal_path.read_bytes())
+    if terminal["run_id"] != launch_record["run_id"] or terminal["source_archive_sha256"] != launch_record["source_sha256"]:
+        raise ValueError("terminal identity differs")
+    receipt = {"schema": "ilxyr.feral_stage_a_gpu_collection.v1", "run_id": launch_record["run_id"],
+               "instance_id": launch_record["instance_id"], "instance_state": "terminated",
+               "terminal_status": terminal["status"], "objects": records}
+    (out / "COLLECTION.json").write_bytes(encode(receipt))
+    return receipt
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="action", required=True)
-    for action in ("stage", "preflight", "launch"):
+    for action in ("stage", "preflight", "launch", "observe", "collect"):
         item = sub.add_parser(action)
         item.add_argument("--out", type=Path, required=True)
         item.add_argument("--profile", default="default")
-        if action != "stage":
+        if action in ("preflight", "launch"):
             item.add_argument("--binding", type=Path, required=True)
             item.add_argument("--network", type=Path, required=True)
         if action == "launch":
             item.add_argument("--preflight", type=Path, required=True)
+            item.add_argument("--authorization", type=Path, required=True)
+        if action in ("observe", "collect"):
+            item.add_argument("--launch", type=Path, required=True)
     args = parser.parse_args()
-    binding = json.loads(args.binding.read_bytes()) if args.action != "stage" else None
-    network = json.loads(args.network.read_bytes()) if args.action != "stage" else None
+    binding = json.loads(args.binding.read_bytes()) if args.action in ("preflight", "launch") else None
+    network = json.loads(args.network.read_bytes()) if args.action in ("preflight", "launch") else None
     if args.action == "stage":
         result = stage(args.profile, args.out)
     elif args.action == "preflight":
         result = preflight(args.profile, binding, network, args.out)
+    elif args.action == "launch":
+        result = launch(args.profile, binding, network, args.preflight, args.authorization, args.out)
+    elif args.action == "observe":
+        result = observe(args.profile, json.loads(args.launch.read_bytes()))
+        args.out.mkdir(parents=True, exist_ok=False)
+        (args.out / "OBSERVATION.json").write_bytes(encode(result))
     else:
-        result = launch(args.profile, binding, network, args.preflight, args.out)
+        result = collect(args.profile, json.loads(args.launch.read_bytes()), args.out)
     print(json.dumps(result, sort_keys=True))
 
 
