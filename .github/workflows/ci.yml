@@ -39,6 +39,7 @@ jobs:
           cache: pip
           cache-dependency-path: scripts/reasoner4-requirements-linux.txt
       - run: python -m pip install --no-deps --require-hashes -r scripts/reasoner4-requirements-linux.txt
+      - run: python -c "import sys,numpy; assert numpy.__version__ == '2.2.6'; sys.path.insert(0,'scripts'); import reasoner4_package,reasoner4_cloud_launch,reasoner4_role_probe"
       - run: npm ci
       - run: npm run test:schemas
       - run: npm run test:aws-bootstrap-secret-hygiene

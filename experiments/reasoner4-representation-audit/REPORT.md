@@ -40,8 +40,8 @@ family-grouped folds within fit data. Held data enter the final score once.
 
 ## Package and execution
 
-The [package record](PACKAGE.json) binds a 17,141,760-byte archive at
-`ac171f85e794d97b33be3d95f5ddd4092101f50048f14aff69d8f456b2716d19`.
+The [package record](PACKAGE.json) binds a 17,162,240-byte archive at
+`a8f2aed5e368455591013e6b849c0c87e2343fed854abb7abbf2e4cb84e576b4`.
 The archive includes the exact source files, input and state artifacts, audit
 contract, code, profile, and pinned Linux NumPy wheel. Package verification
 passed locally. The package replay compiled the pinned source and checked
@@ -53,4 +53,4 @@ The [execution profile](EXECUTION-PROFILE.json) selects one AWS `c6i.large`
 in `us-east-1` with a 900-second cap and a $0.15 before-tax ceiling. The
 compute rate ceiling is $0.085 per hour. Live preflight must confirm the
 account, machine, image, network, permissions, storage, price, package object,
-and EC2 dry-run. The immutable package was staged as S3 version `y2J4xcaQe7RZralmnUT79U_FGuKV83wU`. The [live preflight](PREFLIGHT.json) passed account, image, machine, network, role, bucket, retention, price, fresh-prefix, and EC2 dry-run checks. The run created zero instances. A fresh preflight is required before launch. No three-seed measurements or decision-table outcome exist yet.
+and EC2 dry-run. An earlier archive was staged and passed free preflight; its receipts are retained in [superseded-v5-stage](superseded-v5-stage/). The final archive includes the full packaged import graph and a fit-only runtime check. Its staging and fresh preflight remain pending. No three-seed measurements or decision-table outcome exist yet.

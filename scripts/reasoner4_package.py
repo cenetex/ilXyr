@@ -22,6 +22,7 @@ FILES = (
     'scripts/test_reasoner4_representation_audit.py',
     'scripts/reasoner4_package.py',
     'scripts/reasoner4_cloud_launch.py',
+    'scripts/feral_cloud_package.py',
     'scripts/aws/reasoner4-role-user-data.sh',
     'scripts/reasoner4-requirements-linux.txt',
     'examples/diagnostics/reasoner-4-representation-audit.json',
@@ -84,6 +85,30 @@ def verify(archive):
     if manifest['files'] != expected:
         raise ValueError('package manifest differs')
     return objects
+
+
+def runtime_check(archive):
+    """Exercise the exact packaged Python import graph and a fit-only optimizer step."""
+    entries = verify(archive)
+    with tempfile.TemporaryDirectory(prefix='reasoner4-runtime-check-') as directory:
+        root = Path(directory)
+        for name, raw in entries.items():
+            target = root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(raw)
+        code = ("import json,numpy as np,reasoner4_package,reasoner4_cloud_launch;"
+                "from reasoner4_role_probe import features,labels,fit_logistic;"
+                "from pathlib import Path;"
+                "rows=json.loads(Path('experiments/reasoner4-representation-audit/v1/fit.json').read_bytes())['rows'][:6];"
+                "x=features(rows);y=labels(rows);w=fit_logistic(x,y,0.0001,3,steps=3);"
+                "assert x.shape==(6,64) and w.shape==(65,6);"
+                "print(json.dumps({'numpy':np.__version__,'fit_rows':len(rows),'weights':w.size}))")
+        environment = dict(os.environ, PYTHONPATH=str(root / 'scripts'),
+                           PYTHONDONTWRITEBYTECODE='1', OPENBLAS_NUM_THREADS='1')
+        result = subprocess.run([sys.executable, '-c', code], cwd=root,
+                                env=environment, check=True, capture_output=True,
+                                text=True, timeout=30)
+        return json.loads(result.stdout)
 
 
 def verify_package_capture(root, output):
@@ -191,6 +216,8 @@ def main():
     package.add_argument('archive', type=Path)
     check = sub.add_parser('verify')
     check.add_argument('archive', type=Path)
+    runtime = sub.add_parser('runtime-check')
+    runtime.add_argument('archive', type=Path)
     execute = sub.add_parser('run')
     execute.add_argument('archive', type=Path)
     execute.add_argument('output', type=Path)
@@ -200,6 +227,8 @@ def main():
         build(args.wheel, args.archive)
     elif args.command == 'verify':
         print(json.dumps({'files': len(verify(args.archive)), 'archive_sha256': digest(args.archive.read_bytes())}))
+    elif args.command == 'runtime-check':
+        print(json.dumps(runtime_check(args.archive)))
     else:
         run(args.archive, args.output, args.expected_sha256)
 
