@@ -25,8 +25,8 @@
       "sha256": "b3b878ff3e0962422df7eeb37b360142e72d1021b2e03fae4d0f6faf7b2d8058"
     },
     "scripts/feral_stage_a_selector.py": {
-      "bytes": 12043,
-      "sha256": "b0c7f82cabcf782f7d118fd6100a6224ac6173693005e06f6220411b43cd5833"
+      "bytes": 13008,
+      "sha256": "1bab7586ae88ea3f653c528f3ed8b4ffbeab2a151b0f6cef1e3e13b22b2e8025"
     }
   },
   "grading_labels_in_archive": false,

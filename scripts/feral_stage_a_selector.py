@@ -211,7 +211,24 @@ def score(evidence, questions, predictions, labels):
             "complete_outcome_correct": complete,
             "incorrect_assertion": row["kind"] == "answer" and not complete,
         })
+    gold_links = [(target["id"], support) for target in label_rows
+                  if target["kind"] == "answer" for support in target["support"]]
+    predicted_links = [(row["id"], support) for row in predicted_rows
+                       if row["kind"] == "answer" for support in row["support"]]
+    gold_link_set, predicted_link_set = set(gold_links), set(predicted_links)
+    links = {
+        "gold_required": len(gold_links),
+        "predicted": len(predicted_links),
+        "true_positive": len(gold_link_set & predicted_link_set),
+        "false_positive": len(predicted_link_set - gold_link_set),
+        "false_negative": len(gold_link_set - predicted_link_set),
+        "complete_answer_link_sets": sum(
+            row["support"] == gold[row["id"]]["support"]
+            for row in predicted_rows if gold[row["id"]]["kind"] == "answer"),
+        "answer_forms": sum(row["kind"] == "answer" for row in label_rows),
+    }
     return {"schema": "ilxyr.feral_stage_a_development_score.v1",
+            "links": links,
             "label_status": labels["status"], "method": predictions["method"],
             "questions": len(rows),
             "selection_correct": sum(row["selection_correct"] for row in rows),

@@ -54,9 +54,10 @@ The lexical candidate screen found the required concept in the top five for
 
 The context-aware deterministic selector got 36/36 complete answer or
 abstention outcomes on these opened development forms. It answered 24 forms,
-abstained on 12, and made zero incorrect assertions. It matched all 24 answer
-support IDs and used exact decimal arithmetic for the three change families.
-The control was repaired after the questions were opened, so the score shows
+abstained on 12, and made zero incorrect assertions. It matched all 30 required answer-form support links and used exact decimal arithmetic for the three change families.
+The link record has 30/30 true positives, zero false positives, zero
+false negatives, and 24/24 complete answer link sets. These source links
+use exact tagged-occurrence byte spans. The control was repaired after the questions were opened, so the score shows
 development fit. It is not a held-out result or an added-value finding. Its
 selection, source links, operation, answer, and abstention fields are saved
 separately in [CONTROL-PREDICTIONS.json](CONTROL-PREDICTIONS.json) and
@@ -111,14 +112,15 @@ concept/entity/period/operation choice. The resolver owns occurrence choice.
 checkpoint and the SHA-256 of every required file. The two weight shards
 total 9,319,828,096 bytes. [MODEL-PACKAGE.json](MODEL-PACKAGE.json) binds the
 label-free worker code and data. Its deterministic source archive has SHA-256
-`16e19b0c56821e33d66909e0b8ab4f285035938d4fca640d88c68d0fe8f11f6e`
+`0bf05aff266d1c9d303038f5a1e2e70ef942a92333d3d9d431451c206ff224bd`
 and size 1,454,080 bytes. The archive stays in temporary local storage.
 [MODEL-PREFLIGHT.json](MODEL-PREFLIGHT.json) lists the remaining GPU and
 provider checks.
 
 The previous FERAL host preflight priced compute at $2.24208 per hour.
-At that historical rate, a one-hour ceiling plus $0.75 reserve reaches
+A fresh public AWS catalogue fetch on September 26 confirmed that rate for
+g6e.2xlarge in us-east-1. A one-hour ceiling plus $0.75 reserve reaches
 $2.99208 before tax. The proposed bound is $3.00 before tax for one instance.
-A current price check, model-file staging, GPU smoke, runtime image digest,
+Model-file staging, GPU smoke, runtime image digest,
 watchdog, and immutable output destination are still needed before launch.
 The published 4B model has zero scored calls on this view.
