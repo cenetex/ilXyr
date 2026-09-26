@@ -1,0 +1,69 @@
+{
+  "host_package": {
+    "bytes": 16609280,
+    "plan_sha256": "b494fc0a0280c2c4be9ec8a73fdd102c5ecf4d0ec489dffe4eda77f81182b73e",
+    "readback_sha256_verified": true,
+    "s3_bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1",
+    "s3_key": "packages/weight-pilot-56/a7338eb950e21bdbeba6df73f484fc9a4bd365e0eb3fecf4c9407f0f63a17f45.tar",
+    "s3_version_id": "WIMTYuUvkR9yD8ylo33nVkIarUuyU5qv",
+    "sha256": "a7338eb950e21bdbeba6df73f484fc9a4bd365e0eb3fecf4c9407f0f63a17f45",
+    "source_commit": "d19347842a4c7d2553a89ba159ce5a6d930b7357"
+  },
+  "limits": {
+    "controller_seconds": 3900,
+    "disk_gib": 80,
+    "instance_type": "c6i.4xlarge",
+    "maximum_before_tax_usd": "2.00",
+    "maximum_instance_seconds": 5400,
+    "result_archive_bytes": 4294967296
+  },
+  "paid_launch": "pending_package_review",
+  "pilot_package": {
+    "bytes": 16578560,
+    "controls": 4,
+    "plan_sha256": "a6e902e9441817cfdea7566b88e26b9edf6625b94fba70220335d294c3787da8",
+    "prepared_jobs": 16,
+    "sha256": "adea1791925e3336d28e4a26ccc80c5c20baa7892fc84675b422e325295569c7",
+    "source_commit": "57db690ec7c03dd19d6358bb52d173111a4bcd07"
+  },
+  "preflight": {
+    "checked_epoch": 1790463466.1357582,
+    "checks": [
+      "identity",
+      "machine",
+      "image_snapshot",
+      "volume_floor",
+      "network",
+      "role",
+      "bucket_privacy_encryption",
+      "versioned_package",
+      "bounded_retention",
+      "price",
+      "ec2_dry_run"
+    ],
+    "instances_created": 0,
+    "run_id": "weight-pilot-56-20260926T225719Z",
+    "scope": "free provider checks and EC2 dry run; launch needs a fresh run-specific binding and preflight",
+    "status": "passed"
+  },
+  "prices_usd": {
+    "download_gb": "0.09",
+    "gp3_gb_month": "0.08",
+    "instance_hour": "0.68",
+    "ipv4_hour": "0.005",
+    "s3_gb_month": "0.023",
+    "s3_get_request": "0.0000004",
+    "s3_put_request": "0.000005"
+  },
+  "result": "pending",
+  "schema": "ilxyr.weight_pilot_host_readiness.v1",
+  "scientific_processes_started": 0,
+  "status": "staged_and_free_preflight_passed",
+  "storage_retention": {
+    "current_days": 30,
+    "noncurrent_days": 1,
+    "package_prefix": "packages/weight-pilot-56/",
+    "result_prefix": "runs/weight-pilot-56-",
+    "rules_verified": 4
+  }
+}
