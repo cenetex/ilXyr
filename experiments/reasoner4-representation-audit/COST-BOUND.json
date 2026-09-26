@@ -1,0 +1,42 @@
+{
+  "schema": "ilxyr.reasoner4_three_attempt_cost_bound.v1",
+  "currency": "USD",
+  "before_tax": true,
+  "actual_billed_cost": "unknown",
+  "closed_attempts": [
+    {
+      "package": "v6",
+      "run_id": "reasoner4-role-audit-20260926T232636Z",
+      "instance_id": "i-07e96059da8f58b66",
+      "launch_epoch_seconds": 1790465231,
+      "verified_collection_epoch_seconds": 1790465661,
+      "observed_max_seconds": 430,
+      "rounded_bound_seconds": 450,
+      "collection_ref": "failed-v6-run/COLLECTION.json"
+    },
+    {
+      "package": "v7",
+      "run_id": "reasoner4-role-audit-20260926T234308Z",
+      "instance_id": "i-0a771d75ee7094ecd",
+      "launch_epoch_seconds": 1790466228,
+      "verified_collection_epoch_seconds": 1790466475,
+      "observed_max_seconds": 247,
+      "rounded_bound_seconds": 300,
+      "collection_ref": "failed-v7-run/COLLECTION.json"
+    }
+  ],
+  "further_attempt_bound_seconds": 900,
+  "total_bound_seconds": 1650,
+  "live_compute_usd_per_hour": "0.085000",
+  "cost_ceiling": {
+    "compute": "0.038959",
+    "ebs": "0.004076",
+    "ipv4": "0.002292",
+    "requests_and_storage_reserve": "0.010000",
+    "transfer_reserve": "0.090000",
+    "total": "0.145327",
+    "original_envelope": "0.150000",
+    "remaining_margin": "0.004673"
+  },
+  "method": "Both closed hosts were provider-verified terminated with zero tagged volumes and attached interfaces before the local collector wrote COLLECTION.json. Verified collection time minus launch epoch bounds each host's duration. The closed durations are rounded upward before adding one 900-second host bound. Rates and reserves come from the frozen execution profile."
+}

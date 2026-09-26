@@ -4,10 +4,12 @@ import hashlib
 import io
 import json
 import os
+import stat
 import subprocess
 import sys
 import tarfile
 import tempfile
+import zipfile
 from pathlib import Path, PurePosixPath
 
 from reasoner4_representation_audit import (ROOT, ROLES, SOURCE_FILES, build_capture,
@@ -87,8 +89,40 @@ def verify(archive):
     return objects
 
 
+def install_wheel(wheel, runtime, expected_sha256):
+    """Unpack the pinned wheel layout without a pip dependency."""
+    if digest(wheel.read_bytes()) != expected_sha256:
+        raise ValueError('NumPy wheel digest differs')
+    runtime.mkdir(parents=True, exist_ok=False)
+    seen, total = set(), 0
+    with zipfile.ZipFile(wheel) as package:
+        for member in package.infolist():
+            name = member.filename.rstrip('/')
+            path = PurePosixPath(name)
+            kind = stat.S_IFMT(member.external_attr >> 16)
+            if (not name or path.is_absolute() or '..' in path.parts or
+                    name in seen or kind not in (0, stat.S_IFREG, stat.S_IFDIR)):
+                raise ValueError('unsafe wheel member')
+            seen.add(name)
+            if member.is_dir():
+                continue
+            total += member.file_size
+            if total > 256 * 1024 * 1024:
+                raise ValueError('wheel expansion exceeds bound')
+            target = runtime.joinpath(*path.parts)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with package.open(member) as source, target.open('wb') as sink:
+                while chunk := source.read(1024 * 1024):
+                    sink.write(chunk)
+    if not ((runtime / 'numpy/__init__.py').is_file() and
+            any((runtime / 'numpy').rglob('*.so')) and
+            (runtime / 'numpy.libs').is_dir()):
+        raise ValueError('NumPy wheel layout differs')
+    return len(seen)
+
+
 def runtime_check(archive):
-    """Exercise the exact packaged Python import graph and a fit-only optimizer step."""
+    """Exercise packaged source replay, wheel import, and a fit-only optimizer step."""
     entries = verify(archive)
     with tempfile.TemporaryDirectory(prefix='reasoner4-runtime-check-') as directory:
         root = Path(directory)
@@ -96,6 +130,13 @@ def runtime_check(archive):
             target = root / name
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(raw)
+        profile = json.loads(entries['experiments/reasoner4-representation-audit/EXECUTION-PROFILE.json'])
+        verification_output = root / 'verification'
+        verification_output.mkdir()
+        verification = verify_package_capture(root, verification_output)
+        runtime = root / 'runtime'
+        install_wheel(root / 'wheels' / profile['numpy_wheel'], runtime,
+                      profile['numpy_wheel_sha256'])
         code = ("import json,numpy as np,reasoner4_package,reasoner4_cloud_launch;"
                 "from reasoner4_role_probe import features,labels,fit_logistic;"
                 "from pathlib import Path;"
@@ -103,12 +144,14 @@ def runtime_check(archive):
                 "x=features(rows);y=labels(rows);w=fit_logistic(x,y,0.0001,3,steps=3);"
                 "assert x.shape==(6,64) and w.shape==(65,6);"
                 "print(json.dumps({'numpy':np.__version__,'fit_rows':len(rows),'weights':w.size}))")
-        environment = dict(os.environ, PYTHONPATH=str(root / 'scripts'),
+        environment = dict(os.environ, PYTHONPATH=os.pathsep.join((str(runtime), str(root / 'scripts'))),
                            PYTHONDONTWRITEBYTECODE='1', OPENBLAS_NUM_THREADS='1')
         result = subprocess.run([sys.executable, '-c', code], cwd=root,
                                 env=environment, check=True, capture_output=True,
                                 text=True, timeout=30)
-        return json.loads(result.stdout)
+        value = json.loads(result.stdout)
+        value['verifier_evaluations'] = verification['verifier_evaluations']
+        return value
 
 
 def verify_package_capture(root, output):
@@ -187,8 +230,7 @@ def run(archive, output, expected_sha256):
         runtime = root / 'runtime'
         verification = verify_package_capture(root, output)
         wheel = root / 'wheels' / profile['numpy_wheel']
-        subprocess.run([sys.executable, '-m', 'pip', 'install', '--no-index', '--no-deps',
-                        '--target', str(runtime), str(wheel)], check=True)
+        install_wheel(wheel, runtime, profile['numpy_wheel_sha256'])
         environment = dict(os.environ, PYTHONPATH=str(runtime), PYTHONDONTWRITEBYTECODE='1',
                            OPENBLAS_NUM_THREADS='1', OMP_NUM_THREADS='1', MKL_NUM_THREADS='1')
         command = [sys.executable, str(root / 'scripts/reasoner4_role_probe.py'),
