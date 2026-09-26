@@ -17,6 +17,19 @@ def raw(value):
 
 
 class CollectorTests(unittest.TestCase):
+    def provider(self, args):
+        if args[1] == 'describe-instances':
+            return {'Reservations': [{'Instances': [{'InstanceId': 'i-1234',
+                'State': {'Name': 'terminated'}, 'Tags': [
+                    {'Key': 'RunId', 'Value': RUN},
+                    {'Key': 'HostPackageSha256', 'Value': ARCHIVE},
+                    {'Key': 'Project', 'Value': 'reasoner4-role-audit'}]}]}]}
+        if args[1] == 'describe-volumes':
+            return {'Volumes': []}
+        if args[1] == 'describe-network-interfaces':
+            return {'NetworkInterfaces': []}
+        raise AssertionError(args)
+
     def objects(self):
         capture = raw({'source_revision': '3b917b6f54d151a43dd65e45f094606272d166c5',
                        'verifier_evaluations': 2880})
@@ -45,18 +58,41 @@ class CollectorTests(unittest.TestCase):
         def fake_download(key, version, path, _profile):
             self.assertEqual(version, 'v1')
             path.write_bytes(data[key.split('/', 2)[2]])
-        instance = {'Reservations': [{'Instances': [{'InstanceId': 'i-1234',
-                                                      'State': {'Name': 'terminated'}}]}]}
         with tempfile.TemporaryDirectory() as directory, \
              patch('reasoner4_cloud_collect.identity'), \
              patch('reasoner4_cloud_collect.head', side_effect=fake_head), \
              patch('reasoner4_cloud_collect.download', side_effect=fake_download), \
-             patch('reasoner4_cloud_collect.call', return_value=instance):
+             patch('reasoner4_cloud_collect.call', side_effect=lambda args, _: self.provider(args)):
             output = Path(directory) / 'collection'
-            receipt = collect(RUN, ARCHIVE, output, 'default')
+            launch = Path(directory) / 'launch.json'
+            launch.write_bytes(raw({'status': 'launched', 'run_id': RUN,
+                                    'archive_sha256': ARCHIVE, 'instance_id': 'i-1234'}))
+            receipt = collect(RUN, ARCHIVE, launch, output, 'default')
             self.assertEqual(receipt['status'], 'verified')
             self.assertEqual(receipt['instance_state'], 'terminated')
             self.assertTrue((output / 'COLLECTION.json').exists())
+
+    def test_failed_host_retains_verified_logs(self):
+        data = self.objects()
+        terminal = json.loads(data['terminal.json'])
+        terminal.update(status='failed', phase='probe', exit_code=125)
+        data['terminal.json'] = raw(terminal)
+        def fake_head(key, _profile):
+            name = key.split('/', 2)[2]
+            return {'VersionId': 'v1', 'ContentLength': len(data[name])}
+        def fake_download(key, version, path, _profile):
+            path.write_bytes(data[key.split('/', 2)[2]])
+        with tempfile.TemporaryDirectory() as directory, \
+             patch('reasoner4_cloud_collect.identity'), \
+             patch('reasoner4_cloud_collect.head', side_effect=fake_head), \
+             patch('reasoner4_cloud_collect.download', side_effect=fake_download), \
+             patch('reasoner4_cloud_collect.call', side_effect=lambda args, _: self.provider(args)):
+            launch = Path(directory) / 'launch.json'
+            launch.write_bytes(raw({'status': 'launched', 'run_id': RUN,
+                                    'archive_sha256': ARCHIVE, 'instance_id': 'i-1234'}))
+            receipt = collect(RUN, ARCHIVE, launch, Path(directory) / 'collection', 'default')
+            self.assertEqual(receipt['status'], 'verified_host_failure')
+            self.assertEqual(receipt['host_exit_code'], 125)
 
 
 if __name__ == '__main__':

@@ -57,8 +57,12 @@ def observe(run_id, profile):
     return {'state': 'running_or_pending', 'instances': values}
 
 
-def collect(run_id, archive_sha, output, profile):
+def collect(run_id, archive_sha, launch_receipt_path, output, profile):
     identity(profile)
+    launch = json.loads(launch_receipt_path.read_bytes())
+    if (launch['status'] != 'launched' or launch['run_id'] != run_id or
+            launch['archive_sha256'] != archive_sha or not launch.get('instance_id')):
+        raise ValueError('trusted launch receipt differs')
     if output.exists():
         raise ValueError('collection output already exists')
     output.mkdir(parents=True)
@@ -86,15 +90,33 @@ def collect(run_id, archive_sha, output, profile):
             raise ValueError('result hash differs: ' + name)
         receipts[name] = {'key': key, 'version_id': metadata['VersionId'], 'sha256': sha(raw)}
     instance_id = terminal.get('instance_id')
-    if not instance_id:
-        raise ValueError('terminal instance ID missing')
+    if instance_id != launch['instance_id']:
+        raise ValueError('terminal instance ID differs from launch')
     instances = call(['ec2', 'describe-instances', '--instance-ids', instance_id], profile)
-    states = [item['State']['Name'] for group in instances['Reservations']
-              for item in group['Instances'] if item['InstanceId'] == instance_id]
-    if states != ['terminated']:
-        raise ValueError('instance has not terminated: ' + str(states))
+    hosts = [item for group in instances['Reservations'] for item in group['Instances']
+             if item['InstanceId'] == instance_id]
+    if len(hosts) != 1 or hosts[0]['State']['Name'] != 'terminated':
+        raise ValueError('instance has not terminated')
+    tags = {item['Key']: item['Value'] for item in hosts[0]['Tags']}
+    if (tags.get('RunId') != run_id or tags.get('HostPackageSha256') != archive_sha or
+            tags.get('Project') != 'reasoner4-role-audit'):
+        raise ValueError('provider instance tags differ')
+    volumes = call(['ec2', 'describe-volumes', '--filters',
+                    'Name=tag:RunId,Values=' + run_id], profile)
+    interfaces = call(['ec2', 'describe-network-interfaces', '--filters',
+                       'Name=attachment.instance-id,Values=' + instance_id], profile)
+    if volumes['Volumes'] or interfaces['NetworkInterfaces']:
+        raise ValueError('provider resources remain attached')
+    cleanup = {'tagged_volumes': 0, 'attached_network_interfaces': 0}
     if terminal['status'] != 'complete':
-        raise ValueError('host run failed; partial outputs retained')
+        manifest = {'schema': 'ilxyr.reasoner4_role_collection.v1',
+                    'status': 'verified_host_failure', 'run_id': run_id,
+                    'archive_sha256': archive_sha, 'instance_id': instance_id,
+                    'instance_state': 'terminated', 'host_exit_code': terminal['exit_code'],
+                    'host_phase': terminal['phase'], 'provider_cleanup': cleanup,
+                    'objects': receipts}
+        (output / 'COLLECTION.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n')
+        return manifest
     result_path = output / 'diagnostic/result.json'
     run_receipt_path = output / 'diagnostic/receipt.json'
     capture_path = output / 'diagnostic/capture-verification.json'
@@ -116,6 +138,7 @@ def collect(run_id, archive_sha, output, profile):
     manifest = {'schema': 'ilxyr.reasoner4_role_collection.v1', 'status': 'verified',
                 'run_id': run_id, 'archive_sha256': archive_sha,
                 'instance_id': instance_id, 'instance_state': 'terminated',
+                'provider_cleanup': cleanup,
                 'objects': receipts, 'measurements': result['measurements']}
     (output / 'COLLECTION.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n')
     return manifest
@@ -126,13 +149,17 @@ def main():
     parser.add_argument('mode', choices=('observe', 'collect'))
     parser.add_argument('--run-id', required=True)
     parser.add_argument('--archive-sha256')
+    parser.add_argument('--launch-receipt', type=Path)
     parser.add_argument('--output', type=Path)
     parser.add_argument('--profile', default='default')
     args = parser.parse_args()
     if args.mode == 'observe':
         result = observe(args.run_id, args.profile)
     else:
-        result = collect(args.run_id, args.archive_sha256, args.output, args.profile)
+        if not args.archive_sha256 or not args.launch_receipt or not args.output:
+            parser.error('collect requires archive SHA, launch receipt, and output')
+        result = collect(args.run_id, args.archive_sha256, args.launch_receipt,
+                         args.output, args.profile)
     print(json.dumps(result, sort_keys=True))
 
 
