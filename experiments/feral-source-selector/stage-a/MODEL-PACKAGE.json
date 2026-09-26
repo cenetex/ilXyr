@@ -1,0 +1,37 @@
+{
+  "files": {
+    "experiments/feral-source-selector/stage-a/EVIDENCE.json": {
+      "bytes": 1031390,
+      "sha256": "2f1bf18b9e9e23bce8e9cb9af42b3e1d785609563828ce0d98ffa6100a0503d9"
+    },
+    "experiments/feral-source-selector/stage-a/MODEL-INPUTS.json": {
+      "bytes": 374721,
+      "sha256": "c83233d2825f563071f8ea650b07607a88cba5616707484654f459c7cdd56e33"
+    },
+    "experiments/feral-source-selector/stage-a/MODEL-PROFILE.json": {
+      "bytes": 2504,
+      "sha256": "a21b340b26baa091af3fc704eaa87c58d2ddbb855024fae08edcf45bc9174468"
+    },
+    "experiments/feral-source-selector/stage-a/QUESTIONS.json": {
+      "bytes": 4726,
+      "sha256": "d793c16df6ce388c57209e0caf0bbaa531960d4dd0630247c5436a7cb6eb2702"
+    },
+    "experiments/feral-source-selector/stage-a/SOURCE-MANIFEST.json": {
+      "bytes": 2198,
+      "sha256": "311781aba4d824751fb09a407259ca5f4cab15fb77141a90c8fea7b94beb4f59"
+    },
+    "scripts/feral_stage_a_model.py": {
+      "bytes": 10203,
+      "sha256": "b3b878ff3e0962422df7eeb37b360142e72d1021b2e03fae4d0f6faf7b2d8058"
+    },
+    "scripts/feral_stage_a_selector.py": {
+      "bytes": 13008,
+      "sha256": "1bab7586ae88ea3f653c528f3ed8b4ffbeab2a151b0f6cef1e3e13b22b2e8025"
+    }
+  },
+  "grading_labels_in_archive": false,
+  "model_repository": "Qwen/Qwen3.5-4B",
+  "model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "model_weights_in_archive": false,
+  "schema": "ilxyr.feral_stage_a_source_package.v1"
+}

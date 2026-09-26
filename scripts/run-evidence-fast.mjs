@@ -13,6 +13,12 @@ const baseCommands = base.split(" && ");
 // Run its two new self-tests here so required CI executes each check once.
 const additional = [
   {
+    script: "test:feral-stage-a",
+    command: "npm run test:feral-stage-a",
+    evidence: "opened real-source FERAL Stage A feasibility audit",
+    binding: "experiments/feral-source-selector/REAL-SOURCE-AUDIT.json",
+  },
+  {
     script: "test:feral-source-selector",
     command: "npm run test:feral-source-selector",
     evidence: "BRAID source request fixture and selector control",
