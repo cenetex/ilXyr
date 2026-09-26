@@ -1,0 +1,43 @@
+{
+  "catalogue_label_unit_pairs": 13,
+  "fact_occurrences": 81,
+  "fact_occurrences_by_source": {
+    "aapl": 33,
+    "cost": 15,
+    "msft": 33
+  },
+  "inputs": {
+    "families_sha256": "630581c076ea8c89e94c69bc79a279dca24a61c8c6b01b2a39668bf16be44ec1",
+    "predictor_sha256": "e497b4ef25cebea469133c05e1158fd4a85a799a59f1513c15d7eb1fd616e2a7",
+    "roster_sha256": "0cc1977b1dc1468993aeacb66c379696528e5c4f1401a61fd9cec2505687808a",
+    "sources_sha256": "681855eabaad24565124df41966843fa83e80c080969616c1427ba6deabb1cc1",
+    "targets_sha256": "e99710825d4316e6058f715efe6fd8d9ad9d87209db326ce4d7f62bbb03002bf"
+  },
+  "learned_selector_runs": 0,
+  "link_availability": {
+    "finding_to_fact_links": 0,
+    "table_row_column_with_source_digest": 81,
+    "typed_xbrl_concept_context_links": 0,
+    "verified_occurrence_byte_spans": 0
+  },
+  "opened_question_families": 114,
+  "opened_target_kinds": {
+    "abstention": 64,
+    "numeric": 164
+  },
+  "opened_visible_forms": 228,
+  "real_source_families": 3,
+  "review_minutes_observed": null,
+  "schema": "ilxyr.feral_stage_a_source_audit.v1",
+  "selected_tables": 8,
+  "stage_a_contract": {
+    "abstention_question_families": 6,
+    "answerable_question_families": 12,
+    "catalogue_concepts": 60,
+    "max_aggregate_reviewer_minutes": 240,
+    "source_families": 3,
+    "visible_forms": 36
+  },
+  "stage_a_readiness": "requires_frozen_xbrl_release_and_independent_labels",
+  "status": "opened_real_source_feasibility"
+}

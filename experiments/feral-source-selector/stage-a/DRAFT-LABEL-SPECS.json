@@ -1,0 +1,24 @@
+{
+  "schema": "ilxyr.feral_stage_a_draft_label_specs.v1",
+  "status": "first review; independent second review pending",
+  "specs": [
+    {"family":"f01","issuer":"cat","concept":"us-gaap:Assets","years":[2025],"operation":"lookup"},
+    {"family":"f02","issuer":"cat","concept":"us-gaap:AssetsCurrent","years":[2025],"operation":"lookup"},
+    {"family":"f03","issuer":"cat","concept":"us-gaap:Revenues","years":[2025],"operation":"lookup"},
+    {"family":"f04","issuer":"cat","concept":"us-gaap:Revenues","years":[2024,2025],"operation":"difference"},
+    {"family":"f05","issuer":"ibm","concept":"us-gaap:Assets","years":[2025],"operation":"lookup"},
+    {"family":"f06","issuer":"ibm","concept":"us-gaap:CashAndCashEquivalentsAtCarryingValue","years":[2025],"operation":"lookup"},
+    {"family":"f07","issuer":"ibm","concept":"us-gaap:CostOfRevenue","years":[2025],"operation":"lookup"},
+    {"family":"f08","issuer":"ibm","concept":"us-gaap:Revenues","years":[2024,2025],"operation":"difference"},
+    {"family":"f09","issuer":"wmt","concept":"us-gaap:Assets","years":[2026],"operation":"lookup"},
+    {"family":"f10","issuer":"wmt","concept":"us-gaap:InventoryNet","years":[2026],"operation":"lookup"},
+    {"family":"f11","issuer":"wmt","concept":"us-gaap:CashAndCashEquivalentsAtCarryingValue","years":[2026],"operation":"lookup"},
+    {"family":"f12","issuer":"wmt","concept":"us-gaap:Revenues","years":[2025,2026],"operation":"difference"},
+    {"family":"f13","kind":"abstain","reason":"missing_period"},
+    {"family":"f14","kind":"abstain","reason":"unresolved_concept"},
+    {"family":"f15","kind":"abstain","reason":"wrong_index_identity"},
+    {"family":"f16","kind":"abstain","reason":"missing_dimension"},
+    {"family":"f17","kind":"abstain","reason":"ambiguous_concept"},
+    {"family":"f18","kind":"abstain","reason":"requires_prose"}
+  ]
+}
