@@ -12,9 +12,11 @@ The fit split contains ten balanced signed-input families in a four-column
 grammar. The fresh held split contains five opposing-sign and zero-boundary
 families in both a four-column grammar and a bracket-arrow grammar. The fit
 and held families, symbols, grammars, and input construction are separate. The
-six source operators are shared. This audit examines representation transfer
-across examples and surface forms within that fixed role vocabulary. The
-future sealed law-composition panel remains closed.
+six source operators are shared. The parser normalizes both grammars before
+the probe. The audit measures six-role decoding from normalized numeric
+demonstrations across new input families. Equal predictions across renderings
+check parser normalization and role decoding together. The future sealed
+law-composition panel remains closed.
 
 ## Opened local smoke
 

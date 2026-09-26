@@ -9,6 +9,7 @@ import numpy as np
 
 from reasoner4_representation_audit import DIMENSION, REVISION, ROLES, capture, verify_firewall
 from reasoner4_role_probe import features, header_features, labels, select_penalty, swap_consistency
+from reasoner4_cloud_launch import request, retention_rules
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / 'experiments/reasoner4-representation-audit/v1'
@@ -71,6 +72,20 @@ class Reasoner4AuditTests(unittest.TestCase):
         self.assertEqual(audit['inputs']['fit_split']['sha256'], sha(DATA / 'fit.json'))
         self.assertEqual(audit['inputs']['evaluation_splits'][0]['sha256'], sha(DATA / 'held.json'))
         self.assertEqual(audit['inputs']['evaluation_splits'][1]['sha256'], sha(DATA / 'scrambled.json'))
+
+    def test_cloud_request_keeps_fixed_limits(self):
+        record = json.loads((DATA.parent / 'PACKAGE.json').read_bytes())
+        binding = {'archive_sha256': record['archive_sha256'],
+                   'bucket': 'ilxyr-feral-7b-calibration-022118847419-us-east-1',
+                   'key': 'packages/reasoner4-role-audit/' + record['archive_sha256'] + '.tar',
+                   'version_id': 'test-version'}
+        rendered = request(binding, 'reasoner4-role-audit-20260926T000000Z', 1790380800)
+        self.assertTrue(rendered['DryRun'])
+        self.assertEqual(rendered['InstanceType'], 'c6i.large')
+        self.assertEqual(rendered['MetadataOptions']['HttpTokens'], 'required')
+        self.assertTrue(rendered['BlockDeviceMappings'][0]['Ebs']['Encrypted'])
+        self.assertEqual(rendered['InstanceInitiatedShutdownBehavior'], 'terminate')
+        self.assertEqual(len(retention_rules()), 4)
 
 
 if __name__ == '__main__':
