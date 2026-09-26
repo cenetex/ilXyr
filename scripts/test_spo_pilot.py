@@ -1,6 +1,7 @@
 """Focused SPO mechanics and failure-accounting tests."""
 
 import math
+import random
 import hashlib
 from pathlib import Path
 import sys
@@ -10,7 +11,7 @@ import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from spo_pilot import (BetaTracker, CategoricalPolicy, accept_rollouts, clipped_objective, discount,
                        global_advantages, kl_divergence, prompt_weight, readiness,
-                       replay, train_categorical)
+                       replay, sample_prompts, train_categorical)
 
 
 class PilotTest(unittest.TestCase):
@@ -68,6 +69,25 @@ class PilotTest(unittest.TestCase):
             changed = readiness(evidence, directory)
             self.assertEqual(changed["decision"], "no_go")
             self.assertEqual(changed["source_mismatches"], ["view.json"])
+
+    def test_sampling_changes_frequency_and_keeps_exploration(self):
+        prompts = [{"id": "uncertain"}, {"id": "certain"}]
+        generator = random.Random(39)
+        selected = [sample_prompts(prompts, {"uncertain": 0.5, "certain": 0}, 1, generator)[0]["id"]
+                    for _ in range(2000)]
+        self.assertGreater(selected.count("uncertain"), 6 * selected.count("certain"))
+        self.assertGreater(selected.count("certain"), 100)
+        self.assertEqual(len({r["id"] for r in sample_prompts(prompts, {"uncertain": 0.5, "certain": 0}, 2, generator)}), 2)
+
+    def test_warm_start_failure_preserves_attempt_receipt(self):
+        prompts = [{"id": "one", "features": [1], "actions": ["a", "b"]}]
+        def failed(prompt_id, action):
+            raise RuntimeError("worker stopped")
+        policy, counts = train_categorical("spo", prompts, failed, rollout_budget=8)
+        self.assertEqual(counts["status"], "warm_start_failed")
+        self.assertEqual((counts["attempted"], counts["warm_start"], counts["failed"]), (1, 1, 1))
+        self.assertEqual(counts["events"][0]["error"], "worker stopped")
+        self.assertEqual(policy.weights, [[0.0], [0.0]])
 
     def test_ppo_gradient_and_clipped_branch(self):
         policy = CategoricalPolicy(2, 1)

@@ -6,8 +6,7 @@ an exact resolver. The deterministic control scores 36/36 after development
 rules. A learned selector result and a fresh held-out filing family are pending.
 The current source selection reward can be binary when a resolver-verified
 selection and answer match the sealed label. The exact reward rule must be
-frozen before training. A deterministic control with full development accuracy
-does not establish learned added value.
+frozen before training. Evidence of learned added value needs a scored comparison on fresh data.
 
 `python3 scripts/spo_pilot.py --readiness experiments/spo-pilot/READINESS-2026-09-26.json`
 prints a machine-readable readiness receipt. It verifies exact SHA-256 hashes
@@ -32,9 +31,13 @@ callback returns a status and resolver-verified binary reward for each sampled
 action. Separate `supervised_label` access feeds the supervised reference.
 The running-baseline and GRPO references use the same policy and an equal
 attempted-rollout ceiling as SPO. SPO's warm-start attempts count inside that
-ceiling. Supervised label calls have their own count and must be reported
-separately. This interface is exercised with small synthetic unit fixtures;
-it has no scored FERAL training or held-out result yet.
+ceiling. Prompt weights drive random sampling without replacement. Each
+training batch has at most eight attempts, with one prompt group for GRPO.
+SPO uses distinct prompts in a batch. The pilot must freeze these settings
+and its pool size. A warm-start failure returns its attempted cost and event
+records with an unchanged policy. Supervised label calls have their own
+count and must be reported separately. This interface is exercised with small synthetic unit fixtures;
+scored FERAL training and held-out results remain pending.
 
 The code implements the paper's eight-sample Beta warm start, pre-update
 baseline, KL discount clipped to 0.875–0.96, global normalization, 0.2/0.28
@@ -43,8 +46,8 @@ categorical policy and verified rollout interface is the intended scope.
 The pilot sets KL half-life to 0.1 as an explicit, frozen choice because the
 paper gives the formula without a numeric half-life setting. A later full
 study must freeze this value with its full package before launch.
-It is an adapter for a future source/concept/action selector. It is not a
-pretrained LLM result or a measured throughput gain. The paper's 4.35x figure
+Its scope is a future source/concept/action selector. Pretrained LLM results
+and measured throughput require a separate run. The paper's 4.35x figure
 comes from a scheduling simulation. Its reported five-benchmark averages are
 56.0% versus 55.7% avg@32 and 63.8% versus 60.4% maj@32 for SPO and GRPO.
 
@@ -56,4 +59,4 @@ Keep source correctness, answer correctness, abstention errors, rollouts,
 tokens, elapsed time, and cost separate. A full or timed run belongs in the
 configured cloud venue after a package and cost review.
 
-Paper: https://arxiv.org/html/2509.13232v2
+Paper: [Single-stream Policy Optimization](https://arxiv.org/html/2509.13232v2)

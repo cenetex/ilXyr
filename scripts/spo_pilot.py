@@ -1,6 +1,6 @@
 """Small, auditable SPO mechanics for a binary-reward categorical decision.
 
-This is an algorithm adapter, not an LLM trainer. A future FERAL runner supplies
+This adapter trains a small categorical policy. A future FERAL runner supplies
 policy probabilities, sampled selections, and resolver-verified rewards. Labels
 belong to that runner's evaluator and never enter the policy input.
 """
@@ -37,7 +37,7 @@ def kl_divergence(previous, current):
         raise ValueError("policy action rosters differ")
     if any(old == 0 and new > 0 for old, new in zip(previous, current)):
         return math.inf
-    return sum(new * math.log(new / old) for old, new in zip(previous, current) if new)
+    return max(0.0, sum(new * math.log(new / old) for old, new in zip(previous, current) if new))
 
 
 def discount(kl, half_life):
@@ -80,6 +80,22 @@ def prompt_weight(value):
     if not 0 <= value <= 1:
         raise ValueError("tracker value must be a probability")
     return math.sqrt(value * (1 - value)) + 0.05
+
+
+
+def sample_prompts(prompts, values, count, generator):
+    """Draw distinct prompts with probabilities proportional to their weights."""
+    remaining = list(prompts)
+    selected = []
+    for _ in range(min(count, len(remaining))):
+        weights = [prompt_weight(values[row["id"]]) for row in remaining]
+        threshold = generator.random() * sum(weights)
+        for index, weight in enumerate(weights):
+            threshold -= weight
+            if threshold <= 0:
+                break
+        selected.append(remaining.pop(index))
+    return selected
 
 
 def global_advantages(raw):
@@ -184,7 +200,7 @@ def train_categorical(method, prompts, evaluator, *, rollout_budget, seed=0,
     policy = CategoricalPolicy(len(actions), len(features))
     generator = random.Random(seed)
     accounting = {"attempted": 0, "accepted": 0, "failed": 0, "rejected": 0,
-                  "warm_start": 0, "updates": 0, "labels": 0}
+                  "warm_start": 0, "updates": 0, "labels": 0, "status": "complete", "events": []}
     if method == "supervised":
         if supervised_label is None:
             raise ValueError("supervised label interface required")
@@ -197,6 +213,25 @@ def train_categorical(method, prompts, evaluator, *, rollout_budget, seed=0,
             accounting["updates"] += 1
         return policy, accounting
 
+    def draw(prompt, action, warm=False):
+        accounting["attempted"] += 1
+        accounting["warm_start"] += int(warm)
+        try:
+            result = evaluator(prompt["id"], actions[action])
+        except Exception as error:
+            result = {"status": "failed", "error": str(error)}
+        if result.get("status") == "accepted" and (result.get("reward") not in (0, 1)
+                                                   or not result.get("resolver_verified")):
+            result = {**result, "status": "rejected", "error": "unverified reward"}
+        status = result.get("status")
+        if status not in ("accepted", "failed", "rejected"):
+            result = {**result, "status": "rejected", "error": "unknown rollout status"}
+            status = "rejected"
+        accounting[status] += 1
+        accounting["events"].append({"prompt_id": prompt["id"], "action": actions[action],
+                                     "warm_start": warm, **result})
+        return result
+
     trackers = {}
     running = {row["id"]: [0, 0] for row in prompts}
     if method == "spo":
@@ -207,37 +242,31 @@ def train_categorical(method, prompts, evaluator, *, rollout_budget, seed=0,
             warm = []
             for _ in range(WARM_SAMPLES):
                 action, probabilities = policy.sample(prompt["features"], generator)
-                result = evaluator(prompt["id"], actions[action])
-                accounting["attempted"] += 1
-                accounting["warm_start"] += 1
-                if result["status"] != "accepted" or result.get("reward") not in (0, 1) or not result.get("resolver_verified"):
-                    raise ValueError("SPO warm start requires eight verified rewards per prompt")
-                accounting["accepted"] += 1
+                result = draw(prompt, action, warm=True)
+                if result["status"] != "accepted":
+                    accounting["status"] = "warm_start_failed"
+                    return policy, accounting
                 warm.append(result["reward"])
             trackers[prompt["id"]] = BetaTracker(warm, probabilities)
 
     cursor = 0
     while accounting["attempted"] < rollout_budget:
         batch = []
-        batch_size = min(group_size if method == "grpo" else len(prompts),
-                         rollout_budget - accounting["attempted"])
+        batch_size = min(group_size, rollout_budget - accounting["attempted"])
         if method == "spo":
-            roster = sorted(prompts, key=lambda row: -prompt_weight(trackers[row["id"]].value))
+            batch_size = min(batch_size, len(prompts))
+            roster = sample_prompts(prompts, {key: tracker.value for key, tracker in trackers.items()},
+                                    batch_size, generator)
         else:
             roster = prompts
         for index in range(batch_size):
             prompt = (roster[(cursor // group_size) % len(roster)] if method == "grpo"
+                      else roster[index] if method == "spo"
                       else roster[(cursor + index) % len(roster)])
             action, probabilities = policy.sample(prompt["features"], generator)
-            result = evaluator(prompt["id"], actions[action])
-            accounting["attempted"] += 1
-            status = result["status"]
-            if status in ("failed", "rejected"):
-                accounting[status] += 1
+            result = draw(prompt, action)
+            if result["status"] != "accepted":
                 continue
-            if status != "accepted" or result.get("reward") not in (0, 1) or not result.get("resolver_verified"):
-                raise ValueError("accepted rollout requires verified binary reward")
-            accounting["accepted"] += 1
             batch.append((prompt, action, probabilities, result["reward"]))
         cursor += batch_size
         if not batch:
