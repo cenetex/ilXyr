@@ -83,7 +83,8 @@ def resolve(evidence, questions, manifest, inputs, outputs, method):
     predictions = []
     for row in outputs:
         parsed, reason = parse_selection(row["raw"], catalogue, issuer_ids)
-        prediction = {"id": row["id"], "kind": "abstain", "reason": reason,
+        kind = "abstain" if reason == "model_abstain" else "invalid" if reason else "abstain"
+        prediction = {"id": row["id"], "kind": kind, "reason": reason,
                       "selection": parsed, "support": [], "answer": None, "unit": None}
         if parsed is not None:
             selected = []
