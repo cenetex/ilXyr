@@ -40,8 +40,8 @@ family-grouped folds within fit data. Held data enter the final score once.
 
 ## Package and execution
 
-The [package record](PACKAGE.json) binds a 17,121,280-byte archive at
-`b693ba149b562638e5db7f12e2765d7d22c17a7570c5b4faccf2b252311a0023`.
+The [package record](PACKAGE.json) binds a 17,141,760-byte archive at
+`22810358b7f5540304bdc54c07c0d30a10bd96ba12b445c41e0a79eb88d7d24c`.
 The archive includes the exact source files, input and state artifacts, audit
 contract, code, profile, and pinned Linux NumPy wheel. Package verification
 passed locally. The package replay compiled the pinned source and checked
