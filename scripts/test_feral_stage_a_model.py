@@ -33,7 +33,7 @@ class StageAModelTest(unittest.TestCase):
         self.assertEqual(result["complete_outcome_correct"], 36)
         self.assertEqual(result["incorrect_assertions"], 0)
 
-    def test_invalid_model_output_is_preserved_as_abstention(self):
+    def test_invalid_model_output_has_a_distinct_reason(self):
         selection, reason = parse_selection("not json", set(), set())
         self.assertIsNone(selection)
         self.assertEqual(reason, "invalid_json")
@@ -41,6 +41,30 @@ class StageAModelTest(unittest.TestCase):
                                             {"us-gaap:Assets"}, {"cat"})
         self.assertIsNone(selection)
         self.assertEqual(reason, "unknown_selection")
+        for wrong in ({"issuer": [], "concept": "us-gaap:Assets", "years": [2025], "operation": "lookup"},
+                      {"issuer": "cat", "concept": {}, "years": [2025], "operation": "lookup"},
+                      {"issuer": "cat", "concept": "us-gaap:Assets", "years": [2025], "operation": {}}):
+            with self.subTest(wrong=wrong):
+                selection, reason = parse_selection(json.dumps(wrong), {"us-gaap:Assets"}, {"cat"})
+                self.assertIsNone(selection)
+                self.assertEqual(reason, "invalid_shape")
+
+    def test_invalid_output_on_abstention_form_fails(self):
+        control = json.loads((BASE / "CONTROL-PREDICTIONS.json").read_bytes())
+        labels = json.loads((BASE / "DRAFT-LABELS.json").read_bytes())
+        outputs = []
+        abstention_id = next(row["id"] for row in control["predictions"] if row["kind"] == "abstain")
+        for row in control["predictions"]:
+            raw = json.dumps(row["selection"] if row["kind"] == "answer"
+                             else {"abstain": row["reason"]})
+            outputs.append({"id": row["id"], "raw": "not json" if row["id"] == abstention_id else raw})
+        candidate = resolve(self.evidence, self.questions, self.manifest,
+                            self.inputs, outputs, "mock-selector")
+        prediction = next(row for row in candidate["predictions"] if row["id"] == abstention_id)
+        self.assertEqual((prediction["kind"], prediction["reason"]), ("invalid", "invalid_json"))
+        result = score(self.evidence, self.questions, candidate, labels)
+        self.assertEqual(result["complete_outcome_correct"], 35)
+        self.assertFalse(next(row for row in result["rows"] if row["id"] == abstention_id)["selection_correct"])
 
     def test_missing_or_wrong_answer_is_scored(self):
         control = json.loads((BASE / "CONTROL-PREDICTIONS.json").read_bytes())
