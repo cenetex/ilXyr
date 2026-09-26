@@ -9,8 +9,8 @@
       "sha256": "c83233d2825f563071f8ea650b07607a88cba5616707484654f459c7cdd56e33"
     },
     "experiments/feral-source-selector/stage-a/MODEL-PROFILE.json": {
-      "bytes": 2504,
-      "sha256": "a21b340b26baa091af3fc704eaa87c58d2ddbb855024fae08edcf45bc9174468"
+      "bytes": 2616,
+      "sha256": "10b1d354f4232f8ea99f45f136e532cdf42b7e552ba12983c363091ed005c69d"
     },
     "experiments/feral-source-selector/stage-a/QUESTIONS.json": {
       "bytes": 4726,
@@ -21,8 +21,8 @@
       "sha256": "311781aba4d824751fb09a407259ca5f4cab15fb77141a90c8fea7b94beb4f59"
     },
     "scripts/feral_stage_a_model.py": {
-      "bytes": 10203,
-      "sha256": "b3b878ff3e0962422df7eeb37b360142e72d1021b2e03fae4d0f6faf7b2d8058"
+      "bytes": 10499,
+      "sha256": "368a3ff677e7181f292ed0184557808b07b5e5aabb5999252bb6972a87fe8233"
     },
     "scripts/feral_stage_a_selector.py": {
       "bytes": 13008,

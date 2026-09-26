@@ -55,10 +55,10 @@
   "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
   "role": "published_prompting_control",
   "runtime": {
-    "gpu": null,
-    "image_digest": null,
-    "torch": "pending image resolution",
-    "transformers": "5.13.0"
+    "gpu": "NVIDIA L40S on AWS g6e.2xlarge",
+    "image_digest": "ghcr.io/atimics/feral-7b-sec-qwen@sha256:c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b",
+    "torch": "2.13.0",
+    "transformers": "5.16.1"
   },
   "sampling": {
     "seed": 17,
@@ -67,6 +67,6 @@
     "top_p": 0.8
   },
   "schema": "ilxyr.feral_stage_a_model_profile.v1",
-  "status": "worker_contract_ready; model_files_and_gpu_smoke_pending",
+  "status": "runtime_image_pinned; model_files_and_gpu_smoke_pending",
   "text_only": true
 }

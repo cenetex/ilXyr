@@ -133,7 +133,7 @@ def verify_model_files(model_dir, profile):
         if digest.hexdigest() != binding["sha256"]:
             raise ValueError("model file digest differs: " + name)
 
-def run_model(base, model_dir, output_dir):
+def run_model(base, model_dir, output_dir, smoke_only=False):
     """Run one bounded GPU control; the caller freezes image and model files."""
     import torch
     from transformers import AutoTokenizer, Qwen3_5ForCausalLM
@@ -154,7 +154,7 @@ def run_model(base, model_dir, output_dir):
     outputs = []
     started = time.perf_counter_ns()
     with (output_dir / "RAW.jsonl").open("x") as stream:
-        for row in inputs["rows"]:
+        for row in inputs["rows"][:1] if smoke_only else inputs["rows"]:
             prompt = tokenizer.apply_chat_template(
                 row["messages"], tokenize=False, add_generation_prompt=True,
                 enable_thinking=False)
@@ -181,15 +181,18 @@ def run_model(base, model_dir, output_dir):
             stream.write(json.dumps(record, sort_keys=True) + "\n")
             stream.flush()
             outputs.append(record)
-    predictions = resolve(evidence, questions, manifest, inputs, outputs, "qwen3.5-4b-prompting")
-    (output_dir / "PREDICTIONS.json").write_bytes(encode(predictions))
+    predictions = None
+    if not smoke_only:
+        predictions = resolve(evidence, questions, manifest, inputs, outputs, "qwen3.5-4b-prompting")
+        (output_dir / "PREDICTIONS.json").write_bytes(encode(predictions))
     receipt = {"schema": "ilxyr.feral_stage_a_model_receipt.v1",
                "model": MODEL, "revision": REVISION,
                "inputs_sha256": sha(encode(inputs)),
                "raw_sha256": sha((output_dir / "RAW.jsonl").read_bytes()),
-               "predictions_sha256": sha(encode(predictions)),
+               "predictions_sha256": sha(encode(predictions)) if predictions else None,
                "rows": len(outputs), "total_wall_ns": time.perf_counter_ns() - started,
-               "peak_gpu_bytes": torch.cuda.max_memory_allocated()}
+               "peak_gpu_bytes": torch.cuda.max_memory_allocated(),
+               "scope": "one_form_loader_smoke" if smoke_only else "all_36_forms"}
     (output_dir / "RECEIPT.json").write_bytes(encode(receipt))
     return receipt
 
@@ -200,12 +203,13 @@ def main():
     parser.add_argument("--write-inputs", action="store_true")
     parser.add_argument("--model-dir", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--smoke-only", action="store_true")
     args = parser.parse_args()
     if args.write_inputs:
         value = write_inputs(args.base)
         print(json.dumps({"rows": len(value["rows"]), "sha256": sha(encode(value))}))
     elif args.model_dir and args.output:
-        print(json.dumps(run_model(args.base, args.model_dir, args.output), sort_keys=True))
+        print(json.dumps(run_model(args.base, args.model_dir, args.output, args.smoke_only), sort_keys=True))
     else:
         parser.error("choose --write-inputs or --model-dir with --output")
 
