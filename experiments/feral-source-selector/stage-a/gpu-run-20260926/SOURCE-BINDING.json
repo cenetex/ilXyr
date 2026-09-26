@@ -1,0 +1,12 @@
+{
+  "bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1",
+  "image": "ghcr.io/atimics/feral-7b-sec-qwen@sha256:c7df646b246f9c853946201aa7ad5c06ea711c34633594943365153342df346b",
+  "key": "packages/feral-comparison/cb5aeb940b38e27e4bd88de91996b88e23f5508eeb44ca404d8eb5d8d256dd28.tar",
+  "model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "schema": "ilxyr.feral_stage_a_gpu_source_binding.v1",
+  "source_bytes": 1454080,
+  "source_checksum_sha256": "y1rrlAs44n5L2I3pGZa4jiP1UI7rRMpATY612NJW3Sg=",
+  "source_commit": "e9dd8a38f6c26e2c3e1c0aac1a0d5e85741920a8",
+  "source_sha256": "cb5aeb940b38e27e4bd88de91996b88e23f5508eeb44ca404d8eb5d8d256dd28",
+  "source_version": "zKNe1KPIYDk76zcIyAPTlmoF2WbjXxnN"
+}
