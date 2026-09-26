@@ -1,4 +1,5 @@
 set -Eeuo pipefail
+trap 'shutdown -h now' EXIT
 ROOT=/opt/reasoner4-role-audit
 install -d -m 0755 "$ROOT/output"
 remaining=$((W_LAUNCH + 870 - $(date +%s)))
@@ -7,6 +8,13 @@ systemd-run --unit=reasoner4-role-deadline --on-active="$remaining" /usr/sbin/sh
 export AWS_DEFAULT_REGION=us-east-1 AWS_MAX_ATTEMPTS=1
 PHASE=metadata
 INSTANCE_ID=
+bounded() {
+  deadline=$1
+  shift
+  remaining=$((W_LAUNCH + deadline - $(date +%s)))
+  test "$remaining" -gt 0 || return 124
+  timeout --signal=TERM --kill-after=5s "${remaining}s" "$@"
+}
 finish() {
   code=$?
   trap - EXIT
@@ -26,7 +34,7 @@ PY
   upload_failed=0
   while IFS= read -r -d '' file; do
     name=${file#"$ROOT/output/"}
-    timeout 30s aws s3api put-object --bucket "$W_BUCKET" --key "runs/$W_RUN/$name" \
+    bounded 845 aws s3api put-object --bucket "$W_BUCKET" --key "runs/$W_RUN/$name" \
       --body "$file" --server-side-encryption AES256 --if-none-match '*' \
       --no-cli-pager > "$ROOT/put-receipt.json" 2> "$ROOT/put-error.txt" || upload_failed=1
   done < <(find "$ROOT/output" -type f ! -name terminal.json -print0)
@@ -39,7 +47,7 @@ p=Path(sys.argv[1]);v=json.loads(p.read_text());v['status']='failed';v['upload_f
 p.write_text(json.dumps(v,sort_keys=True)+'\n')
 PY
   fi
-  timeout 30s aws s3api put-object --bucket "$W_BUCKET" --key "runs/$W_RUN/terminal.json" \
+  bounded 855 aws s3api put-object --bucket "$W_BUCKET" --key "runs/$W_RUN/terminal.json" \
     --body "$ROOT/output/terminal.json" --server-side-encryption AES256 --if-none-match '*' \
     --no-cli-pager > "$ROOT/terminal-put.json" 2> "$ROOT/terminal-put.stderr" || code=1
   shutdown -h now
@@ -57,19 +65,19 @@ AMI=$(curl --fail --silent --show-error --connect-timeout 3 --max-time 5 \
 test "$INSTANCE_TYPE" = c6i.large
 test "$AMI" = ami-0d3378afe7683c867
 PHASE=package
-timeout 90s aws s3api get-object --bucket "$W_BUCKET" --key "$W_PACKAGE_KEY" \
+bounded 180 aws s3api get-object --bucket "$W_BUCKET" --key "$W_PACKAGE_KEY" \
   --version-id "$W_PACKAGE_VERSION" "$ROOT/package.tar" --no-cli-pager > "$ROOT/download.json"
 test "$(sha256sum "$ROOT/package.tar" | cut -d' ' -f1)" = "$W_PACKAGE_SHA"
 mkdir "$ROOT/package"
 tar -xf "$ROOT/package.tar" -C "$ROOT/package"
 python3 "$ROOT/package/scripts/reasoner4_package.py" verify "$ROOT/package.tar" > "$ROOT/output/package-verification.json"
 PHASE=image
-timeout 90s systemctl start docker
-timeout 180s docker pull "$W_IMAGE"
+bounded 240 systemctl start docker
+bounded 330 docker pull "$W_IMAGE"
 docker image inspect "$W_IMAGE" --format '{{.Id}}' > "$ROOT/output/image-id.txt"
 test "$(cat "$ROOT/output/image-id.txt")" = sha256:7b4141c49095bb5a8dfa2ba85266d4f1d836887c46deb33b43f542387e5656bd
 PHASE=probe
-timeout --signal=TERM --kill-after=5s 660s docker run --name "$W_RUN" --network none \
+bounded 750 docker run --name "$W_RUN" --network none \
   --cpuset-cpus 0 --memory 3g --memory-swap 3g --pids-limit 256 --read-only \
   --tmpfs /tmp:rw,exec,size=512m --log-driver none \
   --env OPENBLAS_NUM_THREADS=1 --env OMP_NUM_THREADS=1 --env MKL_NUM_THREADS=1 \

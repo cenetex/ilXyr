@@ -4,12 +4,13 @@ import hashlib
 import json
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import numpy as np
 
 from reasoner4_representation_audit import DIMENSION, REVISION, ROLES, capture, verify_firewall
 from reasoner4_role_probe import features, header_features, labels, select_penalty, swap_consistency
-from reasoner4_cloud_launch import request, retention_rules
+from reasoner4_cloud_launch import BODY, request, retention_rules
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / 'experiments/reasoner4-representation-audit/v1'
@@ -79,7 +80,10 @@ class Reasoner4AuditTests(unittest.TestCase):
                    'bucket': 'ilxyr-feral-7b-calibration-022118847419-us-east-1',
                    'key': 'packages/reasoner4-role-audit/' + record['archive_sha256'] + '.tar',
                    'version_id': 'test-version'}
-        rendered = request(binding, 'reasoner4-role-audit-20260926T000000Z', 1790380800)
+        with patch('reasoner4_cloud_launch.verify', return_value={
+                'scripts/aws/reasoner4-role-user-data.sh': BODY.read_bytes()}):
+            rendered = request(binding, 'reasoner4-role-audit-20260926T000000Z',
+                               1790380800, Path('/tmp/frozen-package.tar'))
         self.assertTrue(rendered['DryRun'])
         self.assertEqual(rendered['InstanceType'], 'c6i.large')
         self.assertEqual(rendered['MetadataOptions']['HttpTokens'], 'required')
