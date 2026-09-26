@@ -1,0 +1,39 @@
+{
+  "historical_price_reference": {
+    "compressed_source_sha256": "a7a718589ab28b53fe5961fdcd3f4248d1a2c2b91e32980e8c5264f69abc0786",
+    "compute_usd_per_hour": "2.2420800000",
+    "computed_before_tax_envelope_usd": "2.9920800000",
+    "price_status": "refreshed_public_catalogue",
+    "proposed_before_tax_ceiling_usd": "3.00",
+    "proposed_max_instance_seconds": 3600,
+    "publication_at": "2026-09-25T17:45:21Z",
+    "rate_code": "HK3A8PU2TSC6EKP6.JRTCKXETXF.6YS6EN2CT7",
+    "reserve_usd": "0.75",
+    "source": "experiments/research-step-58/PREFLIGHT.json",
+    "source_url": "https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/ec2/USD/current/ec2-ondemand-without-sec-sel/US%20East%20%28N.%20Virginia%29/Linux/index.json"
+  },
+  "model": {
+    "file_hashes": "MODEL-PROFILE.json",
+    "repository": "Qwen/Qwen3.5-4B",
+    "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "weight_shard_bytes": 9319828096
+  },
+  "paid_launches": 0,
+  "prelaunch_checks_pending": [
+    "current provider price and capacity",
+    "resolved GPU instance and image digest",
+    "model file materialization and hash verification",
+    "Qwen3.5 text-only load/generate receipt",
+    "rendered prompt and token-count check",
+    "actual kernel path and peak memory",
+    "shutdown watchdog and immutable output path"
+  ],
+  "schema": "ilxyr.feral_stage_a_model_preflight.v1",
+  "source_package": {
+    "archive_bytes": 1454080,
+    "archive_sha256": "0bf05aff266d1c9d303038f5a1e2e70ef942a92333d3d9d431451c206ff224bd",
+    "manifest_sha256": "a9533299a145ff896152d7284f38384bb0368a3d8c059522db03bae89684fb87"
+  },
+  "status": "source_package_frozen; gpu_runtime_pending",
+  "venue": "AWS us-east-1 g6e.2xlarge, NVIDIA L40S; runtime image pending"
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "ilxyr.feral_stage_a_source_manifest.v1",
+  "taxonomy_release": "http://fasb.org/us-gaap/2025",
+  "taxonomy": [
+    {
+      "id": "xsd",
+      "url": "https://xbrl.fasb.org/us-gaap/2025/elts/us-gaap-2025.xsd",
+      "bytes": 5002637,
+      "sha256": "4639263ec38aaa5d531cb7d0afb33f9582c2d602fb4623d4921e47e365b6ac9f"
+    },
+    {
+      "id": "labels",
+      "url": "https://xbrl.fasb.org/us-gaap/2025/elts/us-gaap-lab-2025.xml",
+      "bytes": 14233423,
+      "sha256": "c10e9ec81f18676a2f047a5fd614baeec9a35b34a755d59d4b67bcd5349f69b0"
+    }
+  ],
+  "families": [
+    {
+      "id": "cat",
+      "issuer": "Caterpillar",
+      "cik": "0000018230",
+      "accession": "0000018230-26-000008",
+      "fiscal_end": "2025-12-31",
+      "filing": [
+        {
+          "id": "cat",
+          "url": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/cat-20251231.htm",
+          "bytes": 6100575,
+          "sha256": "46c610dd1878e58c51a95862b4bec40a49bffe8b3ae7ba242a1fc67e9627beaa"
+        }
+      ]
+    },
+    {
+      "id": "ibm",
+      "issuer": "IBM",
+      "cik": "0000051143",
+      "accession": "0000051143-26-000010",
+      "fiscal_end": "2025-12-31",
+      "filing": [
+        {
+          "id": "ibm",
+          "url": "https://www.sec.gov/Archives/edgar/data/51143/000005114326000010/ibm-20251231.htm",
+          "bytes": 1077189,
+          "sha256": "b38cc3c7600bfc68295153db16d48313e1624290cee279fe69da3cd42922a574"
+        },
+        {
+          "id": "ibm-d2",
+          "url": "https://www.sec.gov/Archives/edgar/data/51143/000005114326000010/ibm-20251231_d2.htm",
+          "bytes": 4525505,
+          "sha256": "f74cb0576e41138c53cc8ef42b65d3d9511bce58204ff7a1d25a65a30de3c241"
+        }
+      ]
+    },
+    {
+      "id": "wmt",
+      "issuer": "Walmart",
+      "cik": "0000104169",
+      "accession": "0000104169-26-000055",
+      "fiscal_end": "2026-01-31",
+      "filing": [
+        {
+          "id": "wmt",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/wmt-20260131.htm",
+          "bytes": 2324087,
+          "sha256": "f692721015280e002dfd72e2ec40e262501ae6682ccacb8d3fb0a761220e9eb7"
+        }
+      ]
+    }
+  ]
+}
