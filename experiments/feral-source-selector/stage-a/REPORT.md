@@ -43,7 +43,7 @@ has a separate pending review and denominator.
 forms: 12 answerable families and six required-abstention families. Each
 family has two authored wordings. A second independent wording review is
 pending. The questions include wrong period, missing concept, wrong index
-identity, missing dimension, ambiguous cash identity, and a prose-reason
+identity, missing dimension, missing daily cash series, and a prose-reason
 request. [DRAFT-LABELS.json](DRAFT-LABELS.json) is separate from the
 predictor-visible evidence and questions. It names exact values and occurrence
 IDs. A second reviewer is checking these labels against the raw source bytes.
@@ -73,10 +73,12 @@ time to first token, whole-answer latency, peak memory, and total cost.
 Freeze the runtime image, model files, loader, non-thinking prompt, output
 allowance, worker limits, and maximum spend before a paid GPU run.
 
-The next label review should verify all 12 answerable families against the
-actual filing spans, including the full-year context and scale. It should
-check the six abstention causes against the 60-concept visible view and the
-underlying filing. Review time for this work should be recorded under the
+An independent agent review checked all 12 answerable families against
+the raw filing bytes, occurrence IDs, concepts, issuers, periods, units,
+scales, and arithmetic. It corrected the IBM cost-of-revenue wording and
+the daily-cash abstention question. Human accounting review remains pending.
+The six abstention causes still need a separate source check against the
+60-concept visible view and the underlying filing. Review time for this work should be recorded under the
 four-hour aggregate ceiling. A fresh held-out filing/wording set is required
 for a comparative claim.
 

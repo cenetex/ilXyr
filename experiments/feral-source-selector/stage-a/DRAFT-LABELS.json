@@ -554,7 +554,7 @@
       "family": "f17",
       "id": "f17a",
       "kind": "abstain",
-      "reason": "ambiguous_concept",
+      "reason": "missing_daily_series",
       "selection": null,
       "support": [],
       "unit": null
@@ -564,7 +564,7 @@
       "family": "f17",
       "id": "f17b",
       "kind": "abstain",
-      "reason": "ambiguous_concept",
+      "reason": "missing_daily_series",
       "selection": null,
       "support": [],
       "unit": null
@@ -590,7 +590,7 @@
       "unit": null
     }
   ],
-  "questions_sha256": "c75aa47a43914a9faca2647226a5fc0c8604680c61fb91f17ecc64dd28c2c04a",
+  "questions_sha256": "586130c6710f6ecdc7e9bdea3863ff6d6368eedaaf69dec23d0bfbddad14378c",
   "schema": "ilxyr.feral_stage_a_draft_labels.v1",
   "status": "first_review; independent_second_review_pending"
 }

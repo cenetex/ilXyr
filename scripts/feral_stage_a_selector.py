@@ -64,8 +64,8 @@ def interpretation(question, sources):
         return None, "missing_dimension"
     if re.search(r"\bwhy\b|\breason\b|\bexplain\b", text):
         return None, "requires_prose"
-    if "cash or restricted cash" in text or "either cash or restricted cash" in text:
-        return None, "ambiguous_concept"
+    if "daily average cash" in text or "average cash balance" in text:
+        return None, "missing_daily_series"
     patterns = [
         (r"\bliquid assets\b", None),
         (r"\bcurrent assets\b|\bassets current\b", "AssetsCurrent"),

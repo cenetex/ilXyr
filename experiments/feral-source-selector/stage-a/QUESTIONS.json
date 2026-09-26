@@ -65,12 +65,12 @@
     {
       "id": "f07a",
       "family": "f07",
-      "text": "What was IBM's cost of revenue in fiscal 2025?"
+      "text": "What was IBM's total cost of revenue in fiscal 2025?"
     },
     {
       "id": "f07b",
       "family": "f07",
-      "text": "Give IBM's full FY2025 cost of revenue."
+      "text": "Give IBM's FY2025 total cost of revenue."
     },
     {
       "id": "f08a",
@@ -165,12 +165,12 @@
     {
       "id": "f17a",
       "family": "f17",
-      "text": "What was IBM's cash or restricted cash at the end of fiscal 2025?"
+      "text": "What was IBM's daily average cash balance during fiscal 2025?"
     },
     {
       "id": "f17b",
       "family": "f17",
-      "text": "For IBM FY2025, give either cash or restricted cash."
+      "text": "Give IBM's FY2025 average cash balance across every day of the year."
     },
     {
       "id": "f18a",
