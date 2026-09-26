@@ -57,10 +57,14 @@ def parse_selection(raw, concepts, issuers):
         return None, "model_abstain"
     if set(value) != {"issuer", "concept", "years", "operation"}:
         return None, "invalid_shape"
+    if not isinstance(value["issuer"], str) or not isinstance(value["concept"], str):
+        return None, "invalid_shape"
     if value["issuer"] not in issuers or value["concept"] not in concepts:
         return None, "unknown_selection"
     years = value["years"]
     operation = value["operation"]
+    if not isinstance(operation, str):
+        return None, "invalid_shape"
     if not isinstance(years, list) or not all(type(year) is int and 1900 <= year <= 2099 for year in years):
         return None, "invalid_years"
     if operation == "lookup" and len(years) != 1:

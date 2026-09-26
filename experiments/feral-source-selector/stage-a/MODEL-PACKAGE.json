@@ -21,8 +21,8 @@
       "sha256": "311781aba4d824751fb09a407259ca5f4cab15fb77141a90c8fea7b94beb4f59"
     },
     "scripts/feral_stage_a_model.py": {
-      "bytes": 10588,
-      "sha256": "2e9644f891dc60cf25e1afaecf5e38aae92e01bda0555da762b1fcc0bdc0b764"
+      "bytes": 10787,
+      "sha256": "b9d5a8975c4fa00c69c0a4a90d977273957e300334b3aa58e4753517825bf409"
     },
     "scripts/feral_stage_a_selector.py": {
       "bytes": 13008,

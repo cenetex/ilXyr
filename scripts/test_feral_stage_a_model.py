@@ -41,6 +41,13 @@ class StageAModelTest(unittest.TestCase):
                                             {"us-gaap:Assets"}, {"cat"})
         self.assertIsNone(selection)
         self.assertEqual(reason, "unknown_selection")
+        for wrong in ({"issuer": [], "concept": "us-gaap:Assets", "years": [2025], "operation": "lookup"},
+                      {"issuer": "cat", "concept": {}, "years": [2025], "operation": "lookup"},
+                      {"issuer": "cat", "concept": "us-gaap:Assets", "years": [2025], "operation": {}}):
+            with self.subTest(wrong=wrong):
+                selection, reason = parse_selection(json.dumps(wrong), {"us-gaap:Assets"}, {"cat"})
+                self.assertIsNone(selection)
+                self.assertEqual(reason, "invalid_shape")
 
     def test_invalid_output_on_abstention_form_fails(self):
         control = json.loads((BASE / "CONTROL-PREDICTIONS.json").read_bytes())
