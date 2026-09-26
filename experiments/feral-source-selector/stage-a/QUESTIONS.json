@@ -1,0 +1,186 @@
+{
+  "schema": "ilxyr.feral_stage_a_questions.v1",
+  "status": "development; independent paraphrase review pending",
+  "forms": [
+    {
+      "id": "f01a",
+      "family": "f01",
+      "text": "What were Caterpillar's total assets at fiscal year end 2025?"
+    },
+    {
+      "id": "f01b",
+      "family": "f01",
+      "text": "Give the FY2025 assets total for Caterpillar."
+    },
+    {
+      "id": "f02a",
+      "family": "f02",
+      "text": "How much were Caterpillar's current assets at the end of 2025?"
+    },
+    {
+      "id": "f02b",
+      "family": "f02",
+      "text": "For Caterpillar FY2025, report assets current."
+    },
+    {
+      "id": "f03a",
+      "family": "f03",
+      "text": "What was Caterpillar revenue in fiscal 2025?"
+    },
+    {
+      "id": "f03b",
+      "family": "f03",
+      "text": "Give Caterpillar's FY2025 revenues."
+    },
+    {
+      "id": "f04a",
+      "family": "f04",
+      "text": "How much did Caterpillar revenue change from fiscal 2024 to 2025?"
+    },
+    {
+      "id": "f04b",
+      "family": "f04",
+      "text": "For Caterpillar, subtract FY2024 revenues from FY2025 revenues."
+    },
+    {
+      "id": "f05a",
+      "family": "f05",
+      "text": "What were IBM's total assets at fiscal year end 2025?"
+    },
+    {
+      "id": "f05b",
+      "family": "f05",
+      "text": "Give the FY2025 assets total for IBM."
+    },
+    {
+      "id": "f06a",
+      "family": "f06",
+      "text": "How much cash and cash equivalents did IBM report at the end of 2025?"
+    },
+    {
+      "id": "f06b",
+      "family": "f06",
+      "text": "For IBM FY2025, report cash and cash equivalents."
+    },
+    {
+      "id": "f07a",
+      "family": "f07",
+      "text": "What was IBM's total cost of revenue in fiscal 2025?"
+    },
+    {
+      "id": "f07b",
+      "family": "f07",
+      "text": "Give IBM's FY2025 total cost of revenue."
+    },
+    {
+      "id": "f08a",
+      "family": "f08",
+      "text": "How much did IBM revenues change from fiscal 2024 to 2025?"
+    },
+    {
+      "id": "f08b",
+      "family": "f08",
+      "text": "For IBM, subtract FY2024 revenue from FY2025 revenue."
+    },
+    {
+      "id": "f09a",
+      "family": "f09",
+      "text": "What were Walmart's total assets at fiscal year end 2026?"
+    },
+    {
+      "id": "f09b",
+      "family": "f09",
+      "text": "Give the FY2026 assets total for Walmart."
+    },
+    {
+      "id": "f10a",
+      "family": "f10",
+      "text": "How much inventory did Walmart report at the end of fiscal 2026?"
+    },
+    {
+      "id": "f10b",
+      "family": "f10",
+      "text": "For Walmart FY2026, report net inventory."
+    },
+    {
+      "id": "f11a",
+      "family": "f11",
+      "text": "How much cash and cash equivalents did Walmart report at the end of fiscal 2026?"
+    },
+    {
+      "id": "f11b",
+      "family": "f11",
+      "text": "For Walmart FY2026, report cash and cash equivalents."
+    },
+    {
+      "id": "f12a",
+      "family": "f12",
+      "text": "How much did Walmart revenues change from fiscal 2025 to 2026?"
+    },
+    {
+      "id": "f12b",
+      "family": "f12",
+      "text": "For Walmart, subtract FY2025 revenue from FY2026 revenue."
+    },
+    {
+      "id": "f13a",
+      "family": "f13",
+      "text": "What were Caterpillar's total assets at fiscal year end 2027?"
+    },
+    {
+      "id": "f13b",
+      "family": "f13",
+      "text": "Give the FY2027 assets total for Caterpillar."
+    },
+    {
+      "id": "f14a",
+      "family": "f14",
+      "text": "What were IBM's liquid assets in fiscal 2025?"
+    },
+    {
+      "id": "f14b",
+      "family": "f14",
+      "text": "Give IBM's FY2025 liquid assets."
+    },
+    {
+      "id": "f15a",
+      "family": "f15",
+      "text": "What was the S&P 500 Index year-end closing level in Walmart's fiscal 2026 filing?"
+    },
+    {
+      "id": "f15b",
+      "family": "f15",
+      "text": "Give the year-end closing S&P 500 Index level for Walmart FY2026."
+    },
+    {
+      "id": "f16a",
+      "family": "f16",
+      "text": "What were Caterpillar's Mars division revenues in fiscal 2025?"
+    },
+    {
+      "id": "f16b",
+      "family": "f16",
+      "text": "Give FY2025 Caterpillar revenue for the Mars division."
+    },
+    {
+      "id": "f17a",
+      "family": "f17",
+      "text": "What was IBM's daily average cash balance during fiscal 2025?"
+    },
+    {
+      "id": "f17b",
+      "family": "f17",
+      "text": "Give IBM's FY2025 average cash balance across every day of the year."
+    },
+    {
+      "id": "f18a",
+      "family": "f18",
+      "text": "Why did Walmart revenues grow in fiscal 2026?"
+    },
+    {
+      "id": "f18b",
+      "family": "f18",
+      "text": "Explain the reason for Walmart's FY2026 revenue increase."
+    }
+  ]
+}

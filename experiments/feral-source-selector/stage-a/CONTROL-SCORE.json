@@ -1,0 +1,451 @@
+{
+  "abstention_reason_correct": 10,
+  "answer_correct": 36,
+  "answered": 24,
+  "complete_outcome_correct": 36,
+  "incorrect_assertions": 0,
+  "label_status": "agent_second_review_complete; development labels",
+  "lexical": {
+    "denominator": 24,
+    "recall_at_20": 20,
+    "recall_at_5": 20,
+    "rows": [
+      {
+        "id": "f01a",
+        "rank": 1
+      },
+      {
+        "id": "f01b",
+        "rank": 1
+      },
+      {
+        "id": "f02a",
+        "rank": 1
+      },
+      {
+        "id": "f02b",
+        "rank": 1
+      },
+      {
+        "id": "f03a",
+        "rank": 57
+      },
+      {
+        "id": "f03b",
+        "rank": 1
+      },
+      {
+        "id": "f04a",
+        "rank": 58
+      },
+      {
+        "id": "f04b",
+        "rank": 1
+      },
+      {
+        "id": "f05a",
+        "rank": 1
+      },
+      {
+        "id": "f05b",
+        "rank": 1
+      },
+      {
+        "id": "f06a",
+        "rank": 1
+      },
+      {
+        "id": "f06b",
+        "rank": 1
+      },
+      {
+        "id": "f07a",
+        "rank": 1
+      },
+      {
+        "id": "f07b",
+        "rank": 1
+      },
+      {
+        "id": "f08a",
+        "rank": 1
+      },
+      {
+        "id": "f08b",
+        "rank": 57
+      },
+      {
+        "id": "f09a",
+        "rank": 1
+      },
+      {
+        "id": "f09b",
+        "rank": 1
+      },
+      {
+        "id": "f10a",
+        "rank": 1
+      },
+      {
+        "id": "f10b",
+        "rank": 1
+      },
+      {
+        "id": "f11a",
+        "rank": 1
+      },
+      {
+        "id": "f11b",
+        "rank": 1
+      },
+      {
+        "id": "f12a",
+        "rank": 1
+      },
+      {
+        "id": "f12b",
+        "rank": 57
+      }
+    ]
+  },
+  "links": {
+    "answer_forms": 24,
+    "complete_answer_link_sets": 24,
+    "false_negative": 0,
+    "false_positive": 0,
+    "gold_required": 30,
+    "predicted": 30,
+    "true_positive": 30
+  },
+  "method": "context_aware_deterministic_v1",
+  "questions": 36,
+  "rows": [
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f01a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f01b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f02a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f02b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f03a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f03b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f04a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f04b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f05a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f05b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f06a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f06b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f07a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f07b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f08a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f08b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f09a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f09b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f10a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f10b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f11a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f11b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f12a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": null,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f12b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": false,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f13a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": false,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f13b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": true,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f14a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": true,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f14b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": true,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f15a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": true,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f15b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": true,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f16a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": true,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f16b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": true,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f17a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": true,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f17b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": true,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f18a",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    },
+    {
+      "abstention_reason_correct": true,
+      "answer_correct": true,
+      "complete_outcome_correct": true,
+      "id": "f18b",
+      "incorrect_assertion": false,
+      "selection_correct": true,
+      "support_correct": true
+    }
+  ],
+  "schema": "ilxyr.feral_stage_a_development_score.v1",
+  "selection_correct": 36,
+  "support_correct": 36
+}

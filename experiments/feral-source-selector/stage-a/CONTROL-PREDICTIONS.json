@@ -1,0 +1,574 @@
+{
+  "evidence_sha256": "2f1bf18b9e9e23bce8e9cb9af42b3e1d785609563828ce0d98ffa6100a0503d9",
+  "method": "context_aware_deterministic_v1",
+  "predictions": [
+    {
+      "answer": "98585000000",
+      "id": "f01a",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Assets",
+        "issuer": "cat",
+        "operation": "lookup",
+        "years": [
+          2025
+        ]
+      },
+      "support": [
+        "cat/cat/f-177"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "98585000000",
+      "id": "f01b",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Assets",
+        "issuer": "cat",
+        "operation": "lookup",
+        "years": [
+          2025
+        ]
+      },
+      "support": [
+        "cat/cat/f-177"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "52485000000",
+      "id": "f02a",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:AssetsCurrent",
+        "issuer": "cat",
+        "operation": "lookup",
+        "years": [
+          2025
+        ]
+      },
+      "support": [
+        "cat/cat/f-161"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "52485000000",
+      "id": "f02b",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:AssetsCurrent",
+        "issuer": "cat",
+        "operation": "lookup",
+        "years": [
+          2025
+        ]
+      },
+      "support": [
+        "cat/cat/f-161"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "67589000000",
+      "id": "f03a",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Revenues",
+        "issuer": "cat",
+        "operation": "lookup",
+        "years": [
+          2025
+        ]
+      },
+      "support": [
+        "cat/cat/f-61"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "67589000000",
+      "id": "f03b",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Revenues",
+        "issuer": "cat",
+        "operation": "lookup",
+        "years": [
+          2025
+        ]
+      },
+      "support": [
+        "cat/cat/f-61"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "2780000000",
+      "id": "f04a",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Revenues",
+        "issuer": "cat",
+        "operation": "difference",
+        "years": [
+          2024,
+          2025
+        ]
+      },
+      "support": [
+        "cat/cat/f-62",
+        "cat/cat/f-61"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "2780000000",
+      "id": "f04b",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Revenues",
+        "issuer": "cat",
+        "operation": "difference",
+        "years": [
+          2024,
+          2025
+        ]
+      },
+      "support": [
+        "cat/cat/f-62",
+        "cat/cat/f-61"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "151880000000",
+      "id": "f05a",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Assets",
+        "issuer": "ibm",
+        "operation": "lookup",
+        "years": [
+          2025
+        ]
+      },
+      "support": [
+        "ibm/ibm-d2/f-349"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "151880000000",
+      "id": "f05b",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Assets",
+        "issuer": "ibm",
+        "operation": "lookup",
+        "years": [
+          2025
+        ]
+      },
+      "support": [
+        "ibm/ibm-d2/f-349"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "13587000000",
+      "id": "f06a",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+        "issuer": "ibm",
+        "operation": "lookup",
+        "years": [
+          2025
+        ]
+      },
+      "support": [
+        "ibm/ibm-d2/f-297"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "13587000000",
+      "id": "f06b",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+        "issuer": "ibm",
+        "operation": "lookup",
+        "years": [
+          2025
+        ]
+      },
+      "support": [
+        "ibm/ibm-d2/f-297"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "28239000000",
+      "id": "f07a",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:CostOfRevenue",
+        "issuer": "ibm",
+        "operation": "lookup",
+        "years": [
+          2025
+        ]
+      },
+      "support": [
+        "ibm/ibm-d2/f-186"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "28239000000",
+      "id": "f07b",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:CostOfRevenue",
+        "issuer": "ibm",
+        "operation": "lookup",
+        "years": [
+          2025
+        ]
+      },
+      "support": [
+        "ibm/ibm-d2/f-186"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "4782000000",
+      "id": "f08a",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Revenues",
+        "issuer": "ibm",
+        "operation": "difference",
+        "years": [
+          2024,
+          2025
+        ]
+      },
+      "support": [
+        "ibm/ibm-d2/f-175",
+        "ibm/ibm-d2/f-174"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "4782000000",
+      "id": "f08b",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Revenues",
+        "issuer": "ibm",
+        "operation": "difference",
+        "years": [
+          2024,
+          2025
+        ]
+      },
+      "support": [
+        "ibm/ibm-d2/f-175",
+        "ibm/ibm-d2/f-174"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "284668000000",
+      "id": "f09a",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Assets",
+        "issuer": "wmt",
+        "operation": "lookup",
+        "years": [
+          2026
+        ]
+      },
+      "support": [
+        "wmt/wmt/f-191"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "284668000000",
+      "id": "f09b",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Assets",
+        "issuer": "wmt",
+        "operation": "lookup",
+        "years": [
+          2026
+        ]
+      },
+      "support": [
+        "wmt/wmt/f-191"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "58851000000",
+      "id": "f10a",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:InventoryNet",
+        "issuer": "wmt",
+        "operation": "lookup",
+        "years": [
+          2026
+        ]
+      },
+      "support": [
+        "wmt/wmt/f-175"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "58851000000",
+      "id": "f10b",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:InventoryNet",
+        "issuer": "wmt",
+        "operation": "lookup",
+        "years": [
+          2026
+        ]
+      },
+      "support": [
+        "wmt/wmt/f-175"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "10727000000",
+      "id": "f11a",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+        "issuer": "wmt",
+        "operation": "lookup",
+        "years": [
+          2026
+        ]
+      },
+      "support": [
+        "wmt/wmt/f-171"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "10727000000",
+      "id": "f11b",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:CashAndCashEquivalentsAtCarryingValue",
+        "issuer": "wmt",
+        "operation": "lookup",
+        "years": [
+          2026
+        ]
+      },
+      "support": [
+        "wmt/wmt/f-171"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "32178000000",
+      "id": "f12a",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Revenues",
+        "issuer": "wmt",
+        "operation": "difference",
+        "years": [
+          2025,
+          2026
+        ]
+      },
+      "support": [
+        "wmt/wmt/f-88",
+        "wmt/wmt/f-87"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": "32178000000",
+      "id": "f12b",
+      "kind": "answer",
+      "reason": "answered",
+      "selection": {
+        "concept": "us-gaap:Revenues",
+        "issuer": "wmt",
+        "operation": "difference",
+        "years": [
+          2025,
+          2026
+        ]
+      },
+      "support": [
+        "wmt/wmt/f-88",
+        "wmt/wmt/f-87"
+      ],
+      "unit": "usd"
+    },
+    {
+      "answer": null,
+      "id": "f13a",
+      "kind": "abstain",
+      "reason": "missing_fact",
+      "selection": {
+        "concept": "us-gaap:Assets",
+        "issuer": "cat",
+        "operation": "lookup",
+        "years": [
+          2027
+        ]
+      },
+      "support": [],
+      "unit": null
+    },
+    {
+      "answer": null,
+      "id": "f13b",
+      "kind": "abstain",
+      "reason": "missing_fact",
+      "selection": {
+        "concept": "us-gaap:Assets",
+        "issuer": "cat",
+        "operation": "lookup",
+        "years": [
+          2027
+        ]
+      },
+      "support": [],
+      "unit": null
+    },
+    {
+      "answer": null,
+      "id": "f14a",
+      "kind": "abstain",
+      "reason": "unresolved_concept",
+      "selection": null,
+      "support": [],
+      "unit": null
+    },
+    {
+      "answer": null,
+      "id": "f14b",
+      "kind": "abstain",
+      "reason": "unresolved_concept",
+      "selection": null,
+      "support": [],
+      "unit": null
+    },
+    {
+      "answer": null,
+      "id": "f15a",
+      "kind": "abstain",
+      "reason": "wrong_index_identity",
+      "selection": null,
+      "support": [],
+      "unit": null
+    },
+    {
+      "answer": null,
+      "id": "f15b",
+      "kind": "abstain",
+      "reason": "wrong_index_identity",
+      "selection": null,
+      "support": [],
+      "unit": null
+    },
+    {
+      "answer": null,
+      "id": "f16a",
+      "kind": "abstain",
+      "reason": "missing_dimension",
+      "selection": null,
+      "support": [],
+      "unit": null
+    },
+    {
+      "answer": null,
+      "id": "f16b",
+      "kind": "abstain",
+      "reason": "missing_dimension",
+      "selection": null,
+      "support": [],
+      "unit": null
+    },
+    {
+      "answer": null,
+      "id": "f17a",
+      "kind": "abstain",
+      "reason": "missing_daily_series",
+      "selection": null,
+      "support": [],
+      "unit": null
+    },
+    {
+      "answer": null,
+      "id": "f17b",
+      "kind": "abstain",
+      "reason": "missing_daily_series",
+      "selection": null,
+      "support": [],
+      "unit": null
+    },
+    {
+      "answer": null,
+      "id": "f18a",
+      "kind": "abstain",
+      "reason": "requires_prose",
+      "selection": null,
+      "support": [],
+      "unit": null
+    },
+    {
+      "answer": null,
+      "id": "f18b",
+      "kind": "abstain",
+      "reason": "requires_prose",
+      "selection": null,
+      "support": [],
+      "unit": null
+    }
+  ],
+  "questions_sha256": "586130c6710f6ecdc7e9bdea3863ff6d6368eedaaf69dec23d0bfbddad14378c",
+  "schema": "ilxyr.feral_stage_a_selector_predictions.v1"
+}
