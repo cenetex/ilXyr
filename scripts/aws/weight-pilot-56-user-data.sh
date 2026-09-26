@@ -42,7 +42,7 @@ Path(path).write_text(json.dumps(v,indent=2,sort_keys=True)+'\n')
 PY
   if [ "$VERIFIED" = 1 ]; then
     bounded 5345 python3 "$ROOT/package/scripts/weight_cloud_collect.py" host --root "$ROOT" \
-      --plan "$ROOT/package/experiments/research-step-59-weight-pilot/EXECUTION-PLAN.json" --identity "$ROOT/identity.json" || code=1
+      --plan "$ROOT/package/experiments/research-step-59-weight-pilot/RETRY-PLAN.json" --identity "$ROOT/identity.json" || code=1
   else
     checksum=$(python3 -c 'import hashlib,base64,sys;print(base64.b64encode(hashlib.sha256(open(sys.argv[1],"rb").read()).digest()).decode())' "$OUT/bootstrap.log")
     bounded 5300 aws s3api put-object --bucket "$W_BUCKET" --key "runs/$W_RUN/bootstrap.log" \
@@ -104,17 +104,28 @@ def unpack(raw,folder,manifest_name):
     return manifest,files
 raw=Path(archive).read_bytes();assert sha(raw)==expected
 host,files=unpack(raw,root,'HOST.json');assert host['plan_sha256']==plan_sha
-plan_raw=files['experiments/research-step-59-weight-pilot/EXECUTION-PLAN.json'];assert sha(plan_raw)==plan_sha
-plan=json.loads(plan_raw);assert plan['limits']['max_instance_seconds']==5400 and plan['budget']['maximum_before_tax_usd']=='2.00'
+plan_raw=files['experiments/research-step-59-weight-pilot/RETRY-PLAN.json'];assert sha(plan_raw)==plan_sha
+plan=json.loads(plan_raw);assert plan['limits']['max_instance_seconds']==5400 and plan['budget']['maximum_before_tax_usd']=='1.85'
 body=Path(user_data).read_bytes().split(b'\n# WEIGHT_PILOT_56_BODY\n')
 assert len(body)==2 and body[1]==files['scripts/aws/weight-pilot-56-user-data.sh']
 assert sha(files['pilot.tar'])==plan['pilot_sha256'] and len(files['pilot.tar'])==plan['pilot_bytes']
 pilot,cfiles=unpack(files['pilot.tar'],root/'pilot','PILOT-KIT.json')
 assert sha(cfiles['experiments/research-step-56/PILOT-PLAN.json'])==plan['pilot_plan_sha256']
 assert sha(cfiles['SOURCE-KIT.tar'])==pilot['files']['SOURCE-KIT.tar']['sha256']
+base,bfiles=unpack(cfiles['SOURCE-KIT.tar'],root/'base','KIT.json')
+for name,raw in bfiles.items():
+    target=root/'pilot'/name
+    if target.exists():
+        assert target.read_bytes()==raw, 'overlay changes original source: '+name
+    else:
+        target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(raw)
 PY
+bounded 1200 python3 "$ROOT/package/pilot/scripts/weight_pilot_controller.py" prepare \
+  --package "$ROOT/package/pilot.tar" --expected-sha256 "$W_PILOT_SHA" \
+  --output "$ROOT/import-check" > "$OUT/prepare.json"
+
 VERIFIED=1
-PLAN="$ROOT/package/experiments/research-step-59-weight-pilot/EXECUTION-PLAN.json"
+PLAN="$ROOT/package/experiments/research-step-59-weight-pilot/RETRY-PLAN.json"
 IMAGE=$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["runtime_image"])' "$PLAN")
 python3 - "$ROOT/package/execution.json" "$W_LAUNCH" "$PLAN" <<'PY'
 import json,sys

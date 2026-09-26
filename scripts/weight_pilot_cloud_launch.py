@@ -20,7 +20,7 @@ def render(package, expected, binding, network):
         raise ValueError('frozen network differs')
     if provider['instance_type'] != 'c6i.4xlarge' or provider['ami_id'] != 'ami-0d3378afe7683c867':
         raise ValueError('machine differs')
-    if plan['limits']['max_instance_seconds'] != 5400 or plan['budget']['maximum_before_tax_usd'] != '2.00':
+    if plan['limits']['max_instance_seconds'] != 5400 or plan['budget']['maximum_before_tax_usd'] != '1.85':
         raise ValueError('budget differs')
     patterns = {'run_id': r'weight-pilot-56-[0-9]{8}T[0-9]{6}Z',
                 'package_version': r'[A-Za-z0-9._+/=-]{1,256}',
@@ -67,7 +67,7 @@ def main():
     if args.mode == 'launch':
         approval = json.loads(args.approval.read_bytes()) if args.approval else None
         expected = {'package_sha256': args.package_sha256, 'plan_sha256': manifest['plan_sha256'],
-                    'maximum_instance_seconds': 5400, 'maximum_before_tax_usd': '2.00',
+                    'maximum_instance_seconds': 5400, 'maximum_before_tax_usd': '1.85',
                     'approval_reference': binding['approval_reference']}
         if approval != expected or binding['approval_reference'] == 'pending-user':
             raise ValueError('approval differs')
