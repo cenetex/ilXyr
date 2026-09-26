@@ -51,7 +51,7 @@ class HostPackageTests(unittest.TestCase):
             self.assertEqual(request['BlockDeviceMappings'][0]['Ebs']['VolumeSize'], 80)
             self.assertEqual(request['InstanceType'], 'c6i.4xlarge')
             self.assertTrue(request['DryRun'])
-            self.assertEqual(plan['budget']['maximum_before_tax_usd'], '2.00')
+            self.assertEqual(plan['budget']['maximum_before_tax_usd'], '1.85')
             self.assertEqual(plan['limits']['max_instance_seconds'], 5400)
 
     def test_packaged_host_reaches_controller_and_collects(self):
@@ -59,7 +59,16 @@ class HostPackageTests(unittest.TestCase):
             folder = Path(temp)
             package, plan = fixture(folder)
             pilot_plan = b'{}\n'
-            pilot_files = {'SOURCE-KIT.tar': b'controlled source kit',
+            base_files = {'scripts/feral_process.py': b'def save(): pass\n'}
+            base_files['KIT.json'] = encode({'files': {
+                name: {'bytes': len(raw), 'sha256': sha(raw)} for name, raw in base_files.items()}})
+            base_path = folder / 'base.tar'
+            write_tar(base_path, base_files)
+            controller = (b'from feral_process import save\n'
+                          b'import json\n'
+                          b'print(json.dumps({"base_import_verified": True, "oracle_starts": 0}))\n')
+            pilot_files = {'SOURCE-KIT.tar': base_path.read_bytes(),
+                           'scripts/weight_pilot_controller.py': controller,
                            'experiments/research-step-56/PILOT-PLAN.json': pilot_plan}
             pilot_files['PILOT-KIT.json'] = encode({'files': {
                 name: {'bytes': len(raw), 'sha256': sha(raw)} for name, raw in pilot_files.items()}})
@@ -105,6 +114,10 @@ class HostPackageTests(unittest.TestCase):
             terminal = json.loads((folder / 'work/host-terminal.json').read_text())
             self.assertEqual(terminal['status'], 'complete')
             self.assertTrue(terminal['collection_complete'])
+            preparation = json.loads((folder / 'work/output/prepare.json').read_text())
+            self.assertTrue(preparation['base_import_verified'])
+            self.assertEqual(preparation['oracle_starts'], 0)
+            self.assertTrue((folder / 'work/package/pilot/scripts/feral_process.py').is_file())
 
     def test_archive_integrity_and_fresh_namespace(self):
         with tempfile.TemporaryDirectory() as temp:

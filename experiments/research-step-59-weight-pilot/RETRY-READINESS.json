@@ -1,0 +1,59 @@
+{
+  "actual_billed_usd": null,
+  "combined_ceiling_before_tax_usd": "2.00",
+  "first_attempt": "weight-pilot-56-20260926T230650Z",
+  "first_attempt_budget_reserve_before_tax_usd": "0.15",
+  "first_attempt_cleanup": "instance_terminated_zero_volumes_zero_interfaces",
+  "first_attempt_scientific_processes_started": 0,
+  "host_package": {
+    "bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1",
+    "bytes": 16609280,
+    "key": "packages/weight-pilot-56/fe7e6f2cbec425df875f905c0d5681d5cefacf844a035450c83b68ad509186e9.tar",
+    "plan_sha256": "407f829f880017af0ffc8afcb6f646a1ee175e275813c0866db6cdec422910a9",
+    "readback_verified": true,
+    "sha256": "fe7e6f2cbec425df875f905c0d5681d5cefacf844a035450c83b68ad509186e9",
+    "source_commit": "13b727895d7427ec3c384e640037dbdbd018d4ae",
+    "version_id": "BIR3F4W.E1HrqTydvhoaAdNtcVi2roCR"
+  },
+  "maximum_retry_instance_seconds": 5400,
+  "paid_retry": "pending_pr_review_and_merge",
+  "pilot_package": {
+    "scientific_plan_sha256": "a6e902e9441817cfdea7566b88e26b9edf6625b94fba70220335d294c3787da8",
+    "sha256": "adea1791925e3336d28e4a26ccc80c5c20baa7892fc84675b422e325295569c7",
+    "unchanged_from_first_attempt": true
+  },
+  "preflight": {
+    "checked_epoch": 1790464993.6578891,
+    "checks": [
+      "identity",
+      "machine",
+      "image_snapshot",
+      "volume_floor",
+      "network",
+      "role",
+      "bucket_privacy_encryption",
+      "versioned_package",
+      "bounded_retention",
+      "price",
+      "ec2_dry_run"
+    ],
+    "instances_created": 0,
+    "run_id": "weight-pilot-56-20260926T232237Z",
+    "scope": "read-only provider checks and EC2 dry run; launch requires a new timed binding and fresh preflight",
+    "status": "passed"
+  },
+  "real_import_check": {
+    "base_imports_present": [
+      "scripts/feral_process.py",
+      "scripts/weight_source_kit.py"
+    ],
+    "oracle_starts": 0,
+    "prepared_jobs": 16,
+    "scope": "exact rendered user data and host unpack block followed by real controller prepare; no native build",
+    "status": "passed"
+  },
+  "retry_maximum_before_tax_usd": "1.85",
+  "schema": "ilxyr.weight_pilot_retry_readiness.v1",
+  "scientific_result": "pending",
+  "status": "staged_and_free_preflight_passed"
+}
