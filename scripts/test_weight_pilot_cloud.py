@@ -1,5 +1,9 @@
 """Check the fixed pilot host archive, launch binding and collection limits."""
 import json
+import os
+import subprocess
+import sys
+import time
 from pathlib import Path
 import tempfile
 import unittest
@@ -7,7 +11,7 @@ import unittest
 from package_weight_pilot_cloud import PLAN, SOURCES, encode, inspect, sha
 from weight_pilot_cloud_launch import render
 from weight_pilot_cloud_preflight import lifecycle_rules
-from test_feral_bootstrap import write_tar
+from test_feral_bootstrap import STUB, write_tar
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -49,6 +53,58 @@ class HostPackageTests(unittest.TestCase):
             self.assertTrue(request['DryRun'])
             self.assertEqual(plan['budget']['maximum_before_tax_usd'], '2.00')
             self.assertEqual(plan['limits']['max_instance_seconds'], 5400)
+
+    def test_packaged_host_reaches_controller_and_collects(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            package, plan = fixture(folder)
+            pilot_plan = b'{}\n'
+            pilot_files = {'SOURCE-KIT.tar': b'controlled source kit',
+                           'experiments/research-step-56/PILOT-PLAN.json': pilot_plan}
+            pilot_files['PILOT-KIT.json'] = encode({'files': {
+                name: {'bytes': len(raw), 'sha256': sha(raw)} for name, raw in pilot_files.items()}})
+            pilot_path = folder / 'pilot.tar'
+            write_tar(pilot_path, pilot_files)
+            plan['pilot_sha256'] = sha(pilot_path.read_bytes())
+            plan['pilot_bytes'] = pilot_path.stat().st_size
+            plan['pilot_plan_sha256'] = sha(pilot_plan)
+            files = {name: (ROOT / name).read_bytes() for name in SOURCES}
+            files[PLAN] = encode(plan)
+            files['pilot.tar'] = pilot_path.read_bytes()
+            files['HOST.json'] = encode({'plan_sha256': sha(files[PLAN]), 'files': {
+                name: {'bytes': len(raw), 'sha256': sha(raw)} for name, raw in files.items()}})
+            package.unlink()
+            write_tar(package, files)
+            binding = {'run_id': 'weight-pilot-56-20260926T000000Z',
+                       'launch_epoch_seconds': int(time.time()),
+                       'package_version': 'fixture-version', 'approval_reference': 'fixture-approval'}
+            network = {name: plan['provider'][name] for name in ['subnet_id', 'security_group_id']}
+            script, _, _ = render(package, sha(package.read_bytes()), binding, network)
+            user_data = folder / 'user-data.sh'
+            user_data.write_bytes(script)
+            binary = folder / 'bin'
+            binary.mkdir()
+            stub = STUB.replace("'g6e.2xlarge'", "'c6i.4xlarge'")
+            for name in ['aws', 'curl', 'docker', 'systemd-run', 'systemctl', 'shutdown', 'timeout']:
+                path = binary / name
+                path.write_text('#!' + sys.executable + '\n' + stub)
+                path.chmod(0o755)
+            env = {**os.environ, 'PATH': str(binary) + os.pathsep + os.environ['PATH'],
+                   'FERAL_TEST_LOG': str(folder / 'calls.jsonl'),
+                   'FERAL_TEST_PACKAGE': str(package),
+                   'FERAL_TEST_S3': str(folder / 's3'),
+                   'W_WORK_ROOT': str(folder / 'work'),
+                   'W_USER_DATA_FILE': str(user_data)}
+            process = subprocess.run(['bash', str(user_data)], env=env, capture_output=True, text=True, timeout=30)
+            log = (folder / 'work/bootstrap.log').read_text()
+            self.assertEqual(process.returncode, 0, process.stderr + process.stdout + log)
+            calls = [json.loads(line) for line in (folder / 'calls.jsonl').read_text().splitlines()]
+            self.assertEqual(calls[0]['name'], 'systemd-run')
+            self.assertEqual(calls[-1]['name'], 'shutdown')
+            self.assertTrue(any(call['name'] == 'docker' and call['args'][0] == 'run' for call in calls))
+            terminal = json.loads((folder / 'work/host-terminal.json').read_text())
+            self.assertEqual(terminal['status'], 'complete')
+            self.assertTrue(terminal['collection_complete'])
 
     def test_archive_integrity_and_fresh_namespace(self):
         with tempfile.TemporaryDirectory() as temp:
