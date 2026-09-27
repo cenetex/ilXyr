@@ -1,4 +1,4 @@
-"""Freeze and launch the one-hour FERAL Stage A GPU comparison.
+"""Freeze and launch the bounded FERAL Stage A GPU retry.
 
 The paid launch takes a reviewed, versioned source object. The source archive
 contains model inputs and code; the host downloads exact public model bytes.
@@ -26,6 +26,13 @@ IMAGE = "ghcr.io/atimics/feral-7b-sec-qwen@sha256:c7df646b246f9c853946201aa7ad5c
 BODY = ROOT / "scripts/aws/feral-stage-a-gpu-user-data.sh"
 MODEL_REVISION = "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
 ACCOUNT = "022118847419"
+MAX_INSTANCE_SECONDS = 2400
+FIRST_RUN_RESERVED_SECONDS = 1200
+FIRST_RUN_ID = "feral-stage-a-20260926T233819Z"
+FIRST_INSTANCE_ID = "i-06dd8a22487bef678"
+FIRST_CLEANUP = BASE / "retry-20260926/PRIOR-CLEANUP.json"
+FIRST_COLLECTION = BASE / "retry-20260926/PRIOR-COLLECTION.json"
+FIRST_TERMINAL = BASE / "retry-20260926/PRIOR-TERMINAL.json"
 PRICE_URL = ("https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/ec2/USD/current/"
              "ec2-ondemand-without-sec-sel/US%20East%20%28N.%20Virginia%29/Linux/index.json")
 RATE_CODE = "HK3A8PU2TSC6EKP6.JRTCKXETXF.6YS6EN2CT7"
@@ -57,6 +64,7 @@ def render(binding):
     values = {
         "FERAL_RUN_ID": binding["run_id"],
         "FERAL_LAUNCH_EPOCH": str(binding["launch_epoch_seconds"]),
+        "FERAL_MAX_SECONDS": str(MAX_INSTANCE_SECONDS),
         "FERAL_BUCKET": BUCKET,
         "FERAL_SOURCE_KEY": "packages/feral-comparison/" + binding["source_sha256"] + ".tar",
         "FERAL_SOURCE_VERSION": binding["source_version"],
@@ -104,12 +112,48 @@ def current_compute_price():
     if len(matches) != 1:
         raise ValueError("instance price identity differs")
     price = Decimal(matches[0]["price"])
-    if price + Decimal("0.75") > Decimal("3.00"):
+    combined = price * Decimal(MAX_INSTANCE_SECONDS + FIRST_RUN_RESERVED_SECONDS) / Decimal(3600)
+    if combined + Decimal("0.75") > Decimal("3.00"):
         raise ValueError("cost ceiling exceeded")
     return {"publication_at": catalogue["manifest"]["hawkFilePublicationDate"],
             "source_sha256": sha(raw), "rate_code": RATE_CODE,
             "compute_usd_per_hour": str(price), "reserve_usd": "0.75",
-            "max_before_tax_usd": str(price + Decimal("0.75"))}
+            "first_run_reserved_seconds": FIRST_RUN_RESERVED_SECONDS,
+            "retry_max_seconds": MAX_INSTANCE_SECONDS,
+            "max_before_tax_usd": str(combined + Decimal("0.75"))}
+
+
+def verify_first_run_cleanup(profile):
+    closure = json.loads(FIRST_CLEANUP.read_bytes())
+    collection = json.loads(FIRST_COLLECTION.read_bytes())
+    terminal = json.loads(FIRST_TERMINAL.read_bytes())
+    if (closure["run_id"] != FIRST_RUN_ID
+            or closure["instance_id"] != FIRST_INSTANCE_ID
+            or closure["instance_state"] != "terminated"
+            or closure["first_attempt_budget_seconds"] != FIRST_RUN_RESERVED_SECONDS
+            or closure["observed_lifetime_upper_bound_seconds"] > FIRST_RUN_RESERVED_SECONDS
+            or closure["tagged_volumes"] != 0
+            or closure["attached_network_interfaces"] != 0
+            or closure["collection_sha256"] != sha(FIRST_COLLECTION.read_bytes())
+            or collection["run_id"] != FIRST_RUN_ID
+            or collection["instance_id"] != FIRST_INSTANCE_ID
+            or collection["instance_state"] != "terminated"
+            or terminal["run_id"] != FIRST_RUN_ID
+            or terminal["instance_id"] != FIRST_INSTANCE_ID
+            or terminal["status"] != "failed"
+            or terminal["phase"] != "loader_smoke"
+            or not terminal["collection_complete"]):
+        raise ValueError("first run cleanup or budget differs")
+    reservations = json.loads(aws(["ec2", "describe-instances", "--instance-ids", FIRST_INSTANCE_ID], profile).stdout)["Reservations"]
+    instances = [item for group in reservations for item in group["Instances"]]
+    if len(instances) != 1 or instances[0]["State"]["Name"] != "terminated":
+        raise ValueError("first instance termination differs")
+    volumes = json.loads(aws(["ec2", "describe-volumes", "--filters", "Name=tag:RunId,Values=" + FIRST_RUN_ID], profile).stdout)["Volumes"]
+    interfaces = json.loads(aws(["ec2", "describe-network-interfaces", "--filters",
+                                 "Name=attachment.instance-id,Values=" + FIRST_INSTANCE_ID], profile).stdout)["NetworkInterfaces"]
+    if volumes or interfaces:
+        raise ValueError("first run resources remain")
+    return sha(FIRST_CLEANUP.read_bytes())
 
 
 def stage(profile, out):
@@ -161,6 +205,7 @@ def preflight(profile, binding, network, out):
     caller = aws(["sts", "get-caller-identity", "--query", "Account", "--output", "text"], profile).stdout.strip()
     if caller != ACCOUNT:
         raise ValueError("AWS account differs")
+    cleanup_sha = verify_first_run_cleanup(profile)
     image = json.loads(aws(["ec2", "describe-images", "--image-ids", "ami-0d3378afe7683c867"], profile).stdout)["Images"]
     if len(image) != 1 or image[0]["Architecture"] != "x86_64":
         raise ValueError("AMI identity differs")
@@ -176,7 +221,10 @@ def preflight(profile, binding, network, out):
                "checked_epoch_seconds": int(time.time()), "source_sha256": binding["source_sha256"],
                "source_version": binding["source_version"], "ami": image[0]["ImageId"],
                "image": IMAGE, "account": caller, "instance_type": "g6e.2xlarge",
-               "max_instance_seconds": 3600, "max_before_tax_usd": "3.00", "price": price}
+               "max_instance_seconds": MAX_INSTANCE_SECONDS,
+               "first_run_reserved_seconds": FIRST_RUN_RESERVED_SECONDS,
+               "first_cleanup_sha256": cleanup_sha,
+               "max_before_tax_usd": "3.00", "price": price}
     out.mkdir(parents=True, exist_ok=False)
     (out / "PREFLIGHT.json").write_bytes(encode(receipt))
     return receipt
@@ -190,7 +238,9 @@ def launch(profile, binding, network, preflight_path, authorization_path, out):
             or receipt["source_version"] != binding["source_version"]
             or receipt["image"] != IMAGE
             or receipt["account"] != ACCOUNT
-            or receipt["max_instance_seconds"] != 3600
+            or receipt["max_instance_seconds"] != MAX_INSTANCE_SECONDS
+            or receipt["first_run_reserved_seconds"] != FIRST_RUN_RESERVED_SECONDS
+            or receipt["first_cleanup_sha256"] != verify_first_run_cleanup(profile)
             or receipt["max_before_tax_usd"] != "3.00"):
         raise ValueError("preflight binding differs")
     if time.time() - receipt["checked_epoch_seconds"] > 3600:
@@ -203,8 +253,10 @@ def launch(profile, binding, network, preflight_path, authorization_path, out):
                 "run_id": approved_run_id,
                 "source_sha256": binding["source_sha256"],
                 "source_version": binding["source_version"],
-                "max_instance_seconds": 3600, "max_before_tax_usd": "3.00",
-                "run_count": 1, "reference": "user-four-priorities-2026-09-26"}
+                "max_instance_seconds": MAX_INSTANCE_SECONDS,
+                "first_run_reserved_seconds": FIRST_RUN_RESERVED_SECONDS,
+                "max_before_tax_usd": "3.00", "run_count": 1,
+                "reference": "user-four-priorities-bounded-retry-2026-09-26"}
     if authorization != expected:
         raise ValueError("launch authorization differs")
     now = int(time.time())
@@ -237,7 +289,10 @@ def launch(profile, binding, network, preflight_path, authorization_path, out):
               "request_sha256": sha(encode(request)), "launch_epoch_seconds": now,
               "user_data_sha256": sha(request["UserData"].encode()),
               "authorization_sha256": sha(authorization_path.read_bytes()),
-              "max_instance_seconds": 3600, "max_before_tax_usd": "3.00"}
+              "max_instance_seconds": MAX_INSTANCE_SECONDS,
+              "first_run_reserved_seconds": FIRST_RUN_RESERVED_SECONDS,
+              "first_cleanup_sha256": receipt["first_cleanup_sha256"],
+              "max_before_tax_usd": "3.00"}
     (out / "LAUNCH.json").write_bytes(encode(result))
     return result
 

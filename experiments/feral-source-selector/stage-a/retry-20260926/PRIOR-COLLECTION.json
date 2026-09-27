@@ -1,0 +1,49 @@
+{
+  "bucket": "ilxyr-feral-7b-calibration-022118847419-us-east-1",
+  "instance_id": "i-06dd8a22487bef678",
+  "instance_state": "terminated",
+  "objects": [
+    {
+      "bytes": 2337,
+      "path": "BOOTSTRAP.log",
+      "sha256": "9f6f9a7ea383dcdd600abc882d2494ce1d9c5b9346ae3db86f6ecec1382a7d80",
+      "version_id": "SVTrw89K77mxkYf8E0Vcnf28WiVfJD9T"
+    },
+    {
+      "bytes": 6216,
+      "path": "IMAGE.json",
+      "sha256": "67a6fe22d8aff48c4c0336e87f167a11a4285e5ec077faadc4c3807eaa3358f1",
+      "version_id": "zAeU17f4i4PWt_eDTnvaHiU7Xwiz2Lq4"
+    },
+    {
+      "bytes": 507,
+      "path": "TERMINAL.json",
+      "sha256": "ce25eb23abd19fc4c4ed53477f2973b71035d45cd0e32b53c3bf9accf36e08d8",
+      "version_id": "g082G8ue079VEP5IkgaEODCsdmqWQHmG"
+    },
+    {
+      "bytes": 8117,
+      "path": "smoke.stderr.log",
+      "sha256": "dd559ab4689b55dc0a2cb260f685a7979a9d6564e8b37a5fce4a836f7b29a0b2",
+      "version_id": "JK0p46bF.JsmKDi1R2WgSLWaU1hiTuFE"
+    },
+    {
+      "bytes": 0,
+      "path": "smoke.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "YqZlUzdbMQs3LEBFM3jJz2nrRCLFYgC3"
+    },
+    {
+      "bytes": 0,
+      "path": "smoke/RAW.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_id": "w9B1mSARNEoay_ZYTB4qvSd7ZmeuNZUo"
+    }
+  ],
+  "run_id": "feral-stage-a-20260926T233819Z",
+  "schema": "ilxyr.feral_stage_a_gpu_collection.v1",
+  "source_archive_sha256": "cb5aeb940b38e27e4bd88de91996b88e23f5508eeb44ca404d8eb5d8d256dd28",
+  "source_package_version": "zKNe1KPIYDk76zcIyAPTlmoF2WbjXxnN",
+  "terminal_status": "failed",
+  "user_data_sha256": "cc918f307953ec7a71d062b25a5ffb04ea2444193d4242d860af4c35d17abb14"
+}

@@ -21,6 +21,7 @@ FILES = [
     "experiments/feral-source-selector/stage-a/MODEL-PROFILE.json",
     "scripts/feral_stage_a_model.py",
     "scripts/feral_stage_a_selector.py",
+    "scripts/check_feral_runtime_cache.py",
 ]
 
 
