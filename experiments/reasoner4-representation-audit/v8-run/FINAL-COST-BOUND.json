@@ -1,0 +1,41 @@
+{
+  "schema": "ilxyr.reasoner4_closed_attempt_cost_bound.v1",
+  "currency": "USD",
+  "before_tax": true,
+  "actual_billed_cost": "unknown",
+  "attempts": [
+    {
+      "run_id": "reasoner4-role-audit-20260926T232636Z",
+      "launch_epoch_seconds": 1790465231,
+      "verified_collection_epoch_seconds": 1790465661,
+      "observed_max_seconds": 430,
+      "rounded_bound_seconds": 450
+    },
+    {
+      "run_id": "reasoner4-role-audit-20260926T234308Z",
+      "launch_epoch_seconds": 1790466228,
+      "verified_collection_epoch_seconds": 1790466475,
+      "observed_max_seconds": 247,
+      "rounded_bound_seconds": 300
+    },
+    {
+      "run_id": "reasoner4-role-audit-20260926T235857Z",
+      "launch_epoch_seconds": 1790467174,
+      "verified_collection_epoch_seconds": 1790467444,
+      "observed_max_seconds": 270,
+      "rounded_bound_seconds": 300
+    }
+  ],
+  "total_rounded_bound_seconds": 1050,
+  "cost_ceiling": {
+    "compute": "0.024792",
+    "ebs": "0.002594",
+    "ipv4": "0.001459",
+    "requests_and_storage_reserve": "0.010000",
+    "transfer_reserve": "0.090000",
+    "total": "0.128845",
+    "original_envelope": "0.150000",
+    "remaining_margin": "0.021155"
+  },
+  "method": "Each provider-verified collection was written after its EC2 host terminated with zero tagged volumes and attached interfaces. The local collection creation time minus launch epoch bounds host duration. Each duration is rounded upward. Rates and reserves use the frozen execution profile. This is a conservative ceiling, not the provider bill."
+}

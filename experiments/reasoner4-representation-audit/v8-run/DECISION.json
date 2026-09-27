@@ -1,0 +1,23 @@
+{
+  "id": "audit://representation/reasoner/r4-0/v1",
+  "state": "frozen",
+  "profile_sha256": "6589c81506ca3feb3615928992b9cbc11ecae893356a8991d7635242812df44b",
+  "unresolved": [],
+  "execution_authorized": false,
+  "diagnostic": {
+    "audit_id": "audit://representation/reasoner/r4-0/v1",
+    "outcome": "invalid_controls",
+    "failed_metrics": [
+      "held_out_typed_role_accuracy",
+      "worst_role_accuracy",
+      "surface_swap_consistency",
+      "label_shuffle_accuracy",
+      "margin_over_header_only"
+    ],
+    "next_allowed": [
+      "data_review"
+    ],
+    "diagnostic_only": true
+  },
+  "measurements_sha256": "e4d0f5294b07acc4f8f3637f9f08fa8ee0cc65fc7667c689f20ceb84cf8f3b5e"
+}
