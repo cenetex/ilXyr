@@ -7,6 +7,7 @@ import tempfile
 from pathlib import Path
 
 import feral_stage_a_gpu as gpu
+from check_feral_runtime_cache import STAGE_A_CACHE_PATHS
 
 
 class GpuPackageTest(unittest.TestCase):
@@ -22,6 +23,10 @@ class GpuPackageTest(unittest.TestCase):
                                     capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn("--smoke-only", result.stdout)
+            cache = subprocess.run([sys.executable, str(root / "scripts/check_feral_runtime_cache.py"),
+                                    "--help"], capture_output=True, text=True)
+            self.assertEqual(cache.returncode, 0, cache.stderr)
+            self.assertIn("--check-stage-a-caches", cache.stdout)
 
     def test_user_data_and_instance_limits(self):
         binding = {"run_id": "feral-stage-a-20260926T000000Z", "source_sha256": "a" * 64,
@@ -33,6 +38,12 @@ class GpuPackageTest(unittest.TestCase):
         self.assertLess(data.index(b"trap 'shutdown -h now' EXIT"),
                         data.index(b"systemd-run --unit=feral-stage-a-deadline"))
         self.assertIn(b"--network none", data)
+        self.assertIn(b"FERAL_MAX_SECONDS=2400", data)
+        workflow = (gpu.ROOT / ".github/workflows/feral-runtime-cache.yml").read_text()
+        for name, path in STAGE_A_CACHE_PATHS.items():
+            flag = f"--env {name}={path}"
+            self.assertIn(flag.encode(), data)
+            self.assertIn(flag, workflow)
         request = gpu.launch_request(data, binding, {"subnet_id": "subnet-6d16a437",
                                                      "security_group_id": "sg-02b40b678ab46e5f4"})
         self.assertTrue(request["DryRun"])

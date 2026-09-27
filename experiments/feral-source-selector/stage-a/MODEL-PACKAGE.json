@@ -20,6 +20,10 @@
       "bytes": 2198,
       "sha256": "311781aba4d824751fb09a407259ca5f4cab15fb77141a90c8fea7b94beb4f59"
     },
+    "scripts/check_feral_runtime_cache.py": {
+      "bytes": 3137,
+      "sha256": "2629a7b2327a9d57d5ecb761ffc52b141cfa666613c38e628583548c7184e666"
+    },
     "scripts/feral_stage_a_model.py": {
       "bytes": 10787,
       "sha256": "b9d5a8975c4fa00c69c0a4a90d977273957e300334b3aa58e4753517825bf409"

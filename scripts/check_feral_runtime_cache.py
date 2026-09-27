@@ -18,7 +18,17 @@ PyMODINIT_FUNC PyInit_feral_cache_probe(void) { return PyModule_Create(&module);
 '''
 
 
-def check(expect_failure):
+STAGE_A_CACHE_PATHS = {
+    'TRITON_CACHE_DIR': '/tmp/feral-triton',
+    'TORCHINDUCTOR_CACHE_DIR': '/tmp/feral-inductor',
+    'TORCH_EXTENSIONS_DIR': '/tmp/feral-extensions',
+    'TORCH_HOME': '/tmp/feral-torch',
+    'HF_HOME': '/tmp/feral-hf',
+    'XDG_CACHE_HOME': '/tmp/feral-xdg',
+}
+
+
+def check(expect_failure, stage_a=False):
     from triton.runtime.build import compile_module_from_src
     record = {'schema': 'ilxyr.feral_runtime_cache_smoke.v1',
               'triton_version': importlib.metadata.version('triton'),
@@ -34,6 +44,15 @@ def check(expect_failure):
         return record
     assert not expect_failure, 'default cache unexpectedly succeeded'
     assert record['cache_directory'] == '/tmp/feral-triton'
+    if stage_a:
+        for name, expected in STAGE_A_CACHE_PATHS.items():
+            assert os.environ.get(name) == expected, f'{name} differs'
+            directory = Path(expected)
+            directory.mkdir(parents=True, exist_ok=True)
+            probe = directory / 'feral-stage-a-cache-probe'
+            probe.write_bytes(b'feral-stage-a')
+            assert probe.read_bytes() == b'feral-stage-a'
+        record['stage_a_cache_paths_checked'] = sorted(STAGE_A_CACHE_PATHS)
     path = Path(module.__file__)
     assert path.is_relative_to(record['cache_directory']) and module.answer() == 5
     original = path.read_bytes(), path.stat().st_mtime_ns
@@ -47,5 +66,6 @@ def check(expect_failure):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--expect-read-only-failure', action='store_true')
+    parser.add_argument('--check-stage-a-caches', action='store_true')
     args = parser.parse_args()
-    print(json.dumps(check(args.expect_read_only_failure), indent=2, sort_keys=True))
+    print(json.dumps(check(args.expect_read_only_failure, args.check_stage_a_caches), indent=2, sort_keys=True))

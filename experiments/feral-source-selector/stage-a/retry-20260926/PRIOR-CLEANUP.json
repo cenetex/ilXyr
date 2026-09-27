@@ -1,0 +1,15 @@
+{
+  "actual_billed_usd": null,
+  "attached_network_interfaces": 0,
+  "checked_at_utc": "2026-09-26T23:54:07Z",
+  "collection_sha256": "9404307f6a05d9afcf4a60daa58471042552fabf85601bf67d93befb05d8ae93",
+  "first_attempt_budget_seconds": 1200,
+  "instance_id": "i-06dd8a22487bef678",
+  "instance_state": "terminated",
+  "observed_lifetime_upper_bound_seconds": 935,
+  "provider_launch_utc": "2026-09-26T23:38:32Z",
+  "run_id": "feral-stage-a-20260926T233819Z",
+  "schema": "ilxyr.feral_stage_a_cleanup_review.v1",
+  "tagged_volumes": 0,
+  "termination_receipt_sha256": "1494c17e4f9bea5fdf7cf1f62644314018b1d113afefe9a2bb800bb449a0e55a"
+}
