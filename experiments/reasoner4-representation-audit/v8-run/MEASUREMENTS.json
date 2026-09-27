@@ -1,0 +1,9 @@
+{
+  "held_out_typed_role_accuracy": 433333,
+  "worst_role_accuracy": 0,
+  "surface_swap_consistency": 433333,
+  "cross_seed_prediction_agreement": 1000000,
+  "scrambled_example_accuracy": 166667,
+  "label_shuffle_accuracy": 366667,
+  "margin_over_header_only": 166667
+}
