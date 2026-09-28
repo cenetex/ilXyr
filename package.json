@@ -14,7 +14,7 @@
     "test:research-mechanism-controls": "python3 scripts/test_research_mechanism_controls.py && python3 scripts/research_mechanism_controls.py --check-result experiments/research-step-4/RESULT.json",
     "test:oracle-resource-accounting": "node scripts/test-oracle-resource-accounting.mjs",
     "test:research-profiles": "node scripts/test-research-profiles.mjs",
-    "test:reasoner4-role-audit": "python3 scripts/test_reasoner4_representation_audit.py",
+    "test:reasoner4-role-audit": "python3 scripts/test_reasoner4_representation_audit.py && python3 -B scripts/test_reasoner4_data_review.py",
     "test:reasoner4-cloud-collect": "python3 scripts/test_reasoner4_cloud_collect.py",
     "check:research-profile": "node scripts/research-profiles.mjs",
     "test:schemas": "npm run test:evidence:fast",
