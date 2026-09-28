@@ -1,0 +1,44 @@
+{
+  "schema": "ilxyr.reasoner4_opened_data_review.v1",
+  "scope": "opened fit and held role examples after the frozen v8 decision",
+  "source_revision": "3b917b6f54d151a43dd65e45f094606272d166c5",
+  "splits": {
+    "fit": {
+      "sha256": "2f74aea8aee056dabdf98d6768d68c53cdcdccd10cfe2ebcc000ec1bd5012a72",
+      "rows": 60,
+      "role_counts": {
+        "candidate": 10,
+        "goal": 10,
+        "subtract": 10,
+        "absolute": 10,
+        "multiply": 10,
+        "nonzero": 10
+      },
+      "unique_exact_role_rows": 60,
+      "declared_label_mismatches": 0,
+      "ambiguous_rows": 0,
+      "minimum_wrong_role_witnesses": 5,
+      "surface_pair_count_mismatches": 0,
+      "surface_pair_capture_mismatches": 0
+    },
+    "held": {
+      "sha256": "f4742e459984af8f33fd5a4f424184bd286f26a10ec7da14cc9ecf73a02d5667",
+      "rows": 60,
+      "role_counts": {
+        "candidate": 10,
+        "goal": 10,
+        "subtract": 10,
+        "absolute": 10,
+        "multiply": 10,
+        "nonzero": 10
+      },
+      "unique_exact_role_rows": 60,
+      "declared_label_mismatches": 0,
+      "ambiguous_rows": 0,
+      "minimum_wrong_role_witnesses": 4,
+      "surface_pair_count_mismatches": 0,
+      "surface_pair_capture_mismatches": 0
+    }
+  },
+  "interpretation": "Exact declared-operation signatures test example identifiability. They are an explicit symbolic reference, not a learned model score."
+}

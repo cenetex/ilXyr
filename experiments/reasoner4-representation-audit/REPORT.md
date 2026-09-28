@@ -70,3 +70,7 @@ The [pre-launch cost bound](COST-BOUND.json) used verified closure times for the
 ## Full diagnostic result
 
 The [v8 result card](v8-run/RESULT.md) and [collection record](v8-run/COLLECTION.json) separate the completed host run from its scientific decision. The host and source replay passed their checks, and all tagged cloud resources were gone at collection. The probe scored 433,333 ppm held role accuracy and zero worst-role accuracy. The 95th-percentile shuffle control scored 366,667 ppm, above its 300,000 ppm ceiling. Five required metrics failed their frozen thresholds. The [frozen checker](v8-run/DECISION.json) returned `invalid_controls`; its next allowed step is `data_review`. The raw predictions and fitted weights remain in the versioned private S3 result named by the collection record.
+
+The [opened-data review](DATA-REVIEW.md) checks all fit and held examples
+against the six declared operations after the frozen decision. It records a
+fit-only development question for the next representation.
