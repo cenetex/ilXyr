@@ -1,5 +1,9 @@
 # Stage A GPU cache repair and bounded retry
 
+The [September 27 readiness check](READINESS-20260927.md) reproduced the
+repaired source archive and public cost bound. Its AWS identity step reached
+an expired SSO session, so a fresh free preflight follows session renewal.
+
 The first host `i-06dd8a22487bef678` stopped during the one-form loader
 smoke. It verified the pinned public model files and loaded all 426 model
 weights. The first `generate()` call raised `OSError: [Errno 30] Read-only
